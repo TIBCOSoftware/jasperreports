@@ -43,6 +43,7 @@
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures"/>
       <feature name="tabular" sample="tabular" title="Creating Table-like Structures"/>
       <feature name="templates" sample="templates" title="Style Templates"/>
+      <feature name="dynamic_styles" sample="crosstabs" title="Dynamic Styles"/>
       <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
       <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
     </content>

@@ -1023,7 +1023,7 @@ Possible values are:
 <li><code>Opaque</code></li>
 <li><code>Transparent</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1039,7 +1039,7 @@ Property used to configure dynamic style background color for report elements. I
 If such a property is found at element level, its value will override the related style background color of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1055,7 +1055,7 @@ Property used to configure dynamic style forecolor for report elements. It is de
 If such a property is found at element level, its value will override the related style forecolor of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1074,7 +1074,7 @@ Possible values are:
 <ul>
 <li><code>Solid</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1090,7 +1090,7 @@ Property used to configure dynamic corner radius for rectangle elements. It is d
 If such a property is found at element level, its value will override the related corner radius of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1113,7 +1113,7 @@ Possible values are:
 <li><code>RealHeight</code></li>
 <li><code>RealSize</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1125,7 +1125,7 @@ See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features
 <b>Deprecated</b> since v.6.0.2 - replaced with <a href="#net.sf.jasperreports.style.hTextAlign" target="_blank">net.sf.jasperreports.style.hTextAlign</a> 
 or <a href="#net.sf.jasperreports.style.hImageAlign" target="_blank">net.sf.jasperreports.style.hImageAlign</a>.<br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1137,7 +1137,7 @@ See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features
 <b>Deprecated</b> since v.6.0.2 - replaced with <a href="#net.sf.jasperreports.style.vTextAlign" target="_blank">net.sf.jasperreports.style.vTextAlign</a> 
 or <a href="#net.sf.jasperreports.style.vImageAlign" target="_blank">net.sf.jasperreports.style.vImageAlign</a>.<br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1159,7 +1159,7 @@ Possible values are:
 <li><code>Right</code></li>
 <li><code>Justified</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1181,7 +1181,7 @@ Possible values are:
 <li><code>Bottom</code></li>
 <li><code>Justified</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1202,7 +1202,7 @@ Possible values are:
 <li><code>Center</code></li>
 <li><code>Right</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1223,7 +1223,7 @@ Possible values are:
 <li><code>Middle</code></li>
 <li><code>Bottom</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1245,7 +1245,7 @@ Possible values are:
 <li><code>Right</code></li>
 <li><code>UpsideDown</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1267,7 +1267,7 @@ Possible values are:
 <li><code>html</code></li>
 <li><code>rtf</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1284,7 +1284,7 @@ If such a property is found at element level, its value will override the relate
 Also, the value of this property is overridden by the <code>&lt;patternExpression/&gt;</code>, if present.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1300,7 +1300,7 @@ Property used to specify whether null content of a report element should be rend
 If such a property is found at element level, its value will override the value of <code>isBlankWhenNull</code> feature of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1316,7 +1316,7 @@ Property used to configure dynamic font name for text elements. It is declared i
 If such a property is found at element level, its value will override the related font name in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1332,7 +1332,7 @@ Property used to configure dynamic font size for text elements. It is declared i
 If such a property is found at element level, its value will override the related font size in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1348,7 +1348,7 @@ Boolean property used to configure dynamic font bold style for text elements. It
 If such a property is found at element level, its value will override the related font bold style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1364,7 +1364,7 @@ Boolean property used to configure dynamic font italic style for text elements. 
 If such a property is found at element level, its value will override the related font italic style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1380,7 +1380,7 @@ Boolean property used to configure dynamic font underline style for text element
 If such a property is found at element level, its value will override the related font underline style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1396,7 +1396,7 @@ Boolean property used to configure dynamic font strike through style for text el
 If such a property is found at element level, its value will override the related font strike through style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1412,7 +1412,7 @@ Property used to configure dynamic PDF font name for text elements. It is declar
 If such a property is found at element level, its value will override the related PDF font name in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1428,7 +1428,7 @@ Property used to configure dynamic PDF encoding character set for text elements.
 If such a property is found at element level, its value will override the related PDF encoding character set in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1444,7 +1444,7 @@ Boolean property used to specify whether the font should be embedded in the PDF 
 If such a property is found at element level, its value will override the related <code>isPdfEmbedded</code> style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1460,7 +1460,7 @@ Property used to configure dynamic pen line width for shape elements (line, rect
 If such a property is found at element level, its value will override the related pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1482,7 +1482,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1498,7 +1498,7 @@ Property used to configure dynamic pen line color for shape elements (line, rect
 If such a property is found at element level, its value will override the related pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1514,7 +1514,7 @@ Property used to configure dynamic padding style for report elements. It is decl
 If such a property is found at element level, its value will override the related padding style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1530,7 +1530,7 @@ Property used to configure dynamic top padding style for report elements. It is 
 If such a property is found at element level, its value will override the related top padding style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1546,7 +1546,7 @@ Property used to configure dynamic left padding style for report elements. It is
 If such a property is found at element level, its value will override the related left padding style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1562,7 +1562,7 @@ Property used to configure dynamic right padding style for report elements. It i
 If such a property is found at element level, its value will override the related right padding style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1578,7 +1578,7 @@ Property used to configure dynamic bottom padding style for report elements. It 
 If such a property is found at element level, its value will override the related bottom padding style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
 
@@ -1594,7 +1594,7 @@ Property used to configure dynamic pen line width for report element's border. I
 If such a property is found at element level, its value will override the related border pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1616,7 +1616,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1632,7 +1632,7 @@ Property used to configure dynamic pen line color for report element's border. I
 If such a property is found at element level, its value will override the related border pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1648,7 +1648,7 @@ Property used to configure dynamic pen line width for report element's top borde
 If such a property is found at element level, its value will override the related top border pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1670,7 +1670,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1686,7 +1686,7 @@ Property used to configure dynamic pen line color for report element's top borde
 If such a property is found at element level, its value will override the related top border pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
 
@@ -1702,7 +1702,7 @@ Property used to configure dynamic pen line width for report element's left bord
 If such a property is found at element level, its value will override the related left border pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1724,7 +1724,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1740,7 +1740,7 @@ Property used to configure dynamic pen line color for report element's left bord
 If such a property is found at element level, its value will override the related left border pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1756,7 +1756,7 @@ Property used to configure dynamic pen line width for report element's right bor
 If such a property is found at element level, its value will override the related right border pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1778,7 +1778,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1794,7 +1794,7 @@ Property used to configure dynamic pen line color for report element's right bor
 If such a property is found at element level, its value will override the related right border pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
 
@@ -1810,7 +1810,7 @@ Property used to configure dynamic pen line width for report element's bottom bo
 If such a property is found at element level, its value will override the related bottom border pen line width in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1832,7 +1832,7 @@ Possible values are:
 <li><code>Dotted</code></li>
 <li><code>Double</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1848,7 +1848,7 @@ Property used to configure dynamic pen line color for report element's bottom bo
 If such a property is found at element level, its value will override the related bottom border pen line color in the element style.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1872,7 +1872,7 @@ Possible values are:
 <li><code>Fixed</code></li>
 <li><code>Proportional</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1892,7 +1892,7 @@ This value is used in combination with the size-dependent <a href="#net.sf.jaspe
 <li><code>Fixed</code></li>
 <li><code>Proportional</code></li>
 </ul>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1908,7 +1908,7 @@ Property used to configure dynamic paragraph first line indent (in pixels) for t
 If such a property is found at element level, its value will override the related paragraph first line indent of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1924,7 +1924,7 @@ Property used to configure dynamic paragraph left indent (in pixels) for text el
 If such a property is found at element level, its value will override the related paragraph left indent of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1940,7 +1940,7 @@ Property used to configure dynamic paragraph right indent (in pixels) for text e
 If such a property is found at element level, its value will override the related paragraph right indent of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1956,7 +1956,7 @@ Property used to configure dynamic spacing before paragraph (in pixels) for text
 If such a property is found at element level, its value will override the related spacing before paragraph style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1972,7 +1972,7 @@ Property used to configure dynamic spacing after paragraph (in pixels) for text 
 If such a property is found at element level, its value will override the related spacing after paragraph style of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
   
@@ -1988,7 +1988,7 @@ Property used to configure dynamic paragraph tab stop width (in pixels) for text
 If such a property is found at element level, its value will override the related paragraph tab stop width of the element.
 <br/>
 <br/>
-See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_styles" target="_blank">this page</a>. 
     </description>
   </configProperty>
     

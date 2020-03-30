@@ -8,7 +8,7 @@
 
   <mainFeature ref="crosstabs"/>
   <mainFeature ref="datasets"/>
-  <mainFeature ref="dynamic_style_features"/>
+  <mainFeature ref="dynamic_styles"/>
   
   <!-- crosstabs -->
   
@@ -373,7 +373,7 @@ the report is used by default.
 
   <!-- dynamic style features -->
   
-  <feature name="dynamic_style_features" title="Dynamic Style Features">
+  <feature name="dynamic_styles" title="Dynamic Styles">
     <description>
 How to make use of dynamic style features in to customize the appearance of report elements.
     </description>
@@ -385,7 +385,7 @@ How to make use of dynamic style features in to customize the appearance of repo
       </author>
     </documentedBy>
     <content>
-<subtitle name="dynamic_style_features_overview">Overview</subtitle>
+<subtitle name="dynamic_styles_overview">Overview</subtitle>
 <br/>
 <br/>
 Since report styles are declared once per report, dynamic expressions cannot be used to set their attributes. 
@@ -503,7 +503,7 @@ Following is an example of dynamic style features declared for a given element i
   <propertyExpression name="net.sf.jasperreports.style.fontName"><![CDATA[$V{FontName}]] ></propertyExpression>
 </reportElement>]]></pre>
 
-<subtitle name="dynamic_style_features_example">Dynamic Style Features Example</subtitle>
+<subtitle name="dynamic_styles_example">Dynamic Styles Example</subtitle>
 <br/>
 <br/>
 The OrdersReport.jrxml file in the crosstabs sample uses a dynamic style feature in order to allow different background 
