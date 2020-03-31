@@ -45,6 +45,7 @@ public class JRPrintBand implements JRPrintElementContainer, OffsetElementsConta
 	private int height;
 	// adding both elements and OffsetElements to this list
 	private List<Object> elements = new ArrayList<Object>();
+	private int contentsWidth;
 	private boolean iterated = false;
 
 	
@@ -98,5 +99,16 @@ public class JRPrintBand implements JRPrintElementContainer, OffsetElementsConta
 		
 		OffsetElements offsetElements = new OffsetElements(elements, offsetX, offsetY);
 		this.elements.add(offsetElements);
+	}
+	
+	@Override
+	public void setContentsWidth(int width)
+	{
+		this.contentsWidth = width;
+	}
+	
+	public int getContentsWidth()
+	{
+		return contentsWidth;
 	}
 }

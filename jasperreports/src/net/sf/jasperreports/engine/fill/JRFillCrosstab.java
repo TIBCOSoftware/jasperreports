@@ -281,6 +281,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private int overflowStartPage;
 	
 	private List<JRTemplatePrintFrame> printFrames;
+	private int printFramesMaxWidth;
 	
 	private boolean interactive;
 	private boolean floatingHeaders;
@@ -663,6 +664,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		printFrames = null;
+		printFramesMaxWidth = 0;
 	}
 
 	@Override
@@ -832,6 +834,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 
 		printFrames = new ArrayList<JRTemplatePrintFrame>();
+		printFramesMaxWidth = 0;
 		crosstabFiller.fill(availableHeight - getRelativeY());
 
 		if (!printFrames.isEmpty())
@@ -951,6 +954,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		// add this frame to the list to the list of crosstab chunks
 		printFrames.add(printFrame);
+		if (printFrame.getX() + printFrame.getWidth() > printFramesMaxWidth)
+		{
+			printFramesMaxWidth = printFrame.getX() + printFrame.getWidth();
+		}
 	}
 
 	protected int getChunkIndex()
@@ -1156,6 +1163,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected List<? extends JRPrintElement> getPrintElements()
 	{
 		return printFrames;
+	}
+	
+	protected int getPrintElementsWidth()
+	{
+		return printFramesMaxWidth;
 	}
 
 	protected void mirrorPrintElements(List<JRPrintElement> printElements, int width)

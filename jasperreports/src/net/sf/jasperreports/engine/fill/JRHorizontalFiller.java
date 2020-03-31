@@ -143,6 +143,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					scriptlet.callAfterReportInit();
 
 					printPage = newPage();
+					printPageContentsWidth = 0;
 					addPage(printPage);
 					setFirstColumn();
 					offsetY = topMargin;
@@ -245,6 +246,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		scriptlet.callAfterReportInit();
 
 		printPage = newPage();
+		printPageContentsWidth = 0;
 		addPage(printPage);
 		setFirstColumn();
 		offsetY = topMargin;
@@ -2210,6 +2212,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 
 		printPage = newPage();
+		printPageContentsWidth = 0;
 
 		JRFillVariable pageNumberVar = calculator.getPageNumber();
 		if (isResetPageNumber)

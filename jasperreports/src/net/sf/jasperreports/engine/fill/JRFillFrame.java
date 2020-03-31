@@ -56,6 +56,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	
 	protected final BorderSplitType borderSplitType;
 	
+	protected final boolean widthStretchEnabled;
+	
 	/**
 	 * Element container used for filling.
 	 */
@@ -92,6 +94,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		lineBox = frame.getLineBox().clone(this);
 		borderSplitType = initBorderSplitType(filler, frame);
+		widthStretchEnabled = initWidthStretchEnabled(filler, frame);
 		
 		frameContainer = new JRFillFrameElements(factory);
 		
@@ -110,6 +113,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		lineBox = frame.getLineBox().clone(this);
 		borderSplitType = frame.borderSplitType;
+		widthStretchEnabled = frame.widthStretchEnabled;
 		
 		frameContainer = new JRFillFrameElements(frame.frameContainer, factory);
 		
@@ -131,6 +135,14 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			}
 		}
 		return splitType;
+	}
+	
+	private boolean initWidthStretchEnabled(JRBaseFiller filler, JRFrame frame)
+	{
+		boolean stretchDisabled = filler.getPropertiesUtil().getBooleanProperty(
+				PROPERTY_FRAME_WIDTH_STRETCH_DISABLED, false, 
+				frame, filler.getJasperReport());
+		return !stretchDisabled;
 	}
 
 	@Override
@@ -319,12 +331,24 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		printFrame.setUUID(getUUID());
 		printFrame.setX(getX());
 		printFrame.setY(getRelativeY());
-		printFrame.setWidth(getWidth());
 		
 		VirtualizableFrame virtualizableFrame = new VirtualizableFrame(printFrame, 
 				filler.getVirtualizationContext(), filler.getCurrentPage());
 		frameContainer.fillElements(virtualizableFrame);
 		virtualizableFrame.fill();
+		
+		int width = getWidth();
+		if (widthStretchEnabled)
+		{
+			JRLineBox printBox = printFrame.getLineBox();
+			int padding = (printBox.getLeftPadding() == null ? 0 : printBox.getLeftPadding())
+					+ (printBox.getRightPadding() == null ? 0 : printBox.getRightPadding());
+			if (virtualizableFrame.getContentsWidth() + padding > width)
+			{
+				width = virtualizableFrame.getContentsWidth() + padding;
+			}
+		}
+		printFrame.setWidth(width);
 		
 		printFrame.setHeight(getStretchHeight());
 		transferProperties(printFrame);

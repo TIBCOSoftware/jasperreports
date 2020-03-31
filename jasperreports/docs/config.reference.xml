@@ -7259,4 +7259,22 @@ The property can be set to 0 to repress the interrupting component render tasks
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.legacy.frame.width.stretch.disabled -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.frame.width.stretch.disabled">
+    <description>
+Flag to disable stretching the width of frames to accomodate containing elements
+that become wider than their design time width at fill time (such as crosstabs
+and subreports).
+<br/>
+Before version 6.13.0, frame width was not increased in such cases, resulting in frames
+whose contents exceeded the frame width.  Some exporters are not able to properly
+handle such frames, therefore starting from version 6.13.0 frames are automatically
+stretched horizontally.
+<br/>
+The property can be set to <code>true</code> to revert to the pre 6.13.0 behaviour.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
