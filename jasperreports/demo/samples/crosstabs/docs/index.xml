@@ -405,8 +405,11 @@ its value will override the related style attribute of the element.
 The following style properties are defined in 
 <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class. 
 They are also presented in 
-<a href="../../config.reference.html#net.sf.jasperreports.style.{style_property_suffix}" target="_blank">this page</a>, 
-and are grouped in 4 categories: common, box, pen and paragraph style:
+<a href="../../config.reference.html" target="_blank">this page</a>, in a sequence starting with the 
+<a href="../../config.reference.html#net.sf.jasperreports.style.backcolor" target="_blank">net.sf.jasperreports.style.backcolor</a> property.
+<br/> 
+<br/> 
+Style properties are grouped in 4 categories: common, box, pen and paragraph style:
 <ul>
 <li>Properties for common style attributes:
 <ul>
