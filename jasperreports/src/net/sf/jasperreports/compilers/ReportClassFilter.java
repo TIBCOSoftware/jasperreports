@@ -100,25 +100,33 @@ public class ReportClassFilter implements ClassLoaderFilter
 	@Override
 	public void checkClassVisibility(String className) throws JRRuntimeException
 	{
-		if (!filterEnabled)
-		{
-			return;
-		}
-		
-		boolean visible = false;
-		for (ReportClassWhitelist whitelist : whitelists)
-		{
-			if (whitelist.includesClass(className))
-			{
-				visible = true;
-				break;
-			}
-		}
-		
+		boolean visible = isClassVisible(className);
 		if (!visible)
 		{
 			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_CLASS_NOT_VISIBLE, new Object[] {className});
 		}
+	}
+	
+	public boolean isClassVisible(String className)
+	{
+		boolean visible;
+		if (filterEnabled)
+		{
+			visible = false;
+			for (ReportClassWhitelist whitelist : whitelists)
+			{
+				if (whitelist.includesClass(className))
+				{
+					visible = true;
+					break;
+				}
+			}
+		}
+		else
+		{
+			visible = true;
+		}
+		return visible;
 	}
 	
 }
