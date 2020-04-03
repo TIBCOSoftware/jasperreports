@@ -40,33 +40,41 @@ import net.sf.jasperreports.functions.FunctionsUtil;
 public class ReportClassFilter implements ClassLoaderFilter
 {
 	
+	//TODO lucian doc
+	public static final String PROPERTY_PREFIX_CLASS_FILTER_ENABLED = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "report.class.filter.enabled";
+	
 	public static final String PROPERTY_PREFIX_CLASS_WHITELIST = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "report.class.whitelist.";
 	
 	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_VISIBLE = "compilers.class.not.visible";
 
+	private boolean filterEnabled;
 	private List<ReportClassWhitelist> whitelists;
 
 	public ReportClassFilter(JasperReportsContext jasperReportsContext)
 	{
-		//TODO include function classes by default
-		whitelists = new ArrayList<>();
-		
-		StandardReportClassWhitelist whitelist = new StandardReportClassWhitelist();
-		loadPropertiesWhitelist(jasperReportsContext, whitelist);
-		loadFunctionsWhitelist(jasperReportsContext, whitelist);
-		whitelists.add(whitelist);
-		
-		List<ReportClassWhitelist> extensionWhitelists = jasperReportsContext.getExtensions(
-				ReportClassWhitelist.class);
-		whitelists.addAll(extensionWhitelists);
+		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(jasperReportsContext);
+		filterEnabled = properties.getBooleanProperty(PROPERTY_PREFIX_CLASS_FILTER_ENABLED);
+		if (filterEnabled)
+		{
+			whitelists = new ArrayList<>();
+			
+			StandardReportClassWhitelist whitelist = new StandardReportClassWhitelist();
+			loadPropertiesWhitelist(properties, whitelist);
+			loadFunctionsWhitelist(jasperReportsContext, whitelist);
+			whitelists.add(whitelist);
+			
+			List<ReportClassWhitelist> extensionWhitelists = jasperReportsContext.getExtensions(
+					ReportClassWhitelist.class);
+			whitelists.addAll(extensionWhitelists);			
+		}		
 	}
 
-	private static void loadPropertiesWhitelist(JasperReportsContext jasperReportsContext, 
+	private static void loadPropertiesWhitelist(JRPropertiesUtil propertiesUtil, 
 			StandardReportClassWhitelist whitelist)
 	{
-		List<PropertySuffix> properties = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(
-				PROPERTY_PREFIX_CLASS_WHITELIST);
+		List<PropertySuffix> properties = propertiesUtil.getProperties(PROPERTY_PREFIX_CLASS_WHITELIST);
 		for (PropertySuffix propertySuffix : properties)
 		{
 			String whitelistString = propertySuffix.getValue();
@@ -92,6 +100,11 @@ public class ReportClassFilter implements ClassLoaderFilter
 	@Override
 	public void checkClassVisibility(String className) throws JRRuntimeException
 	{
+		if (!filterEnabled)
+		{
+			return;
+		}
+		
 		boolean visible = false;
 		for (ReportClassWhitelist whitelist : whitelists)
 		{
