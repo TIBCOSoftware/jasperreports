@@ -97,6 +97,11 @@ public class ReportClassFilter implements ClassLoaderFilter
 		}
 	}
 
+	public boolean isFilteringEnabled()
+	{
+		return filterEnabled;
+	}
+	
 	@Override
 	public void checkClassVisibility(String className) throws JRRuntimeException
 	{

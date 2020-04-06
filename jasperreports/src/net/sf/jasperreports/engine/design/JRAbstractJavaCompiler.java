@@ -87,7 +87,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT
 			);
 
-	private ReportClassFilter reportClassFilter;
+	protected ReportClassFilter reportClassFilter;
 	
 	/**
 	 * 
@@ -110,7 +110,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			Class<?> clazz = getClassFromCache(className);
 			if (clazz == null)
 			{
-				clazz = JRClassLoader.loadClassFromBytes(reportClassFilter, className, (byte[]) compileData);
+				clazz = loadClass(className, (byte[]) compileData);
 				putClassInCache(className, clazz);
 			}
 			
@@ -132,6 +132,12 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		}
 		
 		return evaluator;
+	}
+
+
+	protected Class<?> loadClass(String className, byte[] compileData)
+	{
+		return JRClassLoader.loadClassFromBytes(reportClassFilter, className, compileData);
 	}
 	
 	
