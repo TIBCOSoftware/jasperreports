@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -35,6 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.ClassLoaderFilter;
 import net.sf.jasperreports.functions.FunctionsBundle;
 import net.sf.jasperreports.functions.FunctionsUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -42,10 +45,22 @@ import net.sf.jasperreports.functions.FunctionsUtil;
 public class ReportClassFilter implements ClassLoaderFilter
 {
 	
-	//TODO lucian doc
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_13_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_PREFIX_CLASS_FILTER_ENABLED = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "report.class.filter.enabled";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_13_0,
+			name = "net.sf.jasperreports.report.class.whitelist.{arbitrary_name}"
+			)
 	public static final String PROPERTY_PREFIX_CLASS_WHITELIST = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "report.class.whitelist.";
 	
