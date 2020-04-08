@@ -46,7 +46,11 @@ public enum FilterTypeDateOperatorsEnum implements NamedEnum
 	
 	IS_ON_OR_AFTER("Is On or After"),
 	
-	IS_AFTER("Is After");
+	IS_AFTER("Is After"),
+
+	IS_NULL("Is Null"),
+
+	IS_NOT_NULL("Is not Null");
 
 	/**
 	 *

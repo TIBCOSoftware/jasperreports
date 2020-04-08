@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import net.sf.jasperreports.components.headertoolbar.json.ColumnFormatting;
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
+import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
@@ -136,6 +137,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 				if (FilterTypesEnum.DATE.equals(conditionType) || FilterTypesEnum.TIME.equals(conditionType)) {
 					FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(condition.getConditionTypeOperator());
 					boolean containsBetween = FilterTypeDateOperatorsEnum.IS_BETWEEN.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN.equals(dateEnum);
+					boolean containsNull = FilterTypeDateOperatorsEnum.IS_NULL.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_NULL.equals(dateEnum);
 
 					try {
 						DateFormat df = formatFactory.createDateFormat(cfd.getConditionPattern(), locale, null);
@@ -162,7 +164,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.end.date", i+1);
 							}
 							
-						} else {
+						} else if (!containsNull){
 							if (condition.getConditionStart() == null || condition.getConditionStart().length() == 0) {
 								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.date", i+1);
 							} else {
@@ -178,24 +180,29 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 					}
 					
 				} else if (conditionType == FilterTypesEnum.NUMERIC) {
-					if (condition.getConditionStart() == null || condition.getConditionStart().trim().length() == 0) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.number", i+1);
-						continue;
-					}
-					try {
-						NumberFormat nf = formatFactory.createNumberFormat(cfd.getConditionPattern(), locale);
-						nf.parse(condition.getConditionStart());
-						if (condition.getConditionEnd() != null && condition.getConditionEnd().length() > 0) {
-							try {
-								nf.parse(condition.getConditionEnd());
-							} catch (ParseException e) {
-								errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.number", i+1, condition.getConditionEnd());
-							}
+					FilterTypeNumericOperatorsEnum numericEnum = FilterTypeNumericOperatorsEnum.getByEnumConstantName(condition.getConditionTypeOperator());
+					boolean containsNull = FilterTypeNumericOperatorsEnum.IS_NULL.equals(numericEnum) || FilterTypeNumericOperatorsEnum.IS_NOT_NULL.equals(numericEnum);
+
+					if (!containsNull) {
+						if (condition.getConditionStart() == null || condition.getConditionStart().trim().length() == 0) {
+							errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.empty.number", i + 1);
+							continue;
 						}
-					} catch (ParseException e) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.number", i+1, condition.getConditionStart());
-					} catch (IllegalArgumentException e) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.pattern", i+1);
+						try {
+							NumberFormat nf = formatFactory.createNumberFormat(cfd.getConditionPattern(), locale);
+							nf.parse(condition.getConditionStart());
+							if (condition.getConditionEnd() != null && condition.getConditionEnd().length() > 0) {
+								try {
+									nf.parse(condition.getConditionEnd());
+								} catch (ParseException e) {
+									errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.number", i + 1, condition.getConditionEnd());
+								}
+							}
+						} catch (ParseException e) {
+							errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.number", i + 1, condition.getConditionStart());
+						} catch (IllegalArgumentException e) {
+							errors.add("net.sf.jasperreports.components.headertoolbar.actions.conditionalformatting.invalid.pattern", i + 1);
+						}
 					}
 				}
 			}
