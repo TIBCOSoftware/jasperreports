@@ -25,6 +25,8 @@ package net.sf.jasperreports.compilers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -51,6 +53,8 @@ public class ReportClassFilter implements ClassLoaderFilter
 
 	private boolean filterEnabled;
 	private List<ReportClassWhitelist> whitelists;
+	
+	private Map<String, Boolean> visibilityCache = new ConcurrentHashMap<String, Boolean>();
 
 	public ReportClassFilter(JasperReportsContext jasperReportsContext)
 	{
@@ -113,6 +117,17 @@ public class ReportClassFilter implements ClassLoaderFilter
 	}
 	
 	public boolean isClassVisible(String className)
+	{
+		Boolean visible = visibilityCache.get(className);
+		if (visible == null)
+		{
+			visible = visible(className);
+			visibilityCache.put(className, visible);
+		}
+		return visible;
+	}
+
+	protected boolean visible(String className)
 	{
 		boolean visible;
 		if (filterEnabled)
