@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.compilers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -37,17 +40,38 @@ public class StandardReportClassWhitelist implements ReportClassWhitelist
 	
 	private static final String WHITELIST_SEPARATOR_PATTERN = Pattern.quote(WHITELIST_SEPARATOR);
 
+	private static final char WILDCARD = '*';
+	
+	private static final Pattern WILDCARD_PATTERN = Pattern.compile("\\*+");
+	
 	private Set<String> classWhitelist;
+	private List<Pattern> whitelistPatterns;
 	
 	public StandardReportClassWhitelist()
 	{
 		this.classWhitelist = new HashSet<>();
+		this.whitelistPatterns = new ArrayList<>();
 	}
 	
 	@Override
 	public boolean includesClass(String className)
 	{
-		return classWhitelist.contains(className);
+		if (classWhitelist.contains(className))
+		{
+			return true;
+		}
+		
+		if (!whitelistPatterns.isEmpty())
+		{
+			for (Pattern pattern : whitelistPatterns)
+			{
+				if (pattern.matcher(className).matches())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public void addClass(String className)
@@ -63,9 +87,52 @@ public class StandardReportClassWhitelist implements ReportClassWhitelist
 			whitelistClass = whitelistClass.trim();
 			if (!whitelistClass.isEmpty())
 			{
+				if (whitelistClass.indexOf(WILDCARD) >= 0)
+				{
+					addPattern(whitelistClass);
+				}
 				classWhitelist.add(whitelistClass);
 			}
 		}
+	}
+
+	protected void addPattern(String classWildcard)
+	{
+		Matcher matcher = WILDCARD_PATTERN.matcher(classWildcard);
+		StringBuilder patternStr = new StringBuilder();
+		int prevIndex = 0;
+		while (matcher.find())
+		{
+			int matchStart = matcher.start();
+			int matchEnd = matcher.end();
+			if (matchStart > prevIndex)
+			{
+				patternStr.append(Pattern.quote(classWildcard.substring(prevIndex, matchStart)));
+			}
+			
+			if (matchStart + 1 == matchEnd)
+			{
+				//single * - use class name pattern
+				//class names allow almost any character, see Character.isJavaIdentifierPart
+				//allowing anything except points to exclude packages
+				patternStr.append("[^\\.]*");
+			}
+			else
+			{
+				//multiple * - use class and package pattern
+				patternStr.append(".*");
+			}
+			
+			prevIndex = matchEnd;
+		}
+		
+		if (prevIndex < classWildcard.length())
+		{
+			patternStr.append(Pattern.quote(classWildcard.substring(prevIndex, classWildcard.length())));
+		}
+		
+		Pattern pattern = Pattern.compile(patternStr.toString());
+		whitelistPatterns.add(pattern);
 	}
 	
 }
