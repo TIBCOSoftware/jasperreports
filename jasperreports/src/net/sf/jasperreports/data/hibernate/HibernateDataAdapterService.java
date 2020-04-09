@@ -35,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -54,14 +53,6 @@ public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapt
 	public HibernateDataAdapterService(ParameterContributorContext paramContribContext, HibernateDataAdapter jsonDataAdapter) 
 	{
 		super(paramContribContext, jsonDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #HibernateDataAdapterService(ParameterContributorContext, HibernateDataAdapter)}.
-	 */
-	public HibernateDataAdapterService(JasperReportsContext jasperReportsContext, HibernateDataAdapter jsonDataAdapter) 
-	{
-		super(jasperReportsContext, jsonDataAdapter);
 	}
 
 	public HibernateDataAdapter getHibernateDataAdapter() {

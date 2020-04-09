@@ -53,14 +53,6 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	}
 	  
 	/**
-	 * @deprecated Replaced by {@link #AbstractDataAdapterService(ParameterContributorContext, DataAdapter)}.
-	 */
-	public AbstractDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
-	{
-		this(new ParameterContributorContext(jasperReportsContext, null, null), dataAdapter);
-	}
-	  
-	/**
 	 *
 	 */
 	public ParameterContributorContext getParameterContributorContext()
