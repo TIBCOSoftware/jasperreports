@@ -54,6 +54,7 @@ public class JRCompilationUnit
 	/**
 	 * The list of expressions.
 	 */
+	//FIXME unused, remove/deprecate?
 	private final List<JRExpression> expressions;
 
 	private final JRSourceCompileTask compileTask;
