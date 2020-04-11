@@ -291,7 +291,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
 		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				expressionCollector.getExpressions(dataset), sourceTask);
+				sourceTask);
 	}
 	
 	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, File saveSourceDir, String nameSuffix) throws JRException
@@ -304,7 +304,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
 		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				expressionCollector.getExpressions(crosstab), sourceTask);
+				sourceTask);
 	}
 
 

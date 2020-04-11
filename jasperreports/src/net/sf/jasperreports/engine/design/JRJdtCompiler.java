@@ -514,7 +514,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
 		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				compilationUnit.getExpressions(), sourceTask);
+				sourceTask);
 	}
 
 	

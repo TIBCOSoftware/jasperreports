@@ -53,8 +53,9 @@ public class JRCompilationUnit
 	
 	/**
 	 * The list of expressions.
+	 * @deprecated in favor of {@link JRSourceCompileTask#getExpressions()}
 	 */
-	//FIXME unused, remove/deprecate?
+	@Deprecated
 	private final List<JRExpression> expressions;
 
 	private final JRSourceCompileTask compileTask;
@@ -73,7 +74,10 @@ public class JRCompilationUnit
 	 * @param sourceFile the file where the source code was saved
 	 * @param expressions the list of expressions
 	 * @param compileTask the compile task for the unit
+	 * @deprecated in favor of {@link JRCompilationUnit#JRCompilationUnit(String, JRCompilationSourceCode, File, JRSourceCompileTask)},
+	 * expressions are available via {@link JRSourceCompileTask#getExpressions()}
 	 */
+	@Deprecated
 	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
 			List<JRExpression> expressions, JRSourceCompileTask compileTask)
 	{
@@ -81,6 +85,16 @@ public class JRCompilationUnit
 		this.source = sourceCode;
 		this.sourceFile = sourceFile;
 		this.expressions = expressions;
+		this.compileTask = compileTask;
+	}
+
+	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
+			JRSourceCompileTask compileTask)
+	{
+		this.name = name;
+		this.source = sourceCode;
+		this.sourceFile = sourceFile;
+		this.expressions = null;
 		this.compileTask = compileTask;
 	}
 
@@ -129,7 +143,9 @@ public class JRCompilationUnit
 	/**
 	 * Returns the list of expressions.
 	 * @return the list of expressions
+	 * @deprecated in favor of {@link JRSourceCompileTask#getExpressions()}
 	 */
+	@Deprecated
 	public List<JRExpression> getExpressions()
 	{
 		return expressions;
