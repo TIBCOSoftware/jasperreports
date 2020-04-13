@@ -26,7 +26,9 @@ package net.sf.jasperreports.engine.design;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.jasperreports.compilers.DirectExpressionEvaluation;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
@@ -44,27 +46,28 @@ public class JRCompilationUnit
 	/**
 	 * The source code generated for the unit.
 	 */
-	private final JRCompilationSourceCode source;
+	private JRCompilationSourceCode source;
 	
 	/**
 	 * The file where the source code was saved.
 	 */
-	private final File sourceFile;
+	private File sourceFile;
 	
 	/**
 	 * The list of expressions.
 	 * @deprecated in favor of {@link JRSourceCompileTask#getExpressions()}
 	 */
 	@Deprecated
-	private final List<JRExpression> expressions;
+	private List<JRExpression> expressions;
 
-	private final JRSourceCompileTask compileTask;
+	private JRSourceCompileTask compileTask;
 
 	/**
 	 * The compilation data used for creating expression evaluators.
 	 */
 	private Serializable compileData;
 	
+	private Map<Integer, DirectExpressionEvaluation> directEvaluations;
 	
 	/**
 	 * Creates a compilation unit.
@@ -74,8 +77,9 @@ public class JRCompilationUnit
 	 * @param sourceFile the file where the source code was saved
 	 * @param expressions the list of expressions
 	 * @param compileTask the compile task for the unit
-	 * @deprecated in favor of {@link JRCompilationUnit#JRCompilationUnit(String, JRCompilationSourceCode, File, JRSourceCompileTask)},
-	 * expressions are available via {@link JRSourceCompileTask#getExpressions()}
+	 * @deprecated in favor of {@link JRCompilationUnit#JRCompilationUnit(String)} and
+	 * {@link JRCompilationUnit#setSource(JRCompilationSourceCode, File, JRSourceCompileTask)}.
+	 * Expressions are available via {@link JRSourceCompileTask#getExpressions()}
 	 */
 	@Deprecated
 	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
@@ -88,14 +92,9 @@ public class JRCompilationUnit
 		this.compileTask = compileTask;
 	}
 
-	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
-			JRSourceCompileTask compileTask)
+	public JRCompilationUnit(String name)
 	{
 		this.name = name;
-		this.source = sourceCode;
-		this.sourceFile = sourceFile;
-		this.expressions = null;
-		this.compileTask = compileTask;
 	}
 
 	
@@ -180,5 +179,23 @@ public class JRCompilationUnit
 	public JRSourceCompileTask getCompileTask()
 	{
 		return compileTask;
+	}
+	
+	public void setSource(JRCompilationSourceCode sourceCode, File sourceFile, 
+			JRSourceCompileTask compileTask)
+	{
+		this.source = sourceCode;
+		this.sourceFile = sourceFile;
+		this.compileTask = compileTask;
+	}
+
+	public Map<Integer, DirectExpressionEvaluation> getDirectEvaluations()
+	{
+		return directEvaluations;
+	}
+
+	public void setDirectEvaluations(Map<Integer, DirectExpressionEvaluation> directEvaluations)
+	{
+		this.directEvaluations = directEvaluations;
 	}
 }

@@ -31,6 +31,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
+import net.sf.jasperreports.compilers.ReportExpressionEvaluationData;
+import net.sf.jasperreports.compilers.ReportExpressionsCompilation;
+import net.sf.jasperreports.compilers.ReportExpressionsCompiler;
+import net.sf.jasperreports.compilers.SimpleTextEvaluators;
+import net.sf.jasperreports.compilers.StandardExpressionEvaluators;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
@@ -63,6 +69,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	protected final JasperReportsContext jasperReportsContext;
 	private final boolean needsSourceFiles;
+	
+	private ReportExpressionsCompiler expressionsCompiler;
 
 	/**
 	 * Constructor.
@@ -75,6 +83,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.needsSourceFiles = needsSourceFiles;
+		this.expressionsCompiler = ReportExpressionsCompiler.instance();
 	}
 
 	
@@ -211,19 +220,19 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 			// creating the report compile data
 			JRReportCompileData reportCompileData = new JRReportCompileData();
-			reportCompileData.setMainDatasetCompileData(units[0].getCompileData());
+			reportCompileData.setMainDatasetCompileData(createCompileData(units[0]));
 			
 			for (ListIterator<JRDataset> it = datasets.listIterator(); it.hasNext();)
 			{
 				JRDesignDataset dataset = (JRDesignDataset) it.next();
-				reportCompileData.setDatasetCompileData(dataset, units[it.nextIndex()].getCompileData());
+				reportCompileData.setDatasetCompileData(dataset, createCompileData(units[it.nextIndex()]));
 			}
 			
 			for (ListIterator<JRCrosstab> it = crosstabs.listIterator(); it.hasNext();)
 			{
 				JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 				Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
-				reportCompileData.setCrosstabCompileData(crosstabId, units[datasets.size() + it.nextIndex()].getCompileData());
+				reportCompileData.setCrosstabCompileData(crosstabId, createCompileData(units[datasets.size() + it.nextIndex()]));
 			}
 
 			// creating the report
@@ -258,6 +267,14 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			}
 		}
 	}
+	
+	protected ReportExpressionEvaluationData createCompileData(JRCompilationUnit unit)
+	{
+		ReportExpressionEvaluationData data = new ReportExpressionEvaluationData();
+		data.setCompileData(unit.getCompileData());
+		data.setDirectEvaluations(unit.getDirectEvaluations());
+		return data;
+	}
 
 
 	private static String createNameSuffix()
@@ -285,26 +302,39 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	{		
 		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, dataset, nameSuffix);
 		
-		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, dataset, expressionCollector, unitName);
+		JRExpressionCollector datasetCollector = expressionCollector.getCollector(dataset);
+		ReportExpressionsCompilation expressions = expressionsCompiler.getExpressionsCompilation(datasetCollector);
+		
+		//FIXME lucian skip source/class when all expressions are evaluated directly
+		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, dataset, 
+				expressionCollector, expressions.getSourceExpressions(), unitName);
 		JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
-		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				sourceTask);
+		JRCompilationUnit compilationUnit = new JRCompilationUnit(unitName);
+		compilationUnit.setSource(sourceCode, sourceFile, sourceTask);
+		compilationUnit.setDirectEvaluations(expressions.getDirectEvaluations());
+		return compilationUnit;
 	}
 	
 	private JRCompilationUnit createCompileUnit(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, File saveSourceDir, String nameSuffix) throws JRException
 	{		
 		String unitName = JRAbstractCompiler.getUnitName(jasperDesign, crosstab, expressionCollector, nameSuffix);
 		
-		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, crosstab, expressionCollector, unitName);
+		JRExpressionCollector crosstabCollector = expressionCollector.getCollector(crosstab);
+		ReportExpressionsCompilation expressions = expressionsCompiler.getExpressionsCompilation(crosstabCollector);
+		
+		JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, crosstab, 
+				expressionCollector, expressions.getSourceExpressions(), unitName);
 		JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);
 		
 		File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
-		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				sourceTask);
+		JRCompilationUnit compilationUnit = new JRCompilationUnit(unitName);
+		compilationUnit.setSource(sourceCode, sourceFile, sourceTask);
+		compilationUnit.setDirectEvaluations(expressions.getDirectEvaluations());
+		return compilationUnit;
 	}
 
 
@@ -348,7 +378,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();
 		String unitName = reportCompileData.getUnitName(jasperReport, dataset);
 		Serializable compileData = reportCompileData.getDatasetCompileData(dataset);
-		return loadEvaluator(compileData, unitName);
+		return createEvaluator(compileData, unitName);
 	}
 
 	@Override
@@ -357,9 +387,35 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();
 		String unitName = reportCompileData.getUnitName(jasperReport, crosstab);
 		Serializable compileData = reportCompileData.getCrosstabCompileData(crosstab);
-		return loadEvaluator(compileData, unitName);
+		return createEvaluator(compileData, unitName);
 	}
 
+	protected JREvaluator createEvaluator(Serializable compileData, String unitName) throws JRException
+	{
+		JREvaluator evaluator;
+		if (compileData instanceof ReportExpressionEvaluationData)
+		{
+			ReportExpressionEvaluationData evaluationData = (ReportExpressionEvaluationData) compileData;
+			evaluator = loadEvaluator(evaluationData.getCompileData(), unitName);
+			
+			StandardExpressionEvaluators evaluators = new StandardExpressionEvaluators(
+					evaluationData.getDirectEvaluations(), 
+					directValueFilter());
+			evaluator.setDirectExpressionEvaluators(evaluators);
+		}
+		else
+		{
+			//report compiled with version older than 6.13
+			evaluator = loadEvaluator(compileData, unitName);
+			evaluator.setDirectExpressionEvaluators(new SimpleTextEvaluators());
+		}
+		return evaluator;
+	}
+	
+	protected DirectExpressionValueFilter directValueFilter()
+	{
+		return null;
+	}
 	
 	/**
 	 * Creates an expression evaluator instance from data saved when the report was compiled.
