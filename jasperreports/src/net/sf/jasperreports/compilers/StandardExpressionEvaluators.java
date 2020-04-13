@@ -89,6 +89,8 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 		this.defaultValues = new FillExpressionDefaultValues(evaluator, parametersMap, fieldsMap, variablesMap);
 		this.oldValues =  new FillExpressionOldValues(evaluator, parametersMap, fieldsMap, variablesMap);
 		this.estimatedValues = new FillExpressionEstimatedValues(evaluator, parametersMap, fieldsMap, variablesMap);
+		
+		this.evaluators.clear();
 	}
 
 	@Override

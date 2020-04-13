@@ -64,6 +64,8 @@ public class SimpleTextEvaluators implements DirectExpressionEvaluators
 		defaultValues = new FillExpressionDefaultValues(evaluator, parametersMap, fieldsMap, variablesMap);
 		oldValues =  new FillExpressionOldValues(evaluator, parametersMap, fieldsMap, variablesMap);
 		estimatedValues = new FillExpressionEstimatedValues(evaluator, parametersMap, fieldsMap, variablesMap);
+		
+		this.evaluators.clear();
 	}
 
 	@Override
