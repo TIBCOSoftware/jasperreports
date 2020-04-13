@@ -188,6 +188,11 @@ public class JRCompilationUnit
 		this.sourceFile = sourceFile;
 		this.compileTask = compileTask;
 	}
+	
+	public boolean hasSource()
+	{
+		return compileTask != null;
+	}
 
 	public Map<Integer, DirectExpressionEvaluation> getDirectEvaluations()
 	{
