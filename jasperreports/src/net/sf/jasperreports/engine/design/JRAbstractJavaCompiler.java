@@ -38,7 +38,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
 import net.sf.jasperreports.compilers.JavaDirectExpressionValueFilter;
-import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -88,8 +87,6 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		new ReferenceMap<Object,Map<String,Class<?>>>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT
 			);
-
-	protected ReportClassFilter reportClassFilter;
 	
 	/**
 	 * 
@@ -97,8 +94,6 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected JRAbstractJavaCompiler(JasperReportsContext jasperReportsContext, boolean needsSourceFiles)
 	{
 		super(jasperReportsContext, needsSourceFiles);
-		
-		reportClassFilter = new ReportClassFilter(jasperReportsContext);
 	}
 
 	@Override
