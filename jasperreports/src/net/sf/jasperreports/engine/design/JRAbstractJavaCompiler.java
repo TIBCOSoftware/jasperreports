@@ -36,6 +36,8 @@ import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
+import net.sf.jasperreports.compilers.JavaDirectExpressionValueFilter;
 import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -99,6 +101,11 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		reportClassFilter = new ReportClassFilter(jasperReportsContext);
 	}
 
+	@Override
+	protected DirectExpressionValueFilter directValueFilter()
+	{
+		return JavaDirectExpressionValueFilter.instance();
+	}
 
 	@Override
 	protected JREvaluator loadEvaluator(Serializable compileData, String className) throws JRException
