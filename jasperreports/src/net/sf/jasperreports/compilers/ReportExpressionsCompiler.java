@@ -25,9 +25,11 @@ package net.sf.jasperreports.compilers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
@@ -72,6 +74,10 @@ public class ReportExpressionsCompiler
 	public ReportExpressionsCompilation getExpressionsCompilation(JRExpressionCollector expressionCollector)
 	{
 		List<JRExpression> sourceExpressions = new ArrayList<>();
+		Set<String> sourceParameters = new HashSet<>();
+		Set<String> sourceFields = new HashSet<>();
+		Set<String> sourceVariables = new HashSet<>();
+		
 		Map<Integer, DirectExpressionEvaluation> directEvaluations = new HashMap<>();
 		List<JRExpression> expressions = expressionCollector.getExpressions();
 		for (Iterator<JRExpression> it = expressions.iterator(); it.hasNext();)
@@ -81,6 +87,7 @@ public class ReportExpressionsCompiler
 			if (directEvaluation == null)
 			{
 				sourceExpressions.add(expression);
+				collectSourceExpression(expression, sourceParameters, sourceFields, sourceVariables);
 			}
 			else
 			{
@@ -88,9 +95,37 @@ public class ReportExpressionsCompiler
 				directEvaluations.put(expressionId, directEvaluation);
 			}
 		}
-		return new ReportExpressionsCompilation(sourceExpressions, directEvaluations);
+		return new ReportExpressionsCompilation(sourceExpressions,
+				sourceParameters, sourceFields, sourceVariables,
+				directEvaluations);
 	}
 	
+	protected void collectSourceExpression(JRExpression expression, Set<String> parameters,
+			Set<String> fields, Set<String> variables)
+	{
+		JRExpressionChunk[] chunks = expression.getChunks();
+		if (chunks != null)
+		{
+			for (JRExpressionChunk chunk : chunks)
+			{
+				switch (chunk.getType())
+				{
+				case JRExpressionChunk.TYPE_PARAMETER:
+					parameters.add(chunk.getText());
+					break;
+				case JRExpressionChunk.TYPE_FIELD:
+					fields.add(chunk.getText());
+					break;
+				case JRExpressionChunk.TYPE_VARIABLE:
+					variables.add(chunk.getText());
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+
 	protected DirectExpressionEvaluation directEvaluation(JRExpression expression)
 	{
 		DirectExpressionEvaluation directEvaluation = null;

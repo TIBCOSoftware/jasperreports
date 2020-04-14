@@ -52,7 +52,7 @@ public class JRSourceCompileTask
 	private boolean onlyDefaultEvaluation;
 	
 	
-	protected JRSourceCompileTask(
+	public JRSourceCompileTask(
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
@@ -83,7 +83,7 @@ public class JRSourceCompileTask
 	 * @param dataset the dataset
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, JRDesignDataset, JRExpressionCollector, List, String)}
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
 	 */
 	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, String unitName)
@@ -96,55 +96,19 @@ public class JRSourceCompileTask
 	
 	
 	/**
-	 * Creates source code generation information for a dataset of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param dataset the dataset
-	 * @param expressionCollector the expression collector used for the report
-	 * @param expressions list of the expressions to be compiled
-	 * @param unitName the unit name of the code to be generated
-	 */
-	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, 
-			JRExpressionCollector expressionCollector, List<JRExpression> expressions, String unitName)
-	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(dataset), expressions,
-				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
-				false);
-	}
-	
-	
-	/**
 	 * Creates source code generation information for a crosstab of a report.
 	 * 
 	 * @param jasperDesign the report
 	 * @param crosstab the crosstab
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, JRDesignCrosstab, JRExpressionCollector, List, String)}
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
 	 */
 	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, String unitName)
 	{
 		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab), 
 				expressionCollector.getCollector(crosstab).getCompiledExpressions(),
-				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				true);
-	}
-	
-	
-	/**
-	 * Creates source code generation information for a crosstab of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param crosstab the crosstab
-	 * @param expressionCollector the expression collector used for the report
-	 * @param expressions list of the expressions to be compiled
-	 * @param unitName the unit name of the code to be generated
-	 */
-	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, 
-			JRExpressionCollector expressionCollector, List<JRExpression> expressions, String unitName)
-	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab), expressions,
 				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
 				true);
 	}
