@@ -66,6 +66,22 @@ public class ReportClassFilter implements ClassLoaderFilter
 	
 	public static final String EXCEPTION_MESSAGE_KEY_CLASS_NOT_VISIBLE = "compilers.class.not.visible";
 
+	private static void addHardcodedWhitelist(StandardReportClassWhitelist whitelist)
+	{
+		whitelist.addClass("java.lang.Boolean");
+		whitelist.addClass("java.lang.String");
+		whitelist.addClass("java.lang.StringBuffer");
+		whitelist.addClass("java.lang.StringBuilder");
+		whitelist.addClass("java.lang.Character");
+		whitelist.addClass("java.lang.Byte");
+		whitelist.addClass("java.lang.Short");
+		whitelist.addClass("java.lang.Integer");
+		whitelist.addClass("java.lang.Long");
+		whitelist.addClass("java.lang.Float");
+		whitelist.addClass("java.lang.Double");
+		whitelist.addClass("java.lang.Math");
+	}
+	
 	private boolean filterEnabled;
 	private List<ReportClassWhitelist> whitelists;
 	
@@ -80,6 +96,7 @@ public class ReportClassFilter implements ClassLoaderFilter
 			whitelists = new ArrayList<>();
 			
 			StandardReportClassWhitelist whitelist = new StandardReportClassWhitelist();
+			addHardcodedWhitelist(whitelist);
 			loadPropertiesWhitelist(properties, whitelist);
 			loadFunctionsWhitelist(jasperReportsContext, whitelist);
 			whitelists.add(whitelist);
