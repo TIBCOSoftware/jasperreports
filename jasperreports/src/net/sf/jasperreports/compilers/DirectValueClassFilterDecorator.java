@@ -42,24 +42,12 @@ public class DirectValueClassFilterDecorator implements DirectExpressionValueFil
 	@Override
 	public Object filterValue(Object value, Class<?> expectedType)
 	{
-		if (value != null)
+		if (expectedType != null)
 		{
-			classFilter.checkClassVisibility(value.getClass().getName());
+			classFilter.checkClassVisibility(expectedType.getName());
 		}
 		
-		Object result;
-		if (baseFilter == null)
-		{
-			result = value;
-		}
-		else
-		{
-			result = baseFilter.filterValue(value, expectedType);
-			if (value != null && result != null && result.getClass() != value.getClass())
-			{
-				classFilter.checkClassVisibility(result.getClass().getName());
-			}
-		}
+		Object result = baseFilter == null ? value : baseFilter.filterValue(value, expectedType);
 		return result;
 	}
 
