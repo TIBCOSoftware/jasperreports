@@ -455,7 +455,6 @@ public class FillTable extends BaseFillComponent
 		printFrame.setUUID(fillContext.getComponentElement().getUUID());
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
-		printFrame.setWidth(fillWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
 		if (fillSubreport.getTableReport().getBaseReport().isGeneratePdfTags())
 		{
@@ -483,6 +482,7 @@ public class FillTable extends BaseFillComponent
 			fillContext.getFiller().getJasperPrint().addOrigin(origin);
 		}
 		
+		int contentsWidth = fillWidth;
 		Collection<JRPrintElement> elements = fillSubreport.getPrintElements();
 		if (elements != null)
 		{
@@ -492,7 +492,14 @@ public class FillTable extends BaseFillComponent
 			
 			virtualizableFrame.addOffsetElements(elements, 0, 0);
 			virtualizableFrame.fill();
+			
+			if (fillSubreport.getPrintContentsWidth() > contentsWidth)
+			{
+				contentsWidth = fillSubreport.getPrintContentsWidth();
+			}
 		}
+		
+		printFrame.setWidth(contentsWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());
 		
 		fillSubreport.subreportPageFilled();
 		

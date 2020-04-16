@@ -243,4 +243,11 @@ public class FillTableSubreport extends JRFillSubreport
 		String tableName = tableReport.getBaseReport().getTableName();
 		return tableName == null ? super.getReportName() : tableName;
 	}
+
+	@Override
+	protected int getPrintContentsWidth()
+	{
+		// overriding this for package access
+		return super.getPrintContentsWidth();
+	}
 }
