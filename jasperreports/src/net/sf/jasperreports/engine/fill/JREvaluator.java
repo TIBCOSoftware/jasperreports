@@ -33,12 +33,13 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.compilers.DirectExpressionEvaluator;
+import net.sf.jasperreports.compilers.DirectExpressionEvaluators;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.functions.FunctionSupport;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -119,9 +120,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	protected boolean ignoreNPE = true;
 	
-	private ExpressionValues defaultValues;
-	private ExpressionValues oldValues;
-	private ExpressionValues estimatedValues;
+	private DirectExpressionEvaluators directExpressionEvaluators;
 
 	/**
 	 * Default constructor.
@@ -129,7 +128,17 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	protected JREvaluator()
 	{
 	}
+	
+	public void setDirectExpressionEvaluators(DirectExpressionEvaluators directExpressionEvaluators)
+	{
+		this.directExpressionEvaluators = directExpressionEvaluators;
+	}
 
+	private DirectExpressionEvaluator directEvaluator(JRExpression expression)
+	{
+		return directExpressionEvaluators == null ? null 
+				: directExpressionEvaluators.getEvaluator(expression);
+	}
 
 	/**
 	 * Initializes the evaluator by setting the parameter, field and variable objects.
@@ -159,9 +168,10 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 		
-		defaultValues = new FillExpressionDefaultValues(this, parametersMap, fieldsMap, variablesMap);
-		oldValues =  new FillExpressionOldValues(this, parametersMap, fieldsMap, variablesMap);
-		estimatedValues = new FillExpressionEstimatedValues(this, parametersMap, fieldsMap, variablesMap);
+		if (directExpressionEvaluators != null)
+		{
+			directExpressionEvaluators.init(this, parametersMap, fieldsMap, variablesMap);
+		}
 	}
 
 	
@@ -291,30 +301,31 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
+			DirectExpressionEvaluator directEvaluator = directEvaluator(expression);
+			try
 			{
-				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, defaultValues);
-			}
-			else
-			{
-				try
+				if (directEvaluator != null)
+				{
+					value = directEvaluator.evaluate();
+				}
+				else
 				{
 					value = evaluate(expression.getId());
 				}
-				catch (NullPointerException e) //NOPMD
-				{
-					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-				}
-				catch (OutOfMemoryError e)
-				{
-					throw e;
-				}
-				// we have to catch Throwable because there is no way we could modify the signature
-				// of the evaluate method, without breaking backward compatibility of compiled report templates 
-				catch (Throwable e) //NOPMD
-				{
-					value = handleEvaluationException(expression, e);
-				}
+			}
+			catch (NullPointerException e) //NOPMD
+			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
+			{
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		
@@ -329,30 +340,31 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
+			DirectExpressionEvaluator directEvaluator = directEvaluator(expression);
+			try
 			{
-				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, oldValues);
-			}
-			else
-			{
-				try
+				if (directEvaluator != null)
+				{
+					value = directEvaluator.evaluateOld();
+				}
+				else
 				{
 					value = evaluateOld(expression.getId());
 				}
-				catch (NullPointerException e) //NOPMD
-				{
-					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-				}
-				catch (OutOfMemoryError e)
-				{
-					throw e;
-				}
-				// we have to catch Throwable because there is no way we could modify the signature
-				// of the evaluate method, without breaking backward compatibility of compiled report templates 
-				catch (Throwable e) //NOPMD
-				{
-					value = handleEvaluationException(expression, e);
-				}
+			}
+			catch (NullPointerException e) //NOPMD
+			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
+			{
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		
@@ -367,30 +379,31 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
+			DirectExpressionEvaluator directEvaluator = directEvaluator(expression);
+			try
 			{
-				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, estimatedValues);
-			}
-			else
-			{
-				try
+				if (directEvaluator != null)
+				{
+					value = directEvaluator.evaluateEstimated();
+				}
+				else
 				{
 					value = evaluateEstimated(expression.getId());
 				}
-				catch (NullPointerException e) //NOPMD
-				{
-					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-				}
-				catch (OutOfMemoryError e)
-				{
-					throw e;
-				}
-				// we have to catch Throwable because there is no way we could modify the signature
-				// of the evaluate method, without breaking backward compatibility of compiled report templates 
-				catch (Throwable e) //NOPMD
-				{
-					value = handleEvaluationException(expression, e);
-				}
+			}
+			catch (NullPointerException e) //NOPMD
+			{
+				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+			}
+			catch (OutOfMemoryError e)
+			{
+				throw e;
+			}
+			// we have to catch Throwable because there is no way we could modify the signature
+			// of the evaluate method, without breaking backward compatibility of compiled report templates 
+			catch (Throwable e) //NOPMD
+			{
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		

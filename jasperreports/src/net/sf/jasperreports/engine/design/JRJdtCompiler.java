@@ -513,8 +513,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		File saveSourceDir = sourceFile == null ? null : sourceFile.getParentFile();
 		sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 
-		return new JRCompilationUnit(unitName, sourceCode, sourceFile, 
-				compilationUnit.getExpressions(), sourceTask);
+		JRCompilationUnit newUnit = new JRCompilationUnit(unitName);
+		newUnit.setDirectEvaluations(compilationUnit.getDirectEvaluations());
+		newUnit.setSource(sourceCode, sourceFile, sourceTask);
+		return newUnit;
 	}
 
 	

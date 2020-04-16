@@ -52,10 +52,11 @@ public class JRSourceCompileTask
 	private boolean onlyDefaultEvaluation;
 	
 	
-	protected JRSourceCompileTask(
+	public JRSourceCompileTask(
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
+			List<JRExpression> expressions,
 			Map<String, ? extends JRParameter> parametersMap, 
 			Map<String, JRField> fieldsMap, 
 			Map<String, JRVariable> variablesMap, 
@@ -70,7 +71,7 @@ public class JRSourceCompileTask
 		this.fieldsMap = fieldsMap;
 		this.variablesMap = variablesMap;
 		this.variables = variables;
-		this.expressions = expressionCollector.getCompiledExpressions();
+		this.expressions = expressions;
 		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
 	}
 	
@@ -82,10 +83,13 @@ public class JRSourceCompileTask
 	 * @param dataset the dataset
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
 	 */
+	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, String unitName)
 	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(dataset),
+		this(jasperDesign, unitName, expressionCollector.getCollector(dataset), 
+				expressionCollector.getCollector(dataset).getCompiledExpressions(),
 				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
 				false);
 	}
@@ -98,10 +102,13 @@ public class JRSourceCompileTask
 	 * @param crosstab the crosstab
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
 	 */
+	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, String unitName)
 	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab),
+		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab), 
+				expressionCollector.getCollector(crosstab).getCompiledExpressions(),
 				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
 				true);
 	}

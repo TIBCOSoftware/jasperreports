@@ -72,6 +72,12 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	{
 		super(jasperReportsContext, false);
 	}
+
+	@Override
+	protected DirectExpressionValueFilter directValueFilter()
+	{
+		return GroovyDirectExpressionValueFilter.instance();
+	}
 	
 
 	@Override

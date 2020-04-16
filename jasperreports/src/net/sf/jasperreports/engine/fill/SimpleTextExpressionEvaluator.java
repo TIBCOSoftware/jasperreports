@@ -46,6 +46,11 @@ public class SimpleTextExpressionEvaluator
 		}
 		
 		JRExpressionChunk[] chunks = expression.getChunks();
+		return evaluate(chunks, values);
+	}
+
+	public static String evaluate(JRExpressionChunk[] chunks, ExpressionValues values)
+	{
 		if (chunks == null || chunks.length == 0)
 		{
 			return EMPTY_RESULT;
