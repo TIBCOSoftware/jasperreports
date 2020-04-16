@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e4126106-15ef-4568-b10e-210b63e91dfe">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<title>
+		<band height="211" splitType="Stretch">
+			<rectangle radius="12" fill="Gradient">
+				<reportElement mode="Opaque" x="350" y="110" width="211" height="71" forecolor="#0000FF" backcolor="#FFFFFF" uuid="2418e0fc-2f60-4a61-b85f-2eb06bfe6da2"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="360" y="120" width="181" height="50" forecolor="#FFFFFF" uuid="b3b310c1-3afb-4da0-b0af-cff3df8dfa59"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Example Title]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

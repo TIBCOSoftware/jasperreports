@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" topMargin="20" leftMargin="20" bottomMargin="20" rightMargin="20" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin band="title"/>
+	<origin band="detail"/>
+	<page>
+		<rectangle radius="12" fill="Gradient">
+			<reportElement uuid="2418e0fc-2f60-4a61-b85f-2eb06bfe6da2" mode="Opaque" x="370" y="130" width="211" height="71" forecolor="#0000FF" backcolor="#FFFFFF" origin="0" srcId="1" printId="1"/>
+			<graphicElement fill="Gradient">
+				<pen lineWidth="0.0"/>
+			</graphicElement>
+		</rectangle>
+		<text textHeight="22.640625" lineSpacingFactor="1.2578125" leadingOffset="-3.9550781">
+			<reportElement uuid="b3b310c1-3afb-4da0-b0af-cff3df8dfa59" x="380" y="140" width="181" height="50" forecolor="#FFFFFF" origin="0" srcId="2" printId="1"/>
+			<font size="18" isBold="true"/>
+			<paragraph lineSpacing="Single"/>
+			<textContent><![CDATA[Example Title]]></textContent>
+		</text>
+	</page>
+</jasperPrint>

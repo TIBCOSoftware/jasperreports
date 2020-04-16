@@ -583,6 +583,14 @@
     <element ref="jrp:graphicElement" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="radius" type="NMTOKEN" use="optional"/>
+   <attribute name="fill" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+      <enumeration value="Gradient"/>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

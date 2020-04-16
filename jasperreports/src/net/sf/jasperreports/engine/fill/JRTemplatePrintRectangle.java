@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.type.FillEnum;
 
 
 /**
@@ -82,6 +83,20 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	@Override
 	public void setRadius(Integer radius)
 	{
+	}
+
+	@Override
+	public FillEnum getFillValue() {
+		return ((JRTemplateRectangle)this.template).getFillValue();
+	}
+
+	@Override
+	public FillEnum getOwnFillValue() {
+		return ((JRTemplateRectangle)this.template).getOwnFillValue();
+	}
+	
+	@Override
+	public void setFill(FillEnum fill) {
 	}
 
 	@Override

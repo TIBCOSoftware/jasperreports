@@ -27,6 +27,7 @@ import org.xml.sax.Attributes;
 
 import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.FillEnum;
 
 
 /**
@@ -46,6 +47,12 @@ public class JRRectangleFactory extends JRBaseFactory
 		if (radius != null && radius.length() > 0)
 		{
 			rectangle.setRadius(Integer.valueOf(radius));
+		}
+
+		FillEnum fill = FillEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_fill));
+		if (fill != null)
+		{
+			rectangle.setFill(fill);
 		}
 
 		return rectangle;

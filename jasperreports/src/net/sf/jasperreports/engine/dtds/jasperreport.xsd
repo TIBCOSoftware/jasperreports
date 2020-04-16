@@ -2440,6 +2440,25 @@
 	 <documentation>The radius of the arc corner.</documentation>
 	</annotation>
    </attribute>
+   <attribute name="fill" use="optional">
+	<annotation>
+	 <documentation>Type of the fill pattern used to fill objects.</documentation>
+	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid">
+		<annotation>
+		 <documentation>Solid fill.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Gradient">
+		<annotation>
+		 <documentation>Vertical gradient from Back color to Fore color.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 
