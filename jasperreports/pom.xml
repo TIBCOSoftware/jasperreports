@@ -510,6 +510,13 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>groovy-sandbox</artifactId>
+			<version>1.26-jaspersoft-SNAPSHOT</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -575,6 +582,7 @@
 					<include>**/*.jpg</include>
 					<include>**/*.json</include>
 					<include>**/*.err</include>
+					<include>**/*.properties</include>
 				</includes>
 			</testResource>
 		</testResources>

@@ -35,6 +35,8 @@ import java.util.Random;
 
 import net.sf.jasperreports.compilers.DirectEvaluator;
 import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
+import net.sf.jasperreports.compilers.DirectValueClassFilterDecorator;
+import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.compilers.ReportExpressionEvaluationData;
 import net.sf.jasperreports.compilers.ReportExpressionsCompilation;
 import net.sf.jasperreports.compilers.ReportExpressionsCompiler;
@@ -80,6 +82,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	private ReportExpressionsCompiler expressionsCompiler;
 
+	protected ReportClassFilter reportClassFilter;
+
 	/**
 	 * Constructor.
 	 * 
@@ -92,6 +96,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		this.jasperReportsContext = jasperReportsContext;
 		this.needsSourceFiles = needsSourceFiles;
 		this.expressionsCompiler = ReportExpressionsCompiler.instance();
+		
+		this.reportClassFilter = new ReportClassFilter(jasperReportsContext);
 	}
 
 	
@@ -451,7 +457,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			
 			StandardExpressionEvaluators evaluators = new StandardExpressionEvaluators(
 					evaluationData.getDirectEvaluations(), 
-					directValueFilter());
+					effectiveDirectValueFilter());
 			evaluator.setDirectExpressionEvaluators(evaluators);
 		}
 		else
@@ -461,6 +467,21 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			evaluator.setDirectExpressionEvaluators(new SimpleTextEvaluators());
 		}
 		return evaluator;
+	}
+	
+	protected DirectExpressionValueFilter effectiveDirectValueFilter()
+	{
+		DirectExpressionValueFilter baseFilter = directValueFilter();
+		DirectExpressionValueFilter effectiveFilter;
+		if (reportClassFilter.isFilteringEnabled())
+		{
+			effectiveFilter = new DirectValueClassFilterDecorator(baseFilter, reportClassFilter);
+		}
+		else
+		{
+			effectiveFilter = baseFilter;
+		}
+		return effectiveFilter;
 	}
 	
 	protected DirectExpressionValueFilter directValueFilter()

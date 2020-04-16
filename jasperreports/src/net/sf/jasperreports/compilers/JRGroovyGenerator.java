@@ -101,6 +101,7 @@ public class JRGroovyGenerator
 	 *
 	 */
 	protected final JRSourceCompileTask sourceTask;
+	private final ReportClassFilter classFilter;
 
 	private final int maxMethodSize;
 
@@ -109,9 +110,10 @@ public class JRGroovyGenerator
 	protected Map<String, JRVariable> variablesMap;
 	protected JRVariable[] variables;
 	
-	protected JRGroovyGenerator(JRSourceCompileTask sourceTask)
+	protected JRGroovyGenerator(JRSourceCompileTask sourceTask, ReportClassFilter classFilter)
 	{
 		this.sourceTask = sourceTask;
+		this.classFilter = classFilter;
 		
 		this.parametersMap = sourceTask.getParametersMap();
 		this.fieldsMap = sourceTask.getFieldsMap();
@@ -128,7 +130,12 @@ public class JRGroovyGenerator
 	 */
 	public static String generateClass(JRSourceCompileTask sourceTask) throws JRException
 	{
-		JRGroovyGenerator generator = new JRGroovyGenerator(sourceTask);
+		return generateClass(sourceTask, null);
+	}
+	
+	public static String generateClass(JRSourceCompileTask sourceTask, ReportClassFilter classFilter) throws JRException
+	{
+		JRGroovyGenerator generator = new JRGroovyGenerator(sourceTask, classFilter);
 		return generator.generateClass();
 	}
 	
@@ -232,8 +239,12 @@ public class JRGroovyGenerator
 		sb.append(" */\n");
 		sb.append("class ");
 		sb.append(sourceTask.getUnitName());
-		sb.append(" extends net.sf.jasperreports.compilers.GroovyEvaluator\n");
-		sb.append("{\n"); 
+		sb.append(" extends ");
+		String baseClass = classFilter != null && classFilter.isFilteringEnabled() 
+				? "net.sf.jasperreports.compilers.GroovySandboxEvaluator" 
+				: "net.sf.jasperreports.compilers.GroovyEvaluator";
+		sb.append(baseClass);
+		sb.append("\n{\n"); 
 		sb.append("\n");
 		sb.append(
 				"    def methodMissing(String name, args) {\n" +
