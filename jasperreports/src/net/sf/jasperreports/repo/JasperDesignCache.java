@@ -138,6 +138,7 @@ public class JasperDesignCache implements Serializable
 		JasperDesignReportResource resource = getResource(uri);
 		if (resource != null)
 		{
+			ensureJasperDesign(resource);
 			return resource.getJasperDesign();
 		}
 		return null;
@@ -203,63 +204,16 @@ public class JasperDesignCache implements Serializable
 			JasperDesign jasperDesign = resource.getJasperDesign();
 			JasperReport jasperReport = resource.getReport();
 			
-			if (jasperDesign == null)
+			if (jasperReport == null && jasperDesign != null)
 			{
-				if (jasperReport == null)
+				try
 				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_INVALID_ENTRY,
-							new Object[]{"JasperDesignCache"});
+					jasperReport = reportCompiler.compile(jasperDesign);
+					resource.setReport(jasperReport);
 				}
-				else
+				catch (JRException e)
 				{
-					ByteArrayInputStream bais = null;
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					try
-					{
-						new JRXmlWriter(jasperReportsContext).write(jasperReport, baos, "UTF-8");
-						bais = new ByteArrayInputStream(baos.toByteArray());
-						jasperDesign = JRXmlLoader.load(bais);
-						resource.setJasperDesign(jasperDesign);
-					}
-					catch (JRException e)
-					{
-						throw new JRRuntimeException(e);
-					}
-					finally
-					{
-						try
-						{
-							baos.close();
-							if (bais != null)
-							{
-								bais.close();
-							}
-						}
-						catch (IOException e)
-						{
-						}
-					}
-				}
-			}
-			else
-			{
-				if (jasperReport == null)
-				{
-					try
-					{
-						jasperReport = reportCompiler.compile(jasperDesign);
-						resource.setReport(jasperReport);
-					}
-					catch (JRException e)
-					{
-						throw new JRRuntimeException(e);
-					}
-				}
-				else
-				{
-					//nothing to do?
+					throw new JRRuntimeException(e);
 				}
 			}
 		}
@@ -267,6 +221,51 @@ public class JasperDesignCache implements Serializable
 		return resource;
 	}
 
+	protected void ensureJasperDesign(JasperDesignReportResource resource)
+	{
+		JasperDesign jasperDesign = resource.getJasperDesign();
+		JasperReport jasperReport = resource.getReport();
+		if (jasperDesign == null)
+		{
+			if (jasperReport == null)
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INVALID_ENTRY,
+						new Object[]{"JasperDesignCache"});
+			}
+			else
+			{
+				ByteArrayInputStream bais = null;
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				try
+				{
+					new JRXmlWriter(jasperReportsContext).write(jasperReport, baos, "UTF-8");
+					bais = new ByteArrayInputStream(baos.toByteArray());
+					jasperDesign = JRXmlLoader.load(bais);
+					resource.setJasperDesign(jasperDesign);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+				finally
+				{
+					try
+					{
+						baos.close();
+						if (bais != null)
+						{
+							bais.close();
+						}
+					}
+					catch (IOException e)
+					{
+					}
+				}
+			}
+		}		
+	}
 
 	/**
 	 * 
