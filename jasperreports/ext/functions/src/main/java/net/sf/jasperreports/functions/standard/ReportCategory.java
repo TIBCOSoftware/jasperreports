@@ -21,35 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.functions.standard;
 
-import java.util.List;
+import net.sf.jasperreports.functions.annotations.FunctionCategory;
 
-import net.sf.jasperreports.data.RewindableDataSourceCollection;
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
-import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonDataCollection<D extends JsonData<D>> extends RewindableDataSourceCollection<D> implements JsonData<D>
+@FunctionCategory()
+public final class ReportCategory 
 {
-
-	public JsonDataCollection(List<? extends RewindableDataSourceProvider<D>> dataSources) throws JRException
-	{
-		super(dataSources);
-	}
-
-	@Override
-	public D subDataSource() throws JRException
-	{
-		return currentDataSource.subDataSource();
-	}
-
-	@Override
-	public D subDataSource(String selectExpression) throws JRException
-	{
-		return currentDataSource.subDataSource(selectExpression);
-	}
-
 }

@@ -23,33 +23,22 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import java.util.List;
-
-import net.sf.jasperreports.data.RewindableDataSourceCollection;
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonDataCollection<D extends JsonData<D>> extends RewindableDataSourceCollection<D> implements JsonData<D>
+public class NoRecordAtIndexException extends JRException
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String EXCEPTION_NO_RECORD_AT_INDEX = "no.record.at.index";
 
-	public JsonDataCollection(List<? extends RewindableDataSourceProvider<D>> dataSources) throws JRException
+	public NoRecordAtIndexException(int index)
 	{
-		super(dataSources);
-	}
-
-	@Override
-	public D subDataSource() throws JRException
-	{
-		return currentDataSource.subDataSource();
-	}
-
-	@Override
-	public D subDataSource(String selectExpression) throws JRException
-	{
-		return currentDataSource.subDataSource(selectExpression);
+		super(EXCEPTION_NO_RECORD_AT_INDEX, new Object[] {index});
 	}
 
 }

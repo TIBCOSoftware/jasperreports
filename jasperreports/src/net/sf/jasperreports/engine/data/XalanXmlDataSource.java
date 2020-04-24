@@ -211,6 +211,15 @@ public class XalanXmlDataSource extends AbstractXmlDataSource<XalanXmlDataSource
 		nodeListLength = nodeList.getLength();
 	}
 
+	protected void checkMoveFirst() throws JRException
+	{
+		if(mustBeMovedFirst) 
+		{
+			moveFirst();
+			mustBeMovedFirst = false;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -219,17 +228,40 @@ public class XalanXmlDataSource extends AbstractXmlDataSource<XalanXmlDataSource
 	@Override
 	public boolean next() throws JRException 
 	{
-		if(mustBeMovedFirst) 
-		{
-			moveFirst();
-			mustBeMovedFirst = false;
-		}
+		checkMoveFirst();
 		if(currentNodeIndex == nodeListLength - 1)
 		{
 			return false;
 		}
 		currentNode = nodeList.item(++ currentNodeIndex);
 		return true;
+	}
+
+	@Override
+	public int recordCount() throws JRException
+	{
+		checkMoveFirst();
+		return nodeListLength;
+	}
+
+	@Override
+	public int currentIndex()
+	{
+		return currentNodeIndex;
+	}
+
+	@Override
+	public void moveToRecord(int index) throws JRException
+	{
+		if (index >= 0 && index < nodeListLength)
+		{
+			currentNodeIndex = index;
+			currentNode = nodeList.item(index);
+		}
+		else
+		{
+			throw new NoRecordAtIndexException(index);
+		}
 	}
 
 	

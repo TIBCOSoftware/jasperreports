@@ -23,33 +23,19 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import java.util.List;
-
-import net.sf.jasperreports.data.RewindableDataSourceCollection;
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonDataCollection<D extends JsonData<D>> extends RewindableDataSourceCollection<D> implements JsonData<D>
+public interface RandomAccessDataSource extends JRRewindableDataSource
 {
 
-	public JsonDataCollection(List<? extends RewindableDataSourceProvider<D>> dataSources) throws JRException
-	{
-		super(dataSources);
-	}
-
-	@Override
-	public D subDataSource() throws JRException
-	{
-		return currentDataSource.subDataSource();
-	}
-
-	@Override
-	public D subDataSource(String selectExpression) throws JRException
-	{
-		return currentDataSource.subDataSource(selectExpression);
-	}
+	int recordCount() throws JRException;
+	
+	int currentIndex();
+	
+	void moveToRecord(int index) throws JRException;
 
 }
