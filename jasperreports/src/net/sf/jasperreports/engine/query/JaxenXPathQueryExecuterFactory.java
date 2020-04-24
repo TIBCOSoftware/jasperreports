@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -119,12 +118,12 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	
 	@Override
 	public JRQueryExecuter createQueryExecuter(
-		JasperReportsContext jasperReportsContext, 
+		QueryExecutionContext context, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException
 	{
-		return new JaxenXPathQueryExecuter(jasperReportsContext, dataset, parameters);
+		return new JaxenXPathQueryExecuter(context, dataset, parameters);
 	}
 
 }

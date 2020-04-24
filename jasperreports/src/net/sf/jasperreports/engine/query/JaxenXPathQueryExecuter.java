@@ -75,8 +75,14 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 		Map<String,? extends JRValueParameter> parametersMap
 		)
 	{
-		super(jasperReportsContext, dataset, parametersMap);
-				
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parametersMap);
+	}
+
+	public JaxenXPathQueryExecuter(QueryExecutionContext context, JRDataset dataset,
+			Map<String, ? extends JRValueParameter> parametersMap)
+	{
+		super(context, dataset, parametersMap);
+		
 		document = (Document) getParameterValue(JaxenXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT);
 		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(
 				JaxenXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY, true);
