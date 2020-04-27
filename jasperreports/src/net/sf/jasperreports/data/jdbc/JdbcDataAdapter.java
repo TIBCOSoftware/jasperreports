@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
+import java.sql.Driver;
 import java.util.Map;
 
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
@@ -61,7 +62,18 @@ public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 	
 	public void setServerAddress(String serverAddress);
 	
+	/**
+	 * Set the properties passed to the driver when creating connections.
+	 * 
+	 * @param properties the JDBC driver properties
+	 * @see Driver#connect(String, java.util.Properties) 
+	 */
 	public void setProperties(Map<String, String> properties);
 
+	/**
+	 * Returns the properties passed to the driver when creating connections.
+	 * 
+	 * @return JDBC driver properties
+	 */
 	public Map<String, String> getProperties();
 }
