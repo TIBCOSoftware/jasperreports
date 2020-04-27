@@ -34,8 +34,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -172,6 +174,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 					throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_CONNECTION_NOT_CREATED, 
 							new Object[] {jdbcDataAdapter.getUrl()});
 				}
+				
+				setupConnection(jdbcDataAdapter);
 			}
 			catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
 				| NoSuchMethodException | InvocationTargetException e) {
@@ -183,7 +187,84 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		}
 		return null;
 	}
-	 
+
+	protected void setupConnection(JdbcDataAdapter dataAdapter) throws SQLException
+	{
+		JRPropertiesUtil props = JRPropertiesUtil.getInstance(getJasperReportsContext());
+		JRDataset dataset = getParameterContributorContext().getDataset();
+		
+		Boolean autoCommit = getAutoCommit(dataAdapter, props, dataset);
+		if (autoCommit != null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting auto commit " + autoCommit + " on connection " + connection);
+			}
+			connection.setAutoCommit(autoCommit);
+		}
+		
+		Boolean readOnly = getReadOnly(dataAdapter, props, dataset);
+		if (readOnly != null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting read only " + readOnly + " on connection " + connection);
+			}
+			connection.setReadOnly(readOnly);
+		}
+		
+		Integer transactionIsolation = getTransactionIsolation(dataAdapter, props, dataset);
+		if (transactionIsolation != null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("setting transaction isolation " + transactionIsolation + " on connection " + connection);
+			}
+			connection.setTransactionIsolation(transactionIsolation);
+		}
+	}
+	
+	protected Boolean getAutoCommit(JdbcDataAdapter dataAdapter, 
+			JRPropertiesUtil props, JRDataset dataset)
+	{
+		Boolean autoCommit = dataAdapter.getAutoCommit();
+		if (autoCommit != null)
+		{
+			return autoCommit;
+		}
+		
+		return props.getBooleanProperty(dataset, JdbcDataAdapter.PROPERTY_DEFAULT_AUTO_COMMIT);
+	}
+	
+	protected Boolean getReadOnly(JdbcDataAdapter dataAdapter, 
+			JRPropertiesUtil props, JRDataset dataset)
+	{
+		Boolean readOnly = dataAdapter.getReadOnly();
+		if (readOnly != null)
+		{
+			return readOnly;
+		}
+		
+		return props.getBooleanProperty(dataset, JdbcDataAdapter.PROPERTY_DEFAULT_READ_ONLY);
+	}
+	
+	protected Integer getTransactionIsolation(JdbcDataAdapter dataAdapter, 
+			JRPropertiesUtil props, JRDataset dataset)
+	{
+		TransactionIsolation transactionIsolation = dataAdapter.getTransactionIsolation();
+		if (transactionIsolation != null)
+		{
+			return transactionIsolation.getLevel();
+		}
+		
+		String prop = props.getProperty(dataset, JdbcDataAdapter.PROPERTY_DEFAULT_TRANSACTION_ISOLATION);
+		if (prop != null && !prop.trim().isEmpty())
+		{
+			transactionIsolation = TransactionIsolation.valueOf(prop.trim());
+			return transactionIsolation.getLevel();
+		}
+		return null;
+	}
 
 	public String getPassword() throws JRException {
 		throw 
