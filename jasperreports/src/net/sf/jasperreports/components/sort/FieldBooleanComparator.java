@@ -54,6 +54,12 @@ public class FieldBooleanComparator extends AbstractFieldComparator<Boolean> {
 			case IS_NOT_FALSE:
 				result = !Boolean.FALSE.equals(compareTo);
 				break;
+			case IS_NULL:
+				result = compareTo == null;
+				break;
+			case IS_NOT_NULL:
+				result = compareTo != null;
+				break;
 		}
 		
 		return result;
