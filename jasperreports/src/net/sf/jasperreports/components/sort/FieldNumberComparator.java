@@ -110,6 +110,12 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 			case LESS_THAN_EQUAL_TO:
 				result = validComparison ? dbA.compareTo(dbStart) <= 0 : false;
 				break;
+			case IS_NULL:
+				result = compareTo == null;
+				break;
+			case IS_NOT_NULL:
+				result = compareTo != null;
+				break;
 		}
 		
 		return result;
