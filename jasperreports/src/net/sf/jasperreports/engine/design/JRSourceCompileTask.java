@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.design;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.compilers.ReportSourceCompilation;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -52,7 +53,7 @@ public class JRSourceCompileTask
 	private boolean onlyDefaultEvaluation;
 	
 	
-	public JRSourceCompileTask(
+	protected JRSourceCompileTask(
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
@@ -75,6 +76,22 @@ public class JRSourceCompileTask
 		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
 	}
 	
+	public JRSourceCompileTask(
+			JasperDesign jasperDesign, 
+			String unitName, 
+			JRExpressionCollector expressionCollector,
+			ReportSourceCompilation<?> sourceCompilation,
+			boolean onlyDefaultEvaluation
+			)
+	{
+		this(jasperDesign, unitName, expressionCollector,
+				sourceCompilation.getExpressions(),
+				sourceCompilation.getParameters(),
+				sourceCompilation.getFields(),
+				sourceCompilation.getVariables(),
+				sourceCompilation.getVariablesArray(),
+				onlyDefaultEvaluation);
+	}
 	
 	/**
 	 * Creates source code generation information for a dataset of a report.
@@ -83,7 +100,7 @@ public class JRSourceCompileTask
 	 * @param dataset the dataset
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, ReportSourceCompilation, boolean)}
 	 */
 	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, String unitName)
@@ -102,7 +119,7 @@ public class JRSourceCompileTask
 	 * @param crosstab the crosstab
 	 * @param expressionCollector the expression collector used for the report
 	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, List, Map, Map, Map, JRVariable[], boolean)}
+	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, ReportSourceCompilation, boolean)}
 	 */
 	@Deprecated
 	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, String unitName)

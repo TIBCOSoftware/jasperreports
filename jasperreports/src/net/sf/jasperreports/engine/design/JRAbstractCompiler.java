@@ -30,7 +30,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 import java.util.Random;
 
 import net.sf.jasperreports.compilers.DirectEvaluator;
@@ -40,6 +39,7 @@ import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.compilers.ReportExpressionEvaluationData;
 import net.sf.jasperreports.compilers.ReportExpressionsCompilation;
 import net.sf.jasperreports.compilers.ReportExpressionsCompiler;
+import net.sf.jasperreports.compilers.ReportSourceCompilation;
 import net.sf.jasperreports.compilers.SimpleTextEvaluators;
 import net.sf.jasperreports.compilers.StandardExpressionEvaluators;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -47,14 +47,11 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
@@ -341,16 +338,14 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		JRCompilationUnit compilationUnit = new JRCompilationUnit(unitName);
 		compilationUnit.setDirectEvaluations(expressions.getDirectEvaluations());
 		
-		List<JRExpression> sourceExpressions = expressions.getSourceExpressions();
-		if (!sourceExpressions.isEmpty())
+		ReportSourceCompilation<JRParameter> sourceCompilation = new ReportSourceCompilation<>(
+				jasperReportsContext, jasperDesign, expressions, 
+				dataset.getParametersMap(), dataset.getFieldsMap(), 
+				dataset.getVariablesMap(), dataset.getVariables());
+		if (sourceCompilation.hasSource())
 		{
-			Map<String, JRParameter> params = expressions.filterSourceParameters(dataset.getParametersMap());
-			Map<String, JRField> fields = expressions.filterSourceFields(dataset.getFieldsMap());
-			Map<String, JRVariable> vars = expressions.filterSourceVariables(dataset.getVariablesMap());
-			JRVariable[] varsArray = expressions.filterSourceVariables(dataset.getVariables());
 			JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, unitName,
-					datasetCollector, sourceExpressions,
-					params, fields, vars, varsArray, false);
+					datasetCollector, sourceCompilation, false);
 			JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);			
 			File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 			
@@ -369,15 +364,13 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		JRCompilationUnit compilationUnit = new JRCompilationUnit(unitName);
 		compilationUnit.setDirectEvaluations(expressions.getDirectEvaluations());
 		
-		List<JRExpression> sourceExpressions = expressions.getSourceExpressions();
-		if (!sourceExpressions.isEmpty())
+		ReportSourceCompilation<JRCrosstabParameter> sourceCompilation = new ReportSourceCompilation<>(
+				jasperReportsContext, jasperDesign, expressions, 
+				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables());
+		if (sourceCompilation.hasSource())
 		{
-			Map<String, JRCrosstabParameter> params = expressions.filterSourceParameters(crosstab.getParametersMap());
-			Map<String, JRVariable> vars = expressions.filterSourceVariables(crosstab.getVariablesMap());
-			JRVariable[] varsArray = expressions.filterSourceVariables(crosstab.getVariables());
 			JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, unitName, 
-					crosstabCollector, sourceExpressions,
-					params, null, vars, varsArray, true);
+					crosstabCollector, sourceCompilation, true);
 			JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);			
 			File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
 

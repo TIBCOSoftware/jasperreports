@@ -7314,4 +7314,49 @@ flag needs to be set in order for the whitelist to apply.
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.parameters -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.parameters">
+    <description>
+Property to specify parameters that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include parameters that are used in expressions.
+This property can be used to specify parameters to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all parameters are to be included in classes,
+or a list of comma separated parameter names.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.fields -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.fields">
+    <description>
+Property to specify fields that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include fields that are used in expressions.
+This property can be used to specify fields to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all fields are to be included in classes,
+or a list of comma separated field names.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.variables -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.variables">
+    <description>
+Property to specify variables that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include variables that are used in expressions.
+This property can be used to specify variables to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all variables are to be included in classes,
+or a list of comma separated variable names.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
