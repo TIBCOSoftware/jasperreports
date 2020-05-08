@@ -40,7 +40,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  */
 public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterService 
 {
-	protected static final String GBQ_PRIVATE_KEY_TEMP_FILE_PREFIX = "jr_gbq_";
+	private static final String GBQ_TEMP_FILE_PREFIX_PRIVATE_KEY = "jr_gbq_";
 
 	/**
 	 * 
@@ -50,12 +50,24 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 		super(paramContribContext, jdbcDataAdapter);
 	}
 
+
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
 		
 		String connectionUrl = jdbcDataAdapter.getUrl();
+		
+		connectionUrl = processConnectionUrl(connectionUrl);
+
+		jdbcDataAdapter.setUrl(connectionUrl);
+		
+		super.contributeParameters(parameters);
+	}
+
+
+	protected String processConnectionUrl(String connectionUrl) throws JRException 
+	{
 		if (connectionUrl != null && connectionUrl.trim().length() > 0)
 		{
 			StringBuffer connectionUrlBuffer = new StringBuffer();
@@ -65,24 +77,43 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 			{
 				connectionUrlBuffer.append(";");
 
-				if (connectionParam.startsWith(getPrivateKeyConnectionParameter()) && connectionParam.contains("="))
-				{
-					File privateKeyFile = getPrivateKeyFile(connectionParam.split("=")[1]);
-					if (privateKeyFile != null)
-					{
-						connectionParam = getPrivateKeyConnectionParameter() + "=" + privateKeyFile.getAbsolutePath();
-					}
-				}
+				String[] tokens = connectionParam.split("=");
+				String paramName = tokens[0].trim();
+				String paramValue = tokens.length > 1 ? tokens[1].trim() : null;
 
-				connectionUrlBuffer.append(connectionParam);
+				connectionParam = processConnectionParameter(paramName, paramValue);
+
+				if (connectionParam != null)
+				{
+					connectionUrlBuffer.append(connectionParam);
+				}
 			}
 			
-			jdbcDataAdapter.setUrl(connectionUrlBuffer.substring(1));
+			return connectionUrlBuffer.substring(1);
 		}
 		
-		super.contributeParameters(parameters);
+		return connectionUrl;
 	}
-	
+
+
+	protected String processConnectionParameter(String paramName, String paramValue) throws JRException
+	{
+		if (paramName.equalsIgnoreCase(getPrivateKeyConnectionParameter()) && paramValue != null && paramValue.length() > 0)
+		{
+			File privateKeyFile = getPrivateKeyFile(paramValue);
+			if (privateKeyFile != null)
+			{
+				return getPrivateKeyConnectionParameter() + "=" + privateKeyFile.getAbsolutePath();
+			}
+		}
+		
+		return paramName + "=" + paramValue;
+	}
+
+
+	protected abstract String getPrivateKeyConnectionParameter();
+
+
 	protected File getPrivateKeyFile(String privateKeyResourcePath) throws JRException
 	{
 		File privateKeyFile = null;
@@ -97,7 +128,7 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 				privateKeyFile = 
 					new File(
 						new File(System.getProperty("java.io.tmpdir")), 
-						GBQ_PRIVATE_KEY_TEMP_FILE_PREFIX + (31 * privateKeyResourcePath.hashCode() + Arrays.hashCode(privateKeyData)) + ".json"
+						GBQ_TEMP_FILE_PREFIX_PRIVATE_KEY + (31 * privateKeyResourcePath.hashCode() + Arrays.hashCode(privateKeyData)) + ".json"
 						);
 
 				if (!privateKeyFile.exists())
@@ -134,6 +165,4 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 		
 		return privateKeyFile;
 	}
-	
-	protected abstract String getPrivateKeyConnectionParameter();
 }
