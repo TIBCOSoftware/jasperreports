@@ -229,6 +229,7 @@ public class Report
 			File outputDir = new File(outputDirPath);
 			outputFile = File.createTempFile("jr_tests_", ".jrpxml", outputDir);
 		}
+		outputFile.deleteOnExit();
 		return outputFile;
 	}
 
