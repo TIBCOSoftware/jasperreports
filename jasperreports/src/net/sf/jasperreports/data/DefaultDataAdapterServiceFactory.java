@@ -35,6 +35,9 @@ import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
 import net.sf.jasperreports.data.excel.ExcelDataAdapter;
 import net.sf.jasperreports.data.excel.ExcelDataAdapterService;
+import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapter;
+import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapterImpl;
+import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapterService;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
@@ -170,6 +173,10 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		else if (dataAdapter.getClass().getName().equals(JdbcDataAdapterImpl.class.getName()))
 		{
 			dataAdapterService = new JdbcDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter.getClass().getName().equals(GbqSimbaDataAdapterImpl.class.getName()))
+		{
+			dataAdapterService = new GbqSimbaDataAdapterService(context, (GbqSimbaDataAdapter)dataAdapter);
 		}
 		
 		return dataAdapterService;
