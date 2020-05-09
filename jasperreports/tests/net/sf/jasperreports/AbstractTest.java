@@ -330,7 +330,7 @@ public abstract class AbstractTest
 			File outputDir = new File(outputDirPath);
 			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
-		
+		outputFile.deleteOnExit();
 		return outputFile;
 	}
 
