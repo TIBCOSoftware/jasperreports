@@ -123,7 +123,7 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 			privateKeyFile = new File(privateKeyResourcePath);
 			if (!privateKeyFile.exists())
 			{
-				byte[] privateKeyData = RepositoryUtil.getInstance(getJasperReportsContext()).getBytesFromLocation(privateKeyResourcePath);
+				byte[] privateKeyData = getPrivateKeyResourceData(privateKeyResourcePath);
 
 				privateKeyFile = 
 					new File(
@@ -164,5 +164,11 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 		}
 		
 		return privateKeyFile;
+	}
+
+
+	protected byte[] getPrivateKeyResourceData(String privateKeyResourcePath) throws JRException
+	{
+		return RepositoryUtil.getInstance(getJasperReportsContext()).getBytesFromLocation(privateKeyResourcePath);
 	}
 }
