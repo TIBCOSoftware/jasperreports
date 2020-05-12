@@ -101,7 +101,10 @@ public class AwtFontManager
 		{
 			try
 			{
-				is.close();
+				if (is != null)
+				{
+					is.close();
+				}
 			}
 			catch (IOException e)
 			{
