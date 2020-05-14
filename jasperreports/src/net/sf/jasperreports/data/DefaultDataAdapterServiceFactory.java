@@ -79,7 +79,14 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 	 *
 	 */
 	private static final DefaultDataAdapterServiceFactory INSTANCE = new DefaultDataAdapterServiceFactory();
-	
+
+	/**
+	 *
+	 */
+	private DefaultDataAdapterServiceFactory()
+	{
+	}
+
 	/**
 	 *
 	 */
