@@ -32,8 +32,6 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
  */
 public class DefaultJdbcDataAdapterServiceFactory implements JdbcDataAdapterContributorFactory
 {
-	public static final String GBQ_SIMBA_DRIVER_CLASS = "com.simba.googlebigquery.jdbc41.Driver";
-
 	/**
 	 *
 	 */
@@ -59,7 +57,7 @@ public class DefaultJdbcDataAdapterServiceFactory implements JdbcDataAdapterCont
 	{
 		DataAdapterService dataAdapterService = null;
 		
-		if (GBQ_SIMBA_DRIVER_CLASS.equals(jdbcDataAdapter.getDriver()))
+		if (GbqSimbaDataAdapterService.GBQ_SIMBA_DRIVER_CLASS.equals(jdbcDataAdapter.getDriver()))
 		{
 			dataAdapterService = new GbqSimbaDataAdapterService(context, jdbcDataAdapter);
 		}
