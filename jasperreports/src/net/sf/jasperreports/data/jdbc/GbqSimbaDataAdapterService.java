@@ -21,14 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.gbq;
+package net.sf.jasperreports.data.jdbc;
 
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
-
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface GbqSimbaDataAdapter extends JdbcDataAdapter
+public class GbqSimbaDataAdapterService extends AbstractGbqDataAdapterService 
 {
+	private static final String GBQ_CONNECTION_PARAMETER_PRIVATE_KEY = "OAuthPvtKeyPath";
+
+	/**
+	 * 
+	 */
+	public GbqSimbaDataAdapterService(ParameterContributorContext paramContribContext, JdbcDataAdapter jdbcDataAdapter) 
+	{
+		super(paramContribContext, jdbcDataAdapter);
+	}
+
+	@Override
+	protected String getPrivateKeyConnectionParameter()
+	{
+		return GBQ_CONNECTION_PARAMETER_PRIVATE_KEY;
+	}
 }

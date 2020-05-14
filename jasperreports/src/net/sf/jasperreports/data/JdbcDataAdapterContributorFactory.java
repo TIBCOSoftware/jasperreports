@@ -21,7 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+package net.sf.jasperreports.data;
+
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
+import net.sf.jasperreports.engine.ParameterContributorContext;
+
+
 /**
- * Contains classes for the Google BigQuery data adapters.
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-package net.sf.jasperreports.data.gbq;
+public interface JdbcDataAdapterContributorFactory
+{
+
+	/**
+	 *
+	 */
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, JdbcDataAdapter jdbcDataAdapter);
+
+}

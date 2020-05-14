@@ -26,7 +26,7 @@ package net.sf.jasperreports.data;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 
 /**
@@ -34,9 +34,15 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
  */
 public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry = 
-			new SingletonExtensionRegistry<DataAdapterContributorFactory>(
-					DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
+	private static final ExtensionsRegistry extensionsRegistry; 
+	
+	static
+	{
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
+		registry.add(DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
+		registry.add(JdbcDataAdapterContributorFactory.class, DefaultJdbcDataAdapterServiceFactory.getInstance());
+		extensionsRegistry = registry;
+	}
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
