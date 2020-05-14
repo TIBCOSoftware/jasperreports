@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
  */
 public class GbqSimbaDataAdapterService extends AbstractGbqDataAdapterService 
 {
+	public static final String GBQ_SIMBA_DRIVER_CLASS = "com.simba.googlebigquery.jdbc41.Driver";
 	private static final String GBQ_CONNECTION_PARAMETER_PRIVATE_KEY = "OAuthPvtKeyPath";
 
 	/**
