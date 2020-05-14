@@ -21,28 +21,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.gbq;
+package net.sf.jasperreports.data;
 
+import net.sf.jasperreports.data.jdbc.GbqSimbaDataAdapterService;
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.engine.ParameterContributorContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class GbqSimbaDataAdapterService extends AbstractGbqDataAdapterService 
+public class DefaultJdbcDataAdapterServiceFactory implements JdbcDataAdapterContributorFactory
 {
-	private static final String GBQ_CONNECTION_PARAMETER_PRIVATE_KEY = "OAuthPvtKeyPath";
+	public static final String GBQ_SIMBA_DRIVER_CLASS = "com.simba.googlebigquery.jdbc41.Driver";
 
 	/**
-	 * 
+	 *
 	 */
-	public GbqSimbaDataAdapterService(ParameterContributorContext paramContribContext, GbqSimbaDataAdapter gbqSimbaDataAdapter) 
+	private static final DefaultJdbcDataAdapterServiceFactory INSTANCE = new DefaultJdbcDataAdapterServiceFactory();
+
+	/**
+	 *
+	 */
+	private DefaultJdbcDataAdapterServiceFactory()
 	{
-		super(paramContribContext, gbqSimbaDataAdapter);
 	}
 
-	@Override
-	protected String getPrivateKeyConnectionParameter()
+	/**
+	 *
+	 */
+	public static DefaultJdbcDataAdapterServiceFactory getInstance()
 	{
-		return GBQ_CONNECTION_PARAMETER_PRIVATE_KEY;
+		return INSTANCE;
+	}
+	
+	@Override
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, JdbcDataAdapter jdbcDataAdapter)
+	{
+		DataAdapterService dataAdapterService = null;
+		
+		if (GBQ_SIMBA_DRIVER_CLASS.equals(jdbcDataAdapter.getDriver()))
+		{
+			dataAdapterService = new GbqSimbaDataAdapterService(context, jdbcDataAdapter);
+		}
+		
+		return dataAdapterService;
 	}
 }

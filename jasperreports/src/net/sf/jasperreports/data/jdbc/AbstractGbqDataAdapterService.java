@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.gbq;
+package net.sf.jasperreports.data.jdbc;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,8 +29,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.repo.RepositoryUtil;

@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.data;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.data.bean.BeanDataAdapter;
 import net.sf.jasperreports.data.bean.BeanDataAdapterService;
 import net.sf.jasperreports.data.csv.CsvDataAdapter;
@@ -35,15 +38,11 @@ import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
 import net.sf.jasperreports.data.excel.ExcelDataAdapter;
 import net.sf.jasperreports.data.excel.ExcelDataAdapterService;
-import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapter;
-import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapterImpl;
-import net.sf.jasperreports.data.gbq.GbqSimbaDataAdapterService;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
@@ -177,13 +176,27 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		{
 			dataAdapterService = new XmlaDataAdapterService(context, (XmlaDataAdapter)dataAdapter);
 		}
-		else if (dataAdapter.getClass().getName().equals(JdbcDataAdapterImpl.class.getName()))
+		else if (dataAdapter instanceof JdbcDataAdapter)
 		{
-			dataAdapterService = new JdbcDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter.getClass().getName().equals(GbqSimbaDataAdapterImpl.class.getName()))
-		{
-			dataAdapterService = new GbqSimbaDataAdapterService(context, (GbqSimbaDataAdapter)dataAdapter);
+			JasperReportsContext jasperReportsContext = context.getJasperReportsContext();
+			
+			List<JdbcDataAdapterContributorFactory> bundles = jasperReportsContext.getExtensions(
+					JdbcDataAdapterContributorFactory.class);
+			for (Iterator<JdbcDataAdapterContributorFactory> it = bundles.iterator(); it.hasNext();)
+			{
+				JdbcDataAdapterContributorFactory factory = it.next();
+				DataAdapterService service = factory.getDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
+				if (service != null)
+				{
+					dataAdapterService = service;
+					break;
+				}
+			}
+
+			if (dataAdapterService == null)
+			{
+				dataAdapterService = new JdbcDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
+			}
 		}
 		
 		return dataAdapterService;
