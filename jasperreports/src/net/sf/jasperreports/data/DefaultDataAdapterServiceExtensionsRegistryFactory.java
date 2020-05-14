@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data;
 
+import net.sf.jasperreports.data.jdbc.DefaultJdbcDataAdapterServiceFactory;
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;

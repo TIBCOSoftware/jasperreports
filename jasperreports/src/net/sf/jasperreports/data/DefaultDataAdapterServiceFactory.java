@@ -43,6 +43,7 @@ import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
