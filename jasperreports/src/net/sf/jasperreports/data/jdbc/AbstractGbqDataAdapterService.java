@@ -167,6 +167,6 @@ public abstract class AbstractGbqDataAdapterService extends JdbcDataAdapterServi
 
 	protected byte[] getPrivateKeyResourceData(String privateKeyResourcePath) throws JRException
 	{
-		return RepositoryUtil.getInstance(getJasperReportsContext()).getBytesFromLocation(privateKeyResourcePath);
+		return RepositoryUtil.getInstance(getParameterContributorContext().getRepositoryContext()).getBytesFromLocation(privateKeyResourcePath);
 	}
 }
