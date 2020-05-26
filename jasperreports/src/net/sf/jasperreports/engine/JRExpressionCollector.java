@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
@@ -546,7 +547,9 @@ public class JRExpressionCollector
 	 * @return the list of expressions that should be compiled
 	 * @see #getExpressions()
 	 * @see JRExpression#getType()
+	 * @deprecated {@link JRAbstractCompiler} internally filters expressions to be compiled
 	 */
+	@Deprecated
 	public List<JRExpression> getCompiledExpressions()
 	{
 		List<JRExpression> expressions = generatedIds.expressions();

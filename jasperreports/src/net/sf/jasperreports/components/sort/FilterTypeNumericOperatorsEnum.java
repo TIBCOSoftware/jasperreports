@@ -46,7 +46,11 @@ public enum FilterTypeNumericOperatorsEnum implements NamedEnum
 	
 	IS_BETWEEN("Is Between"),
 	
-	IS_NOT_BETWEEN("Is not between");
+	IS_NOT_BETWEEN("Is not between"),
+
+	IS_NULL("Is Null"),
+
+	IS_NOT_NULL("Is not Null");
 
 	/**
 	 *

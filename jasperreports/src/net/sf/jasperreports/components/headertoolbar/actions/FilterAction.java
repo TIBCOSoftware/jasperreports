@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
+import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
@@ -96,6 +97,8 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		if (fd.getFilterType() == null || fd.getFilterType().length() == 0) {
 			errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.type");
 		}
+
+		//FIXME: add check for filterTypeOperator
 		
 		FilterTypesEnum filterType = FilterTypesEnum.getByName(fd.getFilterType());
 
@@ -107,6 +110,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		if (FilterTypesEnum.DATE.equals(filterType) || FilterTypesEnum.TIME.equals(filterType)) {
 			FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(fd.getFilterTypeOperator());
 			boolean containsBetween = FilterTypeDateOperatorsEnum.IS_BETWEEN.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN.equals(dateEnum);
+			boolean containsNull = FilterTypeDateOperatorsEnum.IS_NULL.equals(dateEnum) || FilterTypeDateOperatorsEnum.IS_NOT_NULL.equals(dateEnum);
 
 			try {
 				DateFormat df = formatFactory.createDateFormat(fd.getFilterPattern(), locale, null);
@@ -133,7 +137,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 						errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.empty.end.date");
 					}
 					
-				} else {
+				} else if (!containsNull) {
 					if (fd.getFieldValueStart() == null || fd.getFieldValueStart().length() == 0) {
 						errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.empty.date");
 					}
@@ -148,23 +152,28 @@ public class FilterAction extends AbstractVerifiableTableAction {
 			}
 					
 		} else if (filterType == FilterTypesEnum.NUMERIC) {
-			if (fd.getFieldValueStart() == null || fd.getFieldValueStart().trim().length() == 0) {
-				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.empty.number");
-			}
-			try {
-				NumberFormat nf = formatFactory.createNumberFormat(fd.getFilterPattern(), locale);
-				nf.parse(fd.getFieldValueStart());
-				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
-					try {
-						nf.parse(fd.getFieldValueEnd());
-					} catch (ParseException e) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.number", new Object[]{fd.getFieldValueEnd()});
-					}
+			FilterTypeNumericOperatorsEnum numericEnum = FilterTypeNumericOperatorsEnum.getByEnumConstantName(fd.getFilterTypeOperator());
+			boolean containsNull = FilterTypeNumericOperatorsEnum.IS_NULL.equals(numericEnum) || FilterTypeNumericOperatorsEnum.IS_NOT_NULL.equals(numericEnum);
+
+			if (!containsNull) {
+				if (fd.getFieldValueStart() == null || fd.getFieldValueStart().trim().length() == 0) {
+					errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.empty.number");
 				}
-			} catch (ParseException e) {
-				errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.number", new Object[]{fd.getFieldValueStart()});
-			} catch (IllegalArgumentException e) {
-				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.pattern");
+				try {
+					NumberFormat nf = formatFactory.createNumberFormat(fd.getFilterPattern(), locale);
+					nf.parse(fd.getFieldValueStart());
+					if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
+						try {
+							nf.parse(fd.getFieldValueEnd());
+						} catch (ParseException e) {
+							errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.number", new Object[]{fd.getFieldValueEnd()});
+						}
+					}
+				} catch (ParseException e) {
+					errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.number", new Object[]{fd.getFieldValueStart()});
+				} catch (IllegalArgumentException e) {
+					errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.pattern");
+				}
 			}
 		}
 	}

@@ -36,6 +36,8 @@ import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
+import net.sf.jasperreports.compilers.JavaDirectExpressionValueFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -85,7 +87,6 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		new ReferenceMap<Object,Map<String,Class<?>>>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT
 			);
-
 	
 	/**
 	 * 
@@ -95,6 +96,11 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		super(jasperReportsContext, needsSourceFiles);
 	}
 
+	@Override
+	protected DirectExpressionValueFilter directValueFilter()
+	{
+		return JavaDirectExpressionValueFilter.instance();
+	}
 
 	@Override
 	protected JREvaluator loadEvaluator(Serializable compileData, String className) throws JRException
@@ -106,7 +112,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			Class<?> clazz = getClassFromCache(className);
 			if (clazz == null)
 			{
-				clazz = JRClassLoader.loadClassFromBytes(className, (byte[]) compileData);
+				clazz = loadClass(className, (byte[]) compileData);
 				putClassInCache(className, clazz);
 			}
 			
@@ -128,6 +134,12 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		}
 		
 		return evaluator;
+	}
+
+
+	protected Class<?> loadClass(String className, byte[] compileData)
+	{
+		return JRClassLoader.loadClassFromBytes(reportClassFilter, className, compileData);
 	}
 	
 	
