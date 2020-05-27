@@ -465,7 +465,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
-		tabulator.tabulate();
+		tabulator.tabulate(getOffsetX(), getOffsetY());
 
 		HtmlReportConfiguration configuration = getCurrentItemConfiguration(); 
 		

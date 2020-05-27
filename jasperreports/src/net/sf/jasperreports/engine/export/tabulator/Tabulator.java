@@ -83,6 +83,11 @@ public class Tabulator
 		// TODO lucianc force background as different layer
 		layoutElements(elements, mainTable, null, null, 0, 0, null);
 	}
+	
+	public void tabulate(int xOffset, int yOffset)
+	{
+		layoutElements(elements, mainTable, null, null, xOffset, yOffset, null);
+	}
 
 	protected void layoutElements(List<? extends JRPrintElement> elementList, Table table, 
 			FrameCell parentCell, PrintElementIndex parentIndex,
