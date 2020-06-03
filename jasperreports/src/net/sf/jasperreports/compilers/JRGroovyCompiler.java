@@ -137,7 +137,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	/**
 	 *
 	 */
-	private static class ClassCollector extends CompilationUnit.ClassgenCallback 
+	private static class ClassCollector implements CompilationUnit.ClassgenCallback 
 	{
 		public Map<String, byte[]> classes = new HashMap<String, byte[]>();
 		public int classCount;
