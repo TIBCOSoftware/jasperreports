@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
+import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -145,10 +146,11 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 				CompileSources compileSources = new CompileSources(expressionsPerScript, scriptMaxLength);
 				JavaScriptCompiledData compiledData = new JavaScriptCompiledData();
 				
-				for (Iterator<JRExpression> it = unit.getExpressions().iterator(); it.hasNext();)
+				JRSourceCompileTask compileTask = unit.getCompileTask();
+				for (Iterator<JRExpression> it = compileTask.getExpressions().iterator(); it.hasNext();)
 				{
 					JRExpression expr = it.next();
-					int id = unit.getCompileTask().getExpressionId(expr);
+					int id = compileTask.getExpressionId(expr);
 					
 					ScriptExpressionVisitor defaultVisitor = defaultExpressionCreator();
 					JRExpressionUtil.visitChunks(expr, defaultVisitor);

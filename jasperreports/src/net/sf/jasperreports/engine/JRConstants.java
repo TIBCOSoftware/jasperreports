@@ -140,4 +140,6 @@ public interface JRConstants
 	public static final String VERSION_6_11_0 = "6.11.0";
 	
 	public static final String VERSION_6_12_0 = "6.12.0";
+	
+	public static final String VERSION_6_13_0 = "6.13.0";
 }

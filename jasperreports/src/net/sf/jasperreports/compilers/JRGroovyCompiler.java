@@ -30,6 +30,7 @@ package net.sf.jasperreports.compilers;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,8 @@ import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
 import net.sf.jasperreports.engine.design.JRDefaultCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
+import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * Calculator compiler that uses groovy to compile expressions.
@@ -64,6 +67,8 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	public static final String EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE = "compilers.compiling.expressions.class.file";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED = "compilers.groovy.too.few.classes.generated";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED = "compilers.groovy.too.many.classes.generated";
+	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_COMPILED_FOR_CLASS_FILTERING = 
+			"compilers.groovy.report.not.compiled.for.class.filtering";
 	
 	/**
 	 * 
@@ -71,6 +76,12 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	public JRGroovyCompiler(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext, false);
+	}
+
+	@Override
+	protected DirectExpressionValueFilter directValueFilter()
+	{
+		return GroovyDirectExpressionValueFilter.instance();
 	}
 	
 
@@ -80,6 +91,12 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		CompilerConfiguration config = new CompilerConfiguration();
 		config.setSourceEncoding(SOURCE_ENCODING);
 		//config.setClasspath(classpath);
+		
+		if (reportClassFilter.isFilteringEnabled())
+		{
+			config.addCompilationCustomizers(new GroovyClassFilterTransformer());
+		}
+		
 		CompilationUnit unit = new CompilationUnit(config);
 		
 		for (int i = 0; i < units.length; i++)
@@ -180,7 +197,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	@Override
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
-		return new JRDefaultCompilationSourceCode(JRGroovyGenerator.generateClass(sourceTask), null);
+		return new JRDefaultCompilationSourceCode(JRGroovyGenerator.generateClass(sourceTask, reportClassFilter), null);
 	}
 
 
@@ -190,5 +207,26 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		return unitName + ".groovy";
 	}
 
+	@Override
+	protected Class<?> loadClass(String className, byte[] compileData)
+	{
+		return JRClassLoader.loadClassFromBytes(className, compileData);
+	}
+
+	@Override
+	protected JREvaluator loadEvaluator(Serializable compileData, String className) throws JRException
+	{
+		JREvaluator evaluator = super.loadEvaluator(compileData, className);
+		if (reportClassFilter.isFilteringEnabled())
+		{
+			if (!(evaluator instanceof GroovySandboxEvaluator))
+			{
+				throw new JRException(EXCEPTION_MESSAGE_KEY_REPORT_NOT_COMPILED_FOR_CLASS_FILTERING);
+			}
+			
+			((GroovySandboxEvaluator) evaluator).setReportClassFilter(reportClassFilter);
+		}
+		return evaluator;
+	}
 
 }

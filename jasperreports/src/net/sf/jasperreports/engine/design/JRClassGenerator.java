@@ -77,7 +77,7 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private static final int EXPR_MAX_COUNT_PER_METHOD = 100;
+	private static final int EXPR_MAX_COUNT_PER_METHOD = 60;
 
 	protected static final String SOURCE_EXPRESSION_ID_START = "$JR_EXPR_ID=";
 	protected static final int SOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
