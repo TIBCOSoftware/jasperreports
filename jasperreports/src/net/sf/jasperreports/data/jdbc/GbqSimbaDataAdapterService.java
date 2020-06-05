@@ -21,34 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.jdbc;
 
-import net.sf.jasperreports.data.jdbc.DefaultJdbcDataAdapterServiceFactory;
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
-
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class GbqSimbaDataAdapterService extends AbstractGbqDataAdapterService 
 {
-	private static final ExtensionsRegistry extensionsRegistry; 
-	
-	static
+	public static final String GBQ_SIMBA_DRIVER_CLASS = "com.simba.googlebigquery.jdbc41.Driver";
+	public static final String GBQ_CONNECTION_PARAMETER_PRIVATE_KEY = "OAuthPvtKeyPath";
+
+	/**
+	 * 
+	 */
+	public GbqSimbaDataAdapterService(ParameterContributorContext paramContribContext, JdbcDataAdapter jdbcDataAdapter) 
 	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
-		registry.add(JdbcDataAdapterContributorFactory.class, DefaultJdbcDataAdapterServiceFactory.getInstance());
-		extensionsRegistry = registry;
+		super(paramContribContext, jdbcDataAdapter);
 	}
-	
+
 	@Override
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	protected String getPrivateKeyConnectionParameter()
 	{
-		return extensionsRegistry;
+		return GBQ_CONNECTION_PARAMETER_PRIVATE_KEY;
 	}
 }

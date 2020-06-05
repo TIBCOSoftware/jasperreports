@@ -21,34 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.jdbc;
 
-import net.sf.jasperreports.data.jdbc.DefaultJdbcDataAdapterServiceFactory;
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
+import net.sf.jasperreports.data.DataAdapterService;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class DefaultJdbcDataAdapterServiceFactory implements JdbcDataAdapterContributorFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry; 
-	
-	static
+	/**
+	 *
+	 */
+	private static final DefaultJdbcDataAdapterServiceFactory INSTANCE = new DefaultJdbcDataAdapterServiceFactory();
+
+	/**
+	 *
+	 */
+	private DefaultJdbcDataAdapterServiceFactory()
 	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
-		registry.add(JdbcDataAdapterContributorFactory.class, DefaultJdbcDataAdapterServiceFactory.getInstance());
-		extensionsRegistry = registry;
+	}
+
+	/**
+	 *
+	 */
+	public static DefaultJdbcDataAdapterServiceFactory getInstance()
+	{
+		return INSTANCE;
 	}
 	
 	@Override
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, JdbcDataAdapter jdbcDataAdapter)
 	{
-		return extensionsRegistry;
+		DataAdapterService dataAdapterService = null;
+		
+		if (GbqSimbaDataAdapterService.GBQ_SIMBA_DRIVER_CLASS.equals(jdbcDataAdapter.getDriver()))
+		{
+			dataAdapterService = new GbqSimbaDataAdapterService(context, jdbcDataAdapter);
+		}
+		
+		return dataAdapterService;
 	}
 }

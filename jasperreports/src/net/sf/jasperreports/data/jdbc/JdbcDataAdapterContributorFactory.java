@@ -21,34 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.jdbc;
 
-import net.sf.jasperreports.data.jdbc.DefaultJdbcDataAdapterServiceFactory;
-import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
+import net.sf.jasperreports.data.DataAdapterService;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public interface JdbcDataAdapterContributorFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry; 
-	
-	static
-	{
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
-		registry.add(JdbcDataAdapterContributorFactory.class, DefaultJdbcDataAdapterServiceFactory.getInstance());
-		extensionsRegistry = registry;
-	}
-	
-	@Override
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
-	{
-		return extensionsRegistry;
-	}
+
+	/**
+	 *
+	 */
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, JdbcDataAdapter jdbcDataAdapter);
+
 }
