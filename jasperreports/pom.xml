@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-24-SNAPSHOT</version>
+	<version>develop-33-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -510,6 +510,13 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>groovy-sandbox</artifactId>
+			<version>1.26-jaspersoft-SNAPSHOT</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -574,6 +581,7 @@
 					<include>**/*.jpg</include>
 					<include>**/*.json</include>
 					<include>**/*.err</include>
+					<include>**/*.properties</include>
 				</includes>
 			</testResource>
 		</testResources>

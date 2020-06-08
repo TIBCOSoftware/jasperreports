@@ -7284,4 +7284,91 @@ The implementation relies on the Chrome DevTools Protocol Target.createBrowserCo
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.report.class.filter.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.report.class.filter.enabled">
+    <description>
+Flag to enable filtering of classes that can be used in report expressions.
+<br/>
+The list of allowed classes is configured via 
+<a href="#net.sf.jasperreports.report.class.whitelist.{arbitrary_name}">net.sf.jasperreports.report.class.whitelist.{arbitrary_name}</a>
+properties.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.report.class.whitelist.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.report.class.whitelist.{arbitrary_name}">
+    <description>
+Defines a list of classes that are allowed in report expressions.
+<br/>
+The property value should be a comma separated list of class names.  Wildcards are supported in class names:
+<ul>
+ <li><code>*</code> stands for any class/package name or part of a class/package name, e.g.
+  <ul>
+   <li><code>net.sf.jasperreports.*</code> means any class in the <code>net.sf.jasperreports</code> package (but not in subpackages)</li>
+   <li><code>net.sf.jasperreports.*Enum</code> means any class in the <code>net.sf.jasperreports</code> package that ends in <code>Enum</code></li>
+  </ul>
+ </li>
+ <li><code>**</code> stands for any fully qualified class name or part of a fully qualified class name, e.g.
+  <ul>
+   <li><code>net.sf.jasperreports.**</code> means any class in the <code>net.sf.jasperreports</code> package or in a subpackage</li>
+   <li><code>net.sf.jasperreports.**Enum</code> means any class that ends in <code>Enum</code> in the <code>net.sf.jasperreports</code> package or in a subpackage</li>
+   <li><code>**</code> means any class (note that for performance reasons instead of whitelisting all classes it's better to unset the <code>net.sf.jasperreports.report.class.filter.enabled</code> flag)</li>
+  </ul>
+ </li>
+</ul>
+<br/>
+The <a href="#net.sf.jasperreports.report.class.filter.enabled">net.sf.jasperreports.report.class.filter.enabled</a>
+flag needs to be set in order for the whitelist to apply.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.parameters -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.parameters">
+    <description>
+Property to specify parameters that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include parameters that are used in expressions.
+This property can be used to specify parameters to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all parameters are to be included in classes,
+or a list of comma separated parameter names.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.fields -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.fields">
+    <description>
+Property to specify fields that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include fields that are used in expressions.
+This property can be used to specify fields to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all fields are to be included in classes,
+or a list of comma separated field names.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.legacy.compiler.source.included.variables -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.compiler.source.included.variables">
+    <description>
+Property to specify variables that are to be included in classes generated for reports.
+<br/>
+Starting with JasperReports 6.13.0, classes generated for reports only include variables that are used in expressions.
+This property can be used to specify variables to include in classes, even when not used in expressions.
+<br/>
+The property value can either be <code>*</code>, which means that all variables are to be included in classes,
+or a list of comma separated variable names.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
