@@ -56,7 +56,7 @@ public abstract class AbstractGbqDataAdapterService extends AbstractJdbcUrlParam
 			}
 		}
 		
-		return paramName + "=" + paramValue;
+		return paramName + (paramValue == null ? "" : ("=" + paramValue));
 	}
 
 

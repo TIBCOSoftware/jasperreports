@@ -48,7 +48,7 @@ public abstract class AbstractJdbcFileUrlParameterProcessor
 	}
 
 
-	protected File getUrlParameterFile(String urlParameterResourcePath) throws JRException
+	public File getUrlParameterFile(String urlParameterResourcePath) throws JRException
 	{
 		File urlParameterFile = null;
 		
