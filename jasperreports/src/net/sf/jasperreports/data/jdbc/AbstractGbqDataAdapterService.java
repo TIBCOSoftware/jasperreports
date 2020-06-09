@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
  */
 public abstract class AbstractGbqDataAdapterService extends AbstractJdbcUrlParameterProcessingDataAdapterService 
 {
-	private final AbstractJdbcFileUrlParameterProcessor privateKeyProcessor = new GbqPrivateKeyProcessor(this);
+	protected AbstractJdbcFileUrlParameterProcessor privateKeyProcessor = new GbqPrivateKeyProcessor(this);
 
 	/**
 	 * 
@@ -41,6 +41,14 @@ public abstract class AbstractGbqDataAdapterService extends AbstractJdbcUrlParam
 	public AbstractGbqDataAdapterService(ParameterContributorContext paramContribContext, JdbcDataAdapter jdbcDataAdapter) 
 	{
 		super(paramContribContext, jdbcDataAdapter);
+		
+		init();
+	}
+
+	
+	protected void init()
+	{
+		privateKeyProcessor = new GbqPrivateKeyProcessor(this);
 	}
 
 
