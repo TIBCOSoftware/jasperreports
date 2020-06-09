@@ -23,42 +23,30 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
-import java.io.File;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributorContext;
+import net.sf.jasperreports.data.AbstractDataAdapterService;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractGbqDataAdapterService extends AbstractJdbcUrlParameterProcessingDataAdapterService 
+public class GbqPrivateKeyProcessor extends AbstractJdbcFileUrlParameterProcessor
 {
-	private final AbstractJdbcFileUrlParameterProcessor privateKeyProcessor = new GbqPrivateKeyProcessor(this);
+	private static final String GBQ_TEMP_FILE_PREFIX = "jr_gbq_";
+	private static final String GBQ_TEMP_FILE_EXTENSION = "json";
 
-	/**
-	 * 
-	 */
-	public AbstractGbqDataAdapterService(ParameterContributorContext paramContribContext, JdbcDataAdapter jdbcDataAdapter) 
+	public GbqPrivateKeyProcessor(AbstractDataAdapterService dataAdapterService) 
 	{
-		super(paramContribContext, jdbcDataAdapter);
+		super(dataAdapterService);
 	}
-
 
 	@Override
-	protected String processUrlParameter(String paramName, String paramValue) throws JRException
+	protected String getUrlParameterTempFilePrefix() 
 	{
-		if (paramName.equalsIgnoreCase(getPrivateKeyConnectionParameter()) && paramValue != null && paramValue.length() > 0)
-		{
-			File privateKeyFile = privateKeyProcessor.getUrlParameterFile(paramValue);
-			if (privateKeyFile != null)
-			{
-				return getPrivateKeyConnectionParameter() + "=" + privateKeyFile.getAbsolutePath();
-			}
-		}
-		
-		return paramName + "=" + paramValue;
+		return GBQ_TEMP_FILE_PREFIX;
 	}
-
-
-	protected abstract String getPrivateKeyConnectionParameter();
+	
+	@Override
+	protected String getUrlParameterTempFileExtension() 
+	{
+		return GBQ_TEMP_FILE_EXTENSION;
+	}
 }
