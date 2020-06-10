@@ -55,13 +55,6 @@ public class DefaultJdbcDataAdapterServiceFactory implements JdbcDataAdapterCont
 	@Override
 	public DataAdapterService getDataAdapterService(ParameterContributorContext context, JdbcDataAdapter jdbcDataAdapter)
 	{
-		DataAdapterService dataAdapterService = null;
-		
-		if (GbqSimbaDataAdapterService.GBQ_SIMBA_DRIVER_CLASS.equals(jdbcDataAdapter.getDriver()))
-		{
-			dataAdapterService = new GbqSimbaDataAdapterService(context, jdbcDataAdapter);
-		}
-		
-		return dataAdapterService;
+		return new JdbcDataAdapterService(context, jdbcDataAdapter);
 	}
 }
