@@ -37,7 +37,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  */
 public abstract class AbstractJdbcFileUrlParameterProcessor 
 {
-	private AbstractDataAdapterService dataAdapterService;
+	protected AbstractDataAdapterService dataAdapterService;
 	
 	/**
 	 * 
