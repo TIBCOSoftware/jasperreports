@@ -44,6 +44,7 @@ import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
 import net.sf.jasperreports.data.json.JsonDataAdapter;
@@ -191,6 +192,11 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 					dataAdapterService = service;
 					break;
 				}
+			}
+
+			if (dataAdapterService == null)
+			{
+				dataAdapterService = new JdbcDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
 			}
 		}
 		
