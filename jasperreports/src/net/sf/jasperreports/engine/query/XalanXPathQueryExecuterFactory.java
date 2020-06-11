@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -44,7 +45,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public class XalanXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 {
 	/**
-	 * Built-in parameter holdin the value of the <code>javax.xml.parsers.DocumentBuilderFactor</code> used to create 
+	 * Built-in parameter holding the value of the <code>javax.xml.parsers.DocumentBuilderFactor</code> used to create
 	 * documents of type <code>org.w3c.dom.Document<code>
 	 */
 	public final static String PARAMETER_DOCUMENT_BUILDER_FACTORY = "DOCUMENT_BUILDER_FACTORY";
@@ -118,12 +119,21 @@ public class XalanXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	
 	@Override
 	public JRQueryExecuter createQueryExecuter(
-		QueryExecutionContext context, 
-		JRDataset dataset, 
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset,
 		Map<String,? extends JRValueParameter> parameters
+		) throws JRException
+	{
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parameters);
+	}
+
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset,
+		Map<String, ? extends JRValueParameter> parameters
 		) throws JRException
 	{
 		return new XalanXPathQueryExecuter(context, dataset, parameters);
 	}
-
 }

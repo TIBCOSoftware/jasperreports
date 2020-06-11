@@ -65,21 +65,27 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 	private final DocumentBuilderFactory documentBuilderFactory;
 	
 	private Map<String, String> namespacesMap;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public JaxenXPathQueryExecuter(
 		JasperReportsContext jasperReportsContext,
-		JRDataset dataset, 
+		JRDataset dataset,
 		Map<String,? extends JRValueParameter> parametersMap
 		)
 	{
 		this(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parametersMap);
 	}
-
-	public JaxenXPathQueryExecuter(QueryExecutionContext context, JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parametersMap)
+	
+	/**
+	 * 
+	 */
+	public JaxenXPathQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
+		)
 	{
 		super(context, dataset, parametersMap);
 		
