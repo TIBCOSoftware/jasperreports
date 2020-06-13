@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-31-SNAPSHOT</version>
+	<version>develop-34-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -176,9 +176,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>ecj</artifactId>
-			<version>4.4.2</version>
+			<version>3.21.0</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
