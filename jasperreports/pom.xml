@@ -176,9 +176,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>ecj</artifactId>
-			<version>4.4.2</version>
+			<version>3.21.0</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

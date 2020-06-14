@@ -17,6 +17,6 @@
 		<dependency org="org.apache.commons" name="commons-math3" rev="3.6.1" conf="test->*"/>
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.1.1" conf="test->*"/>
 		<dependency org="org.apache.poi" name="poi" rev="4.1.1" conf="test->*"/>
-		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
+		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
 	</dependencies>
 </ivy-module>

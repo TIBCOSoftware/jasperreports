@@ -25,7 +25,7 @@
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1" conf="test->*"/>
-		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
+		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
 		<dependency org="xalan" name="xalan" rev="2.7.2" conf="test->*"/>
 	</dependencies>
 </ivy-module>
