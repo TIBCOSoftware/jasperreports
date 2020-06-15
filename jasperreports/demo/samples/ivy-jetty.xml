@@ -49,7 +49,7 @@
 		<dependency org="org.eclipse.jetty" name="jetty-xml" rev="9.4.6.v20170531"/>
 		<dependency org="org.apache.taglibs" name="taglibs-standard-impl" rev="1.2.5"/>
 		<dependency org="org.apache.taglibs" name="taglibs-standard-spec" rev="1.2.5"/>
-		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
+		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
 		<dependency org="org.eclipse.jetty" name="apache-jsp" rev="9.4.6.v20170531"/>
 		<dependency org="org.mortbay.jasper" name="apache-el" rev="8.5.9.1"/>
 		<dependency org="org.mortbay.jasper" name="apache-jsp" rev="8.5.9.1"/>

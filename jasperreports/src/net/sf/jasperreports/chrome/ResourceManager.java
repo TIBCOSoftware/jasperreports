@@ -163,16 +163,7 @@ public class ResourceManager
 			copyToFile(resourceLocation, input, file);
 			return file;
 		}
-		catch (JRException e)
-		{
-			if (RepositoryUtil.EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND.equals(e.getMessageKey()))
-			{
-				return null;
-			}
-			
-			throw new JRRuntimeException(e);
-		}
-		catch (IOException e)
+		catch (JRException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -260,7 +251,21 @@ public class ResourceManager
 		
 		public File resourceMapping(String resourceLocation, JasperReportsContext jasperReportsContext)
 		{
-			return resourceFiles.get(resourceLocation, jasperReportsContext);
+			try
+			{
+				return resourceFiles.get(resourceLocation, jasperReportsContext);
+			}
+			catch (JRRuntimeException e)
+			{
+				if (e.getCause() instanceof JRException 
+						&& RepositoryUtil.EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND.equals(
+								((JRException) e.getCause()).getMessageKey()))
+				{
+					return null;
+				}
+				
+				throw e;
+			}
 		}
 		
 		public File dataResourceMapping(String resourceName, InputStream data, JasperReportsContext jasperReportsContext)

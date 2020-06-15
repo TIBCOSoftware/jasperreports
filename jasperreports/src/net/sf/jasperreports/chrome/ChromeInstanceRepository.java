@@ -74,6 +74,13 @@ public class ChromeInstanceRepository
 		synchronized (instances)
 		{
 			ChromeInstance instance = instances.get(configuration);
+			
+			if (instance != null && !instance.isAlive())
+			{
+				log.warn("Chrome instance " + instance.getId() + " not available");
+				instance = null;
+			}
+			
 			if (instance == null)
 			{
 				instance = new ChromeInstance(configuration);

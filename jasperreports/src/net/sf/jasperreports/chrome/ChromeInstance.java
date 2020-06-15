@@ -73,6 +73,11 @@ public class ChromeInstance implements ChromeInstanceHandle
 		chromeService = launcher.launch(configuration.getExecutablePath(), args);
 	}
 
+	public boolean isAlive()
+	{
+		return launcher != null && launcher.isAlive();
+	}
+	
 	@Override
 	public <T> T runWithChromeInstance(Function<ChromeService, T> execution)
 	{

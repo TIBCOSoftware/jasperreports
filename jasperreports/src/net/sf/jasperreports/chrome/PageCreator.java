@@ -23,29 +23,16 @@
  */
 package net.sf.jasperreports.chrome;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.function.Function;
+
+import com.github.kklisura.cdt.services.ChromeDevToolsService;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeServiceHandle
+public interface PageCreator
 {
-	
-	private static final Log log = LogFactory.getLog(ChromeServiceHandle.class);
 
-	private LaunchConfiguration launchConfiguration;
-	
-	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
-	{
-		this.launchConfiguration = launchConfiguration;
-	}
-	
-	public ChromeInstanceHandle getChromeInstance()
-	{
-		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
-		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle;
-	}
+	<T> T runInPage(ChromeInstanceHandle chromeInstance, Function<ChromeDevToolsService, T> tabAction);
 	
 }
