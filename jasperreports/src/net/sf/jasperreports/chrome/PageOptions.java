@@ -31,6 +31,12 @@ public class PageOptions
 
 	private Long timeout;
 	
+	private Integer screenWidth;
+	
+	private Integer screenHeight;
+	
+	private Boolean isolate;
+	
 	public PageOptions()
 	{
 	}
@@ -43,6 +49,36 @@ public class PageOptions
 	public void setTimeout(Long timeout)
 	{
 		this.timeout = timeout;
+	}
+
+	public Integer getScreenWidth()
+	{
+		return screenWidth;
+	}
+
+	public void setScreenWidth(Integer screenWidth)
+	{
+		this.screenWidth = screenWidth;
+	}
+
+	public Integer getScreenHeight()
+	{
+		return screenHeight;
+	}
+
+	public void setScreenHeight(Integer screenHeight)
+	{
+		this.screenHeight = screenHeight;
+	}
+
+	public Boolean getIsolate()
+	{
+		return isolate;
+	}
+
+	public void setIsolate(Boolean isolate)
+	{
+		this.isolate = isolate;
 	}
 	
 }

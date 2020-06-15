@@ -75,7 +75,7 @@ public class LaunchConfiguration
 		}
 		
 		LaunchConfiguration other = (LaunchConfiguration) obj;
-		return executablePath == other.executablePath
+		return headless == other.headless
 				&& ObjectUtils.equals(executablePath, other.executablePath)
 				&& ObjectUtils.equals(arguments, other.arguments)
 				&& idleTimeout == other.idleTimeout

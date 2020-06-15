@@ -7272,6 +7272,18 @@ The property can be set to 0 to repress the interrupting component render tasks
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.chrome.page.isolate -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.page.isolate">
+    <description>
+Whether to create Chrome pages in isolated mode for component render tasks.
+<br/>
+Isolated pages do not share cookies and other page data.
+The implementation relies on the Chrome DevTools Protocol Target.createBrowserContext command.
+    </description>
+  </configProperty>
+  
+  
   <!-- 	net.sf.jasperreports.report.class.filter.enabled -->
   
   <configProperty name="net.sf.jasperreports.report.class.filter.enabled">

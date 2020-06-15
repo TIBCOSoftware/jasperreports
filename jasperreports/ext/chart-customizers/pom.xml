@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-customizers</artifactId>
-	<version>develop-10-SNAPSHOT</version>
+	<version>develop-11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
 	<description>JasperReports Chart Customizers</description>

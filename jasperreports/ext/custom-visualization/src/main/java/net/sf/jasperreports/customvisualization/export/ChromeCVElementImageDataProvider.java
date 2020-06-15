@@ -96,12 +96,13 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		String cssUriParameter = (String)element.getParameterValue(CVPrintElement.CSS_URI);
 		String cssUri = null;
 		if (cssUriParameter != null) {
+			String cssResourceLocation = resourceManager.getResourceLocation(cssUriParameter, jasperReportsContext);
 			if (renderAsPng) {
-				cssUri = resourceManager.getResourceLocation(cssUriParameter, jasperReportsContext);
+				cssUri = cssResourceLocation;
 			} else {
 				//embedding the CSS as data: URL in the HTML because Chrome doesn't allow 
 				//accessing document.styleSheets.cssRules for file system CSS resources
-				byte[] cssBytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(cssUriParameter);
+				byte[] cssBytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(cssResourceLocation);
 				//TODO lucian cache
 				String cssBase64 = Base64Util.encode(cssBytes);
 				cssUri = "data:text/css;base64," + cssBase64;
