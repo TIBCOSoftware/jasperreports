@@ -47,4 +47,9 @@ public interface JRPrintElementContainer extends JRPrintElementListContainer
 	 * @param height the height
 	 */
 	public void setHeight(int height);
+	
+	default void setContentsWidth(int width)
+	{
+		//NOOP
+	}
 }

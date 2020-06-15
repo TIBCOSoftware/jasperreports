@@ -196,6 +196,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected JRFillBand noData;
 
 	protected JRPrintPage printPage;
+	protected int printPageContentsWidth;
 
 	/**
 	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
@@ -536,6 +537,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public JRPrintPage getCurrentPage()
 	{
 		return printPage;
+	}
+	
+	protected int getCurrentPageContentsWidth()
+	{
+		return printPageContentsWidth;
 	}
 
 	/**
@@ -1332,6 +1338,12 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				printPage.addElement(element);
 				recordUsedWidth(element);
 			}
+		}
+		
+		int contentsWidth = band.getContentsWidth();
+		if (offsetX + contentsWidth + rightMargin > printPageContentsWidth)
+		{
+			printPageContentsWidth = offsetX + contentsWidth + rightMargin;
 		}
 	}
 	

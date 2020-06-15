@@ -60,15 +60,6 @@ public final class DataAdapterServiceUtil
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getInstance(ParameterContributorContext)}.
-	 */
-	public static DataAdapterServiceUtil getInstance(JasperReportsContext jasperReportsContext)
-	{
-		return getInstance(new ParameterContributorContext(jasperReportsContext, null, null));
-	}
-	
-	
-	/**
 	 *
 	 */
 	public DataAdapterService getService(DataAdapter dataAdapter)
@@ -81,22 +72,6 @@ public final class DataAdapterServiceUtil
 		{
 			DataAdapterContributorFactory factory = it.next();
 			DataAdapterService service = factory.getDataAdapterService(paramContribContext, dataAdapter);
-			if (service != null)
-			{
-				return service;
-			}
-		}
-
-		@SuppressWarnings("deprecation")
-		List<DataAdapterServiceFactory> depBundles = jasperReportsContext.getExtensions(
-				DataAdapterServiceFactory.class);
-		for (@SuppressWarnings("deprecation")
-		Iterator<DataAdapterServiceFactory> it = depBundles.iterator(); it.hasNext();)
-		{
-			@SuppressWarnings("deprecation")
-			DataAdapterServiceFactory factory = it.next();
-			@SuppressWarnings("deprecation")
-			DataAdapterService service = factory.getDataAdapterService(jasperReportsContext, dataAdapter);
 			if (service != null)
 			{
 				return service;

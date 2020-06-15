@@ -52,6 +52,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 
 	private JRTemplatePrintFrame frame;
 	private List<Object> elements;
+	private int contentsWidth;
 	private JRVirtualizationContext virtualizationContext;
 	private JRVirtualPrintPage page;
 	private int virtualizationPageElementSize;
@@ -143,6 +144,17 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	public void setHeight(int height)
 	{
 		frame.setHeight(height);
+	}
+
+	@Override
+	public void setContentsWidth(int width)
+	{
+		this.contentsWidth = width;
+	}
+	
+	public int getContentsWidth()
+	{
+		return contentsWidth;
 	}
 	
 }

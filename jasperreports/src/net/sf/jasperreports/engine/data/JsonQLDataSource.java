@@ -54,7 +54,7 @@ import net.sf.jasperreports.repo.SimpleRepositoryContext;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonData {
+public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonData<JsonQLDataSource>, RandomAccessDataSource {
     private static final Log log = LogFactory.getLog(JsonQLDataSource.class);
 
     public static final String EXCEPTION_MESSAGE_KEY_NO_DATA = "data.json.no.data";
@@ -144,6 +144,26 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
 
         return false;
     }
+
+	@Override
+	public int recordCount() {
+		return nodes == null ? 0 : nodes.size();
+	}
+
+	@Override
+	public int currentIndex() {
+		return currentNodeIndex;
+	}
+
+	@Override
+	public void moveToRecord(int index) throws NoRecordAtIndexException {
+		if (nodes != null && index >= 0 && index < nodes.size()) {
+			 currentNodeIndex = index;
+			 currentJsonNode = nodes.get(index);
+		} else {
+			throw new NoRecordAtIndexException(index);
+		}
+	}
 
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {

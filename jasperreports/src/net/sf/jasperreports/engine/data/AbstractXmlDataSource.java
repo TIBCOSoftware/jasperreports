@@ -40,7 +40,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -118,7 +117,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * </p>
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> extends JRAbstractTextDataSource implements JRRewindableDataSource 
+public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> extends JRAbstractTextDataSource implements RandomAccessDataSource, HierarchicalDataSource<T> 
 {
 	/**
 	 * Property specifying the XPath expression for the dataset field.
@@ -216,6 +215,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	 * @throws JRException if the sub data source couldn't be created
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String)
 	 */
+	@Override
 	public abstract T subDataSource(String selectExpr) throws JRException;
 
 	/**
@@ -228,6 +228,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	 * @see JRXmlDataSource#subDataSource(String)
 	 * @see JRXmlDataSource#JRXmlDataSource(Document)
 	 */
+	@Override
 	public T subDataSource() throws JRException {
 		return subDataSource(".");
 	}

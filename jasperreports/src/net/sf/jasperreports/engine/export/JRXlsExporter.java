@@ -897,33 +897,42 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		String formula = getFormula(textElement);
 		String textStr = styledText.getText();
+		
+		XlsReportConfiguration configuration = getCurrentItemConfiguration();
+
+		TextValue value = null;
+		String pattern = null;
+		
+		if (
+			formula != null
+			|| configuration.isDetectCellType()
+			)
+		{
+			value = getTextValue(textElement, textStr);
+
+			if (value instanceof NumberTextValue)
+			{
+				pattern = ((NumberTextValue)value).getPattern();
+			}
+			else if (value instanceof DateTextValue)
+			{
+				pattern = ((DateTextValue)value).getPattern();
+			}
+		}
+
+		String convertedPattern = getConvertedPattern(textElement, pattern);
+		if (convertedPattern != null)
+		{
+			//FIXME: use localized Excel pattern
+			baseStyle.setDataFormat(
+				dataFormat.getFormat(convertedPattern)
+				);
+		}
+		
 		if (formula != null)
 		{
 			try
 			{
-				TextValue value = getTextValue(textElement, textStr);
-				
-				if (value instanceof NumberTextValue)
-				{
-					String convertedPattern = getConvertedPattern(textElement, ((NumberTextValue)value).getPattern());
-					if (convertedPattern != null)
-					{
-						baseStyle.setDataFormat(
-							dataFormat.getFormat(convertedPattern)
-							);
-					}
-				}
-				else if (value instanceof DateTextValue)
-				{
-					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
-					if (convertedPattern != null)
-					{
-						baseStyle.setDataFormat(
-							dataFormat.getFormat(convertedPattern)
-							);
-					}
-				}
-				
 				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 				
 				// the formula text will be stored in formulaCellsMap in order to be applied only after 
@@ -941,11 +950,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			}
 		}
 
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		
 		if (configuration.isDetectCellType())
 		{
-			TextValue value = getTextValue(textElement, textStr);
 			value.handle(new TextValueHandler()
 			{
 				@Override
@@ -973,15 +979,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				@Override
 				public void handle(NumberTextValue textValue)
 				{
-					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
-					if (convertedPattern != null)
-					{
-						//FIXME: use localized Excel pattern
-						baseStyle.setDataFormat(
-							dataFormat.getFormat(convertedPattern)
-							);
-					}
-
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getValue() == null)
 					{
@@ -1002,14 +999,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				@Override
 				public void handle(DateTextValue textValue)
 				{
-					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
-					if (convertedPattern != null)
-					{
-						//FIXME: use localized Excel pattern
-						baseStyle.setDataFormat(
-							dataFormat.getFormat(convertedPattern)
-							);
-					}
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					Date date = textValue.getValue();
 					if (date == null)

@@ -627,7 +627,7 @@
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
 											<textField textAdjust="StretchHeight">
-												<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="200" height="20" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d">
+												<reportElement x="0" y="0" width="200" height="20" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>

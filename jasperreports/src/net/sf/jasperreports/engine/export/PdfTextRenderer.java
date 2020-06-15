@@ -79,8 +79,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
 			pdfExporter.getPhrase(segment.as, segment.text, text),
-			//x + drawPosX + leftOffsetFactor * advance,// + leftPadding
-			x + drawPosX,
+			x + drawPosX + leftOffsetFactor * advance,// + leftPadding
 			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
 				- topPadding
@@ -88,8 +87,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 				//- text.getLeadingOffset()
 				+ lineHeight
 				- drawPosY,
-			//x + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,// + leftPadding
-			x + drawPosX + advance,
+			x + drawPosX + advance + rightOffsetFactor * advance,// + leftPadding
 			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
 				- topPadding

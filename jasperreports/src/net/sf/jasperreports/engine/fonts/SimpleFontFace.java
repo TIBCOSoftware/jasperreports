@@ -24,22 +24,17 @@
 package net.sf.jasperreports.engine.fonts;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 
@@ -183,38 +178,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 				|| upperCaseTtf.endsWith(".OTF")
 				)
 			{
-				InputStream is = null;
-				try
-				{
-					is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(ttf);
-				}
-				catch(JRException e)
-				{
-					throw new InvalidFontException(ttf, e);
-				}
-				
-				try
-				{
-					font = Font.createFont(Font.TRUETYPE_FONT, is);
-				}
-				catch(FontFormatException e)
-				{
-					throw new InvalidFontException(ttf, e);
-				}
-				catch(IOException e)
-				{
-					throw new InvalidFontException(ttf, e);
-				}
-				finally
-				{
-					try
-					{
-						is.close();
-					}
-					catch (IOException e)
-					{
-					}
-				}
+				font = AwtFontManager.instance().getAwtFont(jasperReportsContext, ttf);
 			}
 			else
 			{
@@ -286,5 +250,12 @@ public class SimpleFontFace implements FontFace, JRCloneable
 	{
 		this.woff = woff;
 	}
+	
+	@Override
+	protected void finalize()
+	{
+		AwtFontManager.instance().purgeFontFiles();
+	}
+	
 	
 }

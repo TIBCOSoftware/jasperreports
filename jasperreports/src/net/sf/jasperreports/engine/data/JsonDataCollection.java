@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRException;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonDataCollection<D extends JsonData> extends RewindableDataSourceCollection<D> implements JsonData
+public class JsonDataCollection<D extends JsonData<D>> extends RewindableDataSourceCollection<D> implements JsonData<D>
 {
 
 	public JsonDataCollection(List<? extends RewindableDataSourceProvider<D>> dataSources) throws JRException
@@ -41,13 +41,13 @@ public class JsonDataCollection<D extends JsonData> extends RewindableDataSource
 	}
 
 	@Override
-	public JsonData subDataSource() throws JRException
+	public D subDataSource() throws JRException
 	{
 		return currentDataSource.subDataSource();
 	}
 
 	@Override
-	public JsonData subDataSource(String selectExpression) throws JRException
+	public D subDataSource(String selectExpression) throws JRException
 	{
 		return currentDataSource.subDataSource(selectExpression);
 	}

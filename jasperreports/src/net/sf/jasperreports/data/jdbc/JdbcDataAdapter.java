@@ -23,9 +23,14 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
+import java.sql.Driver;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -33,6 +38,34 @@ import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
  */
 public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 {
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_13_0,
+			valueType = Boolean.class
+			)
+	String PROPERTY_DEFAULT_AUTO_COMMIT = JRPropertiesUtil.PROPERTY_PREFIX 
+			+ "jdbc.data.adapter.auto.commit";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_13_0,
+			valueType = Boolean.class
+			)
+	String PROPERTY_DEFAULT_READ_ONLY = JRPropertiesUtil.PROPERTY_PREFIX 
+			+ "jdbc.data.adapter.read.only";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_13_0,
+			valueType = TransactionIsolation.class
+			)
+	String PROPERTY_DEFAULT_TRANSACTION_ISOLATION = JRPropertiesUtil.PROPERTY_PREFIX 
+			+ "jdbc.data.adapter.transaction.isolation";
+	
 	public String getDatabase();
 	
 	public void setDatabase(String database);
@@ -61,7 +94,30 @@ public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 	
 	public void setServerAddress(String serverAddress);
 	
+	/**
+	 * Set the properties passed to the driver when creating connections.
+	 * 
+	 * @param properties the JDBC driver properties
+	 * @see Driver#connect(String, java.util.Properties) 
+	 */
 	public void setProperties(Map<String, String> properties);
 
+	/**
+	 * Returns the properties passed to the driver when creating connections.
+	 * 
+	 * @return JDBC driver properties
+	 */
 	public Map<String, String> getProperties();
+	
+	public Boolean getAutoCommit();
+	
+	public void setAutoCommit(Boolean autoCommit);
+	
+	public Boolean getReadOnly();
+	
+	public void setReadOnly(Boolean readOnly);
+	
+	public TransactionIsolation getTransactionIsolation();
+	
+	public void setTransactionIsolation(TransactionIsolation isolation);
 }

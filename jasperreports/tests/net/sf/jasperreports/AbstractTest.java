@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
@@ -42,7 +43,9 @@ import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -66,32 +69,45 @@ public abstract class AbstractTest
 	
 	private static final String TEST = "TEST";
 
+	private ITestContext testContext;
 	private JasperReportsContext jasperReportsContext;
 
 	@BeforeClass
-	public void init() throws JRException, IOException
+	public void init(ITestContext ctx) throws JRException, IOException
 	{
+		testContext = ctx;
 		jasperReportsContext = new SimpleJasperReportsContext();
 	}
 
+	@Test(dataProvider = "testArgs")
+	public void testReport(String folderName, String fileNamePrefix, String referenceFileNamePrefix) 
+			throws JRException, NoSuchAlgorithmException, IOException
+	{
+		runReport(folderName, fileNamePrefix, referenceFileNamePrefix);
+	}
+	
 	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, int maxFileNumber)
 	{
 		return runReportArgs(folderName, fileNamePrefix, fileNamePrefix, maxFileNumber);
 	}
 
-	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, String exportFileNamePrefix, int maxFileNumber)
+	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, String referenceFileNamePrefix, int maxFileNumber)
 	{
 		List<Object[]> args = new ArrayList<>(maxFileNumber);
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
-			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
-			String referenceFileNamePrefix = folderName + "/" + exportFileNamePrefix + "." + i + ".reference";
-			args.add(new Object[] {jrxmlFileName, referenceFileNamePrefix});
+			args.add(
+				new Object[] {
+					folderName, 
+					folderName + "/" + fileNamePrefix + "." + i + ".jrxml", 
+					folderName + "/" + referenceFileNamePrefix + "." + i
+					}
+				);
 		}
 		return args.toArray(new Object[args.size()][]);
 	}
 
-	protected void runReport(String jrxmlFileName, String referenceFileNamePrefix) 
+	protected void runReport(String folderName, String jrxmlFileName, String referenceFileNamePrefix) 
 			throws JRException, IOException, NoSuchAlgorithmException, FileNotFoundException
 	{
 		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
@@ -112,12 +128,13 @@ public abstract class AbstractTest
 				
 				assert !print.getPages().isEmpty();
 				
-				String exportDigest = getExportDigest(print);
+				String exportDigest = getExportDigest(referenceFileNamePrefix, print);
 				log.debug("Plain report got " + exportDigest);
 				
 				boolean digestMatch = false;
 
-				String referenceExportDigest = getFileDigest(referenceFileNamePrefix + "." + getExportFileExtension());
+				String referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + "." + getExportFileExtension() + ".sha");
+				
 				if (exportDigest.equals(referenceExportDigest))
 				{
 					digestMatch = true;
@@ -125,7 +142,7 @@ public abstract class AbstractTest
 				else
 				{
 					//fallback to account for JDK differences
-					referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".2." + getExportFileExtension());
+					referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + ".2." + getExportFileExtension() + ".sha");
 					if (referenceExportDigest != null)
 					{
 						digestMatch = exportDigest.equals(referenceExportDigest);
@@ -141,7 +158,7 @@ public abstract class AbstractTest
 		}
 		catch (Throwable t)
 		{
-			String referenceErrorDigest = getFileDigest(referenceFileNamePrefix + ".err");
+			String referenceErrorDigest = getDigestFromFile(referenceFileNamePrefix + ".err.sha");
 			if (referenceErrorDigest == null)
 			{
 				log.error("Report " + jrxmlFileName + " failed", t);
@@ -198,7 +215,7 @@ public abstract class AbstractTest
 		return JasperCompileManager.compileReport(design);
 	}
 
-	protected String getFileDigest(String fileName) throws JRException, NoSuchAlgorithmException
+	protected String getDigestFromFile(String fileName) throws JRException
 	{
 		URL resourceURL = JRResourcesUtil.findClassLoaderResource(fileName, null);
 		if (resourceURL == null)
@@ -208,17 +225,30 @@ public abstract class AbstractTest
 		}
 		
 		byte[] bytes = JRLoader.loadBytes(resourceURL);
-		MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-		messageDigest.update(bytes);
-		String digest = toDigestString(messageDigest);
+		String digest = null;
+		try
+		{
+			digest = new String(bytes, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new JRException(e);
+		}
 		log.debug("Reference report digest is " + digest + " for " + fileName);
 		return digest;
 	}
 	
-	protected String getExportDigest(JasperPrint print) 
+	protected String getExportDigest(String referenceFileNamePrefix, JasperPrint print) 
 			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
-		File outputFile = createTmpOutputFile(getExportFileExtension());
+		File outputFile = new File(new File(testContext.getOutputDirectory()), referenceFileNamePrefix + "." + getExportFileExtension());
+		File outputDir = outputFile.getParentFile();
+		
+		if (!outputDir.exists())
+		{
+			outputDir.mkdirs();
+		}
+		
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -233,7 +263,21 @@ public abstract class AbstractTest
 			output.close();
 		}
 		
-		return toDigestString(digest);
+		String digestSha = toDigestString(digest);
+		
+		File outputShaFile = new File(new File(testContext.getOutputDirectory()), referenceFileNamePrefix + "." + getExportFileExtension() + ".sha");
+		OutputStreamWriter shaWriter = new OutputStreamWriter(new FileOutputStream(outputShaFile), "UTF-8");
+
+		try
+		{
+			shaWriter.write(digestSha);
+		}
+		finally 
+		{
+			shaWriter.close();
+		}
+		
+		return digestSha;
 	}
 
 	protected String errExportDigest(Throwable t) 

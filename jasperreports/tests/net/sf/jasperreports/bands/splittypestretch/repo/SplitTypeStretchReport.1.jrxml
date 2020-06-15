@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SplitTypeStretchReport.1" orientation="Landscape" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1951f7e6-f9e5-481d-94a6-ddc3db1e1d41">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"/>
+	<parameter name="TXT" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec."]]></defaultValueExpression>
+	</parameter>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="0" width="65" height="20" uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$P{TXT}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="80" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="5" width="65" height="30" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" backcolor="yellow"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["2ND DETAIL BAND"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="40" width="65" height="35" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" backcolor="cyan"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["2ND DETAIL BAND"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

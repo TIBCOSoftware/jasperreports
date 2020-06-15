@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * This is a modified version of the JRXmlExporter class, which produces an XML document that is used by the Flash viewer.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class JRXml4SwfExporter extends JRXmlExporter
 {

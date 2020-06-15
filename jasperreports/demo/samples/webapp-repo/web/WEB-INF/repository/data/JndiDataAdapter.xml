@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jndiDataAdapter class="net.sf.jasperreports.data.jndi.JndiDataAdapterImpl">
-	<name>jndi</name>
-	<dataSourceName>jdbc/myDataSource</dataSourceName>
-</jndiDataAdapter>
