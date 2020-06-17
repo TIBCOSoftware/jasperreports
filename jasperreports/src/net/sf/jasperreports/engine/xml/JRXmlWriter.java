@@ -1426,11 +1426,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.writeExpression(JRXmlConstants.ELEMENT_patternExpression, textField.getPatternExpression());
 		}
+		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
 		if(isNewerVersionOrEqual(JRConstants.VERSION_6_13_0))
 		{
 			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, textField.getBookmarkLevelExpression(), false);
 		}
-		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, textField.getHyperlinkWhenExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, textField.getHyperlinkAnchorExpression(), false);
@@ -1578,11 +1578,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 
+		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
 		if(isNewerVersionOrEqual(JRConstants.VERSION_6_13_0))
 		{
 			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, chart.getBookmarkLevelExpression(), false);
 		}
-		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, chart.getHyperlinkReferenceExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, chart.getHyperlinkWhenExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, chart.getHyperlinkAnchorExpression(), false);
