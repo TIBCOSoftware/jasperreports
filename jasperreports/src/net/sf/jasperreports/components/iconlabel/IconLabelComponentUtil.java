@@ -218,6 +218,7 @@ public class IconLabelComponentUtil
 			labelTextField.setPatternExpression(textField.getPatternExpression());
 			labelTextField.setBookmarkLevel(textField.getBookmarkLevel());
 			labelTextField.setAnchorNameExpression(textField.getAnchorNameExpression());
+			labelTextField.setBookmarkLevelExpression(textField.getBookmarkLevelExpression());
 			labelTextField.setEvaluationTime(textField.getEvaluationTimeValue());
 			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
 		}

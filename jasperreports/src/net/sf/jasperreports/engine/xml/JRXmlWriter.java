@@ -1306,6 +1306,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeExpression(JRXmlConstants.ELEMENT_imageExpression, image.getExpression(), true);
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, image.getAnchorNameExpression(), false);
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_13_0))
+		{
+			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, image.getBookmarkLevelExpression(), false);
+		}
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, image.getHyperlinkReferenceExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, image.getHyperlinkWhenExpression(), false);//FIXMENOW can we reuse method for writing hyperlink?
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, image.getHyperlinkAnchorExpression(), false);
@@ -1421,6 +1425,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		if(isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
 		{
 			writer.writeExpression(JRXmlConstants.ELEMENT_patternExpression, textField.getPatternExpression());
+		}
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_13_0))
+		{
+			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, textField.getBookmarkLevelExpression(), false);
 		}
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression(), false);
@@ -1570,6 +1578,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeFont(chart.getLegendFont());
 		writer.closeElement();
 
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_13_0))
+		{
+			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, chart.getBookmarkLevelExpression(), false);
+		}
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chart.getAnchorNameExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, chart.getHyperlinkReferenceExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, chart.getHyperlinkWhenExpression(), false);

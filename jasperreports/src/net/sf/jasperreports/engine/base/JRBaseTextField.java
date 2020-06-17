@@ -77,6 +77,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected JRExpression expression;
 	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
+	protected JRExpression bookmarkLevelExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -108,6 +109,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		expression = factory.getExpression(textField.getExpression());
 		patternExpression = factory.getExpression(textField.getPatternExpression());
 		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
+		bookmarkLevelExpression = factory.getExpression(textField.getBookmarkLevelExpression());
 		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
 		hyperlinkWhenExpression = factory.getExpression(textField.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
@@ -248,6 +250,12 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	{
 		return this.anchorNameExpression;
 	}
+	
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return this.bookmarkLevelExpression;
+	}
 
 	@Override
 	public JRExpression getHyperlinkReferenceExpression()
@@ -327,6 +335,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.patternExpression = JRCloneUtils.nullSafeClone(patternExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.bookmarkLevelExpression = JRCloneUtils.nullSafeClone(bookmarkLevelExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
 		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);

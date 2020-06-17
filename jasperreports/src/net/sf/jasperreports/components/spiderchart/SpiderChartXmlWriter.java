@@ -190,6 +190,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writer.closeElement();
 
 		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getAnchorNameExpression(), false, writer);
+		writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getBookmarkLevelExpression(), false, writer);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkReferenceExpression(), false, writer);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkWhenExpression(), false, writer);
 		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkAnchorExpression(), false, writer);

@@ -147,6 +147,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	protected JRExpression titleExpression;
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
+	protected JRExpression bookmarkLevelExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -296,6 +297,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 		titleExpression = factory.getExpression(chart.getTitleExpression());
 		subtitleExpression = factory.getExpression(chart.getSubtitleExpression());
+		bookmarkLevelExpression = factory.getExpression(chart.getBookmarkLevelExpression());
 		anchorNameExpression = factory.getExpression(chart.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());
 		hyperlinkWhenExpression = factory.getExpression(chart.getHyperlinkWhenExpression());
@@ -490,6 +492,12 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return bookmarkLevelExpression;
+	}
+	
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return anchorNameExpression;
@@ -646,6 +654,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		clone.titleExpression = JRCloneUtils.nullSafeClone(titleExpression);
 		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.bookmarkLevelExpression = JRCloneUtils.nullSafeClone(bookmarkLevelExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
 		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);

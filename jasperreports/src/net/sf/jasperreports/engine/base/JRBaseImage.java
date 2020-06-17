@@ -99,6 +99,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected JRGroup evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression anchorNameExpression;
+	protected JRExpression bookmarkLevelExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -149,6 +150,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 		expression = factory.getExpression(image.getExpression());
 		anchorNameExpression = factory.getExpression(image.getAnchorNameExpression());
+		bookmarkLevelExpression = factory.getExpression(image.getBookmarkLevelExpression());
 		hyperlinkReferenceExpression = factory.getExpression(image.getHyperlinkReferenceExpression());
 		hyperlinkWhenExpression = factory.getExpression(image.getHyperlinkWhenExpression());
 		hyperlinkAnchorExpression = factory.getExpression(image.getHyperlinkAnchorExpression());
@@ -370,6 +372,13 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	{
 		return anchorNameExpression;
 	}
+	
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return bookmarkLevelExpression;
+	}
+	
 
 	@Override
 	public JRExpression getHyperlinkReferenceExpression()
@@ -457,6 +466,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		clone.hyperlinkParameters = JRCloneUtils.cloneArray(hyperlinkParameters);
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.bookmarkLevelExpression = JRCloneUtils.nullSafeClone(bookmarkLevelExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
 		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);

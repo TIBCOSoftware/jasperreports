@@ -89,6 +89,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	private String anchorName;
+	private Integer bookmarkLevel;
 	private String hyperlinkReference;
 	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
@@ -321,6 +322,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		return ((JRTextField)parent).getPatternExpression();
 	}
+	
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return ((JRTextField)parent).getBookmarkLevelExpression();
+	}
+	
 
 	@Override
 	public JRExpression getAnchorNameExpression()
@@ -596,6 +604,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			(crtRawText != null && crtRawText.equals(newRawText))
 			);
 
+		bookmarkLevel = (Integer) evaluateExpression(getBookmarkLevelExpression(), evaluation);
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
@@ -899,7 +908,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 //			text.setHeight(getHeight());
 //		}
 		text.setRunDirection(getRunDirectionValue());
-		text.setBookmarkLevel(getBookmarkLevel());
+//		text.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -934,6 +943,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		setPrintText(text);
 
 		text.setAnchorName(getAnchorName());
+		text.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			text.setHyperlinkReference(getHyperlinkReference());
@@ -1057,7 +1067,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	public int getBookmarkLevel()
 	{
-		return ((JRTextField)parent).getBookmarkLevel();
+		return bookmarkLevel == null ? ((JRTextField) parent).getBookmarkLevel() : bookmarkLevel;
 	}
 
 
@@ -1074,6 +1084,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getPatternExpression());
+		collectDelayedEvaluations(getBookmarkLevelExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkWhenExpression());
