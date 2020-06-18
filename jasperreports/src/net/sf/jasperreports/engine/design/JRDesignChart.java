@@ -523,6 +523,16 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		return bookmarkLevelExpression;
 	}
 
+	/**
+	 *
+	 */
+	public void setBookmarkLevelExpression(JRExpression bookmarkLevelExpression)
+	{
+		Object old = this.bookmarkLevelExpression;
+		this.bookmarkLevelExpression = bookmarkLevelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL_EXPRESSION, old, this.bookmarkLevelExpression);
+	}
+
 	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
