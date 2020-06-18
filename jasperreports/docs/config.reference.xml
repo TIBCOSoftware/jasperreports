@@ -3135,45 +3135,6 @@ If this property is zero or negative, buffered images will never be used to rend
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts -->
-  
-  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts">
-    <description>
-A property that specifies the number of times the measurer should attempt 
-to measure a single text element before giving up.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace -->
-  
-  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace">
-    <description>
-A property that specifies whether <code>java.lang.NullPointer</code> exceptions with empty stacktraces 
-should be caught.
-<br/>
-This is useful when running on a Sun server JVM (java -server), which might omit 
-exception stacktraces in some cases.
-<br/>
-<b>Deprecated</b>, replaced by <a href="#net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace">net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace</a>
-which corrects the typo in the property name.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace -->
-  
-  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace">
-    <description>
-A property that specifies whether <code>java.lang.NullPointer</code> exceptions with empty stacktraces 
-should be caught.
-<br/>
-This is useful when running on a Sun server JVM (java -server), which might omit 
-exception stacktraces in some cases.
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.measure.simple.text -->
   
   <configProperty name="net.sf.jasperreports.measure.simple.text">
