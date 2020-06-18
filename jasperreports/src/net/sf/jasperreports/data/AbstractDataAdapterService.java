@@ -36,13 +36,19 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
 public abstract class AbstractDataAdapterService implements DataAdapterService
 {
 	public static final String SECRETS_CATEGORY = "net.sf.jasperreports.data.adapter";
-	/**
-	 *
-	 */
+
 	private final ParameterContributorContext paramContribContext;
 	private String name;
 	private DataAdapter dataAdapter;
 
+ 	/**
+	 * @deprecated Replaced by {@link #AbstractDataAdapterService(ParameterContributorContext, DataAdapter)}.
+	 */
+	protected AbstractDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
+	{
+		this(new ParameterContributorContext(jasperReportsContext, null, null), dataAdapter);
+	}
+	  
 	/**
 	 *
 	 */
