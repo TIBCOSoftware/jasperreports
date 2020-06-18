@@ -21,13 +21,14 @@
 		<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		<groupHeader>
 			<band height="20">
-				<textField evaluationTime="Group" evaluationGroup="CityGroup" bookmarkLevel="1">
+				<textField evaluationTime="Group" evaluationGroup="CityGroup">
 					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0" uuid="3ba60404-f3fd-4ed7-a6b2-c9498e15ff84"/>
 					<box leftPadding="10">
 						<bottomPen lineWidth="1.0"/>
 					</box>
 					<textFieldExpression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 					<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
+					<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -51,13 +52,14 @@
 			<line>
 				<reportElement x="0" y="0" width="515" height="1" uuid="f6007cc5-20a4-4dc4-9913-91bee5e2d9ef"/>
 			</line>
-			<textField isBlankWhenNull="true" bookmarkLevel="1">
+			<textField isBlankWhenNull="true">
 				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="9d3b99d4-d14d-457b-ab2f-35da1dccad2e"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+				<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20" uuid="3c9d0ef5-a586-4cc2-b102-5df461e51201"/>
@@ -87,7 +89,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<textField bookmarkLevel="2">
+			<textField>
 				<reportElement x="0" y="0" width="50" height="15" uuid="ce60da72-86be-4049-8cae-bedb9ad62746"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
@@ -96,6 +98,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
+				<bookmarkLevelExpression><![CDATA[2]]></bookmarkLevelExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="056f29cf-86bf-4f0c-87e5-fdfa70054e35"/>
@@ -134,13 +137,14 @@
 	</pageFooter>
 	<lastPageFooter>
 		<band height="60">
-			<textField bookmarkLevel="1">
+			<textField bookmarkLevel="2">
 				<reportElement x="0" y="10" width="515" height="15" uuid="8aacdf2b-4aad-40a4-a0b7-adaa73bcd938"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" address records on this report."]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
+				<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="30" width="515" height="1" uuid="ade1242b-914a-4ceb-bc11-66ecc903cdab"/>

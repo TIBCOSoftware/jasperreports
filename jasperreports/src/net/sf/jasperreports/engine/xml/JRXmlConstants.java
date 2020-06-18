@@ -305,6 +305,9 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_customizerClass = "customizerClass";
 	public static final String ATTRIBUTE_renderType = "renderType";
 	public static final String ATTRIBUTE_theme = "theme";
+	
+	public static final String ELEMENT_bookmarkLevelExpression = "bookmarkLevelExpression";
+
 
 	/**
 	 * JRChartAxisFormatFactory associated constants

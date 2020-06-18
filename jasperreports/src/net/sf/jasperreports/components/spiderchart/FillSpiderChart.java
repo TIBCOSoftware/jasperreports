@@ -117,6 +117,11 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		titleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation));
 		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
 		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
+		bookmarkLevel = (Integer)(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
+		if(bookmarkLevel == null)
+		{
+			bookmarkLevel = getChartSettings().getBookmarkLevel();
+		}
 		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));
 		hyperlinkWhen = (Boolean)fillContext.evaluate(getChartSettings().getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation));
@@ -232,6 +237,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	{
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 		if (getChartSettings().getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());

@@ -486,6 +486,9 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/anchorNameExpression", depStringExprFactoryClass.getName());
 		digester.addSetNext("*/anchorNameExpression", "setAnchorNameExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/anchorNameExpression", "setText", 0);
+		digester.addFactoryCreate("*/bookmarkLevelExpression", depStringExprFactoryClass.getName());
+		digester.addSetNext("*/bookmarkLevelExpression", "setBookmarkLevelExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/bookmarkLevelExpression", "setText", 0);
 		digester.addFactoryCreate("*/hyperlinkReferenceExpression", depStringExprFactoryClass.getName());
 		digester.addSetNext("*/hyperlinkReferenceExpression", "setHyperlinkReferenceExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/hyperlinkReferenceExpression", "setText", 0);

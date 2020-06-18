@@ -97,6 +97,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	
 	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
 	
+	public static final String PROPERTY_BOOKMARK_LEVEL_EXPRESSION = "bookmarkLevelExpression";
+	
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
@@ -154,6 +156,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRExpression titleExpression;
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
+	protected JRExpression bookmarkLevelExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -512,6 +515,22 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		Object old = this.anchorNameExpression;
 		this.anchorNameExpression = anchorNameExpression;
 		getEventSupport().firePropertyChange(PROPERTY_ANCHOR_NAME_EXPRESSION, old, this.anchorNameExpression);
+	}
+
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return bookmarkLevelExpression;
+	}
+
+	/**
+	 *
+	 */
+	public void setBookmarkLevelExpression(JRExpression bookmarkLevelExpression)
+	{
+		Object old = this.bookmarkLevelExpression;
+		this.bookmarkLevelExpression = bookmarkLevelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL_EXPRESSION, old, this.bookmarkLevelExpression);
 	}
 
 	@Override
@@ -932,6 +951,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		clone.titleExpression = JRCloneUtils.nullSafeClone(titleExpression);
 		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.bookmarkLevelExpression = JRCloneUtils.nullSafeClone(bookmarkLevelExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
 		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
