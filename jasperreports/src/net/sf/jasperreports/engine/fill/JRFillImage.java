@@ -91,6 +91,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private Integer imageHeight;
 	private Integer imageWidth;
 	private Integer imageX;
+	private Integer bookmarkLevel;
 	private String anchorName;
 	private String hyperlinkReference;
 	private Boolean hyperlinkWhen;
@@ -317,6 +318,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getExpression();
 	}
 
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return ((JRImage)this.parent).getBookmarkLevelExpression();
+	}
+	
 	@Override
 	public JRExpression getAnchorNameExpression()
 	{
@@ -615,6 +622,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		setValueRepeating(crtRenderer == newRenderer);
 		
+		this.bookmarkLevel = (Integer) evaluateExpression(this.getBookmarkLevelExpression(), evaluation);
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkWhen = (Boolean) evaluateExpression(this.getHyperlinkWhenExpression(), evaluation);
@@ -993,7 +1001,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setY(this.getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
-		printImage.setBookmarkLevel(getBookmarkLevel());
+//		printImage.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -1030,6 +1038,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
@@ -1128,7 +1137,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	@Override
 	public int getBookmarkLevel()
 	{
-		return ((JRImage)this.parent).getBookmarkLevel();
+		return this.bookmarkLevel == null ? ((JRImage)this.parent).getBookmarkLevel() : this.bookmarkLevel;
 	}
 
 
@@ -1145,6 +1154,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		super.collectDelayedEvaluations();
 		
 		collectDelayedEvaluations(getExpression());
+		collectDelayedEvaluations(getBookmarkLevelExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkWhenExpression());

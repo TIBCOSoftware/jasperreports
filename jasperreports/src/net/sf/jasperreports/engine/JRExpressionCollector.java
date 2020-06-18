@@ -867,6 +867,7 @@ public class JRExpressionCollector
 	private void collectAnchor(JRAnchor anchor)
 	{
 		addExpression(anchor.getAnchorNameExpression());
+		addExpression(anchor.getBookmarkLevelExpression());
 	}
 
 

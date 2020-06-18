@@ -160,6 +160,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	protected Renderable renderer;
 	private String anchorName;
+	private Integer bookmarkLevel;
 	private String hyperlinkReference;
 	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
@@ -637,6 +638,12 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		return ((JRChart)parent).getAnchorNameExpression();
 	}
+	
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return ((JRChart)parent).getBookmarkLevelExpression();
+	}
 
 	@Override
 	public JRExpression getHyperlinkReferenceExpression()
@@ -853,6 +860,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
+		bookmarkLevel = (Integer) evaluateExpression(getBookmarkLevelExpression(), evaluation);
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
@@ -997,6 +1005,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
@@ -1413,7 +1422,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	@Override
 	public int getBookmarkLevel()
 	{
-		return ((JRChart)parent).getBookmarkLevel();
+		return this.bookmarkLevel == null ? ((JRChart)parent).getBookmarkLevel() : this.bookmarkLevel;
 	}
 
 	@Override

@@ -2466,6 +2466,7 @@
     <element ref="jr:graphicElement" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:imageExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bookmarkLevelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
@@ -3179,6 +3180,14 @@ This can be useful when, for instance, a border has to be drawn around the image
   </complexType>
  </element>
 
+ <element name="bookmarkLevelExpression">
+  <annotation>
+   <documentation>If specified, it will supply the bookmark level for the corresponding element. This setting overrides the bookmarkLevel attribute of the element.</documentation>
+  </annotation>
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
  <element name="anchorNameExpression">
   <annotation>
    <documentation>If specified, it will supply the name of the local anchor that will mark to the corresponding element.</documentation>
@@ -3568,6 +3577,7 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:textFieldExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:patternExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bookmarkLevelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
@@ -4002,6 +4012,7 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bookmarkLevelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>

@@ -77,6 +77,8 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	
 	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
 	
+	public static final String PROPERTY_BOOKMARK_LEVEL_EXPRESSION = "bookmarkLevelExpression";
+	
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
@@ -109,6 +111,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	protected JRGroup evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression anchorNameExpression;
+	protected JRExpression bookmarkLevelExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkWhenExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -279,6 +282,12 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return this.bookmarkLevelExpression;
+	}
+
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return hyperlinkReferenceExpression;
@@ -406,6 +415,16 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		Object old = this.anchorNameExpression;
 		this.anchorNameExpression = anchorNameExpression;
 		getEventSupport().firePropertyChange(PROPERTY_ANCHOR_NAME_EXPRESSION, old, this.anchorNameExpression);
+	}
+
+	/**
+	 *
+	 */
+	public void setBookmarkLevelExpression(JRExpression bookmarkLevelExpression)
+	{
+		Object old = this.bookmarkLevelExpression;
+		this.bookmarkLevelExpression = bookmarkLevelExpression;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL_EXPRESSION, old, this.bookmarkLevelExpression);
 	}
 
 	/**
@@ -642,6 +661,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		clone.hyperlinkParameters = JRCloneUtils.cloneList(hyperlinkParameters);
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.bookmarkLevelExpression = JRCloneUtils.nullSafeClone(bookmarkLevelExpression);
 		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
 		clone.hyperlinkWhenExpression = JRCloneUtils.nullSafeClone(hyperlinkWhenExpression);
 		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
