@@ -51,9 +51,8 @@ public interface JRAnchor
 	
 	
 	/**
-	 * Returns an expression whose value represents the bookmark level (starting from 1) corresponding to this anchor, 
-	 * or {@link #NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created. 
-	 * When the expression is set, it will override the value of the bookmarkLevel attribute.
+	 * Returns an expression whose value represents the bookmark level (starting from 1) corresponding to this anchor. 
+	 * When the expression is set and its value is not null, it will override the value of the bookmarkLevel attribute.
 	 */
 	public JRExpression getBookmarkLevelExpression();
 
