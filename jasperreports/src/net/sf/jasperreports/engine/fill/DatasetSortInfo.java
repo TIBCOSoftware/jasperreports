@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
@@ -86,6 +87,7 @@ public class DatasetSortInfo
 		}
 	}
 	
+	private JRDataSource originalDataSource;
 	private List<RecordField> recordFields = new ArrayList<RecordField>();
 	private List<SortFieldInfo> sortFields = new ArrayList<SortFieldInfo>();
 
@@ -117,6 +119,16 @@ public class DatasetSortInfo
 	public List<RecordField> getRecordFields()
 	{
 		return recordFields;
+	}
+
+	public JRDataSource getOriginalDataSource()
+	{
+		return originalDataSource;
+	}
+
+	public void setOriginalDataSource(JRDataSource originalDataSource)
+	{
+		this.originalDataSource = originalDataSource;
 	}
 
 }

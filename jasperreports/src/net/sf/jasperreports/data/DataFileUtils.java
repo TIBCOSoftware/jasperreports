@@ -26,7 +26,6 @@ package net.sf.jasperreports.data;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
@@ -40,28 +39,12 @@ public class DataFileUtils
 		return new DataFileUtils(paramContribContext);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #instance(ParameterContributorContext)}.
-	 */
-	public static DataFileUtils instance(JasperReportsContext jasperReportsContext)
-	{
-		return new DataFileUtils(jasperReportsContext);
-	}
-	
 	private final ParameterContributorContext paramContribContext;
 
 	protected DataFileUtils(ParameterContributorContext paramContribContext)
 	{
 		super();
 		this.paramContribContext = paramContribContext;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #DataFileUtils(ParameterContributorContext)}.
-	 */
-	protected DataFileUtils(JasperReportsContext jasperReportsContext)
-	{
-		this(new ParameterContributorContext(jasperReportsContext, null, null));
 	}
 	
 	public DataFileConnection createConnection(DataFile dataFile, Map<String, Object> parameters) throws JRException

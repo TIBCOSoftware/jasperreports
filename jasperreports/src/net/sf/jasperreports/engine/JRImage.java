@@ -143,20 +143,6 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 
 	/**
 	 * Indicates if the engine is loading the current image from cache.
-	 * Implementations of this method rely on default values that depend on the type of the image expression
-	 * if a value was not explicitly set of this flag.
-	 * @return true if the image should be loaded from cache, false otherwise
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	public boolean isUsingCache();
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	public Boolean isOwnUsingCache();
-
-	/**
-	 * Indicates if the engine is loading the current image from cache.
 	 * Implementations of this method return the actual value for the internal flag that was explicitly 
 	 * set on this image element.
 	 * @return Boolean.TRUE if the image should be loaded from cache, Boolean.FALSE otherwise 

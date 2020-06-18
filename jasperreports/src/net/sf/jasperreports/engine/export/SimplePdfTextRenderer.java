@@ -179,6 +179,13 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 
 
 	@Override
+	protected AttributedString getAttributedString()
+	{
+		return styledText.getAttributedString();
+	}
+
+
+	@Override
 	public void draw()
 	{
 		//nothing to do

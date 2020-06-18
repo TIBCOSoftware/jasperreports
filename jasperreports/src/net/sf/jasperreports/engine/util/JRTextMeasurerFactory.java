@@ -33,8 +33,7 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRTextMeasurer
  */
-@SuppressWarnings("deprecation")
-public interface JRTextMeasurerFactory extends net.sf.jasperreports.engine.fill.JRTextMeasurerFactory
+public interface JRTextMeasurerFactory
 {
 
 	/**

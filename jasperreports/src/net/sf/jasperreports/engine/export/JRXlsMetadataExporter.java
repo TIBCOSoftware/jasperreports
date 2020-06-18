@@ -859,25 +859,32 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				formula = getFormula(textElement);
 			}
 			
-			if (formula != null) {	
-				TextValue value = getTextValue(textElement, textStr);
-				
+			TextValue value = null;
+			String pattern = null;
+
+			if (
+				formula != null
+				|| configuration.isDetectCellType()
+				) 
+			{
+				value = getTextValue(textElement, textStr);
+
 				if (value instanceof NumberTextValue) {
-					String convertedPattern = getConvertedPattern(textElement, ((NumberTextValue)value).getPattern());
-					if (convertedPattern != null) {
-						baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
-					}
+					pattern = ((NumberTextValue)value).getPattern();
 				} else if (value instanceof DateTextValue) {
-					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
-					if (convertedPattern != null) {
-						baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
-					}
+					pattern = ((DateTextValue)value).getPattern();
 				}
-				
+			}
+
+			String convertedPattern = getConvertedPattern(textElement, pattern);
+			if (convertedPattern != null) {
+				baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
+			}
+			
+			if (formula != null) {	
 				cellSettings.importValues(CellType.FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
-			} else if (getCurrentItemConfiguration().isDetectCellType()) {
-				TextValue value = getTextValue(textElement, textStr);
+			} else if (configuration.isDetectCellType()) {
 				value.handle(new TextValueHandler() {
 					@Override
 					public void handle(StringTextValue textValue) {
@@ -890,10 +897,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 					@Override
 					public void handle(NumberTextValue textValue) {
-						String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
-						if (convertedPattern != null) {
-							baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
-						}
 						Number value = null;
 						if (hasCurrentColumnData) {
 							if (textStr != null) {
@@ -920,10 +923,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 					@Override
 					public void handle(DateTextValue textValue) {
-						String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
-						if(convertedPattern != null) {
-							baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
-						}
 						Date value = null;
 						if (hasCurrentColumnData) {
 							if (textStr != null) {

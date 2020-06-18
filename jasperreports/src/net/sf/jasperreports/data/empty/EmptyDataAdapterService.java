@@ -29,7 +29,6 @@ import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
@@ -44,14 +43,6 @@ public class EmptyDataAdapterService extends AbstractDataAdapterService
 	public EmptyDataAdapterService(ParameterContributorContext paramContribContext, EmptyDataAdapter emptyDataAdapter)
 	{
 		super(paramContribContext, emptyDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #EmptyDataAdapterService(ParameterContributorContext, EmptyDataAdapter)}.
-	 */
-	public EmptyDataAdapterService(JasperReportsContext jasperReportsContext, EmptyDataAdapter emptyDataAdapter)
-	{
-		super(jasperReportsContext, emptyDataAdapter);
 	}
 	
 	public EmptyDataAdapter getEmptyDataAdapter()

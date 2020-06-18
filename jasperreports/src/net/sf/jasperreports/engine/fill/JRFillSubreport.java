@@ -157,6 +157,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	protected JRBaseFiller subreportFiller;
 	protected FillerSubreportParent subFillerParent;
 	protected JRPrintPage printPage;
+	private int printPageContentsWidth;
 
 	private JRSubreportRunner runner;
 	
@@ -187,7 +188,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		checkedReports = new HashSet<JasperReport>();
 		
 		this.defaultGenerateRectangle = filler.getPropertiesUtil().getProperty( 
-				PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getMainDataset());
+			PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getJasperReport()); // property expression does not work, 
+			// but even if we would call filler.getMainDataset(), it would be too early as it is null here for subreport elements placed in group bands
 		this.dynamicGenerateRectangle = hasDynamicProperty(PROPERTY_SUBREPORT_GENERATE_RECTANGLE);
 	}
 
@@ -321,6 +323,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return printElements;
 	}
 
+	protected int getPrintContentsWidth()
+	{
+		return printPageContentsWidth;
+	}
+	
 	public void subreportPageFilled()
 	{
 		if (printPage != null)
@@ -618,7 +625,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					);
 		}
 		
-		subFillerParent = new FillerSubreportParent(this, evaluator);
+		subFillerParent = createFillerParent(evaluator);
 
 		switch (jasperReport.getPrintOrderValue())
 		{
@@ -644,6 +651,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		subreportFiller.mainDataset.setCacheSkipped(!cacheIncluded);
 	}
 
+	protected FillerSubreportParent createFillerParent(DatasetExpressionEvaluator evaluator) throws JRException
+	{
+		return new FillerSubreportParent(this, evaluator);
+	}
+	
 	/**
 	 * Utility method used for constructing a parameter values map for subreports, sub datasets and crosstabs.
 	 * 
@@ -933,6 +945,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			else
 			{
 				printPage = null;
+				printPageContentsWidth = 0;
 				setPrepareHeight(getHeight());
 				setToPrint(false);
 
@@ -974,6 +987,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
+			printPageContentsWidth = subreportFiller.getCurrentPageContentsWidth();
 			setPrepareHeight(result.hasFinished() ? subFillerParent.getCurrentPageStretchHeight() : pageHeight);
 
 			//if the subreport fill thread has not finished, 

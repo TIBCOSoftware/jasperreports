@@ -29,7 +29,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 
@@ -46,14 +45,6 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 	public AbstractClasspathAwareDataAdapterService(ParameterContributorContext paramContribContext, ClasspathAwareDataAdapter dataAdapter) 
 	{
 		super(paramContribContext, dataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #AbstractClasspathAwareDataAdapterService(ParameterContributorContext, ClasspathAwareDataAdapter)}.
-	 */
-	public AbstractClasspathAwareDataAdapterService(JasperReportsContext jasperReportsContext, ClasspathAwareDataAdapter dataAdapter) 
-	{
-		super(jasperReportsContext, dataAdapter);
 	}
 
 	/**

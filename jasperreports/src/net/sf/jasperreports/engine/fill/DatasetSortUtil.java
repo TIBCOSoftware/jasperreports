@@ -139,6 +139,7 @@ public class DatasetSortUtil
 	private static DatasetSortInfo createSortInfo(JRFillDataset dataset) throws JRException
 	{
 		DatasetSortInfo sortInfo = new DatasetSortInfo();
+		sortInfo.setOriginalDataSource(dataset.dataSource);
 
 		Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
 		Map<String, Integer> fieldIndexMap = new HashMap<String, Integer>();

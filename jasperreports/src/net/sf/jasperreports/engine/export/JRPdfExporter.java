@@ -84,6 +84,7 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFormField;
+import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
@@ -590,6 +591,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private Map<String, RadioCheckField> radioFieldFactories;
 	private Map<String, PdfFormField> radioGroups;
 
+	private PdfGState[] fillAlphaStates = new PdfGState[256];
+	private boolean fillAlphaSet = false;
+	private PdfGState[] strokeAlphaStates = new PdfGState[256];
+	private boolean strokeAlphaSet = false;
+	
 	/**
 	 * @see #JRPdfExporter(JasperReportsContext)
 	 */
@@ -1302,7 +1308,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		float lineWidth = line.getLinePen().getLineWidth(); 
 		if (lineWidth > 0f)
 		{
-			preparePen(pdfContentByte, line.getLinePen(), PdfContentByte.LINE_CAP_BUTT);
+			preparePen(line.getLinePen(), PdfContentByte.LINE_CAP_BUTT);
 
 			if (line.getWidth() == 1)
 			{
@@ -1469,6 +1475,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			pdfContentByte.stroke();
 
+			resetPen();
 			pdfContentByte.setLineDash(0f);
 			pdfContentByte.setLineCap(PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 		}
@@ -1480,13 +1487,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
-		pdfContentByte.setRGBColorFill(
-			rectangle.getBackcolor().getRed(),
-			rectangle.getBackcolor().getGreen(),
-			rectangle.getBackcolor().getBlue()
-			);
-
-		preparePen(pdfContentByte, rectangle.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
+		setFillColor(rectangle.getBackcolor());
+		preparePen(rectangle.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
 		float lineWidth = rectangle.getLinePen().getLineWidth();
 		int lcOffsetX = getOffsetX();
@@ -1543,6 +1545,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 
+		resetPen();
+		resetFillColor();
 		pdfContentByte.setLineDash(0f);
 	}
 
@@ -1552,13 +1556,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
-		pdfContentByte.setRGBColorFill(
-			ellipse.getBackcolor().getRed(),
-			ellipse.getBackcolor().getGreen(),
-			ellipse.getBackcolor().getBlue()
-			);
-
-		preparePen(pdfContentByte, ellipse.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
+		setFillColor(ellipse.getBackcolor());
+		preparePen(ellipse.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
 		float lineWidth = ellipse.getLinePen().getLineWidth();
 		int lcOffsetX = getOffsetX();
@@ -1611,6 +1610,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 
+		resetPen();
+		resetFillColor();
+		
 		pdfContentByte.setLineDash(0f);
 	}
 
@@ -1622,11 +1624,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	{
 		if (printImage.getModeValue() == ModeEnum.OPAQUE)
 		{
-			pdfContentByte.setRGBColorFill(
-				printImage.getBackcolor().getRed(),
-				printImage.getBackcolor().getGreen(),
-				printImage.getBackcolor().getBlue()
-				);
+			setFillColor(printImage.getBackcolor());
 			pdfContentByte.rectangle(
 				printImage.getX() + getOffsetX(),
 				pageFormat.getPageHeight() - printImage.getY() - getOffsetY(),
@@ -1634,6 +1632,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				- printImage.getHeight()
 				);
 			pdfContentByte.fill();
+			resetFillColor();
 		}
 
 		InternalImageProcessor imageProcessor =
@@ -2841,11 +2840,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
 			Color backcolor = text.getBackcolor();
-			pdfContentByte.setRGBColorFill(
-				backcolor.getRed(),
-				backcolor.getGreen(),
-				backcolor.getBlue()
-				);
+			setFillColor(backcolor);
 			pdfContentByte.rectangle(
 				textRenderer.getX(),
 				pageFormat.getPageHeight() - textRenderer.getY(),
@@ -2853,6 +2848,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				- textRenderer.getHeight()
 				);
 			pdfContentByte.fill();
+			resetFillColor();
 		}
 		
 		if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
@@ -2863,6 +2859,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			tagHelper.startText(text.getLinkType() != null);
 		}
+
+		int forecolorAlpha = getSingleForecolorAlpha(styledText);
+		setFillColorAlpha(forecolorAlpha);
 		
 		/* rendering only non empty texts  */
 		if (styledText.length() > 0)
@@ -2870,6 +2869,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			textRenderer.render();
 		}
 		tagHelper.endText();
+		
+		resetFillColor();
 
 		atrans = new AffineTransform();
 		atrans.rotate(-angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());
@@ -2880,6 +2881,32 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			text.getLineBox(),
 			text
 			);
+	}
+	
+	protected int getSingleForecolorAlpha(JRStyledText styledText)
+	{
+		Color forecolor = (Color) styledText.getGlobalAttributes().get(TextAttribute.FOREGROUND);
+		if (forecolor == null || forecolor.getAlpha() == 255)
+		{
+			return 255;
+		}
+		
+		List<JRStyledText.Run> runs = styledText.getRuns();
+		if (runs.size() > 1)
+		{
+			for (JRStyledText.Run run : runs)
+			{
+				Color runForecolor = (Color) run.attributes.get(TextAttribute.FOREGROUND);
+				if (runForecolor != null && runForecolor.getAlpha() != forecolor.getAlpha())
+				{
+					//per run alpha currently not working because there's no support in Chunk
+					//falling back to opaque
+					return 255;
+				}
+			}
+		}
+		
+		return forecolor.getAlpha();
 	}
 	
 	/**
@@ -3499,7 +3526,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int lcOffsetX = getOffsetX();
 			int lcOffsetY = getOffsetY();
 			
-			preparePen(pdfContentByte, topPen, PdfContentByte.LINE_CAP_BUTT);
+			preparePen(topPen, PdfContentByte.LINE_CAP_BUTT);
 			
 			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
@@ -3537,6 +3564,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 				pdfContentByte.stroke();
 			}
+			
+			resetPen();
 		}
 	}
 
@@ -3553,7 +3582,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int lcOffsetX = getOffsetX();
 			int lcOffsetY = getOffsetY();
 
-			preparePen(pdfContentByte, leftPen, PdfContentByte.LINE_CAP_BUTT);
+			preparePen(leftPen, PdfContentByte.LINE_CAP_BUTT);
 
 			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
@@ -3591,6 +3620,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 				pdfContentByte.stroke();
 			}
+			
+			resetPen();
 		}
 	}
 
@@ -3607,7 +3638,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int lcOffsetX = getOffsetX();
 			int lcOffsetY = getOffsetY();
 			
-			preparePen(pdfContentByte, bottomPen, PdfContentByte.LINE_CAP_BUTT);
+			preparePen(bottomPen, PdfContentByte.LINE_CAP_BUTT);
 			
 			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
@@ -3645,6 +3676,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 				pdfContentByte.stroke();
 			}
+			
+			resetPen();
 		}
 	}
 
@@ -3661,7 +3694,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int lcOffsetX = getOffsetX();
 			int lcOffsetY = getOffsetY();
 
-			preparePen(pdfContentByte, rightPen, PdfContentByte.LINE_CAP_BUTT);
+			preparePen(rightPen, PdfContentByte.LINE_CAP_BUTT);
 
 			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
@@ -3699,6 +3732,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 				pdfContentByte.stroke();
 			}
+			
+			resetPen();
 		}
 	}
 
@@ -3706,7 +3741,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	/**
 	 *
 	 */
-	private static void preparePen(PdfContentByte pdfContentByte, JRPen pen, int lineCap)
+	private void preparePen(JRPen pen, int lineCap)
 	{
 		float lineWidth = pen.getLineWidth();
 
@@ -3719,11 +3754,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		pdfContentByte.setLineCap(lineCap);
 
 		Color color = pen.getLineColor();
-		pdfContentByte.setRGBColorStroke(
-			color.getRed(),
-			color.getGreen(),
-			color.getBlue()
-			);
+		setStrokeColor(color);
 
 		switch (pen.getLineStyleValue())
 		{
@@ -3775,7 +3806,87 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 	}
+	
+	private void resetPen()
+	{
+		resetStrokeColor();
+	}
 
+	protected void setStrokeColor(Color color)
+	{
+		int alpha = color.getAlpha();
+		if (alpha != 255)
+		{
+			setStrokeAlpha(alpha);
+			strokeAlphaSet = true;
+		}
+		
+		pdfContentByte.setRGBColorStroke(
+				color.getRed(),
+				color.getGreen(),
+				color.getBlue());		
+	}
+	
+	protected void resetStrokeColor()
+	{
+		if (strokeAlphaSet)
+		{
+			setStrokeAlpha(255);
+			strokeAlphaSet = false;
+		}
+	}
+
+	protected void setStrokeAlpha(int alpha)
+	{
+		PdfGState state = strokeAlphaStates[alpha];
+		if (state == null)
+		{
+			state = new PdfGState();
+			state.setStrokeOpacity(((float) alpha)/255);
+			strokeAlphaStates[alpha] = state;
+		}
+		pdfContentByte.setGState(state);
+	}
+
+	protected void setFillColor(Color color)
+	{
+		setFillColorAlpha(color.getAlpha());
+		pdfContentByte.setRGBColorFill(
+				color.getRed(),
+				color.getGreen(),
+				color.getBlue());		
+	}
+
+
+	protected void setFillColorAlpha(int alpha)
+	{
+		if (alpha != 255)
+		{
+			setFillAlpha(alpha);
+			fillAlphaSet = true;
+		}
+	}
+	
+	protected void resetFillColor()
+	{
+		if (fillAlphaSet)
+		{
+			setFillAlpha(255);
+			fillAlphaSet = false;
+		}
+	}
+
+	protected void setFillAlpha(int alpha)
+	{
+		PdfGState state = fillAlphaStates[alpha];
+		if (state == null)
+		{
+			state = new PdfGState();
+			state.setFillOpacity(((float) alpha)/255);
+			fillAlphaStates[alpha] = state;
+		}
+		pdfContentByte.setGState(state);
+	}
 
 	protected static synchronized void registerFonts ()
 	{
@@ -3931,11 +4042,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int y = frame.getY() + getOffsetY();
 
 			Color backcolor = frame.getBackcolor();
-			pdfContentByte.setRGBColorFill(
-				backcolor.getRed(),
-				backcolor.getGreen(),
-				backcolor.getBlue()
-				);
+			
+			setFillColor(backcolor);
 			pdfContentByte.rectangle(
 				x,
 				pageFormat.getPageHeight() - y,
@@ -3943,6 +4051,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				- frame.getHeight()
 				);
 			pdfContentByte.fill();
+			resetFillColor();
 		}
 
 		setFrameElementsOffset(frame, false);
