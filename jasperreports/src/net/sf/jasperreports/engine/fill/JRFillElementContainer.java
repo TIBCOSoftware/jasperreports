@@ -1018,6 +1018,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	{
 		//int maxStretch = 0;
 		//int stretch = 0;
+		int maxWidth = 0;
 		JRElement[] allElements = getElements();
 		if (allElements != null && allElements.length > 0)
 		{
@@ -1048,6 +1049,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 						//	maxStretch = stretch;
 						//}
 						printContainer.addElement(printElement);
+						if (printElement.getX() + printElement.getWidth() > maxWidth)
+						{
+							maxWidth = printElement.getX() + printElement.getWidth();
+						}
 					}
 					
 					if (element instanceof JRFillSubreport)
@@ -1068,6 +1073,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 						
 						Collection<JRPrintElement> printElements = subreport.getPrintElements();
 						addSubElements(printContainer, element, printElements);
+						if (subreport.getX() + subreport.getPrintContentsWidth() > maxWidth)
+						{
+							maxWidth = subreport.getX() + subreport.getPrintContentsWidth();
+						}
 						
 						subreport.subreportPageFilled();
 					}
@@ -1075,8 +1084,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 					// crosstabs do not return a fill() element
 					if (element instanceof JRFillCrosstab)
 					{
-						List<? extends JRPrintElement> printElements = ((JRFillCrosstab) element).getPrintElements();
+						JRFillCrosstab crosstab = (JRFillCrosstab) element;
+						List<? extends JRPrintElement> printElements = crosstab.getPrintElements();
 						addSubElements(printContainer, element, printElements);
+						if (crosstab.getX() + crosstab.getPrintElementsWidth() > maxWidth)
+						{
+							maxWidth = crosstab.getX() + crosstab.getPrintElementsWidth();
+						}
 					}
 				}
 			}
@@ -1084,6 +1098,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		
 		//printBand.setHeight(getHeight() + maxStretch - firstY);
 		printContainer.setHeight(stretchHeight - firstY);
+		printContainer.setContentsWidth(maxWidth);
 	}
 
 

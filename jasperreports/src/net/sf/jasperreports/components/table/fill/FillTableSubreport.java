@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.FillerSubreportParent;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -83,6 +84,12 @@ public class FillTableSubreport extends JRFillSubreport
 		return tableReport;
 	}
 
+	@Override
+	protected FillerSubreportParent createFillerParent(DatasetExpressionEvaluator evaluator) throws JRException
+	{
+		return new FillerTableSubreportParent(this, evaluator);
+	}
+	
 	@Override
 	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
@@ -235,5 +242,12 @@ public class FillTableSubreport extends JRFillSubreport
 	{
 		String tableName = tableReport.getBaseReport().getTableName();
 		return tableName == null ? super.getReportName() : tableName;
+	}
+
+	@Override
+	protected int getPrintContentsWidth()
+	{
+		// overriding this for package access
+		return super.getPrintContentsWidth();
 	}
 }

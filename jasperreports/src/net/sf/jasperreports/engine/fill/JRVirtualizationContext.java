@@ -611,7 +611,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 */
 	public boolean isDisposed()
 	{
-		return disposed;
+		return disposed || (parentContext != null && parentContext.isDisposed());
 	}
 	
 	public JRVirtualizationContext getMasterContext()

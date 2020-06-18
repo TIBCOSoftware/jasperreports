@@ -41,6 +41,9 @@ public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
 	private boolean savePassword;
 	private String serverAddress;
 	private Map<String, String> properties;
+	private Boolean autoCommit;
+	private Boolean readOnly;
+	private TransactionIsolation transactionIsolation;
 	
 	public JdbcDataAdapterImpl() {
 		setName("New JDBC Data Adapter");
@@ -124,5 +127,41 @@ public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
 	@Override
 	public Map<String, String> getProperties() {
 		return properties;
+	}
+
+	@Override
+	public Boolean getAutoCommit()
+	{
+		return autoCommit;
+	}
+
+	@Override
+	public void setAutoCommit(Boolean autoCommit)
+	{
+		this.autoCommit = autoCommit;
+	}
+
+	@Override
+	public Boolean getReadOnly()
+	{
+		return readOnly;
+	}
+
+	@Override
+	public void setReadOnly(Boolean readOnly)
+	{
+		this.readOnly = readOnly;
+	}
+
+	@Override
+	public TransactionIsolation getTransactionIsolation()
+	{
+		return transactionIsolation;
+	}
+
+	@Override
+	public void setTransactionIsolation(TransactionIsolation transactionIsolation)
+	{
+		this.transactionIsolation = transactionIsolation;
 	}
 }

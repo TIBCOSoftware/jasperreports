@@ -34,7 +34,6 @@ import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
@@ -55,17 +54,6 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 		) 
 	{
 		super(paramContribContext, xmlDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #XmlDataAdapterService(ParameterContributorContext, XmlDataAdapter)}.
-	 */
-	public XmlDataAdapterService(
-		JasperReportsContext jasperReportsContext,
-		XmlDataAdapter xmlDataAdapter
-		) 
-	{
-		super(jasperReportsContext, xmlDataAdapter);
 	}
 	
 	public XmlDataAdapter getXmlDataAdapter()

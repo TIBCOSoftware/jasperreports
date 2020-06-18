@@ -35,7 +35,6 @@ import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
@@ -54,14 +53,6 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 	public AbstractXlsDataAdapterService(ParameterContributorContext paramContribContext, XlsDataAdapter xlsDataAdapter)
 	{
 		super(paramContribContext, xlsDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #AbstractXlsDataAdapterService(ParameterContributorContext, XlsDataAdapter)}.
-	 */
-	public AbstractXlsDataAdapterService(JasperReportsContext jasperReportsContext, XlsDataAdapter xlsDataAdapter)
-	{
-		super(jasperReportsContext, xlsDataAdapter);
 	}
 	
 	public XlsDataAdapter getXlsDataAdapter()

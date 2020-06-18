@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.data.ExcelDataSource;
@@ -46,14 +45,6 @@ public class ExcelDataAdapterService extends AbstractXlsDataAdapterService
 	public ExcelDataAdapterService(ParameterContributorContext paramContribContext, ExcelDataAdapter excelDataAdapter)
 	{
 		super(paramContribContext, excelDataAdapter);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #ExcelDataAdapterService(ParameterContributorContext, ExcelDataAdapter)}.
-	 */
-	public ExcelDataAdapterService(JasperReportsContext jasperReportsContext, ExcelDataAdapter excelDataAdapter)
-	{
-		super(jasperReportsContext, excelDataAdapter);
 	}
 
 	public ExcelDataAdapter getExcelDataAdapter()

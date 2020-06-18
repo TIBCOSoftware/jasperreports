@@ -454,6 +454,32 @@ public class JRXmlDataSource extends AbstractXmlDataSource<JRXmlDataSource>
 	}
 
 	@Override
+	public int recordCount()
+	{
+		return nodeListLength;
+	}
+
+	@Override
+	public int currentIndex()
+	{
+		return currentNodeIndex;
+	}
+
+	@Override
+	public void moveToRecord(int index) throws NoRecordAtIndexException
+	{
+		if (index >= 0 && index < nodeListLength)
+		{
+			currentNodeIndex = index;
+			currentNode = nodeList.item(index);
+		}
+		else
+		{
+			throw new NoRecordAtIndexException(index);
+		}
+	}
+
+	@Override
 	public Node getCurrentNode() 
 	{
 		return currentNode;

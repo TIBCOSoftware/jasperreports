@@ -23,17 +23,12 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JsonData extends JRRewindableDataSource
+public interface JsonData<T extends JsonData<T>> extends JRRewindableDataSource, HierarchicalDataSource<T>
 {
-
-	JsonData subDataSource() throws JRException;
-	
-	JsonData subDataSource(String selectExpression) throws JRException;
 
 }

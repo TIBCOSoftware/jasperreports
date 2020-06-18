@@ -226,24 +226,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
-	{
-		return ((JRImage)this.parent).isUsingCache();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return ((JRImage)this.parent).isOwnUsingCache();
-	}
-		
 	@Override
 	public Boolean getUsingCache()
 	{

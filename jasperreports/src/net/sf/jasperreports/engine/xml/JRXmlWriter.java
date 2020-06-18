@@ -744,7 +744,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_parameter);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, parameter.getValueClassName());
 		if(isNewerVersionOrEqual(JRConstants.VERSION_3_1_4))
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_nestedType, parameter.getNestedTypeName());
@@ -783,7 +783,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_field);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, field.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
 
 		writeProperties(field);
 		if (isNewerVersionOrEqual(JRConstants.VERSION_6_3_1))
@@ -820,7 +820,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_variable);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, variable.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, variable.getValueClassName());
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, variable.getValueClassName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, variable.getResetTypeValue(), ResetTypeEnum.REPORT);
 		if (variable.getResetGroup() != null)
 		{
@@ -3739,7 +3739,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				writer.startElement(JRXmlConstants.ELEMENT_multiAxisMeasure);
 				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, measure.getCalculation());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, measure.getIncrementerFactoryClassName());
 				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, measure.getLabelExpression());

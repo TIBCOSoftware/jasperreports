@@ -74,7 +74,6 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
-	private Integer bookmarkLevel;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 	
 	private JRFillExpressionEvaluator expressionEvaluator;
@@ -342,11 +341,8 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		return hyperlinkTooltip;
 	}
 	
-	/**
-	 * @return the hyperlinkTooltip
-	 */
-	public Integer getBookmarkLevel() {
-		return bookmarkLevel;
+	public int getBookmarkLevel() {
+		return getChartSettings().getBookmarkLevel();
 	}
 
 	/**

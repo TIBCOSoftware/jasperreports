@@ -137,6 +137,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					scriptlet.callAfterReportInit();
 
 					printPage = newPage();
+					printPageContentsWidth = 0;
 					addPage(printPage);
 					setFirstColumn();
 					offsetY = topMargin;
@@ -243,6 +244,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		scriptlet.callAfterReportInit();
 
 		printPage = newPage();
+		printPageContentsWidth = 0;
 		addPage(printPage);
 		setFirstColumn();
 		offsetY = topMargin;
@@ -802,6 +804,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (detailBand.isToPrint())
 			{
+				while (
+					detailBand.getBreakHeight() > columnFooterOffsetY - offsetY
+					)
+				{
+					fillColumnBreak(
+						isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD,
+						JRExpression.EVALUATION_DEFAULT
+						);
+				}
+
 				if (
 					keepDetailElementRangeForOrphanFooter
 					&& detailElementRange == null
@@ -896,6 +908,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					// these ranges act like flags to signal we need to deal with orphans
 					orphanGroupFooterDetailElementRange = null;
 					orphanGroupFooterElementRange = null;
+					detailElementRange = null; // put this line here just to have the same trio everywhere; could not find a case when this line really matters
 				}
 				
 				if (isFillAll || group.hasChanged())
@@ -911,6 +924,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			// resetting orphan footer element ranges because all group footers have been rendered
 			orphanGroupFooterDetailElementRange = null;
 			orphanGroupFooterElementRange = null;
+			detailElementRange = null; // put this line here just to have the same trio everywhere; could not find a case when this line really matters
 			
 			// we need to take care of groupFooterPositionElementRange here because all groups footers have been 
 			// rendered and we need to consume remaining space before next groups start;
@@ -2190,6 +2204,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		printPage = newPage();
+		printPageContentsWidth = 0;
 
 		JRFillVariable pageNumberVar = calculator.getPageNumber();
 		if (isResetPageNumber)
@@ -2351,6 +2366,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		// reseting all movable element ranges
 		orphanGroupFooterDetailElementRange = null;
 		orphanGroupFooterElementRange = null;
+		detailElementRange = null;
 		if (keepTogetherGroup != null)
 		{
 			keepTogetherGroup.setKeepTogetherElementRange(null);
@@ -2520,6 +2536,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			// reseting all movable element ranges
 			orphanGroupFooterDetailElementRange = null;
 			orphanGroupFooterElementRange = null;
+			detailElementRange = null;
 			if (keepTogetherGroup != null)
 			{
 				keepTogetherGroup.setKeepTogetherElementRange(null);

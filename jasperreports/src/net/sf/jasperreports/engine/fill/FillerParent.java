@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 
 
 /**
@@ -33,6 +34,8 @@ public interface FillerParent
 {
 
 	BaseReportFiller getFiller();
+	
+	JRPropertiesHolder getParentProperties();
 	
 	boolean isParentPagination();
 	

@@ -225,32 +225,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_IMAGE_ALIGNMENT, old, this.verticalImageAlign);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
-	{
-		if (isUsingCache == null)
-		{
-			if (getExpression() != null)
-			{
-				return String.class.getName().equals(getExpression().getValueClassName());
-			}
-			return true;
-		}
-		return isUsingCache;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return isUsingCache;
-	}
-
 	@Override
 	public Boolean getUsingCache()
 	{
