@@ -72,6 +72,10 @@ import net.sf.jasperreports.engine.util.StyleUtil;
  */
 public abstract class JRFillElement implements JRElement, JRFillCloneable, JRStyleSetter, DynamicPropertiesHolder
 {
+	/**
+	 *
+	 */
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_BOOKMARK_LEVEL = "fill.anchor.bookmark.level.invalid";
 
 
 	/**
@@ -1846,5 +1850,44 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void setExpressionEvaluator(JRFillExpressionEvaluator expressionEvaluator)
 	{
 		this.expressionEvaluator = expressionEvaluator;
+	}
+
+
+	/**
+	 *
+	 */
+	public static Integer getBookmarkLevel(Object value) throws JRException
+	{
+		Integer level = null;
+		
+		if (value != null)
+		{
+			if (value instanceof Number)
+			{
+				level = ((Number)value).intValue();
+			}
+			else
+			{
+				try
+				{
+					level = Integer.parseInt(value.toString());
+				}
+				catch (NumberFormatException e)
+				{
+					//do nothing
+				}
+			}
+			
+			if (level == null || level < 0)
+			{
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_INVALID_BOOKMARK_LEVEL,  
+						new Object[] {value} 
+						);
+			}
+		}
+		
+		return level;
 	}
 }

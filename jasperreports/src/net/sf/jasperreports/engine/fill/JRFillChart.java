@@ -860,28 +860,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
-		
-		try 
-		{
-			bookmarkLevel = (Integer) evaluateExpression(getBookmarkLevelExpression(), evaluation);
-		} 
-		catch (ClassCastException e) 
-		{
-			throw 
-			new JRRuntimeException(
-				EXCEPTION_MESSAGE_KEY_INVALID_TYPE,  
-				(Object[])null 
-				);
-		}
-		if(bookmarkLevel != null && bookmarkLevel < 0)
-		{
-			throw 
-			new JRRuntimeException(
-				EXCEPTION_MESSAGE_KEY_INVALID_VALUE,  
-				new Object[] {bookmarkLevel} 
-				);
-		}
-		
+		bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);

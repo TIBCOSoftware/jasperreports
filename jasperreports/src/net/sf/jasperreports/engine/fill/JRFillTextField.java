@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -605,27 +604,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			(crtRawText != null && crtRawText.equals(newRawText))
 			);
 
-		try 
-		{
-			bookmarkLevel = (Integer) evaluateExpression(getBookmarkLevelExpression(), evaluation);
-		} 
-		catch (ClassCastException e) 
-		{
-			throw 
-			new JRRuntimeException(
-				EXCEPTION_MESSAGE_KEY_INVALID_TYPE,  
-				(Object[])null 
-				);
-		}
-		if(bookmarkLevel != null && bookmarkLevel < 0)
-		{
-			throw 
-			new JRRuntimeException(
-				EXCEPTION_MESSAGE_KEY_INVALID_VALUE,  
-				new Object[] {bookmarkLevel} 
-				);
-		}
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
+		bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);

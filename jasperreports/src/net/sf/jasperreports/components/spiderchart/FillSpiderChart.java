@@ -30,7 +30,6 @@ import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartCustomizer;
 import net.sf.jasperreports.components.charts.FillChartSettings;
-import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -42,6 +41,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
+import net.sf.jasperreports.engine.fill.JRFillElement;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -120,29 +120,10 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
 		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
 		
-		try 
-		{
-			bookmarkLevel = (Integer)(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
-		} 
-		catch (ClassCastException e) 
-		{
-			throw 
-			new JRRuntimeException(
-				JRAnchor.EXCEPTION_MESSAGE_KEY_INVALID_TYPE,  
-				(Object[])null 
-				);
-		}
-		if(bookmarkLevel == null)
+		bookmarkLevel = JRFillElement.getBookmarkLevel(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
+		if (bookmarkLevel == null)
 		{
 			bookmarkLevel = getChartSettings().getBookmarkLevel();
-		}
-		else if(bookmarkLevel < 0)
-		{
-			throw 
-			new JRRuntimeException(
-				JRAnchor.EXCEPTION_MESSAGE_KEY_INVALID_VALUE,  
-				new Object[] {bookmarkLevel} 
-				);
 		}
 
 		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));
