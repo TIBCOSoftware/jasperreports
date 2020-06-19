@@ -44,6 +44,10 @@ public interface JRAnchor
 	 */
 	public static final int NO_BOOKMARK = 0;
 	
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_TYPE = "fill.anchor.bookmark.level.invalid.type";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_VALUE = "fill.anchor.bookmark.level.invalid.value";
+	
 	/**
 	 * Returns an expression whose value represents the anchor name.
 	 */

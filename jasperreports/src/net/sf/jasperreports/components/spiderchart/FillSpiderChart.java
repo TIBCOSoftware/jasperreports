@@ -30,6 +30,7 @@ import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartCustomizer;
 import net.sf.jasperreports.components.charts.FillChartSettings;
+import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -118,11 +119,32 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		titleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation));
 		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
 		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
-		bookmarkLevel = (Integer)(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
+		
+		try 
+		{
+			bookmarkLevel = (Integer)(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
+		} 
+		catch (ClassCastException e) 
+		{
+			throw 
+			new JRRuntimeException(
+				JRAnchor.EXCEPTION_MESSAGE_KEY_INVALID_TYPE,  
+				(Object[])null 
+				);
+		}
 		if(bookmarkLevel == null)
 		{
 			bookmarkLevel = getChartSettings().getBookmarkLevel();
 		}
+		else if(bookmarkLevel < 0)
+		{
+			throw 
+			new JRRuntimeException(
+				JRAnchor.EXCEPTION_MESSAGE_KEY_INVALID_VALUE,  
+				new Object[] {bookmarkLevel} 
+				);
+		}
+
 		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));
 		hyperlinkWhen = (Boolean)fillContext.evaluate(getChartSettings().getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation));

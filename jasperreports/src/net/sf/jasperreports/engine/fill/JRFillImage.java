@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
@@ -622,7 +623,27 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		setValueRepeating(crtRenderer == newRenderer);
 		
-		this.bookmarkLevel = (Integer) evaluateExpression(this.getBookmarkLevelExpression(), evaluation);
+		try 
+		{
+			this.bookmarkLevel = (Integer) evaluateExpression(this.getBookmarkLevelExpression(), evaluation);
+		} 
+		catch (ClassCastException e) 
+		{
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_INVALID_TYPE,  
+				(Object[])null 
+				);
+		}
+		if(this.bookmarkLevel != null && this.bookmarkLevel < 0)
+		{
+			throw 
+			new JRRuntimeException(
+				EXCEPTION_MESSAGE_KEY_INVALID_VALUE,  
+				new Object[] {this.bookmarkLevel} 
+				);
+		}
+		
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkWhen = (Boolean) evaluateExpression(this.getHyperlinkWhenExpression(), evaluation);
