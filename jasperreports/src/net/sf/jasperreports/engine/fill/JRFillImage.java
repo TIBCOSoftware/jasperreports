@@ -622,8 +622,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		setValueRepeating(crtRenderer == newRenderer);
 		
-		this.bookmarkLevel = (Integer) evaluateExpression(this.getBookmarkLevelExpression(), evaluation);
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
+		this.bookmarkLevel = getBookmarkLevel(evaluateExpression(this.getBookmarkLevelExpression(), evaluation));
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkWhen = (Boolean) evaluateExpression(this.getHyperlinkWhenExpression(), evaluation);
 		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);

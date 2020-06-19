@@ -604,8 +604,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			(crtRawText != null && crtRawText.equals(newRawText))
 			);
 
-		bookmarkLevel = (Integer) evaluateExpression(getBookmarkLevelExpression(), evaluation);
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
+		bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
