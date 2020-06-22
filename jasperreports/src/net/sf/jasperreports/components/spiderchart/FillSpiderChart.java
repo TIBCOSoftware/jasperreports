@@ -348,7 +348,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	/**
 	 * @return the bookmark level
 	 */
-	public Integer getBookmarkLevel() {
+	public int getBookmarkLevel() {
 		return bookmarkLevel == null ? getChartSettings().getBookmarkLevel() : bookmarkLevel;
 	}
 
