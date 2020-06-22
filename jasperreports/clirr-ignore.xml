@@ -1,2 +1,104 @@
 <differences>
+	<difference>
+		<className>net/sf/jasperreports/data/jdbc/JdbcDataAdapter</className>
+		<differenceType>7012</differenceType>
+		<method>*etAutoCommit(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/jdbc/JdbcDataAdapter</className>
+		<differenceType>7012</differenceType>
+		<method>*etReadOnly(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/jdbc/JdbcDataAdapter</className>
+		<differenceType>7012</differenceType>
+		<method>*etTransactionIsolation(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/*/*DataAdapterService</className>
+		<differenceType>7002</differenceType>
+		<method>*DataAdapterService(net.sf.jasperreports.engine.JasperReportsContext, *DataAdapter)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/*DataAdapterService</className>
+		<differenceType>7002</differenceType>
+		<method>*DataAdapterService(net.sf.jasperreports.engine.JasperReportsContext, *DataAdapter)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/*/*/*DataAdapterService</className>
+		<differenceType>7002</differenceType>
+		<method>*DataAdapterService(net.sf.jasperreports.engine.JasperReportsContext, *DataAdapter)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/data/AbstractDataAdapterService</className>
+		<differenceType>7009</differenceType>
+		<method>*AbstractDataAdapterService(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.data.DataAdapter)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/data/DefaultDataAdapterServiceFactory</className>
+		<differenceType>7009</differenceType>
+		<method>*DefaultDataAdapterServiceFactory()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/DataAdapterServiceUtil</className>
+		<differenceType>7002</differenceType>
+		<method>*getInstance(net.sf.jasperreports.engine.JasperReportsContext)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/DataFileUtils</className>
+		<differenceType>7002</differenceType>
+		<method>*DataFileUtils(net.sf.jasperreports.engine.JasperReportsContext)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/DataFileUtils</className>
+		<differenceType>7002</differenceType>
+		<method>*instance(net.sf.jasperreports.engine.JasperReportsContext)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/data/xml/RemoteXmlDataAdapterService</className>
+		<differenceType>7005</differenceType>
+		<method>*RemoteXmlDataAdapterService(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.data.xml.RemoteXmlDataAdapter)</method>
+		<to>*RemoteXmlDataAdapterService(net.sf.jasperreports.engine.ParameterContributorContext, net.sf.jasperreports.data.xml.RemoteXmlDataAdapter)</to>
+ 	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/data/Json*DataSource</className>
+		<differenceType>7006</differenceType>
+		<method>*subDataSource(*)</method>
+		<to>net.sf.jasperreports.engine.JRDataSource</to>
+ 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/data/JsonData</className>
+		<differenceType>7002</differenceType>
+		<method>*subDataSource(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRAnchor</className>
+		<differenceType>7012</differenceType>
+		<method>*getBookmarkLevelExpression()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/chrome/ChromeServiceHandle</className>
+		<differenceType>7002</differenceType>
+		<method>*runInTab(java.util.function.Function)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRPrintElementContainer</className>
+		<differenceType>7012</differenceType>
+		<method>*setContentsWidth(int)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/compilers/JRGroovyGenerator</className>
+		<differenceType>7004</differenceType>
+		<method>*JRGroovyGenerator(net.sf.jasperreports.engine.design.JRSourceCompileTask)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/design/JRSourceCompileTask</className>
+		<differenceType>7004</differenceType>
+		<method>*JRSourceCompileTask(net.sf.jasperreports.engine.design.JasperDesign, java.lang.String, net.sf.jasperreports.engine.JRExpressionCollector, java.util.Map, java.util.Map, java.util.Map, net.sf.jasperreports.engine.JRVariable[], boolean)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRXlsExporter</className>
+		<differenceType>6011</differenceType>
+		<field>TEXT_FORMAT</field>
+	</difference>
 </differences>
