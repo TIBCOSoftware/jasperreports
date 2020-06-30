@@ -46,7 +46,7 @@
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asm5" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.spi" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asmx" rev="2.6.0" conf="javaflow->*"/>
-		<dependency org="org.apache.ant" name="ant" rev="1.10.6"/>
+		<dependency org="org.apache.ant" name="ant" rev="1.10.8"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.2"/>
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.8.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-math3" rev="3.6.1" conf="test->*"/>
