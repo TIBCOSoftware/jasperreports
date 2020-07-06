@@ -443,6 +443,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			bookmarkLevel = getBookmarkLevel(evaluateExpression(this.getBookmarkLevelExpression(), evaluation));
+
 			if (isEvaluateNow())
 			{
 				hasOverflowed = false;
@@ -623,7 +625,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		setValueRepeating(crtRenderer == newRenderer);
 		
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
-		this.bookmarkLevel = getBookmarkLevel(evaluateExpression(this.getBookmarkLevelExpression(), evaluation));
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
 		this.hyperlinkWhen = (Boolean) evaluateExpression(this.getHyperlinkWhenExpression(), evaluation);
 		this.hyperlinkAnchor = (String) evaluateExpression(this.getHyperlinkAnchorExpression(), evaluation);
@@ -1001,7 +1002,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		printImage.setY(this.getRelativeY());
 		printImage.setWidth(getWidth());
 		printImage.setHeight(this.getStretchHeight());
-//		printImage.setBookmarkLevel(getBookmarkLevel());
+		printImage.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -1038,7 +1039,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		printImage.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
@@ -1154,7 +1154,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		super.collectDelayedEvaluations();
 		
 		collectDelayedEvaluations(getExpression());
-		collectDelayedEvaluations(getBookmarkLevelExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkWhenExpression());

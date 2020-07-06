@@ -533,6 +533,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
+
 			if (isEvaluateNow())
 			{
 				evaluateText(evaluation);
@@ -605,7 +607,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			);
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
-		bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
@@ -908,7 +909,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 //			text.setHeight(getHeight());
 //		}
 		text.setRunDirection(getRunDirectionValue());
-//		text.setBookmarkLevel(getBookmarkLevel());
+		text.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
 		{
@@ -943,7 +944,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		setPrintText(text);
 
 		text.setAnchorName(getAnchorName());
-		text.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			text.setHyperlinkReference(getHyperlinkReference());
@@ -1084,7 +1084,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		collectDelayedEvaluations(getExpression());
 		collectDelayedEvaluations(getPatternExpression());
-		collectDelayedEvaluations(getBookmarkLevelExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkWhenExpression());
