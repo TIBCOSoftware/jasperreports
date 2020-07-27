@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -217,11 +216,11 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 		String classpath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_CLASSPATH);
 		
+		// compiling generated sources
+		CompilationUnits compilationUnits = new CompilationUnits(units);
+		JRCompilationUnit[] sourceUnits = compilationUnits.getSourceUnits();
 		try
 		{
-			// compiling generated sources
-			CompilationUnits compilationUnits = new CompilationUnits(units);
-			JRCompilationUnit[] sourceUnits = compilationUnits.getSourceUnits();
 			if (sourceUnits.length > 0)
 			{
 				String compileErrors = compileUnits(sourceUnits, classpath, tempDirFile);
@@ -279,7 +278,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		{
 			if (needsSourceFiles && !isKeepJavaFile)
 			{
-				deleteSourceFiles(units);
+				deleteSourceFiles(sourceUnits);
 			}
 		}
 	}
