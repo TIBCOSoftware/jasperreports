@@ -2,11 +2,44 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.12.2 (2020-03-11)
+JasperReports 6.14.0 (2020-07-31)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
 
+
+
+
+
+JasperReports 6.13.0 (2020-06-22)
+---------------------------------------------
+
+- introducing a secure report execution infrastructure which allows filtering of classes used in 
+expressions based on a configurable whitelist of allowed classes;
+
+- improvements in expression bytecode generation and expression evaluation based on direct evaluation 
+of simple expressions containing only parameter, field or variable references;
+
+- built-in function ORIGINAL_DATA_SOURCE added to access the original data source when the data 
+is sorted using sort field declarations in the dataset;
+
+- built-in function SUB_DATA_SOURCE added to create a JSON or XML sub data source when the data 
+is sorted using sort field declarations in the dataset;
+
+- automatically increase frame element width if its content stretches and grows horizontally;
+
+- support for dynamic bookmark levels based on expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.12.2 (2020-03-11)
+---------------------------------------------
+
+- minor bug fixes and improvements;
 
 
 
