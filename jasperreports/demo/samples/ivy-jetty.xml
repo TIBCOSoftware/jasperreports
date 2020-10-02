@@ -7,7 +7,7 @@
 		<!--
 			This list of Jetty dependencies was created following instructions in this "Ant and Jetty" documentation page:
 			https://www.eclipse.org/jetty/documentation/current/ant-and-jetty.html
-			and then removing some of them: jetty-cdi
+			and then removing some of them: jetty-cdi, javax.mail.glassfish
 		-->
 		<dependency org="org.eclipse.jetty" name="infinispan-common" rev="9.4.31.v20200723"/>
 		<dependency org="org.eclipse.jetty" name="infinispan-embedded-query" rev="9.4.31.v20200723"/>
@@ -64,7 +64,6 @@
 		<dependency org="org.eclipse.jetty.http2" name="http2-hpack" rev="9.4.31.v20200723"/>
 		<dependency org="org.eclipse.jetty.http2" name="http2-server" rev="9.4.31.v20200723"/>
 		<dependency org="org.eclipse.jetty.orbit" name="javax.security.auth.message" rev="1.0.0.v201108011116"/>
-		<dependency org="org.eclipse.jetty.orbit" name="javax.mail.glassfish" rev="1.4.1.v201005082020"/>
 		<dependency org="org.eclipse.jetty.toolchain.setuid" name="jetty-setuid-java" rev="1.0.4"/>
 		<dependency org="org.eclipse.jetty" name="jetty-spring" rev="9.4.31.v20200723"/>
 		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.3"/>
