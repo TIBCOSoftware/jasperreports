@@ -24,8 +24,10 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -127,9 +129,9 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 	{
 		try
 		{
-			resourceName = new URI(resourceName).normalize().getPath();
+			resourceName = new URI(URLEncoder.encode(resourceName, "UTF-8")).normalize().getPath();
 		}
-		catch (URISyntaxException e)
+		catch (URISyntaxException | UnsupportedEncodingException e)
 		{
 			throw new JRRuntimeException(e);
 		}
