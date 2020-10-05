@@ -1,9 +1,0 @@
-<ivy-module version="2.0">
-	<info organisation="net.sf.jasperreports" module="jasperreports">
-		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
-	</info>
-	<dependencies>
-		<dependency org="org.json" name="json" rev="20070829" conf="compile->*"/>
-		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*"/>
-	</dependencies>
-</ivy-module>

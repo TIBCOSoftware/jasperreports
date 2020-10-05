@@ -789,6 +789,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
+
 			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
 			{
 				evaluateRenderer(evaluation);
@@ -860,7 +862,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
-		bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 		hyperlinkReference = (String) evaluateExpression(getHyperlinkReferenceExpression(), evaluation);
 		hyperlinkWhen = (Boolean) evaluateExpression(getHyperlinkWhenExpression(), evaluation);
 		hyperlinkAnchor = (String) evaluateExpression(getHyperlinkAnchorExpression(), evaluation);
@@ -1005,7 +1006,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		printImage.setBookmarkLevel(getBookmarkLevel());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
