@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 
 /**
  * A generic print element HTML export handler.
@@ -40,5 +42,16 @@ public interface GenericElementHtmlHandler extends GenericElementHandler
 	 * @return the HTML fragment that represents the exported element
 	 */
 	String getHtmlFragment(JRHtmlExporterContext exporterContext, JRGenericPrintElement element);
+	
+	/**
+	 * Creates an equivalent image of the {@link JRGenericPrintElement} element to be exported instead.
+	 * 
+	 * @param element the generic element to export
+	 * @return JRPrintImage the equivalent image
+	 */
+	default JRPrintImage getImage(JRHtmlExporterContext exporterContext, JRGenericPrintElement element) throws JRException
+	{
+		return null;
+	}
 	
 }
