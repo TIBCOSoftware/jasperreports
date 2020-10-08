@@ -215,6 +215,12 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	}
 	
 	@Override
+	public String getOwnProperty(String key)
+	{
+		return properties == null ? null : properties.get(key);
+	}
+	
+	@Override
 	public void setProperty(String key, String value)
 	{
 		if (properties == null)
