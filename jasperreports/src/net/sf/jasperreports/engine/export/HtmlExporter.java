@@ -866,7 +866,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		styleBuffer.append(";");
 	}
 
-	protected void writeImage(JRPrintImage image, TableCell cell)
+	public void writeImage(JRPrintImage image, TableCell cell)
 			throws IOException, JRException
 	{
 		startCell(image, cell);
@@ -1919,8 +1919,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			JRPrintImage image = handler.getImage(exporterContext, element);
-			if (image == null)
+			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
+			if (htmlFragment == null)
+			{
+				handler.exportElement(exporterContext, element, cell);
+			}
+			else
 			{
 				startCell(element, cell);
 
@@ -1932,17 +1936,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				finishStartCell();
 				
-				String htmlFragment = handler.getHtmlFragment(exporterContext, element);
-				if (htmlFragment != null)
-				{
-					writer.write(htmlFragment);
-				}
+				writer.write(htmlFragment);
 				
 				endCell();
-			}
-			else
-			{
-				writeImage(image, cell);
 			}
 		}
 	}
