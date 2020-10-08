@@ -866,7 +866,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		styleBuffer.append(";");
 	}
 
-	protected void writeImage(JRPrintImage image, TableCell cell)
+	public void writeImage(JRPrintImage image, TableCell cell)
 			throws IOException, JRException
 	{
 		startCell(image, cell);
@@ -1901,7 +1901,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return line.getWidth() > 1 && line.getHeight() > 1;
 	}
 	
-	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException
+	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException, JRException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
 				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
@@ -1919,23 +1919,27 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			startCell(element, cell);
-
-			StringBuilder styleBuffer = new StringBuilder();
-			appendElementCellGenericStyle(cell, styleBuffer);
-			appendBackcolorStyle(cell, styleBuffer);
-			appendBorderStyle(cell.getBox(), styleBuffer);
-			writeStyle(styleBuffer);
-
-			finishStartCell();
-			
 			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
-			if (htmlFragment != null)
+			if (htmlFragment == null)
 			{
-				writer.write(htmlFragment);
+				handler.exportElement(exporterContext, element, cell);
 			}
-			
-			endCell();
+			else
+			{
+				startCell(element, cell);
+
+				StringBuilder styleBuffer = new StringBuilder();
+				appendElementCellGenericStyle(cell, styleBuffer);
+				appendBackcolorStyle(cell, styleBuffer);
+				appendBorderStyle(cell.getBox(), styleBuffer);
+				writeStyle(styleBuffer);
+
+				finishStartCell();
+				
+				writer.write(htmlFragment);
+				
+				endCell();
+			}
 		}
 	}
 	
@@ -3126,11 +3130,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				writeImage(image, cell);
 			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JRException e)
+			catch (IOException | JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -3192,7 +3192,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				writeGenericElement(printElement, cell);
 			} 
-			catch (IOException e)
+			catch (IOException | JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
