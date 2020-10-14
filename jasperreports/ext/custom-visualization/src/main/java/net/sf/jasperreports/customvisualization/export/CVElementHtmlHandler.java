@@ -23,23 +23,33 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.sf.jasperreports.customvisualization.CVPrintElement;
-import net.sf.jasperreports.customvisualization.CVUtils;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.web.util.VelocityUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.sf.jasperreports.customvisualization.CVConstants;
+import net.sf.jasperreports.customvisualization.CVPrintElement;
+import net.sf.jasperreports.customvisualization.CVUtils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.FileHtmlResourceHandler;
+import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlResourceHandler;
+import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
+import net.sf.jasperreports.engine.export.tabulator.TableCell;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**
  * 
@@ -63,17 +73,32 @@ public class CVElementHtmlHandler extends CVElementAbstractGenericHandler implem
 	}
 
 	@Override
+	public void exportElement(JRHtmlExporterContext exporterContext, JRGenericPrintElement element, TableCell cell) 
+	{
+		try 
+		{
+			JRPrintImage chartImage = CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+			((HtmlExporter)exporterContext.getExporterRef()).writeImage(chartImage, cell);
+		}
+		catch (Exception e) 
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	@Override
 	public String getHtmlFragment(
 		JRHtmlExporterContext context, 
 		JRGenericPrintElement element
 		)
 	{
-		if (context == null)
+		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(context.getJasperReportsContext());
+		boolean generateImage = properties.getBooleanProperty(CVConstants.PROPERTY_HTML_GENERATE_IMAGE);
+		if (!generateImage)
 		{
-			return "No JasperReports Context found";
+			return getHtmlFragment(context.getJasperReportsContext(), context, element);
 		}
-
-		return getHtmlFragment(context.getJasperReportsContext(), context, element);
+		return null; // let exportElement() method kick-in
 	}
 
 	public String getHtmlFragment(
