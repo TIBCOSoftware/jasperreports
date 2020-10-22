@@ -23,11 +23,13 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -45,12 +47,13 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 	private ChromeCVElementImageDataProvider chromeCVElementImageDataProvider = new ChromeCVElementImageDataProvider();
 
 	@Override
-	public byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws Exception {
+	public byte[] getImageData(RepositoryContext repositoryContext, JRGenericPrintElement element) throws Exception {
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		if (chromeCVElementImageDataProvider.isEnabled(jasperReportsContext)) {
 			if (log.isDebugEnabled()) {
 				log.debug("using JR chrome");
 			}
-			return chromeCVElementImageDataProvider.getImageData(jasperReportsContext, element);
+			return chromeCVElementImageDataProvider.getImageData(repositoryContext, element);
 		}
 		
 		if (jrPhantomCVElementImageDataProvider.isEnabled()) {
@@ -58,7 +61,7 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 				log.debug("Using JR PhantomJS to produce custom visualization image data!");
 			}
 
-			return jrPhantomCVElementImageDataProvider.getImageData(jasperReportsContext, element);
+			return jrPhantomCVElementImageDataProvider.getImageData(repositoryContext, element);
 		}
 
 		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
@@ -66,7 +69,7 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 			if (log.isDebugEnabled()) {
 				log.debug("Using CVC PhantomJS to produce custom visualization image data!");
 			}
-			return cvElementPhantomJSImageProvider.getImageData(jasperReportsContext, element);
+			return cvElementPhantomJSImageProvider.getImageData(repositoryContext, element);
 		}
 
 		throw new JRRuntimeException("Chrome and/or PhantomJS not properly configured for server side rendering");

@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -77,7 +78,8 @@ public class CVElementHtmlHandler extends CVElementAbstractGenericHandler implem
 	{
 		try 
 		{
-			JRPrintImage chartImage = CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
+			JRPrintImage chartImage = CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 			((HtmlExporter)exporterContext.getExporterRef()).writeImage(chartImage, cell);
 		}
 		catch (Exception e) 

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  *
@@ -74,8 +75,9 @@ public class CVElementOdsHandler implements GenericElementOdsHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage = 
-				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+				CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			JROdsExporter exporter = (JROdsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);

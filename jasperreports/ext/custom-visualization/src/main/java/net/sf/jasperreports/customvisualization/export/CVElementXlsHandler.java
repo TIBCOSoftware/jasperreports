@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  *
@@ -74,8 +75,9 @@ public class CVElementXlsHandler implements GenericElementXlsHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage = 
-				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+				CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			JRXlsExporter exporter = (JRXlsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
