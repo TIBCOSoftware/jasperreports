@@ -667,6 +667,11 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		return frameContext;
 	}
 	
+	public Map<PrintElementId, VirtualizableElementList> getVirtualizableLists()
+	{
+		return virtualizableLists;
+	}
+	
 	public void cacheVirtualizableList(PrintElementId id, VirtualizableElementList virtualizableList)
 	{
 		virtualizableLists.put(id, virtualizableList);

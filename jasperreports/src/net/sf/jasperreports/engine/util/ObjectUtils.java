@@ -388,7 +388,7 @@ public class ObjectUtils
 			}
 			
 			String value1 = p1.getProperty(name1);
-			String value2 = p1.getProperty(name1);
+			String value2 = p2.getProperty(name1);
 			if (!equals(value1, value2))
 			{
 				return false;

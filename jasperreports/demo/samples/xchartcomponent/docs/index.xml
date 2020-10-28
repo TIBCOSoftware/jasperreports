@@ -21,7 +21,6 @@ How to implement a custom component to wrap charts rendered by the <a href="http
     	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
-  	<otherSample ref="openflashchart"/>
     <content>
 <subtitle name="overview">The XChart Component - Overview</subtitle>
 <br/>

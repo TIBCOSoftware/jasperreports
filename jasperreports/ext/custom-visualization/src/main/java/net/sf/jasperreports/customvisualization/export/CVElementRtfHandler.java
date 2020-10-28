@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.GenericElementRtfHandler;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  *
@@ -66,8 +67,9 @@ public class CVElementRtfHandler implements GenericElementRtfHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage = 
-				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+				CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			JRRtfExporter exporter = (JRRtfExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage);

@@ -35,17 +35,18 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class CVFillImage extends CVFillComponent {
 
-    private JasperReportsContext jasperReportsContext;
+	private RepositoryContext repositoryContext;
 
     public CVFillImage(CVComponent component, JRFillObjectFactory factory) {
         super(component, factory);
-        this.jasperReportsContext = factory.getFiller().getJasperReportsContext();
+        this.repositoryContext = factory.getFiller().getRepositoryContext();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class CVFillImage extends CVFillComponent {
         JRTemplateGenericPrintElement genericPrintElement = createGenericPrintElement();
         evaluationPerformed(genericPrintElement);
 
-        Renderable renderer = CVElementImageProvider.getInstance().createRenderable(genericPrintElement, this.jasperReportsContext);
+        Renderable renderer = CVElementImageProvider.getInstance().createRenderable(genericPrintElement, this.repositoryContext);
         image.setRenderer(renderer);
     }
 }

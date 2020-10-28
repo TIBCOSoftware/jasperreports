@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -217,10 +216,11 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 		String classpath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_CLASSPATH);
 		
+		// compiling generated sources
+		CompilationUnits compilationUnits = new CompilationUnits(units);
+		JRCompilationUnit[] sourceUnits = compilationUnits.getSourceUnits();
 		try
 		{
-			// compiling generated sources
-			JRCompilationUnit[] sourceUnits = filterSourceUnits(units);
 			if (sourceUnits.length > 0)
 			{
 				String compileErrors = compileUnits(sourceUnits, classpath, tempDirFile);
@@ -235,19 +235,19 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 			// creating the report compile data
 			JRReportCompileData reportCompileData = new JRReportCompileData();
-			reportCompileData.setMainDatasetCompileData(createCompileData(units[0]));
+			reportCompileData.setMainDatasetCompileData(createCompileData(compilationUnits.getCompiledUnit(0)));
 			
 			for (ListIterator<JRDataset> it = datasets.listIterator(); it.hasNext();)
 			{
 				JRDesignDataset dataset = (JRDesignDataset) it.next();
-				reportCompileData.setDatasetCompileData(dataset, createCompileData(units[it.nextIndex()]));
+				reportCompileData.setDatasetCompileData(dataset, createCompileData(compilationUnits.getCompiledUnit(it.nextIndex())));
 			}
 			
 			for (ListIterator<JRCrosstab> it = crosstabs.listIterator(); it.hasNext();)
 			{
 				JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 				Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
-				reportCompileData.setCrosstabCompileData(crosstabId, createCompileData(units[datasets.size() + it.nextIndex()]));
+				reportCompileData.setCrosstabCompileData(crosstabId, createCompileData(compilationUnits.getCompiledUnit(datasets.size() + it.nextIndex())));
 			}
 
 			// creating the report
@@ -278,24 +278,9 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		{
 			if (needsSourceFiles && !isKeepJavaFile)
 			{
-				deleteSourceFiles(units);
+				deleteSourceFiles(sourceUnits);
 			}
 		}
-	}
-	
-	JRCompilationUnit[] filterSourceUnits(JRCompilationUnit[] units)
-	{
-		List<JRCompilationUnit> sourceUnits = new ArrayList<>(units.length);
-		for (JRCompilationUnit unit : units)
-		{
-			if (unit.hasSource())
-			{
-				sourceUnits.add(unit);
-			}
-		}
-		return sourceUnits.size() == units.length 
-				? units
-				: sourceUnits.toArray(new JRCompilationUnit[sourceUnits.size()]);
 	}
 	
 	protected ReportExpressionEvaluationData createCompileData(JRCompilationUnit unit)

@@ -90,6 +90,10 @@
 	font-size: 13px;
 }
 
+.bold {
+	font-weight: bold;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -464,6 +468,11 @@ ga('send', 'pageview');
 
 <xsl:template match="xsd:br">
   <br/>
+</xsl:template>
+
+
+<xsl:template match="xsd:b">
+  <span class="bold"><xsl:value-of select="."/></span>
 </xsl:template>
 
 

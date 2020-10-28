@@ -61,6 +61,11 @@ public interface JasperReportsContext//FIXMECONTEXT extends ExtensionsRegistry
 	 * @return the property value
 	 */
 	public String getProperty(String key);
+	
+	public default String getOwnProperty(String key)
+	{
+		return getProperty(key);
+	}
 
 	/**
 	 * 

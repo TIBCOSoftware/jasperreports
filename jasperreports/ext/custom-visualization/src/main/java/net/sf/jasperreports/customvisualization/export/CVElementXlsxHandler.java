@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementXlsxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -69,8 +71,9 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage =
-					CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+					CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			JRXlsxExporter exporter = (JRXlsxExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, 0, 0, null);// TODO lucianc is this OK?
@@ -84,6 +87,7 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext jrxec, JRGenericPrintElement jrgpe) throws JRException
 	{
-		return CVElementImageProvider.getInstance().getImage(jrxec.getJasperReportsContext(), jrgpe);
+		RepositoryContext repositoryContext = jrxec.getRepository().getRepositoryContext();
+		return CVElementImageProvider.getInstance().getImage(repositoryContext, jrgpe);
 	}
 }

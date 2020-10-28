@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.export.tabulator.TableCell;
 
 /**
  * A generic print element HTML export handler.
@@ -40,5 +41,19 @@ public interface GenericElementHtmlHandler extends GenericElementHandler
 	 * @return the HTML fragment that represents the exported element
 	 */
 	String getHtmlFragment(JRHtmlExporterContext exporterContext, JRGenericPrintElement element);
+	
+	/**
+	 * Exports a generic element.
+	 * 
+	 * <p>
+	 * Access to the exporter output and environment is provided via the
+	 * {@link JRHtmlExporterContext} argument.
+	 * 
+	 * @param exporterContext the exporter context
+	 * @param element the generic element to export
+	 */
+	default void exportElement(JRHtmlExporterContext exporterContext, JRGenericPrintElement element, TableCell cell)
+	{
+	}
 	
 }
