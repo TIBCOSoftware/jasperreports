@@ -51,7 +51,7 @@ public class ScriptManager
 	private static final int COPY_BUFFER_SIZE = 0x4000;
 	
 	private final File tempFolder;
-	private final ConcurrentMapping<String, File> scriptFiles;
+	private final ConcurrentMapping<String, File, JasperReportsContext> scriptFiles;
 
 	private JasperReportsContext jasperReportsContext;
 	
@@ -73,7 +73,7 @@ public class ScriptManager
 			log.error("The PhantomJS temp folder " + tempPath + " does not exist.");
 		}
 		
-		this.scriptFiles = new ConcurrentMapping<>(new ConcurrentMapping.Mapper<String, File>()
+		this.scriptFiles = new ConcurrentMapping<>(new ConcurrentMapping.Mapper<String, File, JasperReportsContext>()
 		{
 			@Override
 			public File compute(String key, JasperReportsContext jasperReportsContext)

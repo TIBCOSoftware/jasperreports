@@ -286,4 +286,9 @@ public final class RepositoryUtil
 		}
 		return resourceInfo;
 	}
+	
+	public RepositoryContext getRepositoryContext()
+	{
+		return context;
+	}
 }

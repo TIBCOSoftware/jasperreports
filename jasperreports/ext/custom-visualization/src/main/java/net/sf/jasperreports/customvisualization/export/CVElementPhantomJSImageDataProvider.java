@@ -26,6 +26,7 @@ package net.sf.jasperreports.customvisualization.export;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,14 +62,14 @@ public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageD
 	/**
 	 * Returns the location of a newly created image,
 	 * 
-	 * @param jasperReportsContext
+	 * @param repositoryContext
 	 * @param element
 	 * @return image byte array
 	 * @throws Exception
 	 */
 	@Override
 	public byte[] getImageData(
-		JasperReportsContext jasperReportsContext, 
+		RepositoryContext repositoryContext, 
 		JRGenericPrintElement element) throws Exception
 	{
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
@@ -76,6 +77,7 @@ public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageD
 			throw new JRRuntimeException("Configuration object is null.");
 		}
 
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
 		if (phantomjsExecutablePath == null)
 		{

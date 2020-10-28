@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  *
@@ -52,8 +53,9 @@ public class CVElementPdfHandler implements GenericElementPdfHandler
 		try
 		{
 			JRPdfExporter exporter = (JRPdfExporter) exporterContext.getExporterRef();
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage printImage =
-					CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+					CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			exporter.exportImage(printImage);
 		}

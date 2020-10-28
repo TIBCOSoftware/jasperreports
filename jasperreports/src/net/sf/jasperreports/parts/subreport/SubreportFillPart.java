@@ -66,7 +66,6 @@ import net.sf.jasperreports.engine.fill.JRHorizontalFiller;
 import net.sf.jasperreports.engine.fill.JRVerticalFiller;
 import net.sf.jasperreports.engine.fill.JasperReportSource;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
-import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.part.BasePartFillComponent;
 import net.sf.jasperreports.engine.part.FillingPrintPart;
 import net.sf.jasperreports.engine.part.PartPrintOutput;
@@ -74,11 +73,6 @@ import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.BookmarksFlatDataSource;
 import net.sf.jasperreports.parts.PartFillerParent;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.repo.RepositoryContext;
-import net.sf.jasperreports.repo.RepositoryResourceContext;
-import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.repo.ResourceInfo;
-import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -166,35 +160,8 @@ public class SubreportFillPart extends BasePartFillComponent
 	private JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
 		reportSource = fillContext.evaluate(subreportPart.getExpression(), evaluation);
-		String reportLocation = null;
-		
-		String contextLocation = null;
-		Object source = reportSource;
-		RepositoryContext currentRepositoryContext = fillContext.getFiller().getRepositoryContext();
-		if (reportSource instanceof String)
-		{
-			reportLocation = (String) reportSource;
-			RepositoryUtil repository = RepositoryUtil.getInstance(currentRepositoryContext);
-			ResourceInfo resourceInfo = repository.getResourceInfo(reportLocation);
-			if (resourceInfo != null)
-			{
-				source = reportLocation = resourceInfo.getRepositoryResourceLocation();
-				contextLocation = resourceInfo.getRepositoryContextLocation();
-				if (log.isDebugEnabled())
-				{
-					log.debug("part source " + source + " resolved to " + reportLocation
-							+ ", context " + contextLocation);
-				}				
-			}
-		}
-		
-		JasperReport jasperReport = JRFillSubreport.loadReport(source, fillContext.getFiller());//FIXMEBOOK cache
-		
-		RepositoryResourceContext currentContext = currentRepositoryContext.getResourceContext();
-		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
-				currentContext == null ? null : currentContext.getDerivedContextFallback());
-		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportLocation, reportContext);
-		return reportSource;
+		return JRFillSubreport.getReportSource(reportSource, subreportPart.getUsingCache(), 
+				fillContext.getFiller());
 	}
 	
 	private JasperReport getReport()

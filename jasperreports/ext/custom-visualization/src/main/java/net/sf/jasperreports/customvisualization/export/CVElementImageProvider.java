@@ -36,6 +36,8 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.SimpleRenderToImageAwareDataRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.repo.RepositoryContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -71,17 +73,17 @@ public class CVElementImageProvider
 	 *
 	 * The ability to set a null renderer works starting from 6.2.2.
 	 * 
-	 * @param jasperReportsContext
+	 * @param repositoryContext
 	 * @param element
 	 * @return
 	 * @throws JRException
 	 */
 	public JRPrintImage getImage(
-		JasperReportsContext jasperReportsContext, 
+		RepositoryContext repositoryContext, 
 		JRGenericPrintElement element) throws JRException
 	{
 		JRPrintImage printImage = createPrintImage(element);
-		Renderable renderable = createRenderable(element, jasperReportsContext);
+		Renderable renderable = createRenderable(element, repositoryContext);
 		printImage.setRenderer(renderable);
 
 		return printImage;
@@ -112,12 +114,13 @@ public class CVElementImageProvider
 
 	public Renderable createRenderable(
 			JRGenericPrintElement element,
-			JasperReportsContext jasperReportsContext) throws JRException
+			RepositoryContext repositoryContext) throws JRException
 	{
 		Renderable cacheRenderer = null;
 
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) != null)
 		{
+			JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 			JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 
 			boolean renderAsPng = CVUtils.isRenderAsPng(element);
@@ -128,7 +131,7 @@ public class CVElementImageProvider
 			{
 				try
 				{
-					byte[] imageData = cvElementImageDataProvider.getImageData(jasperReportsContext, element);
+					byte[] imageData = cvElementImageDataProvider.getImageData(repositoryContext, element);
 
 					if (renderAsPng)
 					{

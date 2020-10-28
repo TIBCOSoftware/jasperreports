@@ -45,6 +45,7 @@ import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.util.Base64Util;
 
@@ -67,19 +68,20 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 
 	@Override
 	public byte[] getImageData(
-		JasperReportsContext jasperReportsContext, 
+		RepositoryContext repositoryContext, 
 		JRGenericPrintElement element) throws Exception {
 
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null) {
 			throw new JRRuntimeException("Configuration object is null.");
 		}
-
+		
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		Chrome chrome = Chrome.instance(jasperReportsContext);
 		ResourceManager resourceManager = ResourceManager.instance();
 		List<String> scriptFilenames = new ArrayList<>();
 
 		for (String scriptLocation: scriptResourceLocations) {
-			scriptFilenames.add(resourceManager.getResourceLocation(scriptLocation, jasperReportsContext));
+			scriptFilenames.add(resourceManager.getResourceLocation(scriptLocation, repositoryContext));
 		}
 
 		if (log.isDebugEnabled()) {
@@ -89,14 +91,14 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 
 		scriptFilenames.add(resourceManager.getResourceLocation(
 				(String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
-				jasperReportsContext));
+				repositoryContext));
 
 		boolean renderAsPng = CVUtils.isRenderAsPng(element);
 
 		String cssUriParameter = (String)element.getParameterValue(CVPrintElement.CSS_URI);
 		String cssUri = null;
 		if (cssUriParameter != null) {
-			String cssResourceLocation = resourceManager.getResourceLocation(cssUriParameter, jasperReportsContext);
+			String cssResourceLocation = resourceManager.getResourceLocation(cssUriParameter, repositoryContext);
 			if (renderAsPng) {
 				cssUri = cssResourceLocation;
 			} else {

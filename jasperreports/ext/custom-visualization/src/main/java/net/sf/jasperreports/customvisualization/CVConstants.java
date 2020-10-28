@@ -104,4 +104,9 @@ public class CVConstants
 	 * Boolean property to produce images instead of generic elements
 	 */
 	public static final String PROPERTY_GENERATE_IMAGE = CV_PREFIX + "generate.image";
+
+	/**
+	 * Boolean property to produce images instead of HTML fragments during HTML export
+	 */
+	public static final String PROPERTY_HTML_GENERATE_IMAGE = CV_PREFIX + "html.generate.image";
 }
