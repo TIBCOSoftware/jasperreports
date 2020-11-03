@@ -269,7 +269,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			String handlerFamily = handleFont(fontInfo, locale);
 			if (handlerFamily != null)
 			{
-				fontFamily = handlerFamily;
+				fontFamily = handlerFamily + ", '" + fontFamily + "'"; // fallback to font family just in case it already exists in the system
 			}
 		}
 		return fontFamily;
