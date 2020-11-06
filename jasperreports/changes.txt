@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.16.0 (2020-11-xx)
+JasperReports 6.16.0 (2020-11-06)
 ---------------------------------------------
 
 - allow generic element HTML export handlers to export generic elements as images 
