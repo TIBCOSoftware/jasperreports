@@ -3052,7 +3052,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfTextField.setOptions(pdfTextField.getOptions() | TextField.MULTILINE);
 		}
 		
-//		text.setRotation(90);
+		if (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE)
+		{
+			pdfTextField.setRotation(90);
+		}
 		pdfTextField.setVisibility(TextField.VISIBLE);
 		
 		PdfFormField field = null;
