@@ -32,17 +32,16 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilationUnit;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.Phases;
+import org.codehaus.groovy.tools.GroovyClass;
 
-import groovyjarjarasm.asm.ClassVisitor;
-import groovyjarjarasm.asm.ClassWriter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -112,8 +111,6 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 			}
 		}
 		
-		ClassCollector collector = new ClassCollector();
-		unit.setClassgenCallback(collector);
 		try 
 		{
 			unit.compile(Phases.CLASS_GENERATION);
@@ -127,14 +124,15 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 					e);
 		}
 
-		if (collector.classes.size() < units.length) 
+		List<GroovyClass> generatedClasses = unit.getClasses();
+		if (generatedClasses.size() < units.length) 
 		{
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED,
 					(Object[])null);
 		} 
-		else if (collector.classCount > units.length) 
+		else if (generatedClasses.size() > units.length) 
 		{
 			throw 
 				new JRException(
@@ -142,39 +140,14 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 					(Object[])null);
 		}
 		
+		Map<String, byte[]> classBytes = generatedClasses.stream().collect(
+				Collectors.toMap(GroovyClass::getName, GroovyClass::getBytes));
 		for (int i = 0; i < units.length; i++)
 		{
-			units[i].setCompileData(collector.classes.get(units[i].getName()));
+			units[i].setCompileData(classBytes.get(units[i].getName()));
 		}
 		
 		return null;
-	}
-
-	
-	/**
-	 *
-	 */
-	private static class ClassCollector implements CompilationUnit.ClassgenCallback 
-	{
-		public Map<String, byte[]> classes = new HashMap<String, byte[]>();
-		public int classCount;
-	
-		/**
-		 * @see org.codehaus.groovy.control.CompilationUnit.ClassgenCallback#call(
-		 *      groovyjarjarasm.asm.ClassVisitor, 
-		 *      org.codehaus.groovy.ast.ClassNode)
-		 */
-		@Override
-		public void call(ClassVisitor writer, ClassNode node) throws CompilationFailedException 
-		{
-			classCount++;
-			String name = node.getName();
-			if (!classes.containsKey(name))
-			{
-				byte[] bytes = ((ClassWriter) writer).toByteArray();
-				classes.put(name, bytes);
-			}
-		}
 	}
 
 
