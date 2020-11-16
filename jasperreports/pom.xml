@@ -185,7 +185,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
-			<version>3.0.3</version>
+			<version>3.0.6</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
