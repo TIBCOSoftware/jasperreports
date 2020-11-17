@@ -2,6 +2,20 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.16.0 (2020-11-06)
+---------------------------------------------
+
+- allow generic element HTML export handlers to export generic elements as images 
+or any other built-in element type;
+
+- new custom property to control the HTML exporting of custom visualization components as images;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.15.0 (2020-10-06)
 ---------------------------------------------
 

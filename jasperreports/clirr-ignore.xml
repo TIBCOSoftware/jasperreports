@@ -1,2 +1,29 @@
 <differences>
+	<difference>
+		<className>net/sf/jasperreports/chrome/ResourceManager*</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/ConcurrentMapping*</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillSubreport</className>
+		<differenceType>7004</differenceType>
+		<method>*loadReportSource(java.lang.Object, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JasperReportsContext</className>
+		<differenceType>7012</differenceType>
+		<method>*getOwnProperty(java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/GenericElementHtmlHandler</className>
+		<differenceType>7012</differenceType>
+		<method>*exportElement(*)</method>
+	</difference>
 </differences>
