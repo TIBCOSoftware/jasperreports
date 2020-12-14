@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * @author Giulio Toffoli
@@ -67,8 +68,9 @@ public class CVElementDocxHandler implements GenericElementDocxHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage =
-					CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+					CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 						
 			JRDocxExporter exporter = (JRDocxExporter) exporterContext.getExporterRef();
 	  		exporter.exportImage(exporterContext.getTableHelper(), chartImage, gridCell);

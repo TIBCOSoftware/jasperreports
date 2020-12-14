@@ -290,6 +290,12 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	}
 	
 	@Override
+	public String getOwnProperty(String key)
+	{
+		return properties.get(key);
+	}
+	
+	@Override
 	public void setProperty(String key, String value)
 	{
 		properties.put(key, value);

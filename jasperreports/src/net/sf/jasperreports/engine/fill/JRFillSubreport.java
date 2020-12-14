@@ -360,13 +360,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
-		JasperReportSource report = null;
-		
 		JRExpression expression = getExpression();
 		source = evaluateExpression(expression, evaluation);
+		return getReportSource(source, getUsingCache(), filler);
+	}
+	
+	public static JasperReportSource getReportSource(Object source, Boolean isUsingCache,
+			BaseReportFiller filler) throws JRException
+	{
+		JasperReportSource report = null;
 		if (source != null) // FIXME put some default broken image like in browsers
 		{
-			Boolean isUsingCache = getUsingCache();
 			if (isUsingCache == null)
 			{
 				isUsingCache = source instanceof String;
@@ -390,7 +394,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 					ResourceInfo resourceInfo = repository.getResourceInfo((String) source);
 					if (resourceInfo == null)
 					{
-						report = loadReportSource(source, null);
+						report = loadReportSource(source, null, filler);
 					}
 					else
 					{
@@ -409,7 +413,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 						}
 						else
 						{
-							report = loadReportSource(reportLocation, contextLocation);
+							report = loadReportSource(reportLocation, contextLocation, filler);
 							if (isUsingCache)
 							{
 								filler.fillContext.registerLoadedSubreport(absolutePathKey, report);
@@ -419,7 +423,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 				else
 				{
-					report = loadReportSource(source, null);
+					report = loadReportSource(source, null, filler);
 				}
 				
 				if (isUsingCache)
@@ -428,16 +432,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 			}
 		}
-
-		if (report == null)
-		{
-			return null;
-		}
 		
 		return report;
 	}
 	
-	protected JasperReportSource loadReportSource(Object reportSource, String contextLocation) throws JRException
+	protected static JasperReportSource loadReportSource(Object reportSource, String contextLocation, 
+			BaseReportFiller filler) throws JRException
 	{
 		JasperReport jasperReport = loadReport(reportSource, filler);
 		JasperReportSource report = null;

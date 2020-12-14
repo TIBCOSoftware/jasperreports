@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.Serializable;
+
 /**
  * An Id for a print element.
  * 
@@ -30,8 +32,10 @@ package net.sf.jasperreports.engine;
  * @see JRPrintElement#getSourceElementId()
  * @see JRPrintElement#getPrintElementId()
  */
-public class PrintElementId
+public class PrintElementId implements Serializable
 {
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static PrintElementId forElement(JRPrintElement element)
 	{

@@ -413,14 +413,26 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			if (reportContext == null) 
 			{
 				@SuppressWarnings("deprecation")
-				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
-					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
+				HtmlResourceHandler fontHandler = 
+					getExporterOutput().getFontHandler() == null
+					? getFontHandler()
+					: getExporterOutput().getFontHandler();
+				if (fontHandler == null)
+				{
+					@SuppressWarnings("deprecation")
+					HtmlResourceHandler resourceHandler = 
+						getExporterOutput().getResourceHandler() == null
+						? getResourceHandler()
+						: getExporterOutput().getResourceHandler();
+					fontHandler = resourceHandler;
+				}
 
 				for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
 				{
-					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(resourceHandler.getResourcePath(htmlFontFamily.getId())) + "\">\n");
+					// the fontHandler is used only here, to point to the URL that generates the dynamic CSS for static HTML export in server environments;
+					// in non server environments, the static HTML saved to file system uses the static resource handler to point to the font CSS file, 
+					// which was also saved using a static resource handler
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(fontHandler.getResourcePath(htmlFontFamily.getId())) + "\">\n");
 				}
 				
 				// generate script tag on static export only
@@ -854,7 +866,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		styleBuffer.append(";");
 	}
 
-	protected void writeImage(JRPrintImage image, TableCell cell)
+	public void writeImage(JRPrintImage image, TableCell cell)
 			throws IOException, JRException
 	{
 		startCell(image, cell);
@@ -1889,7 +1901,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return line.getWidth() > 1 && line.getHeight() > 1;
 	}
 	
-	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException
+	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException, JRException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
 				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
@@ -1907,23 +1919,27 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			startCell(element, cell);
-
-			StringBuilder styleBuffer = new StringBuilder();
-			appendElementCellGenericStyle(cell, styleBuffer);
-			appendBackcolorStyle(cell, styleBuffer);
-			appendBorderStyle(cell.getBox(), styleBuffer);
-			writeStyle(styleBuffer);
-
-			finishStartCell();
-			
 			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
-			if (htmlFragment != null)
+			if (htmlFragment == null)
 			{
-				writer.write(htmlFragment);
+				handler.exportElement(exporterContext, element, cell);
 			}
-			
-			endCell();
+			else
+			{
+				startCell(element, cell);
+
+				StringBuilder styleBuffer = new StringBuilder();
+				appendElementCellGenericStyle(cell, styleBuffer);
+				appendBackcolorStyle(cell, styleBuffer);
+				appendBorderStyle(cell.getBox(), styleBuffer);
+				writeStyle(styleBuffer);
+
+				finishStartCell();
+				
+				writer.write(htmlFragment);
+				
+				endCell();
+			}
 		}
 	}
 	
@@ -3114,11 +3130,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				writeImage(image, cell);
 			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JRException e)
+			catch (IOException | JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -3180,7 +3192,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				writeGenericElement(printElement, cell);
 			} 
-			catch (IOException e)
+			catch (IOException | JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}

@@ -89,6 +89,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	private String anchorName;
+	private Integer bookmarkLevel;
 	private String hyperlinkReference;
 	private Boolean hyperlinkWhen;
 	private String hyperlinkAnchor;
@@ -321,6 +322,13 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		return ((JRTextField)parent).getPatternExpression();
 	}
+	
+	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return ((JRTextField)parent).getBookmarkLevelExpression();
+	}
+	
 
 	@Override
 	public JRExpression getAnchorNameExpression()
@@ -525,6 +533,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
+
 			if (isEvaluateNow())
 			{
 				evaluateText(evaluation);
@@ -1057,7 +1067,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	public int getBookmarkLevel()
 	{
-		return ((JRTextField)parent).getBookmarkLevel();
+		return bookmarkLevel == null ? ((JRTextField) parent).getBookmarkLevel() : bookmarkLevel;
 	}
 
 

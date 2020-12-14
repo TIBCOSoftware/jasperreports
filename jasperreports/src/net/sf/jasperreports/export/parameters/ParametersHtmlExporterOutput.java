@@ -48,6 +48,7 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 	 * 
 	 */
 	private HtmlResourceHandler imageHandler;
+	private HtmlResourceHandler fontHandler;
 	private HtmlResourceHandler resourceHandler;
 	
 	/**
@@ -131,6 +132,12 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 						imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
 					}
 
+					if (fontHandler == null)
+					{
+						File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
+						fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
+					}
+
 					if (resourceHandler == null)
 					{
 						File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
@@ -155,13 +162,10 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 		return imageHandler;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getResourceHandler()}.
-	 */
 	@Override
 	public HtmlResourceHandler getFontHandler() 
 	{
-		return getResourceHandler();
+		return fontHandler;
 	}
 
 	@Override

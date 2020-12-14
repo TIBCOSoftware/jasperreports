@@ -1105,6 +1105,7 @@ public class JRApiWriter
 			
 			writeExpression( image.getExpression(), imageName, "Expression");
 			writeExpression( image.getAnchorNameExpression(), imageName, "AnchorNameExpression");
+			writeExpression( image.getBookmarkLevelExpression(), imageName, "BookmarkLevelExpression");
 			writeExpression( image.getHyperlinkReferenceExpression(), imageName, "HyperlinkReferenceExpression");
 			writeExpression( image.getHyperlinkWhenExpression(), imageName, "HyperlinkWhenExpression");
 			writeExpression( image.getHyperlinkAnchorExpression(), imageName, "HyperlinkAnchorExpression");
@@ -1273,6 +1274,8 @@ public class JRApiWriter
 	
 			writeExpression( textField.getPatternExpression(), textFieldName, "PatternExpression");
 			
+			writeExpression( textField.getBookmarkLevelExpression(), textFieldName, "BookmarkLevelExpression");
+			
 			writeExpression( textField.getAnchorNameExpression(), textFieldName, "AnchorNameExpression");
 	
 			writeExpression( textField.getHyperlinkReferenceExpression(), textFieldName, "HyperlinkReferenceExpression");
@@ -1426,7 +1429,7 @@ public class JRApiWriter
 				write( chartName + ".setLegendFont(new JRBaseFont());\n");
 				writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
 			}
-	
+			writeExpression( chart.getBookmarkLevelExpression(), chartName, "BookmarkLevelExpression");
 			writeExpression( chart.getAnchorNameExpression(), chartName, "AnchorNameExpression");
 			writeExpression( chart.getHyperlinkReferenceExpression(), chartName, "HyperlinkReferenceExpression");
 			writeExpression( chart.getHyperlinkWhenExpression(), chartName, "HyperlinkWhenExpression");//FIXMENOW can we reuse hyperlink write method?

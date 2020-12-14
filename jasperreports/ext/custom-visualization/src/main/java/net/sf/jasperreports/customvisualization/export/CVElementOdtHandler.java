@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.oasis.GenericElementOdtHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporterContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * @author Giulio Toffoli
@@ -67,8 +68,9 @@ public class CVElementOdtHandler implements GenericElementOdtHandler
 
 		try
 		{
+			RepositoryContext repositoryContext = exporterContext.getRepository().getRepositoryContext();
 			JRPrintImage chartImage = 
-				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+				CVElementImageProvider.getInstance().getImage(repositoryContext, element);
 
 			JROdtExporter exporter = (JROdtExporter) exporterContext.getExporterRef();
 			exporter.exportImage(exporterContext.getTableBuilder(), chartImage, gridCell);

@@ -194,7 +194,9 @@ Some of the document formats, such as PDF, have built-in support for tables of c
 and bookmarks. To allow you to make use of this, JasperReports lets you transform 
 anchors into document bookmarks. To be used as bookmarks, anchors should have an 
 indentation level set. To do this, set a positive integer value for the <code>bookmarkLevel</code> 
-attribute available for all hyperlink elements in JasperReports.
+attribute available for all hyperlink elements in JasperReports. In case you need to set the bookmark level 
+dynamically, you could use the element's <code>&lt;bookmarkLevelExpression/&gt;</code> instead. It will 
+override the <code>bookmarkLevel</code> attribute.
 <br/>
 <br/>
 <b>Creating a Local Anchor Example</b>

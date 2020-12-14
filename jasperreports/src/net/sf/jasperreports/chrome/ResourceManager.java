@@ -45,7 +45,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.util.ConcurrentMapping;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -105,7 +107,12 @@ public class ResourceManager
 
 	public String getResourceLocation(String resourceLocation, JasperReportsContext jasperReportsContext)
 	{
-		File resourceMapping = resourceMapping(resourceLocation, jasperReportsContext);
+		return getResourceLocation(resourceLocation, SimpleRepositoryContext.of(jasperReportsContext));
+	}
+
+	public String getResourceLocation(String resourceLocation, RepositoryContext repositoryContext)
+	{
+		File resourceMapping = resourceMapping(resourceLocation, repositoryContext);
 		if (resourceMapping == null)
 		{
 			throw new JRRuntimeException(RepositoryUtil.EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND,
@@ -134,15 +141,18 @@ public class ResourceManager
 		return resourceFile.toURI().toString();
 	}
 	
-	protected File resourceMapping(String resourceLocation, JasperReportsContext jasperReportsContext)
+	protected File resourceMapping(String resourceLocation, RepositoryContext repositoryContext)
 	{
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		if (jasperReportsContext instanceof SimpleJasperReportsContext)
 		{
 			JasperReportsContext parentContext = ((SimpleJasperReportsContext) jasperReportsContext).getParent();
 			if (parentContext != null)
 			{
 				//looking first in the parent so that contexts that share a parent would also share the mappings
-				File parentMapping = resourceMapping(resourceLocation, parentContext);
+				SimpleRepositoryContext parentRepositoryContext = SimpleRepositoryContext.of(
+						parentContext, repositoryContext.getResourceContext());
+				File parentMapping = resourceMapping(resourceLocation, parentRepositoryContext);
 				if (parentMapping != null)
 				{
 					return parentMapping;
@@ -151,13 +161,13 @@ public class ResourceManager
 		}
 		
 		ContextMappings mappings = contextMappings(jasperReportsContext);		
-		File resourceFile = mappings.resourceMapping(resourceLocation, jasperReportsContext);
+		File resourceFile = mappings.resourceMapping(resourceLocation, repositoryContext);
 		return resourceFile;
 	}
 
-	protected File copyResource(String resourceLocation, JasperReportsContext jasperReportsContext, File tempFolder)
+	protected File copyResource(String resourceLocation, RepositoryContext repositoryContext, File tempFolder)
 	{
-		try(InputStream input = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(resourceLocation))
+		try(InputStream input = RepositoryUtil.getInstance(repositoryContext).getInputStreamFromLocation(resourceLocation))
 		{
 			File file = createTempFile(resourceLocation, tempFolder);
 			copyToFile(resourceLocation, input, file);
@@ -220,8 +230,8 @@ public class ResourceManager
 	
 	protected class ContextMappings
 	{
-		private final ConcurrentMapping<String, File> resourceFiles;
-		private final ConcurrentMapping<String, File> dataResourceFiles;
+		private final ConcurrentMapping<String, File, RepositoryContext> resourceFiles;
+		private final ConcurrentMapping<String, File, JasperReportsContext> dataResourceFiles;
 		protected final File tempFolder;
 		
 		public ContextMappings(JasperReportsContext jasperReportsContext)
@@ -249,11 +259,11 @@ public class ResourceManager
 					-> createTempFile(resourceName, tempFolder));
 		}
 		
-		public File resourceMapping(String resourceLocation, JasperReportsContext jasperReportsContext)
+		public File resourceMapping(String resourceLocation, RepositoryContext repositoryContext)
 		{
 			try
 			{
-				return resourceFiles.get(resourceLocation, jasperReportsContext);
+				return resourceFiles.get(resourceLocation, repositoryContext);
 			}
 			catch (JRRuntimeException e)
 			{

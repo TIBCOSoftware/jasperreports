@@ -73,6 +73,14 @@ public class FillChartSettings implements ChartSettings
 	public JRExpression getAnchorNameExpression() {
 		return parent.getAnchorNameExpression();
 	}
+	
+	/**
+	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevelExpression()
+	 */
+	@Override
+	public JRExpression getBookmarkLevelExpression() {
+		return parent.getBookmarkLevelExpression();
+	}
 
 	/**
 	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevel()

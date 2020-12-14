@@ -91,6 +91,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private Integer imageHeight;
 	private Integer imageWidth;
 	private Integer imageX;
+	private Integer bookmarkLevel;
 	private String anchorName;
 	private String hyperlinkReference;
 	private Boolean hyperlinkWhen;
@@ -318,6 +319,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	@Override
+	public JRExpression getBookmarkLevelExpression()
+	{
+		return ((JRImage)this.parent).getBookmarkLevelExpression();
+	}
+	
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return ((JRImage)this.parent).getAnchorNameExpression();
@@ -436,6 +443,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			bookmarkLevel = getBookmarkLevel(evaluateExpression(this.getBookmarkLevelExpression(), evaluation));
+
 			if (isEvaluateNow())
 			{
 				hasOverflowed = false;
@@ -1128,7 +1137,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	@Override
 	public int getBookmarkLevel()
 	{
-		return ((JRImage)this.parent).getBookmarkLevel();
+		return this.bookmarkLevel == null ? ((JRImage)this.parent).getBookmarkLevel() : this.bookmarkLevel;
 	}
 
 

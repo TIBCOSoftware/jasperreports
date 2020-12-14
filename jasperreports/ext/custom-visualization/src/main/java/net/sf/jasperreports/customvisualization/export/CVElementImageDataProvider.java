@@ -24,11 +24,11 @@
 package net.sf.jasperreports.customvisualization.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public interface CVElementImageDataProvider {
-    byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws Exception;
+    byte[] getImageData(RepositoryContext repositoryContext, JRGenericPrintElement element) throws Exception;
 }

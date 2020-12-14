@@ -869,6 +869,7 @@
     <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bookmarkLevelExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>

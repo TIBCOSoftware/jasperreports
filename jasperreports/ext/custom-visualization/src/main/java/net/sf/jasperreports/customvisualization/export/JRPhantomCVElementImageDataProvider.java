@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.phantomjs.PhantomJS;
 import net.sf.jasperreports.phantomjs.ScriptManager;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.util.Base64Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,13 +55,14 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 
 	@Override
 	public byte[] getImageData(
-		JasperReportsContext jasperReportsContext, 
+		RepositoryContext repositoryContext, 
 		JRGenericPrintElement element) throws Exception {
 
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null) {
 			throw new JRRuntimeException("Configuration object is null.");
 		}
 
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		PhantomJS phantom = PhantomJS.instance();
 		ScriptManager scriptManager = phantom.getScriptManager();
 		List<String> scriptFilenames = new ArrayList<>();

@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
+import net.sf.jasperreports.engine.fill.JRFillElement;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -74,6 +75,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
+	private Integer bookmarkLevel;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 	
 	private JRFillExpressionEvaluator expressionEvaluator;
@@ -102,6 +104,12 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
+		bookmarkLevel = JRFillElement.getBookmarkLevel(fillContext.evaluate(getChartSettings().getBookmarkLevelExpression(), evaluation));
+		if (bookmarkLevel == null)
+		{
+			bookmarkLevel = getChartSettings().getBookmarkLevel();
+		}
+
 		if (isEvaluateNow())
 		{
 			evaluateRenderer(evaluation);
@@ -335,8 +343,11 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		return hyperlinkTooltip;
 	}
 	
+	/**
+	 * @return the bookmark level
+	 */
 	public int getBookmarkLevel() {
-		return getChartSettings().getBookmarkLevel();
+		return bookmarkLevel == null ? getChartSettings().getBookmarkLevel() : bookmarkLevel;
 	}
 
 	/**
