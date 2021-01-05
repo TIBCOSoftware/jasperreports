@@ -16,6 +16,6 @@
 		<dependency org="org.glassfish.tyrus" name="tyrus-core" rev="1.13.1" conf="test->*"/>
 		<dependency org="org.glassfish.grizzly" name="grizzly-framework" rev="2.3.25" conf="test->*"/>
 		<dependency org="org.glassfish.grizzly" name="grizzly-http" rev="2.3.25" conf="test->*"/>
-		<dependency org="org.javassist" name="javassist" rev="3.24.1-GA" conf="test->*"/>
+		<dependency org="org.javassist" name="javassist" rev="3.27.0-GA" conf="test->*"/>
 	</dependencies>
 </ivy-module>
