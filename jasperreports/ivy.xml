@@ -53,9 +53,9 @@
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
 		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.13"/>
 		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.12"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.8.2" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.8.2" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.14.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.14.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.14.0" conf="test->*"/>
 		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-core" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="7.3.0"/>
