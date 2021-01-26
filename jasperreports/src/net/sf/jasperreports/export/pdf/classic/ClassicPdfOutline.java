@@ -21,30 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf.classic;
 
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfOutline;
 
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import net.sf.jasperreports.export.pdf.PdfOutlineEntry;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public class ClassicPdfOutline implements PdfOutlineEntry
 {
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
-	
-	PdfProducer getPdfProducer();
-	
+	private PdfOutline pdfOutline;
+
+	public ClassicPdfOutline(PdfOutline pdfOutline)
+	{
+		this.pdfOutline = pdfOutline;
+	}
+
+	@Override
+	public PdfOutlineEntry createChild(String title)
+	{
+		PdfOutline childOutline = new PdfOutline(pdfOutline, pdfOutline.getPdfDestination(), title, false);
+		return new ClassicPdfOutline(childOutline);
+	}
+
+	@Override
+	public PdfOutlineEntry createChild(String title, float left, float top)
+	{
+		PdfDestination destination = new PdfDestination(PdfDestination.XYZ, left, top, 0);
+		PdfOutline childOutline = new PdfOutline(pdfOutline, destination, title, false);
+		return new ClassicPdfOutline(childOutline);
+	}
+
 }

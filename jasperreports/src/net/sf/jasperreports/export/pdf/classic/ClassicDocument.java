@@ -21,30 +21,65 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf.classic;
 
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.Document;
 
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import net.sf.jasperreports.export.pdf.PdfDocument;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public class ClassicDocument implements PdfDocument
 {
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
-	
-	PdfProducer getPdfProducer();
+	private Document document;
+
+	public ClassicDocument(Document document)
+	{
+		this.document = document;
+	}
+
+	public Document getDocument()
+	{
+		return document;
+	}
+
+	@Override
+	public void addTitle(String title)
+	{
+		document.addTitle(title);
+	}
+
+	@Override
+	public void addAuthor(String author)
+	{
+		document.addAuthor(author);
+	}
+
+	@Override
+	public void addSubject(String subject)
+	{
+		document.addSubject(subject);
+	}
+
+	@Override
+	public void addKeywords(String keywords)
+	{
+		document.addKeywords(keywords);
+	}
+
+	@Override
+	public void addCreator(String creator)
+	{
+		document.addCreator(creator);
+	}
+
+	@Override
+	public void open()
+	{
+		document.open();
+	}
 	
 }

@@ -26,17 +26,14 @@ package net.sf.jasperreports.engine.export;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
-
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.pdf.PdfPhrase;
+import net.sf.jasperreports.export.pdf.PdfProducer;
+import net.sf.jasperreports.export.pdf.PdfTextAlignment;
+import net.sf.jasperreports.export.pdf.TextDirection;
 
 
 /**
@@ -80,7 +77,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	@Override
 	public void initialize(
 		JRPdfExporter pdfExporter, 
-		PdfContentByte pdfContentByte,
+		PdfProducer pdfProducer,
 		JRPrintText text, 
 		JRStyledText styledText, 
 		int offsetX,
@@ -89,7 +86,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	{
 		super.initialize(
 			pdfExporter, 
-			pdfContentByte,
+			pdfProducer,
 			text, 
 			styledText, 
 			offsetX,
@@ -144,9 +141,9 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 					);
 		}
 		
-		ColumnText colText = new ColumnText(pdfContentByte);
-		colText.setSimpleColumn(
-			pdfExporter.getPhrase(paragraph, paragraphText, text),
+		PdfPhrase phrase = pdfProducer.createPhrase();
+		pdfExporter.getPhrase(paragraph, paragraphText, text, phrase);
+		yLine = phrase.go(
 			x + leftPadding,
 			yLine,
 			x + width - rightPadding,
@@ -155,26 +152,12 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 				- height
 				+ bottomPadding,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
-			horizontalAlignment == Element.ALIGN_JUSTIFIED && (isLastParagraph && justifyLastLine) 
-				? Element.ALIGN_JUSTIFIED_ALL : horizontalAlignment
-			);
-
-		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
-		colText.setRunDirection(
+			text.getLineSpacingFactor(),
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (isLastParagraph && justifyLastLine) 
+				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
-			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+				? TextDirection.LTR : TextDirection.RTL
 			);
-
-		try
-		{
-			colText.go();
-		}
-		catch (DocumentException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		yLine = colText.getYLine();
 	}
 
 
@@ -189,5 +172,12 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	public void draw()
 	{
 		//nothing to do
+	}
+
+
+	@Override
+	public boolean addActualText()
+	{
+		return false;
 	}
 }

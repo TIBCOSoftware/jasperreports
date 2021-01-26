@@ -21,30 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf;
 
-import com.lowagie.text.pdf.PdfWriter;
-
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public interface PdfTextField extends PdfField
 {
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
-	
-	PdfProducer getPdfProducer();
-	
+	void setChoices(String[] choices);
+
+	void setChoiceSelection(int i);
+
+	void add(PdfFieldTypeEnum fieldType);
+
 }

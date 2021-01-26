@@ -21,30 +21,71 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf.classic;
 
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.Image;
 
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import net.sf.jasperreports.export.pdf.PdfImage;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public class ClassicImage implements PdfImage
 {
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
+	private Image image;
+
+	public ClassicImage(Image image)
+	{
+		this.image = image;
+	}
 	
-	PdfProducer getPdfProducer();
-	
+	public Image getImage()
+	{
+		return image;
+	}
+
+	@Override
+	public float getPlainWidth()
+	{
+		return image.getPlainWidth();
+	}
+
+	@Override
+	public float getPlainHeight()
+	{
+		return image.getPlainHeight();
+	}
+
+	@Override
+	public float getScaledWidth()
+	{
+		return image.getScaledWidth();
+	}
+
+	@Override
+	public float getScaledHeight()
+	{
+		return image.getScaledHeight();
+	}
+
+	@Override
+	public void scaleAbsolute(int width, int height)
+	{
+		image.scaleAbsolute(width, height);
+	}
+
+	@Override
+	public void scaleToFit(int width, int height)
+	{
+		image.scaleToFit(width, height);
+	}
+
+	@Override
+	public void setRotationDegrees(int degrees)
+	{
+		image.setRotationDegrees(degrees);
+	}
+
 }

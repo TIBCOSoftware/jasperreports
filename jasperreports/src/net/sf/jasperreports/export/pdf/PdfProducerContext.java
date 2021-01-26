@@ -21,30 +21,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf;
 
-import com.lowagie.text.pdf.PdfWriter;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Locale;
+import java.util.Map;
 
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.export.type.PdfVersionEnum;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public interface PdfProducerContext
 {
+	
+	JasperReportsContext getJasperReportsContext();
+	
+	JRPropertiesUtil getProperties();
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
+	FontUtil getFontUtil();
+
+	JRStyledTextUtil getStyledTextUtil();
+
+	boolean isTagged();
+
+	void setMinimalVersion(PdfVersionEnum version);
+
+	JasperPrint getCurrentJasperPrint();
 	
-	PdfProducer getPdfProducer();
+	void setFont(Map<Attribute,Object> attributes, Locale locale, boolean setFontLines,
+			FontRecipient recipient);
 	
+	JRException handleDocumentException(Exception e);
+
 }

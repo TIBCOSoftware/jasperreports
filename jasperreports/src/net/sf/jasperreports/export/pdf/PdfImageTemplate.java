@@ -21,30 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf;
 
-import com.lowagie.text.pdf.PdfWriter;
-
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import java.awt.Graphics2D;
+import java.io.IOException;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public interface PdfImageTemplate
 {
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
-	
-	PdfProducer getPdfProducer();
-	
+	Graphics2D createGraphics(float templateWidth, float templateHeight);
+
+	Graphics2D createGraphicsShapes(float templateWidth, float templateHeight);
+
+	void add(float ratioX, float ratioY, float x, float y) throws IOException;
+
 }

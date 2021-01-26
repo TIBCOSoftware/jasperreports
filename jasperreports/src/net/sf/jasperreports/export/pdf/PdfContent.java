@@ -21,30 +21,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.export.pdf;
 
-import com.lowagie.text.pdf.PdfWriter;
-
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public interface PdfContent
 {
+	
+	void setFillColor(Color color);
 
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
+	void setFillColorAlpha(int alpha);
+
+	void resetFillColor();
+
+	void setStrokeColor(Color color);
+
+	void resetStrokeColor();
 	
-	PdfProducer getPdfProducer();
+	void setLineWidth(float lineWidth);
+
+	void setLineCap(LineCapStyle lineCap);
+
+	void setLineDash(float f);
+
+	void setLineDash(float lineWidth, float lineWidth2, float f);
+
+	void strokeLine(float x1, float y1, float x2, float y2);
 	
+	void fillRectangle(float x, float y, float width, float height);
+
+	void fillRoundRectangle(float x, float y, float width, float height, float radius);
+
+	void strokeRoundRectangle(float x, float y, float width, float height, float radius);
+
+	void fillEllipse(float x1, float y1, float x2, float y2);
+
+	void strokeEllipse(float x1, float y1, float x2, float y2);
+
+	void setLiteral(String string);
+
+	void transform(AffineTransform atrans);
+
 }

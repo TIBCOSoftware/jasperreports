@@ -21,30 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
-
-import com.lowagie.text.pdf.PdfWriter;
-
-import net.sf.jasperreports.export.pdf.PdfProducer;
-
+package net.sf.jasperreports.export.pdf;
 
 /**
- * A context that represents information about an PDF export process.
- * 
- * @see JRPdfExporter
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRPdfExporterContext extends JRExporterContext
+public enum TextDirection
 {
-
-	/**
-	 * Returns the {@link PdfWriter} instance used by the exporter.
-	 * 
-	 * @return the exporter's {@link PdfWriter} instance
-	 */
-	PdfWriter getPdfWriter();
-	
-	PdfProducer getPdfProducer();
-	
+	DEFAULT,
+	LTR,
+	RTL
 }
