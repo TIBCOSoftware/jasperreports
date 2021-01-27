@@ -112,7 +112,7 @@ public class ClassicPdfStructure implements PdfStructure
 	{
 		ClassicStructureEntry tag = createElement(parent, name);
 		pdfProducer.getPdfContentByte().beginMarkedContentSequence(tag.getElement());
-		return createElement(parent, name);
+		return tag;
 	}
 
 	@Override
