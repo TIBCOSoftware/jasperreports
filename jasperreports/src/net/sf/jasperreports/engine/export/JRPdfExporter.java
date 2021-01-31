@@ -849,7 +849,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							? (Integer)configuration.getPermissions() 
 							: 0));
 				
-						pdfWriter.setEncryption(configuration, perms);
+						pdfWriter.setEncryption(configuration.getUserPassword(), configuration.getOwnerPassword(), 
+								perms, configuration.is128BitKey());
 			}
 			
 

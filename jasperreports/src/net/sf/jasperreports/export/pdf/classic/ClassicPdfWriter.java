@@ -41,7 +41,6 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.export.PdfXmpCreator;
-import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.pdf.PdfDocumentWriter;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
@@ -89,15 +88,16 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	}
 
 	@Override
-	public void setEncryption(PdfExporterConfiguration configuration, int permissions) throws JRException
+	public void setEncryption(String userPassword, String ownerPassword, 
+			int permissions, boolean is128BitKey) throws JRException
 	{
 		try
 		{
 			pdfWriter.setEncryption(
-					PdfWriter.getISOBytes(configuration.getUserPassword()),
-					PdfWriter.getISOBytes(configuration.getOwnerPassword()),
+					PdfWriter.getISOBytes(userPassword),
+					PdfWriter.getISOBytes(ownerPassword),
 					permissions,
-					configuration.is128BitKey() ? PdfWriter.STANDARD_ENCRYPTION_128 : PdfWriter.STANDARD_ENCRYPTION_40
+					is128BitKey ? PdfWriter.STANDARD_ENCRYPTION_128 : PdfWriter.STANDARD_ENCRYPTION_40
 					);
 		}
 		catch (DocumentException e)
