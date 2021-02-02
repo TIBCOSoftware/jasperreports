@@ -430,7 +430,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-12-SNAPSHOT</version>
+			<version>develop-13-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
