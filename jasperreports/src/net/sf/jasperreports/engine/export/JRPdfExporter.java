@@ -109,6 +109,7 @@ import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -138,7 +139,6 @@ import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
 import net.sf.jasperreports.export.pdf.TextDirection;
 import net.sf.jasperreports.export.pdf.classic.ClassicPdfProducer;
-import net.sf.jasperreports.export.pdf.classic.ClassicPdfProducerFactory;
 import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
@@ -517,6 +517,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	public static final String PDF_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "pdf";
 	
+	public static final String PDF_PRODUCER_FACTORY_PROPERTY = PDF_EXPORTER_PROPERTIES_PREFIX + "producer.factory";
+	
 	private static final String EMPTY_BOOKMARK_TITLE = "";
 
 	/**
@@ -525,6 +527,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
 	protected static boolean fontsRegistered;
+	
+	private static final JRSingletonCache<PdfProducerFactory> pdfProducerCache = 
+			new JRSingletonCache<>(PdfProducerFactory.class);
 
 	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
 	{
@@ -730,8 +735,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected PdfProducerFactory getPdfProducerFactory()
 	{
-		//TODO lucian
-		return new ClassicPdfProducerFactory();
+		String producerFactory = propertiesUtil.getProperty(PDF_PRODUCER_FACTORY_PROPERTY);
+		try
+		{
+			return pdfProducerCache.getCachedInstance(producerFactory);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 	protected PdfProducerContext createPdfProducerContext()
