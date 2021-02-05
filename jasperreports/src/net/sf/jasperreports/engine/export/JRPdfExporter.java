@@ -133,7 +133,6 @@ import net.sf.jasperreports.export.pdf.PdfProducer;
 import net.sf.jasperreports.export.pdf.PdfProducerContext;
 import net.sf.jasperreports.export.pdf.PdfProducerFactory;
 import net.sf.jasperreports.export.pdf.PdfRadioCheck;
-import net.sf.jasperreports.export.pdf.PdfRadioGroup;
 import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
@@ -584,9 +583,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private boolean defaultJustifyLastLine;
 
 	private PdfVersionEnum minimalVersion;
-	
-	private Map<String, PdfRadioCheck> radioFieldFactories;
-	private Map<String, PdfRadioGroup> radioGroups;
 
 	/**
 	 * @see #JRPdfExporter(JasperReportsContext)
@@ -1130,15 +1126,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
 
-		if (radioGroups != null)
-		{
-			for (PdfRadioGroup radioGroup : radioGroups.values())
-			{
-				radioGroup.add();
-			}
-			radioGroups = null;
-			radioFieldFactories = null; // radio groups that overflow unto next page don't seem to work; reset everything as it does not make sense to keep them
-		}
+		pdfProducer.endPage();
 		
 		tagHelper.endPage();
 
@@ -2721,13 +2709,47 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		String fieldName = text.getPropertiesMap().getProperty(PDF_FIELD_NAME);
 		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + text.getUUID() : fieldName;
 		
-		PdfTextField pdfTextField = pdfProducer.createTextField(
-				text.getX() + exporterContext.getOffsetX(),
-				jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY(),
-				text.getX() + exporterContext.getOffsetX() + text.getWidth(),
-				jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY() - text.getHeight(),
-				fieldName
-				);
+		String value = null;
+		if (text.getPropertiesMap().containsProperty(PDF_FIELD_VALUE))
+		{
+			value = text.getPropertiesMap().getProperty(PDF_FIELD_VALUE);
+		}
+		else
+		{
+			value = text.getFullText();
+		}
+		
+		int llx = text.getX() + exporterContext.getOffsetX();
+		int lly = jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY();
+		int urx = llx + text.getWidth();
+		int ury = jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY() - text.getHeight();
+		
+		PdfTextField pdfTextField;
+		switch (fieldType)
+		{
+		case TEXT:
+			pdfTextField = pdfProducer.createTextField(llx, lly, urx, ury, fieldName);			
+			if (value != null)
+			{
+				pdfTextField.setText(value);
+			}
+			break;
+		case COMBO:
+			String[] comboChoices = getPdfFieldChoices(text);
+			pdfTextField = pdfProducer.createComboField(llx, lly, urx, ury, fieldName, value, comboChoices);
+			if (propertiesUtil.getBooleanProperty(PDF_FIELD_COMBO_EDIT, false, text, jasperPrint))
+			{
+				pdfTextField.setEdit();
+			}
+			break;
+		case LIST:
+			String[] listChoices = getPdfFieldChoices(text);
+			pdfTextField = pdfProducer.createListField(llx, lly, urx, ury, fieldName, value, listChoices);			
+			break;
+		default:
+			throw new JRRuntimeException("Unknown field type " + fieldType);
+		}
+		
 		if (ModeEnum.OPAQUE == text.getModeValue())
 		{
 			pdfTextField.setBackgroundColor(text.getBackcolor());
@@ -2767,67 +2789,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				pdfTextField.setBorderStyle(borderStyle);
 			}
 		}
-		
-		String value = null;
-		if (text.getPropertiesMap().containsProperty(PDF_FIELD_VALUE))
-		{
-			value = text.getPropertiesMap().getProperty(PDF_FIELD_VALUE);
-		}
-		else
-		{
-			value = text.getFullText();
-		}
-		
-		if (
-			fieldType == PdfFieldTypeEnum.COMBO
-			|| fieldType == PdfFieldTypeEnum.LIST
-			)
-		{
-			//pdfTextField.setChoiceExports(new String[]{"one", "two", "three"});
-			String[] choices = null;
-			String strChoices = text.getPropertiesMap().getProperty(PDF_FIELD_CHOICES);
-			if (strChoices != null && strChoices.trim().length() > 0)
-			{
-				String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
-				StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
-				List<String> choicesList = new ArrayList<String>();
-				while (tkzer.hasMoreTokens())
-				{
-					choicesList.add(tkzer.nextToken());
-				}
-				choices = choicesList.toArray(new String[choicesList.size()]);
-				pdfTextField.setChoices(choices);
-			}
-			if (
-				fieldType == PdfFieldTypeEnum.COMBO
-				&& propertiesUtil.getBooleanProperty(PDF_FIELD_COMBO_EDIT, false, text, jasperPrint)
-				)
-			{
-				pdfTextField.setEdit();
-			}
-			
-			if (value != null && choices != null)
-			{
-				int i = 0;
-				for (String choice : choices)
-				{
-					if (value.equals(choice))
-					{
-						pdfTextField.setChoiceSelection(i);
-						break;
-					}
-					i++;
-				}
-			}
-		}
-		else
-		{
-			if (value != null)
-			{
-				pdfTextField.setText(value);
-			}
-//			pdfTextField.setDefaultText("default:" + text.getFullText());
-		}
 
 		String readOnly = text.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
 		if (readOnly != null)
@@ -2858,7 +2819,25 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 		pdfTextField.setVisible();
 
-		pdfTextField.add(fieldType);
+		pdfTextField.add();
+	}
+
+	protected String[] getPdfFieldChoices(JRPrintText text)
+	{
+		String[] choices = null;
+		String strChoices = text.getPropertiesMap().getProperty(PDF_FIELD_CHOICES);
+		if (strChoices != null && strChoices.trim().length() > 0)
+		{
+			String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
+			StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
+			List<String> choicesList = new ArrayList<String>();
+			while (tkzer.hasMoreTokens())
+			{
+				choicesList.add(tkzer.nextToken());
+			}
+			choices = choicesList.toArray(new String[choicesList.size()]);
+		}
+		return choices;
 	}
 	
 	/**
@@ -2869,7 +2848,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
 		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + element.getUUID() : fieldName;
 		
-		PdfRadioCheck checkField = pdfProducer.createRadioField(
+		PdfRadioCheck checkField = pdfProducer.createCheckField(
 				element.getX() + exporterContext.getOffsetX(),
 				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
 				element.getX() + exporterContext.getOffsetX() + element.getWidth(),
@@ -2934,35 +2913,19 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
 		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + element.getUUID() : fieldName;
 		
-		PdfRadioCheck radioField = radioFieldFactories == null ? null : radioFieldFactories.get(fieldName);
-		if (radioField == null)
-		{
-			radioField = pdfProducer.createRadioField(
-					element.getX() + exporterContext.getOffsetX(),
-					jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
-					element.getX() + exporterContext.getOffsetX() + element.getWidth(),
-					jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight(),
-					fieldName,
-					"FIELD_" + element.getUUID());
-			if (radioFieldFactories == null)
-			{
-				radioFieldFactories = new HashMap<String, PdfRadioCheck>();
-			}
-			radioFieldFactories.put(fieldName, radioField);
-		}
+		PdfRadioCheck radioField = pdfProducer.getRadioField(
+				element.getX() + exporterContext.getOffsetX(),
+				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
+				element.getX() + exporterContext.getOffsetX() + element.getWidth(),
+				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight(),
+				fieldName,
+				"FIELD_" + element.getUUID());
 
 		PdfFieldCheckTypeEnum checkType = PdfFieldCheckTypeEnum.getByName(element.getPropertiesMap().getProperty(PDF_FIELD_CHECK_TYPE));
 		if (checkType != null)
 		{
 			radioField.setCheckType(checkType);
 		}
-
-		radioField.setBox(
-				element.getX() + exporterContext.getOffsetX(),
-				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
-				element.getX() + exporterContext.getOffsetX() + element.getWidth(),
-				jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight()
-		);
 
 		if (ModeEnum.OPAQUE == element.getModeValue())
 		{
@@ -3002,19 +2965,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				radioField.setReadOnly();
 			}
 		}
-		
-		PdfRadioGroup radioGroup = radioGroups == null ? null : radioGroups.get(fieldName);
-		if (radioGroup == null)
-		{
-			if (radioGroups == null)
-			{
-				radioGroups = new HashMap<String, PdfRadioGroup>();
-			}
-			radioGroup = radioField.createRadioGroup();
-			radioGroups.put(fieldName, radioGroup);
-		}
 
-		radioGroup.addKid(radioField);
+		radioField.addToGroup();
 	}
 	
 	protected JRPen getFieldPen(JRPrintElement element)

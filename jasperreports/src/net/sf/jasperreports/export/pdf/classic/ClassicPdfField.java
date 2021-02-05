@@ -29,7 +29,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.lowagie.text.Font;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.TextField;
 
@@ -97,18 +96,6 @@ public abstract class ClassicPdfField implements PdfField
 	}
 
 	@Override
-	public void setEdit()
-	{
-		field.setOptions(field.getOptions() | TextField.EDIT);
-	}
-
-	@Override
-	public void setMultiline()
-	{
-		field.setOptions(field.getOptions() | TextField.MULTILINE);
-	}
-
-	@Override
 	public void setText(String value)
 	{
 		field.setText(value);
@@ -137,13 +124,6 @@ public abstract class ClassicPdfField implements PdfField
 	public void setVisible()
 	{
 		field.setVisibility(TextField.VISIBLE);
-	}
-
-	@Override
-	public void setBox(float llx, float lly, float urx, float ury)
-	{
-		Rectangle rectangle = new Rectangle(llx, lly, urx, ury);
-		field.setBox(rectangle);
 	}
 
 }

@@ -23,13 +23,15 @@
  */
 package net.sf.jasperreports.export.pdf.classic;
 
+import java.io.IOException;
+
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.RadioCheckField;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.type.PdfFieldCheckTypeEnum;
 import net.sf.jasperreports.export.pdf.PdfRadioCheck;
-import net.sf.jasperreports.export.pdf.PdfRadioGroup;
 
 /**
  * 
@@ -82,12 +84,19 @@ public class ClassicRadioCheck extends ClassicPdfField implements PdfRadioCheck
 			throw new JRRuntimeException(e);
 		}
 	}
-	
+
 	@Override
-	public PdfRadioGroup createRadioGroup()
+	public void addToGroup() throws IOException
 	{
-		PdfFormField radioGroup = radioCheckField.getRadioGroup(true, false);
-		return new ClassicPdfRadioGroup(pdfProducer, radioGroup);
+		PdfFormField radioGroup = pdfProducer.getRadioGroup(radioCheckField);
+		try
+		{
+			radioGroup.addKid(radioCheckField.getRadioField());
+		}
+		catch (DocumentException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }

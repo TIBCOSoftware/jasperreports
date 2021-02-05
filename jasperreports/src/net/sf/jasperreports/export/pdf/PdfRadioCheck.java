@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.export.pdf;
 
+import java.io.IOException;
+
 import net.sf.jasperreports.engine.export.type.PdfFieldCheckTypeEnum;
 
 /**
@@ -40,6 +42,6 @@ public interface PdfRadioCheck extends PdfField
 
 	void add();
 
-	PdfRadioGroup createRadioGroup();
+	void addToGroup() throws IOException;
 
 }

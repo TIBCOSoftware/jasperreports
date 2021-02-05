@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
@@ -51,6 +53,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
+import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.NullOutputStream;
@@ -90,6 +93,9 @@ public class ClassicPdfProducer implements PdfProducer
 	private GlyphRendering glyphRendering;
 	
 	private ClassicPdfContent pdfContent;
+	
+	private Map<String, RadioCheckField> radioFieldFactories;
+	private Map<String, PdfFormField> radioGroups;
 
 	public ClassicPdfProducer(PdfProducerContext context)
 	{
@@ -219,6 +225,20 @@ public class ClassicPdfProducer implements PdfProducer
 	}
 
 	@Override
+	public void endPage()
+	{
+		if (radioGroups != null)
+		{
+			for (PdfFormField radioGroup : radioGroups.values())
+			{
+				getPdfWriter().addAnnotation(radioGroup);
+			}
+			radioGroups = null;
+			radioFieldFactories = null; // radio groups that overflow unto next page don't seem to work; reset everything as it does not make sense to keep them
+		}
+	}
+
+	@Override
 	public void close()
 	{
 		document.getDocument().close();
@@ -326,18 +346,103 @@ public class ClassicPdfProducer implements PdfProducer
 	@Override
 	public PdfTextField createTextField(float llx, float lly, float urx, float ury, String fieldName)
 	{
+		TextField textField = createTextFormField(llx, lly, urx, ury, fieldName);
+		return new ClassicPdfTextField(this, textField, PdfFieldTypeEnum.TEXT);
+	}
+
+	protected TextField createTextFormField(float llx, float lly, float urx, float ury, String fieldName)
+	{
 		Rectangle rectangle = new Rectangle(llx, lly, urx, ury);
 		TextField textField = new TextField(writer.getPdfWriter(), rectangle, fieldName);
-		return new ClassicPdfTextField(this, textField);
+		return textField;
 	}
 
 	@Override
-	public PdfRadioCheck createRadioField(float llx, float lly, float urx, float ury, String fieldName, 
+	public PdfTextField createComboField(float llx, float lly, float urx, float ury, String fieldName, 
+			String value, String[] choices)
+	{
+		TextField textField = createTextFormField(llx, lly, urx, ury, fieldName);		
+		setFieldChoices(textField, value, choices);
+		return new ClassicPdfTextField(this, textField, PdfFieldTypeEnum.COMBO);
+	}
+
+	protected void setFieldChoices(TextField textField, String value, String[] choices)
+	{
+		if (choices != null)
+		{
+			textField.setChoices(choices);
+			
+			if (value != null)
+			{
+				int i = 0;
+				for (String choice : choices)
+				{
+					if (value.equals(choice))
+					{
+						textField.setChoiceSelection(i);
+						break;
+					}
+					i++;
+				}
+			}
+		}
+	}
+
+	@Override
+	public PdfTextField createListField(float llx, float lly, float urx, float ury, String fieldName, 
+			String value, String[] choices)
+	{
+		TextField textField = createTextFormField(llx, lly, urx, ury, fieldName);		
+		setFieldChoices(textField, value, choices);
+		return new ClassicPdfTextField(this, textField, PdfFieldTypeEnum.LIST);
+	}
+
+	@Override
+	public PdfRadioCheck createCheckField(float llx, float lly, float urx, float ury, String fieldName, 
 			String onValue)
 	{
 		Rectangle rectangle = new Rectangle(llx, lly, urx, ury);
 		RadioCheckField radioField = new RadioCheckField(writer.getPdfWriter(), rectangle, fieldName, onValue);
 		return new ClassicRadioCheck(this, radioField);
+	}
+
+	@Override
+	public PdfRadioCheck getRadioField(float llx, float lly, float urx, float ury, String fieldName, 
+			String onValue)
+	{
+		Rectangle rectangle = new Rectangle(llx, lly, urx, ury);
+		//TODO does this make sense?
+		RadioCheckField radioField = radioFieldFactories == null ? null : radioFieldFactories.get(fieldName);
+		if (radioField == null)
+		{
+			radioField = new RadioCheckField(writer.getPdfWriter(), rectangle, fieldName, onValue);
+			if (radioFieldFactories == null)
+			{
+				radioFieldFactories = new HashMap<>();
+			}
+			radioFieldFactories.put(fieldName, radioField);
+		}
+		
+		radioField.setBox(rectangle);
+		
+		return new ClassicRadioCheck(this, radioField);
+	}
+	
+	protected PdfFormField getRadioGroup(RadioCheckField radioCheckField)
+	{
+		String fieldName = radioCheckField.getFieldName();
+		PdfFormField radioGroup = radioGroups == null ? null : radioGroups.get(fieldName);
+		if (radioGroup == null)
+		{
+			if (radioGroups == null)
+			{
+				radioGroups = new HashMap<>();
+			}
+			
+			radioGroup = radioCheckField.getRadioGroup(true, false);
+			radioGroups.put(fieldName, radioGroup);
+		}
+		return radioGroup;
 	}
 
 	@Override

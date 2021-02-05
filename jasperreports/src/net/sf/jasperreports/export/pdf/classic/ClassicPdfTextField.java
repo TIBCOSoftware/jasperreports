@@ -41,27 +41,29 @@ public class ClassicPdfTextField extends ClassicPdfField implements PdfTextField
 {
 
 	private TextField textField;
+	private PdfFieldTypeEnum fieldType;
 	
-	public ClassicPdfTextField(ClassicPdfProducer pdfProducer, TextField textField)
+	public ClassicPdfTextField(ClassicPdfProducer pdfProducer, TextField textField, PdfFieldTypeEnum fieldType)
 	{
 		super(pdfProducer, textField);
 		this.textField = textField;
+		this.fieldType = fieldType;
 	}
 
 	@Override
-	public void setChoices(String[] choices)
+	public void setEdit()
 	{
-		textField.setChoices(choices);
+		textField.setOptions(textField.getOptions() | TextField.EDIT);
 	}
 
 	@Override
-	public void setChoiceSelection(int selection)
+	public void setMultiline()
 	{
-		textField.setChoiceSelection(selection);
+		textField.setOptions(textField.getOptions() | TextField.MULTILINE);
 	}
 
 	@Override
-	public void add(PdfFieldTypeEnum fieldType)
+	public void add()
 	{
 		try
 		{

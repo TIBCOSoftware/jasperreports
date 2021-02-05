@@ -65,6 +65,8 @@ public interface PdfProducer
 
 	void setPageSize(PrintPageFormat pageFormat, int pageWidth, int pageHeight);
 
+	void endPage();
+
 	AbstractPdfTextRenderer getCustomTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale, 
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine);
@@ -85,7 +87,16 @@ public interface PdfProducer
 
 	PdfTextField createTextField(float llx, float lly, float urx, float ury, String fieldName);
 
-	PdfRadioCheck createRadioField(float llx, float lly, float urx, float ury, String fieldName, 
+	PdfTextField createComboField(float llx, float lly, float urx, float ury, String fieldName,
+			String value, String[] choices);
+
+	PdfTextField createListField(float llx, float lly, float urx, float ury, String fieldName,
+			String value, String[] choices);
+
+	PdfRadioCheck createCheckField(float llx, float lly, float urx, float ury, String fieldName, 
+			String onValue);
+
+	PdfRadioCheck getRadioField(float llx, float lly, float urx, float ury, String fieldName, 
 			String onValue);
 	
 	PdfOutlineEntry getRootOutline();

@@ -23,19 +23,17 @@
  */
 package net.sf.jasperreports.export.pdf;
 
-import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
-
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public interface PdfTextField extends PdfField
 {
+	
+	void setEdit();
+	
+	void setMultiline();
 
-	void setChoices(String[] choices);
-
-	void setChoiceSelection(int i);
-
-	void add(PdfFieldTypeEnum fieldType);
+	void add();
 
 }

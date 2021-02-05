@@ -50,10 +50,6 @@ public interface PdfField
 	void setBorderStyle(PdfFieldBorderStyleEnum borderStyle);
 	
 	void setReadOnly();
-	
-	void setEdit();
-	
-	void setMultiline();
 
 	void setText(String value);
 
@@ -64,7 +60,5 @@ public interface PdfField
 	void setRotation(int rotation);
 
 	void setVisible();
-
-	void setBox(float llx, float lly, float urx, float ury);
 	
 }
