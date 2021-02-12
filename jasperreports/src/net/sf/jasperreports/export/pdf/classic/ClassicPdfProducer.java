@@ -53,6 +53,8 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
+import net.sf.jasperreports.engine.export.PdfTextRenderer;
+import net.sf.jasperreports.engine.export.SimplePdfTextRenderer;
 import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -246,12 +248,37 @@ public class ClassicPdfProducer implements PdfProducer
 	}
 
 	@Override
-	public AbstractPdfTextRenderer getCustomTextRenderer(
+	public AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale,
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine)
 	{
-		return glyphRendering.getGlyphTextRenderer(text, styledText, textLocale,
+		AbstractPdfTextRenderer textRenderer = glyphRendering.getGlyphTextRenderer(text, styledText, textLocale,
 				awtIgnoreMissingFont, defaultIndentFirstLine, defaultJustifyLastLine);
+		if (textRenderer == null)
+		{
+			if (text.getLeadingOffset() == 0)
+			{
+				// leading offset is non-zero only for multiline texts that have at least one tab character or some paragraph indent (first, left or right)
+				textRenderer = 
+					new PdfTextRenderer(
+						context.getJasperReportsContext(), 
+						awtIgnoreMissingFont, 
+						defaultIndentFirstLine,
+						defaultJustifyLastLine
+						);//FIXMENOW make some reusable instances here and below
+			}
+			else
+			{
+				textRenderer = 
+					new SimplePdfTextRenderer(
+						context.getJasperReportsContext(), 
+						awtIgnoreMissingFont, 
+						defaultIndentFirstLine,
+						defaultJustifyLastLine
+						);//FIXMETAB optimize this
+			}
+		}
+		return textRenderer;
 	}
 
 	@Override

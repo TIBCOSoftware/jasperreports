@@ -3014,34 +3014,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected AbstractPdfTextRenderer getTextRenderer(JRPrintText text, JRStyledText styledText)
 	{
 		Locale textLocale = getTextLocale(text);
-		AbstractPdfTextRenderer textRenderer = pdfProducer.getCustomTextRenderer(
+		AbstractPdfTextRenderer textRenderer = pdfProducer.getTextRenderer(
 				text, styledText, textLocale,
 				awtIgnoreMissingFont, defaultIndentFirstLine, defaultJustifyLastLine);
-		if (textRenderer == null)
-		{
-			if (text.getLeadingOffset() == 0)
-			{
-				// leading offset is non-zero only for multiline texts that have at least one tab character or some paragraph indent (first, left or right)
-				textRenderer = 
-					new PdfTextRenderer(
-						jasperReportsContext, 
-						awtIgnoreMissingFont, 
-						defaultIndentFirstLine,
-						defaultJustifyLastLine
-						);//FIXMENOW make some reusable instances here and below
-			}
-			else
-			{
-				textRenderer = 
-					new SimplePdfTextRenderer(
-						jasperReportsContext, 
-						awtIgnoreMissingFont, 
-						defaultIndentFirstLine,
-						defaultJustifyLastLine
-						);//FIXMETAB optimize this
-			}
-		}
-		
 		return textRenderer;
 	}
 

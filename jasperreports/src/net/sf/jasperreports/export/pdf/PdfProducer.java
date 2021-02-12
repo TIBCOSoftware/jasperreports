@@ -67,7 +67,7 @@ public interface PdfProducer
 
 	void endPage();
 
-	AbstractPdfTextRenderer getCustomTextRenderer(
+	AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale, 
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine);
 	
