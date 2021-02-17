@@ -31,10 +31,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
  * 
@@ -74,6 +76,13 @@ public interface PdfProducer
 	PdfImage createImage(byte[] loadBytesFromResource, boolean verify) throws IOException, JRException;
 
 	PdfImage createImage(BufferedImage bi, int angle) throws IOException;
+
+	void drawImage(JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
+			double templateWidth, double templateHeight,
+			int translateX, int translateY, double angle, 
+			double renderWidth, double renderHeight, 
+			float ratioX, float ratioY, float x, float y)
+			throws JRException, IOException;
 	
 	PdfTextChunk createChunk(String text, Map<Attribute, Object> attributes, Locale locale);
 
@@ -82,8 +91,6 @@ public interface PdfProducer
 	PdfPhrase createPhrase();
 
 	PdfPhrase createPhrase(PdfChunk chunk);
-	
-	PdfImageTemplate createImageTemplate(float templateWidth, float templateHeight);
 
 	PdfTextField createTextField(float llx, float lly, float urx, float ury, String fieldName);
 

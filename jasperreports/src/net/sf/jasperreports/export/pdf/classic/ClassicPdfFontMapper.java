@@ -21,22 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export.pdf;
+package net.sf.jasperreports.export.pdf.classic;
 
-import java.awt.Graphics2D;
-import java.io.IOException;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.lowagie.text.Font;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.FontMapper;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfImageTemplate
+public class ClassicPdfFontMapper implements FontMapper
 {
 
-	Graphics2D createGraphics(float templateWidth, float templateHeight);
+	private ClassicPdfProducer pdfProducer;
 
-	Graphics2D createGraphicsShapes(float templateWidth, float templateHeight);
+	public ClassicPdfFontMapper(ClassicPdfProducer pdfProducer)
+	{
+		this.pdfProducer = pdfProducer;
+	}
 
-	void add(float ratioX, float ratioY, float x, float y) throws IOException;
+	@Override
+	public BaseFont awtToPdf(java.awt.Font font)
+	{
+		// not setting underline and strikethrough as we only need the base font.
+		// underline and strikethrough will not work here because PdfGraphics2D
+		// doesn't check the font attributes.
+		Map<Attribute,Object> atts = new HashMap<Attribute,Object>();
+		atts.putAll(font.getAttributes());
+		Font pdfFont = pdfProducer.getFont(atts, null);
+		return pdfFont.getBaseFont();
+	}
+
+	@Override
+	public java.awt.Font pdfToAwt(BaseFont font, int size)
+	{
+		return null;
+	}
 
 }

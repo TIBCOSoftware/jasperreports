@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.export.pdf.classic;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -49,6 +51,7 @@ import com.lowagie.text.pdf.RadioCheckField;
 import com.lowagie.text.pdf.TextField;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
@@ -56,6 +59,7 @@ import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
 import net.sf.jasperreports.engine.export.PdfTextRenderer;
 import net.sf.jasperreports.engine.export.SimplePdfTextRenderer;
 import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.NullOutputStream;
@@ -64,7 +68,6 @@ import net.sf.jasperreports.export.pdf.PdfContent;
 import net.sf.jasperreports.export.pdf.PdfDocument;
 import net.sf.jasperreports.export.pdf.PdfDocumentWriter;
 import net.sf.jasperreports.export.pdf.PdfImage;
-import net.sf.jasperreports.export.pdf.PdfImageTemplate;
 import net.sf.jasperreports.export.pdf.PdfOutlineEntry;
 import net.sf.jasperreports.export.pdf.PdfPhrase;
 import net.sf.jasperreports.export.pdf.PdfProducer;
@@ -73,6 +76,7 @@ import net.sf.jasperreports.export.pdf.PdfRadioCheck;
 import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
  * 
@@ -318,6 +322,54 @@ public class ClassicPdfProducer implements PdfProducer
 		}
 	}
 	
+	@Override
+	public void drawImage(JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
+			double templateWidth, double templateHeight,
+			int translateX, int translateY, double angle, 
+			double renderWidth, double renderHeight, 
+			float ratioX, float ratioY, float x, float y) throws JRException, IOException
+	{
+		PdfContentByte pdfContentByte = getPdfContentByte();
+		PdfTemplate template = pdfContentByte.createTemplate(
+				(float) templateWidth, (float) templateHeight);
+
+		Graphics2D g = forceSvgShapes
+			? template.createGraphicsShapes((float) templateWidth, (float) templateHeight)
+			: template.createGraphics((float) templateWidth, (float) templateHeight, 
+					new ClassicPdfFontMapper(this));
+
+		try
+		{
+			g.translate(translateX, translateY);
+
+			if (angle != 0)
+			{
+				g.rotate(angle);
+			}
+			
+			if (image.getModeValue() == ModeEnum.OPAQUE)
+			{
+				g.setColor(image.getBackcolor());
+				g.fillRect(0, 0, (int) renderWidth, (int) renderHeight);
+			}
+
+			renderer.render(context.getJasperReportsContext(), g, 
+					new Rectangle2D.Double(0, 0, renderWidth, renderHeight));
+		}
+		finally
+		{
+			g.dispose();
+		}
+
+		pdfContentByte.saveState();
+		pdfContentByte.addTemplate(
+			template,
+			ratioX, 0f, 0f, ratioY, x, y);
+		pdfContentByte.restoreState();
+		
+		getPdfWriter().releaseTemplate(template);
+	}
+	
 	public Font getFont(Map<Attribute,Object> attributes, Locale locale)
 	{
 		ClassicFontRecipient fontRecipient = new ClassicFontRecipient();
@@ -361,13 +413,6 @@ public class ClassicPdfProducer implements PdfProducer
 	{
 		Phrase phrase = new Phrase(((ClassicChunk) chunk).getChunk());
 		return new ClassicPhrase(this, phrase);
-	}
-	
-	@Override
-	public PdfImageTemplate createImageTemplate(float templateWidth, float templateHeight)
-	{
-		PdfTemplate template = pdfContent.getPdfContentByte().createTemplate(templateWidth, templateHeight);
-		return new ClassicImageTemplate(this, template);
 	}
 
 	@Override

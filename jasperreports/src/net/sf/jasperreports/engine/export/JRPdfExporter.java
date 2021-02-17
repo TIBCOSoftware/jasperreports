@@ -37,7 +37,6 @@ import java.awt.Graphics2D;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,7 +125,6 @@ import net.sf.jasperreports.export.pdf.PdfDocument;
 import net.sf.jasperreports.export.pdf.PdfDocumentWriter;
 import net.sf.jasperreports.export.pdf.PdfFontStyle;
 import net.sf.jasperreports.export.pdf.PdfImage;
-import net.sf.jasperreports.export.pdf.PdfImageTemplate;
 import net.sf.jasperreports.export.pdf.PdfOutlineEntry;
 import net.sf.jasperreports.export.pdf.PdfPhrase;
 import net.sf.jasperreports.export.pdf.PdfProducer;
@@ -2122,45 +2120,16 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				}
 			}
 
-			PdfImageTemplate template = pdfProducer.createImageTemplate((float)templateWidth, (float)templateHeight);
-
-			Graphics2D g = getCurrentItemConfiguration().isForceSvgShapes()
-				? template.createGraphicsShapes((float)templateWidth, (float)templateHeight)
-				: template.createGraphics((float)templateWidth, (float)templateHeight);
-
-			try
-			{
-				g.translate(
-					translateX, 
-					translateY
-					);
-
-				if (angle != 0)
-				{
-					g.rotate(angle);
-				}
-				
-				if (printImage.getModeValue() == ModeEnum.OPAQUE)
-				{
-					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, (int)renderWidth, (int)renderHeight);
-				}
-
-				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, renderWidth, renderHeight));
-			}
-			finally
-			{
-				g.dispose();
-			}
-
-			template.add(
-				(float)ratioX, (float)ratioY,
-				printImage.getX() + leftPadding + getOffsetX()
-					+ xoffset,
-				pageFormat.getPageHeight() - printImage.getY() - topPadding - getOffsetY()
-					- availableImageHeight
-					+ yoffset
-				);
+			pdfProducer.drawImage(printImage, renderer, getCurrentItemConfiguration().isForceSvgShapes(), 
+					templateWidth,  templateHeight, 
+					translateX, translateY, angle, 
+					renderWidth, renderHeight, 
+					(float) ratioX, (float) ratioY, 
+					printImage.getX() + leftPadding + getOffsetX()
+						+ xoffset,
+					pageFormat.getPageHeight() - printImage.getY() - topPadding - getOffsetY()
+						- availableImageHeight
+						+ yoffset);
 
 			PdfImage image = getPxImage();
 			image.scaleAbsolute(availableImageWidth, availableImageHeight);
