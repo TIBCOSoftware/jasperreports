@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>master-SNAPSHOT</version>
+			<version>develop-42-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
