@@ -507,7 +507,34 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 					new Object[]{jrField.getName(), String.class.getName()},
 					e);
 		}
-	}	
+	}
+
+	// only used in JSS, to guess field types
+	public String getFieldFormatPattern(JRField jrField) throws JRException
+	{
+		try
+		{
+			Integer columnIndex = getColumnIndex(jrField);
+			Sheet sheet = workbook.getSheetAt(sheetIndex);
+			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
+			if (cell == null)
+			{
+				return null;
+			}
+			else
+			{
+				return cell.getCellStyle().getDataFormatString();
+			}
+		}
+		catch (Exception e)
+		{
+			throw
+			new JRException(
+					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
+					new Object[]{jrField.getName(), String.class.getName()},
+					e);
+		}
+	}
 	
 }
 
