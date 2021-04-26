@@ -929,7 +929,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		{
 			throw 
 				new JRException(
-					EXCEPTION_MESSAGE_KEY_ROW_GROUP_DOES_NOT_EXIST,
+					EXCEPTION_MESSAGE_KEY_COLUMN_GROUP_DOES_NOT_EXIST,
 					new Object[]{columnTotalGroup});
 		}
 		
