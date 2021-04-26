@@ -694,31 +694,49 @@ public class JRPdfExporterTagHelper
 
 	protected void createSpanTags(JRPrintElement element, PdfStructureElement parentTag)
 	{
-		int colSpan = 0;
-		int rowSpan = 0;
+		Integer colSpan = null;
 		try	{
-			colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_COLSPAN));
-		} catch (NumberFormatException e) {
+			String colSpanProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_COLSPAN);
+			if (colSpanProp != null) {
+				colSpan = Integer.valueOf(colSpanProp);
+			}
+		} catch (NumberFormatException e) {}
+		
+		if (colSpan == null) {
 			try	{
-				colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_COLUMN_SPAN));
+				String colSpanProp = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_COLUMN_SPAN);
+				if (colSpanProp != null) {
+					colSpan = Integer.valueOf(colSpanProp);
+				}
 			} catch (NumberFormatException ex) {}
 		}
+		
+		Integer rowSpan = null;
 		try {
-			rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_ROWSPAN));
-		} catch (NumberFormatException e) {
+			String rowSpanProp = element.getPropertiesMap().getProperty(PROPERTY_TAG_ROWSPAN);
+			if (rowSpanProp != null) {
+				rowSpan = Integer.valueOf(rowSpanProp);
+			}
+		} catch (NumberFormatException e) {}
+		
+		if (rowSpan == null) {
 			try {
-				rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_ROW_SPAN));
-			} catch (NumberFormatException ex) {}
+				String rowSpanProp = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_ROW_SPAN);
+				if (rowSpanProp != null) {
+					rowSpan = Integer.valueOf(rowSpanProp);
+				}
+			} catch (NumberFormatException ex) {}			
 		}
-		if (colSpan > 1 || rowSpan > 1)
+		
+		if (colSpan != null && colSpan > 1 || rowSpan != null && rowSpan > 1)
 		{
 			PdfArray a = new PdfArray();
 			PdfDictionary dict = new PdfDictionary();
-			if (colSpan > 1)
+			if (colSpan != null && colSpan > 1)
 			{
 				dict.put(new PdfName("ColSpan"), new PdfNumber(colSpan));
 			}
-			if (rowSpan > 1)
+			if (rowSpan != null && rowSpan > 1)
 			{
 				dict.put(new PdfName("RowSpan"), new PdfNumber(rowSpan));
 			}
