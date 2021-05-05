@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>develop-42-SNAPSHOT</version>
+			<version>master-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -79,21 +79,21 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.10.0</version>
+			<version>2.12.2</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.10.0</version>
+			<version>2.12.2</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.10.0</version>
+			<version>2.12.2</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -101,17 +101,17 @@
 	<repositories>
 		<repository>
 			<id>jaspersoft-third-party</id>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
 		</repository>
 		<repository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</repository>
 		<repository>
 			<id>jr-ce-releases</id>
 			<name>JasperReports CE Releases</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
 	</repositories>
 	<build>

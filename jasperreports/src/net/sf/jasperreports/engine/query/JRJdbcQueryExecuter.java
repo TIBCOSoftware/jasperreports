@@ -302,6 +302,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Executing query");
+				}
+				
 				ResultSet queryResult;
 				if (isProcedureCall)
 				{
@@ -310,6 +315,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				else
 				{
 					queryResult = statement.executeQuery();
+				}
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("Query execution done");
 				}
 				
 				if(isCachedRowSet)
