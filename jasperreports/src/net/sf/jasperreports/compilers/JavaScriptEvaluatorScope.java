@@ -24,9 +24,11 @@
 package net.sf.jasperreports.compilers;
 
 import java.security.ProtectionDomain;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -148,6 +150,9 @@ public class JavaScriptEvaluatorScope
 			return toJSValue(variable.getEstimatedValue());
 		}
 	}
+	
+	//TODO find a way to tell whether a Context is our own by only looking at it
+	private static Map<Context, Void> ownContexts = Collections.synchronizedMap(new WeakHashMap<>());
 
 	private ReportClassShutter classShutter;
 	private Context context;
@@ -159,6 +164,7 @@ public class JavaScriptEvaluatorScope
 	{
 		classShutter = new ReportClassShutter(jrContext);
 		context = enter(null);
+		ownContexts.put(context, null);
 		
 		int optimizationLevel = JRPropertiesUtil.getInstance(jrContext).getIntegerProperty(JavaScriptEvaluator.PROPERTY_OPTIMIZATION_LEVEL);
 		if (log.isDebugEnabled())
@@ -312,7 +318,7 @@ public class JavaScriptEvaluatorScope
 		}
 		
 		// exit the current context if any
-		if (currentContext != null)
+		if (currentContext != null && ownContexts.containsKey(currentContext))
 		{
 			Context.exit();
 		}
