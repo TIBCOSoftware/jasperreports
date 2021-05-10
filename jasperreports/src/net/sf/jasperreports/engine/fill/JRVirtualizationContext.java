@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
@@ -79,6 +80,8 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK
 			);
 
+	private UUID id;
+	private boolean root;
 	private transient JRVirtualizationContext parentContext;
 	private transient JRVirtualizer virtualizer;
 	private transient JasperReportsContext jasperReportsContext;
@@ -86,8 +89,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	private Map<String,Renderable> cachedRenderers;
 	private Map<String,JRTemplateElement> cachedTemplates;
 	
-	private Set<JRVirtualizationContext> frameContexts;
-	private Map<PrintElementId,VirtualizableElementList> virtualizableLists;
+	private Map<UUID, JRVirtualizationContext> subContexts;
+	
+	private transient Set<JRVirtualizationContext> frameContexts;
+	private transient Map<PrintElementId,VirtualizableElementList> virtualizableLists;
 	
 	private volatile boolean readOnly;
 	private volatile boolean disposed;
@@ -105,11 +110,16 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 */
 	public JRVirtualizationContext(JasperReportsContext jasperReportsContext)
 	{
+		this.id = UUID.randomUUID();
+		this.root = true;
 		this.jasperReportsContext = jasperReportsContext;
 		
 		cachedRenderers = new ConcurrentHashMap<String,Renderable>(16, 0.75f, 1);
 		cachedTemplates = new ConcurrentHashMap<String,JRTemplateElement>(16, 0.75f, 1);
 		virtualizableLists = new ConcurrentHashMap<>(16, 0.75f, 1);
+		
+		subContexts = new ConcurrentHashMap<>(16, 0.75f, 1);
+		subContexts.put(this.id, this);
 		
 		pageElementSize = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
 		
@@ -117,12 +127,14 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		
 		if (log.isDebugEnabled())
 		{
-			log.debug("created " + this);
+			log.debug("created " + id);
 		}
 	}
 
 	protected JRVirtualizationContext(JRVirtualizationContext parentContext)
 	{
+		this.id = UUID.randomUUID();
+		this.root = false;
 		this.parentContext = parentContext;
 		this.virtualizer = parentContext.virtualizer;
 		this.jasperReportsContext = parentContext.jasperReportsContext;
@@ -131,6 +143,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		this.cachedRenderers = parentContext.cachedRenderers;
 		this.cachedTemplates = parentContext.cachedTemplates;
 		this.virtualizableLists = parentContext.virtualizableLists;
+		
+		this.subContexts = new ConcurrentHashMap<>(16, 0.75f, 1);
+		this.subContexts.put(this.id, this);
 
 		this.pageElementSize = parentContext.pageElementSize;
 		
@@ -139,7 +154,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		
 		if (log.isDebugEnabled())
 		{
-			log.debug("created sub context " + this + ", parent " + parentContext);
+			log.debug("created sub context " + id + ", parent " + parentContext.id);
 		}
 	}
 	
@@ -413,9 +428,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		setThreadJasperReportsContext();
 
 		GetField fields = in.readFields();
+		root = fields.get("root", false);
 		cachedRenderers = (Map<String, Renderable>) fields.get("cachedRenderers", null);
 		cachedTemplates = (Map<String, JRTemplateElement>) fields.get("cachedTemplates", null);
-		virtualizableLists = (Map<PrintElementId, VirtualizableElementList>) fields.get("virtualizableLists", null);
+		subContexts = (Map<UUID, JRVirtualizationContext>) fields.get("subContexts", null);
 		readOnly = fields.get("readOnly", false);
 		// use configured default if serialized by old version
 		pageElementSize = fields.get("pageElementSize", JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
@@ -424,6 +440,12 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		setThreadVirtualizer();
 		
 		initLock();
+
+		if (root)
+		{
+			virtualizableLists = new ConcurrentHashMap<>(16, 0.75f, 1);
+			subContexts.values().stream().forEach(context -> {context.virtualizableLists = virtualizableLists;});
+		}
 	}
 
 	private void setThreadVirtualizer()
@@ -523,6 +545,18 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 				replace = new JRVirtualPrintPage.JRIdHolderRenderer(renderer);
 			}
 		}
+		else if (obj instanceof JRVirtualizationContext)
+		{
+			JRVirtualizationContext context = (JRVirtualizationContext) obj;
+			if (subContexts.containsKey(context.id))
+			{
+				replace = new VirtualizationContextIdHolder(context.id);
+			}
+			else if (log.isDebugEnabled())
+			{
+				log.debug("Context " + context.id + " not found under " + id);
+			}
+		}
 		return replace;
 	}
 	
@@ -554,6 +588,16 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 						new Object[]{renderer.getId()});
 			}
 			resolve = cachedRenderer;
+		}
+		else if (obj instanceof VirtualizationContextIdHolder)
+		{
+			UUID id = ((VirtualizationContextIdHolder) obj).getId();
+			JRVirtualizationContext context = subContexts.get(id);
+			if (context == null)
+			{
+				throw new JRRuntimeException("Context with ID " + id + " not found");
+			}
+			resolve = context;
 		}
 		return resolve;
 	}
@@ -645,6 +689,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		if (frameContexts.isEmpty())
 		{
 			frameContext = new JRVirtualizationContext(this);
+			frameContext.subContexts = subContexts;
+			subContexts.put(frameContext.id, frameContext);
+			
 			if (listeners != null)
 			{
 				for (VirtualizationListener<VirtualElementsData> listener : listeners)
@@ -655,7 +702,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			
 			if (log.isDebugEnabled())
 			{
-				log.debug(this + " created frames context " + frameContext);
+				log.debug(id + " created frames context " + frameContext.id);
 			}
 			
 			frameContexts.add(frameContext);
@@ -682,11 +729,13 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		return virtualizableLists.get(id);
 	}
 
-	public void inheritListeners(JRVirtualizationContext sourceContext)
+	public void updateParent(JRVirtualizationContext destinationContext)
 	{
-		if (sourceContext.listeners != null)
+		destinationContext.subContexts.put(id, this);
+
+		if (destinationContext.listeners != null)
 		{
-			for (VirtualizationListener<VirtualElementsData> listener : sourceContext.listeners)
+			for (VirtualizationListener<VirtualElementsData> listener : destinationContext.listeners)
 			{
 				if (listeners == null || !listeners.contains(listener))//TODO keep a set?
 				{
