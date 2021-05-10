@@ -601,7 +601,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		
 		if (isPageBreakInhibited && filler.isSubreport())
 		{
-			isPageBreakInhibited = filler.bandReportParent.isPageBreakInhibited();
+			isPageBreakInhibited = filler.getBandReportParent().isPageBreakInhibited();
 		}
 		
 		return isPageBreakInhibited;
@@ -631,7 +631,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			{
 				if (filler.isSubreport())
 				{
-					isSplitTypePreventInhibited = filler.bandReportParent.isSplitTypePreventInhibited(false);
+					isSplitTypePreventInhibited = filler.getBandReportParent().isSplitTypePreventInhibited(false);
 				}
 				else
 				{
