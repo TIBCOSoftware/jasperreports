@@ -2,6 +2,23 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.17.0 (2020-05-11)
+---------------------------------------------
+
+- refactored PDF exporter to extract the iText code from it and leave only common functionality that allows 
+switching between the default iText 2 based exporter implementation and the pluggable iText 7 exporter implementation, 
+which is available as separate open source project at: https://github.com/Jaspersoft/jasperreports-pdf-lib7
+
+- various dependencies upgrades including Groovy 3.0.7, HttpClient 4.5.13, Hibernate 5.4.24.Final,
+Dom4j 2.1.3, Apache Log4j 2.14.0, Jackson 2.12.2, Velocity 2.3, Batik 1.14, XmlGraphics Commons 2.6,
+Apache Ant 1.10.9;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.16.0 (2020-11-06)
 ---------------------------------------------
 
