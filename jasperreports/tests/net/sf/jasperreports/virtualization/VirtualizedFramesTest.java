@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ReportTest
+public class VirtualizedFramesTest
 {
 	
 	private Report report;
@@ -48,24 +48,18 @@ public class ReportTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/FirstJasper.jrxml", 
-				"net/sf/jasperreports/virtualization/FirstJasper.reference.jrpxml");
+		report = new Report("net/sf/jasperreports/virtualization/repo/VirtualizedFrames.jrxml", 
+				"net/sf/jasperreports/virtualization/VirtualizedFrames.reference.jrpxml");
 		report.addPrintConsumer(PrintSerializer.instance());
 		report.addPrintConsumer(new PrintSerializer(new OwnVirtualizerContainer(new JRGzipVirtualizer(5))));
 		report.init();
 	}
 	
 	@Test
-	public void baseReport() throws JRException, NoSuchAlgorithmException, IOException
-	{
-		report.runReport(null);
-	}
-	
-	@Test
 	public void virtualizedReport() throws JRException, NoSuchAlgorithmException, IOException
 	{
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(3);
+		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(5);
 		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 		
 		report.runReport(params);
