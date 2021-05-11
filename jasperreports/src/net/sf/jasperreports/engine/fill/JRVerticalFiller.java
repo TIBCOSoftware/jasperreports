@@ -46,6 +46,9 @@ public class JRVerticalFiller extends JRBaseFiller
 {
 	
 	private static final Log log = LogFactory.getLog(JRVerticalFiller.class);
+	
+	protected boolean hasDetailOnPage;
+	
 
 	/**
 	 *
@@ -79,6 +82,12 @@ public class JRVerticalFiller extends JRBaseFiller
 		super(jasperReportsContext, reportSource, parent);
 
 		setPageHeight(pageHeight);
+	}
+	
+	
+	public boolean hasDetailOnPage()
+	{
+		return hasDetailOnPage;
 	}
 
 
@@ -435,6 +444,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		columnHeaderOffsetY = offsetY;
 
+		hasDetailOnPage = false;
+		
 		isNewPage = true;
 	}
 
@@ -860,6 +871,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 			}
 		}
+		
+		hasDetailOnPage = atLeastOneDetailBandPrinted;
 
 		isNewPage = false;
 		isNewColumn = false;

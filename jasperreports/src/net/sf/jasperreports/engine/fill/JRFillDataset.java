@@ -246,7 +246,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 *
 	 */
-	protected JRAbstractScriptlet delegateScriptlet = new JRFillDatasetScriptlet(this);
+	protected JRAbstractScriptlet delegateScriptlet = new JRFillDatasetScriptlet();
 
 	/**
 	 * The value of the {@link JRParameter#REPORT_MAX_COUNT max count} parameter.
@@ -309,6 +309,12 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			datasetPropertyExpressions == null 
 			? new ArrayList<DatasetPropertyExpression>(0)
 			: new ArrayList<DatasetPropertyExpression>(Arrays.asList(datasetPropertyExpressions));
+	}
+	
+	
+	public BaseReportFiller getFiller()
+	{
+		return filler;
 	}
 
 
@@ -649,7 +655,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 		
 		scriptlets = createScriptlets(parameterValues);
-		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
+		delegateScriptlet.setData(this);//FIXMESCRIPTLET use some context
 
 		// initializing cache because we need the cached parameter values
 		cacheInit();
@@ -1897,6 +1903,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return fields;
 	}
 
+	public Map<String,JRFillField> getFieldsMap()
+	{
+		return fieldsMap;
+	}
+
 	@Override
 	public JRSortField[] getSortFields()
 	{
@@ -1907,6 +1918,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	public JRVariable[] getVariables()
 	{
 		return variables;
+	}
+
+	public Map<String,JRFillVariable> getVariablesMap()
+	{
+		return variablesMap;
 	}
 
 	@Override
