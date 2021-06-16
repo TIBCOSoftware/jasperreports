@@ -100,7 +100,7 @@ public class DataSourceDataAdapterService extends
 				}
 			}
 			catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
-				| IllegalAccessException | InstantiationException e) 
+				| IllegalAccessException | InstantiationException | NoClassDefFoundError e) 
 			{
 				throw new JRException(e);			
 			} 
