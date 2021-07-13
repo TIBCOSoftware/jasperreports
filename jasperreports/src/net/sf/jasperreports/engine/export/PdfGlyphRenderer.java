@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.font.GlyphVector;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
@@ -127,6 +130,25 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	@Override
 	public void draw()
 	{
+		if (bulletChunk != null)
+		{
+			AttributedCharacterIterator bulletIterator = bulletChunk.getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(bulletIterator, getFontRenderContext());//grx.getFontRenderContext()
+
+			TextLayout bulletLayout = 
+				lineMeasurer.nextLayout(
+					1000,
+					bulletIterator.getEndIndex(),
+					true
+					);
+			
+			bulletLayout.draw(
+				pdfGraphics2D, 
+				x + drawPosX - bulletLayout.getVisibleAdvance() - 10, 
+				y + topPadding + verticalAlignOffset + drawPosY
+				);
+		}
+
 		if (addActualText)
 		{
 			PdfDictionary markedContentProps = new PdfDictionary();

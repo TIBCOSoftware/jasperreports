@@ -115,6 +115,49 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		{
 			throw new JRRuntimeException(e);
 		}
+
+		if (bulletChunk != null)
+		{
+			colText = new ColumnText(pdfContentByte);
+			colText.setSimpleColumn(
+				pdfExporter.getPhrase(bulletChunk, "\u2022", text),
+				- htmlListIndent - 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					//+ lineHeight
+					- drawPosY,
+				- 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					-400//+ lineHeight//FIXMETAB
+					- drawPosY,
+				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+//				horizontalAlignment == Element.ALIGN_JUSTIFIED && (!segment.isLastLine || (isLastParagraph && justifyLastLine)) 
+//					? Element.ALIGN_JUSTIFIED_ALL : horizontalAlignment
+				Element.ALIGN_RIGHT
+				);
+
+			colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+			colText.setRunDirection(
+				text.getRunDirectionValue() == RunDirectionEnum.LTR
+				? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+				);
+
+			try
+			{
+				colText.go();
+			}
+			catch (DocumentException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
 	}
 	
 

@@ -119,6 +119,38 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		String paragraphText
 		)
 	{
+		if (bulletChunk != null)
+		{
+			ColumnText colText = new ColumnText(pdfContentByte);
+			colText.setSimpleColumn(
+				pdfExporter.getPhrase(bulletChunk, "\u2022", text),
+				x + leftPadding,
+				yLine,
+				htmlListIndent + x + leftPadding - 10,
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- height
+					+ bottomPadding,
+				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+				Element.ALIGN_RIGHT
+				);
+
+			colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+			colText.setRunDirection(
+				text.getRunDirectionValue() == RunDirectionEnum.LTR
+				? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+				);
+
+			try
+			{
+				colText.go();
+			}
+			catch (DocumentException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
 		AttributedString paragraph = null;
 		
 		if (paragraphText == null)
@@ -147,7 +179,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
 			pdfExporter.getPhrase(paragraph, paragraphText, text),
-			x + leftPadding,
+			htmlListIndent + x + leftPadding,
 			yLine,
 			x + width - rightPadding,
 			pdfExporter.getCurrentPageFormat().getPageHeight()

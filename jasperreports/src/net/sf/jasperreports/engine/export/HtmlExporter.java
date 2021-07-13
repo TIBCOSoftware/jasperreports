@@ -113,6 +113,9 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
@@ -2681,6 +2684,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip, boolean hyperlinkStarted) throws IOException
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+
 		String allText = styledText.getText();
 
 		addSearchAttributes(styledText, printText);
@@ -2730,6 +2735,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				if ("\n".equals(token))
 				{
 					exportParagraph(
+						context,
 						printText, allParagraphs, prevParagraphStart, prevParagraphText,
 						isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
 						isLastParagraph && justifyLastLine, 
@@ -2759,6 +2765,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (prevParagraphStart < allText.length())
 		{
 			exportParagraph(
+				context,
 				printText, allParagraphs, prevParagraphStart, prevParagraphText,
 				isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
 				justifyLastLine, // isLastParagraph would be considered true here, so no point in keeping && operation 
@@ -2768,6 +2775,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportParagraph(
+		StyledTextWriteContext context,
 		JRPrintText printText, 
 		AttributedCharacterIterator allParagraphs,
 		int paragraphStart,
@@ -2868,6 +2876,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write("</span>");
 			}
 
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			exportHtmlListTags(context, listInfoStack, listItemInfo);
+			
+			context.crtListInfoStack = listInfoStack;
+			context.crtListItem = listItemInfo;
+
 			exportStyledTextRun(
 				attributes,
 				paragraphText.substring(paragraph.getIndex(), runLimit),
@@ -2882,6 +2898,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 			paragraph.setIndex(runLimit);
 		}
+
+		exportHtmlListTags(context, null, null);
 
 		if (highlightStarted) {
 			writer.write("</span>");
@@ -2899,16 +2917,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportStyledTextRun(
-			Map<Attribute,Object> attributes,
-			String text,
-			String tooltip,
-			Locale locale,
-			LineSpacingEnum lineSpacing,
-			Float lineSpacingSize,
-			float lineSpacingFactor,
-			Color backcolor,
-			boolean hyperlinkStarted
-			) throws IOException
+		Map<Attribute,Object> attributes,
+		String text,
+		String tooltip,
+		Locale locale,
+		LineSpacingEnum lineSpacing,
+		Float lineSpacingSize,
+		float lineSpacingFactor,
+		Color backcolor,
+		boolean hyperlinkStarted
+		) throws IOException
 	{
 		boolean localHyperlink = false;
 		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
@@ -3063,6 +3081,52 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected void exportHtmlListTags(
+		StyledTextWriteContext context, 
+		StyledTextListInfo[] listInfoStack,
+		StyledTextListItemInfo listItemInfo
+		) throws IOException
+	{
+		if (context.crtListItem != null && context.crtListItem != listItemInfo) // there was a li and it is not the same as the current one, so closing it
+		{
+			writer.write("</li>");
+		}
+		
+		int crtDepth = context.crtListInfoStack == null ? 0 : context.crtListInfoStack.length;
+		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
+
+		int minDepth = Math.min(crtDepth, newDepth);
+		int parentListDepth = 0;
+		
+		while (parentListDepth < minDepth)
+		{
+			if (listInfoStack[parentListDepth] != context.crtListInfoStack[parentListDepth])
+			{
+				break;
+			}
+			parentListDepth++;
+		}
+		
+		
+		for (int i = parentListDepth; i < crtDepth; i++)
+		{
+			writer.write("</ul>");
+		}
+
+		for (int i = parentListDepth; i < newDepth; i++)
+		{
+			writer.write("<ul style=\"margin:0\">");
+		}
+
+		if (listItemInfo != null && listItemInfo != context.crtListItem)
+		{
+			writer.write("<li>");
+		}
+	}
+		
 	protected class TableVisitor implements CellVisitor<TablePosition, Void, IOException>
 	{
 		private final Tabulator tabulator;

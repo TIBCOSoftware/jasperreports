@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.font.FontRenderContext;
+import java.text.AttributedCharacterIterator;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -558,41 +560,50 @@ public class TextMeasurer implements JRTextMeasurer
 			lineWrapper.start(styledText);
 		}
 		
-		int tokenPosition = remainingTextStart;
-		int prevParagraphStart = remainingTextStart;
-		String prevParagraphText = null;
+		AttributedCharacterIterator iterator = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
 
 		isFirstParagraph = true;
 
-		String remainingText = styledText.getText().substring(remainingTextStart);
-		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
+		int runLimit = 0;
 
-		boolean rendered = true;
-		// text is split into paragraphs, using the newline character as delimiter
-		while(tkzer.hasMoreTokens() && rendered) 
+		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= iterator.getEndIndex())
 		{
-			String token = tkzer.nextToken();
+			int tokenPosition = remainingTextStart;
+			int prevParagraphStart = remainingTextStart;
+			String prevParagraphText = null;
 
-			if ("\n".equals(token))
+			String remainingText = styledText.getText().substring(remainingTextStart + iterator.getIndex(), runLimit);
+			StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
+
+			boolean rendered = true;
+			// text is split into paragraphs, using the newline character as delimiter
+			while(tkzer.hasMoreTokens() && rendered) 
 			{
-				rendered = renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
+				String token = tkzer.nextToken();
 
-				isFirstParagraph = false;
-				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-				prevParagraphText = null;
+				if ("\n".equals(token))
+				{
+					rendered = renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
+
+					isFirstParagraph = false;
+					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+					prevParagraphText = null;
+				}
+				else
+				{
+					prevParagraphStart = tokenPosition;
+					prevParagraphText = token;
+				}
+
+				tokenPosition += token.length();
 			}
-			else
+
+			if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
 			{
-				prevParagraphStart = tokenPosition;
-				prevParagraphText = token;
+				renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
 			}
 
-			tokenPosition += token.length();
-		}
-
-		if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
-		{
-			renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
+			iterator.setIndex(runLimit);
 		}
 		
 		return measuredState;
