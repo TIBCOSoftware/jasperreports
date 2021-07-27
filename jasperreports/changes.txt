@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.17.0 (2020-05-11)
+JasperReports 6.17.0 (2021-05-11)
 ---------------------------------------------
 
 - refactored PDF exporter to extract the iText code from it and leave only common functionality that allows 
