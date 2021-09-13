@@ -600,7 +600,10 @@ public class TextMeasurer implements JRTextMeasurer
 
 			if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
 			{
-				renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
+				if (prevParagraphText != null || runLimit == iterator.getEndIndex())
+				{
+					renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
+				}
 			}
 
 			iterator.setIndex(runLimit);
