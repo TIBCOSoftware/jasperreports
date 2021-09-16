@@ -611,6 +611,21 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Returns the value of a property as an Integer, looking first in the supplied properties map
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @return the property value
+	 */
+	public Integer getIntegerProperty(JRPropertiesMap propertiesMap, String key)
+	{
+		String value = getProperty(propertiesMap, key);
+		
+		return value == null || value.trim().length() == 0 ? null : asInteger(value);
+	}
+
+	/**
 	 * Returns the value of a property as an Integer, looking first in the supplied properties holder
 	 * and then in the system properties.
 	 * 

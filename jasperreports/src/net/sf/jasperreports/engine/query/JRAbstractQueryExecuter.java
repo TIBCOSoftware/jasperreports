@@ -837,6 +837,83 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	}
 	
 	
+	
+	
+	/**
+	 * 
+	 */
+	protected int getIntegerParameter(String parameter, String property, int defaultValue)
+	{
+		if (parameterHasValue(parameter))
+		{
+			Integer integerValue = (Integer)getParameterValue(parameter, true);
+			if (integerValue == null)
+			{
+				return getPropertiesUtil().getIntegerProperty(property);
+			}
+			else
+			{
+				return integerValue;
+			}
+		}
+		else
+		{
+			return 
+				getPropertiesUtil().getIntegerProperty(
+					dataset.getPropertiesMap(),
+					property,
+					defaultValue
+					);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected int getIntegerParameterOrProperty(String name, int defaultValue)
+	{
+		return getIntegerParameter(name, name, defaultValue);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected Integer getIntegerParameter(String parameter, String property)
+	{
+		if (parameterHasValue(parameter))
+		{
+			Integer integerValue = (Integer)getParameterValue(parameter, true);
+			if (integerValue == null)
+			{
+				return getPropertiesUtil().getIntegerProperty(property);
+			}
+			else
+			{
+				return integerValue;
+			}
+		}
+		else
+		{
+			return 
+				getPropertiesUtil().getIntegerProperty(
+					dataset.getPropertiesMap(),
+					property
+					);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected Integer getIntegerParameterOrProperty(String name)
+	{
+		return getIntegerParameter(name, name);
+	}
+	
+	
 	/**
 	 * Return a fill parameter from the parameter map.
 	 * 

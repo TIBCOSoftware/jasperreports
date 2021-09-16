@@ -54,7 +54,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 	protected String name;
 	protected String valueClassName;
 	protected String valueClassRealName;
-	protected Class<?> valueClass;//FIXME transient
+	protected transient Class<?> valueClass;
 	protected JRExpression expression;
 	protected CalculationEnum calculationValue = CalculationEnum.COUNT;
 	protected String incrementerFactoryClassName;
