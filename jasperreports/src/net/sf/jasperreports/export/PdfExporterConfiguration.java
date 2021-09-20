@@ -49,6 +49,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	/**
 	 * Integer property that contains all permissions for the generated PDF document
 	 */
+	//TODO lucian
 	public static final Integer ALL_PERMISSIONS = 
 			PdfWriter.ALLOW_ASSEMBLY 
 			| PdfWriter.ALLOW_COPY

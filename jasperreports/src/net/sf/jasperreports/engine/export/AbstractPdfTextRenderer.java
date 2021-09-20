@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import com.lowagie.text.Element;
-import com.lowagie.text.pdf.PdfContentByte;
-
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.pdf.PdfProducer;
+import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 
 
 /**
@@ -41,8 +40,8 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	 * 
 	 */
 	protected JRPdfExporter pdfExporter;
-	protected PdfContentByte pdfContentByte;
-	protected int horizontalAlignment;
+	protected PdfProducer pdfProducer;
+	protected PdfTextAlignment horizontalAlignment;
 	protected float leftOffsetFactor;
 	protected float rightOffsetFactor;
 
@@ -84,7 +83,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	 */
 	public void initialize(
 		JRPdfExporter pdfExporter, 
-		PdfContentByte pdfContentByte,
+		PdfProducer pdfProducer,
 		JRPrintText text, 
 		JRStyledText styledText, 
 		int offsetX,
@@ -92,9 +91,9 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		)
 	{
 		this.pdfExporter = pdfExporter;
-		this.pdfContentByte = pdfContentByte;
+		this.pdfProducer = pdfProducer;
 		
-		horizontalAlignment = Element.ALIGN_LEFT;
+		horizontalAlignment = PdfTextAlignment.LEFT;
 		leftOffsetFactor = 0f;
 		rightOffsetFactor = 0f;
 		
@@ -103,7 +102,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		{
 			case JUSTIFIED :
 			{
-				horizontalAlignment = Element.ALIGN_JUSTIFIED;
+				horizontalAlignment = PdfTextAlignment.JUSTIFIED;
 				leftOffsetFactor = 0f;
 				rightOffsetFactor = 0f;
 				break;
@@ -112,11 +111,11 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			{
 				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
 				{
-					horizontalAlignment = Element.ALIGN_RIGHT;
+					horizontalAlignment = PdfTextAlignment.RIGHT;
 				}
 				else
 				{
-					horizontalAlignment = Element.ALIGN_LEFT;
+					horizontalAlignment =  PdfTextAlignment.LEFT;
 				}
 				leftOffsetFactor = -0.2f;
 				rightOffsetFactor = 0f;
@@ -124,7 +123,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			}
 			case CENTER :
 			{
-				horizontalAlignment = Element.ALIGN_CENTER;
+				horizontalAlignment = PdfTextAlignment.CENTER;
 				leftOffsetFactor = -0.1f;
 				rightOffsetFactor = 0.1f;
 				break;
@@ -134,11 +133,11 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			{
 				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
 				{
-					horizontalAlignment = Element.ALIGN_LEFT;
+					horizontalAlignment = PdfTextAlignment.LEFT;
 				}
 				else
 				{
-					horizontalAlignment = Element.ALIGN_RIGHT;
+					horizontalAlignment = PdfTextAlignment.RIGHT;
 				}
 				leftOffsetFactor = 0f;
 				rightOffsetFactor = 0.2f;
@@ -148,4 +147,6 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 
 		super.initialize(text, styledText, offsetX, offsetY);
 	}
+	
+	public abstract boolean addActualText();
 }

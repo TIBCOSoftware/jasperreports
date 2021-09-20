@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.function.BiConsumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,6 +72,7 @@ public class Report
 	
 	private String jrxml;
 	private String jrpxml;
+	private BiConsumer<Report, JasperPrint> printConsumer = Report::checkDigest;
 	
 	public Report(String basename)
 	{
@@ -106,6 +108,16 @@ public class Report
 		{
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public String getJRXML()
+	{
+		return jrxml;
+	}
+	
+	public void addPrintConsumer(BiConsumer<Report, JasperPrint> printConsumer)
+	{
+		this.printConsumer = this.printConsumer.andThen(printConsumer);
 	}
 	
 	public JasperReport compileReport() throws JRException, IOException
@@ -146,7 +158,7 @@ public class Report
 			JasperPrint print = fillManager.fill(report, reportParams);
 			reportComplete(reportParams, print);
 		}
-		catch (JRException | NoSuchAlgorithmException | IOException e)
+		catch (JRException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -164,7 +176,6 @@ public class Report
 	}
 
 	protected void reportComplete(Map<String, Object> params, JasperPrint print)
-			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
 		JRVirtualizer virtualizer = (JRVirtualizer) params.get(JRParameter.REPORT_VIRTUALIZER);
 		if (virtualizer instanceof JRAbstractLRUVirtualizer)
@@ -174,13 +185,25 @@ public class Report
 		
 		assert !print.getPages().isEmpty();
 		
-		String digestString = xmlDigest(print);
-		log.debug("Report " + jrxml + " got " + digestString);
-		assert digestString.equals(referenceJRPXMLDigest);
+		printConsumer.accept(this, print);
 		
 		if (virtualizer != null)
 		{
 			virtualizer.cleanup();
+		}
+	}
+
+	public void checkDigest(JasperPrint print)
+	{
+		try
+		{
+			String digestString = xmlDigest(print);
+			log.debug("Report " + jrxml + " got " + digestString);
+			assert digestString.equals(referenceJRPXMLDigest);
+		} 
+		catch (NoSuchAlgorithmException | JRException | IOException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 

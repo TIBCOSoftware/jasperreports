@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -153,6 +154,17 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 				JRPrintElement element = (JRPrintElement) in.readJRObject();
 				elements.add(element);
 			}
+		}
+	}
+
+	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException
+	{
+		in.defaultReadObject();
+		if (elements instanceof VirtualizableElementList)
+		{
+			VirtualizableElementList virtualizableList = ((VirtualizableElementList) elements);
+			JRVirtualizationContext virtualizationContext = virtualizableList.getVirtualizationContext();
+			virtualizationContext.cacheVirtualizableList(PrintElementId.forElement(this), virtualizableList);
 		}
 	}
 }

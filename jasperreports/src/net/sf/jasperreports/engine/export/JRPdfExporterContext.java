@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.export;
 
 import com.lowagie.text.pdf.PdfWriter;
 
+import net.sf.jasperreports.export.pdf.PdfProducer;
+
 
 /**
  * A context that represents information about an PDF export process.
@@ -42,5 +44,7 @@ public interface JRPdfExporterContext extends JRExporterContext
 	 * @return the exporter's {@link PdfWriter} instance
 	 */
 	PdfWriter getPdfWriter();
+	
+	PdfProducer getPdfProducer();
 	
 }

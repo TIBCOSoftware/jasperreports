@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRScriptletException;
@@ -35,33 +34,14 @@ import net.sf.jasperreports.engine.JRScriptletException;
 public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 {
 	
-	/**
-	 *
-	 */
-	private JRFillDataset dataset;
-
-	/**
-	 *
-	 */
-	public JRFillDatasetScriptlet(JRFillDataset dataset)
-	{
-		this.dataset = dataset;
-	}
-
-
 	@Override
-	public void setData(
-		Map<String,JRFillParameter> parsm,
-		Map<String,JRFillField> fldsm,
-		Map<String,JRFillVariable> varsm,
-		JRFillGroup[] grps
-		)
+	public void setData(JRFillDataset dataset)
 	{
-		super.setData(parsm, fldsm, varsm, grps);
+		super.setData(dataset);
 		
 		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			it.next().setData(parsm, fldsm, varsm, grps);
+			it.next().setData(dataset);
 		}
 	}
 

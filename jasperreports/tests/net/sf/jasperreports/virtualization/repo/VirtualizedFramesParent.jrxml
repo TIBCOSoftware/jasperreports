@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VirtualizedFramesMaster" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="0bdf2958-2278-4c06-baf4-2c05ff90bb53">
+	<property name="net.sf.jasperreports.virtual.page.element.size" value="5"/>
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/empty2.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>
+	<parameter name="VirtualizedFramesSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<detail>
+		<band height="80">
+			<textField>
+				<reportElement x="0" y="0" width="500" height="20" uuid="260ac409-8659-488b-8be0-bb89a41fad97"/>
+				<textFieldExpression><![CDATA["parent report " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="30" width="500" height="50" uuid="317338c1-c770-4557-96fa-87eebfeb2966"/>
+				<subreportExpression><![CDATA[$P{VirtualizedFramesSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

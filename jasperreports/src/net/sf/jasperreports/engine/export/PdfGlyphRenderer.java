@@ -35,8 +35,12 @@ import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfString;
 
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.pdf.PdfProducer;
+import net.sf.jasperreports.export.pdf.classic.ClassicPdfProducer;
 
 
 /**
@@ -74,6 +78,9 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	{
 		return PATCHED_ITEXT;
 	}
+
+	private ClassicPdfProducer itextPdfProducer;
+	private PdfContentByte pdfContentByte;
 	
 	private boolean addActualText;	
 	private PdfGlyphGraphics2D pdfGraphics2D;
@@ -113,12 +120,25 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 		this.addActualText = addActualText;
 	}
 
+	@Override
+	public void initialize(JRPdfExporter pdfExporter, PdfProducer pdfProducer, JRPrintText text,
+			JRStyledText styledText, int offsetX, int offsetY)
+	{
+		if (!(pdfProducer instanceof ClassicPdfProducer))
+		{
+			throw new IllegalArgumentException("Only ClassicPdfProducer is supported");
+		}
+		super.initialize(pdfExporter, pdfProducer, text, styledText, offsetX, offsetY);
+		
+		itextPdfProducer = (ClassicPdfProducer) pdfProducer;
+		pdfContentByte = itextPdfProducer.getPdfContentByte();
+	}
 
 	@Override
 	public void render()
 	{
 		Locale locale = pdfExporter.getTextLocale(text);
-		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, locale);
+		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, itextPdfProducer, locale);
 		super.render();
 		pdfGraphics2D.dispose();
 	}
@@ -127,7 +147,8 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	@Override
 	public void draw()
 	{
-		if (addActualText)
+		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
+		if (addText)
 		{
 			PdfDictionary markedContentProps = new PdfDictionary();
 			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(allText, PdfObject.TEXT_UNICODE));
@@ -141,12 +162,18 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 				y + topPadding + verticalAlignOffset + drawPosY
 				);
 		
-		if (addActualText)
+		if (addText)
 		{
 			pdfContentByte.endMarkedContentSequence();
 		}
 		
 		return;
+	}
+
+	@Override
+	public boolean addActualText()
+	{
+		return addActualText;
 	}
 	
 

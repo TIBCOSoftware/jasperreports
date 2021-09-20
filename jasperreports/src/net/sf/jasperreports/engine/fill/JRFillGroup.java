@@ -81,7 +81,7 @@ public class JRFillGroup implements JRGroup
 		JRBaseFiller filler = factory.getFiller();
 		if (filler != null)
 		{
-			String reportName = filler.isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+			String reportName = filler.getBandReportParent() == null ? null : filler.getBandReportParent().getReportName();
 			
 			groupHeaderSection = factory.getSection(group.getGroupHeaderSection());
 			if (groupHeaderSection != factory.getFiller().missingFillSection)

@@ -23,14 +23,11 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.PdfWriter;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.export.pdf.PdfTextAlignment;
+import net.sf.jasperreports.export.pdf.PdfPhrase;
+import net.sf.jasperreports.export.pdf.TextDirection;
 
 
 /**
@@ -76,9 +73,10 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		
 		float advance = segment.layout.getVisibleAdvance();//getAdvance();
 		
-		ColumnText colText = new ColumnText(pdfContentByte);
-		colText.setSimpleColumn(
-			pdfExporter.getPhrase(segment.as, segment.text, text),
+		PdfPhrase phrase = pdfProducer.createPhrase();
+		pdfExporter.getPhrase(segment.as, segment.text, text, phrase);
+		
+		phrase.go(
 			x + drawPosX + leftOffsetFactor * advance,// + leftPadding
 			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
@@ -95,27 +93,20 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 				//- text.getLeadingOffset()
 				-400//+ lineHeight//FIXMETAB
 				- drawPosY,
-			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
-			horizontalAlignment == Element.ALIGN_JUSTIFIED && (!segment.isLastLine || (isLastParagraph && justifyLastLine)) 
-				? Element.ALIGN_JUSTIFIED_ALL : horizontalAlignment
-			);
-
-		//colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
-		colText.setLeading(lineHeight);
-		colText.setRunDirection(
+			lineHeight,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+			0,
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (!segment.isLastLine || (isLastParagraph && justifyLastLine)) 
+				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
-			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
+				? TextDirection.LTR : TextDirection.RTL
 			);
-
-		try
-		{
-			colText.go();
-		}
-		catch (DocumentException e)
-		{
-			throw new JRRuntimeException(e);
-		}
 	}
-	
+
+
+	@Override
+	public boolean addActualText()
+	{
+		return false;
+	}
 
 }

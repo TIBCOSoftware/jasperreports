@@ -30,6 +30,8 @@ import java.util.HashMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import net.sf.jasperreports.OwnVirtualizerContainer;
+import net.sf.jasperreports.PrintSerializer;
 import net.sf.jasperreports.Report;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -48,6 +50,8 @@ public class ReportTest
 	{
 		report = new Report("net/sf/jasperreports/virtualization/repo/FirstJasper.jrxml", 
 				"net/sf/jasperreports/virtualization/FirstJasper.reference.jrpxml");
+		report.addPrintConsumer(PrintSerializer.instance());
+		report.addPrintConsumer(new PrintSerializer(new OwnVirtualizerContainer(new JRGzipVirtualizer(5))));
 		report.init();
 	}
 	

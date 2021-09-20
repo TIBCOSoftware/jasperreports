@@ -103,7 +103,7 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		this.page = page;
 		
 		JRVirtualizationContext newContext = page.getVirtualizationContext();
-		context.inheritListeners(newContext);
+		context.updateParent(newContext);
 	}
 
 	private void lockContext()
