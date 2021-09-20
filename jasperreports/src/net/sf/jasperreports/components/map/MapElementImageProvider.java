@@ -39,15 +39,24 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class MapElementImageProvider
 {
+	// LandClan added: Logger
+	private static final Log log = LogFactory.getLog(MapElementImageProvider.class);
+
 	/**
 	 * The character count limit for a static map URL request
 	 */
+	// LandClan removed:
+	// public static Integer MAX_URL_LENGTH = 2048;
+	// LandClan added: Updated to 8192 in accordance with current documentation.
+	// See https://developers.google.com/maps/documentation/maps-static/start#url-size-restriction
 	public static Integer MAX_URL_LENGTH = 8192;
 	
 	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
@@ -151,23 +160,30 @@ public class MapElementImageProvider
 			}
 		}
 
-		String imageLocation = 
-			"https://maps.googleapis.com/maps/api/staticmap?center=" 
-			+ latitude 
-			+ "," 
-			+ longitude 
-			+ "&size=" 
+		// LandClan: Updated - added logic to support implicit positioning
+		String imageLocation = "https://maps.googleapis.com/maps/api/staticmap?";
+
+		if (Math.abs(latitude) > 0.0001 && Math.abs(longitude) > 0.0001) {
+			// Use normal positioning:
+			imageLocation += "center="
+					+ latitude
+					+ ","
+					+ longitude
+					+ "&zoom="
+					+ zoom
+					+ "&";
+		}
+
+		imageLocation += "size="
 			+ element.getWidth() 
 			+ "x" 
-			+ element.getHeight() 
-			+ "&zoom="
-			+ zoom
+			+ element.getHeight()
 			+ (mapType == null ? "" : "&maptype=" + mapType)
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
 			+ (mapScale == null ? "" : "&scale=" + mapScale);
 		String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
 
-		//a static map url is limited to 2048 characters
+		//a static map url is limited to 8192 characters
 		imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH 
 				? markers + currentPaths + params 
 				: imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH ? markers + params : params;
@@ -198,6 +214,8 @@ public class MapElementImageProvider
 
 		if (cacheRenderer == null)
 		{
+			// LandClan added: logging of URL
+			log.info("Requesting renderable from URL: " + imageLocation);
 			cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
 			if (cacheRenderer != null)
 			{
