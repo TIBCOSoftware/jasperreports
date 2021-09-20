@@ -119,7 +119,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 
 		File htmlTempFile = File.createTempFile("cv_", ".html", resourceManager.getTempFolder(jasperReportsContext));
 		try {
-			try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
+			try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes(StandardCharsets.UTF_8));
 					 OutputStream os = new FileOutputStream(htmlTempFile) ) {
 					CVUtils.byteStreamCopy(is, os);
 				}

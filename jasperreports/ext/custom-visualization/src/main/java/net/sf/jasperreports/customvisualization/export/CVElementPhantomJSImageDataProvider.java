@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -134,7 +135,7 @@ public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageD
 						cssUri);
 
 				File htmlPageFile = createTempFile("in.html", tempFolder, cleanableResourcePaths, false);
-				try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
+				try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes(StandardCharsets.UTF_8));
 					 OutputStream os = new FileOutputStream(htmlPageFile)) {
 					CVUtils.byteStreamCopy(is, os);
 				}
