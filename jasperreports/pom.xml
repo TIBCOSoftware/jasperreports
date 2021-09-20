@@ -49,7 +49,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>6.17.0</tag>
+		<tag>develop-SNAPSHOT</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -430,7 +430,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>6.17.0</version>
+			<version>develop-14-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -499,7 +499,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>6.17.0</version>
+			<version>develop-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -627,7 +627,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>6.17.0</version>
+							<version>develop-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
