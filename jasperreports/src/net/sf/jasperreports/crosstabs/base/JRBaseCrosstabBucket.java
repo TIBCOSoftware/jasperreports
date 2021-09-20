@@ -50,7 +50,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 
 	protected String valueClassName;
 	protected String valueClassRealName;
-	protected Class<?> valueClass;
+	protected transient Class<?> valueClass;
 
 	// only used for deserialization
 	@Deprecated

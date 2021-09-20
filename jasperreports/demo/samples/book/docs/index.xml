@@ -7,10 +7,11 @@
   <description>Shows how report parts can be used.</description>
 
   <mainFeature ref="parts"/>
+  <secondaryFeature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures"/>
   
   <!-- parts -->
   
-  <feature name="parts" title="Report parts">
+  <feature name="parts" title="Report Parts (Book Reports)">
     <description>
 On report parts.
     </description>

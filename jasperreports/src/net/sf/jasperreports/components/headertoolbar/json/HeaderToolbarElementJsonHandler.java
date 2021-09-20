@@ -90,8 +90,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.MessageProvider;
-import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -251,11 +249,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					contextMap.put("timePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(timePatterns, locale)));
 
 					// operators
-					contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale)));
-					contextMap.put("dateOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
-					contextMap.put("timeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale)));
-					contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale)));
-					contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale)));
+					contextMap.put("numericOperators", JacksonUtil.getInstance(jrContext).getJsonString(getOperators(FilterTypeNumericOperatorsEnum.values())));
+					contextMap.put("dateTimeOperators", JacksonUtil.getInstance(jrContext).getJsonString(getOperators(FilterTypeDateOperatorsEnum.values())));
+					contextMap.put("textOperators", JacksonUtil.getInstance(jrContext).getJsonString(getOperators(FilterTypeTextOperatorsEnum.values())));
+					contextMap.put("booleanOperators", JacksonUtil.getInstance(jrContext).getJsonString(getOperators(FilterTypeBooleanOperatorsEnum.values())));
 
 					/*** begin: FILTER PATTERNS ***/
 					// numeric filter pattern
@@ -470,26 +467,13 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return true;
 	}
 	
-	private List<LinkedHashMap<String, String>> getTranslatedOperators(
-		JasperReportsContext jasperReportsContext, 
-		String bundleName, 
-		NamedEnum[] operators, 
-		Locale locale
-		) //FIXMEJIVE make utility method for translating enums
+	private List<String> getOperators(NamedEnum[] operators)
 	{
-		List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
-		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
-		LinkedHashMap<String, String> keys;
-		
-		for (NamedEnum operator: operators) 
+		List<String> result = new ArrayList<>();
+		for (NamedEnum operator: operators)
 		{
-			keys = new LinkedHashMap<String, String>();
-			String key = bundleName + "." + ((Enum<?>)operator).name();
-			keys.put("key", ((Enum<?>)operator).name());
-			keys.put("val", messageProvider.getMessage(key, null, locale));
-			result.add(keys);
+			result.add(((Enum<?>)operator).name());
 		}
-		
 		return result;
 	}
 	

@@ -242,6 +242,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		Collection<JRPrintElement> elements = page.getElements();
 		Boolean exportReportComponentsOnly = getCurrentConfiguration().isReportComponentsExportOnly();
 
+		exportReportConfig();
+
 		if (exportReportComponentsOnly == null)
 		{
 			exportReportComponentsOnly = false;
@@ -313,6 +315,30 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			writer.write("\"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\": ");
 			writeBookmarks(bookmarks, writer, jacksonUtil);
 		}
+	}
+
+	protected void exportReportConfig() throws IOException
+	{
+		if (gotFirstJsonFragment)
+		{
+			writer.write(",\n");
+		} else
+		{
+			gotFirstJsonFragment = true;
+		}
+
+		JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+
+		writer.write("\"reportConfig\": {");
+		writer.write("\"id\": \"reportConfig\",");
+		writer.write("\"type\": \"reportConfig\",");
+
+		List<JRPropertiesUtil.PropertySuffix> viewerProps = propertiesUtil.getProperties(
+				jasperPrint,
+				JRPropertiesUtil.PROPERTY_PREFIX + "htmlviewer.");
+
+		writer.write("\"reportConfig\": " + jacksonUtil.getJsonString(viewerProps));
+		writer.write("}");
 	}
 
 	public static void writeBookmarks(List<PrintBookmark> bookmarks, Writer writer, JacksonUtil jacksonUtil) throws IOException

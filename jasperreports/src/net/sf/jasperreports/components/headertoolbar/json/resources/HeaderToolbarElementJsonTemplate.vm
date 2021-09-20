@@ -26,8 +26,7 @@
         },
         "operators": {
             "numeric" :${numericOperators},
-            "date" :${dateOperators},
-            "time" :${timeOperators},
+            "dateTime" :${dateTimeOperators},
             "text" :${textOperators},
             "boolean" :${booleanOperators}
         },

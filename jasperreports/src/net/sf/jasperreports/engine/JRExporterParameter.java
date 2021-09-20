@@ -94,6 +94,11 @@ public class JRExporterParameter
 	 */
 	public static final JRExporterParameter JASPER_PRINT_LIST = new JRExporterParameter("JasperPrint List");
 
+	/**
+	 * @deprecated Replace by {@link SimpleExporterInput#SimpleExporterInput(java.util.List)}
+	 */
+	public static final JRExporterParameter INPUT_ITEM_LIST = new JRExporterParameter("ExporterInputItem List");
+
 
 	/**
 	 * @deprecated Replaced by {@link SimpleExporterInput#SimpleExporterInput(java.io.InputStream)}.
