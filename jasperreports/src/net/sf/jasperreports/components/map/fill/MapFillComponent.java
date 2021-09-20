@@ -183,13 +183,14 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			if(coords != null && coords[0] != null && coords[1] != null){
 				latitude = coords[0];
 				longitude = coords[1];
-			} else {
+			} /* LandClan removed: To allow implicit location support by making lat/long non-mandatory.
+			else {
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
 						new Object[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude} 
 						);
-			}
+			}*/
 		}
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;

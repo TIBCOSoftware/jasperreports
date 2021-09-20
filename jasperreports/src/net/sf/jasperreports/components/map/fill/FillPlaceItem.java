@@ -124,14 +124,15 @@ public class FillPlaceItem extends FillItem
 					result.put(MapComponent.ITEM_PROPERTY_latitude, coords[0]);
 					result.put(MapComponent.ITEM_PROPERTY_longitude, coords[1]);
 					result.remove(MapComponent.ITEM_PROPERTY_address);
-				} else {
+				} /* LandClan removed: To allow implicit location support by making lat/long non-mandatory.
+				else {
 					throw 
 						new JRException(
 							MapFillComponent.EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES,  
 							new Object[]{coords[0], coords[1]} 
 							);
-				}
-			}
+				}*/
+			}/* LandClan removed: To allow implicit location support by making lat/long non-mandatory.
 			else 
 			{
 				throw 
@@ -139,7 +140,7 @@ public class FillPlaceItem extends FillItem
 						EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES,  
 						new Object[]{fLatitude == null ? MapComponent.ITEM_PROPERTY_latitude : MapComponent.ITEM_PROPERTY_longitude}
 						);
-			}
+			}*/
 		}
 	}
 	
