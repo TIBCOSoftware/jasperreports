@@ -24,6 +24,8 @@
 package net.sf.jasperreports.components.map;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,16 +49,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class MapElementImageProvider {
-    // LandClan added: Logger
+
     private static final Log log = LogFactory.getLog(MapElementImageProvider.class);
 
     /**
      * The character count limit for a static map URL request
      */
-    // LandClan removed:
-    // public static Integer MAX_URL_LENGTH = 2048;
-    // LandClan added: Updated to 8192 in accordance with current documentation.
-    // See https://developers.google.com/maps/documentation/maps-static/start#url-size-restriction
     public static Integer MAX_URL_LENGTH = 8192;
 
     /**
@@ -119,36 +117,53 @@ public class MapElementImageProvider {
             String mapScale = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_SCALE);
             String mapFormat = (String) element.getParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE);
             String reqParams = (String) element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
-            String markers = "";
+            StringBuilder markers = new StringBuilder();
 
             List<Map<String, Object>> markerList =
                     (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
 
             if (markerList != null && !markerList.isEmpty()) {
-                // LandClan: Added logging
                 landclanLog("markerList.size() = " + markerList.size());
-                String currentMarkers = "";
+                // Each unique marker configuration (other than lat/lon) can be passed as one parameter
+                Map<MarkerProperties, List<String>> markerGroups = new HashMap<>();
+
                 for (Map<String, Object> map : markerList) {
                     if (map != null && !map.isEmpty()) {
-                        currentMarkers = "&markers=";
-                        String size = (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_size);
-                        currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
-                        String color = (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_color);
-                        currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
-                        String label = (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_label);
-                        currentMarkers += label != null && label.length() > 0 ? "label:" +
-                                Character.toUpperCase(label.charAt(0)) + "%7C" : "";
-                        String icon = map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null
-                                ? (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url)
-                                : (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_icon);
-                        if (icon != null && icon.length() > 0) {
-                            currentMarkers += "icon:" + icon + "%7C";
+                        MarkerProperties markerProperties = new MarkerProperties(
+                                (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_size),
+                                (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_color),
+                                (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_label),
+                                map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null
+                                        ? (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url)
+                                        : (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_icon));
+                        List<String> groupLocations;
+                        if (!markerGroups.containsKey(markerProperties)) {
+                            groupLocations = new ArrayList<>();
+                        } else {
+                            groupLocations = markerGroups.get(markerProperties);
                         }
-                        currentMarkers += map.get(MapComponent.ITEM_PROPERTY_latitude);
-                        currentMarkers += ",";
-                        currentMarkers += map.get(MapComponent.ITEM_PROPERTY_longitude);
-                        markers += currentMarkers;
+                        groupLocations.add(map.get(MapComponent.ITEM_PROPERTY_latitude) + "," +
+                                map.get(MapComponent.ITEM_PROPERTY_longitude));
+                        markerGroups.put(markerProperties, groupLocations);
                     }
+                }
+
+                String currentMarkers = "";
+                for (Map.Entry<MarkerProperties, List<String>> markerGroup : markerGroups.entrySet()) {
+                    currentMarkers = "&markers=";
+                    String size = markerGroup.getKey().size;
+                    currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
+                    String color = markerGroup.getKey().color;
+                    currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
+                    String label = markerGroup.getKey().label;
+                    currentMarkers += label != null && label.length() > 0 ? "label:" +
+                            Character.toUpperCase(label.charAt(0)) + "%7C" : "";
+                    String icon = markerGroup.getKey().icon;
+                    if (icon != null && icon.length() > 0) {
+                        currentMarkers += "icon:" + icon + "%7C";
+                    }
+                    currentMarkers += String.join("%7C", markerGroup.getValue());
+                    markers.append(currentMarkers);
                 }
             }
 
@@ -202,7 +217,6 @@ public class MapElementImageProvider {
                 }
             }
 
-            // LandClan: Updated - added logic to support implicit positioning
             String imageLocation = "https://maps.googleapis.com/maps/api/staticmap?";
 
             if (Math.abs(latitude) > 0.0001 && Math.abs(longitude) > 0.0001) {
@@ -233,7 +247,6 @@ public class MapElementImageProvider {
                     ? markers + currentPaths + params
                     : imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH ? markers + params : params;
 
-            // LandClan added: logging of URL
             landclanLog("Requesting renderable from URL: " + imageLocation);
             cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
             if (cacheRenderer != null) {
@@ -265,9 +278,7 @@ public class MapElementImageProvider {
         return printImage;
     }
 
-    // LandClan added logging with Thread identification
     private static void landclanLog(String msg) {
         log.info("[" + Thread.currentThread().getName() + "] " + msg);
     }
-
 }
