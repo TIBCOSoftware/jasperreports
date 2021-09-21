@@ -90,26 +90,9 @@ public class MapElementImageProvider {
         }
     }
 
+    // TODO: Make a PR on the main TIBCO repo for these changes, minus the logging
+    @SuppressWarnings("unchecked")
     public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException {
-
-        Float latitude = (Float) element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
-        latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
-
-        Float longitude = (Float) element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
-        longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
-
-        Integer zoom = (Integer) element.getParameterValue(MapComponent.PARAMETER_ZOOM);
-        zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
-
-        String mapType = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
-        String mapScale = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_SCALE);
-        String mapFormat = (String) element.getParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE);
-        String reqParams = (String) element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
-        String markers = "";
-
-        List<Map<String, Object>> markerList = (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
-        // TODO: Add the markers more efficiently so that those with matching configuration are added to the
-        //  same "markers" parameter.
 
         Renderable cacheRenderer = (Renderable) element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
 
@@ -119,6 +102,27 @@ public class MapElementImageProvider {
                         : OnErrorTypeEnum.getByName((String) element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
 
         if (cacheRenderer == null) {
+
+            // TODO: Add the markers more efficiently so that those with matching configuration are added to the
+            //  same "markers" parameter.
+
+            Float latitude = (Float) element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
+            latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
+
+            Float longitude = (Float) element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
+            longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
+
+            Integer zoom = (Integer) element.getParameterValue(MapComponent.PARAMETER_ZOOM);
+            zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
+
+            String mapType = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
+            String mapScale = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_SCALE);
+            String mapFormat = (String) element.getParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE);
+            String reqParams = (String) element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
+            String markers = "";
+
+            List<Map<String, Object>> markerList =
+                    (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
 
             if (markerList != null && !markerList.isEmpty()) {
                 // LandClan: Added logging
@@ -132,7 +136,8 @@ public class MapElementImageProvider {
                         String color = (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_color);
                         currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
                         String label = (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_label);
-                        currentMarkers += label != null && label.length() > 0 ? "label:" + Character.toUpperCase(label.charAt(0)) + "%7C" : "";
+                        currentMarkers += label != null && label.length() > 0 ? "label:" +
+                                Character.toUpperCase(label.charAt(0)) + "%7C" : "";
                         String icon = map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null
                                 ? (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url)
                                 : (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_icon);
@@ -217,8 +222,11 @@ public class MapElementImageProvider {
                     + element.getHeight()
                     + (mapType == null ? "" : "&maptype=" + mapType)
                     + (mapFormat == null ? "" : "&format=" + mapFormat)
-                    + (mapScale == null ? "" : "&scale=" + mapScale);
+                    + (mapScale == null ? "" : "&scale=" + mapScale)
+                    // Hide the POI markers (would be nice to have this supported upstream as a map component feature)
+                    + "&style=feature:poi%7Cvisibility:off";
             String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
+            landclanLog("params = " + params);
 
             //a static map url is limited to 8192 characters
             imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH
