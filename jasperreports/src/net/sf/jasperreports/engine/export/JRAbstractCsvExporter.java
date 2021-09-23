@@ -69,6 +69,12 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	 */
 	public static final String CSV_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "csv";
 
+	protected String fieldDelimiter;
+	protected String recordDelimiter;
+	protected boolean forceFieldEnclosure;
+	protected String quotes;
+	protected boolean escapeFormula;
+
 	/**
 	 *
 	 */
@@ -202,23 +208,10 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 		
 		if (source != null)
 		{
-			CsvExporterConfiguration configuration = getCurrentConfiguration();
-			String fieldDelimiter = configuration.getFieldDelimiter();
-			String recordDelimiter = configuration.getRecordDelimiter();
-			boolean putQuotes = configuration.getForceFieldEnclosure();
-			
-			// single character used for field enclosure; white spaces are not considered; default value is "
-			String quotes = configuration.getFieldEnclosure().trim().length() == 0 
-					? DEFAULT_ENCLOSURE 
-					: configuration.getFieldEnclosure().trim().substring(0, 1);
-
-			if (
-				source.indexOf(fieldDelimiter) >= 0
-				|| source.indexOf(recordDelimiter) >= 0
-				)
-			{
-				putQuotes = true;
-			}
+			boolean putQuotes = 
+				forceFieldEnclosure
+				|| source.indexOf(fieldDelimiter) >= 0
+				|| source.indexOf(recordDelimiter) >= 0;
 			
 			StringBuilder sb = new StringBuilder();
 			StringTokenizer tkzer = new StringTokenizer(source, quotes+"\n", true);
@@ -245,7 +238,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			
 			str = sb.toString();
 			
-			if(configuration.getEscapeFormula() && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >-1)
+			if (escapeFormula && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >= 0)
 			{
 				str = " " + str;
 			}
@@ -263,6 +256,18 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	protected void initExport()
 	{
 		super.initExport();
+
+		CsvExporterConfiguration configuration = getCurrentConfiguration();
+		fieldDelimiter = configuration.getFieldDelimiter();
+		recordDelimiter = configuration.getRecordDelimiter();
+		forceFieldEnclosure = configuration.getForceFieldEnclosure();
+		
+		// single character used for field enclosure; white spaces are not considered; default value is "
+		quotes = configuration.getFieldEnclosure().trim().length() == 0 
+				? DEFAULT_ENCLOSURE 
+				: configuration.getFieldEnclosure().trim().substring(0, 1);
+
+		escapeFormula = configuration.getEscapeFormula();
 	}
 	
 	
