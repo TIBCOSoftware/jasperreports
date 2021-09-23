@@ -116,6 +116,21 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_FORCE_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.force.field.enclosure";
 
 	/**
+	 * Property whose value is used as default for the {@link #getEscapeFormula()} export configuration setting.
+	 * Default value is <code>false</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_18_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_ESCAPE_FORMULA = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.escape.formula";
+	
+	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two fields on the same record.
 	 * @see #PROPERTY_FIELD_DELIMITER
 	 */
@@ -169,4 +184,17 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_WRITE_BOM)
 	public Boolean isWriteBOM();
+	
+	/**
+	 * Returns a flag that enforces field values containing formula to be escaped in order to be interpreted as pure text. 
+	 * <p/>
+	 * Default value is <code>false</code>.
+	 * @see #PROPERTY_ESCAPE_FORMULA
+	 */
+	@ExporterProperty(
+			value=PROPERTY_ESCAPE_FORMULA, 
+			booleanDefault=false
+			)
+	public Boolean getEscapeFormula();
+	
 }
