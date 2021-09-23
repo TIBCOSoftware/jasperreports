@@ -60,6 +60,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 {
 	public static final String BOM_CHARACTER = "\uFEFF";
 	public static final String DEFAULT_ENCLOSURE = "\"";
+	public static final String ESCAPE_FORMULA_CHARACTERS = "=+-@";
 	protected static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	/**
@@ -243,6 +244,11 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			}
 			
 			str = sb.toString();
+			
+			if(configuration.getEscapeFormula() && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >-1)
+			{
+				str = " " + str;
+			}
 			
 			if (putQuotes)
 			{
