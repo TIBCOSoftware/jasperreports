@@ -3495,6 +3495,16 @@ The property itself defaults to the text value of the report element this proper
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.csv.escape.formula -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.escape.formula">
+    <description>
+Flag property that enforces field values containing formula to be escaped in order to be interpreted as pure text. Its value is used as default for the 
+<api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getEscapeFormula--">getEscapeFormula()</api> CSV export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.csv.field.delimiter -->
   
   <configProperty name="net.sf.jasperreports.export.csv.field.delimiter">
