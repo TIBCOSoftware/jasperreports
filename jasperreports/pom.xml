@@ -291,6 +291,12 @@
 			<version>1.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
