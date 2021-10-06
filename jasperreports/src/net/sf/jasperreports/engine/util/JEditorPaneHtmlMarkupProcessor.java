@@ -131,9 +131,12 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
 				{
+					Object type = attrs.getAttribute(HTML.Attribute.TYPE);
+
 					StyledTextListInfo htmlList = 
 						new StyledTextListInfo(
 							htmlTag == Tag.OL,
+							htmlTag == Tag.OL ? String.valueOf(type) : null,
 							htmlListStack.size() == 0 ? false : htmlListStack.peek().insideLi
 							);
 					
@@ -160,7 +163,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					boolean ulAdded = false;
 					if (htmlListStack.size() == 0)
 					{
-						htmlList = new StyledTextListInfo(false, false);
+						htmlList = new StyledTextListInfo(false, null, false);
 						htmlListStack.push(htmlList);
 						styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 						ulAdded = true;
@@ -169,6 +172,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					{
 						htmlList = htmlListStack.peek();
 					}
+					htmlList.insideLi = true;
 					htmlList.itemCount = htmlList.itemCount + 1;
 					
 					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.itemCount));
@@ -179,6 +183,8 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 					
+					htmlList.insideLi = false;
+
 					if (ulAdded)
 					{
 						htmlListStack.pop();

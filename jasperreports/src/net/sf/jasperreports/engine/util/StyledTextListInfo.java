@@ -29,6 +29,7 @@ package net.sf.jasperreports.engine.util;
 public class StyledTextListInfo
 {
 	public final boolean ordered;
+	public final String type;
 	public final boolean hasParentLi;
 	
 	public int itemCount = 0;
@@ -36,10 +37,12 @@ public class StyledTextListInfo
 	
 	public StyledTextListInfo(
 		boolean ordered,
+		String type,
 		boolean hasParentLi
 		)
 	{
 		this.ordered = ordered;
+		this.type = type;
 		this.hasParentLi = hasParentLi;
 	}
 }

@@ -565,8 +565,22 @@ public class JRStyledTextParser implements ErrorHandler
 				sb.append(GREATER);
 			}
 			sb.append(LESS);
-			sb.append(listInfoStack[i].ordered ? NODE_ol : NODE_ul);
-			sb.append(" start=\"" + listItemInfo.itemNumber + "\"");
+			if (listInfoStack[i].ordered)
+			{
+				sb.append(NODE_ol);
+				if (listInfoStack[i].type != null)
+				{
+					sb.append(" type=\"" + listInfoStack[i].type + "\"");
+				}
+			}
+			else
+			{
+				sb.append(NODE_ul);
+			}
+			if (listItemInfo.itemNumber > 1)
+			{
+				sb.append(" start=\"" + listItemInfo.itemNumber + "\"");
+			}
 			sb.append(GREATER);
 		}
 
@@ -839,9 +853,26 @@ public class JRStyledTextParser implements ErrorHandler
 				&& (NODE_ul.equalsIgnoreCase(node.getNodeName()) || NODE_ol.equalsIgnoreCase(node.getNodeName()))
 				)
 			{
+				boolean ordered = false;
+				String type = null;
+				if (NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				{
+					ordered = true;
+					NamedNodeMap nodeAttrs = node.getAttributes();
+					if (nodeAttrs != null)
+					{
+						Node typeNode = nodeAttrs.getNamedItem(ATTRIBUTE_type);
+						if (typeNode != null)
+						{
+							type = typeNode.getNodeValue();
+						}
+					}
+				}
+				
 				StyledTextListInfo htmlList = 
 					new StyledTextListInfo(
-						NODE_ol.equalsIgnoreCase(node.getNodeName()),
+						ordered,
+						type,
 						htmlListStack.size() == 0 ? false : htmlListStack.peek().insideLi
 						);
 				
@@ -868,7 +899,7 @@ public class JRStyledTextParser implements ErrorHandler
 				boolean ulAdded = false;
 				if (htmlListStack.size() == 0)
 				{
-					htmlList = new StyledTextListInfo(false, false);
+					htmlList = new StyledTextListInfo(false, null, false);
 					htmlListStack.push(htmlList);
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 					ulAdded = true;

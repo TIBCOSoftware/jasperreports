@@ -758,13 +758,60 @@ public abstract class AbstractTextRenderer
 			&& crtDepth <= newDepth
 			)
 		{
-			bulletText = (listInfoStack == null || !listInfoStack[listInfoStack.length - 1].ordered) ? "\u2022" : (listItemInfo.itemNumber + ".");  
+			if (
+				listInfoStack == null 
+				|| !listInfoStack[listInfoStack.length - 1].ordered
+				)
+			{
+				bulletText = "\u2022"; 
+			}
+			else
+			{
+				if (listInfoStack[listInfoStack.length - 1].type == null)
+				{
+					bulletText = String.valueOf(listItemInfo.itemNumber);
+				}
+				else
+				{
+					switch (listInfoStack[listInfoStack.length - 1].type)
+					{
+						case "A":
+						{
+							bulletText = JRStringUtil.getLetterNumeral(listItemInfo.itemNumber, true);
+							break;
+						}
+						case "a":
+						{
+							bulletText = JRStringUtil.getLetterNumeral(listItemInfo.itemNumber, false);
+							break;
+						}
+						case "I":
+						{
+							bulletText = JRStringUtil.getRomanNumeral(listItemInfo.itemNumber, true);
+							break;
+						}
+						case "i":
+						{
+							bulletText = JRStringUtil.getRomanNumeral(listItemInfo.itemNumber, false);
+							break;
+						}
+						case "1":
+						default:
+						{
+							bulletText = String.valueOf(listItemInfo.itemNumber);
+							break;
+						}
+					}
+				}
+				
+				bulletText += ".";
+			}
+
 			bulletChunk = 
 				new AttributedString(
 					bulletText,
 					attributes
 					);
-
 		}
 		else
 		{

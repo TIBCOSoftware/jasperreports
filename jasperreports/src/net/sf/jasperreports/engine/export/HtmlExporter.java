@@ -2973,11 +2973,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		String textRunStyle
 		) throws IOException
 	{
+		StyledTextListItemInfo crtListItem = context.getCrtListItem();
+
 		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
 		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
 		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
 
-		StyledTextListItemInfo crtListItem = context.getCrtListItem();
 		if (
 			crtListItem != null // there was a li 
 			&& crtListItem != listItemInfo // was not the same as the new one
@@ -2985,6 +2986,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			) // so closing it
 		{
 			writer.write("</li>");
+			
+			crtListInfoStack[crtListInfoStack.length - 1].insideLi = false;
 		}
 		
 		int minDepth = Math.min(crtDepth, newDepth);
@@ -2999,15 +3002,54 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			parentListDepth++;
 		}
 		
-		
-		for (int i = parentListDepth; i < crtDepth; i++)
+		for (int i = crtDepth - 1; i >= parentListDepth; i--)
 		{
 			writer.write(crtListInfoStack[i].ordered ? "</ol>" : "</ul>");
+			if (
+				crtListInfoStack[i].hasParentLi
+				&& ((i == parentListDepth && crtListInfoStack[i - 1].insideLi == false)
+					|| i > parentListDepth
+					)
+				)
+			{
+				writer.write("</li>");
+			}
 		}
 
 		for (int i = parentListDepth; i < newDepth; i++)
 		{
-			writer.write(listInfoStack[i].ordered ? "<ol style=\"margin:0\">" : "<ul style=\"margin:0\">");
+			if (
+				listInfoStack[i].hasParentLi
+				&& ((i == parentListDepth && listInfoStack[i - 1].insideLi == false)
+					|| i > parentListDepth
+					)
+				)
+			{
+				writer.write("<li");
+				if (textRunStyle != null)
+				{
+					writer.write(" style=\"list-style: none; " + textRunStyle + "\"");
+				}
+				writer.write(">");
+			}
+			writer.write("<");
+			if (listInfoStack[i].ordered)
+			{
+				writer.write("ol");
+				if (listInfoStack[i].type != null)
+				{
+					writer.write(" type=\"" + listInfoStack[i].type + "\"");
+				}
+			}
+			else
+			{
+				writer.write("ul");
+			}
+			if (listItemInfo.itemNumber > 1)
+			{
+				writer.write(" start=\"" + listItemInfo.itemNumber + "\"");
+			}
+			writer.write(" style=\"margin:0\">");
 		}
 
 		if (
@@ -3022,6 +3064,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write(" style=\"" + textRunStyle + "\"");
 			}
 			writer.write(">");
+			
+			listInfoStack[listInfoStack.length - 1].insideLi = true;
 		}
 	}
 		
