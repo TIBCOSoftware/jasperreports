@@ -28,14 +28,18 @@ package net.sf.jasperreports.engine.util;
  */
 public class StyledTextListInfo
 {
-	public boolean ordered = false;
+	public final boolean ordered;
+	public final boolean hasParentLi;
+	
 	public int itemCount = 0;
+	public boolean insideLi = false;
 	
 	public StyledTextListInfo(
-		int depth,
-		boolean ordered
+		boolean ordered,
+		boolean hasParentLi
 		)
 	{
 		this.ordered = ordered;
+		this.hasParentLi = hasParentLi;
 	}
 }

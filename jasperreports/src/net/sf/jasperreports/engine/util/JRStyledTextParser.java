@@ -369,8 +369,8 @@ public class JRStyledTextParser implements ErrorHandler
 
 		writeHtmlListTags(context, sb, listInfoStack, listItemInfo);
 		
-		context.crtListInfoStack = listInfoStack;
-		context.crtListItem = listItemInfo;
+		context.setCrtListInfoStack(listInfoStack);
+		context.setCrtListItem(listItemInfo);
 		
 		StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
 		boolean isStyle = styleBuilder.length() > 0;
@@ -502,47 +502,85 @@ public class JRStyledTextParser implements ErrorHandler
 		StyledTextListItemInfo listItemInfo
 		)
 	{
-		if (context.crtListItem != null && context.crtListItem != listItemInfo) // there was a li and it is not the same as the current one, so closing it
+		StyledTextListItemInfo crtListItem = context.getCrtListItem();
+
+		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
+		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
+		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
+
+		if (
+			crtListItem != null  // there was a li
+			&& crtListItem != listItemInfo  // was not the same as the new one
+			&& crtDepth >= newDepth // was of deeper level
+			) // so closing it
 		{
 			sb.append(LESS_SLASH);
 			sb.append(NODE_li);
 			sb.append(GREATER);
+			
+			crtListInfoStack[crtListInfoStack.length - 1].insideLi = false;
 		}
 		
-		int crtDepth = context.crtListInfoStack == null ? 0 : context.crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
-
 		int minDepth = Math.min(crtDepth, newDepth);
 		int parentListDepth = 0;
 		
 		while (parentListDepth < minDepth)
 		{
-			if (listInfoStack[parentListDepth] != context.crtListInfoStack[parentListDepth])
+			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
 			{
 				break;
 			}
 			parentListDepth++;
 		}
 		
-		for (int i = parentListDepth; i < crtDepth; i++)
+		for (int i = crtDepth - 1; i >= parentListDepth; i--)
 		{
 			sb.append(LESS_SLASH);
-			sb.append(NODE_ul);
+			sb.append(crtListInfoStack[i].ordered ? NODE_ol : NODE_ul);
 			sb.append(GREATER);
+			if (
+				crtListInfoStack[i].hasParentLi
+				&& ((i == parentListDepth && crtListInfoStack[i - 1].insideLi == false)
+					|| i > parentListDepth
+					)
+				)
+			{
+				sb.append(LESS_SLASH);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
 		}
 
 		for (int i = parentListDepth; i < newDepth; i++)
 		{
+			if (
+				listInfoStack[i].hasParentLi
+				&& ((i == parentListDepth && listInfoStack[i - 1].insideLi == false)
+					|| i > parentListDepth
+					)
+				)
+			{
+				sb.append(LESS);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
 			sb.append(LESS);
-			sb.append(NODE_ul);
+			sb.append(listInfoStack[i].ordered ? NODE_ol : NODE_ul);
+			sb.append(" start=\"" + listItemInfo.itemNumber + "\"");
 			sb.append(GREATER);
 		}
 
-		if (listItemInfo != null && listItemInfo != context.crtListItem)
+		if (
+			listItemInfo != null // there is a new li
+			&& listItemInfo != crtListItem // it is different than the previous one
+			&& crtDepth <= newDepth // it is of a deeper level
+			) // so opening it
 		{
 			sb.append(LESS);
 			sb.append(NODE_li);
 			sb.append(GREATER);
+			
+			listInfoStack[listInfoStack.length - 1].insideLi = true;
 		}
 	}
 		
@@ -796,9 +834,16 @@ public class JRStyledTextParser implements ErrorHandler
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
-			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_ul.equalsIgnoreCase(node.getNodeName()))
+			else if (
+				node.getNodeType() == Node.ELEMENT_NODE 
+				&& (NODE_ul.equalsIgnoreCase(node.getNodeName()) || NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				)
 			{
-				StyledTextListInfo htmlList = new StyledTextListInfo(htmlListStack.size(), false);
+				StyledTextListInfo htmlList = 
+					new StyledTextListInfo(
+						NODE_ol.equalsIgnoreCase(node.getNodeName()),
+						htmlListStack.size() == 0 ? false : htmlListStack.peek().insideLi
+						);
 				
 				htmlListStack.push(htmlList);
 				
@@ -816,23 +861,25 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+
 				StyledTextListInfo htmlList = null;
 				
 				boolean ulAdded = false;
 				if (htmlListStack.size() == 0)
 				{
-					htmlList = new StyledTextListInfo(htmlListStack.size(), false);
+					htmlList = new StyledTextListInfo(false, false);
 					htmlListStack.push(htmlList);
+					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 					ulAdded = true;
 				}
 				else
 				{
 					htmlList = htmlListStack.peek();
 				}
+				htmlList.insideLi = true;
 				htmlList.itemCount = htmlList.itemCount + 1;
 				
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
-
 				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.itemCount));
 				
 				int startIndex = styledText.length();
@@ -841,6 +888,8 @@ public class JRStyledTextParser implements ErrorHandler
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 				
+				htmlList.insideLi = false;
+
 				if (ulAdded)
 				{
 					htmlListStack.pop();

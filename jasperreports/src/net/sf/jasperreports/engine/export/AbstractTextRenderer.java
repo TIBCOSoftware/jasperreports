@@ -84,6 +84,7 @@ public abstract class AbstractTextRenderer
 	protected boolean justifyLastLine;
 
 	protected int htmlListIndent;
+	protected String bulletText;
 	protected AttributedString bulletChunk;
 	
 	/**
@@ -360,8 +361,8 @@ public abstract class AbstractTextRenderer
 
 			prepareBullet(context, listInfoStack, listItemInfo, allParagraphs);
 			
-			context.crtListInfoStack = listInfoStack;
-			context.crtListItem = listItemInfo;
+			context.setCrtListInfoStack(listInfoStack);
+			context.setCrtListItem(listItemInfo);
 			
 			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 			AttributedCharacterIterator runParagraphs = 
@@ -718,6 +719,7 @@ public abstract class AbstractTextRenderer
 					/*   */
 					draw();
 					
+					bulletText = null;
 					bulletChunk = null;
 				}
 				
@@ -744,19 +746,29 @@ public abstract class AbstractTextRenderer
 		)
 	{
 		Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50;
+		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50; //FIXMEBULLET always 50?
+
+		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
+		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
+		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
 		
-		if (listItemInfo != null && listItemInfo != context.crtListItem)
+		if (
+			listItemInfo != null 
+			&& listItemInfo != context.getCrtListItem()
+			&& crtDepth <= newDepth
+			)
 		{
+			bulletText = (listInfoStack == null || !listInfoStack[listInfoStack.length - 1].ordered) ? "\u2022" : (listItemInfo.itemNumber + ".");  
 			bulletChunk = 
 				new AttributedString(
-					"\u2022",
+					bulletText,
 					attributes
 					);
 
 		}
 		else
 		{
+			bulletText = null;
 			bulletChunk = null;
 		}
 		

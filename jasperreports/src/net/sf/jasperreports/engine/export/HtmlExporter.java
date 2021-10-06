@@ -2876,30 +2876,37 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write("</span>");
 			}
 
+			String textRunStyle = 
+				getTextRunStyle(
+					attributes,
+					locale,
+					lineSpacing,
+					lineSpacingSize,
+					lineSpacingFactor,
+					backcolor,
+					hyperlinkStarted
+					);
+			
 			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
-			exportHtmlListTags(context, listInfoStack, listItemInfo);
+			exportHtmlListTags(context, listInfoStack, listItemInfo, textRunStyle);
 			
-			context.crtListInfoStack = listInfoStack;
-			context.crtListItem = listItemInfo;
+			context.setCrtListInfoStack(listInfoStack);
+			context.setCrtListItem(listItemInfo);
 
 			exportStyledTextRun(
+				textRunStyle,
 				attributes,
 				paragraphText.substring(paragraph.getIndex(), runLimit),
 				tooltip,
-				locale,
-				lineSpacing,
-				lineSpacingSize,
-				lineSpacingFactor,
-				backcolor,
 				hyperlinkStarted
 			);
 
 			paragraph.setIndex(runLimit);
 		}
 
-		exportHtmlListTags(context, null, null);
+		exportHtmlListTags(context, null, null, null);
 
 		if (highlightStarted) {
 			writer.write("</span>");
@@ -2917,14 +2924,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportStyledTextRun(
+		String textRunStyle,
 		Map<Attribute,Object> attributes,
 		String text,
 		String tooltip,
-		Locale locale,
-		LineSpacingEnum lineSpacing,
-		Float lineSpacingSize,
-		float lineSpacingFactor,
-		Color backcolor,
 		boolean hyperlinkStarted
 		) throws IOException
 	{
@@ -2935,129 +2938,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			localHyperlink = startHyperlink(hyperlink);
 		}
 
-		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
-		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
-
-		String fontFamily = resolveFontFamily(attributes, locale);
-
-		// do not put single quotes around family name here because the value might already contain quotes, 
-		// especially if it is coming from font extension export configuration
-		writer.write("<span style=\"font-family: ");
-		// don't encode single quotes as the output would be too verbose and too much of a chance compared to previous releases
-		writer.write(JRStringUtil.encodeXmlAttribute(fontFamily, true)); 
-		writer.write("; ");
-
-		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		if (!hyperlinkStarted || !Color.black.equals(forecolor))
-		{
-			writer.write("color: ");
-			writer.write(JRColorUtil.getCssColor(forecolor));
-			writer.write("; ");
-		}
-
-		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (runBackcolor != null && !runBackcolor.equals(backcolor))
-		{
-			writer.write("background-color: ");
-			writer.write(JRColorUtil.getCssColor(runBackcolor));
-			writer.write("; ");
-		}
-
-		writer.write("font-size: ");
-		writer.write(toSizeUnit((Float)attributes.get(TextAttribute.SIZE)));
-		writer.write(";");
-			
-		switch (lineSpacing)
-		{
-			case SINGLE:
-			default:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 1; *line-height: normal;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case ONE_AND_HALF:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 1.5;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case DOUBLE:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 2.0;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case PROPORTIONAL:
-			{
-				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize + ";");
-				}
-				break;
-			}
-			case AT_LEAST:
-			case FIXED:
-			{
-				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize + "px;");
-				}
-				break;
-			}
-		}
-
-		/*
-		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-		{
-			writer.write(" text-align: ");
-			writer.write(horizontalAlignment);
-			writer.write(";");
-		}
-		*/
-
-		if (isBold)
-		{
-			writer.write(" font-weight: bold;");
-		}
-		if (isItalic)
-		{
-			writer.write(" font-style: italic;");
-		}
-		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
-		{
-			writer.write(" text-decoration: underline;");
-		}
-		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
-		{
-			writer.write(" text-decoration: line-through;");
-		}
-
-		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-		{
-			writer.write(" vertical-align: super;");
-		}
-		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-		{
-			writer.write(" vertical-align: sub;");
-		}
-			
+		writer.write("<span style=\"");
+		writer.write(textRunStyle);
 		writer.write("\"");
 
 		if (tooltip != null)
@@ -3087,23 +2969,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected void exportHtmlListTags(
 		StyledTextWriteContext context, 
 		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo
+		StyledTextListItemInfo listItemInfo,
+		String textRunStyle
 		) throws IOException
 	{
-		if (context.crtListItem != null && context.crtListItem != listItemInfo) // there was a li and it is not the same as the current one, so closing it
+		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
+		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
+		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
+
+		StyledTextListItemInfo crtListItem = context.getCrtListItem();
+		if (
+			crtListItem != null // there was a li 
+			&& crtListItem != listItemInfo // was not the same as the new one
+			&& crtDepth >= newDepth  // was of a deeper level
+			) // so closing it
 		{
 			writer.write("</li>");
 		}
 		
-		int crtDepth = context.crtListInfoStack == null ? 0 : context.crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
-
 		int minDepth = Math.min(crtDepth, newDepth);
 		int parentListDepth = 0;
 		
 		while (parentListDepth < minDepth)
 		{
-			if (listInfoStack[parentListDepth] != context.crtListInfoStack[parentListDepth])
+			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
 			{
 				break;
 			}
@@ -3113,20 +3002,167 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		for (int i = parentListDepth; i < crtDepth; i++)
 		{
-			writer.write("</ul>");
+			writer.write(crtListInfoStack[i].ordered ? "</ol>" : "</ul>");
 		}
 
 		for (int i = parentListDepth; i < newDepth; i++)
 		{
-			writer.write("<ul style=\"margin:0\">");
+			writer.write(listInfoStack[i].ordered ? "<ol style=\"margin:0\">" : "<ul style=\"margin:0\">");
 		}
 
-		if (listItemInfo != null && listItemInfo != context.crtListItem)
+		if (
+			listItemInfo != null // there is a new li
+			&& listItemInfo != crtListItem // it is different than the previous one
+			&& crtDepth <= newDepth // it is of a deeper level
+			) // so opening it
 		{
-			writer.write("<li>");
+			writer.write("<li");
+			if (textRunStyle != null)
+			{
+				writer.write(" style=\"" + textRunStyle + "\"");
+			}
+			writer.write(">");
 		}
 	}
 		
+	protected String getTextRunStyle(
+		Map<Attribute,Object> attributes,
+		Locale locale,
+		LineSpacingEnum lineSpacing,
+		Float lineSpacingSize,
+		float lineSpacingFactor,
+		Color backcolor,
+		boolean hyperlinkStarted
+		) throws IOException
+	{
+		StringBuilder styleBuffer = new StringBuilder();
+		
+		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
+		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
+
+		String fontFamily = resolveFontFamily(attributes, locale);
+
+		// do not put single quotes around family name here because the value might already contain quotes, 
+		// especially if it is coming from font extension export configuration
+		styleBuffer.append("font-family: ");
+		// don't encode single quotes as the output would be too verbose and too much of a chance compared to previous releases
+		styleBuffer.append(JRStringUtil.encodeXmlAttribute(fontFamily, true)); 
+		styleBuffer.append("; ");
+
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		if (!hyperlinkStarted || !Color.black.equals(forecolor))
+		{
+			styleBuffer.append("color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(forecolor));
+			styleBuffer.append("; ");
+		}
+
+		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (runBackcolor != null && !runBackcolor.equals(backcolor))
+		{
+			styleBuffer.append("background-color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(runBackcolor));
+			styleBuffer.append("; ");
+		}
+
+		styleBuffer.append("font-size: ");
+		styleBuffer.append(toSizeUnit((Float)attributes.get(TextAttribute.SIZE)));
+		styleBuffer.append(";");
+			
+		switch (lineSpacing)
+		{
+			case SINGLE:
+			default:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1; *line-height: normal;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1.5;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case DOUBLE:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 2.0;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				if (lineSpacingSize != null) {
+					styleBuffer.append(" line-height: " + lineSpacingSize + ";");
+				}
+				break;
+			}
+			case AT_LEAST:
+			case FIXED:
+			{
+				if (lineSpacingSize != null) {
+					styleBuffer.append(" line-height: " + lineSpacingSize + "px;");
+				}
+				break;
+			}
+		}
+
+		/*
+		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+		{
+			styleBuffer.append(" text-align: ");
+			styleBuffer.append(horizontalAlignment);
+			styleBuffer.append(";");
+		}
+		*/
+
+		if (isBold)
+		{
+			styleBuffer.append(" font-weight: bold;");
+		}
+		if (isItalic)
+		{
+			styleBuffer.append(" font-style: italic;");
+		}
+		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
+		{
+			styleBuffer.append(" text-decoration: underline;");
+		}
+		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
+		{
+			styleBuffer.append(" text-decoration: line-through;");
+		}
+
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			styleBuffer.append(" vertical-align: super;");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			styleBuffer.append(" vertical-align: sub;");
+		}
+		
+		return styleBuffer.toString();
+	}
+
 	protected class TableVisitor implements CellVisitor<TablePosition, Void, IOException>
 	{
 		private final Tabulator tabulator;

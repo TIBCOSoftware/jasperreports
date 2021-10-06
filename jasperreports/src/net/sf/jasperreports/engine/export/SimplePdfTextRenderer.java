@@ -123,7 +123,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		{
 			ColumnText colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
-				pdfExporter.getPhrase(bulletChunk, "\u2022", text),
+				pdfExporter.getPhrase(bulletChunk, bulletText, text),
 				x + leftPadding,
 				yLine,
 				htmlListIndent + x + leftPadding - 10,
@@ -150,6 +150,9 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 				throw new JRRuntimeException(e);
 			}
 		}
+
+		bulletText = null;
+		bulletChunk = null;
 		
 		AttributedString paragraph = null;
 		

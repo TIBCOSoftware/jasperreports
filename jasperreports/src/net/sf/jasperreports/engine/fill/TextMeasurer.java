@@ -25,9 +25,11 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.font.FontRenderContext;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
@@ -51,6 +53,9 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -230,6 +235,8 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected TextMeasuredState measuredState;
 	protected TextMeasuredState prevMeasuredState;
+
+	protected int htmlListIndent;
 	
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
@@ -560,22 +567,35 @@ public class TextMeasurer implements JRTextMeasurer
 			lineWrapper.start(styledText);
 		}
 		
-		AttributedCharacterIterator iterator = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
+		StyledTextWriteContext context = new StyledTextWriteContext();
+
+		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
+
+		allParagraphs.setIndex(remainingTextStart);
 
 		isFirstParagraph = true;
 
-		int runLimit = 0;
+		boolean rendered = true;
+		int runLimit = remainingTextStart;
 
-		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= iterator.getEndIndex())
+		while (rendered && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
-			int tokenPosition = remainingTextStart;
-			int prevParagraphStart = remainingTextStart;
+			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			prepareBullet(context, listInfoStack, listItemInfo, allParagraphs);
+			
+			context.setCrtListInfoStack(listInfoStack);
+			context.setCrtListItem(listItemInfo);
+
+			int tokenPosition = 0;
+			int prevParagraphStart = 0;
 			String prevParagraphText = null;
 
-			String remainingText = styledText.getText().substring(remainingTextStart + iterator.getIndex(), runLimit);
+			String remainingText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
 			StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
 
-			boolean rendered = true;
 			// text is split into paragraphs, using the newline character as delimiter
 			while(tkzer.hasMoreTokens() && rendered) 
 			{
@@ -583,7 +603,7 @@ public class TextMeasurer implements JRTextMeasurer
 
 				if ("\n".equals(token))
 				{
-					rendered = renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
+					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
 
 					isFirstParagraph = false;
 					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
@@ -600,13 +620,13 @@ public class TextMeasurer implements JRTextMeasurer
 
 			if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
 			{
-				if (prevParagraphText != null || runLimit == iterator.getEndIndex())
+				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
 				{
-					renderParagraph(lineWrapper, iterator.getIndex() + prevParagraphStart, prevParagraphText);
+					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
 				}
 			}
 
-			iterator.setIndex(runLimit);
+			allParagraphs.setIndex(runLimit);
 		}
 		
 		return measuredState;
@@ -682,6 +702,19 @@ public class TextMeasurer implements JRTextMeasurer
 		return rendered;
 	}
 	
+	private int prepareBullet(
+		StyledTextWriteContext context, 
+		StyledTextListInfo[] listInfoStack,
+		StyledTextListItemInfo listItemInfo,
+		AttributedCharacterIterator allParagraphs
+		)
+	{
+		Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50;
+		
+		return htmlListIndent;
+	}
+		
 	protected void processLastTruncatedRow(
 		TextLineWrapper lineWrapper,
 		String paragraphText, 
@@ -849,7 +882,7 @@ public class TextMeasurer implements JRTextMeasurer
 				firstLineIndent = 0;
 			}
 			
-			float startX = firstLineIndent + leftPadding;
+			float startX = htmlListIndent + firstLineIndent + leftPadding;
 			float endX = width - jrParagraph.getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;

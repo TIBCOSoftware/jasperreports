@@ -120,7 +120,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		{
 			colText = new ColumnText(pdfContentByte);
 			colText.setSimpleColumn(
-				pdfExporter.getPhrase(bulletChunk, "\u2022", text),
+				pdfExporter.getPhrase(bulletChunk, bulletText, text),
 				- htmlListIndent - 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
 				pdfExporter.getCurrentPageFormat().getPageHeight()
 					- y

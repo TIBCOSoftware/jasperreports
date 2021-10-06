@@ -28,6 +28,26 @@ package net.sf.jasperreports.engine.util;
  */
 public class StyledTextWriteContext
 {
-	public StyledTextListInfo[] crtListInfoStack;
-	public StyledTextListItemInfo crtListItem;
+	private StyledTextListInfo[] crtListInfoStack;
+	private StyledTextListItemInfo crtListItem;
+	
+	public StyledTextListInfo[] getCrtListInfoStack() 
+	{
+		return crtListInfoStack;
+	}
+	
+	public void setCrtListInfoStack(StyledTextListInfo[] crtListInfoStack) 
+	{
+		this.crtListInfoStack = crtListInfoStack;
+	}
+	
+	public StyledTextListItemInfo getCrtListItem() 
+	{
+		return crtListItem;
+	}
+	
+	public void setCrtListItem(StyledTextListItemInfo crtListItem) 
+	{
+		this.crtListItem = crtListItem;
+	}
 }
