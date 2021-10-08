@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseTextElement;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
@@ -1734,7 +1735,8 @@ public class TableReport implements JRReport
 		// we can't do that directly to the band since its print when expression
 		// is evaluated too soon
 		JRDesignFrame footerFrame = new JRDesignFrame();
-		UUID uuid = DigestUtils.instance().deriveUUID(
+		DigestUtils digestUtils = DigestUtils.instance(); 
+		UUID uuid = digestUtils.deriveUUID(
 				fillContext.getComponentElement().getUUID(), 
 				BandTypeEnum.GROUP_FOOTER + "-" + SUMMARY_GROUP_NAME);
 		footerFrame.setUUID(uuid);
@@ -1750,8 +1752,8 @@ public class TableReport implements JRReport
 		footerFrame.setPrintWhenExpression(footerPrintWhen);
 		
 		// clone the contents of the page footer in the frame
-		List<JRChild> footerElements = pageFooter.getChildren();
-		for (Iterator<JRChild> iterator = footerElements.iterator(); iterator
+		List<JRChild> footerChildren = pageFooter.getChildren();
+		for (Iterator<JRChild> iterator = footerChildren.iterator(); iterator
 				.hasNext();)
 		{
 			JRChild child = iterator.next();
@@ -1772,6 +1774,20 @@ public class TableReport implements JRReport
 						new Object[]{childClone.getClass().getName()} 
 						);
 			}
+		}
+
+		// set derived uuid for cloned elements so that it does not get randomly regenerated;
+		// we count on the fact that cloned elements would be as many as the original elements
+		// and appear in the same order in the array
+		JRElement[] footerElements = pageFooter.getElements();
+		JRElement[] footerCloneElements = footerFrame.getElements();
+		for (int i = 0; i < footerElements.length; i++)
+		{
+			uuid = digestUtils.deriveUUID(
+				footerElements[i].getUUID(), 
+				BandTypeEnum.GROUP_FOOTER + "-" + SUMMARY_GROUP_NAME);
+
+			((JRDesignElement)footerCloneElements[i]).setUUID(uuid);
 		}
 		
 		groupFooter.addElement(footerFrame);

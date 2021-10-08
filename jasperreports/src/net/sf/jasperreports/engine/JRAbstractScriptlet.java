@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillGroup;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
@@ -47,6 +48,7 @@ public abstract class JRAbstractScriptlet
 	/**
 	 *
 	 */
+	protected JRFillDataset dataset;
 	protected Map<String,JRFillParameter> parametersMap;
 	protected Map<String,JRFillField> fieldsMap;
 	protected Map<String,JRFillVariable> variablesMap;
@@ -63,6 +65,22 @@ public abstract class JRAbstractScriptlet
 
 	/**
 	 *
+	 */
+	public void setData(JRFillDataset dataset)
+	{
+		this.dataset = dataset;
+		
+		setData( // keep this deprecated method call here just in case it was overridden in scriptlet implementations
+			dataset.getParametersMap(),
+			dataset.getFieldsMap(),
+			dataset.getVariablesMap(),
+			(JRFillGroup[])dataset.getGroups()
+			);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #setData(JRFillDataset)}.
 	 */
 	public void setData(
 		Map<String,JRFillParameter> parsm,

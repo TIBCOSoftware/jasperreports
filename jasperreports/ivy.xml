@@ -14,9 +14,9 @@
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="5.1.3"/>
 		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.10.0" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.10.0" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.10.0" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.12.2" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.12.2" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.12.2" conf="compile,annotations->*"/>
 		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="2.0.0"/>
 		<dependency org="com.google.zxing" name="core" rev="3.4.0"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js8"/>
@@ -35,7 +35,7 @@
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="master-SNAPSHOT" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.6.0" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="master-SNAPSHOT" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="net.tascalate" name="net.tascalate.asmx" rev="7.0.1" conf="javaflow->*"/>
 		<dependency org="net.tascalate" name="net.tascalate.asmx.tree" rev="7.0.1" conf="javaflow->*"/>
@@ -46,50 +46,50 @@
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asm5" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.spi" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asmx" rev="2.6.0" conf="javaflow->*"/>
-		<dependency org="org.apache.ant" name="ant" rev="1.10.8"/>
+		<dependency org="org.apache.ant" name="ant" rev="1.10.9"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.2"/>
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.8.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-math3" rev="3.6.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
-		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.10"/>
+		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.13"/>
 		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.12"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.8.2" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.8.2" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.14.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.14.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.14.0" conf="test->*"/>
 		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-core" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="7.3.0"/>
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.1.1"/>
 		<dependency org="org.apache.poi" name="poi" rev="4.1.1"/>
-		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.11"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.11" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.11" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.11" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.11" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.velocity" name="velocity-engine-core" rev="2.3"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.14"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.14" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.14" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.14" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.14" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.14" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
-		<dependency org="org.codehaus.groovy" name="groovy" rev="3.0.6" />
+		<dependency org="org.codehaus.groovy" name="groovy" rev="3.0.7" />
 		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
-		<dependency org="org.hibernate" name="hibernate-core" rev="5.4.1.Final"/>
+		<dependency org="org.hibernate" name="hibernate-core" rev="5.4.24.Final"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
 		<dependency org="org.kohsuke" name="groovy-sandbox" rev="1.26-jaspersoft-1-SNAPSHOT"/>
 		<dependency org="org.mozilla" name="rhino" rev="1.7.11"/>
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" conf="javaflow->*"/>
-		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26" conf="javaflow->*"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
+		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
 		<dependency org="org.springframework" name="spring-beans" rev="5.1.4.RELEASE"/>
 		<dependency org="org.springframework" name="spring-core" rev="5.1.4.RELEASE"/>
 		<dependency org="org.testng" name="testng" rev="6.8.1" conf="test->*"/>

@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.async;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import net.sf.jasperreports.Report;
@@ -63,7 +61,7 @@ public class AsyncReport extends Report
 			JasperPrint print = accessor.getFinalJasperPrint();
 			reportComplete(reportParams, print);
 		}
-		catch (JRException | NoSuchAlgorithmException | IOException e)
+		catch (JRException e)
 		{
 			throw new RuntimeException(e);
 		}

@@ -2917,7 +2917,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("</span>");
 		}
 		
-		if (firstLineIndent != null || justifyLastLine)
+		if (firstLineIndent != null || justifyLastLine ||
+                        (leftIndent != null && leftIndent > 0) ||
+                        (rightIndent != null && rightIndent > 0)
+			)
 		{
 			writer.write("</div>");
 		}

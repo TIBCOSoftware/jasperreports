@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -97,7 +98,7 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 
 		File htmlTempFile = File.createTempFile("cv_", ".html", scriptManager.getTempFolder());
 
-		try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
+		try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes(StandardCharsets.UTF_8));
 			 OutputStream os = new FileOutputStream(htmlTempFile) ) {
 
 			CVUtils.byteStreamCopy(is, os);

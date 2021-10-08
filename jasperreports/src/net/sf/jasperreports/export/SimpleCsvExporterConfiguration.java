@@ -34,6 +34,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 	private String recordDelimiter;	
 	private Boolean forceFieldEnclosure;	
 	private Boolean isWriteBOM;	
+	private Boolean escapeFormula;	
 
 	/**
 	 * 
@@ -112,4 +113,17 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 		this.forceFieldEnclosure = forceFieldEnclosure;
 	}
 	
+	@Override
+	public Boolean getEscapeFormula()
+	{
+		return escapeFormula;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEscapeFormula(Boolean escapeFormula)
+	{
+		this.escapeFormula = escapeFormula;
+	}	
 }

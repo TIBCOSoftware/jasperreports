@@ -133,11 +133,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 	@Override
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		CsvExporterConfiguration configuration = getCurrentConfiguration();
-		
-		String fieldDelimiter = configuration.getFieldDelimiter();
-		String recordDelimiter = configuration.getRecordDelimiter();
-		
 		CsvReportConfiguration lcItemConfiguration = getCurrentItemConfiguration();
 		
 		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex); 

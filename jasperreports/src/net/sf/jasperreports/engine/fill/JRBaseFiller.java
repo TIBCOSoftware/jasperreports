@@ -111,8 +111,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
 	private static final int PAGE_WIDTH_IGNORED = 0x7d000000;
 	
-	protected BandReportFillerParent bandReportParent;
-
 	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
 
 	/**
@@ -273,13 +271,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		super(jasperReportsContext, reportSource, parent);
 		
-		this.bandReportParent = parent;
-
 		groups = mainDataset.groups;
 
 		createReportTemplates(factory);
 
-		String reportName = this.bandReportParent == null ? null : this.bandReportParent.getReportName();
+		String reportName = getBandReportParent() == null ? null : getBandReportParent().getReportName();
 		
 		background = createFillBand(jasperReport.getBackground(), reportName, BandTypeEnum.BACKGROUND);
 		title = createFillBand(jasperReport.getTitle(), reportName, BandTypeEnum.TITLE);
@@ -486,6 +482,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		noData.addNowEvaluationTimes(groupEvaluationTimes);
 	}
 
+	protected BandReportFillerParent getBandReportParent()
+	{
+		return (BandReportFillerParent)parent;
+	}
+
 	protected List<String> getPrintTransferPropertyPrefixes()
 	{
 		return printTransferPropertyPrefixes;
@@ -528,7 +529,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected boolean isSubreportRunToBottom()
 	{
-		return bandReportParent != null && bandReportParent.isRunToBottom();
+		return getBandReportParent() != null && getBandReportParent().isRunToBottom();
 	}
 	
 	/**
@@ -578,7 +579,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 			if (parent != null)
 			{
-				bandReportParent.registerSubfiller(this);
+				getBandReportParent().registerSubfiller(this);
 			}
 
 			setParameters(parameterValues);
@@ -655,7 +656,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 			if (parent != null)
 			{
-				bandReportParent.unregisterSubfiller(this);
+				getBandReportParent().unregisterSubfiller(this);
 			}
 			
 			delayedActions.dispose();
@@ -712,9 +713,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 
 		List<JRStyle> includedStyles = factory.setStyles(styleList);
-		if (bandReportParent != null)
+		if (getBandReportParent() != null)
 		{
-			bandReportParent.registerReportStyles(includedStyles);
+			getBandReportParent().registerReportStyles(includedStyles);
 		}
 
 		styles = includedStyles.toArray(new JRStyle[includedStyles.size()]);
@@ -727,13 +728,13 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	public void registerReportStyles(UUID id, List<JRStyle> styles)
 	{
-		if (bandReportParent == null)
+		if (getBandReportParent() == null)
 		{
 			fillContext.registerReportStyles(jasperReport, id, styles);
 		}
 		else
 		{
-			String reportLocation = bandReportParent.getReportLocation();
+			String reportLocation = getBandReportParent().getReportLocation();
 			if (reportLocation != null)
 			{
 				fillContext.registerReportStyles(reportLocation, id, styles);
@@ -963,14 +964,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		{
 			for (JRBaseFiller subfiller : subfillers.values())
 			{
-				if (subfiller.bandReportParent != null)
+				if (subfiller.getBandReportParent() != null)
 				{
 					if (log.isDebugEnabled())
 					{
 						log.debug("Fill " + fillerId + ": Aborting subfiller " + subfiller.fillerId);
 					}
 					
-					subfiller.bandReportParent.abortSubfiller(subfiller);
+					subfiller.getBandReportParent().abortSubfiller(subfiller);
 				}
 			}
 		}
@@ -1000,7 +1001,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				}
 			}
 			
-			if (isMasterReport() || !bandReportParent.isParentPagination())//subreport page height is already set by band master
+			if (isMasterReport() || !getBandReportParent().isParentPagination())//subreport page height is already set by band master
 			{
 				int maxPageHeight = getMaxPageHeight(parameterValues);
 				setPageHeight(maxPageHeight);
@@ -1435,7 +1436,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		};
 		
 		//FIXMEBOOK use a fill listener instead of this?
-		bandReportParent.addPage(pageAdded);
+		getBandReportParent().addPage(pageAdded);
 	}
 
 	protected void setMasterPageVariables(int currentPageIndex, int totalPages)

@@ -43,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.SaveContributorUtils;
@@ -420,7 +421,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 			{
 				contributor.save(viewerContext.getJasperPrint(), file);
 			}
-			catch (JRException e)
+			catch (JRException | JRRuntimeException e)
 			{
 				if (log.isErrorEnabled())
 				{

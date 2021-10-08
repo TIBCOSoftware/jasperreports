@@ -35,6 +35,8 @@ import java.util.Map;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfGraphics2D;
 
+import net.sf.jasperreports.export.pdf.classic.ClassicPdfProducer;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
@@ -47,16 +49,19 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
 	private boolean initialized;
 	private PdfContentByte pdfContentByte;
 	private JRPdfExporter pdfExporter;
+	private ClassicPdfProducer pdfProducer;
 	private Locale locale;
 
-	public PdfGlyphGraphics2D(PdfContentByte pdfContentByte, JRPdfExporter pdfExporter, Locale locale)
+	public PdfGlyphGraphics2D(PdfContentByte pdfContentByte, JRPdfExporter pdfExporter, 
+			ClassicPdfProducer pdfProducer, Locale locale)
 	{
 		super(pdfContentByte, 
 				pdfExporter.getCurrentPageFormat().getPageWidth(), pdfExporter.getCurrentPageFormat().getPageHeight(), 
-				null, true, false, 0);		
+				null, true, false, 0);
 		this.initialized = true;
 		this.pdfContentByte = pdfContentByte;
 		this.pdfExporter = pdfExporter;
+		this.pdfProducer = pdfProducer;		
 		this.locale = locale;
 	}
 	
@@ -81,7 +86,7 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
 		fontAttrs.putAll(awtFontAttributes);
 		
 		//the following relies on FontInfo.getFontInfo matching the face/font name
-		com.lowagie.text.Font currentFont = pdfExporter.getFont(fontAttrs, locale, false);
+		com.lowagie.text.Font currentFont = pdfProducer.getFont(fontAttrs, locale);
 		boolean bold = (currentFont.getStyle() & com.lowagie.text.Font.BOLD) != 0;
 		boolean italic = (currentFont.getStyle() & com.lowagie.text.Font.ITALIC) != 0;
         

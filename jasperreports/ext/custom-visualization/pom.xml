@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-custom-visualization</artifactId>
-	<version>develop-13-SNAPSHOT</version>
+	<version>develop-14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<description>JasperReports Custom Visualization Component</description>
@@ -46,14 +46,14 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>develop-42-SNAPSHOT</version>
+			<version>develop-54-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -61,12 +61,17 @@
 	<repositories>
 		<repository>
 			<id>jaspersoft-third-party</id>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+		</repository>
+		<repository>
+			<id>jr-ce-snapshots</id>
+			<name>JasperReports CE Snapshots</name>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</repository>
 		<repository>
 			<id>jr-ce-releases</id>
 			<name>JasperReports CE Releases</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
 	</repositories>
 	<build>

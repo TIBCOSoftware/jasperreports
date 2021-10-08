@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VirtualizedFrames" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="ab7e07f2-79ec-4d1c-b8d6-85059172a296">
+	<property name="net.sf.jasperreports.virtual.page.element.size" value="5"/>
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/empty40.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>
+	<detail>
+		<band height="200">
+			<frame>
+				<reportElement x="0" y="0" width="500" height="200" uuid="6c22d70b-28d5-458a-894e-9d2c468230a5"/>
+				<textField>
+					<reportElement x="0" y="0" width="500" height="20" uuid="f4ea27d6-094a-4c4d-97a0-56ee9ca2e733"/>
+					<textFieldExpression><![CDATA["text1 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="20" width="500" height="20" uuid="741eea83-23ec-4341-8e78-9ec0ac2c1deb"/>
+					<textFieldExpression><![CDATA["text2 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="40" width="500" height="20" uuid="38549a9b-d8c6-413a-8e5f-c2c29c17c61a"/>
+					<textFieldExpression><![CDATA["text3 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="60" width="500" height="20" uuid="16b1a3e5-83b6-4507-97d1-8cbabd4441bd"/>
+					<textFieldExpression><![CDATA["text4 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="80" width="500" height="20" uuid="ca07396e-91f7-492d-bc14-3a783388c9cc"/>
+					<textFieldExpression><![CDATA["text5 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="100" width="500" height="20" uuid="8a6bc71e-b007-4fb2-a6f7-7929e4818401"/>
+					<textFieldExpression><![CDATA["text6 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="120" width="500" height="20" uuid="f1db26d7-060d-4680-b916-e7d00b7ef53a"/>
+					<textFieldExpression><![CDATA["text7 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="140" width="500" height="20" uuid="7523900a-59ef-45c8-8f6d-1b5da18b84fd"/>
+					<textFieldExpression><![CDATA["text8 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="160" width="500" height="20" uuid="a3da294d-160d-432e-b49e-6566a4a041c3"/>
+					<textFieldExpression><![CDATA["text9 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="180" width="500" height="20" uuid="d9acda10-2138-4bb9-8994-8c2bf0fc4eda"/>
+					<textFieldExpression><![CDATA["text10 " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

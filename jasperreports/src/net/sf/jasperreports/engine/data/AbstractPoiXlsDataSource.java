@@ -245,14 +245,12 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			{
 				return null;
 			}
-			@SuppressWarnings("deprecation")
-			CellType cellType = cell.getCellTypeEnum();
+			CellType cellType = cell.getCellType();
 			if (cellType == CellType.FORMULA) 
 			{
 				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				Object value = null;
-				@SuppressWarnings("deprecation")
-				CellType evalCellType = evaluator.evaluateFormulaCellEnum(cell);
+				CellType evalCellType = evaluator.evaluateFormulaCell(cell);
 				switch (evalCellType) 
 				{
 				    case BOOLEAN:
