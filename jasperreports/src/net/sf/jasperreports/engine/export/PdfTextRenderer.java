@@ -73,6 +73,35 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		
 		float advance = segment.layout.getVisibleAdvance();//getAdvance();
 		
+		if (bulletChunk != null)
+		{
+			PdfPhrase phrase = pdfProducer.createPhrase();
+			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
+
+			phrase.go(
+				- htmlListIndent - 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					//+ lineHeight
+					- drawPosY,
+				- 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					-400//+ lineHeight//FIXMETAB
+					- drawPosY,
+				lineHeight,
+				0,
+				PdfTextAlignment.RIGHT,
+				TextDirection.LTR
+				);
+		}
+
 		PdfPhrase phrase = pdfProducer.createPhrase();
 		pdfExporter.getPhrase(segment.as, segment.text, text, phrase);
 		
@@ -100,35 +129,6 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
 			);
-
-		if (bulletChunk != null)
-		{
-			phrase = pdfProducer.createPhrase();
-			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
-
-			phrase.go(
-				- htmlListIndent - 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
-				pdfExporter.getCurrentPageFormat().getPageHeight()
-					- y
-					- topPadding
-					- verticalAlignOffset
-					//- text.getLeadingOffset()
-					//+ lineHeight
-					- drawPosY,
-				- 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
-				pdfExporter.getCurrentPageFormat().getPageHeight()
-					- y
-					- topPadding
-					- verticalAlignOffset
-					//- text.getLeadingOffset()
-					-400//+ lineHeight//FIXMETAB
-					- drawPosY,
-				lineHeight,
-				0,
-				PdfTextAlignment.RIGHT,
-				TextDirection.LTR
-				);
-		}
 	}
 
 

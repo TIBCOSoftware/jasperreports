@@ -150,6 +150,14 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	@Override
 	public void draw()
 	{
+		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
+		if (addText)
+		{
+			PdfDictionary markedContentProps = new PdfDictionary();
+			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(allText, PdfObject.TEXT_UNICODE));
+			pdfContentByte.beginMarkedContentSequence(PdfName.SPAN, markedContentProps, true);
+		}
+		
 		if (bulletChunk != null)
 		{
 			AttributedCharacterIterator bulletIterator = bulletChunk.getIterator();
@@ -169,14 +177,6 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 				);
 		}
 
-		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
-		if (addText)
-		{
-			PdfDictionary markedContentProps = new PdfDictionary();
-			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(allText, PdfObject.TEXT_UNICODE));
-			pdfContentByte.beginMarkedContentSequence(PdfName.SPAN, markedContentProps, true);
-		}
-		
 		TabSegment segment = segments.get(segmentIndex);
 		segment.layout.draw(
 				pdfGraphics2D,
