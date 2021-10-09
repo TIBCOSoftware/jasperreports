@@ -28,21 +28,69 @@ package net.sf.jasperreports.engine.util;
  */
 public class StyledTextListInfo
 {
-	public final boolean ordered;
+	private final boolean ordered;
 	public final String type;
+	public Integer start;
 	public final boolean hasParentLi;
 	
-	public int itemCount = 0;
-	public boolean insideLi = false;
+	private int itemCount = 0;
+	private boolean insideLi = false;
 	
 	public StyledTextListInfo(
 		boolean ordered,
 		String type,
+		Integer start,
 		boolean hasParentLi
 		)
 	{
 		this.ordered = ordered;
 		this.type = type;
+		this.start = start;
 		this.hasParentLi = hasParentLi;
+	}
+
+	public boolean ordered()
+	{
+		return ordered;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public Integer getStart()
+	{
+		return start;
+	}
+
+	public void setStart(int start)
+	{
+		this.start = start;
+	}
+
+	public boolean hasParentLi()
+	{
+		return hasParentLi;
+	}
+
+	public int getItemCount()
+	{
+		return itemCount;
+	}
+
+	public void setItemCount(int itemCount)
+	{
+		this.itemCount = itemCount;
+	}
+
+	public boolean insideLi()
+	{
+		return insideLi;
+	}
+
+	public void setInsideLi(boolean insideLi)
+	{
+		this.insideLi = insideLi;
 	}
 }

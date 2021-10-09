@@ -756,20 +756,23 @@ public abstract class AbstractTextRenderer
 			listItemInfo != null 
 			&& listItemInfo != context.getCrtListItem()
 			&& crtDepth <= newDepth
+			&& !listItemInfo.noBullet()
 			)
 		{
 			if (
 				listInfoStack == null 
-				|| !listInfoStack[listInfoStack.length - 1].ordered
+				|| !listInfoStack[listInfoStack.length - 1].ordered()
 				)
 			{
 				bulletText = "\u2022"; 
 			}
 			else
 			{
+				StyledTextListInfo listInfo = listInfoStack[listInfoStack.length - 1];
+				int itemNumber = (listInfo.getStart() == null ? 1 : listInfo.getStart()) + listItemInfo.getItemIndex();
 				if (listInfoStack[listInfoStack.length - 1].type == null)
 				{
-					bulletText = String.valueOf(listItemInfo.itemNumber);
+					bulletText = String.valueOf(itemNumber);
 				}
 				else
 				{
@@ -777,28 +780,28 @@ public abstract class AbstractTextRenderer
 					{
 						case "A":
 						{
-							bulletText = JRStringUtil.getLetterNumeral(listItemInfo.itemNumber, true);
+							bulletText = JRStringUtil.getLetterNumeral(itemNumber, true);
 							break;
 						}
 						case "a":
 						{
-							bulletText = JRStringUtil.getLetterNumeral(listItemInfo.itemNumber, false);
+							bulletText = JRStringUtil.getLetterNumeral(itemNumber, false);
 							break;
 						}
 						case "I":
 						{
-							bulletText = JRStringUtil.getRomanNumeral(listItemInfo.itemNumber, true);
+							bulletText = JRStringUtil.getRomanNumeral(itemNumber, true);
 							break;
 						}
 						case "i":
 						{
-							bulletText = JRStringUtil.getRomanNumeral(listItemInfo.itemNumber, false);
+							bulletText = JRStringUtil.getRomanNumeral(itemNumber, false);
 							break;
 						}
 						case "1":
 						default:
 						{
-							bulletText = String.valueOf(listItemInfo.itemNumber);
+							bulletText = String.valueOf(itemNumber);
 							break;
 						}
 					}

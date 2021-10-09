@@ -132,12 +132,14 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
 				{
 					Object type = attrs.getAttribute(HTML.Attribute.TYPE);
+					Object start = attrs.getAttribute(HTML.Attribute.START);
 
 					StyledTextListInfo htmlList = 
 						new StyledTextListInfo(
 							htmlTag == Tag.OL,
-							htmlTag == Tag.OL ? String.valueOf(type) : null,
-							htmlListStack.size() == 0 ? false : htmlListStack.peek().insideLi
+							htmlTag == Tag.OL && type != null ? String.valueOf(type) : null,
+							htmlTag == Tag.OL && start != null ? Integer.valueOf(start.toString()) : null,
+							htmlListStack.size() > 0 && htmlListStack.peek().insideLi()
 							);
 					
 					htmlListStack.push(htmlList);
@@ -163,7 +165,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					boolean ulAdded = false;
 					if (htmlListStack.size() == 0)
 					{
-						htmlList = new StyledTextListInfo(false, null, false);
+						htmlList = new StyledTextListInfo(false, null, null, false);
 						htmlListStack.push(htmlList);
 						styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 						ulAdded = true;
@@ -172,10 +174,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					{
 						htmlList = htmlListStack.peek();
 					}
-					htmlList.insideLi = true;
-					htmlList.itemCount = htmlList.itemCount + 1;
+					htmlList.setInsideLi(true);
+					htmlList.setItemCount(htmlList.getItemCount() + 1);
 					
-					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.itemCount));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.getItemCount() - 1));
 					
 					int startIndex = styledText.length();
 
@@ -183,7 +185,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 					
-					htmlList.insideLi = false;
+					htmlList.setInsideLi(false);
 
 					if (ulAdded)
 					{

@@ -28,10 +28,26 @@ package net.sf.jasperreports.engine.util;
  */
 public class StyledTextListItemInfo
 {
-	public int itemNumber = 0;
+	private int itemIndex = 0;
+	private boolean noBullet = false;
 	
-	public StyledTextListItemInfo(int itemNumber)
+	public StyledTextListItemInfo(int itemIndex)
 	{
-		this.itemNumber = itemNumber;
+		this.itemIndex = itemIndex;
+	}
+	
+	public int getItemIndex()
+	{
+		return itemIndex;
+	}
+	
+	public boolean noBullet()
+	{
+		return noBullet;
+	}
+	
+	public void setNoBullet(boolean noBullet)
+	{
+		this.noBullet = noBullet;
 	}
 }

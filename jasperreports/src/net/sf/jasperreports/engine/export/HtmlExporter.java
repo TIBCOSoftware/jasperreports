@@ -2990,7 +2990,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			writer.write("</li>");
 			
-			crtListInfoStack[crtListInfoStack.length - 1].insideLi = false;
+			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
 		}
 		
 		int minDepth = Math.min(crtDepth, newDepth);
@@ -3007,10 +3007,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		for (int i = crtDepth - 1; i >= parentListDepth; i--)
 		{
-			writer.write(crtListInfoStack[i].ordered ? "</ol>" : "</ul>");
+			writer.write(crtListInfoStack[i].ordered() ? "</ol>" : "</ul>");
 			if (
 				crtListInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && crtListInfoStack[i - 1].insideLi == false)
+				&& ((i == parentListDepth && !crtListInfoStack[i - 1].insideLi())
 					|| i > parentListDepth
 					)
 				)
@@ -3023,7 +3023,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			if (
 				listInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && listInfoStack[i - 1].insideLi == false)
+				&& ((i == parentListDepth && !listInfoStack[i - 1].insideLi())
 					|| i > parentListDepth
 					)
 				)
@@ -3036,21 +3036,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write(">");
 			}
 			writer.write("<");
-			if (listInfoStack[i].ordered)
+			if (listInfoStack[i].ordered())
 			{
 				writer.write("ol");
 				if (listInfoStack[i].type != null)
 				{
 					writer.write(" type=\"" + listInfoStack[i].type + "\"");
 				}
+				if (listInfoStack[i].getStart() != null && listInfoStack[i].getStart() > 1)
+				{
+					writer.write(" start=\"" + listInfoStack[i].getStart() + "\"");
+				}
 			}
 			else
 			{
 				writer.write("ul");
-			}
-			if (listItemInfo.itemNumber > 1)
-			{
-				writer.write(" start=\"" + listItemInfo.itemNumber + "\"");
 			}
 			writer.write(" style=\"margin:0\">");
 		}
@@ -3064,11 +3064,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("<li");
 			if (textRunStyle != null)
 			{
-				writer.write(" style=\"" + textRunStyle + "\"");
+				writer.write(" style=\"" + (listItemInfo.noBullet() ? "list-style: none; " : "") + textRunStyle + "\"");
 			}
 			writer.write(">");
 			
-			listInfoStack[listInfoStack.length - 1].insideLi = true;
+			listInfoStack[listInfoStack.length - 1].setInsideLi(true);
 		}
 	}
 		

@@ -139,6 +139,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String ATTRIBUTE_target = "target";
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_valueClass = "valueClass";
+	private static final String ATTRIBUTE_start = "start";
+	private static final String ATTRIBUTE_noBullet = "noBullet";
 
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
@@ -518,7 +520,7 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(NODE_li);
 			sb.append(GREATER);
 			
-			crtListInfoStack[crtListInfoStack.length - 1].insideLi = false;
+			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
 		}
 		
 		int minDepth = Math.min(crtDepth, newDepth);
@@ -536,11 +538,11 @@ public class JRStyledTextParser implements ErrorHandler
 		for (int i = crtDepth - 1; i >= parentListDepth; i--)
 		{
 			sb.append(LESS_SLASH);
-			sb.append(crtListInfoStack[i].ordered ? NODE_ol : NODE_ul);
+			sb.append(crtListInfoStack[i].ordered() ? NODE_ol : NODE_ul);
 			sb.append(GREATER);
 			if (
 				crtListInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && crtListInfoStack[i - 1].insideLi == false)
+				&& ((i == parentListDepth && !crtListInfoStack[i - 1].insideLi())
 					|| i > parentListDepth
 					)
 				)
@@ -555,7 +557,7 @@ public class JRStyledTextParser implements ErrorHandler
 		{
 			if (
 				listInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && listInfoStack[i - 1].insideLi == false)
+				&& ((i == parentListDepth && !listInfoStack[i - 1].insideLi())
 					|| i > parentListDepth
 					)
 				)
@@ -565,21 +567,21 @@ public class JRStyledTextParser implements ErrorHandler
 				sb.append(GREATER);
 			}
 			sb.append(LESS);
-			if (listInfoStack[i].ordered)
+			if (listInfoStack[i].ordered())
 			{
 				sb.append(NODE_ol);
 				if (listInfoStack[i].type != null)
 				{
-					sb.append(" type=\"" + listInfoStack[i].type + "\"");
+					sb.append(" " + ATTRIBUTE_type + "=\"" + listInfoStack[i].type + "\"");
+				}
+				if (listInfoStack[i].getStart() != null && listInfoStack[i].getStart() > 1)
+				{
+					sb.append(" " + ATTRIBUTE_start + "=\"" + listInfoStack[i].getStart() + "\"");
 				}
 			}
 			else
 			{
 				sb.append(NODE_ul);
-			}
-			if (listItemInfo.itemNumber > 1)
-			{
-				sb.append(" start=\"" + listItemInfo.itemNumber + "\"");
 			}
 			sb.append(GREATER);
 		}
@@ -592,9 +594,13 @@ public class JRStyledTextParser implements ErrorHandler
 		{
 			sb.append(LESS);
 			sb.append(NODE_li);
+			if (listItemInfo.noBullet())
+			{
+				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
+			}
 			sb.append(GREATER);
 			
-			listInfoStack[listInfoStack.length - 1].insideLi = true;
+			listInfoStack[listInfoStack.length - 1].setInsideLi(true);
 		}
 	}
 		
@@ -855,6 +861,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				boolean ordered = false;
 				String type = null;
+				Integer start = null;
 				if (NODE_ol.equalsIgnoreCase(node.getNodeName()))
 				{
 					ordered = true;
@@ -866,6 +873,11 @@ public class JRStyledTextParser implements ErrorHandler
 						{
 							type = typeNode.getNodeValue();
 						}
+						Node startNode = nodeAttrs.getNamedItem(ATTRIBUTE_start);
+						if (startNode != null)
+						{
+							start = Integer.valueOf(startNode.getNodeValue());
+						}
 					}
 				}
 				
@@ -873,7 +885,8 @@ public class JRStyledTextParser implements ErrorHandler
 					new StyledTextListInfo(
 						ordered,
 						type,
-						htmlListStack.size() == 0 ? false : htmlListStack.peek().insideLi
+						start,
+						htmlListStack.size() > 0 && htmlListStack.peek().insideLi()
 						);
 				
 				htmlListStack.push(htmlList);
@@ -899,7 +912,7 @@ public class JRStyledTextParser implements ErrorHandler
 				boolean ulAdded = false;
 				if (htmlListStack.size() == 0)
 				{
-					htmlList = new StyledTextListInfo(false, null, false);
+					htmlList = new StyledTextListInfo(false, null, null, false);
 					htmlListStack.push(htmlList);
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 					ulAdded = true;
@@ -908,10 +921,17 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					htmlList = htmlListStack.peek();
 				}
-				htmlList.insideLi = true;
-				htmlList.itemCount = htmlList.itemCount + 1;
+				htmlList.setInsideLi(true);
+				htmlList.setItemCount(htmlList.getItemCount() + 1);
 				
-				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.itemCount));
+				StyledTextListItemInfo listItemInfo = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
+				NamedNodeMap nodeAttrs = node.getAttributes();
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_noBullet) != null)
+				{
+					listItemInfo.setNoBullet(Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_noBullet).getNodeValue()));
+				}
+				
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, listItemInfo);
 				
 				int startIndex = styledText.length();
 
@@ -919,7 +939,7 @@ public class JRStyledTextParser implements ErrorHandler
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 				
-				htmlList.insideLi = false;
+				htmlList.setInsideLi(false);
 
 				if (ulAdded)
 				{

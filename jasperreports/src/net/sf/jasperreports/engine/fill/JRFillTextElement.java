@@ -58,6 +58,8 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -1202,16 +1204,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 					);
 			}
 			
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				//rewrite as styled text
-				String styledText = filler.getStyledTextParser().write(
-						fullStyledText);
-				setPrintText(printText, styledText);
+				setPrintText(printText, fullText);
 			}
 			else
 			{
-				setPrintText(printText, fullText);
+				//rewrite as styled text
+				String styledText = filler.getStyledTextParser().write(fullStyledText);
+				setPrintText(printText, styledText);
 			}
 			
 			if (endIndex < fullText.length())
@@ -1221,20 +1222,44 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		else
 		{
-			String printedText;
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				printedText = filler.getStyledTextParser().write(
-						fullStyledText, 
-						startIndex, endIndex);
+				// relying on substring to return the same String object when whole substring
+				setPrintText(printText, fullText.substring(startIndex, endIndex));
 			}
 			else
 			{
-				// relying on substring to return the same String object when whole substring
-				printedText = fullText.substring(startIndex, endIndex);
+				if (startIndex > 0) // if this is an overflow
+				{
+					StyledTextListInfo[] crtListInfoStack = null;
+
+					List<Run> runs = fullStyledText.getRuns();
+					for (int i = runs.size() - 1; i >= 0; i--)
+					{
+						Run run = runs.get(i);
+						if (run.startIndex <= startIndex && startIndex < run.endIndex)
+						{
+							StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+							if (listInfoStack != null)
+							{
+								crtListInfoStack = listInfoStack;
+							}
+							StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+							if (listItemInfo != null)
+							{
+								listItemInfo.setNoBullet(run.startIndex < startIndex);
+								if (listItemInfo.getItemIndex() > 0)
+								{
+									StyledTextListInfo crtListInfo = crtListInfoStack[crtListInfoStack.length - 1];
+									crtListInfo.setStart((crtListInfo.getStart() == null ? 1 : crtListInfo.getStart()) + listItemInfo.getItemIndex());
+								}
+							}
+						}
+					}
+				}
+				String styledText = filler.getStyledTextParser().write(fullStyledText, startIndex, endIndex);
+				setPrintText(printText, styledText);
 			}
-			
-			setPrintText(printText, printedText);
 		}
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());

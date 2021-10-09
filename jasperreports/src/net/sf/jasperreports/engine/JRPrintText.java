@@ -38,7 +38,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText, TextFormat
 {
 	/**
-	 * Specifies if the last line in a paragraph should be justified.
+	 * Specifies if the first line in a paragraph should be indented.
 	 */
 	@Property(
 		valueType = Boolean.class,
