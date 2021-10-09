@@ -121,7 +121,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			PdfPhrase phrase = pdfProducer.createPhrase();
 			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
 
-			yLine = phrase.go(
+			phrase.go(
 				x + leftPadding,
 				yLine,
 				htmlListIndent + x + leftPadding - 10,
