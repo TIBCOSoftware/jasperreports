@@ -510,21 +510,6 @@ public class JRStyledTextParser implements ErrorHandler
 		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
 		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
 
-		if (
-			crtListItem != null  // there was a li
-			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
-			&& crtListItem != listItemInfo  // was not the same as the new one
-			&& (crtDepth >= newDepth // was of deeper level
-				|| (crtDepth + 1 == newDepth && !listInfoStack[newDepth - 1].hasParentLi)) // new list is between li
-			) // so closing it
-		{
-			sb.append(LESS_SLASH);
-			sb.append(NODE_li);
-			sb.append(GREATER);
-			
-			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
-		}
-		
 		int minDepth = Math.min(crtDepth, newDepth);
 		int parentListDepth = 0;
 		
@@ -535,6 +520,22 @@ public class JRStyledTextParser implements ErrorHandler
 				break;
 			}
 			parentListDepth++;
+		}
+		
+		if (
+			crtListItem != null  // there was a li
+			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
+			&& crtListItem != listItemInfo  // was not the same as the new one
+			&& (crtDepth >= newDepth // was of deeper level
+				|| (parentListDepth == crtDepth && !listInfoStack[newDepth - 1].hasParentLi) // new list is between li
+				|| parentListDepth < crtDepth)
+			) // so closing it
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_li);
+			sb.append(GREATER);
+			
+			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
 		}
 		
 		for (int i = crtDepth - 1; i >= parentListDepth; i--)
@@ -593,7 +594,8 @@ public class JRStyledTextParser implements ErrorHandler
 			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
 			&& listItemInfo != crtListItem // it is different than the previous one
 			&& (crtDepth <= newDepth // it is of a deeper level
-			|| (crtDepth - 1 == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi)) // new list is between li
+				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
+				|| parentListDepth < newDepth)
 			) // so opening it
 		{
 			sb.append(LESS);
