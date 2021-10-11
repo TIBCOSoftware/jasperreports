@@ -147,6 +147,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
 					
 					int startIndex = styledText.length();
 
@@ -168,6 +169,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						htmlList = new StyledTextListInfo(false, null, null, false);
 						htmlListStack.push(htmlList);
 						styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+						styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
 						ulAdded = true;
 					}
 					else

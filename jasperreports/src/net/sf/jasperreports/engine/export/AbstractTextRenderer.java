@@ -753,9 +753,11 @@ public abstract class AbstractTextRenderer
 		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
 		
 		if (
-			listItemInfo != null 
-			&& listItemInfo != context.getCrtListItem()
-			&& crtDepth <= newDepth
+			listItemInfo != null // there is a new li
+			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
+			&& listItemInfo != context.getCrtListItem() // it is different than the previous one
+			&& (crtDepth <= newDepth // it is of a deeper level
+			|| (crtDepth - 1 == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi)) // new list is between li
 			&& !listItemInfo.noBullet()
 			)
 		{

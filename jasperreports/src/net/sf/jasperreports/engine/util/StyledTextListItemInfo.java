@@ -28,6 +28,8 @@ package net.sf.jasperreports.engine.util;
  */
 public class StyledTextListItemInfo
 {
+	public static final StyledTextListItemInfo NO_LIST_ITEM_FILLER = new StyledTextListItemInfo(0);
+	
 	private int itemIndex = 0;
 	private boolean noBullet = false;
 	

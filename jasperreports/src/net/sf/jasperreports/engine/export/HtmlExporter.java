@@ -2984,8 +2984,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (
 			crtListItem != null // there was a li 
+			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
 			&& crtListItem != listItemInfo // was not the same as the new one
-			&& crtDepth >= newDepth  // was of a deeper level
+			&& (crtDepth >= newDepth // was of deeper level
+				|| (crtDepth + 1 == newDepth && !listInfoStack[newDepth - 1].hasParentLi)) // new list is between li
 			) // so closing it
 		{
 			writer.write("</li>");
@@ -3057,8 +3059,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (
 			listItemInfo != null // there is a new li
+			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
 			&& listItemInfo != crtListItem // it is different than the previous one
-			&& crtDepth <= newDepth // it is of a deeper level
+			&& (crtDepth <= newDepth // it is of a deeper level
+				|| (crtDepth - 1 == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi)) // new list is between li
 			) // so opening it
 		{
 			writer.write("<li");

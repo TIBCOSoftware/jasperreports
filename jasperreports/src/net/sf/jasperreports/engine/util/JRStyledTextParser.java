@@ -512,8 +512,10 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (
 			crtListItem != null  // there was a li
+			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
 			&& crtListItem != listItemInfo  // was not the same as the new one
-			&& crtDepth >= newDepth // was of deeper level
+			&& (crtDepth >= newDepth // was of deeper level
+				|| (crtDepth + 1 == newDepth && !listInfoStack[newDepth - 1].hasParentLi)) // new list is between li
 			) // so closing it
 		{
 			sb.append(LESS_SLASH);
@@ -588,8 +590,10 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (
 			listItemInfo != null // there is a new li
+			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
 			&& listItemInfo != crtListItem // it is different than the previous one
-			&& crtDepth <= newDepth // it is of a deeper level
+			&& (crtDepth <= newDepth // it is of a deeper level
+			|| (crtDepth - 1 == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi)) // new list is between li
 			) // so opening it
 		{
 			sb.append(LESS);
@@ -894,6 +898,7 @@ public class JRStyledTextParser implements ErrorHandler
 				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
 				styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
 				
 				int startIndex = styledText.length();
 
@@ -915,6 +920,7 @@ public class JRStyledTextParser implements ErrorHandler
 					htmlList = new StyledTextListInfo(false, null, null, false);
 					htmlListStack.push(htmlList);
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
 					ulAdded = true;
 				}
 				else
