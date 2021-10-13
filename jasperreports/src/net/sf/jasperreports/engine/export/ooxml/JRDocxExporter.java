@@ -961,9 +961,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
+			String runText = text.substring(iterator.getIndex(), runLimit);
 			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
 			
 			context.setCrtRun(listInfoStack, listItemInfo);
+			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 			
 			boolean localHyperlink = false;
 
@@ -979,7 +981,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			runHelper.export(
 				style, 
 				attributes, 
-				(bulletText == null ? "" : bulletText) + text.substring(iterator.getIndex(), runLimit),
+				(bulletText == null ? "" : bulletText) + runText,
 				locale,
 				hiddenText,
 				invalidCharReplacement,

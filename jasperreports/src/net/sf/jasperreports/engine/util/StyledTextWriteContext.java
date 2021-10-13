@@ -31,6 +31,7 @@ public class StyledTextWriteContext
 	private StyledTextListInfo[] crtListInfoStack;
 	private StyledTextListItemInfo crtListItem;
 	private boolean isFirstRun = true;
+	private boolean isCrtListItemEndedWithNewLine = false;
 	
 	public StyledTextListInfo[] getCrtListInfoStack() 
 	{
@@ -47,7 +48,20 @@ public class StyledTextWriteContext
 		return isFirstRun;
 	}
 
-	public void setCrtRun(StyledTextListInfo[] crtListInfoStack, StyledTextListItemInfo crtListItem) 
+	public boolean isCrtListItemEndedWithNewLine() 
+	{
+		return isCrtListItemEndedWithNewLine;
+	}
+
+	public void setCrtListItemEndedWithNewLine(boolean isCrtListItemEndedWithNewLine) 
+	{
+		this.isCrtListItemEndedWithNewLine = isCrtListItemEndedWithNewLine;
+	}
+
+	public void setCrtRun(
+		StyledTextListInfo[] crtListInfoStack, 
+		StyledTextListItemInfo crtListItem
+		) 
 	{
 		this.crtListInfoStack = crtListInfoStack;
 		this.crtListItem = crtListItem;

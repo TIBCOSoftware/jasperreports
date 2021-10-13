@@ -612,7 +612,7 @@ public class JRStyledTextUtil
 
 		if (listItemInfo != context.getCrtListItem())
 		{
-			if (!context.isFirstRun())
+			if (!context.isFirstRun() && !context.isCrtListItemEndedWithNewLine())
 			{
 				bulletIndent = "\n";
 			}
@@ -742,11 +742,13 @@ public class JRStyledTextUtil
 				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
 				
 				context.setCrtRun(listInfoStack, listItemInfo);
+				context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 				
-				sb.append((bulletText == null ? "" : bulletText) + allText.substring(allParagraphs.getIndex(), runLimit));
+				sb.append((bulletText == null ? "" : bulletText) + runText);
 
 				allParagraphs.setIndex(runLimit);
 			}
@@ -778,9 +780,11 @@ public class JRStyledTextUtil
 				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
 				
 				context.setCrtRun(listInfoStack, listItemInfo);
+				context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 				
 				if (bulletText != null)
 				{
@@ -789,7 +793,7 @@ public class JRStyledTextUtil
 					resizeOffset += bulletText.length();
 				}
 				
-				sb.append(allText.substring(allParagraphs.getIndex(), runLimit));
+				sb.append(runText);
 
 				allParagraphs.setIndex(runLimit);
 			}

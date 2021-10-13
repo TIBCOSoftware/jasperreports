@@ -316,20 +316,22 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 		
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
+			String runText = text.substring(iterator.getIndex(), runLimit);
 			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
 			
 			context.setCrtRun(listInfoStack, listItemInfo);
+			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 
 			runHelper.export(
 					style, 
 					attributes, 
-					(bulletText == null ? "" : bulletText) + text.substring(iterator.getIndex(), runLimit),
+					(bulletText == null ? "" : bulletText) + runText,
 					locale,
 					invalidCharReplacement,
 					isStyledText

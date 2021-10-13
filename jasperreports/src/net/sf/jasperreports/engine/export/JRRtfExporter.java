@@ -990,13 +990,15 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])styledTextAttributes.get(JRTextAttribute.HTML_LIST);
 			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)styledTextAttributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
+			String runText = plainText.substring(iterator.getIndex(), runLimit);
 			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, styledTextAttributes);
 			
 			context.setCrtRun(listInfoStack, listItemInfo);
+			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 
 			contentWriter.write(
 				handleUnicodeText(
-					(bulletText == null ? "" : bulletText) + plainText.substring(iterator.getIndex(), runLimit)					
+					(bulletText == null ? "" : bulletText) + runText					
 					)
 				);
 
