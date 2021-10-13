@@ -48,7 +48,7 @@ public class MapElementImageProvider
 	/**
 	 * The character count limit for a static map URL request
 	 */
-	public static Integer MAX_URL_LENGTH = 2048;
+	public static Integer MAX_URL_LENGTH = 8192;
 	
 	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
 	{
