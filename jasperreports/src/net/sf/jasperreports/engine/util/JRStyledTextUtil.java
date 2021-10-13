@@ -769,6 +769,7 @@ public class JRStyledTextUtil
 			
 			String allText = styledText.getText();
 
+			int resizeOffset = 0;
 			int runLimit = 0;
 
 			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
@@ -784,7 +785,8 @@ public class JRStyledTextUtil
 				if (bulletText != null)
 				{
 					sb.append(bulletText);
-					resizeRuns(styledText.getRuns(), allParagraphs.getIndex(), bulletText.length());
+					resizeRuns(styledText.getRuns(), allParagraphs.getIndex() + resizeOffset, bulletText.length());
+					resizeOffset += bulletText.length();
 				}
 				
 				sb.append(allText.substring(allParagraphs.getIndex(), runLimit));
@@ -803,8 +805,11 @@ public class JRStyledTextUtil
 		for (int j = 0; j < runs.size(); j++)
 		{
 			JRStyledText.Run run = runs.get(j);
-			//if (run.startIndex <= startIndex && startIndex < run.endIndex + count)
-			if (run.startIndex <= startIndex && startIndex < run.endIndex)
+			if (startIndex < run.startIndex)
+			{
+				run.startIndex += count;
+			}
+			if (startIndex < run.endIndex)
 			{
 				run.endIndex += count;
 			}
