@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +83,12 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -1166,20 +1172,32 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, String fieldType, String uuid)
 	{
-		String text = styledText.getText();
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
+		String allText = styledText.getText();
 
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			if(fieldType != null)
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+			
+			context.setCrtRun(listInfoStack, listItemInfo);
+			
+			String text = (bulletText == null ? "" : bulletText) + allText.substring(iterator.getIndex(), runLimit);
+
+			if (fieldType != null)
 			{
 				runHelper.export(
 					style, 
 					iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
+					text,
 					locale,
 					invalidCharReplacement,
 					fieldType,
@@ -1191,7 +1209,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				runHelper.export(
 					style, 
 					iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
+					text,
 					locale,
 					invalidCharReplacement
 					);

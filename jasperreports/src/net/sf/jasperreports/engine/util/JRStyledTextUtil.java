@@ -600,4 +600,214 @@ public class JRStyledTextUtil
 					&& fontInfo.getFontFace().getFont().canDisplay(code);			
 		}
 	}
+
+	public static String getIndentedBulletText(
+		StyledTextWriteContext context, 
+		StyledTextListInfo[] listInfoStack,
+		StyledTextListItemInfo listItemInfo,
+		Map<Attribute,Object> attributes
+		)
+	{
+		String bulletIndent = null;
+
+		if (listItemInfo != context.getCrtListItem())
+		{
+			if (!context.isFirstRun())
+			{
+				bulletIndent = "\n";
+			}
+			if (listInfoStack != null)
+			{
+				bulletIndent = (bulletIndent == null ? "" : bulletIndent) + new String(new char[listInfoStack.length * 4]).replace('\0', ' ');
+			}
+		}
+		
+		String bulletText = JRStyledTextUtil.getBulletText(context, listInfoStack, listItemInfo, attributes);
+
+		return bulletIndent == null ? null : (bulletIndent + (bulletText == null ? "" : (bulletText + " ")));
+	}
+
+	public static String getBulletText(
+		StyledTextWriteContext context, 
+		StyledTextListInfo[] listInfoStack,
+		StyledTextListItemInfo listItemInfo,
+		Map<Attribute,Object> attributes
+		)
+	{
+		String bulletText = null;
+		
+		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
+		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
+		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
+		
+		int minDepth = Math.min(crtDepth, newDepth);
+		int parentListDepth = 0;
+		
+		while (parentListDepth < minDepth)
+		{
+			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
+			{
+				break;
+			}
+			parentListDepth++;
+		}
+
+		if (
+			listItemInfo != null // there is a new li
+			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
+			&& listItemInfo != context.getCrtListItem() // it is different than the previous one
+			&& (crtDepth <= newDepth // it is of a deeper level
+				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
+				|| parentListDepth < newDepth)
+			&& !listItemInfo.noBullet()
+			)
+		{
+			bulletText = getBulletText(listInfoStack == null || listInfoStack.length == 0 ? null : listInfoStack[listInfoStack.length - 1], listItemInfo);
+		}
+		
+		return bulletText;
+	}
+
+	public static String getBulletText(StyledTextListInfo listInfo, StyledTextListItemInfo listItemInfo)
+	{
+		String bulletText = null;
+		
+		if (listInfo == null || !listInfo.ordered())
+		{
+			bulletText = "\u2022"; 
+		}
+		else
+		{
+			int itemNumber = (listInfo.getStart() == null ? 1 : listInfo.getStart()) + listItemInfo.getItemIndex();
+			if (listInfo.type == null)
+			{
+				bulletText = String.valueOf(itemNumber);
+			}
+			else
+			{
+				switch (listInfo.type)
+				{
+					case "A":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, true);
+						break;
+					}
+					case "a":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, false);
+						break;
+					}
+					case "I":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, true);
+						break;
+					}
+					case "i":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, false);
+						break;
+					}
+					case "1":
+					default:
+					{
+						bulletText = String.valueOf(itemNumber);
+						break;
+					}
+				}
+			}
+			
+			bulletText += ".";
+		}
+		
+		return bulletText;
+	}
+
+	public static JRStyledText getBulletedText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+				
+				context.setCrtRun(listInfoStack, listItemInfo);
+				
+				sb.append((bulletText == null ? "" : bulletText) + allText.substring(allParagraphs.getIndex(), runLimit));
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes());
+		}
+
+		return styledText;
+	}
+
+	public static JRStyledText getBulletedStyledText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+				
+				context.setCrtRun(listInfoStack, listItemInfo);
+				
+				if (bulletText != null)
+				{
+					sb.append(bulletText);
+					resizeRuns(styledText.getRuns(), allParagraphs.getIndex(), bulletText.length());
+				}
+				
+				sb.append(allText.substring(allParagraphs.getIndex(), runLimit));
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes(), styledText.getRuns());
+		}
+
+		return styledText;
+	}
+
+	public static void resizeRuns(List<Run> runs, int startIndex, int count)
+	{
+		for (int j = 0; j < runs.size(); j++)
+		{
+			JRStyledText.Run run = runs.get(j);
+			//if (run.startIndex <= startIndex && startIndex < run.endIndex + count)
+			if (run.startIndex <= startIndex && startIndex < run.endIndex)
+			{
+				run.endIndex += count;
+			}
+		}
+	}
 }

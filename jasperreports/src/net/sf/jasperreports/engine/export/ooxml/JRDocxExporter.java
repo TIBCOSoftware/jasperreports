@@ -89,8 +89,12 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -936,6 +940,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink, boolean isNewLineJustified)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		Color elementBackcolor = null;
 		Map<AttributedCharacterIterator.Attribute, Object> globalAttributes = styledText.getGlobalAttributes();
 		if (globalAttributes != null)
@@ -952,6 +958,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+			
+			context.setCrtRun(listInfoStack, listItemInfo);
 			
 			boolean localHyperlink = false;
 
@@ -966,8 +978,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			
 			runHelper.export(
 				style, 
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
+				attributes, 
+				(bulletText == null ? "" : bulletText) + text.substring(iterator.getIndex(), runLimit),
 				locale,
 				hiddenText,
 				invalidCharReplacement,

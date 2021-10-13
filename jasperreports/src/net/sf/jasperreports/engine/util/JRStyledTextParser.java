@@ -371,8 +371,7 @@ public class JRStyledTextParser implements ErrorHandler
 
 		writeHtmlListTags(context, sb, listInfoStack, listItemInfo);
 		
-		context.setCrtListInfoStack(listInfoStack);
-		context.setCrtListItem(listItemInfo);
+		context.setCrtRun(listInfoStack, listItemInfo);
 		
 		StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
 		boolean isStyle = styleBuilder.length() > 0;

@@ -586,15 +586,14 @@ public class TextMeasurer implements JRTextMeasurer
 
 			prepareBullet(context, listInfoStack, listItemInfo, allParagraphs);
 			
-			context.setCrtListInfoStack(listInfoStack);
-			context.setCrtListItem(listItemInfo);
+			context.setCrtRun(listInfoStack, listItemInfo);
 
 			int tokenPosition = 0;
 			int prevParagraphStart = 0;
 			String prevParagraphText = null;
 
-			String remainingText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
-			StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
+			String runText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
+			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
 			while(tkzer.hasMoreTokens() && rendered) 
@@ -618,7 +617,7 @@ public class TextMeasurer implements JRTextMeasurer
 				tokenPosition += token.length();
 			}
 
-			if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
+			if (rendered && prevParagraphStart < runText.length())
 			{
 				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
 				{

@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 import net.sf.jasperreports.engine.util.StyledTextListInfo;
@@ -359,10 +360,9 @@ public abstract class AbstractTextRenderer
 			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
-			prepareBullet(context, listInfoStack, listItemInfo, allParagraphs);
+			prepareBullet(context, listInfoStack, listItemInfo, attributes);
 			
-			context.setCrtListInfoStack(listInfoStack);
-			context.setCrtListItem(listItemInfo);
+			context.setCrtRun(listInfoStack, listItemInfo);
 			
 			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 			AttributedCharacterIterator runParagraphs = 
@@ -742,99 +742,24 @@ public abstract class AbstractTextRenderer
 		StyledTextWriteContext context, 
 		StyledTextListInfo[] listInfoStack,
 		StyledTextListItemInfo listItemInfo,
-		AttributedCharacterIterator allParagraphs
+		Map<Attribute,Object> attributes
 		)
 	{
-		Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50; //FIXMEBULLET always 50?
 
-		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
-		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
+		bulletText = JRStyledTextUtil.getBulletText(context, listInfoStack, listItemInfo, attributes);
 		
-		int minDepth = Math.min(crtDepth, newDepth);
-		int parentListDepth = 0;
-		
-		while (parentListDepth < minDepth)
+		if (bulletText == null)
 		{
-			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
-			{
-				break;
-			}
-			parentListDepth++;
+			bulletChunk = null;
 		}
-
-		if (
-			listItemInfo != null // there is a new li
-			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
-			&& listItemInfo != context.getCrtListItem() // it is different than the previous one
-			&& (crtDepth <= newDepth // it is of a deeper level
-				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < newDepth)
-			&& !listItemInfo.noBullet()
-			)
+		else
 		{
-			if (
-				listInfoStack == null 
-				|| !listInfoStack[listInfoStack.length - 1].ordered()
-				)
-			{
-				bulletText = "\u2022"; 
-			}
-			else
-			{
-				StyledTextListInfo listInfo = listInfoStack[listInfoStack.length - 1];
-				int itemNumber = (listInfo.getStart() == null ? 1 : listInfo.getStart()) + listItemInfo.getItemIndex();
-				if (listInfoStack[listInfoStack.length - 1].type == null)
-				{
-					bulletText = String.valueOf(itemNumber);
-				}
-				else
-				{
-					switch (listInfoStack[listInfoStack.length - 1].type)
-					{
-						case "A":
-						{
-							bulletText = JRStringUtil.getLetterNumeral(itemNumber, true);
-							break;
-						}
-						case "a":
-						{
-							bulletText = JRStringUtil.getLetterNumeral(itemNumber, false);
-							break;
-						}
-						case "I":
-						{
-							bulletText = JRStringUtil.getRomanNumeral(itemNumber, true);
-							break;
-						}
-						case "i":
-						{
-							bulletText = JRStringUtil.getRomanNumeral(itemNumber, false);
-							break;
-						}
-						case "1":
-						default:
-						{
-							bulletText = String.valueOf(itemNumber);
-							break;
-						}
-					}
-				}
-				
-				bulletText += ".";
-			}
-
 			bulletChunk = 
 				new AttributedString(
 					bulletText,
 					attributes
 					);
-		}
-		else
-		{
-			bulletText = null;
-			bulletChunk = null;
 		}
 		
 		return htmlListIndent;

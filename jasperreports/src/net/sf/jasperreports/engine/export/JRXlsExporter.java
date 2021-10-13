@@ -120,6 +120,7 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -1090,6 +1091,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale)
 	{
+		styledText = JRStyledTextUtil.getBulletedStyledText(styledText);
+		
 		String text = styledText.getText();
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;

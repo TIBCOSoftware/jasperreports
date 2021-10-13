@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -95,7 +96,12 @@ import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -302,6 +308,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		String text = styledText.getText();
 		
 		int runLimit = 0;
@@ -310,9 +318,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+			
+			context.setCrtRun(listInfoStack, listItemInfo);
+
 			runHelper.export(
-					style, iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
+					style, 
+					attributes, 
+					(bulletText == null ? "" : bulletText) + text.substring(iterator.getIndex(), runLimit),
 					locale,
 					invalidCharReplacement,
 					isStyledText

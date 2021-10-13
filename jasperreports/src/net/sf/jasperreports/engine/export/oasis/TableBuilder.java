@@ -34,6 +34,7 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -56,7 +57,11 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.OdtReportConfiguration;
 
 
@@ -426,6 +431,8 @@ public class TableBuilder
 	 */
 	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink, boolean isIgnoreTextFormatting)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		String text = styledText.getText();
 
 		int runLimit = 0;
@@ -434,9 +441,17 @@ public class TableBuilder
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+			
+			context.setCrtRun(listInfoStack, listItemInfo);
+
 			exportStyledTextRun(
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
+				attributes, 
+				(bulletText == null ? "" : bulletText) + text.substring(iterator.getIndex(), runLimit),
 				locale,
 				startedHyperlink,
 				isIgnoreTextFormatting

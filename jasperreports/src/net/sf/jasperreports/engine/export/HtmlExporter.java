@@ -2892,8 +2892,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 			exportHtmlListTags(context, listInfoStack, listItemInfo, textRunStyle);
 			
-			context.setCrtListInfoStack(listInfoStack);
-			context.setCrtListItem(listItemInfo);
+			context.setCrtRun(listInfoStack, listItemInfo);
 
 			exportStyledTextRun(
 				textRunStyle,

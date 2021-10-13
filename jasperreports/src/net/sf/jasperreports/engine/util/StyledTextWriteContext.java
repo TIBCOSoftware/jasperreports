@@ -30,24 +30,27 @@ public class StyledTextWriteContext
 {
 	private StyledTextListInfo[] crtListInfoStack;
 	private StyledTextListItemInfo crtListItem;
+	private boolean isFirstRun = true;
 	
 	public StyledTextListInfo[] getCrtListInfoStack() 
 	{
 		return crtListInfoStack;
 	}
 	
-	public void setCrtListInfoStack(StyledTextListInfo[] crtListInfoStack) 
-	{
-		this.crtListInfoStack = crtListInfoStack;
-	}
-	
 	public StyledTextListItemInfo getCrtListItem() 
 	{
 		return crtListItem;
 	}
-	
-	public void setCrtListItem(StyledTextListItemInfo crtListItem) 
+
+	public boolean isFirstRun() 
 	{
+		return isFirstRun;
+	}
+
+	public void setCrtRun(StyledTextListInfo[] crtListInfoStack, StyledTextListItemInfo crtListItem) 
+	{
+		this.crtListInfoStack = crtListInfoStack;
 		this.crtListItem = crtListItem;
+		this.isFirstRun = false;
 	}
 }

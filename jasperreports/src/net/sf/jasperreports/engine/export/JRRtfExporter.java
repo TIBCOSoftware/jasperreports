@@ -80,7 +80,12 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
@@ -654,9 +659,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 * @param text JasperReports text object (JRPrintText)
 	 * @throws JRException
 	 */
-	public void exportText(JRPrintText text) throws IOException, JRException {
-
-
+	public void exportText(JRPrintText text) throws IOException, JRException 
+	{
 		// use styled text
 		JRStyledText styledText = getStyledText(text);
 		if (styledText == null)
@@ -927,6 +931,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		boolean startedHyperlink = exportHyperlink(text);
 
+		StyledTextWriteContext context = new StyledTextWriteContext();
+
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
 		int runLimit = 0;
@@ -937,7 +943,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			&& (runLimit = iterator.getRunLimit()) <= styledText.length()
 			)
 		{
-
 			Map<Attribute,Object> styledTextAttributes = iterator.getAttributes();
 			JRFont styleFont = new JRBaseFont(styledTextAttributes);
 			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
@@ -982,9 +987,16 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			contentWriter.write(String.valueOf(getColorIndex(styleForeground)));
 			contentWriter.write(" ");
 
+			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])styledTextAttributes.get(JRTextAttribute.HTML_LIST);
+			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)styledTextAttributes.get(JRTextAttribute.HTML_LIST_ITEM);
+
+			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, styledTextAttributes);
+			
+			context.setCrtRun(listInfoStack, listItemInfo);
+
 			contentWriter.write(
 				handleUnicodeText(
-					plainText.substring(iterator.getIndex(), runLimit)					
+					(bulletText == null ? "" : bulletText) + plainText.substring(iterator.getIndex(), runLimit)					
 					)
 				);
 
