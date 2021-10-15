@@ -580,10 +580,10 @@ public class TextMeasurer implements JRTextMeasurer
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
-			prepareBullet(context);
-			
 			context.next(attributes);
 
+			prepareBullet(context);
+			
 			int tokenPosition = 0;
 			int prevParagraphStart = 0;
 			String prevParagraphText = null;
