@@ -326,17 +326,23 @@ public class JRStyledTextParser implements ErrorHandler
 		
 		int runLimit = 0;
 
-		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
+		while (runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
 		{
 			String chunk = text.substring(iterator.getIndex(), runLimit);
 			Map<Attribute,Object> attrs = iterator.getAttributes();
 			
+			context.next(attrs);
+
+			writeHtmlListTags(context, sb);
+
 			writeChunk(context, sb, parentAttrs, attrs, chunk);
 
 			iterator.setIndex(runLimit);
 		}
 		
-		writeHtmlListTags(context, sb, null, null);
+		context.next(null);
+
+		writeHtmlListTags(context, sb);
 		
 		return sb.toString();
 	}
@@ -366,13 +372,6 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	public void writeChunk(StyledTextWriteContext context, StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
 	{
-		StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attrs.get(JRTextAttribute.HTML_LIST);
-		StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attrs.get(JRTextAttribute.HTML_LIST_ITEM);
-
-		writeHtmlListTags(context, sb, listInfoStack, listItemInfo);
-		
-		context.setCrtRun(listInfoStack, listItemInfo);
-		
 		StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
 		boolean isStyle = styleBuilder.length() > 0;
 		if (isStyle)
@@ -498,54 +497,28 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	private void writeHtmlListTags(
 		StyledTextWriteContext context, 
-		StringBuilder sb, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo
+		StringBuilder sb 
 		)
 	{
-		StyledTextListItemInfo crtListItem = context.getCrtListItem();
-
-		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
-		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
-
-		int minDepth = Math.min(crtDepth, newDepth);
-		int parentListDepth = 0;
-		
-		while (parentListDepth < minDepth)
-		{
-			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
-			{
-				break;
-			}
-			parentListDepth++;
-		}
-		
-		if (
-			crtListItem != null  // there was a li
-			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
-			&& crtListItem != listItemInfo  // was not the same as the new one
-			&& (crtDepth >= newDepth // was of deeper level
-				|| (parentListDepth == crtDepth && !listInfoStack[newDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < crtDepth)
-			) // so closing it
+		if (context.isListItemEnd())
 		{
 			sb.append(LESS_SLASH);
 			sb.append(NODE_li);
 			sb.append(GREATER);
-			
-			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
+
+			context.getPrevList().setInsideLi(false);
 		}
 		
-		for (int i = crtDepth - 1; i >= parentListDepth; i--)
+		for (int i = context.getPrevDepth() - 1; i >= context.getCommonListDepth(); i--)
 		{
+			StyledTextListInfo list = context.getPrevList(i);
 			sb.append(LESS_SLASH);
-			sb.append(crtListInfoStack[i].ordered() ? NODE_ol : NODE_ul);
+			sb.append(list.ordered() ? NODE_ol : NODE_ul);
 			sb.append(GREATER);
 			if (
-				crtListInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && !crtListInfoStack[i - 1].insideLi())
-					|| i > parentListDepth
+				list.hasParentLi
+				&& ((i == context.getCommonListDepth() && !context.getPrevList(i - 1).insideLi())
+					|| i > context.getCommonListDepth()
 					)
 				)
 			{
@@ -555,12 +528,13 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 		}
 
-		for (int i = parentListDepth; i < newDepth; i++)
+		for (int i = context.getCommonListDepth(); i < context.getDepth(); i++)
 		{
+			StyledTextListInfo list = context.getList(i);
 			if (
-				listInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && !listInfoStack[i - 1].insideLi())
-					|| i > parentListDepth
+				list.hasParentLi
+				&& ((i == context.getCommonListDepth() && !context.getList(i - 1).insideLi())
+					|| i > context.getCommonListDepth()
 					)
 				)
 			{
@@ -569,16 +543,16 @@ public class JRStyledTextParser implements ErrorHandler
 				sb.append(GREATER);
 			}
 			sb.append(LESS);
-			if (listInfoStack[i].ordered())
+			if (list.ordered())
 			{
 				sb.append(NODE_ol);
-				if (listInfoStack[i].type != null)
+				if (list.getType() != null)
 				{
-					sb.append(" " + ATTRIBUTE_type + "=\"" + listInfoStack[i].type + "\"");
+					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
 				}
-				if (listInfoStack[i].getStart() != null && listInfoStack[i].getStart() > 1)
+				if (list.getStart() != null && list.getStart() > 1)
 				{
-					sb.append(" " + ATTRIBUTE_start + "=\"" + listInfoStack[i].getStart() + "\"");
+					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getStart() + "\"");
 				}
 			}
 			else
@@ -588,24 +562,17 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(GREATER);
 		}
 
-		if (
-			listItemInfo != null // there is a new li
-			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
-			&& listItemInfo != crtListItem // it is different than the previous one
-			&& (crtDepth <= newDepth // it is of a deeper level
-				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < newDepth)
-			) // so opening it
+		if (context.isListItemStart())
 		{
 			sb.append(LESS);
 			sb.append(NODE_li);
-			if (listItemInfo.noBullet())
+			if (context.getListItem().noBullet())
 			{
 				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
 			}
 			sb.append(GREATER);
-			
-			listInfoStack[listInfoStack.length - 1].setInsideLi(true);
+
+			context.getList().setInsideLi(true);
 		}
 	}
 		

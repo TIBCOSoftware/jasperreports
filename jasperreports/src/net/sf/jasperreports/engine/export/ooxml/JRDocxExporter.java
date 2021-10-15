@@ -92,8 +92,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
@@ -958,40 +956,46 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 			String runText = text.substring(iterator.getIndex(), runLimit);
-			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
-			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
-			
-			boolean localHyperlink = false;
 
-			if (!startedHyperlink)
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
 			{
-				JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
-				if (hyperlink != null)
-				{
-					localHyperlink = startHyperlink(hyperlink, true);
-				}
+				runText = runText.substring(1);
 			}
-			
-			runHelper.export(
-				style, 
-				attributes, 
-				(bulletText == null ? "" : bulletText) + runText,
-				locale,
-				hiddenText,
-				invalidCharReplacement,
-				elementBackcolor,
-				isNewLineJustified
-				);
 
-			if (localHyperlink)
+			if (runText.length() > 0)
 			{
-				endHyperlink(true);
+				boolean localHyperlink = false;
+
+				if (!startedHyperlink)
+				{
+					JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
+					if (hyperlink != null)
+					{
+						localHyperlink = startHyperlink(hyperlink, true);
+					}
+				}
+				
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+				
+				runHelper.export(
+					style, 
+					attributes, 
+					(bulletText == null ? "" : bulletText) + runText,
+					locale,
+					hiddenText,
+					invalidCharReplacement,
+					elementBackcolor,
+					isNewLineJustified
+					);
+
+				if (localHyperlink)
+				{
+					endHyperlink(true);
+				}
 			}
 
 			iterator.setIndex(runLimit);

@@ -59,8 +59,6 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.OdtReportConfiguration;
 
@@ -442,22 +440,28 @@ public class TableBuilder
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 			String runText = text.substring(iterator.getIndex(), runLimit);
-			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
-			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 
-			exportStyledTextRun(
-				attributes, 
-				(bulletText == null ? "" : bulletText) + runText,
-				locale,
-				startedHyperlink,
-				isIgnoreTextFormatting
-				);
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			if (runText.length() > 0)
+			{
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+				
+				exportStyledTextRun(
+					attributes, 
+					(bulletText == null ? "" : bulletText) + runText,
+					locale,
+					startedHyperlink,
+					isIgnoreTextFormatting
+					);
+			}
 
 			iterator.setIndex(runLimit);
 		}
@@ -468,8 +472,7 @@ public class TableBuilder
 	 *
 	 */
 	protected void exportStyledTextRun(
-			Map<AttributedCharacterIterator.Attribute, 
-			Object> attributes, 
+			Map<AttributedCharacterIterator.Attribute, Object> attributes, 
 			String text, 
 			Locale locale, 
 			boolean startedHyperlink,

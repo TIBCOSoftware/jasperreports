@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.PdfPhrase;
+import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.TextDirection;
 
 
@@ -85,7 +85,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 					- topPadding
 					- verticalAlignOffset
 					//- text.getLeadingOffset()
-					//+ lineHeight
+					+ lineHeight
 					- drawPosY,
 				- 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
 				pdfExporter.getCurrentPageFormat().getPageHeight()

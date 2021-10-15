@@ -1098,13 +1098,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
-			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
-					forecolor;
+			short runForecolor = 
+				attributes.get(TextAttribute.FOREGROUND) != null 
+				? getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex()
+				: forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
 			iterator.setIndex(runLimit);

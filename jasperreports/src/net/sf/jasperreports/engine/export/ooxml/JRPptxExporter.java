@@ -84,10 +84,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
-import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -1183,39 +1180,45 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 			String runText = allText.substring(iterator.getIndex(), runLimit);
-			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
-			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
-			
-			String text = (bulletText == null ? "" : bulletText) + runText;
 
-			if (fieldType != null)
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
 			{
-				runHelper.export(
-					style, 
-					iterator.getAttributes(), 
-					text,
-					locale,
-					invalidCharReplacement,
-					fieldType,
-					uuid
-					);
+				runText = runText.substring(1);
 			}
-			else
+
+			if (runText.length() > 0)
 			{
-				runHelper.export(
-					style, 
-					iterator.getAttributes(), 
-					text,
-					locale,
-					invalidCharReplacement
-					);
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
 				
+				String text = (bulletText == null ? "" : bulletText) + runText;
+
+				if (fieldType != null)
+				{
+					runHelper.export(
+						style, 
+						attributes, 
+						text,
+						locale,
+						invalidCharReplacement,
+						fieldType,
+						uuid
+						);
+				}
+				else
+				{
+					runHelper.export(
+						style, 
+						attributes, 
+						text,
+						locale,
+						invalidCharReplacement
+						);
+					
+				}
 			}
 			
 			iterator.setIndex(runLimit);

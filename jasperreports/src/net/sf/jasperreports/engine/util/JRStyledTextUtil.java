@@ -601,68 +601,43 @@ public class JRStyledTextUtil
 		}
 	}
 
-	public static String getIndentedBulletText(
-		StyledTextWriteContext context, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo,
-		Map<Attribute,Object> attributes
-		)
+	public static String getIndentedBulletText(StyledTextWriteContext context)
 	{
 		String bulletIndent = null;
 
-		if (listItemInfo != context.getCrtListItem())
+		if (context.isListItemChange())
 		{
-			if (!context.isFirstRun() && !context.isCrtListItemEndedWithNewLine())
+			if (
+				!context.isFirstRun() 
+				&& !context.prevListItemEndedWithNewLine()
+				&& ((!context.listItemStartsWithNewLine() && context.isListItemStart())
+					|| context.isListItemEnd())// || context.isListStart() || context.isListEnd()))
+				)
 			{
 				bulletIndent = "\n";
 			}
-			if (listInfoStack != null)
+			if (context.getDepth() > 0)
 			{
-				bulletIndent = (bulletIndent == null ? "" : bulletIndent) + new String(new char[listInfoStack.length * 4]).replace('\0', ' ');
+				bulletIndent = (bulletIndent == null ? "" : bulletIndent) + new String(new char[context.getDepth() * 4]).replace('\0', ' ');
 			}
 		}
 		
-		String bulletText = JRStyledTextUtil.getBulletText(context, listInfoStack, listItemInfo, attributes);
+		String bulletText = JRStyledTextUtil.getBulletText(context);
 
 		return bulletIndent == null ? null : (bulletIndent + (bulletText == null ? "" : (bulletText + " ")));
 	}
 
-	public static String getBulletText(
-		StyledTextWriteContext context, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo,
-		Map<Attribute,Object> attributes
-		)
+	public static String getBulletText(StyledTextWriteContext context)
 	{
 		String bulletText = null;
-		
-		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
-		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
-		
-		int minDepth = Math.min(crtDepth, newDepth);
-		int parentListDepth = 0;
-		
-		while (parentListDepth < minDepth)
-		{
-			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
-			{
-				break;
-			}
-			parentListDepth++;
-		}
 
 		if (
-			listItemInfo != null // there is a new li
-			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
-			&& listItemInfo != context.getCrtListItem() // it is different than the previous one
-			&& (crtDepth <= newDepth // it is of a deeper level
-				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < newDepth)
-			&& !listItemInfo.noBullet()
+			context.isListItemStart()
+			&& context.getListItem() != null
+			&& !context.getListItem().noBullet()
 			)
 		{
-			bulletText = getBulletText(listInfoStack == null || listInfoStack.length == 0 ? null : listInfoStack[listInfoStack.length - 1], listItemInfo);
+			bulletText = getBulletText(context.getList(), context.getListItem());
 		}
 		
 		return bulletText;
@@ -679,13 +654,13 @@ public class JRStyledTextUtil
 		else
 		{
 			int itemNumber = (listInfo.getStart() == null ? 1 : listInfo.getStart()) + listItemInfo.getItemIndex();
-			if (listInfo.type == null)
+			if (listInfo.getType() == null)
 			{
 				bulletText = String.valueOf(itemNumber);
 			}
 			else
 			{
-				switch (listInfo.type)
+				switch (listInfo.getType())
 				{
 					case "A":
 					{
@@ -739,16 +714,22 @@ public class JRStyledTextUtil
 			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 			{
 				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
-				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
-				
-				context.setCrtRun(listInfoStack, listItemInfo);
-				context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
-				
-				sb.append((bulletText == null ? "" : bulletText) + runText);
+
+				context.next(attributes, runText);
+
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+				{
+					runText = runText.substring(1);
+				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					sb.append((bulletText == null ? "" : bulletText) + runText);
+				}
 
 				allParagraphs.setIndex(runLimit);
 			}
@@ -777,23 +758,35 @@ public class JRStyledTextUtil
 			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 			{
 				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-				StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-				StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
-				String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
+
+				context.next(attributes, runText);
+
+				int initRunTextLength = runText.length();
+				int initBufferSize = sb.length();
 				
-				context.setCrtRun(listInfoStack, listItemInfo);
-				context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
-				
-				if (bulletText != null)
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
 				{
-					sb.append(bulletText);
-					resizeRuns(styledText.getRuns(), allParagraphs.getIndex() + resizeOffset, bulletText.length());
-					resizeOffset += bulletText.length();
+					runText = runText.substring(1);
 				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					if (bulletText != null)
+					{
+						sb.append(bulletText);
+					}
+					
+					sb.append(runText);
+				}
+
+				int resizeAmount = (sb.length() - initBufferSize) - initRunTextLength;
 				
-				sb.append(runText);
+				resizeRuns(styledText.getRuns(), allParagraphs.getIndex() + resizeOffset, resizeAmount);
+				resizeOffset += resizeAmount;
 
 				allParagraphs.setIndex(runLimit);
 			}

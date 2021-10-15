@@ -97,10 +97,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
-import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -319,16 +316,21 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
 			String runText = text.substring(iterator.getIndex(), runLimit);
-			String bulletText = JRStyledTextUtil.getIndentedBulletText(context, listInfoStack, listItemInfo, attributes);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
-			context.setCrtListItemEndedWithNewLine(runText.endsWith("\n"));
 
-			runHelper.export(
+			context.next(attributes, runText);
+			
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			if (runText.length() > 0)
+			{
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+				
+				runHelper.export(
 					style, 
 					attributes, 
 					(bulletText == null ? "" : bulletText) + runText,
@@ -336,6 +338,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					invalidCharReplacement,
 					isStyledText
 					);
+			}
 			
 			iterator.setIndex(runLimit);
 		}

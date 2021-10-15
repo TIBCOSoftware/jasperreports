@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine.util;
 public class StyledTextListInfo
 {
 	private final boolean ordered;
-	public final String type;
+	private final String type;
 	public Integer start;
 	public final boolean hasParentLi;
 	

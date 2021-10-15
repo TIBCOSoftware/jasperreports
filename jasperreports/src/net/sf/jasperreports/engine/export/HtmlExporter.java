@@ -114,7 +114,6 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -2852,7 +2851,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		boolean highlightStarted = false;
 
-		while(runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
+		while (runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
 			if (first && runLimit < paragraphText.length() && tooltip != null)
@@ -2887,17 +2886,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					hyperlinkStarted
 					);
 			
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+			String runText = paragraphText.substring(paragraph.getIndex(), runLimit);
 
-			exportHtmlListTags(context, listInfoStack, listItemInfo, textRunStyle);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			exportHtmlListTags(context, textRunStyle);
 
 			exportStyledTextRun(
 				textRunStyle,
 				attributes,
-				paragraphText.substring(paragraph.getIndex(), runLimit),
+				runText,
 				tooltip,
 				hyperlinkStarted
 			);
@@ -2905,7 +2908,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			paragraph.setIndex(runLimit);
 		}
 
-		exportHtmlListTags(context, null, null, null);
+		context.next(null, null);
+
+		exportHtmlListTags(context, null);
 
 		if (highlightStarted) {
 			writer.write("</span>");
@@ -2970,50 +2975,24 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	 */
 	protected void exportHtmlListTags(
 		StyledTextWriteContext context, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo,
 		String textRunStyle
 		) throws IOException
 	{
-		StyledTextListItemInfo crtListItem = context.getCrtListItem();
-
-		StyledTextListInfo[] crtListInfoStack = context.getCrtListInfoStack();
-		int crtDepth = crtListInfoStack == null ? 0 : crtListInfoStack.length;
-		int newDepth = listInfoStack == null ? 0 : listInfoStack.length;
-
-		int minDepth = Math.min(crtDepth, newDepth);
-		int parentListDepth = 0;
-		
-		while (parentListDepth < minDepth)
-		{
-			if (listInfoStack[parentListDepth] != crtListInfoStack[parentListDepth])
-			{
-				break;
-			}
-			parentListDepth++;
-		}
-		
-		if (
-			crtListItem != null // there was a li 
-			&& crtListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
-			&& crtListItem != listItemInfo // was not the same as the new one
-			&& (crtDepth >= newDepth // was of deeper level
-				|| (parentListDepth == crtDepth && !listInfoStack[newDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < crtDepth)
-			) // so closing it
+		if (context.isListItemEnd())
 		{
 			writer.write("</li>");
-			
-			crtListInfoStack[crtListInfoStack.length - 1].setInsideLi(false);
+
+			context.getPrevList().setInsideLi(false);
 		}
 		
-		for (int i = crtDepth - 1; i >= parentListDepth; i--)
+		for (int i = context.getPrevDepth() - 1; i >= context.getCommonListDepth(); i--)
 		{
-			writer.write(crtListInfoStack[i].ordered() ? "</ol>" : "</ul>");
+			StyledTextListInfo list = context.getPrevList(i);
+			writer.write(list.ordered() ? "</ol>" : "</ul>");
 			if (
-				crtListInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && !crtListInfoStack[i - 1].insideLi())
-					|| i > parentListDepth
+				list.hasParentLi
+				&& ((i == 0 && !context.getPrevList(i - 1).insideLi()) //FIXME weird tests here
+					|| i > 0
 					)
 				)
 			{
@@ -3021,12 +3000,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 
-		for (int i = parentListDepth; i < newDepth; i++)
+		for (int i = context.getCommonListDepth(); i < context.getDepth(); i++)
 		{
+			StyledTextListInfo list = context.getList(i);
 			if (
-				listInfoStack[i].hasParentLi
-				&& ((i == parentListDepth && !listInfoStack[i - 1].insideLi())
-					|| i > parentListDepth
+				list.hasParentLi
+				&& ((i == 0 && !context.getList(i - 1).insideLi()) //FIXME weird tests here
+					|| i > 0
 					)
 				)
 			{
@@ -3038,16 +3018,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write(">");
 			}
 			writer.write("<");
-			if (listInfoStack[i].ordered())
+			if (list.ordered())
 			{
 				writer.write("ol");
-				if (listInfoStack[i].type != null)
+				if (list.getType() != null)
 				{
-					writer.write(" type=\"" + listInfoStack[i].type + "\"");
+					writer.write(" type=\"" + list.getType() + "\"");
 				}
-				if (listInfoStack[i].getStart() != null && listInfoStack[i].getStart() > 1)
+				if (list.getStart() != null && list.getStart() > 1)
 				{
-					writer.write(" start=\"" + listInfoStack[i].getStart() + "\"");
+					writer.write(" start=\"" + list.getStart() + "\"");
 				}
 			}
 			else
@@ -3057,23 +3037,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write(" style=\"margin:0\">");
 		}
 
-		if (
-			listItemInfo != null // there is a new li
-			&& listItemInfo != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
-			&& listItemInfo != crtListItem // it is different than the previous one
-			&& (crtDepth <= newDepth // it is of a deeper level
-				|| (parentListDepth == newDepth && !crtListInfoStack[crtDepth - 1].hasParentLi) // new list is between li
-				|| parentListDepth < newDepth)
-			) // so opening it
+		if (context.isListItemStart())
 		{
 			writer.write("<li");
 			if (textRunStyle != null)
 			{
-				writer.write(" style=\"" + (listItemInfo.noBullet() ? "list-style: none; " : "") + textRunStyle + "\"");
+				writer.write(" style=\"" + (context.getListItem().noBullet() ? "list-style: none; " : "") + textRunStyle + "\"");
 			}
 			writer.write(">");
-			
-			listInfoStack[listInfoStack.length - 1].setInsideLi(true);
+
+			context.getList().setInsideLi(true);
 		}
 	}
 		

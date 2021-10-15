@@ -45,8 +45,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 
 
@@ -357,13 +355,11 @@ public abstract class AbstractTextRenderer
 		while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
-			prepareBullet(context, listInfoStack, listItemInfo, attributes);
-			
-			context.setCrtRun(listInfoStack, listItemInfo);
-			
+			context.next(attributes);
+
+			prepareBullet(context, attributes);
+
 			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 			AttributedCharacterIterator runParagraphs = 
 				new AttributedString(
@@ -385,7 +381,10 @@ public abstract class AbstractTextRenderer
 
 				if ("\n".equals(token))
 				{
-					renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
+					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					{
+						renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
+					}
 
 					isFirstParagraph = false;
 					isLastParagraph = !tkzer.hasMoreTokens();
@@ -738,16 +737,14 @@ public abstract class AbstractTextRenderer
 	}
 	
 	
-	private int prepareBullet(
+	private void prepareBullet(
 		StyledTextWriteContext context, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo,
 		Map<Attribute,Object> attributes
 		)
 	{
-		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50; //FIXMEBULLET always 50?
+		htmlListIndent = context.getDepth() * 50; //FIXMEBULLET always 50?
 
-		bulletText = JRStyledTextUtil.getBulletText(context, listInfoStack, listItemInfo, attributes);
+		bulletText = JRStyledTextUtil.getBulletText(context);
 		
 		if (bulletText == null)
 		{
@@ -761,8 +758,6 @@ public abstract class AbstractTextRenderer
 					attributes
 					);
 		}
-		
-		return htmlListIndent;
 	}
 	
 	/**

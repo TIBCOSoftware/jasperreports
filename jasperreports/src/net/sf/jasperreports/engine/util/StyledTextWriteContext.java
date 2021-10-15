@@ -23,48 +23,163 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Map;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class StyledTextWriteContext
 {
-	private StyledTextListInfo[] crtListInfoStack;
-	private StyledTextListItemInfo crtListItem;
+	private StyledTextListInfo[] prevListStack;
+	private StyledTextListItemInfo prevListItem;
+	private StyledTextListInfo[] listStack;
+	private StyledTextListItemInfo listItem;
 	private boolean isFirstRun = true;
-	private boolean isCrtListItemEndedWithNewLine = false;
-	
-	public StyledTextListInfo[] getCrtListInfoStack() 
-	{
-		return crtListInfoStack;
-	}
-	
-	public StyledTextListItemInfo getCrtListItem() 
-	{
-		return crtListItem;
-	}
+	private boolean runTextEndedWithNewLine = false;
+	private boolean prevRunTextEndedWithNewLine = false;
+	private boolean runTextStartsWithNewLine = false;
 
+	private int prevDepth = 0;
+	private int newDepth = 0;
+	private int commonListDepth = 0;
+	
 	public boolean isFirstRun() 
 	{
 		return isFirstRun;
 	}
 
-	public boolean isCrtListItemEndedWithNewLine() 
+	public StyledTextListInfo getPrevList(int index) 
 	{
-		return isCrtListItemEndedWithNewLine;
+		return prevListStack == null || prevListStack.length == 0 ? null : prevListStack[index];
 	}
 
-	public void setCrtListItemEndedWithNewLine(boolean isCrtListItemEndedWithNewLine) 
+	public StyledTextListInfo getPrevList() 
 	{
-		this.isCrtListItemEndedWithNewLine = isCrtListItemEndedWithNewLine;
+		return prevListStack == null || prevListStack.length == 0 ? null : prevListStack[prevListStack.length - 1];
 	}
 
-	public void setCrtRun(
-		StyledTextListInfo[] crtListInfoStack, 
-		StyledTextListItemInfo crtListItem
+	public StyledTextListInfo getList(int index) 
+	{
+		return listStack == null || listStack.length == 0 ? null : listStack[index];
+	}
+
+	public StyledTextListInfo getList() 
+	{
+		return listStack == null || listStack.length == 0 ? null : listStack[listStack.length - 1];
+	}
+
+	public StyledTextListItemInfo getListItem() 
+	{
+		return listItem;
+	}
+
+	public boolean prevListItemEndedWithNewLine() 
+	{
+		return prevRunTextEndedWithNewLine;
+	}
+
+	public boolean listItemStartsWithNewLine() 
+	{
+		return runTextStartsWithNewLine;
+	}
+
+	public int getPrevDepth()
+	{
+		return prevDepth;
+	}
+
+	public int getDepth() 
+	{
+		return newDepth;
+	}
+
+	public int getCommonListDepth() 
+	{
+		return commonListDepth;
+	}
+
+	public boolean isListStart()
+	{
+		return (commonListDepth + 1 == newDepth);
+	}
+
+	public boolean isListEnd()
+	{
+		return (commonListDepth + 1 == prevDepth);
+	}
+
+	public boolean isListItemStart() 
+	{
+		return 
+			(listItem != null // there is a new li
+			&& listItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
+			&& listItem != prevListItem // it is different than the previous one
+			&& (prevDepth <= newDepth // it is of a deeper level
+				|| (commonListDepth == newDepth && !prevListStack[prevDepth - 1].hasParentLi) // new list is between li
+				|| commonListDepth < newDepth)
+			); // so opening it
+	}
+
+	public boolean isListItemEnd() 
+	{
+		return
+			(prevListItem != null  // there was a li
+			&& prevListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
+			&& prevListItem != listItem  // was not the same as the new one
+			&& (prevDepth >= newDepth // was of deeper level
+				|| (commonListDepth == prevDepth && !listStack[newDepth - 1].hasParentLi) // new list is between li
+				|| commonListDepth < prevDepth)
+			); // so closing it
+	}
+
+	public boolean isListItemChange()
+	{
+		return listItem != prevListItem;
+	}
+
+	public void next(Map<Attribute,Object> attributes)
+	{
+		this.prevListStack = this.listStack;
+		this.prevListItem = this.listItem;
+		if (attributes == null)
+		{
+			this.listStack = null;
+			this.listItem = null;
+		}
+		else
+		{
+			this.listStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
+			this.listItem = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+		}
+		this.isFirstRun = false;
+		
+		prevDepth = prevListStack == null ? 0 : prevListStack.length;
+		newDepth = listStack == null ? 0 : listStack.length;
+		
+		int minDepth = Math.min(prevDepth, newDepth);
+		commonListDepth = 0;
+		
+		while (commonListDepth < minDepth)
+		{
+			if (listStack[commonListDepth] != prevListStack[commonListDepth])
+			{
+				break;
+			}
+			commonListDepth++;
+		}
+	}
+
+	public void next(
+		Map<Attribute,Object> attributes,
+		String runText
 		) 
 	{
-		this.crtListInfoStack = crtListInfoStack;
-		this.crtListItem = crtListItem;
-		this.isFirstRun = false;
+		next(attributes);
+		
+		this.prevRunTextEndedWithNewLine = runTextEndedWithNewLine;
+		this.runTextEndedWithNewLine = runText == null ? false : runText.endsWith("\n");
+		
+		this.runTextStartsWithNewLine = runText == null ? false : runText.startsWith("\n"); 
 	}
 }

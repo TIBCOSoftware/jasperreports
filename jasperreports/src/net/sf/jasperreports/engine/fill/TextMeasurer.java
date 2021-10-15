@@ -53,8 +53,6 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
-import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -581,12 +579,10 @@ public class TextMeasurer implements JRTextMeasurer
 		while (rendered && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-			StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
-			StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 
-			prepareBullet(context, listInfoStack, listItemInfo, allParagraphs);
+			prepareBullet(context);
 			
-			context.setCrtRun(listInfoStack, listItemInfo);
+			context.next(attributes);
 
 			int tokenPosition = 0;
 			int prevParagraphStart = 0;
@@ -602,7 +598,10 @@ public class TextMeasurer implements JRTextMeasurer
 
 				if ("\n".equals(token))
 				{
-					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					{
+						rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+					}
 
 					isFirstParagraph = false;
 					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
@@ -701,17 +700,9 @@ public class TextMeasurer implements JRTextMeasurer
 		return rendered;
 	}
 	
-	private int prepareBullet(
-		StyledTextWriteContext context, 
-		StyledTextListInfo[] listInfoStack,
-		StyledTextListItemInfo listItemInfo,
-		AttributedCharacterIterator allParagraphs
-		)
+	private void prepareBullet(StyledTextWriteContext context)
 	{
-		Map<Attribute,Object> attributes = allParagraphs.getAttributes();
-		htmlListIndent = listInfoStack == null ? 0 : listInfoStack.length * 50;
-		
-		return htmlListIndent;
+		htmlListIndent = context.getDepth() * 50;
 	}
 		
 	protected void processLastTruncatedRow(
