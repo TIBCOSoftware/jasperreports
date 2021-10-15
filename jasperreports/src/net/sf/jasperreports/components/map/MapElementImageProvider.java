@@ -24,6 +24,8 @@
 package net.sf.jasperreports.components.map;
 
 import java.awt.Color;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -170,6 +172,10 @@ public class MapElementImageProvider {
             List<Map<String, Object>> pathList = (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_PATHS);
             String currentPaths = "";
             if (pathList != null && !pathList.isEmpty()) {
+                // Round to up to 5 d.p. which is approx. 1m precision. 6 d.p. is approx 10cm precision - too much info.
+                // Keeping the URL short to support more data is more important than >1m precision.
+                DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+                decimalFormat.setRoundingMode(RoundingMode.CEILING);
                 for (Map<String, Object> pathMap : pathList) {
                     if (pathMap != null && !pathMap.isEmpty()) {
                         currentPaths += "&path=";
@@ -201,16 +207,16 @@ public class MapElementImageProvider {
                         if (locations != null && !locations.isEmpty()) {
                             for (int i = 0; i < locations.size(); i++) {
                                 location = locations.get(i);
-                                currentPaths += location.get(MapComponent.ITEM_PROPERTY_latitude);
+                                currentPaths += decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_latitude));
                                 currentPaths += ",";
-                                currentPaths += location.get(MapComponent.ITEM_PROPERTY_longitude);
+                                currentPaths += decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_longitude));
                                 currentPaths += i < locations.size() - 1 ? "%7C" : "";
                             }
                             if (isPolygon) {
                                 currentPaths += "%7C";
-                                currentPaths += locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude);
+                                currentPaths += decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude));
                                 currentPaths += ",";
-                                currentPaths += locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude);
+                                currentPaths += decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude));
                             }
                         }
                     }
