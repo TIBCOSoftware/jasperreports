@@ -30,11 +30,12 @@ public class StyledTextListInfo
 {
 	private final boolean ordered;
 	private final String type;
-	public Integer start;
-	public final boolean hasParentLi;
+	private Integer start;
+	private final boolean hasParentLi;
 	
 	private int itemCount = 0;
 	private boolean insideLi = false;
+	private Integer cutStart = 0;
 	
 	public StyledTextListInfo(
 		boolean ordered,
@@ -46,6 +47,7 @@ public class StyledTextListInfo
 		this.ordered = ordered;
 		this.type = type;
 		this.start = start;
+		this.cutStart = start;
 		this.hasParentLi = hasParentLi;
 	}
 
@@ -59,14 +61,24 @@ public class StyledTextListInfo
 		return type;
 	}
 
-	public Integer getStart()
+	public int getStart()
 	{
-		return start;
+		return start == null ? 1 : start;
 	}
 
 	public void setStart(int start)
 	{
 		this.start = start;
+	}
+
+	public int getCutStart()
+	{
+		return cutStart == null ? 1 : cutStart;
+	}
+
+	public void setCutStart(int cutStart)
+	{
+		this.cutStart = cutStart;
 	}
 
 	public boolean hasParentLi()

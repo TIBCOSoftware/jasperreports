@@ -643,24 +643,24 @@ public class JRStyledTextUtil
 		return bulletText;
 	}
 
-	public static String getBulletText(StyledTextListInfo listInfo, StyledTextListItemInfo listItemInfo)
+	public static String getBulletText(StyledTextListInfo list, StyledTextListItemInfo listItem)
 	{
 		String bulletText = null;
 		
-		if (listInfo == null || !listInfo.ordered())
+		if (list == null || !list.ordered())
 		{
 			bulletText = "\u2022"; 
 		}
 		else
 		{
-			int itemNumber = (listInfo.getStart() == null ? 1 : listInfo.getStart()) + listItemInfo.getItemIndex();
-			if (listInfo.getType() == null)
+			int itemNumber = list.getStart() + listItem.getItemIndex();
+			if (list.getType() == null)
 			{
 				bulletText = String.valueOf(itemNumber);
 			}
 			else
 			{
-				switch (listInfo.getType())
+				switch (list.getType())
 				{
 					case "A":
 					{

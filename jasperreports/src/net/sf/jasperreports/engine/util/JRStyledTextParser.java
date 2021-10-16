@@ -516,7 +516,7 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(list.ordered() ? NODE_ol : NODE_ul);
 			sb.append(GREATER);
 			if (
-				list.hasParentLi
+				list.hasParentLi()
 				&& ((i == context.getCommonListDepth() && !context.getPrevList(i - 1).insideLi())
 					|| i > context.getCommonListDepth()
 					)
@@ -532,7 +532,7 @@ public class JRStyledTextParser implements ErrorHandler
 		{
 			StyledTextListInfo list = context.getList(i);
 			if (
-				list.hasParentLi
+				list.hasParentLi()
 				&& ((i == context.getCommonListDepth() && !context.getList(i - 1).insideLi())
 					|| i > context.getCommonListDepth()
 					)
@@ -550,9 +550,9 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
 				}
-				if (list.getStart() != null && list.getStart() > 1)
+				if (list.getCutStart() > 1)
 				{
-					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getStart() + "\"");
+					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
 				}
 			}
 			else
@@ -898,14 +898,14 @@ public class JRStyledTextParser implements ErrorHandler
 				htmlList.setInsideLi(true);
 				htmlList.setItemCount(htmlList.getItemCount() + 1);
 				
-				StyledTextListItemInfo listItemInfo = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
+				StyledTextListItemInfo listItem = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
 				NamedNodeMap nodeAttrs = node.getAttributes();
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_noBullet) != null)
 				{
-					listItemInfo.setNoBullet(Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_noBullet).getNodeValue()));
+					listItem.setNoBullet(Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_noBullet).getNodeValue()));
 				}
 				
-				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, listItemInfo);
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, listItem);
 				
 				int startIndex = styledText.length();
 

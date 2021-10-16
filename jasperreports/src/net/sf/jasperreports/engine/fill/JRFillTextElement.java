@@ -1231,7 +1231,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				if (startIndex > 0) // if this is an overflow
 				{
-					StyledTextListInfo[] crtListInfoStack = null;
+					StyledTextListInfo crtList = null;
 
 					List<Run> runs = fullStyledText.getRuns();
 					for (int i = runs.size() - 1; i >= 0; i--)
@@ -1239,19 +1239,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						Run run = runs.get(i);
 						if (run.startIndex <= startIndex && startIndex < run.endIndex)
 						{
-							StyledTextListInfo[] listInfoStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
-							if (listInfoStack != null)
+							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+							if (listStack != null)
 							{
-								crtListInfoStack = listInfoStack;
+								crtList = listStack[listStack.length - 1];
 							}
-							StyledTextListItemInfo listItemInfo = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
-							if (listItemInfo != null)
+							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+							if (listItem != null)
 							{
-								listItemInfo.setNoBullet(run.startIndex < startIndex);
-								if (listItemInfo.getItemIndex() > 0)
+								listItem.setNoBullet(run.startIndex < startIndex);
+								if (listItem.getItemIndex() > 0)
 								{
-									StyledTextListInfo crtListInfo = crtListInfoStack[crtListInfoStack.length - 1];
-									crtListInfo.setStart((crtListInfo.getStart() == null ? 1 : crtListInfo.getStart()) + listItemInfo.getItemIndex());
+									crtList.setCutStart(crtList.getStart() + listItem.getItemIndex());
 								}
 							}
 						}

@@ -2990,7 +2990,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			StyledTextListInfo list = context.getPrevList(i);
 			writer.write(list.ordered() ? "</ol>" : "</ul>");
 			if (
-				list.hasParentLi
+				list.hasParentLi()
 				&& ((i == 0 && !context.getPrevList(i - 1).insideLi()) //FIXME weird tests here
 					|| i > 0
 					)
@@ -3004,7 +3004,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			StyledTextListInfo list = context.getList(i);
 			if (
-				list.hasParentLi
+				list.hasParentLi()
 				&& ((i == 0 && !context.getList(i - 1).insideLi()) //FIXME weird tests here
 					|| i > 0
 					)
@@ -3025,9 +3025,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				{
 					writer.write(" type=\"" + list.getType() + "\"");
 				}
-				if (list.getStart() != null && list.getStart() > 1)
+				if (list.getCutStart() > 1)
 				{
-					writer.write(" start=\"" + list.getStart() + "\"");
+					writer.write(" start=\"" + list.getCutStart() + "\"");
 				}
 			}
 			else
