@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engine.design.events.JRChangeEventsSupport
 {
-	public static final long serialVersionUID = CVConstants.SERIAL_VERSION_UID;;
+	public static final long serialVersionUID = CVConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_ITEM_PROPERTIES = "itemProperties";
 	public static final String PROPERTY_ITEM_DATA = "itemData";

@@ -600,4 +600,216 @@ public class JRStyledTextUtil
 					&& fontInfo.getFontFace().getFont().canDisplay(code);			
 		}
 	}
+
+	public static String getIndentedBulletText(StyledTextWriteContext context)
+	{
+		String bulletIndent = null;
+
+		if (context.isListItemChange())
+		{
+			if (
+				!context.isFirstRun() 
+				&& !context.prevListItemEndedWithNewLine()
+				&& ((!context.listItemStartsWithNewLine() && context.isListItemStart())
+					|| context.isListItemEnd())// || context.isListStart() || context.isListEnd()))
+				)
+			{
+				bulletIndent = "\n";
+			}
+			if (context.getDepth() > 0)
+			{
+				bulletIndent = (bulletIndent == null ? "" : bulletIndent) + new String(new char[context.getDepth() * 4]).replace('\0', ' ');
+			}
+		}
+		
+		String bulletText = JRStyledTextUtil.getBulletText(context);
+
+		return bulletIndent == null ? null : (bulletIndent + (bulletText == null ? "" : (bulletText + " ")));
+	}
+
+	public static String getBulletText(StyledTextWriteContext context)
+	{
+		String bulletText = null;
+
+		if (
+			context.isListItemStart()
+			&& context.getListItem() != null
+			&& !context.getListItem().noBullet()
+			)
+		{
+			bulletText = getBulletText(context.getList(), context.getListItem());
+		}
+		
+		return bulletText;
+	}
+
+	public static String getBulletText(StyledTextListInfo list, StyledTextListItemInfo listItem)
+	{
+		String bulletText = null;
+		
+		if (list == null || !list.ordered())
+		{
+			bulletText = "\u2022"; 
+		}
+		else
+		{
+			int itemNumber = list.getStart() + listItem.getItemIndex();
+			if (list.getType() == null)
+			{
+				bulletText = String.valueOf(itemNumber);
+			}
+			else
+			{
+				switch (list.getType())
+				{
+					case "A":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, true);
+						break;
+					}
+					case "a":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, false);
+						break;
+					}
+					case "I":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, true);
+						break;
+					}
+					case "i":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, false);
+						break;
+					}
+					case "1":
+					default:
+					{
+						bulletText = String.valueOf(itemNumber);
+						break;
+					}
+				}
+			}
+			
+			bulletText += ".";
+		}
+		
+		return bulletText;
+	}
+
+	public static JRStyledText getBulletedText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
+
+				context.next(attributes, runText);
+
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+				{
+					runText = runText.substring(1);
+				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					sb.append((bulletText == null ? "" : bulletText) + runText);
+				}
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes());
+		}
+
+		return styledText;
+	}
+
+	public static JRStyledText getBulletedStyledText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int resizeOffset = 0;
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
+
+				context.next(attributes, runText);
+
+				int initRunTextLength = runText.length();
+				int initBufferSize = sb.length();
+				
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+				{
+					runText = runText.substring(1);
+				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					if (bulletText != null)
+					{
+						sb.append(bulletText);
+					}
+					
+					sb.append(runText);
+				}
+
+				int resizeAmount = (sb.length() - initBufferSize) - initRunTextLength;
+				
+				resizeRuns(styledText.getRuns(), allParagraphs.getIndex() + resizeOffset, resizeAmount);
+				resizeOffset += resizeAmount;
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes(), styledText.getRuns());
+		}
+
+		return styledText;
+	}
+
+	public static void resizeRuns(List<Run> runs, int startIndex, int count)
+	{
+		for (int j = 0; j < runs.size(); j++)
+		{
+			JRStyledText.Run run = runs.get(j);
+			if (startIndex < run.startIndex)
+			{
+				run.startIndex += count;
+			}
+			if (startIndex < run.endIndex)
+			{
+				run.endIndex += count;
+			}
+		}
+	}
 }

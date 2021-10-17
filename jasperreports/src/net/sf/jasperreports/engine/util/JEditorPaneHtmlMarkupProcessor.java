@@ -23,13 +23,11 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.swing.JEditorPane;
 import javax.swing.text.AbstractDocument;
@@ -46,10 +44,10 @@ import javax.swing.text.html.HTMLDocument.RunElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.util.JRStyledText.Run;
 
 
 /**
@@ -59,81 +57,50 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 {
 	private static final Log log = LogFactory.getLog(JEditorPaneHtmlMarkupProcessor.class);
 	
-	public static final String DEFAULT_BULLET_CHARACTER = "\u2022";
-	public static final String DEFAULT_BULLET_SEPARATOR = ".";
+	private Document document;
+	private boolean bodyOccurred = false;
 
-	private static JEditorPaneHtmlMarkupProcessor instance;  
+	private Stack<StyledTextListInfo> htmlListStack;
 	
 	/**
 	 * 
 	 */
 	public static JEditorPaneHtmlMarkupProcessor getInstance()
 	{
-		if (instance == null)
-		{
-			instance = new JEditorPaneHtmlMarkupProcessor();
-		}
-		return instance;
+		return new JEditorPaneHtmlMarkupProcessor();
 	}
 	
 	@Override
 	public String convert(String srcText)
 	{
+		JRStyledText styledText = new JRStyledText();
+		
+		htmlListStack = new Stack<StyledTextListInfo>();
+
 		JEditorPane editorPane = new JEditorPane("text/html", srcText);
 		editorPane.setEditable(false);
 
-		List<Element> elements = new ArrayList<Element>();
-
-		Document document = editorPane.getDocument();
+		document = editorPane.getDocument();
+		bodyOccurred = false;
 
 		Element root = document.getDefaultRootElement();
 		if (root != null)
 		{
-			addElements(elements, root);
+			processElement(styledText, root);
 		}
 
-		int startOffset = 0;
-		int endOffset = 0;
-		int crtOffset = 0;
-		String chunk = null;
-		JRPrintHyperlink hyperlink = null;
-		Element element = null;
-		Element parent = null;
-		boolean bodyOccurred = false;
-		int[] orderedListIndex = new int[elements.size()];
-		String whitespace = "    ";
-		String[] whitespaces = new String[elements.size()];
-		for(int i = 0; i < elements.size(); i++)
-		{
-			whitespaces[i] = "";
-		}
+		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
 		
-		StringBuilder text = new StringBuilder();
-		List<JRStyledText.Run> styleRuns = new ArrayList<>();
-		
-		for(int i = 0; i < elements.size(); i++)
+		return JRStyledTextParser.getInstance().write(styledText);
+	}
+	
+	
+	private void processElement(JRStyledText styledText, Element parentElement)
+	{
+		for (int i = 0; i < parentElement.getElementCount(); i++)
 		{
-			if (bodyOccurred && chunk != null)
-			{
-				text.append(chunk);
-				Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
-				if (hyperlink != null)
-				{
-					styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
-					hyperlink = null;
-				}
-				if (!styleAttributes.isEmpty())
-				{
-					styleRuns.add(new JRStyledText.Run(styleAttributes, 
-							startOffset + crtOffset, endOffset + crtOffset));
-				}
-			}
+			Element element = parentElement.getElement(i);
 
-			chunk = null;
-			element = elements.get(i);
-			parent = element.getParentElement();
-			startOffset = element.getStartOffset();
-			endOffset = element.getEndOffset();
 			AttributeSet attrs = element.getAttributes();
 
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
@@ -142,284 +109,160 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			{
 				
 				HTML.Tag htmlTag = (HTML.Tag) object;
-				if(htmlTag == Tag.BODY)
+				if (htmlTag == Tag.BODY)
 				{
 					bodyOccurred = true;
-					crtOffset = - startOffset;
+					processElement(styledText, element);
 				}
-				else if(htmlTag == Tag.BR)
+				else if (htmlTag == Tag.BR)
 				{
-					chunk = "\n";
-				}
-				else if(htmlTag == Tag.OL)
-				{
-					orderedListIndex[i] = 0;
-					String parentName = parent.getName().toLowerCase();
-					whitespaces[i] = whitespaces[elements.indexOf(parent)] + whitespace;
-					if(parentName.equals("li"))
-					{
-						chunk = "";
-					}
-					else
-					{
-						chunk = "\n";
-						++crtOffset;
-					}
-				}
-				else if(htmlTag == Tag.UL)
-				{
-					whitespaces[i] = whitespaces[elements.indexOf(parent)] + whitespace;
+					styledText.append("\n");
 
-					String parentName = parent.getName().toLowerCase();
-					if(parentName.equals("li"))
-					{
-						chunk = "";
-					}
-					else
-					{
-						chunk = "\n";
-						++crtOffset;
-					}
-					
-				}
-				else if(htmlTag == Tag.LI)
-				{
-					
-					whitespaces[i] = whitespaces[elements.indexOf(parent)];
-					if(element.getElement(0) != null && 
-							(element.getElement(0).getName().toLowerCase().equals("ol") || element.getElement(0).getName().toLowerCase().equals("ul"))
-							)
-					{
-						chunk = "";
-					}
-					else if(parent.getName().equals("ol"))
-					{
-						int index = elements.indexOf(parent);
-						Object type = parent.getAttributes().getAttribute(HTML.Attribute.TYPE);
-						Object startObject = parent.getAttributes().getAttribute(HTML.Attribute.START);
-						int start = startObject == null ? 0 : Math.max(0, Integer.valueOf(startObject.toString()) - 1);
-						String suffix = "";
-						
-						++orderedListIndex[index];
+					int startIndex = styledText.length();
+					resizeRuns(styledText.getRuns(), startIndex, 1);
 
-						if(type !=null)
-						{
-							switch(((String)type).charAt(0))
-							{
-								case 'A':
-									suffix = getOLBulletChars(orderedListIndex[index] + start, true);
-									break;
-								case 'a':
-									suffix = getOLBulletChars(orderedListIndex[index] + start, false);
-									break;
-								case 'I':
-									suffix = JRStringUtil.getRomanNumeral(orderedListIndex[index] + start, true);
-									break;
-								case 'i':
-									suffix = JRStringUtil.getRomanNumeral(orderedListIndex[index] + start, false);
-									break;
-								case '1':
-								default:
-									suffix = String.valueOf(orderedListIndex[index] + start);
-									break;
-							}
-						}
-						else
-						{
-							suffix += orderedListIndex[index] + start;
-						}
-						chunk = whitespaces[index] + suffix + DEFAULT_BULLET_SEPARATOR + "  ";
-						
-					} 
+					processElement(styledText, element);
+					styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+
+					if (startIndex < styledText.length()) {
+						styledText.append("\n");
+						resizeRuns(styledText.getRuns(), startIndex, 1);
+					}
+				}
+				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
+				{
+					Object type = attrs.getAttribute(HTML.Attribute.TYPE);
+					Object start = attrs.getAttribute(HTML.Attribute.START);
+
+					StyledTextListInfo htmlList = 
+						new StyledTextListInfo(
+							htmlTag == Tag.OL,
+							htmlTag == Tag.OL && type != null ? String.valueOf(type) : null,
+							htmlTag == Tag.OL && start != null ? Integer.valueOf(start.toString()) : null,
+							htmlListStack.size() > 0 && htmlListStack.peek().insideLi()
+							);
+					
+					htmlListStack.push(htmlList);
+					
+					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+
+					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+					
+					int startIndex = styledText.length();
+
+					processElement(styledText, element);
+
+					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+					
+					htmlListStack.pop();
+				}
+				else if (htmlTag == Tag.LI)
+				{
+					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+
+					StyledTextListInfo htmlList = null;
+					
+					boolean ulAdded = false;
+					if (htmlListStack.size() == 0)
+					{
+						htmlList = new StyledTextListInfo(false, null, null, false);
+						htmlListStack.push(htmlList);
+						styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+						styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+						ulAdded = true;
+					}
 					else
 					{
-						chunk = whitespaces[elements.indexOf(parent)] + DEFAULT_BULLET_CHARACTER + "  ";
+						htmlList = htmlListStack.peek();
 					}
-					crtOffset += chunk.length();
+					htmlList.setInsideLi(true);
+					htmlList.setItemCount(htmlList.getItemCount() + 1);
+					
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.getItemCount() - 1));
+					
+					int startIndex = styledText.length();
+
+					processElement(styledText, element);
+
+					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+					
+					htmlList.setInsideLi(false);
+
+					if (ulAdded)
+					{
+						htmlListStack.pop();
+					}
 				}
 				else if (element instanceof LeafElement)
 				{
-					if (element instanceof RunElement)
-					{
-						RunElement runElement = (RunElement)element;
-						AttributeSet attrSet = (AttributeSet)runElement.getAttribute(Tag.A);
-						if (attrSet != null)
-						{
-							hyperlink = new JRBasePrintHyperlink();
-							hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
-							hyperlink.setHyperlinkReference((String)attrSet.getAttribute(HTML.Attribute.HREF));
-							hyperlink.setLinkTarget((String)attrSet.getAttribute(HTML.Attribute.TARGET));
-						}
-					}
+					String chunk = null;
 					try
 					{
-						chunk = document.getText(startOffset, endOffset - startOffset);
+						chunk = document.getText(element.getStartOffset(), element.getEndOffset() - element.getStartOffset());
 					}
-					catch(BadLocationException e)
+					catch (BadLocationException e)
 					{
 						if (log.isDebugEnabled())
 						{
 							log.debug("Error converting markup.", e);
 						}
 					}
-				}
-			}
-		}
-
-		if (chunk != null)
-		{
-			if (!"\n".equals(chunk))
-			{
-				text.append(chunk);
-				Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
-				if (hyperlink != null)
-				{
-					styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
-					hyperlink = null;
-				}
-				if (!styleAttributes.isEmpty())
-				{
-					styleRuns.add(new JRStyledText.Run(styleAttributes, 
-							startOffset + crtOffset, endOffset + crtOffset));
-				}
-			}
-			else
-			{
-				//final newline, not appending
-				//check if there's any style run that would have covered it, that can happen if there's a <li> tag with style
-				int length = text.length();
-				for (ListIterator<JRStyledText.Run> it = styleRuns.listIterator(); it.hasNext();)
-				{
-					JRStyledText.Run run = it.next();
-					//only looking at runs that end at the position where the newline should have been
-					//we don't want to hide bugs in which runs that span after the text length are created
-					if (run.endIndex == length + 1)
+					
+					if (
+						chunk != null
+						&& !"\n".equals(chunk) 
+						)
 					{
-						if (run.startIndex < run.endIndex - 1)
+						int startIndex = styledText.length();
+
+						styledText.append(chunk);
+						
+						Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
+
+						if (element instanceof RunElement)
 						{
-							it.set(new JRStyledText.Run(run.attributes, run.startIndex, run.endIndex - 1));
+							RunElement runElement = (RunElement)element;
+							AttributeSet attrSet = (AttributeSet)runElement.getAttribute(Tag.A);
+							if (attrSet != null)
+							{
+								JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
+								hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
+								hyperlink.setHyperlinkReference((String)attrSet.getAttribute(HTML.Attribute.HREF));
+								hyperlink.setLinkTarget((String)attrSet.getAttribute(HTML.Attribute.TARGET));
+								styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
+							}
 						}
-						else
-						{
-							it.remove();
-						}
+
+						styledText.addRun(
+							new JRStyledText.Run(styleAttributes, startIndex, styledText.length())
+							);
+					}
+				}
+				else
+				{
+					if (bodyOccurred)
+					{
+						processElement(styledText, element);
 					}
 				}
 			}
 		}
-		
-		JRStyledText styledText = new JRStyledText(null, text.toString());
-		for (JRStyledText.Run run : styleRuns)
-		{
-			styledText.addRun(run);
-		}
-		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
-		
-		return JRStyledTextParser.getInstance().write(styledText);
 	}
 	
 	/**
-	 * 
+	 *
 	 */
-	protected void addElements(List<Element> elements, Element element) 
+	private void resizeRuns(List<Run> runs, int startIndex, int count)
 	{
-		//if(element instanceof LeafElement)
+		for (int j = 0; j < runs.size(); j++)
 		{
-			elements.add(element);
+			JRStyledText.Run run = runs.get(j);
+			if (run.startIndex <= startIndex && run.endIndex > startIndex - count)
+			{
+				run.endIndex += count;
+			}
 		}
-		for(int i = 0; i < element.getElementCount(); i++)
-		{
-			Element child = element.getElement(i);
-			addElements(elements, child);
-		}
-	}
-	
-	@Override
-	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
-	{
-		Map<Attribute,Object> attrMap = new HashMap<Attribute,Object>();
-		if (attrSet.isDefined(StyleConstants.FontFamily))
-		{
-			attrMap.put(
-				TextAttribute.FAMILY,
-				StyleConstants.getFontFamily(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Bold))
-		{
-			attrMap.put(
-				TextAttribute.WEIGHT,
-				StyleConstants.isBold(attrSet) ? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Italic))
-		{
-			attrMap.put(
-				TextAttribute.POSTURE,
-				StyleConstants.isItalic(attrSet) ? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Underline))
-		{
-			attrMap.put(
-				TextAttribute.UNDERLINE,
-				StyleConstants.isUnderline(attrSet) ? TextAttribute.UNDERLINE_ON : null
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.StrikeThrough))
-		{
-			attrMap.put(
-				TextAttribute.STRIKETHROUGH,
-				StyleConstants.isStrikeThrough(attrSet) ? TextAttribute.STRIKETHROUGH_ON : null
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.FontSize))
-		{
-			attrMap.put(
-				TextAttribute.SIZE,
-				StyleConstants.getFontSize(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Foreground))
-		{
-			attrMap.put(
-				TextAttribute.FOREGROUND,
-				StyleConstants.getForeground(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Background))
-		{
-			attrMap.put(
-				TextAttribute.BACKGROUND,
-				StyleConstants.getBackground(attrSet)
-				);
-		}
-		
-		//FIXME: why StyleConstants.isSuperscript(attrSet) does return false
-		if (attrSet.isDefined(StyleConstants.Superscript) && !StyleConstants.isSubscript(attrSet))
-		{
-			attrMap.put(
-				TextAttribute.SUPERSCRIPT,
-				TextAttribute.SUPERSCRIPT_SUPER
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Subscript) && StyleConstants.isSubscript(attrSet))
-		{
-			attrMap.put(
-				TextAttribute.SUPERSCRIPT,
-				TextAttribute.SUPERSCRIPT_SUB
-				);
-		}
-					
-		return attrMap;
 	}
 	
 	/**

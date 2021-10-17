@@ -116,6 +116,29 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		String paragraphText
 		)
 	{
+		if (bulletChunk != null)
+		{
+			PdfPhrase phrase = pdfProducer.createPhrase();
+			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
+
+			phrase.go(
+				x + leftPadding,
+				yLine,
+				htmlListIndent + x + leftPadding - 10,
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- height
+					+ bottomPadding,
+				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+				text.getLineSpacingFactor(),
+				PdfTextAlignment.RIGHT,
+				TextDirection.LTR
+				);
+		}
+
+		bulletText = null;
+		bulletChunk = null;
+
 		AttributedString paragraph = null;
 		
 		if (paragraphText == null)
@@ -144,7 +167,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		PdfPhrase phrase = pdfProducer.createPhrase();
 		pdfExporter.getPhrase(paragraph, paragraphText, text, phrase);
 		yLine = phrase.go(
-			x + leftPadding,
+			htmlListIndent + x + leftPadding,
 			yLine,
 			x + width - rightPadding,
 			pdfExporter.getCurrentPageFormat().getPageHeight()
@@ -158,7 +181,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
 			);
-	}
+}
 
 
 	@Override

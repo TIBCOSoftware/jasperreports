@@ -26,7 +26,9 @@ package net.sf.jasperreports.engine.util;
 import java.io.InvalidObjectException;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -55,6 +57,12 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 *
 	 */
 	public static final JRTextAttribute HYPERLINK = new JRTextAttribute("HYPERLINK");
+	
+	/**
+	 *
+	 */
+	public static final JRTextAttribute HTML_LIST = new JRTextAttribute("HTML_LIST");
+	public static final JRTextAttribute HTML_LIST_ITEM = new JRTextAttribute("HTML_LIST_ITEM");
 
     /**
 	 *
@@ -63,6 +71,14 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 
 	public static final JRTextAttribute FONT_INFO = new JRTextAttribute("FONT_INFO");
 	
+	
+	public static final Set<JRTextAttribute> HTML_LIST_ATTRIBUTES = new HashSet<JRTextAttribute>();
+	static
+	{
+		HTML_LIST_ATTRIBUTES.add(JRTextAttribute.HTML_LIST);
+		HTML_LIST_ATTRIBUTES.add(JRTextAttribute.HTML_LIST_ITEM);
+	}
+
 	/**
 	 *
 	 */

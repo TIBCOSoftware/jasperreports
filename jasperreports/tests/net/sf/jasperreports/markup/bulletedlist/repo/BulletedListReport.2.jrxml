@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BulletedListReport.2" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
+	<style name="myDefault" isDefault="true" fontName="DejaVu Sans"/>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="styled" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[
+"The quick brown fox jumps over the lazy dog:" 
++ "<ul>"
++ "<li><style forecolor=\"magenta\">T</style>he quick brown fox jumps over the lazy dog."
++ "The quick brown fox jumps over the lazy dog</li>"
++ "<li>The quick brown fox jumps over the lazy dog</li>" 
++ "<li>The quick brown fox jumps over the lazy dog</li>" 
++ "The quick brown fox jumps over the lazy dog"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "</ul>"
++ "The quick brown fox jumps over the lazy dog:" 
++ "<ol>"
++ "<li><style forecolor=\"magenta\">T</style>he quick brown fox jumps over the lazy dog</li>"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "</ol>"
++ "The quick brown fox jumps over the lazy dog"
+					]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[
+"The quick brown fox jumps over the lazy dog:" 
++ "<ul>"
++ "<li><font color=\"#FF00FF\">T</font>he quick brown fox jumps over the lazy dog."
++ "The quick brown fox jumps over the lazy dog</li>" 
++ "<li>The quick brown fox jumps over the lazy dog</li>" 
++ "<li>The quick brown fox jumps over the lazy dog</li>" 
++ "The quick brown fox jumps over the lazy dog"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "</ul>"
++ "The quick brown fox jumps over the lazy dog:" 
++ "<ol>"
++ "<li><font color=\"#FF00FF\">T</font>he quick brown fox jumps over the lazy dog</li>"
++ "<li>The quick brown fox jumps over the lazy dog</li>"
++ "</ol>"
++ "The quick brown fox jumps over the lazy dog"
+					]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

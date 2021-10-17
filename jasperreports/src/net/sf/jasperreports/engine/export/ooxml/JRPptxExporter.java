@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +83,9 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -1166,36 +1169,56 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, String fieldType, String uuid)
 	{
-		String text = styledText.getText();
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
+		String allText = styledText.getText();
 
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			if(fieldType != null)
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+
+			String runText = allText.substring(iterator.getIndex(), runLimit);
+
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
 			{
-				runHelper.export(
-					style, 
-					iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
-					locale,
-					invalidCharReplacement,
-					fieldType,
-					uuid
-					);
+				runText = runText.substring(1);
 			}
-			else
+
+			if (runText.length() > 0)
 			{
-				runHelper.export(
-					style, 
-					iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
-					locale,
-					invalidCharReplacement
-					);
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
 				
+				String text = (bulletText == null ? "" : bulletText) + runText;
+
+				if (fieldType != null)
+				{
+					runHelper.export(
+						style, 
+						attributes, 
+						text,
+						locale,
+						invalidCharReplacement,
+						fieldType,
+						uuid
+						);
+				}
+				else
+				{
+					runHelper.export(
+						style, 
+						attributes, 
+						text,
+						locale,
+						invalidCharReplacement
+						);
+					
+				}
 			}
 			
 			iterator.setIndex(runLimit);

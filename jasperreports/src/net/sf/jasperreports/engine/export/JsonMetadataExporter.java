@@ -50,6 +50,7 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -72,6 +73,7 @@ import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
@@ -1111,7 +1113,14 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText(noneSelector);
+		JRStyledText styledText = textElement.getFullStyledText(noneSelector);
+		
+		if (styledText != null && !JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+		{
+			styledText = JRStyledTextUtil.getBulletedText(styledText);
+		}
+
+		return styledText;
 	}
 
 	protected class ExporterContext extends BaseExporterContext implements JsonExporterContext
