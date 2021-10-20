@@ -34,9 +34,12 @@ public class StyledTextListInfo
 	private final boolean hasParentLi;
 	
 	private int itemCount = 0;
-	private boolean insideLi = false;
+	private int itemIndex = 0;
 	private Integer cutStart = 0;
 	
+	private boolean atLiStart = false;
+	private boolean atLiEnd = false;
+
 	public StyledTextListInfo(
 		boolean ordered,
 		String type,
@@ -81,6 +84,16 @@ public class StyledTextListInfo
 		this.cutStart = cutStart;
 	}
 
+	public int getItemIndex()
+	{
+		return itemIndex;
+	}
+
+	public void setItemIndex(int itemIndex)
+	{
+		this.itemIndex = itemIndex;
+	}
+
 	public boolean hasParentLi()
 	{
 		return hasParentLi;
@@ -96,13 +109,23 @@ public class StyledTextListInfo
 		this.itemCount = itemCount;
 	}
 
-	public boolean insideLi()
+	public boolean atLiStart()
 	{
-		return insideLi;
+		return atLiStart;
 	}
 
-	public void setInsideLi(boolean insideLi)
+	public void setAtLiStart(boolean atLiStart)
 	{
-		this.insideLi = insideLi;
+		this.atLiStart = atLiStart;
+	}
+
+	public boolean atLiEnd()
+	{
+		return atLiEnd;
+	}
+
+	public void setAtLiEnd(boolean atLiEnd)
+	{
+		this.atLiEnd = atLiEnd;
 	}
 }

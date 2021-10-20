@@ -44,6 +44,17 @@ public class StyledTextWriteContext
 	private int newDepth = 0;
 	private int commonListDepth = 0;
 	
+	private boolean isProcessingCuts = false;
+
+	public StyledTextWriteContext()
+	{
+	}
+	
+	public StyledTextWriteContext(boolean isProcessingCuts)
+	{
+		this.isProcessingCuts = isProcessingCuts;
+	}
+	
 	public boolean isFirstRun() 
 	{
 		return isFirstRun;
@@ -115,7 +126,7 @@ public class StyledTextWriteContext
 			(listItem != null // there is a new li
 			&& listItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
 			&& listItem != prevListItem // it is different than the previous one
-			&& (prevDepth <= newDepth // it is of a deeper level
+			&& (prevDepth <= newDepth // it is of a deeper level (this condition is probably redundant with respect to the following two)
 				|| (commonListDepth == newDepth && !prevListStack[prevDepth - 1].hasParentLi()) // new list is between li
 				|| commonListDepth < newDepth)
 			); // so opening it
@@ -127,7 +138,7 @@ public class StyledTextWriteContext
 			(prevListItem != null  // there was a li
 			&& prevListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
 			&& prevListItem != listItem  // was not the same as the new one
-			&& (prevDepth >= newDepth // was of deeper level
+			&& (prevDepth >= newDepth // was of deeper level (this condition is probably redundant with respect to the following two)
 				|| (commonListDepth == prevDepth && !listStack[newDepth - 1].hasParentLi()) // new list is between li
 				|| commonListDepth < prevDepth)
 			); // so closing it
@@ -152,7 +163,6 @@ public class StyledTextWriteContext
 			this.listStack = (StyledTextListInfo[])attributes.get(JRTextAttribute.HTML_LIST);
 			this.listItem = (StyledTextListItemInfo)attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 		}
-		this.isFirstRun = false;
 		
 		prevDepth = prevListStack == null ? 0 : prevListStack.length;
 		newDepth = listStack == null ? 0 : listStack.length;
@@ -168,6 +178,31 @@ public class StyledTextWriteContext
 			}
 			commonListDepth++;
 		}
+		
+		if (isProcessingCuts)
+		{
+			if (isFirstRun)
+			{
+				if (this.listStack != null)
+				{
+					for (StyledTextListInfo list : listStack)
+					{
+						list.setCutStart(list.getStart() + list.getItemIndex());
+					}
+				}
+			}
+
+			if (isListItemStart())
+			{
+				StyledTextListInfo list = getList();
+				if (getList() != null && getList().ordered())
+				{
+					list.setItemIndex(getListItem().getItemIndex());
+				}
+			}
+		}
+		
+		this.isFirstRun = false;
 	}
 
 	public void next(
@@ -182,4 +217,5 @@ public class StyledTextWriteContext
 		
 		this.runTextStartsWithNewLine = runText == null ? false : runText.startsWith("\n"); 
 	}
+
 }

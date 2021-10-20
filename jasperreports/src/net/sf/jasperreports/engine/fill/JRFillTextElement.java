@@ -1231,7 +1231,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				if (startIndex > 0) // if this is an overflow
 				{
-					StyledTextListInfo crtList = null;
+					// preparing bulleted list cuts is a share responsibility between the TextMeasurer and the JRFillTextElement here;
+					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
+					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
+					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+					StyledTextListInfo[] cutListStack = null;
 
 					List<Run> runs = fullStyledText.getRuns();
 					for (int i = runs.size() - 1; i >= 0; i--)
@@ -1242,16 +1246,26 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
 							if (listStack != null)
 							{
-								crtList = listStack[listStack.length - 1];
+								cutListStack = listStack;
 							}
+
 							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 							if (listItem != null)
 							{
 								listItem.setNoBullet(run.startIndex < startIndex);
-								if (listItem.getItemIndex() > 0)
-								{
-									crtList.setCutStart(crtList.getStart() + listItem.getItemIndex());
-								}
+							}
+						}
+					}
+					
+					if (cutListStack != null && cutListStack.length > 0)
+					{
+						for (int i = cutListStack.length - 1; i > 0; i--)
+						{
+							StyledTextListInfo list = cutListStack[i];
+							if (!list.hasParentLi())
+							{
+								StyledTextListInfo parentList = cutListStack[i - 1];
+								parentList.setCutStart(parentList.getCutStart() + 1);
 							}
 						}
 					}

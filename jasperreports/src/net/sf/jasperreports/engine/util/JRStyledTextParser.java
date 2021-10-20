@@ -211,6 +211,9 @@ public class JRStyledTextParser implements ErrorHandler
 	 *
 	 */
 	private Stack<StyledTextListInfo> htmlListStack;
+	private boolean insideLi;
+	private boolean liStart;
+	private StyledTextListInfo justClosedList;
 
 
 	/**
@@ -505,22 +508,15 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(LESS_SLASH);
 			sb.append(NODE_li);
 			sb.append(GREATER);
-
-			context.getPrevList().setInsideLi(false);
 		}
 		
-		for (int i = context.getPrevDepth() - 1; i >= context.getCommonListDepth(); i--)
+		for (int i = context.getPrevDepth() - 1; i > context.getCommonListDepth(); i--)
 		{
-			StyledTextListInfo list = context.getPrevList(i);
+			StyledTextListInfo prevList = context.getPrevList(i);
 			sb.append(LESS_SLASH);
-			sb.append(list.ordered() ? NODE_ol : NODE_ul);
+			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
 			sb.append(GREATER);
-			if (
-				list.hasParentLi()
-				&& ((i == context.getCommonListDepth() && !context.getPrevList(i - 1).insideLi())
-					|| i > context.getCommonListDepth()
-					)
-				)
+			if (prevList.hasParentLi())
 			{
 				sb.append(LESS_SLASH);
 				sb.append(NODE_li);
@@ -528,15 +524,53 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 		}
 
-		for (int i = context.getCommonListDepth(); i < context.getDepth(); i++)
+		if (context.getPrevDepth() > context.getCommonListDepth())
+		{
+			StyledTextListInfo prevList = context.getPrevList(context.getCommonListDepth());
+			sb.append(LESS_SLASH);
+			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
+			sb.append(GREATER);
+			if (prevList.hasParentLi() && prevList.atLiEnd())
+			{
+				sb.append(LESS_SLASH);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+		}
+		
+		if (context.getCommonListDepth() < context.getDepth())
+		{
+			StyledTextListInfo list = context.getList(context.getCommonListDepth());
+			if (list.hasParentLi() && list.atLiStart())
+			{
+				sb.append(LESS);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+			sb.append(LESS);
+			if (list.ordered())
+			{
+				sb.append(NODE_ol);
+				if (list.getType() != null)
+				{
+					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
+				}
+				if (list.getCutStart() > 1)
+				{
+					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
+				}
+			}
+			else
+			{
+				sb.append(NODE_ul);
+			}
+			sb.append(GREATER);
+		}
+		
+		for (int i = context.getCommonListDepth() + 1; i < context.getDepth(); i++)
 		{
 			StyledTextListInfo list = context.getList(i);
-			if (
-				list.hasParentLi()
-				&& ((i == context.getCommonListDepth() && !context.getList(i - 1).insideLi())
-					|| i > context.getCommonListDepth()
-					)
-				)
+			if (list.hasParentLi())
 			{
 				sb.append(LESS);
 				sb.append(NODE_li);
@@ -571,8 +605,6 @@ public class JRStyledTextParser implements ErrorHandler
 				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
 			}
 			sb.append(GREATER);
-
-			context.getList().setInsideLi(true);
 		}
 	}
 		
@@ -587,6 +619,9 @@ public class JRStyledTextParser implements ErrorHandler
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.TEXT_NODE)
 			{
+				liStart = false;
+				justClosedList = null;
+
 				styledText.append(node.getNodeValue());
 			}
 			else if (
@@ -858,10 +893,14 @@ public class JRStyledTextParser implements ErrorHandler
 						ordered,
 						type,
 						start,
-						htmlListStack.size() > 0 && htmlListStack.peek().insideLi()
+						insideLi
 						);
+
+				htmlList.setAtLiStart(liStart);
 				
 				htmlListStack.push(htmlList);
+				
+				insideLi = false;
 				
 				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
@@ -874,7 +913,7 @@ public class JRStyledTextParser implements ErrorHandler
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 				
-				htmlListStack.pop();
+				justClosedList = htmlListStack.pop();
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
@@ -895,8 +934,10 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					htmlList = htmlListStack.peek();
 				}
-				htmlList.setInsideLi(true);
 				htmlList.setItemCount(htmlList.getItemCount() + 1);
+				insideLi = true;
+				liStart = true;
+				justClosedList = null;
 				
 				StyledTextListItemInfo listItem = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
 				NamedNodeMap nodeAttrs = node.getAttributes();
@@ -913,7 +954,12 @@ public class JRStyledTextParser implements ErrorHandler
 
 				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 				
-				htmlList.setInsideLi(false);
+				insideLi = false;
+				liStart = false;
+				if (justClosedList != null)
+				{
+					justClosedList.setAtLiEnd(true);
+				}
 
 				if (ulAdded)
 				{

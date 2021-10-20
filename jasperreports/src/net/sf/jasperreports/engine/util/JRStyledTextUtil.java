@@ -633,7 +633,6 @@ public class JRStyledTextUtil
 
 		if (
 			context.isListItemStart()
-			&& context.getListItem() != null
 			&& !context.getListItem().noBullet()
 			)
 		{

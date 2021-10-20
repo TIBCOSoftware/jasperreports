@@ -61,6 +61,9 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	private boolean bodyOccurred = false;
 
 	private Stack<StyledTextListInfo> htmlListStack;
+	private boolean insideLi;
+	private boolean liStart;
+	private StyledTextListInfo justClosedList;
 	
 	/**
 	 * 
@@ -139,10 +142,14 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 							htmlTag == Tag.OL,
 							htmlTag == Tag.OL && type != null ? String.valueOf(type) : null,
 							htmlTag == Tag.OL && start != null ? Integer.valueOf(start.toString()) : null,
-							htmlListStack.size() > 0 && htmlListStack.peek().insideLi()
+							insideLi
 							);
 					
+					htmlList.setAtLiStart(liStart);
+
 					htmlListStack.push(htmlList);
+					
+					insideLi = false;
 					
 					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
@@ -155,7 +162,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 					
-					htmlListStack.pop();
+					justClosedList = htmlListStack.pop();
 				}
 				else if (htmlTag == Tag.LI)
 				{
@@ -176,8 +183,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					{
 						htmlList = htmlListStack.peek();
 					}
-					htmlList.setInsideLi(true);
 					htmlList.setItemCount(htmlList.getItemCount() + 1);
+					insideLi = true;
+					liStart = true;
+					justClosedList = null;
 					
 					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.getItemCount() - 1));
 					
@@ -187,7 +196,12 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 					
-					htmlList.setInsideLi(false);
+					insideLi = false;
+					liStart = false;
+					if (justClosedList != null)
+					{
+						justClosedList.setAtLiEnd(true);
+					}
 
 					if (ulAdded)
 					{
@@ -214,6 +228,9 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						&& !"\n".equals(chunk) 
 						)
 					{
+						liStart = false;
+						justClosedList = null;
+
 						int startIndex = styledText.length();
 
 						styledText.append(chunk);

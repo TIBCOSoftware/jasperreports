@@ -565,7 +565,11 @@ public class TextMeasurer implements JRTextMeasurer
 			lineWrapper.start(styledText);
 		}
 		
-		StyledTextWriteContext context = new StyledTextWriteContext();
+		// preparing bulleted list cuts is a share responsibility between the TextMeasurer here and the JRFillTextElement;
+		// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
+		// while in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
+		// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+		StyledTextWriteContext context = new StyledTextWriteContext(true);
 
 		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
 

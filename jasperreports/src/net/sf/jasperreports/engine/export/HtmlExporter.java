@@ -2981,34 +2981,64 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (context.isListItemEnd())
 		{
 			writer.write("</li>");
-
-			context.getPrevList().setInsideLi(false);
 		}
 		
-		for (int i = context.getPrevDepth() - 1; i >= context.getCommonListDepth(); i--)
+		for (int i = context.getPrevDepth() - 1; i > context.getCommonListDepth(); i--)
 		{
-			StyledTextListInfo list = context.getPrevList(i);
-			writer.write(list.ordered() ? "</ol>" : "</ul>");
-			if (
-				list.hasParentLi()
-				&& ((i == 0 && !context.getPrevList(i - 1).insideLi()) //FIXME weird tests here
-					|| i > 0
-					)
-				)
+			StyledTextListInfo prevList = context.getPrevList(i);
+			writer.write(prevList.ordered() ? "</ol>" : "</ul>");
+			if (prevList.hasParentLi())
 			{
 				writer.write("</li>");
 			}
 		}
 
-		for (int i = context.getCommonListDepth(); i < context.getDepth(); i++)
+		if (context.getPrevDepth() > context.getCommonListDepth())
+		{
+			StyledTextListInfo prevList = context.getPrevList(context.getCommonListDepth());
+			writer.write(prevList.ordered() ? "</ol>" : "</ul>");
+			if (prevList.hasParentLi() && prevList.atLiEnd())
+			{
+				writer.write("</li>");
+			}
+		}
+
+		if (context.getCommonListDepth() < context.getDepth())
+		{
+			StyledTextListInfo list = context.getList(context.getCommonListDepth());
+			if (list.hasParentLi() && list.atLiStart())
+			{
+				writer.write("<li");
+				if (textRunStyle != null)
+				{
+					writer.write(" style=\"list-style: none; " + textRunStyle + "\"");
+				}
+				writer.write(">");
+			}
+			writer.write("<");
+			if (list.ordered())
+			{
+				writer.write("ol");
+				if (list.getType() != null)
+				{
+					writer.write(" type=\"" + list.getType() + "\"");
+				}
+				if (list.getCutStart() > 1)
+				{
+					writer.write(" start=\"" + list.getCutStart() + "\"");
+				}
+			}
+			else
+			{
+				writer.write("ul");
+			}
+			writer.write(" style=\"margin:0\">");
+		}
+
+		for (int i = context.getCommonListDepth() + 1; i < context.getDepth(); i++)
 		{
 			StyledTextListInfo list = context.getList(i);
-			if (
-				list.hasParentLi()
-				&& ((i == 0 && !context.getList(i - 1).insideLi()) //FIXME weird tests here
-					|| i > 0
-					)
-				)
+			if (list.hasParentLi())
 			{
 				writer.write("<li");
 				if (textRunStyle != null)
@@ -3040,13 +3070,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (context.isListItemStart())
 		{
 			writer.write("<li");
-			if (textRunStyle != null)
+			if (context.getListItem().noBullet() || textRunStyle != null)
 			{
-				writer.write(" style=\"" + (context.getListItem().noBullet() ? "list-style: none; " : "") + textRunStyle + "\"");
+				writer.write(" style=\"");
+				writer.write(context.getListItem().noBullet() ? "list-style: none; " : "");
+				writer.write(textRunStyle == null ? "" : textRunStyle);
+				writer.write("\"");
 			}
 			writer.write(">");
-
-			context.getList().setInsideLi(true);
 		}
 	}
 		
