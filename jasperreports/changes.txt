@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.18.0 (2021-10-2x)
+JasperReports 6.18.0 (2021-10-25)
 ---------------------------------------------
 
 - new CSV export configuration property available to allow to escaping formulas in CSV exports;
