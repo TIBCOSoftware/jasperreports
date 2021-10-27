@@ -124,6 +124,11 @@ public class MapElementImageProvider {
             List<Map<String, Object>> markerList =
                     (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
 
+            // Round to up to 5 d.p. which is approx. 1m precision. 6 d.p. is approx 10cm precision - too much info.
+            // Keeping the URL short to support more data is more important than >1m precision.
+            DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+            decimalFormat.setRoundingMode(RoundingMode.CEILING);
+
             if (markerList != null && !markerList.isEmpty()) {
                 landclanLog("markerList.size() = " + markerList.size());
                 // Each unique marker configuration (other than lat/lon) can be passed as one parameter
@@ -144,8 +149,8 @@ public class MapElementImageProvider {
                         } else {
                             groupLocations = markerGroups.get(markerProperties);
                         }
-                        groupLocations.add(map.get(MapComponent.ITEM_PROPERTY_latitude) + "," +
-                                map.get(MapComponent.ITEM_PROPERTY_longitude));
+                        groupLocations.add(decimalFormat.format(map.get(MapComponent.ITEM_PROPERTY_latitude)) + "," +
+                                decimalFormat.format(map.get(MapComponent.ITEM_PROPERTY_longitude)));
                         markerGroups.put(markerProperties, groupLocations);
                     }
                 }
@@ -172,10 +177,6 @@ public class MapElementImageProvider {
             List<Map<String, Object>> pathList = (List<Map<String, Object>>) element.getParameterValue(MapComponent.PARAMETER_PATHS);
             String currentPaths = "";
             if (pathList != null && !pathList.isEmpty()) {
-                // Round to up to 5 d.p. which is approx. 1m precision. 6 d.p. is approx 10cm precision - too much info.
-                // Keeping the URL short to support more data is more important than >1m precision.
-                DecimalFormat decimalFormat = new DecimalFormat("#.#####");
-                decimalFormat.setRoundingMode(RoundingMode.CEILING);
                 for (Map<String, Object> pathMap : pathList) {
                     if (pathMap != null && !pathMap.isEmpty()) {
                         currentPaths += "&path=";
