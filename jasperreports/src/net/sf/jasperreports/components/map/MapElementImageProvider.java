@@ -60,6 +60,17 @@ public class MapElementImageProvider {
     public static Integer MAX_URL_LENGTH = 8192;
 
     /**
+     * Zoom-style constants. This is a work around for the jasperreports schema not supporting map style
+     * parameter.
+     */
+    public static final int ZOOM_STYLE_ENVIRONMENT = 30;
+    // Environmental style that shows natural features and attractions with transport labels and icons hidden.
+    private static final String STYLE_ENVIRONMENT = "style=feature:poi%7Cvisibility:off&" +
+            "style=feature:poi.attraction%7Cvisibility:on&" +
+            "style=feature:poi.park%7Cvisibility:on&" +
+            "style=feature:transit%7Celement:labels.icon%7Cvisibility:off";
+
+    /**
      * Local utility to facilitate de-duplication of repeated marker configurations in URL
      */
     private static class MarkerProperties {
@@ -102,9 +113,6 @@ public class MapElementImageProvider {
                         : OnErrorTypeEnum.getByName((String) element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
 
         if (cacheRenderer == null) {
-
-            // TODO: Add the markers more efficiently so that those with matching configuration are added to the
-            //  same "markers" parameter.
 
             Float latitude = (Float) element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
             latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
@@ -225,6 +233,8 @@ public class MapElementImageProvider {
             }
 
             String imageLocation = "https://maps.googleapis.com/maps/api/staticmap?";
+            // Hide the POI markers by default (would be nice to have this supported upstream as a map component feature)
+            String styles = "&style=feature:poi%7Cvisibility:off";
 
             if (Math.abs(latitude) > 0.0001 && Math.abs(longitude) > 0.0001) {
                 // Use normal positioning:
@@ -235,6 +245,11 @@ public class MapElementImageProvider {
                         + "&zoom="
                         + zoom
                         + "&";
+            } else {
+                String zoomStyle = determineStylesFromZoomUpperRegister(zoom);
+                if (zoomStyle != null) {
+                    styles = zoomStyle;
+                }
             }
 
             imageLocation += "size="
@@ -244,8 +259,7 @@ public class MapElementImageProvider {
                     + (mapType == null ? "" : "&maptype=" + mapType)
                     + (mapFormat == null ? "" : "&format=" + mapFormat)
                     + (mapScale == null ? "" : "&scale=" + mapScale)
-                    // Hide the POI markers (would be nice to have this supported upstream as a map component feature)
-                    + "&style=feature:poi%7Cvisibility:off";
+                    + (styles == null ? "" : styles);
             String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
             landclanLog("params = " + params);
 
@@ -283,6 +297,27 @@ public class MapElementImageProvider {
         printImage.setRenderer(cacheRenderer);
 
         return printImage;
+    }
+
+    /**
+     * This is a hack to expose support for map styles which are not exposed by the Jasper Reports public xsd and
+     * we don't have time right now to re-write the xml integration of Jaspersoft Studio. Zoom greater than 21 or so
+     * makes no sense with google maps. We therefore start arbitrarily at 30.
+     * @param zoom
+     * @return
+     */
+    private static String determineStylesFromZoomUpperRegister(int zoom) {
+
+        if (zoom < 30) {
+            return null;
+        }
+
+        switch (zoom) {
+            case ZOOM_STYLE_ENVIRONMENT:
+                return STYLE_ENVIRONMENT;
+            default:
+                return null;
+        }
     }
 
     private static void landclanLog(String msg) {
