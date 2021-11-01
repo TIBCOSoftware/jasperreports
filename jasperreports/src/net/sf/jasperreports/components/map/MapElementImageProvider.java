@@ -65,7 +65,10 @@ public class MapElementImageProvider {
      */
     // Environmental style that shows natural features and attractions with transport icons hidden.
     public static final int ZOOM_STYLE_ENVIRONMENT = 30;
-    public static final String STYLE_ENVIRONMENT = "style=feature:poi%7Cvisibility:off&style=feature:poi.attraction%7Cvisibility:on&style=feature:poi.park%7Cvisibility:on&style=feature:transit%7Celement:labels.icon%7Cvisibility:off";
+    public static final String STYLE_ENVIRONMENT = "&style=feature:poi%7Cvisibility:off&style=feature:poi.attraction%7Cvisibility:on&style=feature:poi.park%7Cvisibility:on&style=feature:transit%7Celement:labels.icon%7Cvisibility:off";
+    // Flood style that shows natural features with transport icons hidden.
+    public static final int ZOOM_STYLE_FLOOD = 31;
+    public static final String STYLE_FLOOD = "&style=feature:poi%7Cvisibility:off&style=feature:poi.park%7Cvisibility:on&style=feature:transit%7Celement:labels.icon%7Cvisibility:off";
 
     /**
      * Shared class to abstract URL creation to allow applications to determine in advance whether the URL limit will
@@ -258,7 +261,6 @@ public class MapElementImageProvider {
         decimalFormat.setRoundingMode(RoundingMode.CEILING);
 
         if (markerList != null && !markerList.isEmpty()) {
-            landclanLog("markerList.size() = " + markerList.size());
             // Each unique marker configuration (other than lat/lon) can be passed as one parameter
             Map<MarkerProperties, List<String>> markerGroups = new HashMap<>();
 
@@ -416,6 +418,8 @@ public class MapElementImageProvider {
         switch (zoom) {
             case ZOOM_STYLE_ENVIRONMENT:
                 return STYLE_ENVIRONMENT;
+            case ZOOM_STYLE_FLOOD:
+                return STYLE_FLOOD;
             default:
                 return null;
         }
