@@ -238,7 +238,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			
 			str = sb.toString();
 			
-			if (escapeFormula && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >= 0)
+			if (escapeFormula && !str.isEmpty() && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >= 0)
 			{
 				str = " " + str;
 			}
