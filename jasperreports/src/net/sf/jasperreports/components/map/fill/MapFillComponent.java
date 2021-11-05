@@ -226,6 +226,14 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		}
 		
 		if(pathDataList != null) {
+			if (pathDataList.size() == 1 && pathDataList.get(0).getEvaluatedItems() != null) {
+				// LandClan bug fix: Paths were accumulating with each dataset row since there is one MapFillComponent
+				// for the entire report. Each successive dataset entry was accumulating its paths on top of all
+				// preceding dataset entries' paths, so by the time 3 maps for 3 separate entries had been rendered,
+				// say, there was 1 path on the first map, 2 paths on the second (1 + 2) and 3 paths on the third
+				// (1 + 2 + 3) etc, all connected as one mega path.
+				pathDataList.get(0).setEvaluatedItems(null);
+			}
 			addPathStyles(evaluation);
 			paths = new ArrayList<Map<String,Object>>();
 			Map<String, Map<String,Object>> pathIds = new HashMap<String,Map<String,Object>>();

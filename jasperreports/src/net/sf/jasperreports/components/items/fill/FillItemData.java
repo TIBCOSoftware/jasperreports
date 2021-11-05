@@ -128,6 +128,14 @@ public abstract class FillItemData
 		
 		return evaluatedItems;
 	}
+
+	public List<Map<String, Object>> getEvaluatedItems() {
+		return evaluatedItems;
+	}
+
+	public void setEvaluatedItems(List<Map<String, Object>> value) {
+		this.evaluatedItems = value;
+	}
 	
 	/**
 	 *
