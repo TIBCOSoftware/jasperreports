@@ -54,6 +54,8 @@ public class MapElementImageProvider {
 
     private static final Log log = LogFactory.getLog(MapElementImageProvider.class);
 
+    private static final String PIPE = "%7C";
+
     /**
      * The character count limit for a static map URL request
      */
@@ -153,16 +155,30 @@ public class MapElementImageProvider {
      * Local utility to facilitate de-duplication of repeated marker configurations in URL
      */
     private static class MarkerProperties {
+
+        // See anchor values at https://developers.google.com/maps/documentation/maps-static/start#CustomIcons
+        private static final String ANCHOR_TOP = "top";
+        private static final String ANCHOR_LEFT = "left";
+        private static final String ANCHOR_RIGHT = "right";
+        private static final String ANCHOR_CENTER = "center";
+        private static final String ANCHOR_TOP_LEFT = "topleft";
+        private static final String ANCHOR_TOP_RIGHT = "topright";
+        private static final String ANCHOR_BOTTOM_LEFT = "bottomleft";
+        private static final String ANCHOR_BOTTOM_RIGHT = "bottomright";
+        private static final String ANCHOR_BOTTOM = null; // null because it is the default, though the docs allow 'bottom'.
+
         private final String size;
         private final String color;
         private final String label;
         private final String icon;
+        private final String anchor;
 
-        public MarkerProperties(String size, String color, String label, String icon) {
+        public MarkerProperties(String size, String color, String label, String icon, Integer anchorX, Integer anchorY) {
             this.size = size;
             this.color = color;
             this.label = label;
             this.icon = icon;
+            this.anchor = determineAnchor(anchorX, anchorY);
         }
 
         @Override
@@ -171,12 +187,42 @@ public class MapElementImageProvider {
             if (o == null || getClass() != o.getClass()) return false;
             MarkerProperties that = (MarkerProperties) o;
             return Objects.equals(size, that.size) && Objects.equals(color, that.color) &&
-                    Objects.equals(label, that.label) && Objects.equals(icon, that.icon);
+                    Objects.equals(label, that.label) && Objects.equals(icon, that.icon) &&
+                    Objects.equals(anchor, that.anchor);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(size, color, label, icon);
+            return Objects.hash(size, color, label, icon, anchor);
+        }
+
+        /**
+         * LandClan custom implementation to enable support for custom marker 'anchor' property.
+         * (The official Jasper Reports CE exposes Anchor X and Anchor Y but does not use them.).
+         * The integer values x and y translate into the anchor strings as per the following diagram:
+         *
+         * -1, 1    0, 1    1, 1  =>  topleft       top                 topright
+         *
+         * -1, 0    0, 0    1, 0  =>  left          center              right
+         *
+         * -1,-1    0,-1    1,-1  =>  bottomleft    (default = null)    bottomright
+         * @param x
+         * @param y
+         * @return
+         */
+        private String determineAnchor(Integer x, Integer y) {
+            if ((x == null || y == null) || (x == 0 && y == -1)) {
+                return null;
+            }
+            if (x == -1) {
+                return y == 1 ? ANCHOR_TOP_LEFT : y == 0 ? ANCHOR_LEFT : ANCHOR_BOTTOM_LEFT;
+            } else if (x == 0) {
+                return y == 1 ? ANCHOR_TOP : y == 0 ? ANCHOR_CENTER : ANCHOR_BOTTOM;
+            } else if (x == 1) {
+                return y == 1 ? ANCHOR_TOP_RIGHT : y == 0 ? ANCHOR_RIGHT : ANCHOR_BOTTOM_RIGHT;
+            }
+            // Unrecognised values
+            return null;
         }
     }
 
@@ -272,7 +318,9 @@ public class MapElementImageProvider {
                             (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_label),
                             map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url) != null
                                     ? (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_url)
-                                    : (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_icon));
+                                    : (String) map.get(MapComponent.ITEM_PROPERTY_MARKER_icon),
+                            (Integer) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_ANCHOR_x),
+                            (Integer) map.get(MapComponent.ITEM_PROPERTY_MARKER_ICON_ANCHOR_y));
                     List<String> groupLocations;
                     if (!markerGroups.containsKey(markerProperties)) {
                         groupLocations = new ArrayList<>();
@@ -288,18 +336,20 @@ public class MapElementImageProvider {
             String currentMarkers = "";
             for (Map.Entry<MarkerProperties, List<String>> markerGroup : markerGroups.entrySet()) {
                 currentMarkers = "&markers=";
+                String anchor=markerGroup.getKey().anchor;
+                currentMarkers += anchor != null ? "anchor:" + anchor + PIPE : "";
                 String size = markerGroup.getKey().size;
-                currentMarkers += size != null && size.length() > 0 ? "size:" + size + "%7C" : "";
+                currentMarkers += size != null && size.length() > 0 ? "size:" + size + PIPE : "";
                 String color = markerGroup.getKey().color;
-                currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + "%7C" : "";
+                currentMarkers += color != null && color.length() > 0 ? "color:0x" + color + PIPE : "";
                 String label = markerGroup.getKey().label;
                 currentMarkers += label != null && label.length() > 0 ? "label:" +
-                        Character.toUpperCase(label.charAt(0)) + "%7C" : "";
+                        Character.toUpperCase(label.charAt(0)) + PIPE : "";
                 String icon = markerGroup.getKey().icon;
                 if (icon != null && icon.length() > 0) {
-                    currentMarkers += "icon:" + icon + "%7C";
+                    currentMarkers += "icon:" + icon + PIPE;
                 }
-                currentMarkers += String.join("%7C", markerGroup.getValue());
+                currentMarkers += String.join(PIPE, markerGroup.getValue());
                 markers.append(currentMarkers);
             }
         }
@@ -320,7 +370,7 @@ public class MapElementImageProvider {
                                 : Integer.toHexString((int) (255 * Double.parseDouble(
                                         pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString())));
                     }
-                    currentPaths.append(color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + "%7C" : "");
+                    currentPaths.append(color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + PIPE : "");
                     boolean isPolygon = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon) != null &&
                             Boolean.parseBoolean(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon).toString());
                     if (isPolygon) {
@@ -333,11 +383,11 @@ public class MapElementImageProvider {
                                     : Integer.toHexString((int) (256 * Double.parseDouble(
                                             pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString())));
                         }
-                        currentPaths.append(fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + "%7C" : "");
+                        currentPaths.append(fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + PIPE : "");
                     }
                     String weight = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight) == null ? null :
                             pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight).toString();
-                    currentPaths.append(weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + "%7C" : "");
+                    currentPaths.append(weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + PIPE : "");
                     List<Map<String, Object>> locations = (List<Map<String, Object>>) pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS);
                     Map<String, Object> location;
                     if (locations != null && !locations.isEmpty()) {
@@ -346,10 +396,10 @@ public class MapElementImageProvider {
                             currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_latitude)));
                             currentPaths.append(",");
                             currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_longitude)));
-                            currentPaths.append(i < locations.size() - 1 ? "%7C" : "");
+                            currentPaths.append(i < locations.size() - 1 ? PIPE : "");
                         }
                         if (isPolygon) {
-                            currentPaths.append("%7C");
+                            currentPaths.append(PIPE);
                             currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude)));
                             currentPaths.append(",");
                             currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude)));
