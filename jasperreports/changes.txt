@@ -2,7 +2,30 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.17.0 (2020-05-11)
+JasperReports 6.18.1 (2021-10-29)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.18.0 (2021-10-25)
+---------------------------------------------
+
+- new CSV export configuration property available to allow to escaping formulas in CSV exports;
+
+- various dependencies upgrades including Apache Ant 1.10.11, Apache Commons Compress 1.21 
+and Bouncy Castle 1.68;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.17.0 (2021-05-11)
 ---------------------------------------------
 
 - refactored PDF exporter to extract the iText code from it and leave only common functionality that allows 

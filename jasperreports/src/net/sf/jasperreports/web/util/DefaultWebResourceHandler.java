@@ -129,9 +129,9 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 	{
 		try
 		{
-			resourceName = new URI(URLEncoder.encode(resourceName, "UTF-8")).normalize().getPath();
+			resourceName = new URI(null, null, resourceName, null).normalize().getPath();
 		}
-		catch (URISyntaxException | UnsupportedEncodingException e)
+		catch (URISyntaxException e)
 		{
 			throw new JRRuntimeException(e);
 		}

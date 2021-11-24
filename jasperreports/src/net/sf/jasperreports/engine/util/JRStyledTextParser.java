@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -115,6 +116,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String NODE_sub = "sub";
 	private static final String NODE_font = "font";
 	private static final String NODE_br = "br";
+	private static final String NODE_ul = "ul";
+	private static final String NODE_ol = "ol";
 	private static final String NODE_li = "li";
 	private static final String NODE_a = "a";
 	private static final String NODE_param = "param";
@@ -136,6 +139,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String ATTRIBUTE_target = "target";
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_valueClass = "valueClass";
+	private static final String ATTRIBUTE_start = "start";
+	private static final String ATTRIBUTE_noBullet = "noBullet";
 
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
@@ -201,6 +206,14 @@ public class JRStyledTextParser implements ErrorHandler
 	 *
 	 */
 	private JRBasePrintHyperlink hyperlink;
+	
+	/**
+	 *
+	 */
+	private Stack<StyledTextListInfo> htmlListStack;
+	private boolean insideLi;
+	private boolean liStart;
+	private StyledTextListInfo justClosedList;
 
 
 	/**
@@ -242,6 +255,7 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 		
 		hyperlink = null;
+		htmlListStack = new Stack<StyledTextListInfo>();
 		
 		parseStyle(styledText, document.getDocumentElement());
 		
@@ -309,34 +323,29 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	public String write(Map<Attribute,Object> parentAttrs, AttributedCharacterIterator iterator, String text)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		StringBuilder sb = new StringBuilder();
 		
 		int runLimit = 0;
 
-		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
+		while (runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
 		{
 			String chunk = text.substring(iterator.getIndex(), runLimit);
 			Map<Attribute,Object> attrs = iterator.getAttributes();
 			
-			StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
-			if (styleBuilder.length() > 0)
-			{
-				sb.append(LESS);
-				sb.append(NODE_style);
-				sb.append(styleBuilder.toString());
-				sb.append(GREATER);
-				writeChunk(sb, parentAttrs, attrs, chunk);
-				sb.append(LESS_SLASH);
-				sb.append(NODE_style);
-				sb.append(GREATER);
-			}
-			else
-			{
-				writeChunk(sb, parentAttrs, attrs, chunk);
-			}
+			context.next(attrs);
+
+			writeHtmlListTags(context, sb);
+
+			writeChunk(context, sb, parentAttrs, attrs, chunk);
 
 			iterator.setIndex(runLimit);
 		}
+		
+		context.next(null);
+
+		writeHtmlListTags(context, sb);
 		
 		return sb.toString();
 	}
@@ -364,8 +373,18 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	public void writeChunk(StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
+	public void writeChunk(StyledTextWriteContext context, StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
 	{
+		StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
+		boolean isStyle = styleBuilder.length() > 0;
+		if (isStyle)
+		{
+			sb.append(LESS);
+			sb.append(NODE_style);
+			sb.append(styleBuilder.toString());
+			sb.append(GREATER);
+		}
+
 		Object value = attrs.get(TextAttribute.SUPERSCRIPT);
 		Object oldValue = parentAttrs.get(TextAttribute.SUPERSCRIPT);
 
@@ -467,8 +486,128 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(scriptNode);
 			sb.append(GREATER);
 		}
+		
+		if (isStyle)
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_style);
+			sb.append(GREATER);
+		}
 	}
 
+	/**
+	 *
+	 */
+	private void writeHtmlListTags(
+		StyledTextWriteContext context, 
+		StringBuilder sb 
+		)
+	{
+		if (context.isListItemEnd())
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_li);
+			sb.append(GREATER);
+		}
+		
+		for (int i = context.getPrevDepth() - 1; i > context.getCommonListDepth(); i--)
+		{
+			StyledTextListInfo prevList = context.getPrevList(i);
+			sb.append(LESS_SLASH);
+			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
+			sb.append(GREATER);
+			if (prevList.hasParentLi())
+			{
+				sb.append(LESS_SLASH);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+		}
+
+		if (context.getPrevDepth() > context.getCommonListDepth())
+		{
+			StyledTextListInfo prevList = context.getPrevList(context.getCommonListDepth());
+			sb.append(LESS_SLASH);
+			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
+			sb.append(GREATER);
+			if (prevList.hasParentLi() && prevList.atLiEnd())
+			{
+				sb.append(LESS_SLASH);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+		}
+		
+		if (context.getCommonListDepth() < context.getDepth())
+		{
+			StyledTextListInfo list = context.getList(context.getCommonListDepth());
+			if (list.hasParentLi() && list.atLiStart())
+			{
+				sb.append(LESS);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+			sb.append(LESS);
+			if (list.ordered())
+			{
+				sb.append(NODE_ol);
+				if (list.getType() != null)
+				{
+					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
+				}
+				if (list.getCutStart() > 1)
+				{
+					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
+				}
+			}
+			else
+			{
+				sb.append(NODE_ul);
+			}
+			sb.append(GREATER);
+		}
+		
+		for (int i = context.getCommonListDepth() + 1; i < context.getDepth(); i++)
+		{
+			StyledTextListInfo list = context.getList(i);
+			if (list.hasParentLi())
+			{
+				sb.append(LESS);
+				sb.append(NODE_li);
+				sb.append(GREATER);
+			}
+			sb.append(LESS);
+			if (list.ordered())
+			{
+				sb.append(NODE_ol);
+				if (list.getType() != null)
+				{
+					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
+				}
+				if (list.getCutStart() > 1)
+				{
+					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
+				}
+			}
+			else
+			{
+				sb.append(NODE_ul);
+			}
+			sb.append(GREATER);
+		}
+
+		if (context.isListItemStart())
+		{
+			sb.append(LESS);
+			sb.append(NODE_li);
+			if (context.getListItem().noBullet())
+			{
+				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
+			}
+			sb.append(GREATER);
+		}
+	}
+		
 	/**
 	 *
 	 */
@@ -480,6 +619,9 @@ public class JRStyledTextParser implements ErrorHandler
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.TEXT_NODE)
 			{
+				liStart = false;
+				justClosedList = null;
+
 				styledText.append(node.getNodeValue());
 			}
 			else if (
@@ -719,32 +861,109 @@ public class JRStyledTextParser implements ErrorHandler
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
+			else if (
+				node.getNodeType() == Node.ELEMENT_NODE 
+				&& (NODE_ul.equalsIgnoreCase(node.getNodeName()) || NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				)
+			{
+				boolean ordered = false;
+				String type = null;
+				Integer start = null;
+				if (NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				{
+					ordered = true;
+					NamedNodeMap nodeAttrs = node.getAttributes();
+					if (nodeAttrs != null)
+					{
+						Node typeNode = nodeAttrs.getNamedItem(ATTRIBUTE_type);
+						if (typeNode != null)
+						{
+							type = typeNode.getNodeValue();
+						}
+						Node startNode = nodeAttrs.getNamedItem(ATTRIBUTE_start);
+						if (startNode != null)
+						{
+							start = Integer.valueOf(startNode.getNodeValue());
+						}
+					}
+				}
+				
+				StyledTextListInfo htmlList = 
+					new StyledTextListInfo(
+						ordered,
+						type,
+						start,
+						insideLi
+						);
+
+				htmlList.setAtLiStart(liStart);
+				
+				htmlListStack.push(htmlList);
+				
+				insideLi = false;
+				
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+
+				styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+				
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+				
+				justClosedList = htmlListStack.pop();
+			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
-				String tmpText = styledText.getText();
-				if(tmpText.length() > 0 && !tmpText.endsWith("\n"))
-				{
-					styledText.append("\n");
-				}
-				styledText.append(" \u2022 ");
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
-				int startIndex = styledText.length();
-				resizeRuns(styledText.getRuns(), startIndex, 1);
-				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+				StyledTextListInfo htmlList = null;
 				
-				// if the text in the next node does not start with a '\n', or 
-				// if the next node is not a <li /> one, we have to append a new line
-				Node nextNode = node.getNextSibling();
-				String textContent = getFirstTextOccurence(nextNode);
-				if(nextNode != null && 
-						!((nextNode.getNodeType() == Node.ELEMENT_NODE &&
-								NODE_li.equalsIgnoreCase(nextNode.getNodeName()) ||
-						(textContent != null && textContent.startsWith("\n")))
-						))
+				boolean ulAdded = false;
+				if (htmlListStack.size() == 0)
 				{
-					styledText.append("\n");
-					resizeRuns(styledText.getRuns(), startIndex, 1);
+					htmlList = new StyledTextListInfo(false, null, null, false);
+					htmlListStack.push(htmlList);
+					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+					ulAdded = true;
+				}
+				else
+				{
+					htmlList = htmlListStack.peek();
+				}
+				htmlList.setItemCount(htmlList.getItemCount() + 1);
+				insideLi = true;
+				liStart = true;
+				justClosedList = null;
+				
+				StyledTextListItemInfo listItem = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
+				NamedNodeMap nodeAttrs = node.getAttributes();
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_noBullet) != null)
+				{
+					listItem.setNoBullet(Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_noBullet).getNodeValue()));
+				}
+				
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, listItem);
+				
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+				
+				insideLi = false;
+				liStart = false;
+				if (justClosedList != null)
+				{
+					justClosedList.setAtLiEnd(true);
+				}
+
+				if (ulAdded)
+				{
+					htmlListStack.pop();
 				}
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_a.equalsIgnoreCase(node.getNodeName()))

@@ -120,6 +120,7 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -1090,18 +1091,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale)
 	{
+		styledText = JRStyledTextUtil.getBulletedStyledText(styledText);
+		
 		String text = styledText.getText();
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
-			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
-					forecolor;
+			short runForecolor = 
+				attributes.get(TextAttribute.FOREGROUND) != null 
+				? getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex()
+				: forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
 			iterator.setIndex(runLimit);

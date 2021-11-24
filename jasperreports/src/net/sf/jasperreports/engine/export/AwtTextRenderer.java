@@ -25,6 +25,9 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
@@ -110,6 +113,25 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	@Override
 	public void draw()
 	{
+		if (bulletChunk != null)
+		{
+			AttributedCharacterIterator bulletIterator = bulletChunk.getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(bulletIterator, getFontRenderContext());//grx.getFontRenderContext()
+
+			TextLayout bulletLayout = 
+				lineMeasurer.nextLayout(
+					1000,
+					bulletIterator.getEndIndex(),
+					true
+					);
+			
+			bulletLayout.draw(
+				grx, 
+				x + drawPosX - bulletLayout.getVisibleAdvance() - 10, 
+				y + topPadding + verticalAlignOffset + drawPosY
+				);
+		}
+
 		TabSegment segment = segments.get(segmentIndex);
 		
 // this commented code is here to show that we could have clipped each segment individually,
