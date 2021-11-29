@@ -282,7 +282,6 @@ public class MapElementImageProvider {
         return printImage;
     }
 
-    @SuppressWarnings("unchecked")
     public static String buildMapImageUrl(MapImageUrlArgs args, boolean keepWithinMaxUrlLength) {
         Float latitude = args.getLatitude();
         latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
@@ -354,61 +353,6 @@ public class MapElementImageProvider {
             }
         }
 
-        List<Map<String, Object>> pathList = args.getPathList();
-        StringBuilder currentPaths = new StringBuilder();
-        if (pathList != null && !pathList.isEmpty()) {
-            for (Map<String, Object> pathMap : pathList) {
-                if (pathMap != null && !pathMap.isEmpty()) {
-                    currentPaths.append("&path=");
-                    String color = (String) pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeColor);
-                    if (color != null && color.length() > 0) {
-                        //adding opacity to color
-                        color = JRColorUtil.getColorHexa(JRColorUtil.getColor(color, Color.BLACK));
-                        color += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity) == null ||
-                                pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString().length() == 0
-                                ? "ff"
-                                : Integer.toHexString((int) (255 * Double.parseDouble(
-                                        pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString())));
-                    }
-                    currentPaths.append(color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + PIPE : "");
-                    boolean isPolygon = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon) != null &&
-                            Boolean.parseBoolean(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon).toString());
-                    if (isPolygon) {
-                        String fillColor = (String) pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillColor);
-                        if (fillColor != null && fillColor.length() > 0) {
-                            //adding opacity to fill color
-                            fillColor = JRColorUtil.getColorHexa(JRColorUtil.getColor(fillColor, Color.WHITE));
-                            fillColor += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity) == null || pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString().length() == 0
-                                    ? "00"
-                                    : Integer.toHexString((int) (256 * Double.parseDouble(
-                                            pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString())));
-                        }
-                        currentPaths.append(fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + PIPE : "");
-                    }
-                    String weight = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight) == null ? null :
-                            pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight).toString();
-                    currentPaths.append(weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + PIPE : "");
-                    List<Map<String, Object>> locations = (List<Map<String, Object>>) pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS);
-                    Map<String, Object> location;
-                    if (locations != null && !locations.isEmpty()) {
-                        for (int i = 0; i < locations.size(); i++) {
-                            location = locations.get(i);
-                            currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_latitude)));
-                            currentPaths.append(",");
-                            currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_longitude)));
-                            currentPaths.append(i < locations.size() - 1 ? PIPE : "");
-                        }
-                        if (isPolygon) {
-                            currentPaths.append(PIPE);
-                            currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude)));
-                            currentPaths.append(",");
-                            currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude)));
-                        }
-                    }
-                }
-            }
-        }
-
         String imageLocation = "https://maps.googleapis.com/maps/api/staticmap?";
         // Hide the POI markers by default (would be nice to have this supported upstream as a map component feature)
         String styles = "&style=feature:poi%7Cvisibility:off";
@@ -439,17 +383,117 @@ public class MapElementImageProvider {
                 + styles;
         String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
 
-        if (!keepWithinMaxUrlLength) {
-            // To check if all the data can be supported by the URL. Can use this response to
-            // re-structure data and potentially split the data across multiple maps.
-            return markers + currentPaths.toString() + params;
-        }
-        //a static map url is limited to 8192 characters
-        imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH
-                ? markers + currentPaths.toString() + params
-                : imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH ? markers + params : params;
+        return buildPathsAndUrl(imageLocation, markers, params, args.getPathList(), decimalFormat, keepWithinMaxUrlLength);
+    }
 
-        return imageLocation;
+    /**
+     * Builds the URL for Google static maps API. If MAX_URL_LENGTH is exceeded then it encodes any path data as an
+     * encoded polyline. This encoding is independent of the flag {@code keepWithinMaxUrlLength} which, when
+     * {@code false}, reduces the URL even further by removing entire attributes in the following order:
+     * 1) Paths
+     * 2) Markers
+     * @param baseUrl
+     * @param markers
+     * @param params
+     * @param pathList
+     * @param decimalFormat
+     * @param keepWithinMaxUrlLength
+     * @return
+     */
+    private static String buildPathsAndUrl(String baseUrl, StringBuilder markers, String params,
+            List<Map<String, Object>> pathList, DecimalFormat decimalFormat, boolean keepWithinMaxUrlLength) {
+
+        StringBuilder paths = createPaths(pathList, decimalFormat);
+        int fullLength = baseUrl.length() + markers.length() + paths.length() + params.length();
+        if (fullLength < MAX_URL_LENGTH) {
+            return baseUrl + markers + paths + params;
+        }
+
+        // Use Encoded polyline instead of raw coordinates.
+        paths = createPaths(pathList, decimalFormat, true);
+
+        if (!keepWithinMaxUrlLength) {
+            // To check if all the data can be supported by the URL. Can use this response to re-structure data and
+            // potentially split the data across multiple maps.
+            return baseUrl + markers + paths + params;
+        }
+
+        return baseUrl.length() + markers.length() + paths.length() + params.length() < MAX_URL_LENGTH ?
+                baseUrl + markers + paths + params :
+                baseUrl.length() + markers.length() + params.length() < MAX_URL_LENGTH ?
+                baseUrl + markers + params : baseUrl + params;
+    }
+
+    private static StringBuilder createPaths(List<Map<String, Object>> pathList, DecimalFormat decimalFormat) {
+        return createPaths(pathList, decimalFormat, false);
+    }
+
+    private static StringBuilder createPaths(List<Map<String, Object>> pathList, DecimalFormat decimalFormat,
+            boolean encodedPolyline) {
+
+        StringBuilder currentPaths = new StringBuilder();
+        if (pathList != null && !pathList.isEmpty()) {
+            for (Map<String, Object> pathMap : pathList) {
+                if (pathMap != null && !pathMap.isEmpty()) {
+                    currentPaths.append("&path=");
+                    String color = (String) pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeColor);
+                    if (color != null && color.length() > 0) {
+                        //adding opacity to color
+                        color = JRColorUtil.getColorHexa(JRColorUtil.getColor(color, Color.BLACK));
+                        color += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity) == null ||
+                                pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString().length() == 0
+                                ? "ff"
+                                : Integer.toHexString((int) (255 * Double.parseDouble(
+                                pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeOpacity).toString())));
+                    }
+                    currentPaths.append(color != null && color.length() > 0 ? "color:0x" + color.toLowerCase() + PIPE : "");
+                    boolean isPolygon = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon) != null &&
+                            Boolean.parseBoolean(pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_isPolygon).toString());
+                    if (isPolygon) {
+                        String fillColor = (String) pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillColor);
+                        if (fillColor != null && fillColor.length() > 0) {
+                            //adding opacity to fill color
+                            fillColor = JRColorUtil.getColorHexa(JRColorUtil.getColor(fillColor, Color.WHITE));
+                            fillColor += pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity) == null || pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString().length() == 0
+                                    ? "00"
+                                    : Integer.toHexString((int) (256 * Double.parseDouble(
+                                    pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_fillOpacity).toString())));
+                        }
+                        currentPaths.append(fillColor != null && fillColor.length() > 0 ? "fillcolor:0x" + fillColor.toLowerCase() + PIPE : "");
+                    }
+                    String weight = pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight) == null ? null :
+                            pathMap.get(MapComponent.ITEM_PROPERTY_STYLE_strokeWeight).toString();
+                    currentPaths.append(weight != null && weight.length() > 0 ? "weight:" + Integer.valueOf(weight) + PIPE : "");
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> locations = (List<Map<String, Object>>) pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS);
+
+                    if (locations != null && !locations.isEmpty()) {
+
+                        if (encodedPolyline) {
+                            PolylineEncoder polylineEncoder = new PolylineEncoder(locations, isPolygon);
+                            currentPaths.append("enc:");
+                            currentPaths.append(polylineEncoder.encode());
+                        } else {
+                            Map<String, Object> location;
+                            for (int i = 0; i < locations.size(); i++) {
+                            location = locations.get(i);
+                            currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_latitude)));
+                            currentPaths.append(",");
+                            currentPaths.append(decimalFormat.format(location.get(MapComponent.ITEM_PROPERTY_longitude)));
+                            currentPaths.append(i < locations.size() - 1 ? PIPE : "");
+                        }
+                        if (isPolygon) {
+                            currentPaths.append(PIPE);
+                            currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_latitude)));
+                            currentPaths.append(",");
+                            currentPaths.append(decimalFormat.format(locations.get(0).get(MapComponent.ITEM_PROPERTY_longitude)));
+                        }
+                        }
+                    }
+                }
+            }
+        }
+        return currentPaths;
     }
 
     /**
