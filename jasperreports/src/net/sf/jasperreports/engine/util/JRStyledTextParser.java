@@ -50,6 +50,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -152,12 +153,12 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 * Thread local soft cache of instances.
 	 */
-	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<SoftReference<JRStyledTextParser>>();
+	private static final InheritableThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new InheritableThreadLocal<SoftReference<JRStyledTextParser>>();
 	
 	/**
 	 * 
 	 */
-	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
+	private static final InheritableThreadLocal<Locale> threadLocale = new InheritableThreadLocal<Locale>();
 	
 	/**
 	 * Return a cached instance.
@@ -245,15 +246,26 @@ public class JRStyledTextParser implements ErrorHandler
 		
 		Document document = null;
 
-		try
+		// If text contains any nested xml tags parse it
+		if (text.contains("<"))
 		{
-			document = documentBuilder.parse(new InputSource(new StringReader(ROOT_START + text + ROOT_END)));
+			try
+			{
+				document = documentBuilder.parse(new InputSource(new StringReader(ROOT_START + text + ROOT_END)));
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
-		catch (IOException e)
+		// .... else create a simple document with one node
+		else
 		{
-			throw new JRRuntimeException(e);
+			document = documentBuilder.newDocument();
+			Element rootElement = document.createElement("st");
+			document.appendChild(rootElement);
+			rootElement.setTextContent(text);
 		}
-		
 		hyperlink = null;
 		htmlListStack = new Stack<StyledTextListInfo>();
 		

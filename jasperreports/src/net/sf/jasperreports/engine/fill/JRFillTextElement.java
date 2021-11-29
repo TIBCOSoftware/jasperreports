@@ -1136,7 +1136,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		text = JRStringUtil.replaceCRwithLF(text);
 		
-		if (text != null)
+		if (text != null && text.contains("<"))
 		{
 			String markup = getMarkup();
 			if (
