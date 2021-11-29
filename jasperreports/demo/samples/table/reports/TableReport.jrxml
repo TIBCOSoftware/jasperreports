@@ -171,7 +171,9 @@
 							<staticText>
 								<reportElement x="0" y="0" width="255" height="15" uuid="9b8eb5e6-3655-473a-b2d1-bce80f90ce8f"/>
 								<box>
-									<pen lineWidth="0.5" lineColor="#000000"/>
+									<pen lineColor="#000000"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Center">
 									<font size="12" isBold="true"/>
