@@ -1,99 +1,17 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/AbstractPdfTextRenderer</className>
-		<differenceType>6004</differenceType>
-		<field>horizontalAlignment</field>
-		<from>int</from>
-		<to>net.sf.jasperreports.export.pdf.PdfTextAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
-		<differenceType>6004</differenceType>
-		<field>pxImage</field>
-		<from>com.lowagie.text.Image</from>
-		<to>net.sf.jasperreports.export.pdf.PdfImage</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper</className>
-		<differenceType>6004</differenceType>
-		<field>allTag</field>
-		<from>com.lowagie.text.pdf.PdfStructureElement</from>
-		<to>net.sf.jasperreports.export.pdf.PdfStructureEntry</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/AbstractPdfTextRenderer</className>
-		<differenceType>6001</differenceType>
-		<field>pdfContentByte*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
-		<differenceType>6001</differenceType>
-		<field>*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper</className>
-		<differenceType>6001</differenceType>
-		<field>pdf*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRBaseFiller</className>
-		<differenceType>6001</differenceType>
-		<field>bandReportParent*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
+		<className>net/sf/jasperreports/engine/JRException</className>
 		<differenceType>7002</differenceType>
-		<method>*</method>
+		<method>*JRException(java.lang.String, java.lang.Object[], net.sf.jasperreports.engine.JasperReportsContext, java.util.Locale)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper</className>
+		<className>net/sf/jasperreports/engine/JRRuntimeException</className>
 		<differenceType>7002</differenceType>
-		<method>*setPdfWriter(com.lowagie.text.pdf.PdfWriter)</method>
+		<method>*JRRuntimeException(java.lang.String, java.lang.Object[], net.sf.jasperreports.engine.JasperReportsContext, java.util.Locale)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRVirtualizationContext</className>
-		<differenceType>7002</differenceType>
-		<method>*inheritListeners(net.sf.jasperreports.engine.fill.JRVirtualizationContext)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/*Pdf*</className>
-		<differenceType>7005</differenceType>
-		<method>*</method>
-		<to>*</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/*Pdf*</className>
-		<differenceType>7004</differenceType>
-		<method>*</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillDatasetScriptlet</className>
-		<differenceType>7004</differenceType>
-		<method>*Data*</method>
-	</difference>
- 	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
-		<differenceType>7006</differenceType>
-		<method>*get*</method>
-		<to>*</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterContext</className>
+		<className>net/sf/jasperreports/export/CsvExporterConfiguration</className>
 		<differenceType>7012</differenceType>
-		<method>*getPdfProducer()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter$FontKey</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/AbstractPdfTextRenderer</className>
-		<differenceType>7013</differenceType>
-		<method>*addActualText()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/compilers/GroovyClassFilterTransformer</className>
-		<differenceType>5001</differenceType>
-		<to>org/codehaus/groovy/control/CompilationUnit$PrimaryClassNodeOperation</to>
+		<method>*getEscapeFormula()</method>
 	</difference>
 </differences>

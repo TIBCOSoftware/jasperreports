@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
-			<version>2.1.7.js8</version>
+			<version>2.1.7.js9</version>
  			<scope>compile</scope>
 			<optional>false</optional>
 			<exclusions>
@@ -160,6 +160,12 @@
 			<version>4.1.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-compress</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -199,7 +205,7 @@
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.9</version>
+			<version>1.10.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -285,6 +291,12 @@
 			<version>1.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
@@ -347,6 +359,16 @@
 			<version>2.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>avalon-framework</groupId>
+					<artifactId>avalon-framework-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-cli</groupId>
+					<artifactId>commons-cli</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.barbecue</groupId>
@@ -406,14 +428,8 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8.1</version>
+			<version>7.4.0</version>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.beanshell</groupId>
-					<artifactId>bsh</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -513,7 +529,7 @@
 		<dependency>
 			<groupId>org.kohsuke</groupId>
 			<artifactId>groovy-sandbox</artifactId>
-			<version>1.26-jaspersoft-1-SNAPSHOT</version>
+			<version>1.26-jaspersoft-2</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -666,7 +682,7 @@
 				<artifactId>clirr-maven-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-					<comparisonVersion>6.16.0</comparisonVersion>
+					<comparisonVersion>6.17.0</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
