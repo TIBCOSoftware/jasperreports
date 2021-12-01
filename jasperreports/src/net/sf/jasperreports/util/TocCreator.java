@@ -7,7 +7,8 @@ import java.util.Map;
 
 /**
  * This class is used to gather page numbers during report fill time. Each page number is associated to a String key.
- * During collection, key/page number pairs are added. When finished, the TOC data are returned as a JRDataSource.
+ * During collection, key/page number pairs are added. When finished, the TOC data are available for direct retrieval
+ * by TOC key.
  */
 public class TocCreator {
 
