@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.VirtualizableFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -459,6 +460,7 @@ public class FillTable extends BaseFillComponent
 		if (fillSubreport.getTableReport().getBaseReport().isGeneratePdfTags())
 		{
 			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
+			printFrame.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_ACCESSIBILITY_TAG, HtmlReportConfiguration.ACCESSIBILITY_TAG_TABLE);
 		}
 		
 		List<JRStyle> styles = fillSubreport.getSubreportStyles();

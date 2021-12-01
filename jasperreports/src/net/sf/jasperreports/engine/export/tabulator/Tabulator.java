@@ -34,22 +34,24 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.PrintElementIndex;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.PrintElementIndex;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.Bounds;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -374,23 +376,48 @@ public class Tabulator
 		if (element instanceof JRPrintFrame)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			FrameCell frameCell = new FrameCell(parentCell, parentIndex, elementIndex);
-			setElementCells(elementColRange, elementRowRange, frameCell);
-			
-			// go deep in the frame
-			PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
-			JRLineBox box = frame.getLineBox();
-			layoutElements(frame.getElements(), table, frameCell, frameIndex, 
-					xOffset + frame.getX() + box.getLeftPadding(), 
-					yOffset + frame.getY() + box.getTopPadding(),
-					new Bounds(0, frame.getWidth()  - box.getLeftPadding() - box.getRightPadding(),
-							0, frame.getHeight() - box.getTopPadding() - box.getBottomPadding()));
+			String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, HtmlReportConfiguration.PROPERTY_ACCESSIBILITY_TAG);
+			boolean createNestedTable = HtmlReportConfiguration.ACCESSIBILITY_TAG_TABLE.equals(accessibilityTag);
+			if (createNestedTable)
+			{
+				Table nestedTable = new Table(this);
+				DimensionRange<Column> nestedColRange = nestedTable.columns.addEntries(nestedTable.columns.getRange(0, frame.getWidth()));
+				DimensionRange<Row> nestedRowRange = nestedTable.rows.addEntries(nestedTable.rows.getRange(0, element.getHeight()));
+				layoutFrame(nestedTable, null, 0, 0, parentIndex, elementIndex, nestedColRange, nestedRowRange, frame);
+				
+				NestedTableCell tableCell = new NestedTableCell(parentCell, nestedTable);
+				setElementCells(elementColRange, elementRowRange, tableCell);
+			}
+			else
+			{
+				layoutFrame(table, parentCell, 
+						xOffset + frame.getX(), yOffset + frame.getY(), 
+						parentIndex, elementIndex, 
+						elementColRange, elementRowRange, frame);
+			}
 		}
 		else
 		{
 			ElementCell elementCell = new ElementCell(parentCell, parentIndex, elementIndex);
 			setElementCells(elementColRange, elementRowRange, elementCell);
 		}
+	}
+
+	protected void layoutFrame(Table table, FrameCell parentCell, int xOffset, int yOffset,
+			PrintElementIndex parentIndex, int elementIndex, DimensionRange<Column> elementColRange,
+			DimensionRange<Row> elementRowRange, JRPrintFrame frame)
+	{
+		FrameCell frameCell = new FrameCell(parentCell, parentIndex, elementIndex);
+		setElementCells(elementColRange, elementRowRange, frameCell);
+		
+		// go deep in the frame
+		PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
+		JRLineBox box = frame.getLineBox();
+		layoutElements(frame.getElements(), table, frameCell, frameIndex, 
+				xOffset + box.getLeftPadding(), 
+				yOffset + box.getTopPadding(),
+				new Bounds(0, frame.getWidth()  - box.getLeftPadding() - box.getRightPadding(), 
+						0, frame.getHeight() - box.getTopPadding() - box.getBottomPadding()));
 	}
 
 	protected boolean canOverwrite(Cell existingCell, FrameCell currentParent)
@@ -836,6 +863,12 @@ public class Tabulator
 		{
 			return Tabulator.this.isParent(parentCell, layeredCell.getParent());
 		}		
+
+		@Override
+		public Boolean visit(NestedTableCell nestedTableCell, FrameCell parentCell)
+		{
+			return Tabulator.this.isParent(parentCell, nestedTableCell.getParent());
+		}		
 	}
 	
 	protected class SpanRangeCheck implements CellVisitor<Cell, Boolean, RuntimeException>
@@ -860,6 +893,12 @@ public class Tabulator
 
 		@Override
 		public Boolean visit(LayeredCell spanned, Cell cell)
+		{
+			return spanned.equals(cell) || Tabulator.this.isSplitCell(spanned, cell);
+		}
+
+		@Override
+		public Boolean visit(NestedTableCell spanned, Cell cell)
 		{
 			return spanned.equals(cell) || Tabulator.this.isSplitCell(spanned, cell);
 		}
@@ -890,6 +929,12 @@ public class Tabulator
 		{
 			return Tabulator.this.isSplitCell(spanned, cell);
 		}
+
+		@Override
+		public Boolean visit(NestedTableCell spanned, Cell cell)
+		{
+			return Tabulator.this.isSplitCell(spanned, cell);
+		}
 	}
 	
 	protected class CollapseCheck implements CellVisitor<Cell, Boolean, RuntimeException>
@@ -916,6 +961,12 @@ public class Tabulator
 
 		@Override
 		public Boolean visit(LayeredCell spanned, Cell cell)
+		{
+			return Tabulator.this.isSplitCell(spanned, cell);
+		}
+
+		@Override
+		public Boolean visit(NestedTableCell spanned, Cell cell)
 		{
 			return Tabulator.this.isSplitCell(spanned, cell);
 		}
@@ -977,6 +1028,14 @@ public class Tabulator
 			layeredCell.setParent(droppedParent);
 			return layeredCell;
 		}
+
+		@Override
+		public Cell visit(NestedTableCell nestedTableCell, FrameCell parent)
+		{
+			FrameCell droppedParent = droppedParent(nestedTableCell.getParent(), parent);
+			nestedTableCell.setParent(droppedParent);
+			return nestedTableCell;
+		}
 	}
 	
 	protected class TableCellCreator implements CellVisitor<TablePosition, TableCell, RuntimeException>
@@ -1020,12 +1079,23 @@ public class Tabulator
 		@Override
 		public TableCell visit(LayeredCell layeredCell, TablePosition position)
 		{
-			SpanInfo<Column> colSpan = getColumnCellSpan(position, layeredCell);
-			SpanInfo<Row> rowSpan = getRowCellSpan(position, layeredCell);
-			Color backcolor = getElementBackcolor(layeredCell.getParent());
+			return createFromParent(layeredCell, position);
+		}
+
+		@Override
+		public TableCell visit(NestedTableCell cell, TablePosition position) throws RuntimeException
+		{
+			return createFromParent(cell, position);
+		}
+
+		protected TableCell createFromParent(Cell cell, TablePosition position)
+		{
+			SpanInfo<Column> colSpan = getColumnCellSpan(position, cell);
+			SpanInfo<Row> rowSpan = getRowCellSpan(position, cell);
+			Color backcolor = getElementBackcolor(cell.getParent());
 			
 			JRLineBox box = null;
-			FrameCell parentCell = layeredCell.getParent();
+			FrameCell parentCell = cell.getParent();
 			if (parentCell != null)
 			{
 				boolean[] borders = getFrameCellBorders(position.getTable(), parentCell,
@@ -1038,7 +1108,7 @@ public class Tabulator
 				}
 			}
 			
-			return new TableCell(Tabulator.this, position, layeredCell, null, colSpan.span, rowSpan.span, backcolor, box);
+			return new TableCell(Tabulator.this, position, cell, null, colSpan.span, rowSpan.span, backcolor, box);
 		}
 		
 		protected Color getElementBackcolor(BaseElementCell cell)

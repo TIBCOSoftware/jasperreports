@@ -207,6 +207,10 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			)
 	public static final String PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "use.background.image.to.align";
 
+
+	public static final String PROPERTY_ACCESSIBILITY_TAG = JRPropertiesUtil.PROPERTY_PREFIX + "export.accessibility.tag";
+	
+	public static final String ACCESSIBILITY_TAG_TABLE = "table";
 	
 	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page

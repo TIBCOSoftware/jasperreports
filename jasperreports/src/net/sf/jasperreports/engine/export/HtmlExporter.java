@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.export.tabulator.Column;
 import net.sf.jasperreports.engine.export.tabulator.ElementCell;
 import net.sf.jasperreports.engine.export.tabulator.FrameCell;
 import net.sf.jasperreports.engine.export.tabulator.LayeredCell;
+import net.sf.jasperreports.engine.export.tabulator.NestedTableCell;
 import net.sf.jasperreports.engine.export.tabulator.Row;
 import net.sf.jasperreports.engine.export.tabulator.SplitCell;
 import net.sf.jasperreports.engine.export.tabulator.Table;
@@ -1993,6 +1994,24 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		endCell();
 	}
+	
+	protected void writeNestedTable(Table table, TableVisitor tableVisitor, TableCell cell) throws IOException
+	{
+		startCell(cell);
+
+		StringBuilder styleBuffer = new StringBuilder();
+		appendElementCellGenericStyle(cell, styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
+		appendPaddingStyle(cell.getBox(), styleBuffer);
+		writeStyle(styleBuffer);
+
+		finishStartCell();
+
+		exportTable(tableVisitor, table, false, false);
+
+		endCell();
+	}
 
 	protected void startCell(JRPrintElement element, TableCell cell) throws IOException
 	{
@@ -3260,6 +3279,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			TableCell tableCell = tabulator.getTableCell(position, layeredCell);
 			HtmlExporter.this.writeLayers(layeredCell.getLayers(), this, tableCell);
+			return null;
+		}
+
+		@Override
+		public Void visit(NestedTableCell nestedTableCell, TablePosition position) throws IOException
+		{
+			TableCell tableCell = tabulator.getTableCell(position, nestedTableCell);
+			HtmlExporter.this.writeNestedTable(nestedTableCell.getTable(), this, tableCell);
 			return null;
 		}
 	}
