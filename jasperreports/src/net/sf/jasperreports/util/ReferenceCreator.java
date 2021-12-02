@@ -6,8 +6,10 @@ import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class is used to gather reference keys and their associated incremental reference numbers during report fill
@@ -24,20 +26,22 @@ public class ReferenceCreator {
     private int currentReferenceNumber = 1;
 
     private final List<Map<String, String>> references = new ArrayList<>();
+    private final Set<String> keysAdded = new HashSet<>();
 
     /**
      * Returns the reference number for the given key for use in assigning a reference number to a super-script text
      * field. Must be rendered at Report time or at least after the given reference key has been added.
      * @param referenceKey
      * @return
+     * @throws Exception If the given key is not found (ensures robust report configuration).
      */
-    public String getReferenceNumberForKey(String referenceKey) {
+    public String getReferenceNumberForKey(String referenceKey) throws Exception {
         for (Map<String, String> reference : this.references) {
-            if(referenceKey.equals(reference.get(REFERENCE_KEY))) {
+            if (referenceKey.equals(reference.get(REFERENCE_KEY))) {
                 return reference.get(REFERENCE_NUMBER);
             }
         }
-        return null;
+        throw new Exception("Reference key \"" + referenceKey + "\" not found!");
     }
 
     /**
@@ -57,9 +61,15 @@ public class ReferenceCreator {
      * @param referenceText
      * @param referenceKey
      * @return The reference key.
+     * @throws Exception If text has already been added for the given key (ensures robust report configuration).
      */
-    public String addReferenceTextForKey(String referenceText, String referenceKey) {
-        references.add(createReferenceEntry(referenceText, referenceKey));
+    public String addReferenceTextForKey(String referenceText, String referenceKey) throws Exception {
+        if (!keysAdded.contains(referenceKey)) {
+            references.add(createReferenceEntry(referenceText, referenceKey));
+            keysAdded.add(referenceKey);
+        } else {
+            throw new Exception("Reference text was already added for key \"" + referenceKey + "\"!");
+        }
         return referenceKey;
     }
 
