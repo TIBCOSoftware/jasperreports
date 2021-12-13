@@ -76,25 +76,30 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	@Override
 	public String convert(String srcText)
 	{
-		JRStyledText styledText = new JRStyledText();
-		
-		htmlListStack = new Stack<StyledTextListInfo>();
-
-		JEditorPane editorPane = new JEditorPane("text/html", srcText);
-		editorPane.setEditable(false);
-
-		document = editorPane.getDocument();
-		bodyOccurred = false;
-
-		Element root = document.getDefaultRootElement();
-		if (root != null)
+		if (srcText.contains("<"))
 		{
-			processElement(styledText, root);
-		}
+			JRStyledText styledText = new JRStyledText();
+			
+			htmlListStack = new Stack<StyledTextListInfo>();
 
-		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
+			JEditorPane editorPane = new JEditorPane("text/html", srcText);
+			editorPane.setEditable(false);
+
+			document = editorPane.getDocument();
+			bodyOccurred = false;
+
+			Element root = document.getDefaultRootElement();
+			if (root != null)
+			{
+				processElement(styledText, root);
+			}
+
+			styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
+			
+			return JRStyledTextParser.getInstance().write(styledText);
+		}
 		
-		return JRStyledTextParser.getInstance().write(styledText);
+		return srcText;
 	}
 	
 	
