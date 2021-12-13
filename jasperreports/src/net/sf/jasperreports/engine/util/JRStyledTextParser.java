@@ -263,7 +263,7 @@ public class JRStyledTextParser implements ErrorHandler
 	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, Locale locale)
 	{
 		JRStyledText styledText = null;
-		if (isStyledText)
+		if (isStyledText && text != null && text.contains("<"))
 		{
 			try
 			{
