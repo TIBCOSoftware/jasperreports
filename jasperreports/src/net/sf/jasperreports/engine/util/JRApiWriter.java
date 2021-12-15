@@ -637,6 +637,7 @@ public class JRApiWriter
 			write( scriptletName + ".setValueClassName(\"{0}\");\n", scriptlet.getValueClassName());
 	
 			writeProperties( scriptlet, scriptletName);
+			writePropertyExpressions(scriptlet.getPropertyExpressions(), scriptletName);
 			flush();
 		}
 	}

@@ -89,6 +89,7 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 					scriptlet = getScriptlet(scriptletsArray[i].getValueClassName());
 					context.getParameterValues().put(paramName, scriptlet);
 				}
+				scriptlet.setScriptletDefinition(scriptletsArray[i]);
 				
 				scriptlets.add(scriptlet);
 			}

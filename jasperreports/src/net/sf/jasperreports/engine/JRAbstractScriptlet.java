@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.fill.JRFillDataset;
@@ -48,6 +49,7 @@ public abstract class JRAbstractScriptlet
 	/**
 	 *
 	 */
+	protected JRScriptlet scriptletDefinition;
 	protected JRFillDataset dataset;
 	protected Map<String,JRFillParameter> parametersMap;
 	protected Map<String,JRFillField> fieldsMap;
@@ -62,6 +64,10 @@ public abstract class JRAbstractScriptlet
 	{
 	}
 
+	public void setScriptletDefinition(JRScriptlet scriptletDefinition)
+	{
+		this.scriptletDefinition = scriptletDefinition;
+	}
 
 	/**
 	 *
@@ -185,6 +191,34 @@ public abstract class JRAbstractScriptlet
 		variable.setValue(value);
 	}
 
+	protected Map<String, Object> evaluateProperties(byte evaluation) throws JRException
+	{
+		Map<String, Object> properties = new HashMap<>();
+		if (scriptletDefinition != null)
+		{
+			if (scriptletDefinition.hasProperties())
+			{
+				JRPropertiesMap propertiesMap = scriptletDefinition.getPropertiesMap();
+				String[] names = propertiesMap.getPropertyNames();
+				for (int i = 0; i < names.length; i++)
+				{
+					properties.put(names[i], propertiesMap.getProperty(names[i]));
+				}
+			}
+			
+			JRPropertyExpression[] propertyExpressions = scriptletDefinition.getPropertyExpressions();
+			if (propertyExpressions != null && propertyExpressions.length > 0)
+			{
+				for (int i = 0; i < propertyExpressions.length; i++)
+				{
+					JRPropertyExpression propertyExpression = propertyExpressions[i];
+					Object value = dataset.evaluateExpression(propertyExpression.getValueExpression(), evaluation);
+					properties.put(propertyExpression.getName(), value);
+				}
+			}
+		}
+		return properties;
+	}
 
 	/**
 	 *

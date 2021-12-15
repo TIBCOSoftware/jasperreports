@@ -760,6 +760,18 @@ public class JRExpressionCollector
 		}
 	}
 
+	private void collect(JRScriptlet[] scriptlets)
+	{
+		if (scriptlets != null && scriptlets.length > 0)
+		{
+			for (int i = 0; i < scriptlets.length; i++)
+			{
+				JRScriptlet scriptlet = scriptlets[i];
+				collectPropertyExpressions(scriptlet.getPropertyExpressions());
+			}
+		}
+	}
+
 	/**
 	 *
 	 */
@@ -1546,6 +1558,8 @@ public class JRExpressionCollector
 		collector.collect(dataset.getGroups());
 
 		collector.addExpression(dataset.getFilterExpression());
+		
+		collector.collect(dataset.getScriptlets());
 
 		return getExpressions(dataset);
 	}
