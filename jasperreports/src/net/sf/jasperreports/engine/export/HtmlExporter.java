@@ -731,16 +731,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (text.getAnchorName() != null)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JRStringUtil.encodeXmlAttribute(text.getAnchorName()));
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (text.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 
 		if (rotationValue != null)
@@ -949,16 +949,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (image.getAnchorName() != null)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JRStringUtil.encodeXmlAttribute(image.getAnchorName()));
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (renderer != null)
