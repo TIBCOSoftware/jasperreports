@@ -35,6 +35,6 @@ public class TableTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/components/table/repo", "TableReport", 3);
+		return runReportArgs("net/sf/jasperreports/components/table/repo", "TableReport", 4);
 	}
 }

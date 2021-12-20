@@ -1819,7 +1819,7 @@ public class TableReport implements JRReport
 		frame.setWidth(width);
 		frame.setHeight(cell.getHeight());
 		frame.setPositionType(PositionTypeEnum.FLOAT);
-		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
+		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_BOTTOM);
 		
 		frame.setStyle(cell.getStyle());
 		frame.setStyleNameReference(cell.getStyleNameReference());
