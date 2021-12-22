@@ -123,6 +123,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
+							<Automatic-Module-Name>net.sf.jasperreports.components.html</Automatic-Module-Name>
 							<Built-By>${project.organization.name}</Built-By>
 						</manifestEntries>
 						<manifestSections>

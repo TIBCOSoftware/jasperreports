@@ -84,6 +84,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
+							<Automatic-Module-Name>net.sf.jasperreports.fonts</Automatic-Module-Name>
 							<Built-By>${project.organization.name}</Built-By>
 						</manifestEntries>
 						<manifestSections>
