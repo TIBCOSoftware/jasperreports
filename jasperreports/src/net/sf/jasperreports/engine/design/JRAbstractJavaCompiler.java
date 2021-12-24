@@ -40,6 +40,7 @@ import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
 import net.sf.jasperreports.compilers.JavaDirectExpressionValueFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -112,7 +113,8 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			Class<?> clazz = getClassFromCache(className);
 			if (clazz == null)
 			{
-				clazz = loadClass(className, (byte[]) compileData);
+				CompiledClasses compiledClasses = toCompiledClasses(className, compileData);
+				clazz = loadClass(className, compiledClasses);
 				putClassInCache(className, clazz);
 			}
 			
@@ -135,11 +137,35 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		
 		return evaluator;
 	}
+	
+	protected CompiledClasses toCompiledClasses(String className, Serializable compileData)
+	{
+		CompiledClasses classes;
+		if (compileData instanceof CompiledClasses)
+		{
+			classes = (CompiledClasses) compileData;
+		}
+		else if (compileData instanceof byte[])
+		{
+			classes = CompiledClasses.forClass(className, (byte[]) compileData);
+		}
+		else
+		{
+			throw new JRRuntimeException("Unknown compile data type " + compileData.getClass());
+		}
+		return classes;
+	}
 
 
 	protected Class<?> loadClass(String className, byte[] compileData)
 	{
 		return JRClassLoader.loadClassFromBytes(reportClassFilter, className, compileData);
+	}
+
+
+	protected Class<?> loadClass(String className, CompiledClasses classes)
+	{
+		return JRClassLoader.loadClassFromBytes(reportClassFilter, className, classes);
 	}
 	
 	

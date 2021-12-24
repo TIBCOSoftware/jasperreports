@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.CompiledClasses;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -268,6 +269,12 @@ public class JRClassLoader extends ClassLoader
 	public static Class<?> loadClassFromBytes(ClassLoaderFilter classLoaderFilter, 
 			String className, byte[] bytecodes)
 	{
+		return loadClassFromBytes(classLoaderFilter, className, CompiledClasses.forClass(className, bytecodes));
+	}
+	
+	public static Class<?> loadClassFromBytes(ClassLoaderFilter classLoaderFilter, 
+			String className, CompiledClasses compiledClasses)
+	{
 		Class<?> clazz = null;
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -276,8 +283,8 @@ public class JRClassLoader extends ClassLoader
 			try
 			{
 				clazz = 
-					(new JRClassLoader(classLoader, classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoader, classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 			catch(NoClassDefFoundError e)
 			{
@@ -292,14 +299,14 @@ public class JRClassLoader extends ClassLoader
 			if (classLoader == null)
 			{
 				clazz = 
-					(new JRClassLoader(classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 			else
 			{
 				clazz = 
-					(new JRClassLoader(classLoader, classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoader, classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 		}
 
