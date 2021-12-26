@@ -13,5 +13,7 @@
 		<!--
 		<Logger name="org.springframework" level="warn"/>
 		-->
+		<Logger name="org.apache.poi.POIDocument" level="error"/>
+		<Logger name="org.apache.poi.hpsf.Section" level="error"/>
 	</Loggers>
 </Configuration>

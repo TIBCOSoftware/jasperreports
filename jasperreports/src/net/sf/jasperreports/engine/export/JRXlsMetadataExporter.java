@@ -2426,13 +2426,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			hashCode = computeHash();
 		}
 	
+		@SuppressWarnings("deprecation")
 		protected int computeHash() {
 			int hash = mode.hashCode();
 			hash = 31*hash + backcolor;
 			hash = 31*hash + horizontalAlignment.hashCode();
 			hash = 31*hash + verticalAlignment.hashCode();
 			hash = 31*hash + rotation;
-			hash = 31*hash + (font == null ? 0 : font.getIndex());
+			hash = 31*hash + (font == null ? 0 : font.getIndexAsInt());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + lcDataFormat;
 			hash = 31*hash + (lcWrapText ? 0 : 1);
@@ -2460,6 +2461,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			return hashCode;
 		}
 	
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean equals(Object o) {
 			StyleInfo s = (StyleInfo) o;
@@ -2469,7 +2471,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					&& s.horizontalAlignment == horizontalAlignment
 					&& s.verticalAlignment == verticalAlignment
 					&& s.rotation == rotation
-					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
+					&& (s.font == null ? font == null : (font != null && s.font.getIndexAsInt() == font.getIndexAsInt()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
 					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden
