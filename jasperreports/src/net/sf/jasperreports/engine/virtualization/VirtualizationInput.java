@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.virtualization;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -52,6 +54,8 @@ public class VirtualizationInput extends ObjectInputStream
 		super(in);
 		
 		this.virtualizationContext = virtualizationContext;
+		
+		enableResolveObject(true);		
 	}
 
 	public JRVirtualizationContext getVirtualizationContext()
@@ -128,5 +132,16 @@ public class VirtualizationInput extends ObjectInputStream
 		}
 		
 		objects.add(value);
+	}
+
+	@Override
+	protected Object resolveObject(Object obj) throws IOException
+	{
+		if (obj instanceof Font)
+		{
+			return FontUtil.getInstance(virtualizationContext.getJasperReportsContext()).resolveDeserializedFont((Font) obj);
+		}
+		
+		return obj;
 	}
 }
