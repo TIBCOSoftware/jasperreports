@@ -336,14 +336,14 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>5.1.4.RELEASE</version>
+			<version>5.3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>5.1.4.RELEASE</version>
+			<version>5.3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
