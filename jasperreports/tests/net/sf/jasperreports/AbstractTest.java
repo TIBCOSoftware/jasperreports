@@ -328,6 +328,10 @@ public abstract class AbstractTest
 		else
 		{
 			File outputDir = new File(outputDirPath);
+			if (!outputDir.exists())
+			{
+				outputDir.mkdirs(); // for some reason, File.createTempFile method below does not create missing parent folders on Windows
+			}
 			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
 		outputFile.deleteOnExit();
