@@ -127,7 +127,9 @@ public class StyledTextWriteContext
 			&& listItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it is indeed a list item and not a filler
 			&& listItem != prevListItem // it is different than the previous one
 			&& (prevDepth <= newDepth // it is of a deeper level (this condition is probably redundant with respect to the following two)
-				|| (commonListDepth == newDepth && !prevListStack[prevDepth - 1].hasParentLi()) // new list is between li
+				|| (commonListDepth == newDepth 
+					&& (!prevListStack[commonListDepth].hasParentLi() // list was between li
+						|| prevListStack[commonListDepth].atLiEnd())) // list was right at the end of li
 				|| commonListDepth < newDepth)
 			); // so opening it
 	}
@@ -139,7 +141,9 @@ public class StyledTextWriteContext
 			&& prevListItem != StyledTextListItemInfo.NO_LIST_ITEM_FILLER // it was indeed a list item and not a filler
 			&& prevListItem != listItem  // was not the same as the new one
 			&& (prevDepth >= newDepth // was of deeper level (this condition is probably redundant with respect to the following two)
-				|| (commonListDepth == prevDepth && !listStack[newDepth - 1].hasParentLi()) // new list is between li
+				|| (commonListDepth == prevDepth 
+					&& (!listStack[commonListDepth].hasParentLi() // new list is between li
+						|| listStack[commonListDepth].atLiStart())) // new list is right at the start of li
 				|| commonListDepth < prevDepth)
 			); // so closing it
 	}
