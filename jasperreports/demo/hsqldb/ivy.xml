@@ -7,6 +7,6 @@
 		<conf name="hsqldb" description="dependencies for hsqldb"/>
 	</configurations>
 	<dependencies>
-		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0"/>
+		<dependency org="org.hsqldb" name="hsqldb" rev="2.6.1"/>
 	</dependencies>
 </ivy-module>
