@@ -1320,8 +1320,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						writer.write(" usemap=\"#" + imageMapName + "\"");
 					}
 					
-					writer.write(" alt=\"\"");
-					
 					if (hasHyperlinks)
 					{
 						writer.write(" border=\"0\"");
@@ -1329,9 +1327,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					
 					if (image.getHyperlinkTooltip() != null)
 					{
-						writer.write(" title=\"");
-						writer.write(JRStringUtil.encodeXmlAttribute(image.getHyperlinkTooltip()));
+						String tooltip = JRStringUtil.encodeXmlAttribute(image.getHyperlinkTooltip()); 
+						writer.write(" alt=\"");
+						writer.write(tooltip);
 						writer.write("\"");
+						writer.write(" title=\"");
+						writer.write(tooltip);
+						writer.write("\"");
+					}
+					else
+					{
+						writer.write(" alt=\"\""); // screen readers do not read images with empty alt attribute, which are considered just decorations
 					}
 					
 					writer.write("/>");
