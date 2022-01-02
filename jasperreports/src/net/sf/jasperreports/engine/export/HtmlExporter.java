@@ -387,8 +387,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 					page = pages.get(pageIndex);
 
-					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"></a>\n");
-
 					/*   */
 					exportPage(page);
 
@@ -538,12 +536,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			return;
 		}
 		
-
+		String tableId = null;
+		
 		if (isMainReportTable)
 		{
 			int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
-			int totalHeight = rows.last().getEndCoord() - rows.first().getStartCoord();
-			writer.write("<table class=\"jrPage\" data-jr-height=\"");
+		 	int totalHeight = rows.last().getEndCoord() - rows.first().getStartCoord();
+		 	tableId = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			writer.write("<table id=\"");
+			writer.write(tableId);
+			writer.write("\" class=\"jrPage\" data-jr-height=\"");
 			writer.write(String.valueOf(totalHeight)); // no need for size unit
 			writer.write("\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
 			writer.write(toSizeUnit(totalWidth));
