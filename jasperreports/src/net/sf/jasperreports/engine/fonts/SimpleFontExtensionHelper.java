@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -779,12 +780,12 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		FontExtensionsContainer extensions
 		) throws JRException
 	{
-		FileOutputStream fos = null;
+		OutputStream os = null;
 
 		try
 		{
-			fos = new FileOutputStream(destFileName);
-			writeFontExtensionsXml(fos, extensions);
+			os = new BufferedOutputStream(new FileOutputStream(destFileName));
+			writeFontExtensionsXml(os, extensions);
 		}
 		catch (IOException e)
 		{
@@ -796,11 +797,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 		finally
 		{
-			if (fos != null)
+			if (os != null)
 			{
 				try
 				{
-					fos.close();
+					os.close();
 				}
 				catch(IOException e)
 				{
@@ -850,12 +851,12 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public static void writeFontExtensionsProperties(String fontsXmlLocation, String destFileName) throws JRException
 	{
-		FileOutputStream fos = null;
+		OutputStream os = null;
 
 		try
 		{
-			fos = new FileOutputStream(destFileName, false);
-			writeFontExtensionsProperties(fontsXmlLocation, fos);
+			os = new BufferedOutputStream(new FileOutputStream(destFileName, false));
+			writeFontExtensionsProperties(fontsXmlLocation, os);
 		}
 		catch (IOException e)
 		{
@@ -867,11 +868,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 		finally
 		{
-			if (fos != null)
+			if (os != null)
 			{
 				try
 				{
-					fos.close();
+					os.close();
 				}
 				catch(IOException e)
 				{
