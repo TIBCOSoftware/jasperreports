@@ -480,10 +480,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
-		tabulator.tabulate(getOffsetX(), getOffsetY());
+		HtmlReportConfiguration configuration = getCurrentItemConfiguration();
 
-		HtmlReportConfiguration configuration = getCurrentItemConfiguration(); 
+		Tabulator tabulator = new Tabulator(tableFilter, page.getElements(), configuration.isAccessibleHtml());
+		tabulator.tabulate(getOffsetX(), getOffsetY());
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
@@ -519,7 +519,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	public void exportElements(List<JRPrintElement> elements) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(tableFilter, elements);
+		Tabulator tabulator = new Tabulator(tableFilter, elements, getCurrentItemConfiguration().isAccessibleHtml());
 		tabulator.tabulate();
 		
 		Table table = tabulator.getTable();

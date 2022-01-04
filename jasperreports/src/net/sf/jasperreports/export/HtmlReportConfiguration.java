@@ -322,7 +322,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		value=PROPERTY_ACCESSIBLE,
 		booleanDefault=false
 		)
-	public Boolean isAccessibleHtml(); //FIXME this only worked in the ancient HTML exporter; if need to supported this again, look into history
+	public Boolean isAccessibleHtml();
 	
 	
 	/**

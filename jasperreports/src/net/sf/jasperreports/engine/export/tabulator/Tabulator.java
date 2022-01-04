@@ -66,6 +66,7 @@ public class Tabulator
 	
 	private final ExporterFilter filter;
 	private final List<? extends JRPrintElement> elements;
+	private final boolean isAccessibleHtml;
 	
 	private Table mainTable;
 	
@@ -75,10 +76,11 @@ public class Tabulator
 	private CollapseCheck collapseCheck = new CollapseCheck();
 	private TableCellCreator tableCellCreator = new TableCellCreator();
 
-	public Tabulator(ExporterFilter filter, List<? extends JRPrintElement> elements)
+	public Tabulator(ExporterFilter filter, List<? extends JRPrintElement> elements, boolean isAccessibleHtml)
 	{
 		this.filter = filter;
 		this.elements = elements;
+		this.isAccessibleHtml = isAccessibleHtml;
 		
 		this.mainTable = new Table(this);
 	}
@@ -379,8 +381,12 @@ public class Tabulator
 		if (element instanceof JRPrintFrame)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
-			boolean createNestedTable = AccessibilityTagEnum.TABLE ==  AccessibilityTagEnum.getByName(accessibilityTag);
+			boolean createNestedTable = false;
+			if (isAccessibleHtml)
+			{
+				String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+				createNestedTable = AccessibilityTagEnum.TABLE == AccessibilityTagEnum.getByName(accessibilityTag);
+			}
 			if (createNestedTable)
 			{
 				Table nestedTable = new Table(this);
@@ -1135,7 +1141,7 @@ public class Tabulator
 		
 		protected CellType getCellType(BaseElementCell cell)
 		{
-			if (cell == null)
+			if (cell == null || !isAccessibleHtml)
 			{
 				return null;
 			}
