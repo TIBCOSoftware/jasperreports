@@ -92,6 +92,7 @@ import net.sf.jasperreports.engine.export.tabulator.Row;
 import net.sf.jasperreports.engine.export.tabulator.SplitCell;
 import net.sf.jasperreports.engine.export.tabulator.Table;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
+import net.sf.jasperreports.engine.export.tabulator.TableCell.CellType;
 import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
@@ -116,10 +117,12 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextListInfo;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
+import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.export.type.HtmlBorderCollapseEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
@@ -546,7 +549,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		 	tableId = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 			writer.write("<table id=\"");
 			writer.write(tableId);
-			writer.write("\" class=\"jrPage\" data-jr-height=\"");
+			writer.write("\" role=\"none\" class=\"jrPage\" data-jr-height=\"");
 			writer.write(String.valueOf(totalHeight)); // no need for size unit
 			writer.write("\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
 			writer.write(toSizeUnit(totalWidth));
@@ -571,8 +574,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		writer.write("\">\n");
 
+		if (isMainReportTable)
+		{
+			writer.write("<style type=\"text/css\">\n");
+			writer.write("  #" + tableId + " th {font-weight: normal}\n");
+			writer.write("</style>\n");
+		}
+		
 		// TODO lucianc check whether we can use the first row for setting col widths
-		writer.write("<tr valign=\"top\" style=\"height:0\">\n");
+		writer.write("<tr role=\"none\" valign=\"top\" style=\"height:0\">\n");
 		for (Column col : columns)
 		{
 			writer.write("<td style=\"width:");
@@ -760,6 +770,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write(";\">");
 		}
 		
+		AccessibilityTagEnum headingTag = startHeading(text);
 		boolean hyperlinkStarted = startHyperlink(text);
 
 		if (textLength > 0)
@@ -773,13 +784,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			endHyperlink();
 		}
+
+		endHeading(headingTag);
 		
 		if (rotationValue != null)
 		{
 			writer.write("</span></span></div>");
 		}
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected String setRotationStyles(JRPrintText text, String horizontalAlignment, 
@@ -1364,7 +1377,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	
@@ -1796,7 +1809,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("\"/></svg>");
 		}
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeEllipse(JRPrintEllipse ellipse, TableCell cell) throws IOException
@@ -1812,7 +1825,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writeSvgStyle(ellipse);
 		writer.write("\"/></svg>");
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeSvgStyle(JRPrintGraphicElement element) throws IOException
@@ -1904,7 +1917,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			finishStartCell();			
 		}
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 	
 	
@@ -1949,7 +1962,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				
 				writer.write(htmlFragment);
 				
-				endCell();
+				endCell(cell.getCellType());
 			}
 		}
 	}
@@ -2000,7 +2013,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writer.write("</div>\n");
 		restoreBackcolor();
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 	
 	protected void writeNestedTable(Table table, TableVisitor tableVisitor, TableCell cell) throws IOException
@@ -2018,12 +2031,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		exportTable(tableVisitor, table, false, false);
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void startCell(JRPrintElement element, TableCell cell) throws IOException
 	{
-		startCell(cell.getColumnSpan(), cell.getRowSpan());
+		startCell(cell.getColumnSpan(), cell.getRowSpan(), cell.getCellType());
 
 		String dataAttr = getDataAttributes(element, cell);
 		if (dataAttr != null)
@@ -2111,9 +2124,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		startCell(cell.getElement(), cell);
 	}
 
-	protected void startCell(int colSpan, int rowSpan) throws IOException
+	protected void startCell(int colSpan, int rowSpan, CellType cellType) throws IOException
 	{
-		writer.write("<td");
+		String tag = "td"; 
+		String role = null; 
+		if (cellType == CellType.COLUMN_HEADER)
+		{
+			tag = "th";
+			role = "columnheader";
+		}
+		else  if (cellType == CellType.ROW_HEADER)
+		{
+			tag = "th";
+			role = "rowheader";
+		}
+		writer.write("<");
+		writer.write(tag);
+		if (role != null)
+		{
+			writer.write(" role=\"");
+			writer.write(role);
+			writer.write("\"");
+		}
 		if (colSpan > 1)
 		{
 			writer.write(" colspan=\"");
@@ -2133,16 +2165,26 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writer.write(">\n");
 	}
 	
-	protected void endCell() throws IOException
+	protected void endCell(CellType cellType) throws IOException
 	{
-		writer.write("</td>\n");
+		if (
+			cellType == CellType.COLUMN_HEADER
+			|| cellType == CellType.ROW_HEADER
+			)
+		{
+			writer.write("</th>\n");
+		}
+		else
+		{
+			writer.write("</td>\n");
+		}
 	}
 	
 	protected void writeEmptyCell(int colSpan, int rowSpan) throws IOException
 	{
-		startCell(colSpan, rowSpan);
+		startCell(colSpan, rowSpan, null);
 		finishStartCell();
-		endCell();
+		endCell(null);
 	}
 	
 	protected void writeFrameCell(TableCell cell) throws IOException
@@ -2156,7 +2198,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writeStyle(styleBuffer);
 
 		finishStartCell();
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeStyle(StringBuilder styleBuffer) throws IOException
@@ -2417,6 +2459,41 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return addedToStyle;
 	}
 
+
+	protected AccessibilityTagEnum startHeading(JRPrintText text) throws IOException
+	{
+		AccessibilityTagEnum headingTag = null;
+		
+		if (text.getPropertiesMap().containsProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG))
+		{
+			AccessibilityTagEnum accessibilityTag = 
+				AccessibilityTagEnum.getByName(
+					text.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG)
+					);
+			if (accessibilityTag != null && accessibilityTag.name().startsWith("H"))
+			{
+				headingTag = accessibilityTag;
+				writer.write("<");
+				writer.write(headingTag.getName());
+				writer.write(" style=\"margin:0\">");
+			}
+		}
+
+		return headingTag;
+	}
+
+	
+	protected void endHeading(AccessibilityTagEnum headingTag) throws IOException
+	{
+		if (headingTag != null)
+		{
+			writer.write("</");
+			writer.write(headingTag.getName());
+			writer.write(">");
+		}
+	}
+
+	
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
 		boolean hyperlinkStarted = false,

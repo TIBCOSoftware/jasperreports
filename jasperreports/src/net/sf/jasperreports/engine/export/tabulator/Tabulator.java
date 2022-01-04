@@ -37,6 +37,7 @@ import java.util.SortedSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
@@ -46,12 +47,14 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.PrintElementIndex;
+import net.sf.jasperreports.engine.export.tabulator.TableCell.CellType;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.Bounds;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -376,8 +379,8 @@ public class Tabulator
 		if (element instanceof JRPrintFrame)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, HtmlReportConfiguration.PROPERTY_ACCESSIBILITY_TAG);
-			boolean createNestedTable = HtmlReportConfiguration.ACCESSIBILITY_TAG_TABLE.equals(accessibilityTag);
+			String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+			boolean createNestedTable = AccessibilityTagEnum.TABLE ==  AccessibilityTagEnum.getByName(accessibilityTag);
 			if (createNestedTable)
 			{
 				Table nestedTable = new Table(this);
@@ -1047,11 +1050,12 @@ public class Tabulator
 			int colSpan = getColumnCellSpan(position, cell).span;
 			int rowSpan = getRowCellSpan(position, cell).span;
 			Color backcolor = getElementBackcolor(cell);
+			CellType cellType = getCellType(cell);
 			
 			JRLineBox elementBox = (element instanceof JRBoxContainer) ? ((JRBoxContainer) element).getLineBox() : null;
 			JRLineBox box = copyParentBox(cell, element, elementBox, true, true, true, true);
 			
-			TableCell tableCell = new TableCell(Tabulator.this, position, cell, element, colSpan, rowSpan, backcolor, box);
+			TableCell tableCell = new TableCell(Tabulator.this, position, cell, element, cellType, colSpan, rowSpan, backcolor, box);
 			return tableCell;
 		}
 
@@ -1067,13 +1071,14 @@ public class Tabulator
 		{
 			JRPrintElement element = getCellElement(frameCell);
 			Color backcolor = getElementBackcolor(frameCell);
+			CellType cellType = getCellType(frameCell);
 			
 			boolean[] borders = getFrameCellBorders(position.getTable(), frameCell,
 					position.getColumn(), position.getColumn(),
 					position.getRow(), position.getRow());
 			JRLineBox box = copyFrameBox(frameCell, (JRPrintFrame) element, null, borders[0], borders[1], borders[2], borders[3]);
 			
-			return new TableCell(Tabulator.this, position, frameCell, element, 1, 1, backcolor, box);
+			return new TableCell(Tabulator.this, position, frameCell, element, cellType, 1, 1, backcolor, box);
 		}
 
 		@Override
@@ -1093,6 +1098,7 @@ public class Tabulator
 			SpanInfo<Column> colSpan = getColumnCellSpan(position, cell);
 			SpanInfo<Row> rowSpan = getRowCellSpan(position, cell);
 			Color backcolor = getElementBackcolor(cell.getParent());
+			CellType cellType = getCellType(cell.getParent()) ;
 			
 			JRLineBox box = null;
 			FrameCell parentCell = cell.getParent();
@@ -1108,7 +1114,7 @@ public class Tabulator
 				}
 			}
 			
-			return new TableCell(Tabulator.this, position, cell, null, colSpan.span, rowSpan.span, backcolor, box);
+			return new TableCell(Tabulator.this, position, cell, null, cellType, colSpan.span, rowSpan.span, backcolor, box);
 		}
 		
 		protected Color getElementBackcolor(BaseElementCell cell)
@@ -1125,6 +1131,37 @@ public class Tabulator
 			}
 			
 			return getElementBackcolor(cell.getParent());
+		}
+		
+		protected CellType getCellType(BaseElementCell cell)
+		{
+			if (cell == null)
+			{
+				return null;
+			}
+			
+			JRPrintElement element = getCellElement(cell);
+			if (element.getPropertiesMap().containsProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG))
+			{
+				AccessibilityTagEnum accesibitliTagEnum = 
+					AccessibilityTagEnum.getByName(
+						element.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG)
+						);
+				return 
+					accesibitliTagEnum == AccessibilityTagEnum.COLUMN_HEADER 
+					? CellType.COLUMN_HEADER 
+					: (accesibitliTagEnum == AccessibilityTagEnum.ROW_HEADER ? CellType.ROW_HEADER : null);
+			}
+			else if (element.getPropertiesMap().containsProperty(JRCellContents.PROPERTY_TYPE))
+			{
+				String cellContentsType = element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE);
+				return 
+					JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType) || JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
+					? CellType.COLUMN_HEADER
+					: (JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType) ? CellType.ROW_HEADER : null);
+			}
+			
+			return getCellType(cell.getParent());
 		}
 		
 		protected JRLineBox copyParentBox(Cell cell, JRPrintElement element, JRLineBox baseBox, 

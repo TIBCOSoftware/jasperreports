@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
@@ -64,10 +67,8 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.VirtualizableFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 
 /**
  * 
@@ -457,10 +458,10 @@ public class FillTable extends BaseFillComponent
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
-		if (fillSubreport.getTableReport().getBaseReport().isGeneratePdfTags())
+		if (fillSubreport.getTableReport().getBaseReport().isAccessibleTable())
 		{
 			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
-			printFrame.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_ACCESSIBILITY_TAG, HtmlReportConfiguration.ACCESSIBILITY_TAG_TABLE);
+			printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
 		}
 		
 		List<JRStyle> styles = fillSubreport.getSubreportStyles();

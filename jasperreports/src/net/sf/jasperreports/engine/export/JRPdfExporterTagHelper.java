@@ -40,9 +40,11 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.pdf.PdfProducer;
 import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfStructureEntry;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -593,21 +595,26 @@ public class JRPdfExporterTagHelper
 				createListItemStartTag(element);
 			}
 
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1), "H1");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2), "H2");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3), "H3");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4), "H4");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5), "H5");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6), "H6");
+			createStartHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
+			createStartHeadingTags(element, PROPERTY_TAG_H2, AccessibilityTagEnum.H2);
+			createStartHeadingTags(element, PROPERTY_TAG_H3, AccessibilityTagEnum.H3);
+			createStartHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
+			createStartHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
+			createStartHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
 		}
 	}
 
 
-	protected void createStartHeadingTags(String prop, String pdfName)
+	protected void createStartHeadingTags(JRPrintElement element, String pdfTagProp, AccessibilityTagEnum accessibilityTag)
 	{
-		if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+		String accessibilityTagPropValue = element.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+		String pdfTagPropValue = element.getPropertiesMap().getProperty(pdfTagProp);
+		if (
+			accessibilityTag.getName().equals(accessibilityTagPropValue)
+			|| TAG_START.equals(pdfTagPropValue) || TAG_FULL.equals(pdfTagPropValue)
+			)
 		{
-			PdfStructureEntry headingTag = pdfStructure.createTag(tagStack.peek(), pdfName);
+			PdfStructureEntry headingTag = pdfStructure.createTag(tagStack.peek(), accessibilityTag.name());
 			//pdfContentByte.beginMarkedContentSequence(headingTag);
 			headingTag.putArray("K");
 			tagStack.push(headingTag);
@@ -724,12 +731,12 @@ public class JRPdfExporterTagHelper
 	{
 		if (element.hasProperties())
 		{
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1));
+			createEndHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
+			createEndHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
+			createEndHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
+			createEndHeadingTags(element, PROPERTY_TAG_H3, AccessibilityTagEnum.H3);
+			createEndHeadingTags(element, PROPERTY_TAG_H2, AccessibilityTagEnum.H2);
+			createEndHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
 
 			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LI);
 			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
@@ -833,9 +840,14 @@ public class JRPdfExporterTagHelper
 	}
 
 
-	protected void createEndHeadingTags(String prop)
+	protected void createEndHeadingTags(JRPrintElement element, String pdfTagProp, AccessibilityTagEnum accessibilityTag)
 	{
-		if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+		String accessibilityTagPropValue = element.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+		String pdfTagPropValue = element.getPropertiesMap().getProperty(pdfTagProp);
+		if (
+			accessibilityTag.getName().equals(accessibilityTagPropValue)
+			|| TAG_END.equals(pdfTagPropValue) || TAG_FULL.equals(pdfTagPropValue)
+			)
 		{
 			//pdfContentByte.endMarkedContentSequence(); 
 
