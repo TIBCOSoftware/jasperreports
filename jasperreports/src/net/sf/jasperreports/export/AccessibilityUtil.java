@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -31,6 +35,16 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  */
 public final class AccessibilityUtil
 {
+	/**
+	 * Property that specifies the type of accessible content introduced by the element.
+	 * Possible values are described by the {@link AccessibilityTagEnum}.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_19_0,
+			valueType = String.class
+			)
 	public static final String PROPERTY_ACCESSIBILITY_TAG = JRPropertiesUtil.PROPERTY_PREFIX + "export.accessibility.tag";
 
 	/**
