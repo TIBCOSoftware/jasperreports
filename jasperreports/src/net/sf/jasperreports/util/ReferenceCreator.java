@@ -45,6 +45,14 @@ public class ReferenceCreator {
     }
 
     /**
+     * Whether there are any references. Can be used to determine whether to display a references detail section.
+     * @return
+     */
+    public boolean hasReferences() {
+        return !references.isEmpty();
+    }
+
+    /**
      * Returns a {@code JRDataSource} for use as a datasource expression. The datasource contains all the reference
      * entries that have been collected for use in creating a list of references at the end of the report or report
      * section.
