@@ -578,6 +578,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			writer.write("<style type=\"text/css\">\n");
 			writer.write("  #" + tableId + " th {font-weight: normal}\n");
+			writer.write("  #" + tableId + " ul {list-style-type: disc; padding-inline-start: 40px;}\n");
+			writer.write("  #" + tableId + " ol {list-style-type: decimal; padding-inline-start: 40px;}\n");
 			writer.write("</style>\n");
 		}
 		
