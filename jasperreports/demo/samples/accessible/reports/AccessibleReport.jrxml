@@ -163,7 +163,7 @@
 			<band height="20">
 				<textField textAdjust="StretchHeight">
 					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="8418cbff-c5ae-447d-a752-2490b0057308"/>
-					<textFieldExpression><![CDATA["This is a bulletted list with two levels."]]></textFieldExpression>
+					<textFieldExpression><![CDATA["This is a bulleted list with two levels."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">

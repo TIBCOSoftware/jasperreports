@@ -30,7 +30,7 @@ JasperReports library accessibility support currently covers HTML and PDF export
 to correctly identify and read through the following types of structured content:
 <ul>
   <li>headings (h1 to h6)</li>
-  <li>bulletted and numbered lists</li>
+  <li>bulleted and numbered lists</li>
   <li>images and graphics alternate texts</li>
   <li>tables</li>
   <li>crosstabs</li>
@@ -50,7 +50,7 @@ the rows and the individual cells and thus make up the entire table structure re
 <br/>
 <br/>
 The HTML and PDF exporters have different mechanisms to expose accessible content to the screen reader. 
-While in HTML, the screen reader recognizes standard HTML tags and attributes as headings, bulletted and numbered list and 
+While in HTML, the screen reader recognizes standard HTML tags and attributes as headings, bulleted and numbered list and 
 semantic tables, in PDF, special metadata tags need to be inserted into the output to give it more structure.
 <br/>
 <br/>
@@ -72,10 +72,10 @@ For example, using the following custom property attached to the text element, a
 This property works for both the HTML and the PDF exporters.
 <br/>
 <br/>
-<subtitle name="lists">Bulletted and Numbered Lists</subtitle>
+<subtitle name="lists">Bulleted and Numbered Lists</subtitle>
 <br/>
 <br/>
-Creating accessible bulletted and/or numberer lists in the HTML output can be achieved using styled text content or HTML markup text 
+Creating accessible bulleted and/or numberer lists in the HTML output can be achieved using styled text content or HTML markup text 
 content in a text element.
 <br/>
 The styled text feature as well as the HTML markup feature of text elements in the report templates have support for nested &lt;ul> and 
@@ -84,7 +84,7 @@ thus is recognized as such by the screen readers.
 <br/>
 <br/>
 Simply by using &lt;ul>, &lt;ol> and &lt;li> tags in a text field configured to render styled text or HTML markup text is enough to create 
-accessible bulletted or numbered lists.
+accessible bulleted or numbered lists.
 <br/>
 <br/>
 For numbered lists, the &lt;ol> tag should be used and this tag supports two attributes:
