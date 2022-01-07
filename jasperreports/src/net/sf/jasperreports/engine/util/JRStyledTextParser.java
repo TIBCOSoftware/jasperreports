@@ -326,6 +326,7 @@ public class JRStyledTextParser implements ErrorHandler
 		StyledTextWriteContext context = new StyledTextWriteContext();
 		
 		StringBuilder sb = new StringBuilder();
+		XmlStyledTextListWriter xmlListWriter = new XmlStyledTextListWriter(sb);
 		
 		int runLimit = 0;
 
@@ -336,7 +337,7 @@ public class JRStyledTextParser implements ErrorHandler
 			
 			context.next(attrs);
 
-			writeHtmlListTags(context, sb);
+			context.writeLists(xmlListWriter);
 
 			writeChunk(context, sb, parentAttrs, attrs, chunk);
 
@@ -345,7 +346,7 @@ public class JRStyledTextParser implements ErrorHandler
 		
 		context.next(null);
 
-		writeHtmlListTags(context, sb);
+		context.writeLists(xmlListWriter);
 		
 		return sb.toString();
 	}
@@ -495,119 +496,6 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 	}
 
-	/**
-	 *
-	 */
-	private void writeHtmlListTags(
-		StyledTextWriteContext context, 
-		StringBuilder sb 
-		)
-	{
-		if (context.isListItemEnd())
-		{
-			sb.append(LESS_SLASH);
-			sb.append(NODE_li);
-			sb.append(GREATER);
-		}
-		
-		for (int i = context.getPrevDepth() - 1; i > context.getCommonListDepth(); i--)
-		{
-			StyledTextListInfo prevList = context.getPrevList(i);
-			sb.append(LESS_SLASH);
-			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
-			sb.append(GREATER);
-			if (prevList.hasParentLi())
-			{
-				sb.append(LESS_SLASH);
-				sb.append(NODE_li);
-				sb.append(GREATER);
-			}
-		}
-
-		if (context.getPrevDepth() > context.getCommonListDepth())
-		{
-			StyledTextListInfo prevList = context.getPrevList(context.getCommonListDepth());
-			sb.append(LESS_SLASH);
-			sb.append(prevList.ordered() ? NODE_ol : NODE_ul);
-			sb.append(GREATER);
-			if (prevList.hasParentLi() && prevList.atLiEnd())
-			{
-				sb.append(LESS_SLASH);
-				sb.append(NODE_li);
-				sb.append(GREATER);
-			}
-		}
-		
-		if (context.getCommonListDepth() < context.getDepth())
-		{
-			StyledTextListInfo list = context.getList(context.getCommonListDepth());
-			if (list.hasParentLi() && list.atLiStart())
-			{
-				sb.append(LESS);
-				sb.append(NODE_li);
-				sb.append(GREATER);
-			}
-			sb.append(LESS);
-			if (list.ordered())
-			{
-				sb.append(NODE_ol);
-				if (list.getType() != null)
-				{
-					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
-				}
-				if (list.getCutStart() > 1)
-				{
-					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
-				}
-			}
-			else
-			{
-				sb.append(NODE_ul);
-			}
-			sb.append(GREATER);
-		}
-		
-		for (int i = context.getCommonListDepth() + 1; i < context.getDepth(); i++)
-		{
-			StyledTextListInfo list = context.getList(i);
-			if (list.hasParentLi())
-			{
-				sb.append(LESS);
-				sb.append(NODE_li);
-				sb.append(GREATER);
-			}
-			sb.append(LESS);
-			if (list.ordered())
-			{
-				sb.append(NODE_ol);
-				if (list.getType() != null)
-				{
-					sb.append(" " + ATTRIBUTE_type + "=\"" + list.getType() + "\"");
-				}
-				if (list.getCutStart() > 1)
-				{
-					sb.append(" " + ATTRIBUTE_start + "=\"" + list.getCutStart() + "\"");
-				}
-			}
-			else
-			{
-				sb.append(NODE_ul);
-			}
-			sb.append(GREATER);
-		}
-
-		if (context.isListItemStart())
-		{
-			sb.append(LESS);
-			sb.append(NODE_li);
-			if (context.getListItem().noBullet())
-			{
-				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
-			}
-			sb.append(GREATER);
-		}
-	}
-		
 	/**
 	 *
 	 */
@@ -1210,31 +1098,6 @@ public class JRStyledTextParser implements ErrorHandler
 		return sb;
 	}
 	
-	/**
-	 * The method returns the first text occurrence in a given node element
-	 * @param node
-	 * @return String
-	 */
-	private String getFirstTextOccurence(Node node){
-		if(node != null)
-		{
-			if(node.getNodeValue() != null)
-			{
-				return node.getNodeValue();
-			}
-			NodeList nodeList = node.getChildNodes();
-			for (int i=0; i< nodeList.getLength(); i++)
-			{
-				String firstOccurence = getFirstTextOccurence(nodeList.item(i));
-				if(firstOccurence != null)
-				{
-					return firstOccurence;
-				}
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void error(SAXParseException e) {
 		if(log.isErrorEnabled())
@@ -1259,4 +1122,75 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 	}
 
+
+	protected class XmlStyledTextListWriter implements StyledTextListWriter
+	{
+		private StringBuilder sb;
+		
+		public XmlStyledTextListWriter(StringBuilder sb)
+		{
+			this.sb = sb;
+		}
+	
+		@Override
+		public void startUl() 
+		{
+			sb.append(LESS);
+			sb.append(NODE_ul);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endUl() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_ul);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void startOl(String type, int cutStart) 
+		{
+			sb.append(LESS);
+			sb.append(NODE_ol);
+			if (type != null)
+			{
+				sb.append(" " + ATTRIBUTE_type + "=\"" + type + "\"");
+			}
+			if (cutStart > 1)
+			{
+				sb.append(" " + ATTRIBUTE_start + "=\"" + cutStart + "\"");
+			}
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endOl() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_ol);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void startLi(boolean noBullet) 
+		{
+			sb.append(LESS);
+			sb.append(NODE_li);
+			if (noBullet)
+			{
+				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
+			}
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endLi() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_li);
+			sb.append(GREATER);
+		}
+	}
 }
+

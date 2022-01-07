@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -190,7 +191,7 @@ public class FileRepositoryService implements StreamRepositoryService
 		{
 			try
 			{
-				os = new FileOutputStream(file);
+				os = new BufferedOutputStream(new FileOutputStream(file));
 			}
 			catch (IOException e)
 			{

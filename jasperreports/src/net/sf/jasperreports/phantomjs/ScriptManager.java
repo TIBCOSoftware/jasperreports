@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.phantomjs;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class ScriptManager
 
 			byte[] buf = new byte[COPY_BUFFER_SIZE];
 			try (InputStream input = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(scriptLocation);
-				 OutputStream output = new FileOutputStream(file))
+				 OutputStream output = new BufferedOutputStream(new FileOutputStream(file)))
 			{
 				int read = 0;
 				while ((read = input.read(buf)) > 0)

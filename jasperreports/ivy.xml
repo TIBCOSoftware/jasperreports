@@ -55,9 +55,9 @@
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
 		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.5.13"/>
 		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.4.12"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.17.0" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.17.0" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.17.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.17.1" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.17.1" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.17.1" conf="test->*"/>
 		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-core" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="7.3.0"/>
@@ -88,7 +88,7 @@
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
 		<dependency org="org.kohsuke" name="groovy-sandbox" rev="1.26-jaspersoft-2"/>
-		<dependency org="org.mozilla" name="rhino" rev="1.7.11"/>
+		<dependency org="org.mozilla" name="rhino" rev="1.7.14"/>
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>

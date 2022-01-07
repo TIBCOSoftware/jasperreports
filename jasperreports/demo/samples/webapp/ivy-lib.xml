@@ -17,8 +17,8 @@
 		<dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.2" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-math3" rev="3.6.1" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.17.0" conf="test->*"/>
-		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.17.0" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.17.1" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.17.1" conf="test->*"/>
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="5.1.0" conf="test->*"/>
 		<dependency org="org.apache.poi" name="poi" rev="5.1.0" conf="test->*"/>
 		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>

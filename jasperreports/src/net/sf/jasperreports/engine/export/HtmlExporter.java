@@ -115,7 +115,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -577,9 +577,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (isMainReportTable)
 		{
 			writer.write("<style type=\"text/css\">\n");
-			writer.write("  #" + tableId + " th {font-weight: normal}\n");
-			writer.write("  #" + tableId + " ul {list-style-type: disc; padding-inline-start: 40px;}\n");
-			writer.write("  #" + tableId + " ol {list-style-type: decimal; padding-inline-start: 40px;}\n");
+			writer.write("  #" + tableId + " th {font-weight: normal;}\n");
+			writer.write("  #" + tableId + " ul {list-style-type: disc; padding-inline-start: 40px; margin: 0px;}\n");
+			writer.write("  #" + tableId + " ol {list-style-type: decimal; padding-inline-start: 40px; margin: 0px;}\n");
 			writer.write("</style>\n");
 		}
 		
@@ -3001,7 +3001,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				runText = runText.substring(1);
 			}
 
-			exportHtmlListTags(context, textRunStyle);
+			context.writeLists(new HtmlStyledTextListWriter(textRunStyle));
 
 			exportStyledTextRun(
 				textRunStyle,
@@ -3016,7 +3016,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		context.next(null, null);
 
-		exportHtmlListTags(context, null);
+		context.writeLists(new HtmlStyledTextListWriter(null));
 
 		if (highlightStarted) {
 			writer.write("</span>");
@@ -3073,117 +3073,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (localHyperlink)
 		{
 			endHyperlink();
-		}
-	}
-
-	/**
-	 *
-	 */
-	protected void exportHtmlListTags(
-		StyledTextWriteContext context, 
-		String textRunStyle
-		) throws IOException
-	{
-		if (context.isListItemEnd())
-		{
-			writer.write("</li>");
-		}
-		
-		for (int i = context.getPrevDepth() - 1; i > context.getCommonListDepth(); i--)
-		{
-			StyledTextListInfo prevList = context.getPrevList(i);
-			writer.write(prevList.ordered() ? "</ol>" : "</ul>");
-			if (prevList.hasParentLi())
-			{
-				writer.write("</li>");
-			}
-		}
-
-		if (context.getPrevDepth() > context.getCommonListDepth())
-		{
-			StyledTextListInfo prevList = context.getPrevList(context.getCommonListDepth());
-			writer.write(prevList.ordered() ? "</ol>" : "</ul>");
-			if (prevList.hasParentLi() && prevList.atLiEnd())
-			{
-				writer.write("</li>");
-			}
-		}
-
-		if (context.getCommonListDepth() < context.getDepth())
-		{
-			StyledTextListInfo list = context.getList(context.getCommonListDepth());
-			if (list.hasParentLi() && list.atLiStart())
-			{
-				writer.write("<li");
-				if (textRunStyle != null)
-				{
-					writer.write(" style=\"list-style: none; " + textRunStyle + "\"");
-				}
-				writer.write(">");
-			}
-			writer.write("<");
-			if (list.ordered())
-			{
-				writer.write("ol");
-				if (list.getType() != null)
-				{
-					writer.write(" type=\"" + list.getType() + "\"");
-				}
-				if (list.getCutStart() > 1)
-				{
-					writer.write(" start=\"" + list.getCutStart() + "\"");
-				}
-			}
-			else
-			{
-				writer.write("ul");
-			}
-			writer.write(" style=\"margin:0\">");
-		}
-
-		for (int i = context.getCommonListDepth() + 1; i < context.getDepth(); i++)
-		{
-			StyledTextListInfo list = context.getList(i);
-			if (list.hasParentLi())
-			{
-				writer.write("<li");
-				if (textRunStyle != null)
-				{
-					writer.write(" style=\"list-style: none; " + textRunStyle + "\"");
-				}
-				writer.write(">");
-			}
-			writer.write("<");
-			if (list.ordered())
-			{
-				writer.write("ol");
-				if (list.getType() != null)
-				{
-					writer.write(" type=\"" + list.getType() + "\"");
-				}
-				if (list.getCutStart() > 1)
-				{
-					writer.write(" start=\"" + list.getCutStart() + "\"");
-				}
-			}
-			else
-			{
-				writer.write("ul");
-			}
-			writer.write(" style=\"margin:0\">");
-		}
-
-		if (context.isListItemStart())
-		{
-			writer.write("<li");
-			if (context.getListItem().noBullet() || textRunStyle != null)
-			{
-				writer.write(" style=\"");
-				writer.write(context.getListItem().noBullet() ? "list-style: none; " : "");
-				writer.write(textRunStyle == null ? "" : textRunStyle);
-				writer.write("\"");
-			}
-			writer.write(">");
 		}
 	}
 		
@@ -3475,6 +3364,123 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return HtmlExporter.this.getHyperlinkURL(link);
+		}
+	}
+	
+	protected class HtmlStyledTextListWriter implements StyledTextListWriter
+	{
+		private String textRunStyle;
+		
+		public HtmlStyledTextListWriter(String textRunStyle)
+		{
+			this.textRunStyle = textRunStyle;
+		}
+
+		@Override
+		public void startUl() 
+		{
+			try
+			{
+				writer.write("<ul>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endUl() 
+		{
+			try
+			{
+				writer.write("</ul>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void startOl(String type, int cutStart) 
+		{
+			try
+			{
+				writer.write("<ol");
+				if (type != null)
+				{
+					switch (type)
+					{
+						case "a" : { type = "lower-alpha"; break; }
+						case "A" : { type = "upper-alpha"; break; }
+						case "i" : { type = "lower-roman"; break; }
+						case "I" : { type = "upper-roman"; break; }
+						case "1" :
+						default : { type = null; }
+					}
+					if (type != null)
+					{
+						writer.write(" style=\"list-style-type: " + type + "\"");
+					}
+				}
+				if (cutStart > 1)
+				{
+					writer.write(" start=\"" + cutStart + "\"");
+				}
+				writer.write(">");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endOl() 
+		{
+			try
+			{
+				writer.write("</ol>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void startLi(boolean noBullet) 
+		{
+			try
+			{
+				writer.write("<li");
+				if (noBullet || textRunStyle != null)
+				{
+					writer.write(" style=\"");
+					writer.write(noBullet ? "list-style-type: none; " : "");
+					writer.write(textRunStyle == null ? "" : textRunStyle);
+					writer.write("\"");
+				}
+				writer.write(">");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endLi() 
+		{
+			try
+			{
+				writer.write("</li>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 	}
 }

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,7 +121,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		File htmlTempFile = File.createTempFile("cv_", ".html", resourceManager.getTempFolder(jasperReportsContext));
 		try {
 			try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes(StandardCharsets.UTF_8));
-					 OutputStream os = new FileOutputStream(htmlTempFile) ) {
+					 OutputStream os = new BufferedOutputStream(new FileOutputStream(htmlTempFile)) ) {
 					CVUtils.byteStreamCopy(is, os);
 				}
 				if (log.isDebugEnabled()) {
