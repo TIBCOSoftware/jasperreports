@@ -222,4 +222,84 @@ public class StyledTextWriteContext
 		this.runTextStartsWithNewLine = runText == null ? false : runText.startsWith("\n"); 
 	}
 
+	public void writeLists(StyledTextListWriter writer)
+	{
+		if (isListItemEnd())
+		{
+			writer.endLi();
+		}
+		
+		for (int i = getPrevDepth() - 1; i > getCommonListDepth(); i--)
+		{
+			StyledTextListInfo prevList = getPrevList(i);
+			if (prevList.ordered())
+			{
+				writer.endOl();
+			}
+			else
+			{
+				writer.endUl();
+			}
+			if (prevList.hasParentLi())
+			{
+				writer.endLi();
+			}
+		}
+
+		if (getPrevDepth() > getCommonListDepth())
+		{
+			StyledTextListInfo prevList = getPrevList(getCommonListDepth());
+			if (prevList.ordered())
+			{
+				writer.endOl();
+			}
+			else
+			{
+				writer.endUl();
+			}
+			if (prevList.hasParentLi() && prevList.atLiEnd())
+			{
+				writer.endLi();
+			}
+		}
+
+		if (getCommonListDepth() < getDepth())
+		{
+			StyledTextListInfo list = getList(getCommonListDepth());
+			if (list.hasParentLi() && list.atLiStart())
+			{
+				writer.startLi(true);
+			}
+			if (list.ordered())
+			{
+				writer.startOl(list.getType(), list.getCutStart());
+			}
+			else
+			{
+				writer.startUl();
+			}
+		}
+
+		for (int i = getCommonListDepth() + 1; i < getDepth(); i++)
+		{
+			StyledTextListInfo list = getList(i);
+			if (list.hasParentLi())
+			{
+				writer.startLi(true);
+			}
+			if (list.ordered())
+			{
+				writer.startOl(list.getType(), list.getCutStart());
+			}
+			else
+			{
+				writer.startUl();
+			}
+		}
+
+		if (isListItemStart())
+		{
+			writer.startLi(getListItem().noBullet());
+		}
+	}
 }
