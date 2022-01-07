@@ -88,7 +88,7 @@
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
 		<dependency org="org.kohsuke" name="groovy-sandbox" rev="1.26-jaspersoft-2"/>
-		<dependency org="org.mozilla" name="rhino" rev="1.7.11"/>
+		<dependency org="org.mozilla" name="rhino" rev="1.7.14"/>
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
