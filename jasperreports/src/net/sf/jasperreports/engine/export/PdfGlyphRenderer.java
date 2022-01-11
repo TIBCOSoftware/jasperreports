@@ -142,14 +142,7 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	{
 		Locale locale = pdfExporter.getTextLocale(text);
 		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, itextPdfProducer, locale);
-		super.render();
-		pdfGraphics2D.dispose();
-	}
-	
-	
-	@Override
-	public void draw()
-	{
+
 		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
 		if (addText)
 		{
@@ -157,7 +150,21 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(allText, PdfObject.TEXT_UNICODE));
 			pdfContentByte.beginMarkedContentSequence(PdfName.SPAN, markedContentProps, true);
 		}
+
+		super.render();
+
+		if (addText)
+		{
+			pdfContentByte.endMarkedContentSequence();
+		}
 		
+		pdfGraphics2D.dispose();
+	}
+	
+	
+	@Override
+	public void draw()
+	{
 		if (bulletChunk != null)
 		{
 			AttributedCharacterIterator bulletIterator = bulletChunk.getIterator();
@@ -183,11 +190,6 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 				x + drawPosX,// + leftPadding,
 				y + topPadding + verticalAlignOffset + drawPosY
 				);
-		
-		if (addText)
-		{
-			pdfContentByte.endMarkedContentSequence();
-		}
 		
 		return;
 	}
