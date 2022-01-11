@@ -78,6 +78,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	public void initialize(
 		JRPdfExporter pdfExporter, 
 		PdfProducer pdfProducer,
+		JRPdfExporterTagHelper tagHelper,
 		JRPrintText text, 
 		JRStyledText styledText, 
 		int offsetX,
@@ -87,6 +88,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		super.initialize(
 			pdfExporter, 
 			pdfProducer,
+			tagHelper,
 			text, 
 			styledText, 
 			offsetX,
@@ -116,6 +118,8 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		String paragraphText
 		)
 	{
+		tagHelper.startText(text.getLinkType() != null);
+
 		if (bulletChunk != null)
 		{
 			PdfPhrase phrase = pdfProducer.createPhrase();
@@ -181,7 +185,9 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
 			);
-}
+		
+		tagHelper.endText();
+	}
 
 
 	@Override

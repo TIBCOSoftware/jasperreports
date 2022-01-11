@@ -126,6 +126,7 @@ Having said that, here are the main rules to follow when designing accessible ta
 <ul>
   <li>use a single text element in each table cell;</li>
   <li>make the text element as big as the parent table cell;</li>
+  <li>make sure all text elements on the same row grow in height in unison by setting stretchType="ContainerHeight" to each text element in each cell;</li>
   <li>make use of the text element border and padding properties and not the border or padding properties of the parent table cell;</li>
 </ul>
 Table-like structures can be rendered without using the table component. But in such case, it would be the responsibility of the person designing 
@@ -156,6 +157,7 @@ accessible crosstabs:
 <ul>
   <li>use a single text element in each crosstab cell;</li>
   <li>make the text element as big as the parent crostab cell;</li>
+  <li>make sure all text elements on the same row grow in height in unison by setting stretchType="ContainerHeight" to each text element in each cell;</li>
   <li>make use of the text element border and padding properties and not the border or padding properties of the parent crosstab cell;</li>
 </ul>
     </content>

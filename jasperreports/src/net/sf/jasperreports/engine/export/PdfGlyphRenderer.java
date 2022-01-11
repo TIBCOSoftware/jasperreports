@@ -124,14 +124,21 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	}
 
 	@Override
-	public void initialize(JRPdfExporter pdfExporter, PdfProducer pdfProducer, JRPrintText text,
-			JRStyledText styledText, int offsetX, int offsetY)
+	public void initialize(
+		JRPdfExporter pdfExporter, 
+		PdfProducer pdfProducer,
+		JRPdfExporterTagHelper tagHelper,
+		JRPrintText text,
+		JRStyledText styledText, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		if (!(pdfProducer instanceof ClassicPdfProducer))
 		{
 			throw new IllegalArgumentException("Only ClassicPdfProducer is supported");
 		}
-		super.initialize(pdfExporter, pdfProducer, text, styledText, offsetX, offsetY);
+		super.initialize(pdfExporter, pdfProducer, tagHelper, text, styledText, offsetX, offsetY);
 		
 		itextPdfProducer = (ClassicPdfProducer) pdfProducer;
 		pdfContentByte = itextPdfProducer.getPdfContentByte();

@@ -3,6 +3,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccessibleReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="02314e1d-cb29-4cf3-a904-092a9d3e5312">
 	<property name="net.sf.jasperreports.export.html.accessible" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+	<property name="net.sf.jasperreports.export.pdf.metadata.title" value="Accessible Report"/>
+	<property name="net.sf.jasperreports.export.pdf.display.metadata.title" value="true"/>
 	<property name="net.sf.jasperreports.components.table.accessible" value="true"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Description" mode="Opaque" backcolor="#EEEEEE">
@@ -85,13 +88,13 @@
 		<groupHeader>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="f4f107df-72cf-4276-927e-8e04fea1ff36"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="f4f107df-72cf-4276-927e-8e04fea1ff36"/>
 					<textFieldExpression><![CDATA["This is a sequence of level 1 and level 2 headings."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Heading1" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="7dac312f-4c73-41f3-bef6-0edcacc789a0">
+					<reportElement style="Heading1" x="0" y="0" width="500" height="10" uuid="7dac312f-4c73-41f3-bef6-0edcacc789a0">
 						<property name="net.sf.jasperreports.export.accessibility.tag" value="h1"/>
 					</reportElement>
 					<textFieldExpression><![CDATA["Fruit"]]></textFieldExpression>
@@ -99,13 +102,13 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="5e8edc65-3ae1-4008-bcc4-997e4e36ea2e"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="5e8edc65-3ae1-4008-bcc4-997e4e36ea2e"/>
 					<textFieldExpression><![CDATA["In botany, a fruit is the seed-bearing structure in flowering plants."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Heading2" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="3b9e83ea-55d1-4224-bcb2-dcb612d76258">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="3b9e83ea-55d1-4224-bcb2-dcb612d76258">
 						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
 					</reportElement>
 					<textFieldExpression><![CDATA["Apples"]]></textFieldExpression>
@@ -113,13 +116,13 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="e83c3cdc-53ac-439a-9e67-4dc2b847bda1"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="e83c3cdc-53ac-439a-9e67-4dc2b847bda1"/>
 					<textFieldExpression><![CDATA["An apple is an edible fruit produced by an apple tree (Malus domestica)."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Heading2" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="c31fb47d-10ae-47cf-b1f5-5b2b6e45aa0c">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="c31fb47d-10ae-47cf-b1f5-5b2b6e45aa0c">
 						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
 					</reportElement>
 					<textFieldExpression><![CDATA["Bananas"]]></textFieldExpression>
@@ -127,13 +130,13 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="b9123f2b-c55b-4c3e-a307-cda5fd32f3ee"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="b9123f2b-c55b-4c3e-a307-cda5fd32f3ee"/>
 					<textFieldExpression><![CDATA["A banana is an elongated, edible fruit produced by several kinds of large herbaceous flowering plants in the genus Musa."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Heading1" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="9ef7cebf-7244-41a0-af98-844412fd0333">
+					<reportElement style="Heading1" x="0" y="0" width="500" height="10" uuid="9ef7cebf-7244-41a0-af98-844412fd0333">
 						<property name="net.sf.jasperreports.export.accessibility.tag" value="h1"/>
 					</reportElement>
 					<textFieldExpression><![CDATA["Vegetables"]]></textFieldExpression>
@@ -141,13 +144,13 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="1dddd147-7d32-4052-b81f-a94f7f461a3b"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="1dddd147-7d32-4052-b81f-a94f7f461a3b"/>
 					<textFieldExpression><![CDATA["Vegetables are parts of plants that are consumed by humans or other animals as food."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Heading2" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="3ecd40e1-fb0c-43b6-954a-6c55a576cf77">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="3ecd40e1-fb0c-43b6-954a-6c55a576cf77">
 						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
 					</reportElement>
 					<textFieldExpression><![CDATA["Cucumbers"]]></textFieldExpression>
@@ -155,20 +158,20 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="9acca496-1625-4b69-838d-384f63788a75"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="9acca496-1625-4b69-838d-384f63788a75"/>
 					<textFieldExpression><![CDATA["Cucumber (Cucumis sativus) is a widely-cultivated creeping vine plant in the Cucurbitaceae family that bears usually cylindrical fruits, which are used as vegetables."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="30"/>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="8418cbff-c5ae-447d-a752-2490b0057308"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="8418cbff-c5ae-447d-a752-2490b0057308"/>
 					<textFieldExpression><![CDATA["This is a bulleted list with two levels."]]></textFieldExpression>
 				</textField>
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Sans_Normal" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="e6726dbf-f84d-45e2-9f86-0b4e899ccbe6"/>
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="e6726dbf-f84d-45e2-9f86-0b4e899ccbe6"/>
 					<textElement markup="styled"/>
 					<textFieldExpression><![CDATA["<ul><li>Fruit<ol><li>Apples</li><li>Bananas</li><li>Pears</li></ol></li><li>Vegetables<ol><li>Cucumber</li><li>Lettuce</li><li>Tomatoes</li></ol></li></ul>"]]></textFieldExpression>
 				</textField>
@@ -176,7 +179,7 @@
 			<band height="30"/>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="f6590373-78af-4976-ab23-a2d8ef68b693"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="f6590373-78af-4976-ab23-a2d8ef68b693"/>
 					<textFieldExpression><![CDATA["This is an image."]]></textFieldExpression>
 				</textField>
 			</band>
@@ -193,7 +196,7 @@
 			<band height="30"/>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="48c45474-ff24-4cb8-b1b0-456c2ea0a8de"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="48c45474-ff24-4cb8-b1b0-456c2ea0a8de"/>
 					<textFieldExpression><![CDATA["This is a crosstab without a header cell at its the top left corner."]]></textFieldExpression>
 				</textField>
 			</band>
@@ -338,7 +341,7 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="a98a7704-439e-45ee-af84-a3cfb2b4ab17"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="a98a7704-439e-45ee-af84-a3cfb2b4ab17"/>
 					<textFieldExpression><![CDATA["This is a crosstab having a header cell at its the top left corner."]]></textFieldExpression>
 				</textField>
 			</band>
@@ -495,7 +498,7 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="533e9a7f-78a8-4c12-b306-92ae7b8fda38"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="533e9a7f-78a8-4c12-b306-92ae7b8fda38"/>
 					<textFieldExpression><![CDATA["This is a table having a column group header that wraps the third and fourth column headers."]]></textFieldExpression>
 				</textField>
 			</band>
@@ -622,7 +625,7 @@
 			</band>
 			<band height="20">
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Description" stretchType="ContainerHeight" x="0" y="0" width="500" height="10" uuid="3ef700c5-fa90-4f2b-93b5-f30ecad244b6"/>
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="3ef700c5-fa90-4f2b-93b5-f30ecad244b6"/>
 					<textFieldExpression><![CDATA["This is a simple table without any column header grouping."]]></textFieldExpression>
 				</textField>
 			</band>

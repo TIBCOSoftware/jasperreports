@@ -2568,7 +2568,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 		
 		AbstractPdfTextRenderer textRenderer = getTextRenderer(text, styledText);
-		textRenderer.initialize(this, pdfProducer, text, styledText, getOffsetX(), getOffsetY());
+		textRenderer.initialize(this, pdfProducer, tagHelper, text, styledText, getOffsetX(), getOffsetY());
 
 		double angle = 0;
 
@@ -2612,15 +2612,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfContent.resetFillColor();
 		}
 		
-		if (textRenderer.addActualText())
-		{
-			tagHelper.startText(styledText.getText(), text.getLinkType() != null);
-		}
-		else
-		{
-			tagHelper.startText(text.getLinkType() != null);
-		}
-
 		int forecolorAlpha = getSingleForecolorAlpha(styledText);
 		pdfContent.setFillColorAlpha(forecolorAlpha);
 		
@@ -2629,7 +2620,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			textRenderer.render();
 		}
-		tagHelper.endText();
 		
 		pdfContent.resetFillColor();
 
