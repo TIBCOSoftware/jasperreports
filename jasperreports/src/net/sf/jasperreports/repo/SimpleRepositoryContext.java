@@ -24,7 +24,6 @@
 package net.sf.jasperreports.repo;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.repo.RepositoryResourceContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

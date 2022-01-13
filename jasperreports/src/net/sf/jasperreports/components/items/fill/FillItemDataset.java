@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.items.fill;
 
-import net.sf.jasperreports.components.items.fill.FillItemData;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;

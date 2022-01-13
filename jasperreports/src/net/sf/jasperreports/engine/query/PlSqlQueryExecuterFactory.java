@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-
 /**
  * Query executer factory for Oracle queries, both inline SQL and stored
  * procedures.

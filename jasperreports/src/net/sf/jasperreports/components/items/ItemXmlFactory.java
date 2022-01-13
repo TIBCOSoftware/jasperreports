@@ -23,10 +23,9 @@
  */
 package net.sf.jasperreports.components.items;
 
-import net.sf.jasperreports.components.items.StandardItem;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
 import org.xml.sax.Attributes;
+
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 
 /**
