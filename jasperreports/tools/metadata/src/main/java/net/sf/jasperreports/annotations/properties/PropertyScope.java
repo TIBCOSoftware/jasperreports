@@ -55,7 +55,8 @@ public enum PropertyScope
 	TABLE_COLUMN("Column"),
 	TABLE_CELL("Table Cell"),
 	EXTENSION("Extension"),
-	INTERNAL("Internal");
+	INTERNAL("Internal"),
+	SCRIPTLET("Scriptlet");
 
 	private final String label;
 	

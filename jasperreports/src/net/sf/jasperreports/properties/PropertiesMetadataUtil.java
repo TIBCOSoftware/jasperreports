@@ -375,4 +375,11 @@ public class PropertiesMetadataUtil
 		return false;
 	}
 
+	public List<PropertyMetadata> getScriptletProperties(String scriptletClass) throws JRException
+	{
+		String qualification = scriptletClass;
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.SCRIPTLET, qualification);
+		return properties;
+	}
+
 }
