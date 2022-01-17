@@ -22,12 +22,17 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -35,6 +40,8 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.util.CastorUtil;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 
 /**
@@ -56,9 +63,70 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
-		fill();
-		pdf();
-		html();
+		testXml("ExcelXlsDataAdapter");	
+		testXml("XlsDataAdapter");	
+	}
+
+
+	private void testXml(String daFile) throws JRException
+	{
+		try (FileInputStream fis = new FileInputStream(new File("data/" + daFile + ".xml")))
+		{
+			// READ old Castor format from sample, which has deprecated fileName field
+			DataAdapter da = (DataAdapter)CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).read(fis);
+			
+			// WRITE Castor new format with dataFile node
+			CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).writeToFile(da, "build/" + daFile + ".castor.xml");
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+
+		try (FileInputStream fis = new FileInputStream(new File("build/" + daFile + ".castor.xml")))
+		{
+			// READ Castor latest format with Jackson 
+			DataAdapter da = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
+			
+			// WRITE Jackson format
+			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(da);
+			FileWriter writer = new FileWriter("build/" + daFile + ".jackson.xml");
+			writer.write(xml);
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+
+		try (FileInputStream fis = new FileInputStream(new File("build/" + daFile + ".jackson.xml")))
+		{
+			// READ Jackson own format
+			DataAdapter da = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
+			
+			// WRITE Jackson again just to check read/save works
+			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(da);
+			FileWriter writer = new FileWriter("build/" + daFile + ".jackson2.xml");
+			writer.write(xml);
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
+
+//		try (FileInputStream fis = new FileInputStream(new File("build/" + daFile + ".jackson.xml")))
+//		{
+//			// READ Jackson file with Castor
+//			DataAdapter da = (DataAdapter)CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).read(fis);
+//
+//			// WRITE Castor again to compare and check
+//			CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).writeToFile(da, "build/" + daFile + ".castor2.xml");
+//		}
+//		catch (IOException e)
+//		{
+//			throw new JRException(e);
+//		}
 	}
 
 
