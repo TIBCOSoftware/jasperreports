@@ -24,10 +24,24 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
@@ -35,15 +49,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
@@ -55,6 +60,7 @@ public class JacksonUtil
 	 * 
 	 */
 	private static final String OBJECT_MAPPER_CONTEXT_KEY = "net.sf.jasperreports.jackson.object.mapper";
+	private static final String XML_MAPPER_CONTEXT_KEY = "net.sf.jasperreports.jackson.xml.mapper";
 	
 	private JasperReportsContext jasperReportsContext;
 
@@ -98,6 +104,29 @@ public class JacksonUtil
 	}
 	
 	
+	public XmlMapper getXmlMapper()
+	{
+		XmlMapper mapper = (XmlMapper)jasperReportsContext.getOwnValue(OBJECT_MAPPER_CONTEXT_KEY);
+		if (mapper == null)
+		{
+			mapper = new XmlMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			mapper.setSerializationInclusion(Include.NON_NULL);
+			
+			List<JacksonMapping> jacksonMappings = jasperReportsContext.getExtensions(JacksonMapping.class);
+			for (JacksonMapping jacksonMapping : jacksonMappings)
+			{
+				register(mapper, jacksonMapping);
+			}
+
+			mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+			
+			jasperReportsContext.setValue(XML_MAPPER_CONTEXT_KEY, mapper);
+		}
+		return mapper;
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -129,13 +158,51 @@ public class JacksonUtil
 			{
 				result = mapper.readValue(jsonData, clazz);
 			}
-			catch (JsonParseException e) 
+			catch (JsonProcessingException e) 
 			{
 				throw new JRRuntimeException(e);
 			}
-			catch (JsonMappingException e) 
+		}
+		return result;
+	}
+
+
+	/**
+	 *
+	 */
+	public <T> T loadXml(String xmlData, Class<T> clazz)
+	{
+		T result = null;
+		if (xmlData != null) 
+		{
+			XmlMapper mapper = getXmlMapper();
+			
+			try 
+			{
+				result = mapper.readValue(xmlData, clazz);
+			}
+			catch (JsonProcessingException e) 
 			{
 				throw new JRRuntimeException(e);
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 *
+	 */
+	public <T> T loadXml(InputStream is, Class<T> clazz)
+	{
+		T result = null;
+		if (is != null) 
+		{
+			XmlMapper mapper = getXmlMapper();
+			
+			try 
+			{
+				result = mapper.readValue(is, clazz);
 			}
 			catch (IOException e) 
 			{
@@ -203,6 +270,31 @@ public class JacksonUtil
 	public String getJsonString(Object object) 
 	{
 		ObjectMapper mapper = getObjectMapper();
+		try
+		{
+			return mapper.writeValueAsString(object);
+		} 
+		catch (JsonGenerationException e) 
+		{
+			throw new JRRuntimeException(e);
+		} 
+		catch (JsonMappingException e) 
+		{
+			throw new JRRuntimeException(e);
+		} 
+		catch (IOException e) 
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public String getXmlString(Object object) 
+	{
+		XmlMapper mapper = getXmlMapper();
 		try
 		{
 			return mapper.writeValueAsString(object);

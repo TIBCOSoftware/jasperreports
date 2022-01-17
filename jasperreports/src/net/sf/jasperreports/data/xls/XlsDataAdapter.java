@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
@@ -43,6 +46,7 @@ public interface XlsDataAdapter extends FileDataAdapter
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
 	@Deprecated
+	@JsonIgnore
 	public String getFileName();
 
 	/**
@@ -53,8 +57,10 @@ public interface XlsDataAdapter extends FileDataAdapter
 	
 	public boolean isUseFirstRowAsHeader();
 	
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<String> getColumnNames();
 
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<Integer> getColumnIndexes();
 	
 	public void setColumnNames(List<String> columnNames);

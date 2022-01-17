@@ -23,10 +23,22 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
+import net.sf.jasperreports.data.excel.ExcelDataAdapterImpl;
+import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = ExcelDataAdapterImpl.class),
+	@JsonSubTypes.Type(value = XlsDataAdapterImpl.class)
+})
 public interface DataAdapter
 {
 	/**

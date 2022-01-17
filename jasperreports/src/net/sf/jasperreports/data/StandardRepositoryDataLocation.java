@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("repositoryDataLocation")
 public class StandardRepositoryDataLocation implements RepositoryDataLocation
 {
 	

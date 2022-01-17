@@ -23,11 +23,18 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
+import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class),
+	@JsonSubTypes.Type(value = StandardHttpDataLocation.class)
+})
 public interface DataFile extends JRCloneable
 {
 
