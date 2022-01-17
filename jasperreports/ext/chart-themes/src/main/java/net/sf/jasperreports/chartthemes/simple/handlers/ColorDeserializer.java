@@ -21,32 +21,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
+package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import java.awt.Image;
-import java.io.Serializable;
+import java.awt.Color;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
-import net.sf.jasperreports.engine.JasperReportsContext;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = FileImageProvider.class)
-})
-public interface ImageProvider extends Serializable
+public class ColorDeserializer extends StdDeserializer<Color>
 {
+	public ColorDeserializer()
+	{
+		this(null);
+	}
+	
+	public ColorDeserializer(Class<?> vc)
+	{
+		super(vc);
+	}
 
-	/**
-	 *
-	 */
-	public Image getImage(JasperReportsContext jasperReportsContext);
-
+	@Override
+	public Color deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException 
+	{
+		ObjectCodec oc = p.getCodec();
+		JsonNode node = oc.readTree(p);
+		
+		String color = node.textValue();
+		
+		return (Color)new ColorFieldHandler().convertUponSet(color);
+    }
 }

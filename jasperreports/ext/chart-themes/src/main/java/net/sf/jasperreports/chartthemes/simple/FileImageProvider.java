@@ -25,6 +25,8 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.Image;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -36,6 +38,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("file")
 public class FileImageProvider implements ImageProvider
 {
 	/**

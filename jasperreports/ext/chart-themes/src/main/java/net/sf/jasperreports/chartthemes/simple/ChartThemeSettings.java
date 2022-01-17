@@ -25,6 +25,8 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -54,6 +56,7 @@ public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JsonProperty("chart-settings")
 	private ChartSettings chartSettings = new ChartSettings();
 	private TitleSettings titleSettings = new TitleSettings();
 	private TitleSettings subtitleSettings = new TitleSettings();

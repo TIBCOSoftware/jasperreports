@@ -22,15 +22,20 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.chartthemes.simple.AegeanSettingsFactory;
+import net.sf.jasperreports.chartthemes.simple.ChartThemeSettings;
 import net.sf.jasperreports.chartthemes.simple.EyeCandySixtiesSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -48,12 +53,12 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 
 /**
@@ -75,19 +80,25 @@ public class ChartThemesApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
-		fill();
-		pdf();
-		xmlEmbed();
-		xml();
-		html();
-		rtf();
-		xls();
-		csv();
-		odt();
-		ods();
-		docx();
-		xlsx();
-		pptx();
+		String ctFile = "aegean";
+		ChartThemeSettings settings = XmlChartTheme.loadSettings("reports/aegean.jrctx");
+		XmlChartTheme.saveSettings(settings, new File("build/aegean.castor.jrctx"));
+
+		try (FileInputStream fis = new FileInputStream(new File("build/" + ctFile + ".castor.jrctx")))
+		{
+			// READ Castor latest format with Jackson 
+			settings = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, ChartThemeSettings.class);
+			
+			// WRITE Jackson format
+			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
+			FileWriter writer = new FileWriter("build/" + ctFile + ".jackson.jrctx");
+			writer.write(xml);
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			throw new JRException(e);
+		}
 	}
 
 

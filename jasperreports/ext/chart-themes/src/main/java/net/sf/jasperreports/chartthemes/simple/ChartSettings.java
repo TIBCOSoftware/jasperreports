@@ -23,11 +23,18 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
+import java.awt.BasicStroke;
 import java.awt.Stroke;
 import java.io.Serializable;
 
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentDeserializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -60,15 +67,27 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JsonProperty("background-paint")
 	private PaintProvider backgroundPaint;
+	@JsonProperty("background-image")
 	private ImageProvider backgroundImage;
+	@JsonProperty("background-image-alignment")
+	@JsonDeserialize(using = ImageAlignmentDeserializer.class)
 	private Integer backgroundImageAlignment;
+	@JsonProperty("background-image-alpha")
 	private Float backgroundImageAlpha;
+	@JsonTypeInfo(use = Id.CLASS, defaultImpl = JRBaseFont.class) // put this here so that we do not disturb the JRFont interface
 	private JRFont font = new JRBaseFont();
+	@JsonProperty("border-visible")
 	private Boolean borderVisible;
+	@JsonProperty("border-paint")
 	private PaintProvider borderPaint;
+	@JsonProperty("stroke")
+	@JsonTypeInfo(use = Id.CLASS, defaultImpl = BasicStroke.class)
 	private Stroke borderStroke;
+	@JsonProperty("anti-alias")
 	private Boolean antiAlias;
+	@JsonProperty("text-anti-alias")
 	private Boolean textAntiAlias;
 	private RectangleInsets padding;
 	
