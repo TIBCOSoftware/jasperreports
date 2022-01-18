@@ -80,9 +80,19 @@ public class ChartThemesApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
-		String ctFile = "aegean";
-		ChartThemeSettings settings = XmlChartTheme.loadSettings("reports/aegean.jrctx");
-		XmlChartTheme.saveSettings(settings, new File("build/aegean.castor.jrctx"));
+		testXml("aegean");
+		testXml("eye.candy.sixties");
+		testXml("simple");
+	}
+
+
+	public void testXml(String ctFile) throws JRException
+	{
+		// READ Castor 
+		ChartThemeSettings settings = XmlChartTheme.loadSettings("reports/" + ctFile + ".jrctx");
+
+		// WRITE to Castor format 
+		XmlChartTheme.saveSettings(settings, new File("build/" + ctFile + ".castor.jrctx"));
 
 		try (FileInputStream fis = new FileInputStream(new File("build/" + ctFile + ".castor.jrctx")))
 		{

@@ -38,6 +38,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  */
 public class ImageAlignmentDeserializer extends StdDeserializer<Integer>
 {
+	private static final long serialVersionUID = 1L;
+
 	public ImageAlignmentDeserializer()
 	{
 		this(null);

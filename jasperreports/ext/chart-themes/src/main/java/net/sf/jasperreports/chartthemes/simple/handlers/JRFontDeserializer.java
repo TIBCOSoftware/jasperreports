@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
  */
 public class JRFontDeserializer extends StdDeserializer<JRFont>
 {
+	private static final long serialVersionUID = 1L;
+
 	public JRFontDeserializer()
 	{
 		this(null);
@@ -59,11 +61,40 @@ public class JRFontDeserializer extends StdDeserializer<JRFont>
 		
 		JRBaseFont font = new JRBaseFont();
 		
+		JsonNode fontNameNode = node.get("font-name");
+		if (fontNameNode != null)
+		{
+			font.setFontName(fontNameNode.asText());
+		}
+		
 		JsonNode fontSizeNode = node.get("font-size");
 		if (fontSizeNode != null)
 		{
-			Double fontSize = fontSizeNode.asDouble();
-			font.setFontSize(fontSize.floatValue());
+			font.setFontSize((float)fontSizeNode.asDouble());
+		}
+		
+		JsonNode boldNode = node.get("bold");
+		if (boldNode != null)
+		{
+			font.setBold(boldNode.asBoolean());
+		}
+		
+		JsonNode italicNode = node.get("italic");
+		if (italicNode != null)
+		{
+			font.setItalic(italicNode.asBoolean());
+		}
+		
+		JsonNode underlineNode = node.get("underline");
+		if (underlineNode != null)
+		{
+			font.setUnderline(underlineNode.asBoolean());
+		}
+		
+		JsonNode strikeThroughNode = node.get("strike-through");
+		if (strikeThroughNode != null)
+		{
+			font.setStrikeThrough(strikeThroughNode.asBoolean());
 		}
 		
 		return font;

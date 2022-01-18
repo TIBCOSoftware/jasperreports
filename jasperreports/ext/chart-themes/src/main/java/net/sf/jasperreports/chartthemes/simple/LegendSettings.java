@@ -33,9 +33,9 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentSerializer;
@@ -81,26 +81,27 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	@JsonProperty("show-legend")
+	@JacksonXmlProperty(localName = "show-legend", isAttribute = true)
 	private Boolean showLegend;
 
+	@JacksonXmlProperty(localName = "position", isAttribute = true)
 	private EdgeEnum positionValue;
 	
-	@JsonProperty("foreground-paint")
+	@JacksonXmlProperty(localName = "foreground-paint")
 	private PaintProvider foregroundPaint;
 	
-	@JsonProperty("background-paint")
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
 	
 	@JsonDeserialize(using = JRFontDeserializer.class)
 	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
 	
-	@JsonProperty("horizontal-alignment")
+	@JacksonXmlProperty(localName = "horizontal-alignment", isAttribute = true)
 	@JsonSerialize(using = HorizontalAlignmentSerializer.class)
 	private HorizontalAlignment horizontalAlignment;
 	
-	@JsonProperty("vertical-alignment")
+	@JacksonXmlProperty(localName = "vertical-alignment", isAttribute = true)
 	@JsonSerialize(using = VerticalAlignmentSerializer.class)
 	private VerticalAlignment verticalAlignment;
 	

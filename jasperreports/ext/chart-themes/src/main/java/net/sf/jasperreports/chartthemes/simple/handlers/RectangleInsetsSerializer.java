@@ -38,6 +38,8 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
  */
 public class RectangleInsetsSerializer extends StdSerializer<RectangleInsets>
 {
+	private static final long serialVersionUID = 1L;
+
 	public RectangleInsetsSerializer()
 	{
 		this(null);

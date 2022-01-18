@@ -37,6 +37,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  */
 public class HorizontalAlignmentSerializer extends StdSerializer<HorizontalAlignment>
 {
+	private static final long serialVersionUID = 1L;
+
 	public HorizontalAlignmentSerializer()
 	{
 		this(null);

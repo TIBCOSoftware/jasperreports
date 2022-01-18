@@ -30,11 +30,12 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.chartthemes.simple.handlers.AxisLocationDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.AxisLocationSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
@@ -86,84 +87,86 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	private Boolean visible;
 
+	@JacksonXmlProperty(isAttribute = true)
 	@JsonDeserialize(using = AxisLocationDeserializer.class)
-	@JsonIgnoreProperties("opposite")
+	@JsonSerialize(using = AxisLocationSerializer.class)
 	private AxisLocation location;
 	
-	@JsonProperty("line-paint")
+	@JacksonXmlProperty(localName = "line-paint")
 	private PaintProvider linePaint;
 	
-	@JsonProperty("line-stroke")
+	@JacksonXmlProperty(localName = "line-stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke lineStroke;
 	
-	@JsonProperty("line-visible")
+	@JacksonXmlProperty(localName = "line-visible", isAttribute = true)
 	private Boolean lineVisible;
 
 //	private String label;
 	
-	@JsonProperty("label-angle")
+	@JacksonXmlProperty(localName = "label-angle", isAttribute = true)
 	private Double labelAngle;
 
-	@JsonProperty("label-paint")
+	@JacksonXmlProperty(localName = "label-paint")
 	private PaintProvider labelPaint;
 	
-	@JsonProperty("label-font")
+	@JacksonXmlProperty(localName = "label-font")
 	@JsonDeserialize(using = JRFontDeserializer.class)
 	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont labelFont = new JRBaseFont();
 
-	@JsonProperty("label-insets")
+	@JacksonXmlProperty(localName = "label-insets")
 	@JsonSerialize(using = RectangleInsetsSerializer.class)
 	@JsonIgnoreProperties("unitType")
 	private RectangleInsets labelInsets;
 
-	@JsonProperty("label-visible")
+	@JacksonXmlProperty(localName = "label-visible", isAttribute = true)
 	private Boolean labelVisible;
 	
-	@JsonProperty("tick-label-paint")
+	@JacksonXmlProperty(localName = "tick-label-paint")
 	private PaintProvider tickLabelPaint;
 	
-	@JsonProperty("tick-label-font")
+	@JacksonXmlProperty(localName = "tick-label-font")
 	@JsonDeserialize(using = JRFontDeserializer.class)
 	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont tickLabelFont = new JRBaseFont();
 	
-	@JsonProperty("tick-label-insets")
+	@JacksonXmlProperty(localName = "tick-label-insets")
 	@JsonSerialize(using = RectangleInsetsSerializer.class)
 	@JsonIgnoreProperties("unitType")
 	private RectangleInsets tickLabelInsets;
 	
-	@JsonProperty("tick-labels-visible")
+	@JacksonXmlProperty(localName = "tick-labels-visible", isAttribute = true)
 	private Boolean tickLabelsVisible;
 	
-	@JsonProperty("tick-marks-inside-length")
+	@JacksonXmlProperty(localName = "tick-marks-inside-length", isAttribute = true)
 	private Float tickMarksInsideLength;
 	
-	@JsonProperty("tick-marks-outside-length")
+	@JacksonXmlProperty(localName = "tick-marks-outside-length", isAttribute = true)
 	private Float tickMarksOutsideLength;
 	
-	@JsonProperty("tick-marks-paint")
+	@JacksonXmlProperty(localName = "tick-marks-paint")
 	private PaintProvider tickMarksPaint;
 	
-	@JsonProperty("tick-marks-stroke")
+	@JacksonXmlProperty(localName = "tick-marks-stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke tickMarksStroke;
 	
-	@JsonProperty("tick-marks-visible")
+	@JacksonXmlProperty(localName = "tick-marks-visible", isAttribute = true)
 	private Boolean tickMarksVisible;
 	
-	@JsonProperty("tick-count")
+	@JacksonXmlProperty(localName = "tick-count", isAttribute = true)
 	private Integer tickCount;
 	
-	@JsonProperty("tick-interval")
+	@JacksonXmlProperty(localName = "tick-interval", isAttribute = true)
 	private Number tickInterval;
 	
-	@JsonProperty("axis-integer-unit")
+	@JacksonXmlProperty(localName = "axis-integer-unit", isAttribute = true)
 	private Boolean axisIntegerUnit;
 	
 	/**

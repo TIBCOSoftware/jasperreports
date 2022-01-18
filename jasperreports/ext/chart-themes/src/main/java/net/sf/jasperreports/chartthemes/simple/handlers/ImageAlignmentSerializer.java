@@ -35,6 +35,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  */
 public class ImageAlignmentSerializer extends StdSerializer<Integer>
 {
+	private static final long serialVersionUID = 1L;
+
 	public ImageAlignmentSerializer()
 	{
 		this(null);

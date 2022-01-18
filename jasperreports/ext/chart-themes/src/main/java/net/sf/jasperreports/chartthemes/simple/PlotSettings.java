@@ -31,14 +31,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.PlotOrientationSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.StrokeSerializer;
@@ -89,95 +91,98 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
+	@JsonSerialize(using = PlotOrientationSerializer.class)
 	private PlotOrientation orientation;
 	
-	@JsonProperty("foreground-alpha")
+	@JacksonXmlProperty(localName = "foreground-alpha")
 	private Float foregroundAlpha;
 	
-	@JsonProperty("background-paint")
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
 	
-	@JsonProperty("background-alpha")
+	@JacksonXmlProperty(localName = "background-alpha")
 	private Float backgroundAlpha;
 	
-	@JsonProperty("background-image")
+	@JacksonXmlProperty(localName = "background-image")
 	private ImageProvider backgroundImage;
 	
-	@JsonProperty("background-image-alpha")
+	@JacksonXmlProperty(localName = "background-image-alpha", isAttribute = true)
 	private Float backgroundImageAlpha;
 	
-	@JsonProperty("background-image-alignment")
+	@JacksonXmlProperty(localName = "background-image-alignment", isAttribute = true)
 	@JsonDeserialize(using = ImageAlignmentDeserializer.class)
+	@JsonSerialize(using = ImageAlignmentSerializer.class)
 	private Integer backgroundImageAlignment;
 	
-	@JsonProperty("label-rotation")
+	@JacksonXmlProperty(localName = "label-rotation", isAttribute = true)
 	private Double labelRotation;
 
 	@JsonSerialize(using = RectangleInsetsSerializer.class)
 	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
-	@JsonProperty("outline-visible")
+	@JacksonXmlProperty(localName = "outline-visible", isAttribute = true)
 	private Boolean outlineVisible;
 	
-	@JsonProperty("outline-paint")
+	@JacksonXmlProperty(localName = "outline-paint")
 	private PaintProvider outlinePaint;
 	
-	@JsonProperty("stroke")
+	@JacksonXmlProperty(localName = "stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke outlineStroke;
 	
-	@JsonProperty("series-color-sequence")
+	@JacksonXmlProperty(localName = "series-color-sequence")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<PaintProvider> seriesColorSequence;
 	
 	private List<PaintProvider> seriesGradientPaintSequence;
 	
-	@JsonProperty("series-outline-paint-sequence")
+	@JacksonXmlProperty(localName = "series-outline-paint-sequence")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<PaintProvider> seriesOutlinePaintSequence;
 	
-	@JsonProperty("series-stroke-sequence")
+	@JacksonXmlProperty(localName = "series-stroke-sequence")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@JsonDeserialize(contentUsing = StrokeDeserializer.class)
 	@JsonSerialize(contentUsing = StrokeSerializer.class)
 	private List<Stroke> seriesStrokeSequence;
 	
-	@JsonProperty("series-outline-stroke-sequence")
+	@JacksonXmlProperty(localName = "series-outline-stroke-sequence")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@JsonDeserialize(contentUsing = StrokeDeserializer.class)
 	@JsonSerialize(contentUsing = StrokeSerializer.class)
 	private List<Stroke> seriesOutlineStrokeSequence;
 	
-	@JsonProperty("domain-gridline-visible")
+	@JacksonXmlProperty(localName = "domain-gridline-visible", isAttribute = true)
 	private Boolean domainGridlineVisible;
 	
-	@JsonProperty("domain-gridline-paint")
+	@JacksonXmlProperty(localName = "domain-gridline-paint")
 	private PaintProvider domainGridlinePaint;
 	
-	@JsonProperty("domain-gridline-stroke")
+	@JacksonXmlProperty(localName = "domain-gridline-stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke domainGridlineStroke;
 	
-	@JsonProperty("range-gridline-visible")
+	@JacksonXmlProperty(localName = "range-gridline-visible", isAttribute = true)
 	private Boolean rangeGridlineVisible;
 	
-	@JsonProperty("range-gridline-paint")
+	@JacksonXmlProperty(localName = "range-gridline-paint")
 	private PaintProvider rangeGridlinePaint;
 	
-	@JsonProperty("range-gridline-stroke")
+	@JacksonXmlProperty(localName = "range-gridline-stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke rangeGridlineStroke;
 	
-	@JsonProperty("tick-label-font")
+	@JacksonXmlProperty(localName = "tick-label-font")
 	@JsonDeserialize(using = JRFontDeserializer.class)
 	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont tickLabelFont = new JRBaseFont();
 	
-	@JsonProperty("display-font")
+	@JacksonXmlProperty(localName = "display-font")
 	@JsonDeserialize(using = JRFontDeserializer.class)
 	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont displayFont = new JRBaseFont();

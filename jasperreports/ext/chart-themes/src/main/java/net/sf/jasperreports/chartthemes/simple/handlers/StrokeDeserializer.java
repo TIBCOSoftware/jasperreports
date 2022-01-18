@@ -40,6 +40,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  */
 public class StrokeDeserializer extends StdDeserializer<Stroke>
 {
+	private static final long serialVersionUID = 1L;
+
 	public StrokeDeserializer()
 	{
 		this(null);

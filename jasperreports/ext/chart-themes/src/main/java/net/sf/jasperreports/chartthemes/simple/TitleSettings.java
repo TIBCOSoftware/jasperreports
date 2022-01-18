@@ -32,7 +32,6 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -84,10 +83,10 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 	@JacksonXmlProperty(localName = "position", isAttribute = true)
 	private EdgeEnum positionValue;
 
-	@JsonProperty("foreground-paint")
+	@JacksonXmlProperty(localName = "foreground-paint")
 	private PaintProvider foregroundPaint;
 
-	@JsonProperty("background-paint")
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
 
 	@JsonDeserialize(using = JRFontDeserializer.class)

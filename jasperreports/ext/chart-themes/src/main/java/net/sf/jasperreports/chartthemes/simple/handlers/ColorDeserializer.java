@@ -39,6 +39,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  */
 public class ColorDeserializer extends StdDeserializer<Color>
 {
+	private static final long serialVersionUID = 1L;
+
 	public ColorDeserializer()
 	{
 		this(null);

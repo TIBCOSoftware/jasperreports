@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JRFont;
  */
 public class JRFontSerializer extends StdSerializer<JRFont>
 {
+	private static final long serialVersionUID = 1L;
+
 	public JRFontSerializer()
 	{
 		this(null);
@@ -55,12 +57,45 @@ public class JRFontSerializer extends StdSerializer<JRFont>
 		{
 			((ToXmlGenerator)jgen).setNextIsAttribute(true);
 		}
+		
 		jgen.writeStartObject();
+		
+		String fontName = value.getOwnFontName();
+		if (fontName != null)
+		{
+			jgen.writeStringField("font-name", fontName);
+		}
+
 		Float fontSize = value.getOwnFontsize();
 		if (fontSize != null)
 		{
-			jgen.writeNumberField("font-size", value.getOwnFontsize());
+			jgen.writeNumberField("font-size", fontSize);
 		}
+
+		Boolean bold = value.isOwnBold();
+		if (bold != null)
+		{
+			jgen.writeBooleanField("bold", bold);
+		}
+
+		Boolean italic = value.isOwnItalic();
+		if (italic != null)
+		{
+			jgen.writeBooleanField("italic", italic);
+		}
+
+		Boolean underline = value.isOwnUnderline();
+		if (underline != null)
+		{
+			jgen.writeBooleanField("underline", underline);
+		}
+
+		Boolean strikeThrough = value.isOwnStrikeThrough();
+		if (strikeThrough != null)
+		{
+			jgen.writeBooleanField("strike-through", strikeThrough);
+		}
+		
 		jgen.writeEndObject();
 	}
 }

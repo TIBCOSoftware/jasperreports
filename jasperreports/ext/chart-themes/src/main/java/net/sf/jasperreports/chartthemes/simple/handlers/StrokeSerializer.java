@@ -38,6 +38,8 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
  */
 public class StrokeSerializer extends StdSerializer<Stroke>
 {
+	private static final long serialVersionUID = 1L;
+
 	public StrokeSerializer()
 	{
 		this(null);

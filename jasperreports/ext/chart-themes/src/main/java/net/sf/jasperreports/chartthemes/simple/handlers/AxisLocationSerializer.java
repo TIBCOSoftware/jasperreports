@@ -23,8 +23,9 @@
  */
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import java.awt.Color;
 import java.io.IOException;
+
+import org.jfree.chart.axis.AxisLocation;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -34,24 +35,24 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ColorSerializer extends StdSerializer<Color>
+public class AxisLocationSerializer extends StdSerializer<AxisLocation>
 {
 	private static final long serialVersionUID = 1L;
 
-	public ColorSerializer()
+	public AxisLocationSerializer()
 	{
 		this(null);
 	}
 
-	public ColorSerializer(Class<Color> vc)
+	public AxisLocationSerializer(Class<AxisLocation> vc)
 	{
 		super(vc);
 	}
 
 	@Override
-	public void serialize(Color value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
+	public void serialize(AxisLocation value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new ColorFieldHandler().convertUponGet(value);
+		String strValue = (String)new AxisLocationHandler().convertUponGet(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);

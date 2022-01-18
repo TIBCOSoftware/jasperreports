@@ -29,7 +29,6 @@ import java.io.Serializable;
 import org.jfree.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -74,10 +73,10 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	@JsonProperty("background-paint")
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
 	
-	@JsonProperty("background-image")
+	@JacksonXmlProperty(localName = "background-image")
 	private ImageProvider backgroundImage;
 	
 	@JacksonXmlProperty(localName = "background-image-alignment", isAttribute = true)
@@ -95,10 +94,10 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	@JacksonXmlProperty(localName = "border-visible", isAttribute = true)
 	private Boolean borderVisible;
 	
-	@JsonProperty("border-paint")
+	@JacksonXmlProperty(localName = "border-paint")
 	private PaintProvider borderPaint;
 	
-	@JsonProperty("stroke")
+	@JacksonXmlProperty(localName = "stroke")
 	@JsonDeserialize(using = StrokeDeserializer.class)
 	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke borderStroke;

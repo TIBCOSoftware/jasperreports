@@ -26,7 +26,7 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -60,25 +60,25 @@ public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	@JsonProperty("chart-settings")
+	@JacksonXmlProperty(localName = "chart-settings")
 	private ChartSettings chartSettings = new ChartSettings();
 	
-	@JsonProperty("title-settings")
+	@JacksonXmlProperty(localName = "title-settings")
 	private TitleSettings titleSettings = new TitleSettings();
 	
-	@JsonProperty("subtitle-settings")
+	@JacksonXmlProperty(localName = "subtitle-settings")
 	private TitleSettings subtitleSettings = new TitleSettings();
 	
-	@JsonProperty("legend-settings")
+	@JacksonXmlProperty(localName = "legend-settings")
 	private LegendSettings legendSettings = new LegendSettings();
 	
-	@JsonProperty("plot-settings")
+	@JacksonXmlProperty(localName = "plot-settings")
 	private PlotSettings plotSettings = new PlotSettings();
 	
-	@JsonProperty("domain-axis-settings")
+	@JacksonXmlProperty(localName = "domain-axis-settings")
 	private AxisSettings domainAxisSettings = new AxisSettings();
 	
-	@JsonProperty("range-axis-settings")
+	@JacksonXmlProperty(localName = "range-axis-settings")
 	private AxisSettings rangeAxisSettings = new AxisSettings();
 	
 	/**
