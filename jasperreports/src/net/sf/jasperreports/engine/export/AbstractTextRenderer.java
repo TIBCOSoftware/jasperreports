@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 
 
@@ -345,6 +346,8 @@ public abstract class AbstractTextRenderer
 	{
 		StyledTextWriteContext context = new StyledTextWriteContext();
 		
+		StyledTextListWriter listWriter = getListWriter();
+		
 		AttributedCharacterIterator allParagraphs = getAttributedString().getIterator(); 
 
 		isFirstParagraph = true;
@@ -357,6 +360,8 @@ public abstract class AbstractTextRenderer
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
 			context.next(attributes);
+			
+			context.writeLists(listWriter);
 
 			prepareBullet(context, attributes);
 
@@ -412,6 +417,15 @@ public abstract class AbstractTextRenderer
 			allParagraphs.setIndex(runLimit);
 		}
 		
+		context.next(null);
+		
+		context.writeLists(listWriter);
+	}
+
+
+	protected StyledTextListWriter getListWriter()
+	{
+		return null;
 	}
 
 

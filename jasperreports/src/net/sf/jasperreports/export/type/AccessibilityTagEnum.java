@@ -21,22 +21,83 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.tabulator;
+package net.sf.jasperreports.export.type;
+
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface CellVisitor<T, R, E extends Exception>
+public enum AccessibilityTagEnum implements NamedEnum
 {
+	/**
+	 * 
+	 */
+	TABLE("table"),
 
-	R visit(ElementCell cell, T arg) throws E;
+	/**
+	 * 
+	 */
+	COLUMN_HEADER("columnheader"),
 
-	R visit(SplitCell cell, T arg) throws E;
+	/**
+	 * 
+	 */
+	ROW_HEADER("rowheader"),
 
-	R visit(FrameCell frameCell, T arg) throws E;
+	/**
+	 * 
+	 */
+	H1("h1"),
 
-	R visit(LayeredCell layeredCell, T arg) throws E;
+	/**
+	 * 
+	 */
+	H2("h2"),
 
-	R visit(NestedTableCell layeredCell, T arg) throws E;
+	/**
+	 * 
+	 */
+	H3("h3"),
 
+	/**
+	 * 
+	 */
+	H4("h4"),
+
+	/**
+	 * 
+	 */
+	H5("h5"),
+
+	/**
+	 * 
+	 */
+	H6("h6");
+	
+	/**
+	 *
+	 */
+	private final transient String name;
+
+	private AccessibilityTagEnum(String name)
+	{
+		this.name = name;
+	}
+	
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+	
+	/**
+	 *
+	 */
+	public static AccessibilityTagEnum getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
+	}
 }

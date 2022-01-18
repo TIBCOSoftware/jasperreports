@@ -224,6 +224,11 @@ public class StyledTextWriteContext
 
 	public void writeLists(StyledTextListWriter writer)
 	{
+		if (writer == null)
+		{
+			return;
+		}
+		
 		if (isListItemEnd())
 		{
 			writer.endLi();

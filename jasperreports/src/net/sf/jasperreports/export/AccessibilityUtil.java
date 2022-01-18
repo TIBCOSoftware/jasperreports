@@ -21,22 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.tabulator;
+package net.sf.jasperreports.export;
+
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface CellVisitor<T, R, E extends Exception>
+public final class AccessibilityUtil
 {
+	/**
+	 * Property that specifies the type of accessible content introduced by the element.
+	 * Possible values are described by the {@link AccessibilityTagEnum}.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_19_0,
+			valueType = String.class
+			)
+	public static final String PROPERTY_ACCESSIBILITY_TAG = JRPropertiesUtil.PROPERTY_PREFIX + "export.accessibility.tag";
 
-	R visit(ElementCell cell, T arg) throws E;
-
-	R visit(SplitCell cell, T arg) throws E;
-
-	R visit(FrameCell frameCell, T arg) throws E;
-
-	R visit(LayeredCell layeredCell, T arg) throws E;
-
-	R visit(NestedTableCell layeredCell, T arg) throws E;
-
+	/**
+	 *
+	 */
+	private AccessibilityUtil()
+	{
+	}
 }

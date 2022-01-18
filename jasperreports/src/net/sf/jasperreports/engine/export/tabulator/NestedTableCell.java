@@ -26,17 +26,50 @@ package net.sf.jasperreports.engine.export.tabulator;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface CellVisitor<T, R, E extends Exception>
+public class NestedTableCell implements Cell
 {
+	private FrameCell parent;
+	private final Table table;
+	
+	private SplitCell splitCell;
 
-	R visit(ElementCell cell, T arg) throws E;
+	public NestedTableCell(FrameCell parent, Table table)
+	{
+		this.parent = parent;
+		this.table = table;
+	}
+	
+	@Override
+	public FrameCell getParent()
+	{
+		return parent;
+	}
 
-	R visit(SplitCell cell, T arg) throws E;
+	public void setParent(FrameCell parent)
+	{
+		this.parent = parent;
+	}
 
-	R visit(FrameCell frameCell, T arg) throws E;
+	@Override
+	public Cell split()
+	{
+		if (splitCell == null)
+		{
+			splitCell = new SplitCell(this);
+		}
+		
+		return splitCell;
+	}
 
-	R visit(LayeredCell layeredCell, T arg) throws E;
+	@Override
+	public <T, R, E extends Exception> R accept(CellVisitor<T, R, E> visitor, T arg) throws E
+	{
+		return visitor.visit(this, arg);
+	}
 
-	R visit(NestedTableCell layeredCell, T arg) throws E;
+	public Table getTable()
+	{
+		return table;
+	}
 
 }
