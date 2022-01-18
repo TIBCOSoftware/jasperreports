@@ -32,7 +32,17 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -43,6 +53,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class LegendSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -70,12 +81,27 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JsonProperty("show-legend")
 	private Boolean showLegend;
+
 	private EdgeEnum positionValue;
+	
+	@JsonProperty("foreground-paint")
 	private PaintProvider foregroundPaint;
+	
+	@JsonProperty("background-paint")
 	private PaintProvider backgroundPaint;
+	
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
+	
+	@JsonProperty("horizontal-alignment")
+	@JsonSerialize(using = HorizontalAlignmentSerializer.class)
 	private HorizontalAlignment horizontalAlignment;
+	
+	@JsonProperty("vertical-alignment")
+	@JsonSerialize(using = VerticalAlignmentSerializer.class)
 	private VerticalAlignment verticalAlignment;
 	
 	/**
@@ -86,6 +112,8 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 
 	private BlockFrameProvider frame;
 	
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
 	/**

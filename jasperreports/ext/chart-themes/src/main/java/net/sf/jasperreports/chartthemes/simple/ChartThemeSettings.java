@@ -25,7 +25,9 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -35,6 +37,8 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JacksonXmlRootElement(localName = "chart-theme")
+@JsonIgnoreProperties("eventSupport")
 public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -58,11 +62,23 @@ public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 	 */
 	@JsonProperty("chart-settings")
 	private ChartSettings chartSettings = new ChartSettings();
+	
+	@JsonProperty("title-settings")
 	private TitleSettings titleSettings = new TitleSettings();
+	
+	@JsonProperty("subtitle-settings")
 	private TitleSettings subtitleSettings = new TitleSettings();
+	
+	@JsonProperty("legend-settings")
 	private LegendSettings legendSettings = new LegendSettings();
+	
+	@JsonProperty("plot-settings")
 	private PlotSettings plotSettings = new PlotSettings();
+	
+	@JsonProperty("domain-axis-settings")
 	private AxisSettings domainAxisSettings = new AxisSettings();
+	
+	@JsonProperty("range-axis-settings")
 	private AxisSettings rangeAxisSettings = new AxisSettings();
 	
 	/**

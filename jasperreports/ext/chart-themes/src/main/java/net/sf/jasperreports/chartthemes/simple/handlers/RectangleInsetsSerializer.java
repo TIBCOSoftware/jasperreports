@@ -21,33 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
+package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import java.awt.Paint;
-import java.io.Serializable;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import org.jfree.ui.RectangleInsets;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = ColorProvider.class),
-	@JsonSubTypes.Type(value = GradientPaintProvider.class)
-})
-public interface PaintProvider extends Serializable
+public class RectangleInsetsSerializer extends StdSerializer<RectangleInsets>
 {
+	public RectangleInsetsSerializer()
+	{
+		this(null);
+	}
 
-	/**
-	 *
-	 */
-	@JsonIgnore
-	public Paint getPaint();
+	public RectangleInsetsSerializer(Class<RectangleInsets> vc)
+	{
+		super(vc);
+	}
 
+	@Override
+	public void serialize(RectangleInsets value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
+	{
+		if (jgen instanceof ToXmlGenerator)
+		{
+			((ToXmlGenerator)jgen).setNextIsAttribute(true);
+		}
+		jgen.writeStartObject();
+		jgen.writeNumberField("top", value.getTop());
+		jgen.writeNumberField("left", value.getLeft());
+		jgen.writeNumberField("bottom", value.getBottom());
+		jgen.writeNumberField("right", value.getRight());
+		jgen.writeEndObject();
+	}
 }

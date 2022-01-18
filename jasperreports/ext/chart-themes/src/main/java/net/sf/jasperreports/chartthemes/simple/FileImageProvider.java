@@ -26,6 +26,7 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Image;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -49,6 +50,7 @@ public class FileImageProvider implements ImageProvider
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	private String file;
 
 	

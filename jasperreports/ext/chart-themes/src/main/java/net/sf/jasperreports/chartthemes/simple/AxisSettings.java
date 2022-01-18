@@ -29,6 +29,17 @@ import java.io.Serializable;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.AxisLocationDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -39,6 +50,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class AxisSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -75,27 +87,83 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	 *
 	 */
 	private Boolean visible;
+
+	@JsonDeserialize(using = AxisLocationDeserializer.class)
+	@JsonIgnoreProperties("opposite")
 	private AxisLocation location;
+	
+	@JsonProperty("line-paint")
 	private PaintProvider linePaint;
+	
+	@JsonProperty("line-stroke")
+	@JsonDeserialize(using = StrokeDeserializer.class)
+	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke lineStroke;
+	
+	@JsonProperty("line-visible")
 	private Boolean lineVisible;
+
 //	private String label;
+	
+	@JsonProperty("label-angle")
 	private Double labelAngle;
+
+	@JsonProperty("label-paint")
 	private PaintProvider labelPaint;
+	
+	@JsonProperty("label-font")
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont labelFont = new JRBaseFont();
+
+	@JsonProperty("label-insets")
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets labelInsets;
+
+	@JsonProperty("label-visible")
 	private Boolean labelVisible;
+	
+	@JsonProperty("tick-label-paint")
 	private PaintProvider tickLabelPaint;
+	
+	@JsonProperty("tick-label-font")
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont tickLabelFont = new JRBaseFont();
+	
+	@JsonProperty("tick-label-insets")
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets tickLabelInsets;
+	
+	@JsonProperty("tick-labels-visible")
 	private Boolean tickLabelsVisible;
+	
+	@JsonProperty("tick-marks-inside-length")
 	private Float tickMarksInsideLength;
+	
+	@JsonProperty("tick-marks-outside-length")
 	private Float tickMarksOutsideLength;
+	
+	@JsonProperty("tick-marks-paint")
 	private PaintProvider tickMarksPaint;
+	
+	@JsonProperty("tick-marks-stroke")
+	@JsonDeserialize(using = StrokeDeserializer.class)
+	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke tickMarksStroke;
+	
+	@JsonProperty("tick-marks-visible")
 	private Boolean tickMarksVisible;
+	
+	@JsonProperty("tick-count")
 	private Integer tickCount;
+	
+	@JsonProperty("tick-interval")
 	private Number tickInterval;
+	
+	@JsonProperty("axis-integer-unit")
 	private Boolean axisIntegerUnit;
 	
 	/**

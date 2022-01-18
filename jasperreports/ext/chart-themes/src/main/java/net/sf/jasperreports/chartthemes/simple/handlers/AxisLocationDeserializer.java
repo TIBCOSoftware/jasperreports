@@ -21,33 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
+package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import java.awt.Paint;
-import java.io.Serializable;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import org.jfree.chart.axis.AxisLocation;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = ColorProvider.class),
-	@JsonSubTypes.Type(value = GradientPaintProvider.class)
-})
-public interface PaintProvider extends Serializable
+public class AxisLocationDeserializer extends StdDeserializer<AxisLocation>
 {
+	public AxisLocationDeserializer()
+	{
+		this(null);
+	}
+	
+	public AxisLocationDeserializer(Class<?> vc)
+	{
+		super(vc);
+	}
 
-	/**
-	 *
-	 */
-	@JsonIgnore
-	public Paint getPaint();
+	@Override
+	public AxisLocation deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException 
+	{
+		ObjectCodec oc = p.getCodec();
+		JsonNode node = oc.readTree(p);
+		
+		String location = node.textValue();
 
+		AxisLocation al = (AxisLocation)new AxisLocationHandler().convertUponSet(location);
+		
+		return al;
+    }
 }

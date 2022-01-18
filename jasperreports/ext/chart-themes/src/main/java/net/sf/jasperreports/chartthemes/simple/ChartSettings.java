@@ -23,18 +23,24 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
-import java.awt.BasicStroke;
 import java.awt.Stroke;
 import java.io.Serializable;
 
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -45,6 +51,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class ChartSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -69,26 +76,41 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	 */
 	@JsonProperty("background-paint")
 	private PaintProvider backgroundPaint;
+	
 	@JsonProperty("background-image")
 	private ImageProvider backgroundImage;
-	@JsonProperty("background-image-alignment")
+	
+	@JacksonXmlProperty(localName = "background-image-alignment", isAttribute = true)
 	@JsonDeserialize(using = ImageAlignmentDeserializer.class)
+	@JsonSerialize(using = ImageAlignmentSerializer.class)
 	private Integer backgroundImageAlignment;
-	@JsonProperty("background-image-alpha")
+	
+	@JacksonXmlProperty(localName = "background-image-alpha", isAttribute = true)
 	private Float backgroundImageAlpha;
-	@JsonTypeInfo(use = Id.CLASS, defaultImpl = JRBaseFont.class) // put this here so that we do not disturb the JRFont interface
+	
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
-	@JsonProperty("border-visible")
+	
+	@JacksonXmlProperty(localName = "border-visible", isAttribute = true)
 	private Boolean borderVisible;
+	
 	@JsonProperty("border-paint")
 	private PaintProvider borderPaint;
+	
 	@JsonProperty("stroke")
-	@JsonTypeInfo(use = Id.CLASS, defaultImpl = BasicStroke.class)
+	@JsonDeserialize(using = StrokeDeserializer.class)
+	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke borderStroke;
-	@JsonProperty("anti-alias")
+	
+	@JacksonXmlProperty(localName = "anti-alias", isAttribute = true)
 	private Boolean antiAlias;
-	@JsonProperty("text-anti-alias")
+	
+	@JacksonXmlProperty(localName = "text-anti-alias", isAttribute = true)
 	private Boolean textAntiAlias;
+	
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
 	/**
