@@ -1177,7 +1177,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				: filler.getJasperReportsContext();
 	}
 	
-	protected RepositoryContext getRepositoryContext()
+	public RepositoryContext getRepositoryContext()
 	{
 		return filler == null
 				? SimpleRepositoryContext.of(jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
