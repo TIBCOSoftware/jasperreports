@@ -1818,6 +1818,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				default :
 				{
 					image.scaleAbsolute(availableImageWidth, availableImageHeight);
+					image.setRotationDegrees(0);
 				}
 			}
 			
@@ -1860,8 +1861,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int xoffset = 0;
 			int yoffset = 0;
 
-			image.setRotationDegrees(0); // reset in case the image is from cache
-			
 			switch (printImage.getRotation())
 			{
 				case LEFT :
@@ -1892,6 +1891,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				default :
 				{
 					image.scaleToFit(availableImageWidth, availableImageHeight);
+					image.setRotationDegrees(0);
 					xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
 					yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
 				}
