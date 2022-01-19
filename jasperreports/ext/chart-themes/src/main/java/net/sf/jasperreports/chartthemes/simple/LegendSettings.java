@@ -32,6 +32,7 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -109,6 +110,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 * @deprecated replaced by {@link #frame}
 	 */
 	@Deprecated
+	@JsonIgnore
 	private BlockFrame blockFrame;
 
 	private BlockFrameProvider frame;

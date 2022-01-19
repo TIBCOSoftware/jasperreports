@@ -25,13 +25,25 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import org.jfree.chart.block.BlockFrame;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = BlockBorderProvider.class),
+	@JsonSubTypes.Type(value = LineBorderProvider.class)
+})
 public interface BlockFrameProvider
 {
 
+	@JsonIgnore
 	BlockFrame getBlockFrame();
 	
 }
