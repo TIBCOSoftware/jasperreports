@@ -54,6 +54,7 @@ public class HorizontalFillList extends BaseFillList
 
 	private int overflowStartPage;
 	private int overflowColumnIndex;
+	private boolean advancedToNext;
 	
 	public HorizontalFillList(ListComponent component, JRFillObjectFactory factory) throws JRException
 	{
@@ -125,6 +126,7 @@ public class HorizontalFillList extends BaseFillList
 				
 				datasetRun.start();
 				fillStarted = true;
+				advancedToNext = false;
 				
 				// reset the overflow page
 				overflowStartPage = 0;
@@ -136,6 +138,7 @@ public class HorizontalFillList extends BaseFillList
 			// also breaks when there are no more records, see below
 			while(!overflow)
 			{
+				boolean refillOverflowed = columnIndex < overflowColumnIndex;
 				int contentsAvailableHeight = availableHeight 
 						- printFrame.getHeight();
 				if (contentsAvailableHeight < contentsHeight)
@@ -146,12 +149,36 @@ public class HorizontalFillList extends BaseFillList
 						log.debug("Not enough space left for a list row, overflowing");
 					}
 					
+					if (!refillOverflowed && !advancedToNext)
+					{
+						advancedToNext = datasetRun.next();
+						if (!advancedToNext)
+						{
+							//no more records
+							break;
+						}
+					}
+
 					overflow = true;
 				}
 				else
 				{
-					boolean refillOverflowed = columnIndex < overflowColumnIndex;
-					if (!refillOverflowed && !datasetRun.next())
+					boolean hasNextContents;
+					if (refillOverflowed)
+					{
+						hasNextContents = true;
+					}
+					else if (advancedToNext)
+					{
+						hasNextContents = true;
+						advancedToNext = false;
+					}
+					else
+					{
+						hasNextContents = datasetRun.next();
+					}
+					
+					if (!hasNextContents)
 					{
 						// no more records
 						break;
@@ -354,6 +381,7 @@ public class HorizontalFillList extends BaseFillList
 
 		overflowStartPage = 0;
 		overflowColumnIndex = 0;
+		advancedToNext = false;
 	}
 
 	@Override
