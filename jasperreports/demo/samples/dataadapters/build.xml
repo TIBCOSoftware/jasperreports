@@ -1,0 +1,26 @@
+<project name="dataadapters" default="test" basedir=".">
+
+	<description>Shows how data adapters can be serialized/deserialized using Castor and Jackson librairies</description>
+
+	<property name="sample.dir" value="dataadapters"/>
+	<property name="sample.base.name" value="DataAdapters" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Data Adapters Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

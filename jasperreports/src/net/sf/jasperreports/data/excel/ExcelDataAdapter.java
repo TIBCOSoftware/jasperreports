@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.excel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 
 /**
@@ -30,6 +31,7 @@ import net.sf.jasperreports.data.xls.XlsDataAdapter;
  */
 public interface ExcelDataAdapter extends XlsDataAdapter 
 {
+	@JsonProperty(index=12)
 	public ExcelFormatEnum getFormat();
 	
 	public void setFormat(ExcelFormatEnum format);

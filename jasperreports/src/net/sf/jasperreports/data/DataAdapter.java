@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -44,6 +45,7 @@ public interface DataAdapter
 	/**
 	 * 
 	 */
+	@JsonProperty(index=1)
 	public String getName();
 	
 	/**

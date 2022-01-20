@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.xlsx;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+
+@JacksonXmlRootElement(localName = "xlsxDataAdapter")
 public class XlsxDataAdapterImpl extends XlsDataAdapterImpl implements XlsxDataAdapter
 {
 }

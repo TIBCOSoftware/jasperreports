@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
@@ -39,6 +43,7 @@ public interface CsvDataAdapter extends FileDataAdapter
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
 	@Deprecated
+	@JsonIgnore
 	public String getFileName();
 
 	/**
@@ -47,42 +52,53 @@ public interface CsvDataAdapter extends FileDataAdapter
 	@Deprecated
 	public void setFileName(String fileName);
 
+	@JsonProperty(index=3)
 	public String getEncoding();
 
 	public void setEncoding(String encoding);
 
+	@JsonProperty(index=6)
 	public boolean isUseFirstRowAsHeader();
 
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
 	
+	@JsonProperty(index=4)
 	public String getRecordDelimiter();
 
 	public void setRecordDelimiter(String recordDelimiter);
 	
+	@JsonProperty(index=5)
 	public String getFieldDelimiter();
 
 	public void setFieldDelimiter(String fieldDelimiter);
 
+	@JsonProperty(index=7)
 	public Locale getLocale();
 
 	public void setLocale(Locale locale);
 
+	@JsonProperty(index=8)
 	public TimeZone getTimeZone();
 
 	public void setTimeZone(TimeZone timeZone);
 
+	@JsonProperty(index=9)
 	public String getDatePattern();
 
 	public void setDatePattern(String datePattern);
 
+	@JsonProperty(index=10)
 	public String getNumberPattern();
 
 	public void setNumberPattern(String numberPattern);
 
+	@JsonProperty(index=11)
 	public boolean isQueryExecuterMode();
 
 	public void setQueryExecuterMode(boolean queryExecuterMode);
 
+	@JacksonXmlElementWrapper(useWrapping = false)
+	@JsonProperty(index=12)
 	public List<String> getColumnNames();
 
 	public void setColumnNames(List<String> columnNames);
