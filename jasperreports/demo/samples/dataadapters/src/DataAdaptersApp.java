@@ -116,19 +116,6 @@ public class DataAdaptersApp extends AbstractSampleApp
 			{
 				throw new JRException(e);
 			}
-
-//			try (FileInputStream fis = new FileInputStream(daFile))
-//			{
-//				// READ Jackson file with Castor
-//				DataAdapter da = (DataAdapter)CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).read(fis);
-//
-//				// WRITE Castor again to compare and check
-//				CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).writeToFile(da, "build/" + daFileName + ".castor2.xml");
-//			}
-//			catch (IOException e)
-//			{
-//				throw new JRException(e);
-//			}
 			
 			System.err.println(daFileName + " data adapters saved in " + (System.currentTimeMillis() - start) + " ms");
 		}

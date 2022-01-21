@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.bean;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JacksonXmlRootElement(localName = "beanDataAdapter")
 public class BeanDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements BeanDataAdapter 
 {
 	private boolean isUseFieldDescription;

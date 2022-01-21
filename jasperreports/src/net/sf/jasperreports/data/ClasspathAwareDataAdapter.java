@@ -25,6 +25,8 @@ package net.sf.jasperreports.data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -33,5 +35,6 @@ public interface ClasspathAwareDataAdapter extends DataAdapter
 {
 	public void setClasspath(List<String> classpath);
 
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<String> getClasspath();
 }

@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.data.empty;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JacksonXmlRootElement(localName = "emptyDataAdapter")
 public class EmptyDataAdapterImpl extends AbstractDataAdapter implements EmptyDataAdapter
 {
 	private Integer recordCount;

@@ -23,11 +23,20 @@
  */
 package net.sf.jasperreports.data.bean;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonPropertyOrder({ 
+	"name", 
+	"factoryClass",
+	"methodName",
+	"useFieldDescription",
+	"classpath"})
 public interface BeanDataAdapter extends ClasspathAwareDataAdapter 
 {
 	public boolean isUseFieldDescription();

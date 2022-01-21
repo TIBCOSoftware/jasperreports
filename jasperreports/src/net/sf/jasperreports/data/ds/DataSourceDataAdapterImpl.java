@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.data.ds;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JacksonXmlRootElement(localName = "dsDataAdapter")
 public class DataSourceDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements DataSourceDataAdapter
 {
 	private String factoryClass;
