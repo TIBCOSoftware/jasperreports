@@ -1861,6 +1861,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int xoffset = 0;
 			int yoffset = 0;
 
+			image.setRotationDegrees(0); // reset angle here for images taken from cache, even if it gets set again later below, because it affects the way scaleToFit works
+			
 			switch (printImage.getRotation())
 			{
 				case LEFT :
