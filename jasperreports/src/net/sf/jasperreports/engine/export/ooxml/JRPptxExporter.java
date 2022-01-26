@@ -1354,38 +1354,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = -90;
 								break;
 							case RIGHT:
@@ -1398,109 +1370,25 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = 90;
 								break;
 							case UPSIDE_DOWN:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 180;
 								break;
 							case NONE:
 							default:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 0;
 								break;
 						}
