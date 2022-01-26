@@ -23,14 +23,14 @@
  */
 package net.sf.jasperreports.data.excel;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JacksonXmlRootElement(localName = "excelDataAdapter")
+@JsonRootName(value = "excelDataAdapter")
 public class ExcelDataAdapterImpl  extends XlsDataAdapterImpl implements ExcelDataAdapter
 {
 	private ExcelFormatEnum format;

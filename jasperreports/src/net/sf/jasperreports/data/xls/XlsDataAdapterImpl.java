@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
@@ -38,7 +38,7 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JacksonXmlRootElement(localName = "xlsDataAdapter")
+@JsonRootName(value = "xlsDataAdapter")
 public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAdapter
 {
 	private boolean useFirstRowAsHeader = false;

@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.data.jndi;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "jndiDataAdapter")
 public class JndiDataAdapterImpl extends AbstractDataAdapter implements JndiDataAdapter
 {
 	private String dataSourceName;

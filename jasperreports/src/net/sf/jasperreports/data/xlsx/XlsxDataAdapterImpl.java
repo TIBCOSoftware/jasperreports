@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.xlsx;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 
@@ -31,7 +31,7 @@ import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 
-@JacksonXmlRootElement(localName = "xlsxDataAdapter")
+@JsonRootName(value = "xlsxDataAdapter")
 public class XlsxDataAdapterImpl extends XlsDataAdapterImpl implements XlsxDataAdapter
 {
 }

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<springHibernateDataAdapter class="net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterImpl"><name>Hibernate Spring Data Adapter</name><springConfig>data/hibernate.spring.cfg.xml</springConfig><beanId>customBean</beanId></springHibernateDataAdapter>

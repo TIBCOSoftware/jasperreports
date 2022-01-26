@@ -28,6 +28,8 @@ import java.io.IOException;
 
 import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
+import net.sf.jasperreports.data.http.HttpDataLocation;
+import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -70,12 +72,13 @@ public class DataAdaptersApp extends AbstractSampleApp
 		{
 			File daFile = files[i];
 			String daFileName = daFile.getName().substring(0, daFile.getName().indexOf('.'));
+			boolean isHttpLocation = daFileName != null && daFileName.contains("HttpDataLocation");
 
 			long start = System.currentTimeMillis();
 			try (FileInputStream fis = new FileInputStream(daFile))
 			{
 				// READ old Castor format from sample, which has deprecated fileName field
-				DataAdapter da = (DataAdapter)CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).read(fis);
+				Object da = CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).read(fis);
 				
 				// WRITE Castor new format with dataFile node
 				CastorUtil.getInstance(DefaultJasperReportsContext.getInstance()).writeToFile(da, "build/" + daFileName + ".castor.xml");
@@ -87,8 +90,10 @@ public class DataAdaptersApp extends AbstractSampleApp
 
 			try (FileInputStream fis = new FileInputStream("build/" + daFileName + ".castor.xml"))
 			{
-				// READ Castor latest format with Jackson 
-				DataAdapter da = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
+				// READ Castor latest data adapter format with Jackson
+				Object da = isHttpLocation 
+						? JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, StandardHttpDataLocation.class)
+						: JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
 				
 				// WRITE Jackson format
 				String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(da);
@@ -102,10 +107,12 @@ public class DataAdaptersApp extends AbstractSampleApp
 			}
 
 			try (FileInputStream fis = new FileInputStream("build/" + daFileName + ".jackson.xml"))
-			{
-				// READ Jackson own format
-				DataAdapter da = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
-				
+			{				
+				// READ Jackson data adapter own format
+				Object da = isHttpLocation 
+						? JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, StandardHttpDataLocation.class)
+						: JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, DataAdapter.class);
+
 				// WRITE Jackson again just to check read/save works
 				String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(da);
 				FileWriter writer = new FileWriter("build/" + daFileName + ".jackson2.xml");

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ejbqlDataAdapter class="net.sf.jasperreports.data.ejbql.EjbqlDataAdapterImpl"><name>EJBQL Data Adapter</name><persistanceUnitName>EntityManagerFactory</persistanceUnitName></ejbqlDataAdapter>

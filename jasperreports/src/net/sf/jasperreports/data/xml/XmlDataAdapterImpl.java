@@ -26,7 +26,7 @@ package net.sf.jasperreports.data.xml;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
@@ -38,7 +38,7 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 
-@JacksonXmlRootElement(localName = "xmlDataAdapter")
+@JsonRootName(value = "xmlDataAdapter")
 public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAdapter
 {
 	private DataFile dataFile;

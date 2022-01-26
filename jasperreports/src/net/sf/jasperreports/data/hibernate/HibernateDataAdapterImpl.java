@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.hibernate;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "hibernateDataAdapter")
 public class HibernateDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements
 		HibernateDataAdapter {
 	private String xmlFile;

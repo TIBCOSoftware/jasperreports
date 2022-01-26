@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.qe;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 
@@ -30,6 +32,8 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "qeDataAdapter")
 public class QueryExecuterDataAdapterImpl extends AbstractDataAdapter implements QueryExecuterDataAdapter
 {
 }

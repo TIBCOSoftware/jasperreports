@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.empty;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
@@ -32,7 +32,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 
-@JacksonXmlRootElement(localName = "emptyDataAdapter")
+@JsonRootName(value = "emptyDataAdapter")
 public class EmptyDataAdapterImpl extends AbstractDataAdapter implements EmptyDataAdapter
 {
 	private Integer recordCount;

@@ -23,11 +23,18 @@
  */
 package net.sf.jasperreports.data.hibernate.spring;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import net.sf.jasperreports.data.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonPropertyOrder({ 
+	"name", 
+	"springConfig",
+	"beanId"})
 public interface SpringHibernateDataAdapter extends DataAdapter {
 
 	public String getSpringConfig();

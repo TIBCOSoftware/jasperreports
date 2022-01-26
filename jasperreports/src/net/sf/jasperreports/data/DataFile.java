@@ -24,6 +24,9 @@
 package net.sf.jasperreports.data;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.JRCloneable;
@@ -35,6 +38,7 @@ import net.sf.jasperreports.engine.JRCloneable;
 	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class),
 	@JsonSubTypes.Type(value = StandardHttpDataLocation.class)
 })
+@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
 public interface DataFile extends JRCloneable
 {
 

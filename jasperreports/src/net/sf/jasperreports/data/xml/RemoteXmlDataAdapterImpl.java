@@ -23,14 +23,14 @@
  */
 package net.sf.jasperreports.data.xml;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
  * @deprecated Replaced by {@link XmlDataAdapterImpl}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 
-@JacksonXmlRootElement(localName = "remoteXmlDataAdapter")
+@JsonRootName(value = "remoteXmlDataAdapter")
 public class RemoteXmlDataAdapterImpl extends XmlDataAdapterImpl implements RemoteXmlDataAdapter
 {
 	@Override

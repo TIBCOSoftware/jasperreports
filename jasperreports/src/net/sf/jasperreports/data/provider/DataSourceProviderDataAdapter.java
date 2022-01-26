@@ -23,12 +23,21 @@
  */
 package net.sf.jasperreports.data.provider;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonPropertyOrder({ 
+	"name", 
+	"providerClass",
+	"classpath"
+	})
+
 public interface DataSourceProviderDataAdapter extends ClasspathAwareDataAdapter
 {
 	public String getProviderClass();
