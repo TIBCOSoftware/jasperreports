@@ -87,6 +87,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
@@ -1131,38 +1132,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = -90;
 								break;
 							case RIGHT:
@@ -1175,109 +1148,25 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = 90;
 								break;
 							case UPSIDE_DOWN:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 180;
 								break;
 							case NONE:
 							default:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 0;
 								break;
 						}
@@ -1321,38 +1210,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								imageHeight = (int)(normalWidth * ratioY);
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
 								angle = -90;
 								break;
 							case RIGHT:
@@ -1371,38 +1232,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								imageHeight = (int)(normalWidth * ratioY);
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
 								yoffset = - (availableImageWidth - availableImageHeight) / 2;
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
 								angle = 90;
 								break;
 							case UPSIDE_DOWN:
@@ -1414,38 +1247,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								ratioY = ratioX;
 								imageWidth = (int)(normalWidth * ratioX);
 								imageHeight = (int)(normalHeight * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
 								angle = 180;
 								break;
 							case NONE:
@@ -1458,38 +1263,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								ratioY = ratioX;
 								imageWidth = (int)(normalWidth * ratioX);
 								imageHeight = (int)(normalHeight * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
 								angle = 0;
 								break;
 						}
