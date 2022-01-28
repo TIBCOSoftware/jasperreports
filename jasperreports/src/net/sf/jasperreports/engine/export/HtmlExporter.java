@@ -104,6 +104,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -1264,6 +1265,24 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									normalHeight = dimension.getHeight();
 								}
 								
+								ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+								
+								DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
+								if (dataRenderable != null)
+								{
+									exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+								}
+								
+								if (
+									ExifOrientationEnum.LEFT == exifOrientation
+									|| ExifOrientationEnum.RIGHT == exifOrientation
+									)
+								{
+									double t = normalWidth;
+									normalWidth = normalHeight;
+									normalHeight = t;
+								}
+
 								// these calculations assume that the image td does not stretch due to other cells.
 								// when that happens, the image will not be properly aligned.
 								positionLeft = (int) (ImageUtil.getXAlignFactor(horizontalAlign) * (availableImageWidth - normalWidth));
@@ -1295,6 +1314,24 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									normalHeight = dimension.getHeight();
 								}
 								
+								ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+								
+								DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
+								if (dataRenderable != null)
+								{
+									exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+								}
+								
+								if (
+									ExifOrientationEnum.LEFT == exifOrientation
+									|| ExifOrientationEnum.RIGHT == exifOrientation
+									)
+								{
+									double t = normalWidth;
+									normalWidth = normalHeight;
+									normalHeight = t;
+								}
+
 								double ratio = normalWidth / normalHeight;
 				
 								if ( ratio > (double)availableImageWidth / (double)availableImageHeight )

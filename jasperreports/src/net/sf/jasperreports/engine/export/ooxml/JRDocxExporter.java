@@ -87,10 +87,14 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.ImageUtil.Insets;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -180,7 +184,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected DocxDocumentHelper docHelper;
 	protected Writer docWriter;
 
-	protected Map<String, String> rendererToImagePathMap;
+	protected Map<String, Pair<String, ExifOrientationEnum>> rendererToImagePathMap;
 	protected RenderersCache renderersCache;
 //	protected Map imageMaps;
 
@@ -316,7 +320,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		super.initExport();
 
-		rendererToImagePathMap = new HashMap<String,String>();//FIXMEIMAGE why this is reset at export and not report; are there any others?
+		rendererToImagePathMap = new HashMap<String,Pair<String,ExifOrientationEnum>>();//FIXMEIMAGE why this is reset at export and not report; are there any others?
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 	}
@@ -1056,7 +1060,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				{
 					case FILL_FRAME :
 					{
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								renderWidth = availableImageHeight;
@@ -1101,7 +1105,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						renderWidth = availableImageWidth;
 						renderHeight = availableImageHeight;
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -1263,6 +1267,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								angle = 0;
 								break;
 						}
+
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
 
 						break;
 					}
@@ -1285,7 +1295,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						double imageWidth = availableImageWidth;
 						double imageHeight = availableImageHeight;
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -1475,6 +1485,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								angle = 0;
 								break;
 						}
+
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
 					}
 				}
 
@@ -1634,6 +1650,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
 			
 			String imagePath = null;
 
@@ -1648,7 +1665,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					Pair<String, ExifOrientationEnum> imagePair = rendererToImagePathMap.get(renderer.getId());
+					imagePath = imagePair.first();
+					exifOrientation = imagePair.second();
 				}
 				else
 				{
@@ -1663,6 +1682,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
+					exifOrientation = ImageUtil.getExifOrientation(imageData);
 					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
 					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 					
@@ -1681,12 +1701,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
+						rendererToImagePathMap.put(renderer.getId(), new Pair<String, ExifOrientationEnum>(imagePath, exifOrientation));
 					}
 				}
 //			}
 
-			return new InternalImageProcessorResult(imagePath, dimension);
+			return new InternalImageProcessorResult(imagePath, dimension, exifOrientation);
 		}
 	}
 
@@ -1694,11 +1714,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		protected final String imagePath;
 		protected final Dimension2D dimension;
+		protected final ExifOrientationEnum exifOrientation;
 		
-		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension, ExifOrientationEnum exifOrientation)
 		{
 			this.imagePath = imagePath;
 			this.dimension = dimension;
+			this.exifOrientation = exifOrientation;
 		}
 	}
 

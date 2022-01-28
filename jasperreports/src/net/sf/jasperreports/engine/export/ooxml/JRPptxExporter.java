@@ -79,10 +79,14 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
+import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.ImageUtil.Insets;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -207,7 +211,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected Writer presentationWriter;
 	protected Writer presentationRelsWriter;
 
-	protected Map<String, String> rendererToImagePathMap;
+	protected Map<String, Pair<String, ExifOrientationEnum>> rendererToImagePathMap;
 	protected RenderersCache renderersCache;
 //	protected Map imageMaps;
 //	protected Map hyperlinksMap;
@@ -296,7 +300,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		ensureJasperReportsContext();
 		ensureInput();
 
-		rendererToImagePathMap = new HashMap<String,String>();
+		rendererToImagePathMap = new HashMap<String,Pair<String,ExifOrientationEnum>>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 		
@@ -1276,7 +1280,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 					case FILL_FRAME :
 					{
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								renderWidth = availableImageHeight;
@@ -1318,7 +1322,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -1480,6 +1484,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								angle = 0;
 								break;
 						}
+
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
+
 						break;
 					}
 					case RETAIN_SHAPE :
@@ -1501,7 +1512,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 						double imageWidth = availableImageWidth;
 						double imageHeight = availableImageHeight;
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -1691,6 +1702,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								angle = 0;
 								break;
 						}
+
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
 					}
 				}
 				
@@ -1778,6 +1795,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			// at this point, we do not yet have the exifOrientation, but we do not need it because the available width and height
+			// are used only for non data renderers, which need to produce their data for the image and have nothing to do with exif metadata anyway
 			if (
 				imageElement.getRotation() == RotationEnum.LEFT
 				|| imageElement.getRotation() == RotationEnum.RIGHT
@@ -1808,6 +1827,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
 			
 			String imagePath = null;
 
@@ -1822,7 +1842,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					Pair<String, ExifOrientationEnum> imagePair = rendererToImagePathMap.get(renderer.getId());
+					imagePath = imagePair.first();
+					exifOrientation = imagePair.second();
 				}
 				else
 				{
@@ -1837,6 +1859,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
+					exifOrientation = ImageUtil.getExifOrientation(imageData);
 					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
 					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 
@@ -1855,12 +1878,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
+						rendererToImagePathMap.put(renderer.getId(), new Pair<String, ExifOrientationEnum>(imagePath, exifOrientation));
 					}
 				}
 //			}
 			
-			return new InternalImageProcessorResult(imagePath, dimension);
+			return new InternalImageProcessorResult(imagePath, dimension, exifOrientation);
 		}
 	}
 
@@ -1868,11 +1891,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		protected final String imagePath;
 		protected final Dimension2D dimension;
+		protected final ExifOrientationEnum exifOrientation;
 		
-		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension, ExifOrientationEnum exifOrientation)
 		{
 			this.imagePath = imagePath;
 			this.dimension = dimension;
+			this.exifOrientation = exifOrientation;
 		}
 	}
 

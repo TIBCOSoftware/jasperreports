@@ -26,6 +26,7 @@ package net.sf.jasperreports.renderers;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.ref.SoftReference;
@@ -33,6 +34,8 @@ import java.lang.ref.SoftReference;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
@@ -100,14 +103,69 @@ public class WrappingImageDataToGraphics2DRenderer extends AbstractRenderer impl
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		Image img = getImage(jasperReportsContext);
+		
+		int translateX = 0;
+		int translateY = 0;
+		int renderWidth = (int)rectangle.getWidth();
+		int renderHeight = (int)rectangle.getHeight();
+		double angle = 0;
+		
+		ExifOrientationEnum exifOrientation = ImageUtil.getExifOrientation(getData(jasperReportsContext));
+		switch (exifOrientation)
+		{
+			case UPSIDE_DOWN :
+			{
+				translateX = (int)rectangle.getWidth();
+				translateY = (int)rectangle.getHeight();
+				angle = Math.PI;
+				break;
+			}
+			case RIGHT :
+			{
+				translateX = (int)rectangle.getWidth();
+				translateY = 0;
+				renderWidth = (int)rectangle.getHeight();
+				renderHeight = (int)rectangle.getWidth();
+				angle = Math.PI / 2;
+				break;
+			}
+			case LEFT :
+			{
+				translateX = 0;
+				translateY = (int)rectangle.getHeight();
+				renderWidth = (int)rectangle.getHeight();
+				renderHeight = (int)rectangle.getWidth();
+				angle = - Math.PI / 2;
+				break;
+			}
+			case NORMAL :
+			default :
+			{
+			}
+		}
+		
+		AffineTransform oldTransform = grx.getTransform();
 
-		grx.drawImage(
-			img, 
-			(int)rectangle.getX(), 
-			(int)rectangle.getY(), 
-			(int)rectangle.getWidth(), 
-			(int)rectangle.getHeight(), 
-			null
+		grx.translate(
+			(int)rectangle.getX() + translateX, 
+			(int)rectangle.getY() + translateY
 			);
+		grx.rotate(angle);
+		
+		try
+		{
+			grx.drawImage(
+				img, 
+				0, 
+				0, 
+				renderWidth, 
+				renderHeight, 
+				null
+				);
+		}
+		finally
+		{
+			grx.setTransform(oldTransform);
+		}
 	}
 }
