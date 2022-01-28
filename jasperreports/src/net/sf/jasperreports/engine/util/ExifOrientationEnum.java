@@ -21,26 +21,68 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.renderers;
-
-import java.awt.geom.Dimension2D;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-
+package net.sf.jasperreports.engine.util;
 
 /**
- * This interface is implemented by renderable objects that want to provide a dimension for the graphics they render,
- * usually by also implementing the {@link Graphics2DRenderable} interface.
- * Data renderables such as images or SVG files do not need to provide a dimension as that will be read from the files themselves when needed.
- * Reading the dimension of images and SVG documents is performed using wrapping rendeable implementations that wrap the original data renderable and only ask them for their data.
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface DimensionRenderable
+public enum ExifOrientationEnum
 {
 	/**
 	 *
 	 */
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException;
+	NORMAL(1),
+
+	/**
+	 *
+	 */
+	UPSIDE_DOWN(3),
+
+	/**
+	 *
+	 */
+	RIGHT(6),
+
+	/**
+	 *
+	 */
+	LEFT(8);
+
+
+	/**
+	 *
+	 */
+	private final transient int value;
+
+	private ExifOrientationEnum(int orientation)
+	{
+		this.value = orientation;
+	}
+
+	/**
+	 *
+	 */
+	public final int getOrientation()
+	{
+		return this.value;
+	}
+	
+	/**
+	 *
+	 */
+	public static ExifOrientationEnum getByValue(int orientation)
+	{
+		ExifOrientationEnum[] values = values();
+		if (values != null)
+		{
+			for(ExifOrientationEnum e:values)
+			{
+				if (orientation == e.getOrientation())
+				{
+					return e;
+				}
+			}
+		}
+		return null;
+	}
 }

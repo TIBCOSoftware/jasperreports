@@ -51,9 +51,11 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -774,9 +776,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 								Dimension2D imageSize = dimensionRenderer.getDimension(filler.getJasperReportsContext()); 
 								if (imageSize != null)
 								{
+									ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+									
+									DataRenderable dataRenderable = dimensionRenderer instanceof DataRenderable ? (DataRenderable)dimensionRenderer : null;
+									if (dataRenderable != null)
+									{
+										exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(filler.getJasperReportsContext()));
+									}
+									
 									fits = 
 										fitImage(
-											imageSize, 
+											imageSize,
+											exifOrientation,
 											availableHeight - getRelativeY() - padding, 
 											imageOverflowAllowed, 
 											getHorizontalImageAlign(),
@@ -859,6 +870,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 	protected boolean fitImage(
 		Dimension2D imageSize, 
+		ExifOrientationEnum exifOrientation,
 		int availableHeight, 
 		boolean overflowAllowed,
 		HorizontalImageAlignEnum hAlign,
@@ -873,9 +885,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		int realWidth = (int) imageSize.getWidth();
 		boolean fitted;
 		
+		RotationEnum exifRotation = ImageUtil.getRotation(getRotation(), exifOrientation);
+		
 		if (
-			getRotation() == RotationEnum.LEFT
-			|| getRotation() == RotationEnum.RIGHT
+			exifRotation == RotationEnum.LEFT
+			|| exifRotation == RotationEnum.RIGHT
 			)
 		{
 			int t = realWidth;
@@ -1117,8 +1131,17 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							printImage.getLineBox().getBottomPadding() 
 							+ printImage.getLineBox().getTopPadding();
 							
+						ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+						
+						DataRenderable dataRenderable = dimensionRenderer instanceof DataRenderable ? (DataRenderable)dimensionRenderer : null;
+						if (dataRenderable != null)
+						{
+							exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(filler.getJasperReportsContext()));
+						}
+						
 						fitImage(
 							imageSize,
+							exifOrientation,
 							getHeight() - padding, 
 							false, 
 							printImage.getHorizontalImageAlign(),

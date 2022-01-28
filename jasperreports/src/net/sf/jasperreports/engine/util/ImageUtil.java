@@ -23,8 +23,20 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifIFD0Directory;
+
 import net.sf.jasperreports.engine.JRImageAlignment;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 /**
@@ -90,5 +102,358 @@ public final class ImageUtil
 			}
 		}
 		return yalignFactor;
+	}
+
+	/**
+	 *
+	 */
+	public static ExifOrientationEnum getExifOrientation(byte[] data)
+	{
+		ExifOrientationEnum exifOrientation = null;
+		
+		if (JRTypeSniffer.isJPEG(data))
+		{
+			try 
+			{
+				Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
+				ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+				if (directory != null)
+				{
+					exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(ExifIFD0Directory.TAG_ORIENTATION));
+				}
+			}
+			catch (ImageProcessingException | IOException | MetadataException e) 
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
+		return exifOrientation == null ? ExifOrientationEnum.NORMAL : exifOrientation;
+	}
+
+	/**
+	 *
+	 */
+	public static RotationEnum getRotation(RotationEnum rotation, ExifOrientationEnum exifOrientation)
+	{
+		RotationEnum result = rotation;
+		
+		switch (exifOrientation)
+		{
+			case UPSIDE_DOWN :
+				switch (rotation)
+				{
+					case NONE : result = RotationEnum.UPSIDE_DOWN; break;
+					case LEFT : result = RotationEnum.RIGHT; break;
+					case RIGHT : result = RotationEnum.LEFT; break;
+					case UPSIDE_DOWN : result = RotationEnum.NONE; break;
+				}
+				break;
+			case RIGHT :
+				switch (rotation)
+				{
+					case NONE : result = RotationEnum.RIGHT; break;
+					case LEFT : result = RotationEnum.NONE; break;
+					case RIGHT : result = RotationEnum.UPSIDE_DOWN; break;
+					case UPSIDE_DOWN : result = RotationEnum.LEFT; break;
+				}
+				break;
+			case LEFT :
+				switch (rotation)
+				{
+					case NONE : result = RotationEnum.LEFT; break;
+					case LEFT : result = RotationEnum.UPSIDE_DOWN; break;
+					case RIGHT : result = RotationEnum.NONE; break;
+					case UPSIDE_DOWN : result = RotationEnum.RIGHT; break;
+				}
+				break;
+			default :
+			{
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
+	/*
+	 * This method is the result of tests alone and not the result of prior design or understanding of how image cropping works in the Microsoft document formats.
+	 * Trial and error during tests were the only way to achieve desired output and this code is the result of this trial and error technique alone, 
+	 * without actually understanding how image cropping works in these document formats.
+	 */
+	public static Insets getExifCrop(
+		JRPrintImage image, 
+		ExifOrientationEnum exifOrientation, 
+		double cropTop, 
+		double cropLeft, 
+		double cropBottom, 
+		double cropRight
+		)
+	{
+		switch (image.getRotation())
+		{
+			case LEFT :
+				switch (exifOrientation)
+				{
+					case UPSIDE_DOWN :
+					{
+						double t = cropLeft;
+						cropLeft = cropRight;
+						cropRight = t;
+						t = cropTop;
+						cropTop = cropBottom;
+						cropBottom = t;
+						break;
+					}
+					case RIGHT :
+					{
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					}
+					case LEFT :
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					case NORMAL :
+					default :
+						break;
+				}
+				break;
+			case RIGHT :
+				switch (exifOrientation)
+				{
+					case UPSIDE_DOWN :
+					{
+						double t = cropLeft;
+						cropLeft = cropRight;
+						cropRight = t;
+						t = cropTop;
+						cropTop = cropBottom;
+						cropBottom = t;
+						break;
+					}
+					case RIGHT :
+					{
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					}
+					case LEFT :
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					case NORMAL :
+					default :
+						break;
+				}
+				break;
+			case UPSIDE_DOWN :
+				switch (exifOrientation)
+				{
+					case UPSIDE_DOWN :
+					{
+						double t = cropLeft;
+						cropLeft = cropRight;
+						cropRight = t;
+						t = cropTop;
+						cropTop = cropBottom;
+						cropBottom = t;
+						break;
+					}
+					case RIGHT :
+					{
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					}
+					case LEFT :
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					case NORMAL :
+					default :
+						break;
+				}
+				break;
+			case NONE :
+			default :
+				switch (exifOrientation)
+				{
+					case UPSIDE_DOWN :
+					{
+						double t = cropLeft;
+						cropLeft = cropRight;
+						cropRight = t;
+						t = cropTop;
+						cropTop = cropBottom;
+						cropBottom = t;
+						break;
+					}
+					case RIGHT :
+					{
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						break;
+					}
+					case LEFT :
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							)
+						{
+							double t = cropTop;
+							cropTop = cropBottom;
+							cropBottom = t;
+						}
+						if (
+							(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+							|| (image.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && image.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+							)
+						{
+							double t = cropLeft;
+							cropLeft = cropRight;
+							cropRight = t;
+						}
+						break;
+					case NORMAL :
+					default :
+						break;
+				}
+				break;
+		}
+		return new Insets(cropTop, cropLeft, cropBottom, cropRight);
+	}
+	
+
+	/**
+	 * 
+	 */
+	public static class Insets
+	{
+		public final double top;
+		public final double left;
+		public final double bottom;
+		public final double right;
+		
+		public Insets(double top, double left, double bottom, double right)
+		{
+			this.top = top;
+			this.left = left;
+			this.bottom = bottom;
+			this.right = right;
+		}
 	}
 }
