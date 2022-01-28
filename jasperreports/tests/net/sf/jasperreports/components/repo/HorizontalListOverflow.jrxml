@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HorizontalListOverflow" pageWidth="612" pageHeight="392" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d99cebe4-daae-4fa8-bdd4-0a610c0fb491">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="20"/>
+	<subDataset name="ListDataset" uuid="4cf5fe40-b40d-4f7a-8d91-d276ec79bd9b">
+		<variable name="Text" class="java.lang.String">
+			<variableExpression><![CDATA["Item " + $V{REPORT_COUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="ItemCount" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[6]]></defaultValueExpression>
+	</parameter>
+	<summary>
+		<band height="100" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="400" height="100" uuid="416a5316-3d26-449b-8cab-2fcbfca9211c"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Horizontal" ignoreWidth="false">
+					<datasetRun subDataset="ListDataset" uuid="d630571d-db32-4913-8af8-4e6638ae220f">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource($P{ItemCount})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="100" width="200">
+						<textField>
+							<reportElement x="0" y="0" width="200" height="100" uuid="bbd47190-7b2b-46ad-8ce3-cb7689dedaa3"/>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textFieldExpression><![CDATA[$V{Text}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
