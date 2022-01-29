@@ -26,12 +26,6 @@ package net.sf.jasperreports.engine.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifIFD0Directory;
-
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -113,16 +107,17 @@ public final class ImageUtil
 		
 		if (JRTypeSniffer.isJPEG(data))
 		{
+			// use package names for metadata extractor classes here to defer their loading to when they are actually needed 
 			try 
 			{
-				Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
-				ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+				com.drew.metadata.Metadata metadata = com.drew.imaging.ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
+				com.drew.metadata.exif.ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(com.drew.metadata.exif.ExifIFD0Directory.class);
 				if (directory != null)
 				{
-					exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(ExifIFD0Directory.TAG_ORIENTATION));
+					exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(com.drew.metadata.exif.ExifIFD0Directory.TAG_ORIENTATION));
 				}
 			}
-			catch (ImageProcessingException | IOException | MetadataException e) 
+			catch (com.drew.imaging.ImageProcessingException | IOException | com.drew.metadata.MetadataException e) 
 			{
 				throw new JRRuntimeException(e);
 			}
