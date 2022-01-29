@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.net.URLStreamHandlerFactory;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRParameter;
@@ -64,14 +63,6 @@ public final class JRResourcesFillUtil
 	public static class ResourcesFillContext
 	{
 		protected ClassLoader classLoader;
-		/**
-		 * @deprecated To be removed.
-		 */
-		protected URLStreamHandlerFactory urlHandlerFactory;
-		/**
-		 * @deprecated To be removed.
-		 */
-		protected net.sf.jasperreports.engine.util.FileResolver fileResolver;
 		
 		public ClassLoader getClassLoader()
 		{
@@ -82,39 +73,6 @@ public final class JRResourcesFillUtil
 		{
 			this.classLoader = classLoader;
 		}
-		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public URLStreamHandlerFactory getUrlHandlerFactory()
-		{
-			return urlHandlerFactory;
-		}
-		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public void setUrlHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
-		{
-			this.urlHandlerFactory = urlHandlerFactory;
-		}
-		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public net.sf.jasperreports.engine.util.FileResolver getFileResolver()
-		{
-			return fileResolver;
-		}
-		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public void setFileResolver(net.sf.jasperreports.engine.util.FileResolver fileResolver)
-		{
-			this.fileResolver = fileResolver;
-		}
-		
 	}
 
 	

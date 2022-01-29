@@ -52,15 +52,6 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 
 	
 	/**
-	 * @deprecated Replaced by {@link #init(JRFillChart)}.
-	 */
-	public void init(JRBaseFiller chartFiller, JRFillChart chart)
-	{
-		init(chart);
-	}
-	
-	
-	/**
 	 * Initializes the chart customizer.
 	 * 
 	 * @param chart the fill chart object

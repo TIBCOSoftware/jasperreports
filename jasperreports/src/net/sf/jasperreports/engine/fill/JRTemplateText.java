@@ -318,14 +318,6 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 	{
 		return paragraph;
 	}
-		
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return this;
-	}
 
 	
 	/**
@@ -342,14 +334,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
 	}
 	
 	/**
@@ -400,15 +384,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-		setBold((Boolean)isBold);
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -429,15 +404,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
-		setItalic((Boolean)isItalic);
 	}
 
 	/**
@@ -463,15 +429,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-		setUnderline((Boolean)isUnderline);
-	}
-
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -491,15 +448,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	public Boolean isOwnStrikeThrough()
 	{
 		return isStrikeThrough;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**
@@ -581,15 +529,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
-		setPdfEmbedded((Boolean)isPdfEmbedded);
 	}
 
 	/**

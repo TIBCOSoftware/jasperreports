@@ -50,14 +50,6 @@ public abstract class OasisZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry;
 	
 	/**
-	 * @deprecated To be removed.
-	 */
-	public OasisZip() throws IOException
-	{
-		this(MIME_TYPE_ODT);
-	}
-
-	/**
 	 * 
 	 */
 	public OasisZip(String mimeType) throws IOException

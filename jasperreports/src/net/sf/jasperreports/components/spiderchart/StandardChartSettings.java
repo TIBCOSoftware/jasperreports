@@ -365,14 +365,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		this.legendPosition = legendPosition;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPosition);
 	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
 		
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()

@@ -151,17 +151,6 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	public Boolean getUsingCache();
 
 	/**
-	 * Specifies if the engine should be loading the current image from cache. If set to true, the reporting engine
-	 * will try to recognize previously loaded images using their specified source. For example, it will recognize
-	 * an image if the image source is a file name that it has already loaded, or if it is the same URL.
-	 * <p>
-	 * For image elements that have expressions returning <tt>java.lang.String</tt> objects as the image source, 
-	 * representing file names, URLs or classpath resources, the default value for this flag is true. 
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	public void setUsingCache(boolean isUsingCache);
-
-	/**
 	 * Specifies if the engine should be loading the current image from cache. If set to Boolean.TRUE, the reporting engine
 	 * will try to recognize previously loaded images using their specified source. For example, it will recognize
 	 * an image if the image source is a file name that it has already loaded, or if it is the same URL.

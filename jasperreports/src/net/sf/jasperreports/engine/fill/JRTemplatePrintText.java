@@ -489,14 +489,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -516,14 +508,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public Boolean isOwnItalic()
 	{
 		return ((JRTemplateText)template).isOwnItalic();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
 	}
 
 	/**
@@ -548,14 +532,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-	}
-
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -574,15 +550,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public Boolean isOwnStrikeThrough()
 	{
 		return ((JRTemplateText)template).isOwnStrikeThrough();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**
@@ -660,14 +627,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public Boolean isOwnPdfEmbedded()
 	{
 		return ((JRTemplateText)template).isOwnPdfEmbedded();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
 	}
 
 	/**

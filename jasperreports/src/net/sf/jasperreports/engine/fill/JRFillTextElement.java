@@ -347,14 +347,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				: paragraph;
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return this;
-	}
-
 	
 	/**
 	 *
@@ -908,15 +900,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -937,15 +920,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnItalic()
 	{
 		return providerStyle == null || providerStyle.isOwnItalic() == null ? ((JRFont)parent).isOwnItalic() : providerStyle.isOwnItalic();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -971,15 +945,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -999,15 +964,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnStrikeThrough()
 	{
 		return providerStyle == null || providerStyle.isOwnStrikeThrough() == null ? ((JRFont)parent).isOwnStrikeThrough() : providerStyle.isOwnStrikeThrough();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1086,15 +1042,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnPdfEmbedded()
 	{
 		return providerStyle == null || providerStyle.isOwnPdfEmbedded() == null ? ((JRFont)parent).isOwnPdfEmbedded() : providerStyle.isOwnPdfEmbedded();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**

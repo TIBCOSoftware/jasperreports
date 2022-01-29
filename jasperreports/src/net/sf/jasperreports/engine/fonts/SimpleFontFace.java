@@ -28,7 +28,6 @@ import java.awt.Font;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -67,50 +66,6 @@ public class SimpleFontFace implements FontFace, JRCloneable
 			throw new JRRuntimeException(e);
 		}
 	}
-	/**
-	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
-	 */
-	public static SimpleFontFace getInstance(JasperReportsContext jasperReportsContext, String fontName)
-	{
-		SimpleFontFace fontFace = null;
-
-		if (fontName != null)
-		{
-			fontFace = new SimpleFontFace(jasperReportsContext);
-			fontFace.setTtf(fontName);
-		}
-		
-		return fontFace;
-	}
-
-	
-	/**
-	 * @deprecated Replaced by #{@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
-	 */
-	public SimpleFontFace(JasperReportsContext jasperReportsContext, String ttf)
-	{
-		this(jasperReportsContext);
-		setTtf(ttf);
-	}
-	
-
-	/**
-	 * @deprecated Replaced by #{@link #SimpleFontFace(JasperReportsContext)} and {@link #setTtf(String)}.
-	 */
-	public SimpleFontFace(String file)
-	{
-		this(DefaultJasperReportsContext.getInstance());
-		setTtf(file);
-	}
-
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public SimpleFontFace(Font font)
-	{
-		this.font = font;
-	}
 
 	
 	/**
@@ -127,15 +82,6 @@ public class SimpleFontFace implements FontFace, JRCloneable
 	{
 		//(String)font.getAttributes().get(TextAttribute.FAMILY);
 		return font == null ? null : font.getName();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getTtf()}.
-	 */
-	@Override
-	public String getFile()
-	{
-		return getTtf();
 	}
 	
 	@Override

@@ -35,11 +35,6 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
  */
 public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducerFactory
 {
-	/**
-	 * @deprecated Replaced by {@link ReportExecutionHyperlinkProducer#HYPERLINK_TYPE_REPORT_EXECUTION}.
-	 */
-	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
-	
 	private JasperReportsContext jasperReportsContext;
 	private HttpServletRequest request;
 	

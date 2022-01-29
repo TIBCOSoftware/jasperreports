@@ -234,14 +234,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getUsingCache();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	@Override
-	public void setUsingCache(boolean isUsingCache)
-	{
-	}
-		
 	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
@@ -286,14 +278,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public JRLineBox getLineBox()
 	{
 		return lineBox == null ? initLineBox : lineBox;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
 	}
 
 	@Override

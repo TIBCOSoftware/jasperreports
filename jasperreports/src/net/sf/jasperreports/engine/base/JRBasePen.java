@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPenContainer;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -83,15 +82,6 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #getPenContainer()}.
-	 */
-	@Override
-	public JRStyleContainer getStyleContainer()
-	{
-		return penContainer;
-	}
-
 	@Override
 	public JRPenContainer getPenContainer()
 	{
@@ -103,9 +93,9 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 */
 	protected StyleResolver getStyleResolver() 
 	{
-		if (getStyleContainer().getDefaultStyleProvider() != null)
+		if (getPenContainer().getDefaultStyleProvider() != null)
 		{
-			return getStyleContainer().getDefaultStyleProvider().getStyleResolver();
+			return getPenContainer().getDefaultStyleProvider().getStyleResolver();
 		}
 		return StyleResolver.getInstance();
 	}
@@ -120,15 +110,6 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	public Float getOwnLineWidth()
 	{
 		return lineWidth;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)}.
-	 */
-	@Override
-	public void setLineWidth(float lineWidth)
-	{
-		setLineWidth((Float)lineWidth);
 	}
 
 	@Override

@@ -80,12 +80,4 @@ public class DesignListContents extends JRDesignElementGroup implements
 		getEventSupport().firePropertyChange(PROPERTY_WIDTH, old, this.width);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setWidth(Integer)}.
-	 */
-	public void setWidth(int width)
-	{
-		setWidth((Integer)width);
-	}
-
 }

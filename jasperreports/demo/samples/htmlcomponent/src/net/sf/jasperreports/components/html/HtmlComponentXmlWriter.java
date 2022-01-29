@@ -41,14 +41,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public class HtmlComponentXmlWriter extends AbstractComponentXmlWriter 
 {
-	/**
-	 * @deprecated Replaced by {@link HtmlComponentXmlWriter#HtmlComponentXmlWriter(JasperReportsContext)}.
-	 */
-	public HtmlComponentXmlWriter()
-	{
-		super(DefaultJasperReportsContext.getInstance());
-	}
-	
 	public HtmlComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);

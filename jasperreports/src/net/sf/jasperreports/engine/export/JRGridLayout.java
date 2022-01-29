@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -45,9 +48,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.Pair;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -806,41 +806,6 @@ public class JRGridLayout
 		return xCuts;
 	}
 
-
-	/**
-	 * This static method calculates all the X cuts for a list of pages.
-	 *
-	 * @param pages
-	 *            The list of pages.
-	 * @param startPageIndex
-	 *            The first page to consider.
-	 * @param endPageIndex
-	 *            The last page to consider.
-	 * @param width
-	 *            The page width
-	 * @param offsetX
-	 *            horizontal element position offset
-	 * @deprecated Replaced by {@link #calculateXCuts(ExporterNature, JasperPrint, int, int, int)}.
-	 */
-	public static CutsInfo calculateXCuts(ExporterNature nature, List<JRPrintPage> pages, int startPageIndex, int endPageIndex, int width, int offsetX)
-	{
-		CutsInfo xCuts = new CutsInfo();
-
-		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
-		{
-			JRPrintPage page = pages.get(pageIndex);
-			addXCuts(nature, page.getElements(), offsetX, xCuts);
-		}
-		
-		// add a cut at the page width if no element goes beyond the width
-		int lastCut = xCuts.getLastCutOffset();
-		if (lastCut < width)
-		{
-			xCuts.addCutOffset(width);
-		}
-
-		return xCuts;
-	}
 
 	/**
 	 * This static method calculates the X cuts for a list of print elements and

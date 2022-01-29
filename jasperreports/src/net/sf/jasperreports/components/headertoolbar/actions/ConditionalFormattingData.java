@@ -45,8 +45,6 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String conditionPattern;
 	private String localeCode;
 	private String timeZoneId;
-	private String columnType;
-	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
 
 	private String applyTo;
@@ -100,38 +98,6 @@ public class ConditionalFormattingData extends BaseColumnData {
 	@JsonIgnore
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public String getColumnType() {
-		return columnType;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public void setColumnType(String columnType) {
-		this.columnType = columnType;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public String getFieldOrVariableName() {
-		return fieldOrVariableName;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public void setFieldOrVariableName(String fieldOrVariableName) {
-		this.fieldOrVariableName = fieldOrVariableName;
 	}
 
 	public List<FormatCondition> getConditions() {
