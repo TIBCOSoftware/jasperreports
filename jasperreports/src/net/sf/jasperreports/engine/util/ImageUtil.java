@@ -23,12 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
@@ -38,6 +34,23 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
  */
 public final class ImageUtil
 {
+	private static final boolean checkExif;
+	
+	static
+	{
+		boolean drewFound = false;
+		try
+		{
+			ImageUtil.class.getClassLoader().loadClass("com.drew.metadata.Metadata");
+			drewFound = true;
+		}
+		catch (ClassNotFoundException e)
+		{
+			//nothing to do
+		}
+		checkExif = drewFound;
+	}
+	
 	public static float getXAlignFactor(JRImageAlignment imageAlignment)
 	{
 		return getXAlignFactor(imageAlignment.getHorizontalImageAlign());
@@ -105,22 +118,9 @@ public final class ImageUtil
 	{
 		ExifOrientationEnum exifOrientation = null;
 		
-		if (JRTypeSniffer.isJPEG(data))
+		if (checkExif && JRTypeSniffer.isJPEG(data))
 		{
-			// use package names for metadata extractor classes here to defer their loading to when they are actually needed 
-			try 
-			{
-				com.drew.metadata.Metadata metadata = com.drew.imaging.ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
-				com.drew.metadata.exif.ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(com.drew.metadata.exif.ExifIFD0Directory.class);
-				if (directory != null)
-				{
-					exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(com.drew.metadata.exif.ExifIFD0Directory.TAG_ORIENTATION));
-				}
-			}
-			catch (com.drew.imaging.ImageProcessingException | IOException | com.drew.metadata.MetadataException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
+			exifOrientation = ExifUtil.getExifOrientation(data);
 		}
 		
 		return exifOrientation == null ? ExifOrientationEnum.NORMAL : exifOrientation;
