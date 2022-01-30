@@ -23,18 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifIFD0Directory;
-
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
@@ -44,6 +34,23 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
  */
 public final class ImageUtil
 {
+	private static final boolean checkExif;
+	
+	static
+	{
+		boolean drewFound = false;
+		try
+		{
+			ImageUtil.class.getClassLoader().loadClass("com.drew.metadata.Metadata");
+			drewFound = true;
+		}
+		catch (ClassNotFoundException e)
+		{
+			//nothing to do
+		}
+		checkExif = drewFound;
+	}
+	
 	public static float getXAlignFactor(JRImageAlignment imageAlignment)
 	{
 		return getXAlignFactor(imageAlignment.getHorizontalImageAlign());
@@ -111,21 +118,9 @@ public final class ImageUtil
 	{
 		ExifOrientationEnum exifOrientation = null;
 		
-		if (JRTypeSniffer.isJPEG(data))
+		if (checkExif && JRTypeSniffer.isJPEG(data))
 		{
-			try 
-			{
-				Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
-				ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-				if (directory != null)
-				{
-					exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(ExifIFD0Directory.TAG_ORIENTATION));
-				}
-			}
-			catch (ImageProcessingException | IOException | MetadataException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
+			exifOrientation = ExifUtil.getExifOrientation(data);
 		}
 		
 		return exifOrientation == null ? ExifOrientationEnum.NORMAL : exifOrientation;
