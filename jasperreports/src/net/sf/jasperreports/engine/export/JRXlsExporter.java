@@ -110,13 +110,16 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -1765,6 +1768,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			int translateY = 0;
 			short angle = 0;
 			
+			// exif orientation is taken care inside the wrapping renderer 
 			switch (imageElement.getRotation())
 			{
 				case LEFT :
@@ -1876,9 +1880,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		
 		private InternalImageProcessorResult processImageFillFrame(DataRenderable renderer) throws JRException
 		{
+			byte[] imageData = renderer.getData(jasperReportsContext); 
+			ExifOrientationEnum exifOrientation = ImageUtil.getExifOrientation(imageData);
+
 			short angle = 0;
 			
-			switch (imageElement.getRotation())
+			switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 			{
 				case LEFT:
 					angle = -90;
@@ -1897,7 +1904,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			
 			return 
 				new InternalImageProcessorResult(
-					renderer.getData(jasperReportsContext), 
+					imageData, 
 					0,
 					0,
 					0,
@@ -1932,7 +1939,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 			short angle = 0;
 	
-			switch (imageElement.getRotation())
+			byte[] imageData = renderer.getData(jasperReportsContext); 
+			ExifOrientationEnum exifOrientation = ImageUtil.getExifOrientation(imageData);
+
+			switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 			{
 				case LEFT:
 					ratioX = availableImageWidth / normalHeight;
@@ -1988,10 +1998,260 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					angle = 0;
 					break;
 			}
+
+			/*
+			 * The code below the result of tests alone and not the result of prior design or understanding of how image cropping works in the Microsoft document formats.
+			 * Trial and error during tests were the only way to achieve desired output and this code is the result of this trial and error technique alone, 
+			 * without actually understanding how image cropping works in these document formats.
+			 */
+			switch (imageElement.getRotation())
+			{
+				case LEFT :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case RIGHT :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case UPSIDE_DOWN :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case NONE :
+				default :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+			}
 			
 			return 
 				new InternalImageProcessorResult(
-					renderer.getData(jasperReportsContext), 
+					imageData, 
 					topOffset, 
 					leftOffset, 
 					bottomOffset, 

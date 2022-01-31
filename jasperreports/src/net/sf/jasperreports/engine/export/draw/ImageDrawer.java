@@ -41,7 +41,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
@@ -233,21 +235,39 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
 				: null;
 			
-			if (dimension != null)
+			if (dimension == null)
+			{
+				renderWidth = availableImageWidth;
+				renderHeight = availableImageHeight;
+			}
+			else
 			{
 				renderWidth = (int)dimension.getWidth();
 				renderHeight = (int)dimension.getHeight();
+			}
+			
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+			
+			DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
+			if (dataRenderable != null)
+			{
+				exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+			}
+			
+			if (
+				ExifOrientationEnum.LEFT == exifOrientation
+				|| ExifOrientationEnum.RIGHT == exifOrientation
+				)
+			{
+				int t = renderWidth;
+				renderWidth = renderHeight;
+				renderHeight = t;
 			}
 
 			switch (printImage.getRotation())
 			{
 				case LEFT :
 				{
-					if (dimension == null)
-					{
-						renderWidth = availableImageHeight;
-						renderHeight = availableImageWidth;
-					}
 					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
 					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = - Math.PI / 2;
@@ -255,11 +275,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				}
 				case RIGHT :
 				{
-					if (dimension == null)
-					{
-						renderWidth = availableImageHeight;
-						renderHeight = availableImageWidth;
-					}
 					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
 					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = Math.PI / 2;
@@ -267,11 +282,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				}
 				case UPSIDE_DOWN :
 				{
-					if (dimension == null)
-					{
-						renderWidth = availableImageWidth;
-						renderHeight = availableImageHeight;
-					}
 					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
 					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
 					angle = Math.PI;
@@ -280,11 +290,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				case NONE :
 				default :
 				{
-					if (dimension == null)
-					{
-						renderWidth = availableImageWidth;
-						renderHeight = availableImageHeight;
-					}
 					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
 					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
 					angle = 0;
@@ -433,21 +438,39 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				renderer instanceof DimensionRenderable 
 				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
 				: null;
-			if (dimension != null)
+			if (dimension == null)
+			{
+				normalWidth = availableImageWidth;
+				normalHeight = availableImageHeight;
+			}
+			else
 			{
 				normalWidth = (int)dimension.getWidth();
 				normalHeight = (int)dimension.getHeight();
+			}
+			
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+			
+			DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
+			if (dataRenderable != null)
+			{
+				exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+			}
+			
+			if (
+				ExifOrientationEnum.LEFT == exifOrientation
+				|| ExifOrientationEnum.RIGHT == exifOrientation
+				)
+			{
+				float t = normalWidth;
+				normalWidth = normalHeight;
+				normalHeight = t;
 			}
 
 			switch (printImage.getRotation())
 			{
 				case LEFT :
 				{
-					if (dimension == null)
-					{
-						normalWidth = availableImageHeight;
-						normalHeight = availableImageWidth;
-					}
 					ratioX = availableImageWidth / normalHeight;
 					ratioY = availableImageHeight / normalWidth;
 					ratioX = ratioX < ratioY ? ratioX : ratioY;
@@ -461,11 +484,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				}
 				case RIGHT :
 				{
-					if (dimension == null)
-					{
-						normalWidth = availableImageHeight;
-						normalHeight = availableImageWidth;
-					}
 					ratioX = availableImageWidth / normalHeight;
 					ratioY = availableImageHeight / normalWidth;
 					ratioX = ratioX < ratioY ? ratioX : ratioY;
@@ -479,11 +497,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				}
 				case UPSIDE_DOWN :
 				{
-					if (dimension == null)
-					{
-						normalWidth = availableImageWidth;
-						normalHeight = availableImageHeight;
-					}
 					ratioX = availableImageWidth / normalWidth;
 					ratioY = availableImageHeight / normalHeight;
 					ratioX = ratioX < ratioY ? ratioX : ratioY;
@@ -498,11 +511,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				case NONE :
 				default :
 				{
-					if (dimension == null)
-					{
-						normalWidth = availableImageWidth;
-						normalHeight = availableImageHeight;
-					}
 					ratioX = availableImageWidth / normalWidth;
 					ratioY = availableImageHeight / normalHeight;
 					ratioX = ratioX < ratioY ? ratioX : ratioY;

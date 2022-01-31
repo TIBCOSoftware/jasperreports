@@ -207,7 +207,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			)
 	public static final String PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "use.background.image.to.align";
 
-	
+
 	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
 	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
@@ -322,7 +322,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		value=PROPERTY_ACCESSIBLE,
 		booleanDefault=false
 		)
-	public Boolean isAccessibleHtml(); //FIXME this only worked in the ancient HTML exporter; if need to supported this again, look into history
+	public Boolean isAccessibleHtml();
 	
 	
 	/**

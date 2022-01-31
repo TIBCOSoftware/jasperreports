@@ -37,4 +37,6 @@ public interface CellVisitor<T, R, E extends Exception>
 
 	R visit(LayeredCell layeredCell, T arg) throws E;
 
+	R visit(NestedTableCell layeredCell, T arg) throws E;
+
 }

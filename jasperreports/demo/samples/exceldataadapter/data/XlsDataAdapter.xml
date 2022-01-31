@@ -19,5 +19,4 @@
 	<columnIndexes>5</columnIndexes>
 	<columnIndexes>6</columnIndexes>
 	<sheetSelection>xlsdatasource2</sheetSelection>
-	<format>xls</format>
 </xlsDataAdapter>

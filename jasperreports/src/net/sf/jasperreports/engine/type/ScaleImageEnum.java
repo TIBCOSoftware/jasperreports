@@ -77,8 +77,8 @@ public enum ScaleImageEnum implements JREnum
 	
 	/**
 	 * A scale image type that stretches the images height in the same way as 
-	 * {@link #REAL_HEIGHT}, and in addition it changes the image
-	 * width to the actual with of the image.
+	 * {@link #REAL_HEIGHT}, and in addition it reduces the image
+	 * width to the actual width of the image.
 	 * 
 	 * This can be useful when, for instance, a border has to be drawn around
 	 * the image, respecting its actual size.

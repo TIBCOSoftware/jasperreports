@@ -134,6 +134,7 @@ public class JRResultSetDataSource implements JRDataSource
 	private TimeZone reportTimeZone;
 	private Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
 
+	private int rowCount;
 
 	/**
 	 *
@@ -142,6 +143,7 @@ public class JRResultSetDataSource implements JRDataSource
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.resultSet = resultSet;
+		this.rowCount = 0;
 	}
 
 
@@ -172,6 +174,15 @@ public class JRResultSetDataSource implements JRDataSource
 						EXCEPTION_MESSAGE_KEY_RESULT_SET_NEXT_RECORD_NOT_RETRIEVED, 
 						null,
 						e);
+			}
+
+			if (hasNext)
+			{
+				++rowCount;
+			}
+			else if (log.isDebugEnabled())
+			{
+				log.debug("read " + rowCount + " rows from result set");
 			}
 		}
 		

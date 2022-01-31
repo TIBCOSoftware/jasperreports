@@ -12,8 +12,9 @@
 	</configurations>
 	<dependencies>
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
-		<dependency org="com.adobe.xmp" name="xmpcore" rev="5.1.3"/>
+		<dependency org="com.adobe.xmp" name="xmpcore" rev="6.1.11"/>
 		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
+		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.16.0" conf="compile->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.12.2" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.12.2" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.12.2" conf="compile,annotations->*"/>
