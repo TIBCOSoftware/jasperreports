@@ -80,34 +80,55 @@ public class ChartThemesApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
-		testXml("aegean");
-		testXml("eye.candy.sixties");
-		testXml("simple");
+		testXml();
+		fill();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		xls();
+		csv();
+		odt();
+		ods();
+		docx();
+		xlsx();
+		pptx();		
 	}
 
 
-	public void testXml(String ctFile) throws JRException
+	public void testXml() throws JRException
 	{
-		// READ Castor 
-		ChartThemeSettings settings = XmlChartTheme.loadSettings("reports/" + ctFile + ".jrctx");
-
-		// WRITE to Castor format 
-		XmlChartTheme.saveSettings(settings, new File("build/" + ctFile + ".castor.jrctx"));
-
-		try (FileInputStream fis = new FileInputStream(new File("build/" + ctFile + ".castor.jrctx")))
+		File[] files = getFiles(new File("themes"), "jrctx");
+		
+		for(int i = 0; i < files.length; i++)
 		{
-			// READ Castor latest format with Jackson 
-			settings = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, ChartThemeSettings.class);
+			File daFile = files[i];
+			String daFileName = daFile.getName().substring(0, daFile.getName().lastIndexOf('.'));
+			long start = System.currentTimeMillis();
 			
-			// WRITE Jackson format
-			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
-			FileWriter writer = new FileWriter("build/" + ctFile + ".jackson.jrctx");
-			writer.write(xml);
-			writer.close();
-		}
-		catch (IOException e)
-		{
-			throw new JRException(e);
+			// READ Castor 
+			ChartThemeSettings settings = XmlChartTheme.loadSettings("themes/" + daFile.getName());
+
+			// WRITE to Castor format 
+			XmlChartTheme.saveSettings(settings, new File("build/themes/" + daFileName + ".castor.jrctx"));
+
+			try (FileInputStream fis = new FileInputStream(new File("build/themes/" + daFileName + ".castor.jrctx")))
+			{
+				// READ Castor latest format with Jackson 
+				settings = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, ChartThemeSettings.class);
+				
+				// WRITE Jackson format
+				String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
+				FileWriter writer = new FileWriter("build/themes/" + daFileName + ".jackson.jrctx");
+				writer.write(xml);
+				writer.close();
+			}
+			catch (IOException e)
+			{
+				throw new JRException(e);
+			}
+			System.err.println(daFileName + " chart themes saved in " + (System.currentTimeMillis() - start) + " ms");
 		}
 	}
 
