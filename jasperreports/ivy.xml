@@ -18,8 +18,8 @@
 		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.12.2" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.12.2" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.12.2" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.12.2" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.12.2" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.12.2" conf="compile->*"/>
+		<dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.12.2" conf="compile->*"/>
 		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="2.0.0"/>
 		<dependency org="com.google.zxing" name="core" rev="3.4.0"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js9"/>
@@ -84,8 +84,7 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.14" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.14" conf="test->*"/>
 		<dependency org="org.codehaus.groovy" name="groovy" rev="3.0.7" />
-		<dependency org="org.codehaus.woodstox" name="stax2-api" rev="4.2.1" />
-		<dependency org="org.codehaus.woodstox" name="woodstox-core-asl" rev="4.1.4" />
+		<dependency org="org.codehaus.woodstox" name="stax2-api" rev="4.2.1" conf="test->*"/>
 		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
 		<dependency org="org.hibernate" name="hibernate-core" rev="5.4.24.Final"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>

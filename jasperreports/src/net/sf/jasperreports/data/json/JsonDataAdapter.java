@@ -26,6 +26,8 @@ package net.sf.jasperreports.data.json;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import net.sf.jasperreports.data.FileDataAdapter;
@@ -56,13 +58,14 @@ public interface JsonDataAdapter extends FileDataAdapter {
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
 	@Deprecated
-	//@JsonIgnore
+	@JsonIgnore
 	public String getFileName();
 
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Deprecated
+	@JsonProperty
 	public void setFileName(String fileName);
 
 	public JsonExpressionLanguageEnum getLanguage();

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
@@ -49,13 +50,14 @@ public interface XlsDataAdapter extends FileDataAdapter
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
 	@Deprecated
-	//@JsonIgnore
+	@JsonIgnore
 	public String getFileName();
 
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Deprecated
+	@JsonProperty
 	public void setFileName(String filename);
 	
 	@JsonProperty(index=3)
