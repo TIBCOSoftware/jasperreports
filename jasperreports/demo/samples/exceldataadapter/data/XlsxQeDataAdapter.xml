@@ -7,5 +7,4 @@
 	<numberPattern>#,##0</numberPattern>
 	<datePattern>yyyy-MM-dd</datePattern>
 	<sheetSelection>XlsxDataSource3</sheetSelection>
-	<format>autodetect</format>
 </xlsxDataAdapter>
