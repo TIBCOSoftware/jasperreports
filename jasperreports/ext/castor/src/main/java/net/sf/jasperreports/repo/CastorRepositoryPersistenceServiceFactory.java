@@ -23,21 +23,20 @@
  */
 package net.sf.jasperreports.repo;
 
-import net.sf.jasperreports.data.DataAdapterResource;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultRepositoryPersistenceServiceFactory implements PersistenceServiceFactory
+public class CastorRepositoryPersistenceServiceFactory implements PersistenceServiceFactory
 {
-	private static final DefaultRepositoryPersistenceServiceFactory INSTANCE = new DefaultRepositoryPersistenceServiceFactory();
+	private static final CastorRepositoryPersistenceServiceFactory INSTANCE = new CastorRepositoryPersistenceServiceFactory();
 	
 	/**
 	 * 
 	 */
-	public static DefaultRepositoryPersistenceServiceFactory getInstance()
+	public static CastorRepositoryPersistenceServiceFactory getInstance()
 	{
 		return INSTANCE;
 	}
@@ -49,33 +48,15 @@ public class DefaultRepositoryPersistenceServiceFactory implements PersistenceSe
 		Class<L> resourceType
 		) 
 	{
-		if (DefaultRepositoryService.class.getName().equals(repositoryServiceType.getName()))
+		if (DataAdapterResource.class.isAssignableFrom(resourceType))
 		{
-			if (InputStreamResource.class.getName().equals(resourceType.getName()))
-			{
-				return new InputStreamPersistenceService();
-			}
-			else if (OutputStreamResource.class.getName().equals(resourceType.getName()))
-			{
-				return new OutputStreamPersistenceService();
-			}
-			else if (ReportResource.class.getName().equals(resourceType.getName()))
-			{
-				return new SerializedReportPersistenceService();
-			}
-			else if (ResourceBundleResource.class.getName().equals(resourceType.getName()))
-			{
-				return new ResourceBundlePersistenceService(jasperReportsContext);
-			}
-			else if (DataAdapterResource.class.isAssignableFrom(resourceType))
-			{
-				return new JacksonDataAdapterPersistenceService(jasperReportsContext);
-			}
-			else if (SerializableResource.class.isAssignableFrom(resourceType))
-			{
-				return new SerializedObjectPersistenceService();
-			}
+			return new CastorDataAdapterPersistenceService(jasperReportsContext);
 		}
+		else if (CastorResource.class.isAssignableFrom(resourceType))
+		{
+			return new CastorObjectPersistenceService(jasperReportsContext);
+		}
+
 		return null;
 	}
 }

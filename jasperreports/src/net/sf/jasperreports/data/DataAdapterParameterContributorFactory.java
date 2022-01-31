@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.repo.DataAdapterResource;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;

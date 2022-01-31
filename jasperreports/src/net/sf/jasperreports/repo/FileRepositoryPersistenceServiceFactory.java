@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
+import net.sf.jasperreports.data.DataAdapterResource;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -68,11 +69,7 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 			}
 			else if (DataAdapterResource.class.isAssignableFrom(resourceType))
 			{
-				return new CastorDataAdapterPersistenceService(jasperReportsContext);
-			}
-			else if (CastorResource.class.isAssignableFrom(resourceType))
-			{
-				return new CastorObjectPersistenceService(jasperReportsContext);
+				return new JacksonDataAdapterPersistenceService(jasperReportsContext);
 			}
 			else if (SerializableResource.class.isAssignableFrom(resourceType))
 			{
