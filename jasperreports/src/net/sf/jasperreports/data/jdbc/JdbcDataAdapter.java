@@ -26,7 +26,10 @@ package net.sf.jasperreports.data.jdbc;
 import java.sql.Driver;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonMerge;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -124,6 +127,9 @@ public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 	 * 
 	 * @return JDBC driver properties
 	 */
+	@JsonDeserialize(using = MapDeserializer.class)
+	@JsonSerialize(using = MapSerializer.class)
+	@JsonMerge
 	public Map<String, String> getProperties();
 	
 	public Boolean getAutoCommit();
