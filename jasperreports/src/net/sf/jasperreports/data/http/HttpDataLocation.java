@@ -25,12 +25,8 @@ package net.sf.jasperreports.data.http;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import net.sf.jasperreports.data.DataFile;
@@ -48,7 +44,6 @@ import net.sf.jasperreports.data.DataFile;
 	"body",
 	"postParameters",
 	"headers"})
-@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
 public interface HttpDataLocation extends DataFile
 {
 
@@ -61,20 +56,17 @@ public interface HttpDataLocation extends DataFile
 	String getPassword();
 	
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("urlParameters")
-	@JsonAlias("urlParameter")
+	@JsonProperty("urlParameter")
 	List<HttpLocationParameter> getUrlParameters();
 	
 	String getBody();
 
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("postParameters")
-	@JsonAlias("postParameter")
+	@JsonProperty("postParameter")
 	List<HttpLocationParameter> getPostParameters();
 	
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("headers")
-	@JsonAlias("header")
+	@JsonProperty("header")
 	List<HttpLocationParameter> getHeaders();
 
 }
