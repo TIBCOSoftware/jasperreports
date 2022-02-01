@@ -101,6 +101,15 @@ public class CastorUtil
 		return new CastorUtil(jasperReportsContext);
 	}
 	
+	/**
+	 * Convenience method called from main JasperReports library through reflection.
+	 * @deprecated To be removed.
+	 */
+	public static Object read(JasperReportsContext jasperReportsContext, InputStream is)
+	{
+		return new CastorUtil(jasperReportsContext).read(is);
+	}
+	
 	private XMLContext getReadXmlContext()
 	{
 		return getXmlContext(CASTOR_READ_XML_CONTEXT_KEY, null);//always reading with the last version mappings

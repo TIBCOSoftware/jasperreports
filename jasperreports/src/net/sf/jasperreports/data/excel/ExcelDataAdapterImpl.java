@@ -31,7 +31,7 @@ import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 @JsonRootName(value = "excelDataAdapter")
-public class ExcelDataAdapterImpl  extends XlsDataAdapterImpl implements ExcelDataAdapter
+public class ExcelDataAdapterImpl extends XlsDataAdapterImpl implements ExcelDataAdapter
 {
 	private ExcelFormatEnum format;
 	

@@ -25,7 +25,12 @@ package net.sf.jasperreports.repo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
+import com.fasterxml.jackson.core.JacksonException;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -35,6 +40,23 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public abstract class JacksonObjectPersistenceService implements PersistenceService
 {
+	private static final Method castorUtilMethod;
+	
+	static
+	{
+		Method method = null;
+		try
+		{
+			Class castorUtilClass = JacksonObjectPersistenceService.class.getClassLoader().loadClass("net.sf.jasperreports.util.CastorUtil");
+			method = castorUtilClass.getMethod("read", JasperReportsContext.class, InputStream.class);
+		}
+		catch (ClassNotFoundException | NoSuchMethodException e)
+		{
+			//nothing to do
+		}
+		castorUtilMethod = method;
+	}
+	
 	private final JasperReportsContext jasperReportsContext;
 	private final Class clazz;
 	
@@ -60,14 +82,29 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 		JacksonResource<Object> resource = null; 
 
 		InputStreamResource isResource = repositoryService.getResource(context, uri, InputStreamResource.class);
-		
 		InputStream is = isResource == null ? null : isResource.getInputStream();
+		
 		if (is != null)
 		{
-			resource = new JacksonResource<Object>();
+			Object value = null;
+			
+			boolean castorFallback = false;
+			
 			try
 			{
-				resource.setValue(JacksonUtil.getInstance(jasperReportsContext).loadXml(is, clazz));
+				value = JacksonUtil.getInstance(jasperReportsContext).loadXml(is, clazz);
+				System.out.println("JACKSON");
+			}
+			catch (JacksonException  e)
+			{
+				if (castorUtilMethod == null)
+				{
+					throw new JRRuntimeException(e);
+				}
+				else
+				{
+					castorFallback = true;
+				}
 			}
 			finally
 			{
@@ -79,6 +116,38 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 				{
 				}
 			}
+
+			if (castorFallback)
+			{
+				isResource = repositoryService.getResource(context, uri, InputStreamResource.class);
+				is = isResource == null ? null : isResource.getInputStream();
+				
+				if (is != null)
+				{
+					try
+					{
+						value = castorUtilMethod.invoke(null, jasperReportsContext, is);
+						System.out.println("CASTOR");
+					}
+					catch (InvocationTargetException | IllegalAccessException ex)
+					{
+						throw new JRRuntimeException(ex);
+					}
+					finally
+					{
+						try
+						{
+							is.close();
+						}
+						catch (IOException e)
+						{
+						}
+					}
+				}
+			}
+			
+			resource = new JacksonResource<Object>();
+			resource.setValue(value);
 		}
 
 		return resource;

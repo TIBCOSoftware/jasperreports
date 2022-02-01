@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -193,7 +194,7 @@ public class JacksonUtil
 	/**
 	 *
 	 */
-	public <T> T loadXml(InputStream is, Class<T> clazz)
+	public <T> T loadXml(InputStream is, Class<T> clazz) throws JacksonException
 	{
 		T result = null;
 		if (is != null) 
@@ -203,6 +204,10 @@ public class JacksonUtil
 			try 
 			{
 				result = mapper.readValue(is, clazz);
+			}
+			catch (JacksonException e) 
+			{
+				throw e;
 			}
 			catch (IOException e) 
 			{
