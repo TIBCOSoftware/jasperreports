@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmlaDataAdapter class="net.sf.jasperreports.data.xmla.XmlaDataAdapterImpl"><name>XMLA Data Adapter</name><xmlaUrl>http://localhost:8080/jasperserver-pro/xmla</xmlaUrl><datasource>foodmart</datasource><catalog>foodmart.xml</catalog><cube>Sales</cube><username>testUser</username><password>****</password><savePassword>false</savePassword></xmlaDataAdapter>
