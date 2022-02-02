@@ -93,7 +93,6 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 			try
 			{
 				value = JacksonUtil.getInstance(jasperReportsContext).loadXml(is, clazz);
-				System.out.println("JACKSON");
 			}
 			catch (JacksonException  e)
 			{
@@ -127,7 +126,6 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 					try
 					{
 						value = castorUtilMethod.invoke(null, jasperReportsContext, is);
-						System.out.println("CASTOR");
 					}
 					catch (InvocationTargetException | IllegalAccessException ex)
 					{
