@@ -57,7 +57,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 
 

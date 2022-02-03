@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 /**
  * 

@@ -53,8 +53,8 @@ import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**

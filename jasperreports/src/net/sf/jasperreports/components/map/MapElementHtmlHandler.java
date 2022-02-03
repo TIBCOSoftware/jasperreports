@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**

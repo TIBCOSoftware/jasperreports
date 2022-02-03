@@ -31,8 +31,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.Command;
-import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)

@@ -32,7 +32,7 @@ import com.fasterxml.jackson.core.JacksonException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 
 /**

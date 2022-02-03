@@ -63,7 +63,7 @@ import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
 import net.sf.jasperreports.export.JsonExporterOutput;
 import net.sf.jasperreports.export.JsonReportConfiguration;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 
 /**

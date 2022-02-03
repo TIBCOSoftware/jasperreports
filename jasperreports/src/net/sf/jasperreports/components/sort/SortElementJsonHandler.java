@@ -29,6 +29,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.VelocityContext;
+
 import net.sf.jasperreports.components.sort.actions.FilterAction;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.SortAction;
@@ -50,13 +54,9 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
