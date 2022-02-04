@@ -115,7 +115,7 @@ public class RequirejsTemplateConfigContributor implements RequirejsConfigContri
 			}
 			else
 			{
-				dest.put(field, sourceValue);
+				dest.set(field, sourceValue);
 			}
 		}
 	}

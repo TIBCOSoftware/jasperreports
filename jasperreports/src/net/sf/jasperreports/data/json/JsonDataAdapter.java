@@ -28,7 +28,6 @@ import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.data.StandardRepositoryDataLocation;
@@ -36,18 +35,6 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-
-@JsonPropertyOrder({ 
-	"name", 
-	"dataFile",
-	"language",
-	"useConnection",
-	"timeZone",
-	"locale",
-	"selectExpression",
-	"datePattern",
-	"numberPattern"
-	})
 public interface JsonDataAdapter extends FileDataAdapter {
 
 	public String getSelectExpression();

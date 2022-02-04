@@ -80,7 +80,7 @@ public class SearchAction extends AbstractAction {
 				if (hitTermsPerPage.size() > 0) {
 					ArrayNode arrayNode = mapper.createArrayNode();
 					ObjectNode item;
-					result.put("searchResults", arrayNode);
+					result.set("searchResults", arrayNode);
 					for (Map.Entry<String, Integer> entry: hitTermsPerPage.entrySet()) {
 						item = mapper.createObjectNode();
 						item.put("page", Integer.parseInt(entry.getKey()) + 1);

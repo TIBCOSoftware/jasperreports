@@ -68,7 +68,7 @@ public class RequirejsConfigCreator
 		configRoot.put("baseUrl", contextPath);
 		
 		ObjectNode configPaths = objectMapper.createObjectNode();
-		configRoot.put("paths", configPaths);
+		configRoot.set("paths", configPaths);
 
 		setModuleMappings(jrContext, contextPath, configPaths);
 		runContributors(jrContext, contextPath, configRoot);

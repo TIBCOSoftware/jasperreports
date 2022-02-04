@@ -21,25 +21,57 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.util;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import net.sf.jasperreports.data.http.StandardHttpDataLocation;
-import net.sf.jasperreports.engine.JRCloneable;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class),
-	@JsonSubTypes.Type(value = StandardHttpDataLocation.class)
-})
-// we do not need a @JsonTypeInfo annotation here because one is used in the DataFile getter of the FileDataAdapter
-public interface DataFile extends JRCloneable
+public class JacksonMapping
 {
+	private String name;
+	private String className;
+	
+	/**
+	 * 
+	 */
+	public JacksonMapping(String name, String className)
+	{
+		this.name = name;
+		this.className = className;
+	}
 
+	/**
+	 * 
+	 */
+	public String getName()
+	{
+		return name;
+	}
+
+	/**
+	 * 
+	 */
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	/**
+	 * 
+	 */
+	public String getClassName()
+	{
+		return className;
+	}
+
+	/**
+	 * 
+	 */
+	public void setClassName(String className)
+	{
+		this.className = className;
+	}
 }

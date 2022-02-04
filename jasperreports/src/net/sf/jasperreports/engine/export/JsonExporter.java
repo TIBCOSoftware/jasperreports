@@ -327,13 +327,11 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			gotFirstJsonFragment = true;
 		}
 
-		JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-
 		writer.write("\"reportConfig\": {");
 		writer.write("\"id\": \"reportConfig\",");
 		writer.write("\"type\": \"reportConfig\",");
 
-		List<JRPropertiesUtil.PropertySuffix> viewerProps = propertiesUtil.getProperties(
+		List<JRPropertiesUtil.PropertySuffix> viewerProps = JRPropertiesUtil.getProperties(
 				jasperPrint,
 				JRPropertiesUtil.PROPERTY_PREFIX + "htmlviewer.");
 
@@ -344,7 +342,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	public static void writeBookmarks(List<PrintBookmark> bookmarks, Writer writer, JacksonUtil jacksonUtil) throws IOException
 	{
 		// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
-		jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
+		jacksonUtil.getObjectMapper().addMixIn(PrintBookmark.class, PrintBookmarkMixin.class);
 
 		writer.write("{");
 
@@ -353,6 +351,14 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		writer.write("\"bookmarks\": " + jacksonUtil.getJsonString(bookmarks));
 
 		writer.write("}");
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #writeBookmarks(List, Writer, JacksonUtil)}.
+	 */
+	public static void writeBookmarks(List<PrintBookmark> bookmarks, Writer writer, net.sf.jasperreports.web.util.JacksonUtil jacksonUtil) throws IOException
+	{
+		writeBookmarks(bookmarks, writer, (JacksonUtil)jacksonUtil);
 	}
 
 	protected void exportParts() throws IOException

@@ -23,24 +23,16 @@
  */
 package net.sf.jasperreports.data.hibernate;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonPropertyOrder({ 
-	"name", 
-	"xMLFileName",
-	"propertiesFileName",
-	"useAnnotation"})
 public interface HibernateDataAdapter extends ClasspathAwareDataAdapter {
 
 	@JsonProperty("xMLFileName")
-	@JsonAlias("xmlfileName")
 	public String getXMLFileName();
 
 	public void setXMLFileName(String fileName);

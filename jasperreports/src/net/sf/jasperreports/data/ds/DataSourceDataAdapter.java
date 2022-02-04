@@ -23,20 +23,12 @@
  */
 package net.sf.jasperreports.data.ds;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-
-@JsonPropertyOrder({ 
-	"name", 
-	"factoryClass",
-	"methodToCall",
-	"classpath"})
 public interface DataSourceDataAdapter extends ClasspathAwareDataAdapter 
 {
 	public String getFactoryClass();

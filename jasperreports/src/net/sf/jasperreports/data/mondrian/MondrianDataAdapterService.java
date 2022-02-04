@@ -26,8 +26,6 @@ package net.sf.jasperreports.data.mondrian;
 import java.util.Locale;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
 import mondrian.olap.Util;
@@ -39,23 +37,6 @@ import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-
-@JsonPropertyOrder({ 
-	"name", 
-	"driver",
-	"username",
-	"password",
-	"savePassword",
-	"url",
-	"autoCommit",
-	"readOnly",
-	"transactionIsolation",
-	"database",
-	"serverAddress",
-	"classpath",
-	"properties",
-	"catalogURI"})
-
 public class MondrianDataAdapterService extends JdbcDataAdapterService {
 
 	private Connection connection = null;

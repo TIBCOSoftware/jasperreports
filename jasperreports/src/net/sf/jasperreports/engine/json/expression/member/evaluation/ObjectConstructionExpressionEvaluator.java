@@ -125,7 +125,7 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
                 JRJsonNode deeperChild = from.createChild(deeperNode);
 
                 if (applyFilter(deeperChild)) {
-                    newNode.put(objectKey, deeperNode);
+                    newNode.set(objectKey, deeperNode);
                 }
             }
         }

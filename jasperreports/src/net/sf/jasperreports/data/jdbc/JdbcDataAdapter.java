@@ -27,7 +27,6 @@ import java.sql.Driver;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonMerge;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -41,21 +40,6 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-
-@JsonPropertyOrder({ 
-	"name", 
-	"driver",
-	"username",
-	"password",
-	"savePassword",
-	"url",
-	"autoCommit",
-	"readOnly",
-	"transactionIsolation",
-	"database",
-	"serverAddress",
-	"classpath",
-	"properties"})
 public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 {
 	

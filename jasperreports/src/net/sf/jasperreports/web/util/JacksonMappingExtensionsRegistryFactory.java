@@ -23,47 +23,10 @@
  */
 package net.sf.jasperreports.web.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
-import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
-import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionRegistry;
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.util.JacksonMappingExtensionsRegistryFactory}.
  */
-public class JacksonMappingExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class JacksonMappingExtensionsRegistryFactory extends net.sf.jasperreports.util.JacksonMappingExtensionsRegistryFactory
 {
-
-	/**
-	 * 
-	 */
-	public final static String JACKSON_MAPPING_PROPERTY_PREFIX = 
-		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "jackson.mapping.";
-	
-	@Override
-	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
-	{
-		List<PropertySuffix> jacksonMappingProperties = JRPropertiesUtil.getProperties(properties, JACKSON_MAPPING_PROPERTY_PREFIX);
-		List<JacksonMapping> jacksonMappings = new ArrayList<JacksonMapping>();
-		for (Iterator<PropertySuffix> it = jacksonMappingProperties.iterator(); it.hasNext();)
-		{
-			PropertySuffix jacksonMappingProp = it.next();
-			jacksonMappings.add(
-				new JacksonMapping(
-					jacksonMappingProp.getSuffix(), 
-					jacksonMappingProp.getValue()
-					)
-				);
-		}
-		
-		return new ListExtensionRegistry<JacksonMapping>(JacksonMapping.class, jacksonMappings);
-	}
-
 }

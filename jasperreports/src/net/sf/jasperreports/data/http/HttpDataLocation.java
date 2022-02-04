@@ -26,7 +26,6 @@ package net.sf.jasperreports.data.http;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import net.sf.jasperreports.data.DataFile;
@@ -34,16 +33,6 @@ import net.sf.jasperreports.data.DataFile;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-
-@JsonPropertyOrder({ 
-	"method", 
-	"url",
-	"username",
-	"password",
-	"urlParameters",
-	"body",
-	"postParameters",
-	"headers"})
 public interface HttpDataLocation extends DataFile
 {
 

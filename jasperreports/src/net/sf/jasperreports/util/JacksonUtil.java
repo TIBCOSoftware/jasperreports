@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
-import net.sf.jasperreports.web.util.JacksonMapping;
 
 
 /**
@@ -137,6 +136,11 @@ public class JacksonUtil
 		try
 		{
 			Class<?> clazz = Class.forName(mapping.getClassName());
+			// in theory, we could register subtypes without specifying a name here, just the class,
+			// using properties without suffix in the extension config file.
+			// in such case, the name would be provided by the @JsonTypeName annotation in the registered class.
+			// but there is really no reason to do that, especially since it would rely on class hierarchy introspection
+			// and would thus need additional processing, without any apparent advantage
 			mapper.registerSubtypes(new NamedType(clazz, mapping.getName()));
 		}
 		catch (ClassNotFoundException e)
@@ -363,7 +367,7 @@ public class JacksonUtil
 							Object next = it.next();
 							paramValues.add(JRValueStringUtils.serialize(next.getClass().getName(), next));
 						}
-						params.put(hParam.getName(), paramValues);
+						params.set(hParam.getName(), paramValues);
 					}
 					else
 					{
@@ -372,7 +376,7 @@ public class JacksonUtil
 				}
 			}
 
-			hyperlinkNode.put("params", params);
+			hyperlinkNode.set("params", params);
 		}
 
 		return hyperlinkNode;
