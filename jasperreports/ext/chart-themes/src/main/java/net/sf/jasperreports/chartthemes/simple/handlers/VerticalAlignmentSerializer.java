@@ -52,10 +52,19 @@ public class VerticalAlignmentSerializer extends StdSerializer<VerticalAlignment
 	@Override
 	public void serialize(VerticalAlignment value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new VerticalAlignmentFieldHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(VerticalAlignment value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return value.toString();
 	}
 }

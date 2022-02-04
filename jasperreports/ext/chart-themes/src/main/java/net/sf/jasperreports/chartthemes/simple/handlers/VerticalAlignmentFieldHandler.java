@@ -29,6 +29,7 @@ import org.jfree.ui.VerticalAlignment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 {
@@ -43,11 +44,7 @@ public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((VerticalAlignment)value).toString();
+		return VerticalAlignmentSerializer.convert((VerticalAlignment)value);
 	}
 
 	@Override

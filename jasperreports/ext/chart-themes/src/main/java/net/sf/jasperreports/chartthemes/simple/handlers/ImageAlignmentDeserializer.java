@@ -25,6 +25,8 @@ package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import java.io.IOException;
 
+import org.jfree.ui.Align;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -56,8 +58,39 @@ public class ImageAlignmentDeserializer extends StdDeserializer<Integer>
 		ObjectCodec oc = p.getCodec();
 		JsonNode node = oc.readTree(p);
 		
-		String align = node.textValue();
-		
-		return (Integer)new ImageAlignmentFieldHandler().convertUponSet(align);
+		return convert(node.textValue());
     }
+	
+	public static Integer convert(String value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return 
+			"Align.BOTTOM".equals(value) 
+			? Align.BOTTOM
+			: "Align.BOTTOM_LEFT".equals(value)
+			? Align.BOTTOM_LEFT
+			: "Align.BOTTOM_RIGHT".equals(value)
+			? Align.BOTTOM_RIGHT
+			: "Align.CENTER".equals(value)
+			? Align.CENTER
+			: "Align.FIT".equals(value)
+			? Align.FIT
+			: "Align.FIT_HORIZONTAL".equals(value)
+			? Align.FIT_HORIZONTAL
+			: "Align.FIT_VERTICAL".equals(value)
+			? Align.FIT_VERTICAL
+			: "Align.LEFT".equals(value)
+			? Align.LEFT
+			: "Align.RIGHT".equals(value)
+			? Align.RIGHT
+			: "Align.TOP".equals(value)
+			? Align.TOP
+			: "Align.TOP_LEFT".equals(value)
+			? Align.TOP_LEFT
+			: "Align.TOP_RIGHT".equals(value)
+			? Align.TOP_RIGHT : null;
+	}
 }

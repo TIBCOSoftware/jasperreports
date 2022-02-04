@@ -30,6 +30,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
+import net.sf.jasperreports.engine.util.JRColorUtil;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,10 +53,19 @@ public class ColorSerializer extends StdSerializer<Color>
 	@Override
 	public void serialize(Color value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new ColorFieldHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(Color value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return "#" + JRColorUtil.getColorHexa(value);
 	}
 }

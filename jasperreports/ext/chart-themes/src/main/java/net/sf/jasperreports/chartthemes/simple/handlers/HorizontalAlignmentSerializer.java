@@ -52,10 +52,19 @@ public class HorizontalAlignmentSerializer extends StdSerializer<HorizontalAlign
 	@Override
 	public void serialize(HorizontalAlignment value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new HorizontalAlignmentFieldHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(HorizontalAlignment value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return value.toString();
 	}
 }

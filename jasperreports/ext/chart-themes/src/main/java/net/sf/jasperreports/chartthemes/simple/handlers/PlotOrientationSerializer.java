@@ -52,10 +52,19 @@ public class PlotOrientationSerializer extends StdSerializer<PlotOrientation>
 	@Override
 	public void serialize(PlotOrientation value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new PlotOrientationFieldHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(PlotOrientation value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return value.toString();
 	}
 }

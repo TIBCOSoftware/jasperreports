@@ -58,10 +58,23 @@ public class AxisLocationDeserializer extends StdDeserializer<AxisLocation>
 		ObjectCodec oc = p.getCodec();
 		JsonNode node = oc.readTree(p);
 		
-		String location = node.textValue();
-
-		AxisLocation al = (AxisLocation)new AxisLocationHandler().convertUponSet(location);
-		
-		return al;
+		return convert(node.textValue());
     }
+
+	public static AxisLocation convert(String value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return 
+		AxisLocation.BOTTOM_OR_LEFT.toString().equals(value) 
+		? AxisLocation.BOTTOM_OR_LEFT 
+		: AxisLocation.BOTTOM_OR_RIGHT.toString().equals(value)
+		? AxisLocation.BOTTOM_OR_RIGHT
+		: AxisLocation.TOP_OR_LEFT.toString().equals(value)
+		? AxisLocation.TOP_OR_LEFT
+		: AxisLocation.TOP_OR_RIGHT.toString().equals(value)
+		? AxisLocation.TOP_OR_RIGHT : null;
+	}
 }

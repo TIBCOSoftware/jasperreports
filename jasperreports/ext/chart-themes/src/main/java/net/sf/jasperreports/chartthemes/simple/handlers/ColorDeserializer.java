@@ -33,6 +33,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import net.sf.jasperreports.engine.util.JRColorUtil;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -57,8 +59,15 @@ public class ColorDeserializer extends StdDeserializer<Color>
 		ObjectCodec oc = p.getCodec();
 		JsonNode node = oc.readTree(p);
 		
-		String color = node.textValue();
-		
-		return (Color)new ColorFieldHandler().convertUponSet(color);
+		return convert(node.textValue());
     }
+
+	public static Color convert(String value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return JRColorUtil.getColor(value, null);
+	}
 }

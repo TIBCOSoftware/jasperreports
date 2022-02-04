@@ -81,7 +81,7 @@
 			<artifactId>castor-xml</artifactId>
 			<version>1.4.1</version>
 			<scope>compile</scope>
-			<optional>false</optional>
+			<optional>true</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>

@@ -25,6 +25,8 @@ package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import java.io.IOException;
 
+import org.jfree.ui.Align;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -50,10 +52,43 @@ public class ImageAlignmentSerializer extends StdSerializer<Integer>
 	@Override
 	public void serialize(Integer value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new ImageAlignmentFieldHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(Integer value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return 
+			value.equals(Align.BOTTOM) 
+			? "Align.BOTTOM"
+			: value.equals(Align.BOTTOM_LEFT)
+			? "Align.BOTTOM_LEFT"
+			: value.equals(Align.BOTTOM_RIGHT)
+			? "Align.BOTTOM_RIGHT"
+			: value.equals(Align.CENTER)
+			? "Align.CENTER"
+			: value.equals(Align.FIT)
+			? "Align.FIT"
+			: value.equals(Align.FIT_HORIZONTAL)
+			? "Align.FIT_HORIZONTAL"
+			: value.equals(Align.FIT_VERTICAL)
+			? "Align.FIT_VERTICAL"
+			: value.equals(Align.LEFT)
+			? "Align.LEFT"
+			: value.equals(Align.RIGHT)
+			? "Align.RIGHT"
+			: value.equals(Align.TOP)
+			? "Align.TOP"
+			: value.equals(Align.TOP_LEFT)
+			? "Align.TOP_LEFT"
+			: value.equals(Align.TOP_RIGHT)
+			? "Align.TOP_RIGHT" : null;
 	}
 }

@@ -52,10 +52,19 @@ public class AxisLocationSerializer extends StdSerializer<AxisLocation>
 	@Override
 	public void serialize(AxisLocation value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		String strValue = (String)new AxisLocationHandler().convertUponGet(value);
+		String strValue = convert(value);
 		if (strValue != null)
 		{
 			jgen.writeString(strValue);
 		}
+	}
+
+	public static String convert(AxisLocation value)
+	{
+		if (value == null)
+		{
+			return null;
+		}
+		return value.toString();
 	}
 }
