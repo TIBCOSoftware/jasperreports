@@ -199,7 +199,7 @@ public class JacksonUtil
 	/**
 	 *
 	 */
-	public <T> T loadXml(InputStream is, Class<T> clazz) throws JacksonException
+	public <T> T loadXml(InputStream is, Class<T> clazz)
 	{
 		T result = null;
 		if (is != null) 
@@ -212,7 +212,7 @@ public class JacksonUtil
 			}
 			catch (JacksonException e) 
 			{
-				throw e;
+				throw new JacksonRuntimException(e);
 			}
 			catch (IOException e) 
 			{

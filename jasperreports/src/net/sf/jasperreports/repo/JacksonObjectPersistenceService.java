@@ -28,10 +28,9 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.fasterxml.jackson.core.JacksonException;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.util.JacksonRuntimException;
 import net.sf.jasperreports.util.JacksonUtil;
 
 
@@ -94,11 +93,11 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 			{
 				value = JacksonUtil.getInstance(jasperReportsContext).loadXml(is, clazz);
 			}
-			catch (JacksonException  e)
+			catch (JacksonRuntimException  e)
 			{
 				if (castorUtilMethod == null)
 				{
-					throw new JRRuntimeException(e);
+					throw e;
 				}
 				else
 				{
