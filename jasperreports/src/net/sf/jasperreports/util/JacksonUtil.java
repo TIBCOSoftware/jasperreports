@@ -107,7 +107,7 @@ public class JacksonUtil
 	
 	public XmlMapper getXmlMapper()
 	{
-		XmlMapper mapper = (XmlMapper)jasperReportsContext.getOwnValue(OBJECT_MAPPER_CONTEXT_KEY);
+		XmlMapper mapper = (XmlMapper)jasperReportsContext.getOwnValue(XML_MAPPER_CONTEXT_KEY);
 		if (mapper == null)
 		{
 			mapper = new XmlMapper();
