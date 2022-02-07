@@ -352,15 +352,6 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataset.delegateScriptlet.callAfterReportInit();
 	}
 
-	/**
-	 * @deprecated replaced by {@link #startData()}
-	 */
-	@Deprecated
-	protected void init() throws JRScriptletException, JRException
-	{
-		startData();
-	}
-
 	protected void detail() throws JRScriptletException, JRException
 	{
 		dataset.delegateScriptlet.callBeforeDetailEval();

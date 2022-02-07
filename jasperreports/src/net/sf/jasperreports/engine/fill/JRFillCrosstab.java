@@ -3228,15 +3228,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
-	 */
-	@Override
-	public void setIgnoreWidth(boolean ignoreWidth)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	@Override
 	public Color getDefaultLineColor()
 	{

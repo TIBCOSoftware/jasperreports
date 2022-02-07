@@ -34,44 +34,6 @@ public class CVConstants
 		
 	public static final String CV_PREFIX = "com.jaspersoft.jasperreports.components.customvisualization.";
 	
-	// com.jaspersoft.jasperreports.components.customvisualization.script.path.
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String CV_SCRIPT_PATH_PROPERTY = CV_PREFIX + "script.path.";
-
-	/**
-	 * com.jaspersoft.jasperreports.components.customvisualization.require.js
-	 *
-	 * Property used to specify the location of the require.js script
-	 */
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String CV_REQUIREJS_PROPERTY = CV_PREFIX + "require.js";
-
-	/**
-	 * If this property is set to true, scripts will be searched in classpath only.
-	 *
-	 * com.jaspersoft.jasperreports.components.customvisualization.allow.scripts.in.classpath.only
-	 */
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY = CV_PREFIX + "allow.scripts.in.classpath.only";
-
-	/**
-	 * If set to true (default), JR will take care of generating a PNG trough Batik.
-	 * Otherwise, PhantomJS will be used.
-	 *
-	 * com.jaspersoft.jasperreports.components.customvisualization.png.use.jr
-	 * Possible values: true|false
-	 */
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String CV_PNG_USE_JR_TO_RENDER = CV_PREFIX + "png.use.jr";
-
 	/**
 	 * If JR is used to render a PNG, this property allows to set the minimum DPI of the rasterized image.
 	 * 
@@ -92,11 +54,6 @@ public class CVConstants
 
 	public static final int CV_PNG_MIN_DPI_DEFAULT_VALUE = 300;
 	public static final boolean CV_PNG_ANTIALIAS_DEFAULT_VALUE = true;
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final boolean CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE = true;
 
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 

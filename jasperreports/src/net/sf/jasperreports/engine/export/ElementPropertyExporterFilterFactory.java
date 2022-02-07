@@ -49,6 +49,7 @@ public class ElementPropertyExporterFilterFactory implements ExporterFilterFacto
 			name = "net.sf.jasperreports.export.{format}.exclude",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
+			valueType = Boolean.class,
 			sinceVersion = PropertyConstants.VERSION_6_11_0
 			)
 	public static final String PROPERTY_EXCLUDE_SUFFIX = "exclude";
@@ -60,6 +61,8 @@ public class ElementPropertyExporterFilterFactory implements ExporterFilterFacto
 			name = "net.sf.jasperreports.export.default.exclude",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
+			valueType = Boolean.class,
+			defaultValue = "false",
 			sinceVersion = PropertyConstants.VERSION_6_11_0
 			)
 	public static final String PROPERTY_DEFAULT_EXCLUDE = JRPropertiesUtil.PROPERTY_PREFIX + "export.default.exclude";

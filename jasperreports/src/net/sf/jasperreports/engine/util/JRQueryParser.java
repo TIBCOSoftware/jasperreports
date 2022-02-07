@@ -299,19 +299,6 @@ public class JRQueryParser
 	 * (Re)constructs a query clause chunk from the chunk tokens.
 	 * 
 	 * @param tokens the chunk tokens
-	 * @return the reconstructed query clause chunk
-	 * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
-	 * @deprecated Replaced by {@link #asClauseText(String[], Character)}.
-	 */
-	public String asClauseText(String[] tokens)
-	{
-		return asClauseText(tokens, null);
-	}
-	
-	/**
-	 * (Re)constructs a query clause chunk from the chunk tokens.
-	 * 
-	 * @param tokens the chunk tokens
 	 * @param separator the chunk tokens separator character
 	 * @return the reconstructed query clause chunk
 	 * @see JRQueryChunk#TYPE_CLAUSE_TOKENS

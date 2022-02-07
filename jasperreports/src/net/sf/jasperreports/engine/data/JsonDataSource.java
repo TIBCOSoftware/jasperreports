@@ -548,15 +548,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	}
 
 
-	/**
-	 * @deprecated no longer required
-	 */
-	@Deprecated
-	public void close() {
-		//NOP
-	}
-
-	
 	protected String getFieldExpression(JRField field)
 	{
 		String fieldExpression = null;

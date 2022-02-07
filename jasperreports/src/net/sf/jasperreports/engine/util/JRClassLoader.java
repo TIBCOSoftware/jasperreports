@@ -420,7 +420,7 @@ public class JRClassLoader extends ClassLoader
 			int gtPos = className.lastIndexOf('>');
 			if (gtPos > ltPos)
 			{
-				className = className.substring(0, ltPos) + className.substring(gtPos);
+				className = className.substring(0, ltPos) + className.substring(gtPos + 1);
 			}
 		}
 		

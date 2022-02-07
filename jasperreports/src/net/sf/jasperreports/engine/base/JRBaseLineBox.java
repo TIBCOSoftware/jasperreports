@@ -234,15 +234,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return padding;
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #setPadding(Integer)}.
-	 */
-	@Override
-	public void setPadding(int padding)
-	{
-		setPadding((Integer)padding);
-	}
-
 	@Override
 	public void setPadding(Integer padding)
 	{
@@ -261,15 +252,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	public Integer getOwnTopPadding()
 	{
 		return topPadding;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTopPadding(Integer)}.
-	 */
-	@Override
-	public void setTopPadding(int topPadding)
-	{
-		setTopPadding((Integer)topPadding);
 	}
 
 	@Override
@@ -292,15 +274,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return leftPadding;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setLeftPadding(Integer)}.
-	 */
-	@Override
-	public void setLeftPadding(int leftPadding)
-	{
-		setLeftPadding((Integer)leftPadding);
-	}
-
 	@Override
 	public void setLeftPadding(Integer leftPadding)
 	{
@@ -321,15 +294,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return bottomPadding;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setBottomPadding(Integer)}.
-	 */
-	@Override
-	public void setBottomPadding(int bottomPadding)
-	{
-		setBottomPadding((Integer)bottomPadding);
-	}
-
 	@Override
 	public void setBottomPadding(Integer bottomPadding)
 	{
@@ -348,15 +312,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	public Integer getOwnRightPadding()
 	{
 		return rightPadding;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRightPadding(Integer)}.
-	 */
-	@Override
-	public void setRightPadding(int rightPadding)
-	{
-		setRightPadding((Integer)rightPadding);
 	}
 
 	@Override

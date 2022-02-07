@@ -107,14 +107,6 @@ public class JRXmlLoader
 	private boolean ignoreConsistencyProblems;
 		
 	/**
-	 * @deprecated Replaced by {@link #JRXmlLoader(JasperReportsContext, Digester)}.
-	 */
-	public JRXmlLoader(Digester digester)
-	{
-		this(DefaultJasperReportsContext.getInstance(), digester);
-	}
-
-	/**
 	 *
 	 */
 	public JRXmlLoader(JasperReportsContext jasperReportsContext, Digester digester)

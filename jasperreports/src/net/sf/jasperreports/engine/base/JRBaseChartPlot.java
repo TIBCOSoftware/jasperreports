@@ -157,28 +157,10 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	@Override
-	public PlotOrientation getOrientation()
-	{
-		return getOrientationValue().getOrientation();
-	}
-
 	@Override
 	public PlotOrientationEnum getOrientationValue()
 	{
 		return orientationValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
-	 */
-	@Override
-	public void setOrientation(PlotOrientation orientation)
-	{
-		setOrientation(PlotOrientationEnum.getByValue(orientation));
 	}
 
 	@Override

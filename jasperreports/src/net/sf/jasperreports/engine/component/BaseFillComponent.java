@@ -46,11 +46,6 @@ public abstract class BaseFillComponent implements FillComponent
 	protected FillContext fillContext;
 	protected PrintElementOriginator printElementOriginator;
 	
-	/**
-	 * @deprecated replaced by {@link #printElementOriginator}
-	 */
-	protected int elementId;
-	
 	protected BaseFillComponent()
 	{
 		//NOP
@@ -67,7 +62,6 @@ public abstract class BaseFillComponent implements FillComponent
 		this.fillContext = fillContext;
 		
 		this.printElementOriginator = fillContext.getPrintElementOriginator();
-		this.elementId = fillContext.getElementSourceId();
 	}
 
 	/**

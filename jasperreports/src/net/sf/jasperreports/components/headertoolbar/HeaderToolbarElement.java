@@ -49,10 +49,6 @@ public interface HeaderToolbarElement {
 	public static final String PROPERTY_CELL_ID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.cellID";
 
 	public static final String PROPERTY_FLOATING_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.table.floating.header";
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.field.or.variable";
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.sortColumnName";
 	public static final String PROPERTY_COLUMN_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.column.name";
 	public static final String PARAMETER_COLUMN_LABEL = "sortColumnLabel";
@@ -68,10 +64,6 @@ public interface HeaderToolbarElement {
 	public static final String PROPERTY_CAN_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.filter";
 	public static final String PROPERTY_CAN_MOVE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.move";
 	public static final String PROPERTY_CAN_RESIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.resize";
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String PROPERTY_CAN_FORMAT_CONDITIONALLY = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.format.conditionally";
 	public static final String PROPERTY_CONDTION_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.condition.type";
 
 	public static final String PROPERTY_FORMAT_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.format.time.zone";

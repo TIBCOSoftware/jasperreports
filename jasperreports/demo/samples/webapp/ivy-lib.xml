@@ -4,8 +4,8 @@
 		<include file="../../../ivy.xml"/>
 	</configurations>
 	<dependencies>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.12.2"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.12.2" conf="test->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.1"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.13.1" conf="test->*"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js9" conf="test->*"/>
 		<dependency org="com.zaxxer" name="SparseBitSet" rev="1.2" conf="test->*"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.4" conf="test->*"/>

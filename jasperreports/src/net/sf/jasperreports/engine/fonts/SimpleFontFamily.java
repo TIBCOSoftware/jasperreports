@@ -194,14 +194,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	}
 
 	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getNormalPdfFont() {
-		return getNormalFace() == null ? null : getNormalFace().getPdf();
-	}
-
-	/**
 	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setNormalPdfFont(String normalPdfFont) {
@@ -209,14 +201,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			normalFace = new SimpleFontFace(jasperReportsContext);
 		}
 		normalFace.setPdf(normalPdfFont);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getBoldPdfFont() {
-		return getBoldFace() == null ? null : getBoldFace().getPdf();
 	}
 
 	/**
@@ -230,14 +214,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	}
 
 	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getItalicPdfFont() {
-		return getItalicFace() == null ? null : getItalicFace().getPdf();
-	}
-
-	/**
 	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setItalicPdfFont(String italicPdfFont) {
@@ -245,14 +221,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			italicFace = new SimpleFontFace(jasperReportsContext);
 		}
 		italicFace.setPdf(italicPdfFont);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getBoldItalicPdfFont() {
-		return getBoldItalicFace() == null ? null : getBoldItalicFace().getPdf();
 	}
 
 	/**

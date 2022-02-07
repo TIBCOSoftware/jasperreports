@@ -35,10 +35,4 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
  */
 public interface JRPptxExporterContext extends JRExporterContext
 {
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public PptxSlideHelper getSlideHelper();
-	
 }

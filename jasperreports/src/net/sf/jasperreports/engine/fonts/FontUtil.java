@@ -292,20 +292,6 @@ public final class FontUtil
 	}
 
 
-	/**
-	 * Returns font information containing the font family, font face and font style, searching for names case insensitive.
-	 * 
-	 * @param name the font family or font face name
-	 * @param locale the locale
-	 * @return a font info object
-	 * @deprecated Replaced by {@link #getFontInfo(String, boolean, Locale)}.
-	 */
-	public FontInfo getFontInfoIgnoreCase(String name, Locale locale)
-	{
-		return getFontInfo(name, true, locale);
-	}
-
-
 	public FontSetInfo getFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
 	{
 		//FIXMEFONT do some cache
@@ -448,14 +434,6 @@ public final class FontUtil
 		}
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, float, Locale, boolean)}.
-	 */
-	public Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
-	{
-		return getAwtFontFromBundles(name, style, (float)size, locale, ignoreMissingFont);
-	}
-
 
 	/**
 	 * Calls {@link #getAwtFontFromBundles(boolean, String, int, float, Locale, boolean)} with the ignoreCase parameter set to false.
@@ -472,7 +450,7 @@ public final class FontUtil
 	public Font getAwtFontFromBundles(boolean ignoreCase, String name, int style, float size, Locale locale, boolean ignoreMissingFont)
 	{
 		Font awtFont = null;
-		FontInfo fontInfo = ignoreCase ? getFontInfoIgnoreCase(name, locale) : getFontInfo(name, locale);
+		FontInfo fontInfo = ignoreCase ? getFontInfo(name, true, locale) : getFontInfo(name, locale);
 		
 		if (fontInfo != null)
 		{

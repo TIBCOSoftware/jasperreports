@@ -82,18 +82,6 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	}
 
 	/**
-	 * Returns the name of the subreport variable whose value should be copied.
-	 * 
-	 * @return the name of the subreport variable whose value should be copied.
-	 * @deprecated Replaced by {@link #getFromVariable()}.
-	 */
-	@Override
-	public String getSubreportVariable()
-	{
-		return getFromVariable();
-	}
-
-	/**
 	 * Returns the name of the variable whose value should be copied.
 	 * 
 	 * @return the name of the variable whose value should be copied.
@@ -113,21 +101,6 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	public String getToVariable()
 	{
 		return this.toVariable;
-	}
-
-	/**
-	 * Returns the calculation type.
-	 * <p>
-	 * When copying the value from the subreport, a formula can be applied such that sum,
-	 * maximum, average and so on can be computed.
-	 * 
-	 * @return the calculation type.
-	 * @deprecated Replaced by {@link #getCalculation()}.
-	 */
-	@Override
-	public CalculationEnum getCalculationValue()
-	{
-		return getCalculation();
 	}
 
 	/**

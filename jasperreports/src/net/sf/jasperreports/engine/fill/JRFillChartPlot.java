@@ -27,8 +27,6 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
 
-import org.jfree.chart.plot.PlotOrientation;
-
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChart;
@@ -107,28 +105,10 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 	}
 
-	/**
-	 * @deprecated Replaed by {@link #getOrientationValue()}.
-	 */
-	@Override
-	public PlotOrientation getOrientation()
-	{
-		return getOrientationValue().getOrientation();
-	}
-	
 	@Override
 	public PlotOrientationEnum getOrientationValue()
 	{
 		return parent.getOrientationValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
-	 */
-	@Override
-	public void setOrientation(PlotOrientation orientation)
-	{
-		setOrientation(PlotOrientationEnum.getByValue(orientation));
 	}
 		
 	@Override

@@ -53,11 +53,6 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
 
-	/**
-	 * @deprecated Replaced by {@link #CONFIG_PROPERTY_WHEN_NO_DATA_TYPE}.
-	 */
-	public static final String PROPERTY_WHEN_NO_DATA_TYPE = CONFIG_PROPERTY_WHEN_NO_DATA_TYPE;
-
 	@Override
 	JRDatasetRun getDatasetRun();
 

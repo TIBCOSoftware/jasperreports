@@ -2223,14 +2223,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return index;
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link JRStringUtil#getLetterNumeral(int, boolean)}.
-	 */
-	protected String getColumnName(int columnIndex)
-	{
-		return JRStringUtil.getLetterNumeral(columnIndex + 1, true);
-	}
-	
 	protected void resetAutoFilters()
 	{
 		autoFilterStart = null;

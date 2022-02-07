@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -76,14 +75,6 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	
 	private final static ThreadLocal<ReferenceMap<Object, Object>> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap<Object, Object>>();
 	
-	/**
-	 * @deprecated Replaced by {@link #PrintSaxParserFactory(JasperReportsContext)}.
-	 */
-	public PrintSaxParserFactory() 
-	{
-		this(DefaultJasperReportsContext.getInstance());
-	}
-
 	public PrintSaxParserFactory(JasperReportsContext jasperReportsContext) 
 	{
 		super(jasperReportsContext);

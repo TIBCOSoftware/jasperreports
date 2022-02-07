@@ -613,14 +613,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart)parent).getSubtitleExpression();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{

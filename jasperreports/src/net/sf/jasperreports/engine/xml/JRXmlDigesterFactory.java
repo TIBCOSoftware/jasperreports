@@ -126,7 +126,6 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
 import net.sf.jasperreports.engine.DatasetPropertyExpression;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -579,15 +578,6 @@ public final class JRXmlDigesterFactory
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #configureDigester(JasperReportsContext, Digester)}.
-	 */
-	public static void configureDigester(Digester digester) throws SAXException, ParserConfigurationException
-	{
-		configureDigester(DefaultJasperReportsContext.getInstance(), digester);
-	}
-
-
 	protected static void addComponentRules(JasperReportsContext jasperReportsContext, Digester digester)
 	{
 		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
@@ -617,15 +607,6 @@ public final class JRXmlDigesterFactory
 		}
 		
 		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #addComponentRules(JasperReportsContext, Digester)}.
-	 */
-	protected static void addComponentRules(Digester digester)
-	{
-		addComponentRules(DefaultJasperReportsContext.getInstance(), digester);
 	}
 
 
@@ -661,15 +642,6 @@ public final class JRXmlDigesterFactory
 		}
 		
 		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #addPartComponentRules(JasperReportsContext, Digester)}.
-	 */
-	protected static void addPartComponentRules(Digester digester)
-	{
-		addPartComponentRules(DefaultJasperReportsContext.getInstance(), digester);
 	}
 
 
@@ -1578,15 +1550,6 @@ public final class JRXmlDigesterFactory
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #createDigester(JasperReportsContext)}.
-	 */
-	public static JRXmlDigester createDigester() throws ParserConfigurationException, SAXException
-	{
-		return createDigester(DefaultJasperReportsContext.getInstance());
-	}
-
-
 	protected static SAXParser createParser(JasperReportsContext jasperReportsContext)
 	{
 		String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
@@ -1599,15 +1562,6 @@ public final class JRXmlDigesterFactory
 		
 		JRSaxParserFactory factory = BaseSaxParserFactory.getFactory(jasperReportsContext, parserFactoryClass);
 		return factory.createParser();
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #createParser(JasperReportsContext)}.
-	 */
-	protected static SAXParser createParser()
-	{
-		return createParser(DefaultJasperReportsContext.getInstance());
 	}
 
 
@@ -1635,17 +1589,6 @@ public final class JRXmlDigesterFactory
 			digester.addInternalEntityResource(xmlParser.getPublicSchemaLocation(), 
 					schemaResource);
 		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #setComponentsInternalEntityResources(JasperReportsContext, JRXmlDigester)}.
-	 */
-	public static void setComponentsInternalEntityResources(
-		JRXmlDigester digester
-		)
-	{
-		setComponentsInternalEntityResources(DefaultJasperReportsContext.getInstance(), digester);
 	}
 
 
