@@ -129,11 +129,11 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		lineBox = image.getLineBox().clone(this);
 
-		setScaleImage(image.getScaleImageValue());//FIXME NOW should these be Own getters like in text templates?
+		setScaleImage(image.getOwnScaleImageValue());
 		setRotation(image.getOwnRotation());
 		setUsingCache(image.getUsingCache());
-		setHorizontalImageAlign(image.getHorizontalImageAlign());
-		setVerticalImageAlign(image.getVerticalImageAlign());
+		setHorizontalImageAlign(image.getOwnHorizontalImageAlign());
+		setVerticalImageAlign(image.getOwnVerticalImageAlign());
 		setLazy(image.isLazy());
 		setOnErrorType(image.getOnErrorTypeValue());
 		setLinkType(image.getLinkType());
@@ -149,7 +149,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		linePen = new JRBasePen(this);
 		
-		getLinePen().setLineWidth((Float)0f);
+		getLinePen().setLineWidth(0f);
 		setFill(FillEnum.SOLID);
 		
 		copyLineBox(chart.getLineBox());
