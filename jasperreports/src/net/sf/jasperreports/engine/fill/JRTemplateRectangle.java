@@ -99,7 +99,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	{
 		super.setGraphicElement(rectangle);
 
-		setRadius(rectangle.getRadius());
+		setRadius(rectangle.getOwnRadius());
 	}
 
 
@@ -115,7 +115,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 		
 		linePen = new JRBasePen(this);
 		
-		getLinePen().setLineWidth((Float)0f);
+		getLinePen().setLineWidth(0f);
 		setFill(FillEnum.SOLID);
 	}
 

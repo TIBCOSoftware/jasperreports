@@ -137,7 +137,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyperlink, JRImageAlignment, JRCommonImage
+public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyperlink, JRCommonImage
 {
 
 

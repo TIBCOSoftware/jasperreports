@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
@@ -56,7 +55,7 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @see JRTemplatePrintImage
  */
-public class JRTemplateImage extends JRTemplateGraphicElement implements JRImageAlignment, JRCommonImage
+public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommonImage
 {
 
 
@@ -129,11 +128,11 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		lineBox = image.getLineBox().clone(this);
 
-		setScaleImage(image.getScaleImageValue());//FIXME NOW should these be Own getters like in text templates?
+		setScaleImage(image.getOwnScaleImageValue());
 		setRotation(image.getOwnRotation());
 		setUsingCache(image.getUsingCache());
-		setHorizontalImageAlign(image.getHorizontalImageAlign());
-		setVerticalImageAlign(image.getVerticalImageAlign());
+		setHorizontalImageAlign(image.getOwnHorizontalImageAlign());
+		setVerticalImageAlign(image.getOwnVerticalImageAlign());
 		setLazy(image.isLazy());
 		setOnErrorType(image.getOnErrorTypeValue());
 		setLinkType(image.getLinkType());
@@ -149,7 +148,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		linePen = new JRBasePen(this);
 		
-		getLinePen().setLineWidth((Float)0f);
+		getLinePen().setLineWidth(0f);
 		setFill(FillEnum.SOLID);
 		
 		copyLineBox(chart.getLineBox());

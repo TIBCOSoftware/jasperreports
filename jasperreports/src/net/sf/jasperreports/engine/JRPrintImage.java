@@ -37,7 +37,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRImageAlignment, JRCommonImage
+public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRCommonImage
 {
 
 
