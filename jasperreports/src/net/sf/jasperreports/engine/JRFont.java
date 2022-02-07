@@ -108,11 +108,6 @@ public interface JRFont extends JRStyleContainer
 	public Boolean isOwnBold();
 	
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	public void setBold(boolean isBold);
-	
-	/**
 	 *
 	 */
 	public void setBold(Boolean isBold);
@@ -126,11 +121,6 @@ public interface JRFont extends JRStyleContainer
 	 *
 	 */
 	public Boolean isOwnItalic();
-	
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	public void setItalic(boolean isItalic);
 	
 	/**
 	 *
@@ -148,11 +138,6 @@ public interface JRFont extends JRStyleContainer
 	public Boolean isOwnUnderline();
 	
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	public void setUnderline(boolean isUnderline);
-	
-	/**
 	 *
 	 */
 	public void setUnderline(Boolean isUnderline);
@@ -167,11 +152,6 @@ public interface JRFont extends JRStyleContainer
 	 */
 	public Boolean isOwnStrikeThrough();
 	
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	public void setStrikeThrough(boolean isStrikeThrough);
-
 	/**
 	 *
 	 */
@@ -231,11 +211,6 @@ public interface JRFont extends JRStyleContainer
 	 *
 	 */
 	public Boolean isOwnPdfEmbedded();
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	public void setPdfEmbedded(boolean isPdfEmbedded);
 	
 	/**
 	 *

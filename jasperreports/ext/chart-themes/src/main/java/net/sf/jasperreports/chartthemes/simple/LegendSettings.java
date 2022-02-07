@@ -58,12 +58,6 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
 	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
 	
-	/**
-	 * @deprecated replaced by {@link #PROPERTY_frame}
-	 */
-	@Deprecated
-	public static final String PROPERTY_blockFrame = "blockFrame";
-	
 	public static final String PROPERTY_frame = "frame";
 	public static final String PROPERTY_padding = "padding";
 
@@ -78,12 +72,6 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	private HorizontalAlignment horizontalAlignment;
 	private VerticalAlignment verticalAlignment;
 	
-	/**
-	 * @deprecated replaced by {@link #frame}
-	 */
-	@Deprecated
-	private BlockFrame blockFrame;
-
 	private BlockFrameProvider frame;
 	
 	private RectangleInsets padding;
@@ -217,16 +205,6 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 		return frame == null ? null : frame.getBlockFrame();
 	}
 
-	/**
-	 * @param blockFrame the blockFrame to set
-	 * @deprecated replaced by {@link #setFrame(BlockFrameProvider)}
-	 */
-	@Deprecated
-	public void setBlockFrame(BlockFrame blockFrame) {
-		BlockFrameWrapper frameProvider = new BlockFrameWrapper(blockFrame);
-		setFrame(frameProvider);
-	}
-
 	public BlockFrameProvider getFrame() {
 		return frame;
 	}
@@ -277,6 +255,10 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 * @deprecated
 	 */
 	private Byte position;
+	/**
+	 * @deprecated
+	 */
+	private BlockFrame blockFrame;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

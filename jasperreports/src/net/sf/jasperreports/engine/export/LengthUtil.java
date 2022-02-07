@@ -62,14 +62,6 @@ public final class LengthUtil
 		inches = (Math.floor(inches * 10000.0)) / 10000.0;
 		return inches;
 	}
-	
-	/**
-	 * @deprecated Replaced by {@link #inchRound2Dec(double)}.
-	 */
-	public static double inchRound(double pixels)
-	{
-		return inchRound2Dec(pixels);
-	}
 
 	/**
 	 * 
@@ -80,14 +72,6 @@ public final class LengthUtil
 		inches = pixels / 72.0;
 		inches = (Math.round(inches * 100.0)) / 100.0;
 		return inches;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #inch(double)}.
-	 */
-	public static double inchNoRound(double pixels)
-	{
-		return inch(pixels);
 	}
 	
 	/**

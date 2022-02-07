@@ -252,15 +252,6 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		return isUsingCache;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	@Override
-	public void setUsingCache(boolean isUsingCache)
-	{
-		setUsingCache((Boolean)isUsingCache);
-	}
-
 	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
@@ -309,14 +300,6 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		return lineBox;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{

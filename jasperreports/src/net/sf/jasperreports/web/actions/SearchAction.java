@@ -25,6 +25,10 @@ package net.sf.jasperreports.web.actions;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -33,10 +37,6 @@ import net.sf.jasperreports.search.LuceneUtil;
 import net.sf.jasperreports.search.SpansInfo;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -80,7 +80,7 @@ public class SearchAction extends AbstractAction {
 				if (hitTermsPerPage.size() > 0) {
 					ArrayNode arrayNode = mapper.createArrayNode();
 					ObjectNode item;
-					result.put("searchResults", arrayNode);
+					result.set("searchResults", arrayNode);
 					for (Map.Entry<String, Integer> entry: hitTermsPerPage.entrySet()) {
 						item = mapper.createObjectNode();
 						item.put("page", Integer.parseInt(entry.getKey()) + 1);

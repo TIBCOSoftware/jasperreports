@@ -698,15 +698,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fillValue);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setRadius(Integer)}.
-	 */
-	@Override
-	public void setRadius(int radius)
-	{
-		setRadius((Integer)radius);
-	}
-
 	@Override
 	public void setRadius(Integer radius)
 	{
@@ -763,30 +754,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean bold)
-	{
-		setBold((Boolean)bold);
-	}
-
 	@Override
 	public void setBold(Boolean bold)
 	{
 		Object old = this.isBold;
 		this.isBold = bold;
 		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean italic)
-	{
-		setItalic((Boolean)italic);
 	}
 
 	@Override
@@ -797,30 +770,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean pdfEmbedded)
-	{
-		setPdfEmbedded((Boolean)pdfEmbedded);
-	}
-
 	@Override
 	public void setPdfEmbedded(Boolean pdfEmbedded)
 	{
 		Object old = this.isPdfEmbedded;
 		this.isPdfEmbedded = pdfEmbedded;
 		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean strikeThrough)
-	{
-		setStrikeThrough((Boolean)strikeThrough);
 	}
 
 	@Override
@@ -839,30 +794,12 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_MARKUP, old, this.markup);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setBlankWhenNull(Boolean)}.
-	 */
-	@Override
-	public void setBlankWhenNull(boolean isBlankWhenNull)
-	{
-		setBlankWhenNull((Boolean)isBlankWhenNull);
-	}
-
 	@Override
 	public void setBlankWhenNull(Boolean isBlankWhenNull)
 	{
 		Object old = this.isBlankWhenNull;
 		this.isBlankWhenNull = isBlankWhenNull;
 		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean underline)
-	{
-		setUnderline((Boolean)underline);
 	}
 
 	@Override

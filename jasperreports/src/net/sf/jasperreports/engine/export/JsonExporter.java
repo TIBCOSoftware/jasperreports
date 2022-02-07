@@ -344,7 +344,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	public static void writeBookmarks(List<PrintBookmark> bookmarks, Writer writer, JacksonUtil jacksonUtil) throws IOException
 	{
 		// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
-		jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
+		jacksonUtil.getObjectMapper().addMixIn(PrintBookmark.class, PrintBookmarkMixin.class);
 
 		writer.write("{");
 

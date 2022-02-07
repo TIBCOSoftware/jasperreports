@@ -57,11 +57,6 @@ public interface JRPen
 
 
 	/**
-	 * @deprecated Replaced by {@link #getPenContainer()}.
-	 */
-	public JRStyleContainer getStyleContainer();
-
-	/**
 	 *
 	 */
 	public JRPenContainer getPenContainer();
@@ -79,11 +74,6 @@ public interface JRPen
 	public Float getLineWidth();
 
 	public Float getOwnLineWidth();
-
-	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)}.
-	 */
-	public void setLineWidth(float lineWidth);
 
 	/**
 	 * Sets the line width.

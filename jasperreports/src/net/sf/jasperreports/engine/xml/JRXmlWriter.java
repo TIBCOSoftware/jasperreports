@@ -695,15 +695,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeTemplates(JRReport)}.
-	 */
-	protected void writeTemplates() throws IOException
-	{
-		writeTemplates(report);
-	}
-
-
-	/**
 	 * 
 	 * @param template
 	 * @throws IOException

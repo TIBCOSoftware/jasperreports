@@ -72,7 +72,7 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultDataAdapterServiceFactory implements DataAdapterContributorFactory, DataAdapterServiceFactory
+public class DefaultDataAdapterServiceFactory implements DataAdapterContributorFactory
 {
 
 	/**
@@ -201,15 +201,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		}
 		
 		return dataAdapterService;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getDataAdapterService(ParameterContributorContext, DataAdapter)}.
-	 */
-	@Override
-	public DataAdapterService getDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
-	{
-		return getDataAdapterService(new ParameterContributorContext(jasperReportsContext, null, null), dataAdapter);
 	}
   
 }

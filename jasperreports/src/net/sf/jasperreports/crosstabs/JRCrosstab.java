@@ -338,11 +338,6 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	public void setIgnoreWidth(Boolean ignoreWidth);
 	
 	/**
-	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
-	 */
-	public void setIgnoreWidth(boolean ignoreWidth);
-	
-	/**
 	 * Returns the position of the crosstab within its element box.
 	 * 
 	 * @return the position of the crosstab within its element box, 

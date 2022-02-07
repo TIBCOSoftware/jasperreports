@@ -285,15 +285,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-		setBold((Boolean)isBold);
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -316,15 +307,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
-		setItalic((Boolean)isItalic);
 	}
 	
 	/**
@@ -352,15 +334,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-		setUnderline((Boolean)isUnderline);
-	}
-	
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -384,15 +357,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isStrikeThrough;
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		setStrikeThrough((Boolean)isStrikeThrough);
-	}
-
 	/**
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
@@ -480,15 +444,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
-		setPdfEmbedded((Boolean)isPdfEmbedded);
 	}
 	
 	/**

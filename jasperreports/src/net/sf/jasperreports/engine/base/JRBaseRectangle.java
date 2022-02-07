@@ -77,15 +77,6 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 		return this.radius;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setRadius(Integer)}.
-	 */
-	@Override
-	public void setRadius(int radius)
-	{
-		setRadius((Integer)radius);
-	}
-
 	@Override
 	public void setRadius(Integer radius)
 	{

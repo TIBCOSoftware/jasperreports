@@ -131,11 +131,6 @@ public interface JRLineBox extends JRPenContainer
 	public Integer getOwnPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #setPadding(Integer)}.
-	 */
-	public void setPadding(int padding);
-
-	/**
 	 * Sets the default padding in pixels (can be overwritten by individual settings).
 	 */
 	public void setPadding(Integer padding);
@@ -149,11 +144,6 @@ public interface JRLineBox extends JRPenContainer
 	 *
 	 */
 	public Integer getOwnTopPadding();
-
-	/**
-	 * @deprecated Replaced by {@link #setTopPadding(Integer)}.
-	 */
-	public void setTopPadding(int padding);
 
 	/**
 	 *
@@ -171,11 +161,6 @@ public interface JRLineBox extends JRPenContainer
 	public Integer getOwnLeftPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #setLeftPadding(Integer)}.
-	 */
-	public void setLeftPadding(int padding);
-
-	/**
 	 *
 	 */
 	public void setLeftPadding(Integer padding);
@@ -191,11 +176,6 @@ public interface JRLineBox extends JRPenContainer
 	public Integer getOwnBottomPadding();
 
 	/**
-	 * @deprecated Replaced by {@link #setBottomPadding(Integer)}.
-	 */
-	public void setBottomPadding(int padding);
-
-	/**
 	 *
 	 */
 	public void setBottomPadding(Integer padding);
@@ -209,11 +189,6 @@ public interface JRLineBox extends JRPenContainer
 	 *
 	 */
 	public Integer getOwnRightPadding();
-
-	/**
-	 * @deprecated Replaced by {@link #setRightPadding(Integer)}.
-	 */
-	public void setRightPadding(int padding);
 
 	/**
 	 *
