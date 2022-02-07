@@ -186,7 +186,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
-public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
+public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
 {
 	
 	/**

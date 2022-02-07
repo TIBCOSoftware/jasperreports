@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -49,7 +48,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxContainer, JRPropertiesHolder
+public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {
 
 	/**

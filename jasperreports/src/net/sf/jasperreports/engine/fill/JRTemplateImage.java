@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
@@ -56,7 +55,7 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @see JRTemplatePrintImage
  */
-public class JRTemplateImage extends JRTemplateGraphicElement implements JRImageAlignment, JRCommonImage
+public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommonImage
 {
 
 
