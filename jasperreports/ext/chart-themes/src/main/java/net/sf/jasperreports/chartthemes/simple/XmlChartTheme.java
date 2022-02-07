@@ -29,19 +29,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.InputSource;
-
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
-
+import net.sf.jasperreports.engine.util.VersionComparator;
+import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
+import net.sf.jasperreports.util.JacksonUtil;
 
 
 /**
@@ -49,8 +47,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class XmlChartTheme extends SimpleChartTheme
 {
-	private static final String MAPPING_FILE = "net/sf/jasperreports/chartthemes/simple/chart.theme.mapping.xml";
-	
 	/**
 	 *
 	 */
@@ -130,111 +126,42 @@ public class XmlChartTheme extends SimpleChartTheme
 	 */
 	public static ChartThemeSettings loadSettings(InputStream is)
 	{
-		ChartThemeSettings settings = null;
-		
-		InputStream mis = null;
-		
-		try
-		{
-			mis = JRLoader.getLocationInputStream(MAPPING_FILE);
-
-			Mapping mapping = new Mapping();
-			mapping.loadMapping(
-				new InputSource(mis)
-				);
-			
-			Unmarshaller unmarshaller = new Unmarshaller(mapping);
-			settings = 
-				(ChartThemeSettings)unmarshaller.unmarshal(
-					new InputSource(is)
-				);
-		}
-		catch (MappingException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ValidationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (mis != null)
-			{
-				try
-				{
-					mis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-		
-		return settings;
+		return JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(is, ChartThemeSettings.class);
 	}
 	
 	
 	/**
 	 *
 	 */
-	public static void saveSettings(ChartThemeSettings settings, Writer writer)
+	public static void saveSettings(ChartThemeSettings settings, Writer writer) //FIXME jasper context
 	{
-		InputStream mis = null;
+		String targetVersion = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(
+				JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		VersionComparator versionComparator = new VersionComparator();
 		
-		try
+		if (versionComparator.compare(targetVersion, "6.19.0") >= 0)
 		{
-			mis = JRLoader.getLocationInputStream(MAPPING_FILE);
-
-			Marshaller marshaller = new Marshaller(writer);
-
-			Mapping mapping = new Mapping();
-			mapping.loadMapping(
-				new InputSource(mis)
-				);
-			marshaller.setMapping(mapping);
-
-			marshaller.marshal(settings);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (MappingException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ValidationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (mis != null)
+			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
+			try
 			{
-				try
-				{
-					mis.close();
-				}
-				catch(IOException e)
-				{
-				}
+				writer.write(xml);
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		else
+		{
+			try
+			{
+				Class clazz = XmlChartTheme.class.getClassLoader().loadClass("net.sf.jasperreports.chartthemes.simple.XmlChartThemeCastorWriter");
+				Method method = clazz.getMethod("saveSettings", ChartThemeSettings.class, Writer.class);
+				method.invoke(settings, writer);
+			}
+			catch (ClassNotFoundException | NoSuchMethodException |  InvocationTargetException |  IllegalAccessException e)
+			{
+				throw new JRRuntimeException(e);
 			}
 		}
 	}
