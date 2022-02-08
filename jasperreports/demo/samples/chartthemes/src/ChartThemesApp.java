@@ -22,20 +22,15 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.chartthemes.simple.AegeanSettingsFactory;
-import net.sf.jasperreports.chartthemes.simple.ChartThemeSettings;
 import net.sf.jasperreports.chartthemes.simple.EyeCandySixtiesSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -53,12 +48,12 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
-import net.sf.jasperreports.util.JacksonUtil;
 
 
 /**
@@ -80,7 +75,6 @@ public class ChartThemesApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
-		testXml();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -93,43 +87,7 @@ public class ChartThemesApp extends AbstractSampleApp
 		ods();
 		docx();
 		xlsx();
-		pptx();		
-	}
-
-
-	public void testXml() throws JRException
-	{
-		File[] files = getFiles(new File("themes"), "jrctx");
-		
-		for(int i = 0; i < files.length; i++)
-		{
-			File daFile = files[i];
-			String daFileName = daFile.getName().substring(0, daFile.getName().lastIndexOf('.'));
-			long start = System.currentTimeMillis();
-			
-			// READ Castor 
-			ChartThemeSettings settings = XmlChartTheme.loadSettings("themes/" + daFile.getName());
-
-			// WRITE to Castor format 
-			XmlChartTheme.saveSettings(settings, new File("build/themes/" + daFileName + ".castor.jrctx"));
-
-			try (FileInputStream fis = new FileInputStream(new File("build/themes/" + daFileName + ".castor.jrctx")))
-			{
-				// READ Castor latest format with Jackson 
-				settings = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadXml(fis, ChartThemeSettings.class);
-				
-				// WRITE Jackson format
-				String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
-				FileWriter writer = new FileWriter("build/themes/" + daFileName + ".jackson.jrctx");
-				writer.write(xml);
-				writer.close();
-			}
-			catch (IOException e)
-			{
-				throw new JRException(e);
-			}
-			System.err.println(daFileName + " chart themes saved in " + (System.currentTimeMillis() - start) + " ms");
-		}
+		pptx();
 	}
 
 

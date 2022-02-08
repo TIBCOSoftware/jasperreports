@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<providerDataAdapter class="net.sf.jasperreports.data.provider.DataSourceProviderDataAdapterImpl"><name>Datasource Provider Data Adapter</name><providerClass>com.jaspersoft.studio.data.sample.PersonBeansDataSource</providerClass><classpath>data/myclass1.jar</classpath><classpath>data/myclass2.jar</classpath></providerDataAdapter>

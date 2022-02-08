@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<dsDataAdapter class="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl"><name>Custom Datasource Data Adapter</name><factoryClass>com.jaspersoft.studio.data.sample.SampleJRDataSourceFactory</factoryClass><methodToCall>getDataSource()</methodToCall><classpath>data/ds1.jar</classpath><classpath>data/ds2.jar</classpath></dsDataAdapter>

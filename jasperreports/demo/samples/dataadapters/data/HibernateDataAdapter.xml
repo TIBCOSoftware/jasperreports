@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<hibernateDataAdapter class="net.sf.jasperreports.data.hibernate.HibernateDataAdapterImpl"><name>Hibernate Data Adapter</name><xMLFileName>data/hibernate.cfg.xml</xMLFileName><propertiesFileName>data/hibernate.properties</propertiesFileName><useAnnotation>true</useAnnotation></hibernateDataAdapter>

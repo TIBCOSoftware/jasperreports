@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<jndiDataAdapter class="net.sf.jasperreports.data.jndi.JndiDataAdapterImpl"><name>JNDI Data Adapter</name><dataSourceName>testJNDI</dataSourceName></jndiDataAdapter>
