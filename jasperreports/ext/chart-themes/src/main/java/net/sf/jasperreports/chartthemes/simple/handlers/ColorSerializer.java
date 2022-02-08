@@ -66,6 +66,6 @@ public class ColorSerializer extends StdSerializer<Color>
 		{
 			return null;
 		}
-		return "#" + JRColorUtil.getColorHexa(value);
+		return JRColorUtil.getCssColor(value);
 	}
 }
