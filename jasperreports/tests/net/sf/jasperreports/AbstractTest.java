@@ -140,15 +140,15 @@ public abstract class AbstractTest
 				{
 					digestMatch = true;
 				}
-				else
-				{
-					//fallback to account for JDK differences
-					referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + ".2." + getExportFileExtension() + ".sha");
-					if (referenceExportDigest != null)
-					{
-						digestMatch = exportDigest.equals(referenceExportDigest);
-					}
-				}
+//				else
+//				{
+//					//fallback to account for JDK differences
+//					referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + ".2." + getExportFileExtension() + ".sha");
+//					if (referenceExportDigest != null)
+//					{
+//						digestMatch = exportDigest.equals(referenceExportDigest);
+//					}
+//				}
 				
 				assert digestMatch;
 			}
