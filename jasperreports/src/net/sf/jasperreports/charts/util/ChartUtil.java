@@ -46,7 +46,6 @@ import org.jfree.data.Range;
 
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.ChartThemeBundle;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImageArea;
@@ -83,15 +82,6 @@ public final class ChartUtil
 	private ChartUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static ChartUtil getDefaultInstance()//FIXMECONTEXT check this use of this
-	{
-		return new ChartUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
@@ -132,12 +133,20 @@ public class XmlChartTheme extends SimpleChartTheme
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #saveSettings(JasperReportsContext, ChartThemeSettings, Writer)}.
+	 */
+	public static void saveSettings(ChartThemeSettings settings, Writer writer)
+	{
+		saveSettings(DefaultJasperReportsContext.getInstance(), settings, writer);
+	}
+	
+
+	/**
 	 *
 	 */
-	public static void saveSettings(ChartThemeSettings settings, Writer writer) //FIXME jasper context
+	public static void saveSettings(JasperReportsContext jasperReportsContext, ChartThemeSettings settings, Writer writer)
 	{
-		String targetVersion = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(
-				JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		String targetVersion = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
 		VersionComparator versionComparator = new VersionComparator();
 		
 		if (versionComparator.compare(targetVersion, JRConstants.VERSION_6_19_0) >= 0)
@@ -169,16 +178,25 @@ public class XmlChartTheme extends SimpleChartTheme
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #saveSettings(JasperReportsContext, ChartThemeSettings, File)}.
 	 */
 	public static void saveSettings(ChartThemeSettings settings, File file)
+	{
+		saveSettings(DefaultJasperReportsContext.getInstance(), settings, file);
+	}
+	
+
+	/**
+	 *
+	 */
+	public static void saveSettings(JasperReportsContext jasperReportsContext, ChartThemeSettings settings, File file)
 	{
 		Writer writer = null;
 		
 		try
 		{
 			writer = new FileWriter(file);
-			saveSettings(settings, writer);
+			saveSettings(jasperReportsContext, settings, writer);
 		}
 		catch (IOException e)
 		{
@@ -201,15 +219,24 @@ public class XmlChartTheme extends SimpleChartTheme
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #saveSettings(JasperReportsContext, ChartThemeSettings)}.
 	 */
 	public static String saveSettings(ChartThemeSettings settings)
+	{
+		return saveSettings(DefaultJasperReportsContext.getInstance(), settings);
+	}
+	
+
+	/**
+	 *
+	 */
+	public static String saveSettings(JasperReportsContext jasperReportsContext, ChartThemeSettings settings)
 	{
 		StringWriter writer = new StringWriter();
 		
 		try
 		{
-			saveSettings(settings, writer);
+			saveSettings(jasperReportsContext, settings, writer);
 		}
 		finally
 		{
