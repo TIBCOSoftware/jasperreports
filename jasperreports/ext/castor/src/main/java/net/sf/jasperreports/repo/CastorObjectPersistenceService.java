@@ -32,6 +32,7 @@ import net.sf.jasperreports.util.CastorUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorObjectPersistenceService implements PersistenceService
 {

@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorDataAdapterPersistenceService extends CastorObjectPersistenceService
 {

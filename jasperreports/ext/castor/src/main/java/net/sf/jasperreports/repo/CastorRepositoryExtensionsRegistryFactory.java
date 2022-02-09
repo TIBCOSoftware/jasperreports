@@ -31,6 +31,7 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

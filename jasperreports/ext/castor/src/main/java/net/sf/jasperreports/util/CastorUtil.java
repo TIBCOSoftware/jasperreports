@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorUtil
 {

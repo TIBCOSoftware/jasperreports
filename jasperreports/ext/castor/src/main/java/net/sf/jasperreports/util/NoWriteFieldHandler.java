@@ -28,6 +28,7 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class NoWriteFieldHandler extends GeneralizedFieldHandler
 {

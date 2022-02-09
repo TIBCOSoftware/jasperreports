@@ -113,8 +113,6 @@ public class JacksonUtil
 			mapper = new XmlMapper();
 			mapper.enable(SerializationFeature.INDENT_OUTPUT);
 			mapper.setSerializationInclusion(Include.NON_NULL);
-			// normally, there should be no unknown properties, except for a very old label property in axis settings
-			//mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			
 			List<JacksonMapping> jacksonMappings = jasperReportsContext.getExtensions(JacksonMapping.class);
 			for (JacksonMapping jacksonMapping : jacksonMappings)

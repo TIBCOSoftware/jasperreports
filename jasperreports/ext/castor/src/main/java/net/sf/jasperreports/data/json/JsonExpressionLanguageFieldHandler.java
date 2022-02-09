@@ -27,6 +27,7 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class JsonExpressionLanguageFieldHandler extends GeneralizedFieldHandler {
 

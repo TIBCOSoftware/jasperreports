@@ -28,6 +28,7 @@ package net.sf.jasperreports.util;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorMapping
 {

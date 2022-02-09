@@ -32,6 +32,7 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 {

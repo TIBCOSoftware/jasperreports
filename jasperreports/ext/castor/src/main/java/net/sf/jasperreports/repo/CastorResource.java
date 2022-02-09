@@ -26,6 +26,7 @@ package net.sf.jasperreports.repo;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorResource<T> extends ObjectResource<T>
 {
