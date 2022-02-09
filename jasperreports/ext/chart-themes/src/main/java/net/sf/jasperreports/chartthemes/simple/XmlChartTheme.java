@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -139,7 +140,7 @@ public class XmlChartTheme extends SimpleChartTheme
 				JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
 		VersionComparator versionComparator = new VersionComparator();
 		
-		if (versionComparator.compare(targetVersion, "6.19.0") >= 0)
+		if (versionComparator.compare(targetVersion, JRConstants.VERSION_6_19_0) >= 0)
 		{
 			String xml = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).getXmlString(settings);
 			try

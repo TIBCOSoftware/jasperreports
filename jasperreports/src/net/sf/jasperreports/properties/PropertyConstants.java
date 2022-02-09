@@ -250,6 +250,6 @@ public interface PropertyConstants
 
 	String VERSION_6_18_0 = "6.18.0";
 
-	String VERSION_6_19_0 = "6.19.0";
+	String VERSION_6_19_0 = JRConstants.VERSION_6_19_0;
 	
 }
