@@ -25,6 +25,9 @@ package net.sf.jasperreports.data.http;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.data.DataFile;
 
 /**
@@ -41,12 +44,18 @@ public interface HttpDataLocation extends DataFile
 	
 	String getPassword();
 	
+	@JacksonXmlElementWrapper(useWrapping = false)
+	@JsonProperty("urlParameter")
 	List<HttpLocationParameter> getUrlParameters();
 	
 	String getBody();
 
+	@JacksonXmlElementWrapper(useWrapping = false)
+	@JsonProperty("postParameter")
 	List<HttpLocationParameter> getPostParameters();
 	
+	@JacksonXmlElementWrapper(useWrapping = false)
+	@JsonProperty("header")
 	List<HttpLocationParameter> getHeaders();
 
 }

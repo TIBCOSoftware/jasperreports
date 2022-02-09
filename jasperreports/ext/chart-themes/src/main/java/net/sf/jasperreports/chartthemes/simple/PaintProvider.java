@@ -26,16 +26,28 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Paint;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = ColorProvider.class),
+	@JsonSubTypes.Type(value = GradientPaintProvider.class)
+})
 public interface PaintProvider extends Serializable
 {
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Paint getPaint();
 
 }

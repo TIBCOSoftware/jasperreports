@@ -25,12 +25,16 @@ package net.sf.jasperreports.data.http;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+
+@JsonTypeName("httpDataLocation")
 public class StandardHttpDataLocation implements HttpDataLocation
 {
 

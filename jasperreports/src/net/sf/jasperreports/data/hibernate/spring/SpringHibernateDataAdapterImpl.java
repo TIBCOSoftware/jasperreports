@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.hibernate.spring;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "springHibernateDataAdapter")
 public class SpringHibernateDataAdapterImpl extends AbstractDataAdapter
 		implements SpringHibernateDataAdapter {
 	private String springConfig;

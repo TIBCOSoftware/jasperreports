@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.xmla;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "xmlaDataAdapter")
 public class XmlaDataAdapterImpl extends AbstractDataAdapter implements
 		XmlaDataAdapter {
 	private String xmlaUrl;

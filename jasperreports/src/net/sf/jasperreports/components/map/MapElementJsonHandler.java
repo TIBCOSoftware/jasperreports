@@ -30,7 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**

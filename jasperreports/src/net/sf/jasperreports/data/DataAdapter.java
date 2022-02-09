@@ -23,10 +23,15 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
+// we don't need a @JsonSubTypes annotation here because class name is going to be serialized
 public interface DataAdapter
 {
 	/**

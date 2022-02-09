@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.data.provider;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "providerDataAdapter")
 public class DataSourceProviderDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements DataSourceProviderDataAdapter
 {
 	private String providerClass;

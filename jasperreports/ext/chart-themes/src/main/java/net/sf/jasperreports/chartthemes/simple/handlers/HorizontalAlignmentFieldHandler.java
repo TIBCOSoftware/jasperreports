@@ -29,6 +29,7 @@ import org.jfree.ui.HorizontalAlignment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 {
@@ -43,11 +44,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((HorizontalAlignment)value).toString();
+		return HorizontalAlignmentSerializer.convert((HorizontalAlignment)value);
 	}
 
 	@Override

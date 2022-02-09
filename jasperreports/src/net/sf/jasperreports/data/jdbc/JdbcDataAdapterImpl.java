@@ -25,12 +25,16 @@ package net.sf.jasperreports.data.jdbc;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "jdbcDataAdapter")
 public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements JdbcDataAdapter
 {
 	private String driver;

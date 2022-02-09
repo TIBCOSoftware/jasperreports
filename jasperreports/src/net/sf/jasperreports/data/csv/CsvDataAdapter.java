@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
@@ -39,12 +43,14 @@ public interface CsvDataAdapter extends FileDataAdapter
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
 	@Deprecated
+	@JsonIgnore
 	public String getFileName();
 
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Deprecated
+	@JsonProperty
 	public void setFileName(String fileName);
 
 	public String getEncoding();
@@ -83,6 +89,7 @@ public interface CsvDataAdapter extends FileDataAdapter
 
 	public void setQueryExecuterMode(boolean queryExecuterMode);
 
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<String> getColumnNames();
 
 	public void setColumnNames(List<String> columnNames);

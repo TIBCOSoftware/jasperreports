@@ -34,9 +34,9 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.commands.CommandException;
-import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

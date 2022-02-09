@@ -27,12 +27,20 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.ColorDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.ColorSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("gradient-paint")
 public class GradientPaintProvider implements PaintProvider
 {
 	/**
@@ -43,7 +51,13 @@ public class GradientPaintProvider implements PaintProvider
 	/**
 	 *
 	 */
+	@JsonDeserialize(using = ColorDeserializer.class)
+	@JsonSerialize(using = ColorSerializer.class)
+	@JacksonXmlProperty(isAttribute = true)
 	private Color color1;
+	@JsonDeserialize(using = ColorDeserializer.class)
+	@JsonSerialize(using = ColorSerializer.class)
+	@JacksonXmlProperty(isAttribute = true)
 	private Color color2;
 
 	

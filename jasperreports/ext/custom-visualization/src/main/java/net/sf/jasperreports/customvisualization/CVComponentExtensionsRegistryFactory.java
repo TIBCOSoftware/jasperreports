@@ -117,7 +117,6 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 		}
 
 		@Override
-		@SuppressWarnings("deprecation")
 		public GenericElementHandler getHandler(String elementName, String exporterKey)
 		{
 			if (CVConstants.COMPONENT_NAME.equals(elementName))

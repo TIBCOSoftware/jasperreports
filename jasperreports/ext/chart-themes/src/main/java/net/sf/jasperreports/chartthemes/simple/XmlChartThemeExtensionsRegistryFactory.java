@@ -37,9 +37,11 @@ import java.util.zip.ZipOutputStream;
 
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.chartthemes.ChartThemeMapBundle;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -81,9 +83,17 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #saveToJar(JasperReportsContext, ChartThemeSettings, String, File)}.
 	 */
 	public static void saveToJar(ChartThemeSettings settings, String themeName, File file) throws IOException
+	{
+		saveToJar(DefaultJasperReportsContext.getInstance(), settings, themeName, file);
+	}
+
+	/**
+	 * 
+	 */
+	public static void saveToJar(JasperReportsContext jasperReportsContext, ChartThemeSettings settings, String themeName, File file) throws IOException
 	{
 		FileOutputStream fos = null;
 
@@ -102,7 +112,7 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 
 			ZipEntry jrctxEntry = new ZipEntry(themeName + ".jrctx");
 			zipos.putNextEntry(jrctxEntry);
-			XmlChartTheme.saveSettings(settings, new OutputStreamWriter(zipos));
+			XmlChartTheme.saveSettings(jasperReportsContext, settings, new OutputStreamWriter(zipos));
 
 			zipos.flush();
 			zipos.finish();

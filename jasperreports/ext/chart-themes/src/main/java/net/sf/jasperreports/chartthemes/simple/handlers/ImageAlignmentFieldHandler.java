@@ -24,11 +24,11 @@
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.jfree.ui.Align;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 {
@@ -43,69 +43,13 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			value.equals(Align.BOTTOM) 
-			? "Align.BOTTOM"
-			: value.equals(Align.BOTTOM_LEFT)
-			? "Align.BOTTOM_LEFT"
-			: value.equals(Align.BOTTOM_RIGHT)
-			? "Align.BOTTOM_RIGHT"
-			: value.equals(Align.CENTER)
-			? "Align.CENTER"
-			: value.equals(Align.FIT)
-			? "Align.FIT"
-			: value.equals(Align.FIT_HORIZONTAL)
-			? "Align.FIT_HORIZONTAL"
-			: value.equals(Align.FIT_VERTICAL)
-			? "Align.FIT_VERTICAL"
-			: value.equals(Align.LEFT)
-			? "Align.LEFT"
-			: value.equals(Align.RIGHT)
-			? "Align.RIGHT"
-			: value.equals(Align.TOP)
-			? "Align.TOP"
-			: value.equals(Align.TOP_LEFT)
-			? "Align.TOP_LEFT"
-			: value.equals(Align.TOP_RIGHT)
-			? "Align.TOP_RIGHT" : null;
+		return ImageAlignmentSerializer.convert((Integer)value);
 	}
 
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			"Align.BOTTOM".equals(value) 
-			? Align.BOTTOM
-			: "Align.BOTTOM_LEFT".equals(value)
-			? Align.BOTTOM_LEFT
-			: "Align.BOTTOM_RIGHT".equals(value)
-			? Align.BOTTOM_RIGHT
-			: "Align.CENTER".equals(value)
-			? Align.CENTER
-			: "Align.FIT".equals(value)
-			? Align.FIT
-			: "Align.FIT_HORIZONTAL".equals(value)
-			? Align.FIT_HORIZONTAL
-			: "Align.FIT_VERTICAL".equals(value)
-			? Align.FIT_VERTICAL
-			: "Align.LEFT".equals(value)
-			? Align.LEFT
-			: "Align.RIGHT".equals(value)
-			? Align.RIGHT
-			: "Align.TOP".equals(value)
-			? Align.TOP
-			: "Align.TOP_LEFT".equals(value)
-			? Align.TOP_LEFT
-			: "Align.TOP_RIGHT".equals(value)
-			? Align.TOP_RIGHT : null;
+		return ImageAlignmentDeserializer.convert((String)value);
 	}
 	
 	@Override

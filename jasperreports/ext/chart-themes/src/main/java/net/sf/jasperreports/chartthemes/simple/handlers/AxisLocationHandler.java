@@ -29,6 +29,7 @@ import org.jfree.chart.axis.AxisLocation;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class AxisLocationHandler extends GeneralizedFieldHandler
 {
@@ -43,29 +44,13 @@ public class AxisLocationHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((AxisLocation)value).toString();
+		return AxisLocationSerializer.convert((AxisLocation)value);
 	}
 
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-		AxisLocation.BOTTOM_OR_LEFT.toString().equals(value) 
-		? AxisLocation.BOTTOM_OR_LEFT 
-		: AxisLocation.BOTTOM_OR_RIGHT.toString().equals(value)
-		? AxisLocation.BOTTOM_OR_RIGHT
-		: AxisLocation.TOP_OR_LEFT.toString().equals(value)
-		? AxisLocation.TOP_OR_LEFT
-		: AxisLocation.TOP_OR_RIGHT.toString().equals(value)
-		? AxisLocation.TOP_OR_RIGHT : null;
+		return AxisLocationDeserializer.convert((String)value);
 	}
 	
 	@Override

@@ -30,6 +30,7 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class EdgeFieldHandler extends GeneralizedFieldHandler
 {
@@ -48,8 +49,6 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-//		return JRXmlConstants.getChartEdgeMap().get(value);
-//		return EdgeEnum.getByName((String)value);
 		return ((EdgeEnum)value).getName();
 	}
 
@@ -60,7 +59,6 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		{
 			return null;
 		}
-//		return JRXmlConstants.getChartEdgeMap().get(value);
 		return EdgeEnum.getByName((String)value);
 	}
 	

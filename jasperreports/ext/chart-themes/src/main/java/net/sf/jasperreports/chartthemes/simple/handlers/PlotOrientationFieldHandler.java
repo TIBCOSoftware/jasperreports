@@ -29,6 +29,7 @@ import org.jfree.chart.plot.PlotOrientation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
 {
@@ -43,11 +44,7 @@ public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((PlotOrientation)value).toString();
+		return PlotOrientationSerializer.convert((PlotOrientation)value);
 	}
 
 	@Override

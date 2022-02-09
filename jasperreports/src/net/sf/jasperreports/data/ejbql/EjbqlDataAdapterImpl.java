@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.ejbql;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "ejbqlDataAdapter")
 public class EjbqlDataAdapterImpl extends AbstractDataAdapter implements
 		EjbqlDataAdapter {
 	private String persistanceUnitName;

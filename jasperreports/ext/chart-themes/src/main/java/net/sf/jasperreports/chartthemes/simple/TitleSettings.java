@@ -31,7 +31,17 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -42,6 +52,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class TitleSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -66,13 +77,32 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "show-title", isAttribute = true)
 	private Boolean showTitle;
+
+	@JacksonXmlProperty(localName = "position", isAttribute = true)
 	private EdgeEnum positionValue;
+
+	@JacksonXmlProperty(localName = "foreground-paint")
 	private PaintProvider foregroundPaint;
+
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
+
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
+
+	@JacksonXmlProperty(localName = "horizontal-alignment", isAttribute = true)
+	@JsonSerialize(using = HorizontalAlignmentSerializer.class)
 	private HorizontalAlignment horizontalAlignment;
+
+	@JacksonXmlProperty(localName = "vertical-alignment", isAttribute = true)
+	@JsonSerialize(using = VerticalAlignmentSerializer.class)
 	private VerticalAlignment verticalAlignment;
+
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
 	/**

@@ -28,7 +28,7 @@ import net.sf.jasperreports.data.xls.XlsDataAdapter;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface ExcelDataAdapter extends XlsDataAdapter 
+public interface ExcelDataAdapter extends XlsDataAdapter
 {
 	public ExcelFormatEnum getFormat();
 	

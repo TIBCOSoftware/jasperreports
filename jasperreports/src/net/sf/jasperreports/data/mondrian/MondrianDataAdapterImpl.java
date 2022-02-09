@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.data.mondrian;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "mondrianDataAdapter")
 public class MondrianDataAdapterImpl extends JdbcDataAdapterImpl implements
 		MondrianDataAdapter {
 	private String catalogURI;

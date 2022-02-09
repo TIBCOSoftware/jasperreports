@@ -33,6 +33,15 @@ import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.block.LineBorder;
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeSerializer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -40,6 +49,8 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("line-border")
+@JsonIgnoreProperties("eventSupport")
 public class LineBorderProvider implements BlockFrameProvider, JRChangeEventsSupport
 {
 
@@ -47,8 +58,15 @@ public class LineBorderProvider implements BlockFrameProvider, JRChangeEventsSup
 	public static final String PROPERTY_LINE_STROKE = "lineStroke";
 	public static final String PROPERTY_PAINT = "paint";
 	
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets insets;
+
+	@JacksonXmlProperty(localName = "line-stroke")
+	@JsonDeserialize(using = StrokeDeserializer.class)
+	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke lineStroke;
+	
 	private PaintProvider paint;
 
 	public LineBorderProvider()

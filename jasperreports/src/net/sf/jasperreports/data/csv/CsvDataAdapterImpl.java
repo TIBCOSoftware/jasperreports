@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.RepositoryDataLocation;
@@ -36,6 +38,8 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "csvDataAdapter")
 public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAdapter
 {
 	private DataFile dataFile;

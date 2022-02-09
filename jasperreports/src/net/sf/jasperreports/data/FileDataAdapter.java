@@ -23,12 +23,17 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public interface FileDataAdapter extends DataAdapter
 {
 	
+	@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
 	DataFile getDataFile();
 	
 	void setDataFile(DataFile dataFile);

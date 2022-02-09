@@ -128,7 +128,7 @@ import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

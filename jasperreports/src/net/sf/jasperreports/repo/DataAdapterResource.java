@@ -29,7 +29,7 @@ import net.sf.jasperreports.data.DataAdapter;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DataAdapterResource extends CastorResource<DataAdapter>
+public class DataAdapterResource extends JacksonResource<DataAdapter>
 {
 	/**
 	 * 
