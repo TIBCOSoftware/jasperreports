@@ -40,10 +40,8 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 
 public interface XlsDataAdapter extends FileDataAdapter 
 {
-	@JsonProperty(index=4)
 	public String getDatePattern();
 
-	@JsonProperty(index=5)
 	public String getNumberPattern();
 
 	/**
@@ -60,15 +58,12 @@ public interface XlsDataAdapter extends FileDataAdapter
 	@JsonProperty
 	public void setFileName(String filename);
 	
-	@JsonProperty(index=3)
 	public boolean isUseFirstRowAsHeader();
 	
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty(index=7)
 	public List<String> getColumnNames();
 
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty(index=8)
 	public List<Integer> getColumnIndexes();
 	
 	public void setColumnNames(List<String> columnNames);
@@ -77,12 +72,10 @@ public interface XlsDataAdapter extends FileDataAdapter
 
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader);
 
-	@JsonProperty(index=9)
 	public Locale getLocale();
 
 	public void setLocale(Locale locale);
 
-	@JsonProperty(index=10)
 	public TimeZone getTimeZone();
 
 	public void setTimeZone(TimeZone timeZone);
@@ -91,12 +84,10 @@ public interface XlsDataAdapter extends FileDataAdapter
 
 	public void setNumberPattern(String numberPattern);
 	
-	@JsonProperty(index=6)
 	public boolean isQueryExecuterMode();
 
 	public void setQueryExecuterMode(boolean queryExecuterMode);
 	
-	@JsonProperty(index=11)
 	public String getSheetSelection();
 	
 	public void setSheetSelection(String sheetSelection);

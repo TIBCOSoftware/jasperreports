@@ -26,8 +26,8 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JacksonXmlRootElement(localName = "chart-theme")
+@JsonRootName("chart-theme")
 @JsonIgnoreProperties("eventSupport")
 public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 {

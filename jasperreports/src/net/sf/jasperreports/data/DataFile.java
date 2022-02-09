@@ -24,9 +24,6 @@
 package net.sf.jasperreports.data;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.JRCloneable;

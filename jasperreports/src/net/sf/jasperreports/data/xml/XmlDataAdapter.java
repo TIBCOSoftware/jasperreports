@@ -52,36 +52,29 @@ public interface XmlDataAdapter extends FileDataAdapter
 	@JsonProperty
 	public void setFileName(String fileName);
 	
-	@JsonProperty(index=7)
 	public String getSelectExpression();
 
 	public void setSelectExpression(String selectExpression);
 	
-	@JsonProperty(index=8)
 	public Locale getLocale();
 
 	public void setLocale(Locale locale);
 
-	@JsonProperty(index=5)
 	public String getDatePattern();
 
 	public void setDatePattern(String datePattern);
 
-	@JsonProperty(index=6)
 	public String getNumberPattern();
 
 	public void setNumberPattern(String numberPattern);
 
-	@JsonProperty(index=9)
 	public TimeZone getTimeZone();
 
 	public void setTimeZone(TimeZone timeZone);
 
-	@JsonProperty(index=3)
 	public boolean isUseConnection();//FIXME consider renaming to isQueryExecuterMode
 	
 	public void setUseConnection(boolean useConnection);
 	
-	@JsonProperty(index=4)
 	public boolean isNamespaceAware();
 }

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
@@ -35,7 +34,6 @@ public interface FileDataAdapter extends DataAdapter
 {
 	
 	@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-	@JsonProperty(index=2)
 	DataFile getDataFile();
 	
 	void setDataFile(DataFile dataFile);
