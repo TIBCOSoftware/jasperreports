@@ -167,7 +167,7 @@ public class XmlChartTheme extends SimpleChartTheme
 			{
 				Class clazz = XmlChartTheme.class.getClassLoader().loadClass("net.sf.jasperreports.chartthemes.simple.XmlChartThemeCastorWriter");
 				Method method = clazz.getMethod("saveSettings", ChartThemeSettings.class, Writer.class);
-				method.invoke(settings, writer);
+				method.invoke(null, settings, writer);
 			}
 			catch (ClassNotFoundException | NoSuchMethodException |  InvocationTargetException |  IllegalAccessException e)
 			{
