@@ -73,6 +73,8 @@ public class I18nApp extends AbstractSampleApp
 	public void test() throws JRException
 	{
 		pdf();
+		xmlEmbed();
+		xml();
 		html();
 		rtf();
 		xls();

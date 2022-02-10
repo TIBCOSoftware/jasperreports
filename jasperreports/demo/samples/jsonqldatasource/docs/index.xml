@@ -153,10 +153,10 @@
       <br/>
       In our example, the data is stored as a hierarchy of <code>Northwind.Customers.Orders</code> objects in the <code>data/northwind.json</code> file.
       <br/>
-      The JSONQL configuration is done in the <code>data/northwindDataAdapter.xml</code> data adapter file that is provided in the
+      The JSONQL configuration is done in the <code>data/northwindDataAdapter.jrdax</code> data adapter file that is provided in the
       <code>reports/NorthwindOrdersReport.jrxml</code> via the report property:
       <pre><![CDATA[
-<property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.xml"/>]]></pre>
+<property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.jrdax"/>]]></pre>
       In the <code>NorthwindOrdersReport</code> we run a JSONQL query in order to retrieve orders from anywhere:
       <pre><![CDATA[
 <queryString language="jsonql">
@@ -212,7 +212,7 @@
       </ol>
 
       <br/>
-      The rest of the configuration necessary for this sample to work is done in the data adapter file: <code>data/northwindDataAdapter.xml</code>
+      The rest of the configuration necessary for this sample to work is done in the data adapter file: <code>data/northwindDataAdapter.jrdax</code>
       <pre><![CDATA[
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">

@@ -314,6 +314,7 @@
 				<include name="**/*.sha"/>
 				<include name="**/*.jrpxml"/>
 				<include name="**/*.svg"/>
+				<include name="**/*.jrdax"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.csv"/>
 				<include name="**/*.png"/>

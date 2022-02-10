@@ -2,8 +2,6 @@
 
 	<description>Shows how the built-in JsonQLDataSource could be used for reporting out of JSON data.</description>
 
-	<import file="../build-sample-classpath.xml"/>
-
 	<property name="sample.dir" value="jsonqldatasource"/>
 	<property name="sample.base.name" value="JsonQLDataSource" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
