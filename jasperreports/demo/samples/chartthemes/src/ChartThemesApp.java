@@ -27,9 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.chartthemes.simple.AegeanSettingsFactory;
-import net.sf.jasperreports.chartthemes.simple.EyeCandySixtiesSettingsFactory;
-import net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -48,12 +45,14 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import themes.AegeanSettingsFactory;
+import themes.EyeCandySixtiesSettingsFactory;
+import themes.SimpleSettingsFactory;
 
 
 /**
@@ -97,17 +96,18 @@ public class ChartThemesApp extends AbstractSampleApp
 	public void themes() throws JRException
 	{
 		long start = System.currentTimeMillis();
+		new File("build/themes").mkdirs();
 		XmlChartTheme.saveSettings(
 			SimpleSettingsFactory.createChartThemeSettings(), 
-			new File("src/net/sf/jasperreports/chartthemes/simple/simple.jrctx")
+			new File("build/themes/simple.jrctx")
 			);
 		XmlChartTheme.saveSettings(
 			EyeCandySixtiesSettingsFactory.createChartThemeSettings(), 
-			new File("src/net/sf/jasperreports/chartthemes/simple/eye.candy.sixties.jrctx")
+			new File("build/themes/eye.candy.sixties.jrctx")
 			);
 		XmlChartTheme.saveSettings(
 			AegeanSettingsFactory.createChartThemeSettings(), 
-			new File("src/net/sf/jasperreports/chartthemes/simple/aegean.jrctx")
+			new File("build/themes/aegean.jrctx")
 			);
 		System.err.println("Theme saving time : " + (System.currentTimeMillis() - start));
 	}

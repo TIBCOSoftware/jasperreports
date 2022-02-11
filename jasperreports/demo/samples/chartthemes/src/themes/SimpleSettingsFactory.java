@@ -21,15 +21,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
+package themes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.jasperreports.charts.type.EdgeEnum;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.plot.PlotOrientation;
@@ -38,6 +36,18 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 import org.jfree.util.UnitType;
+
+import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.chartthemes.simple.AxisSettings;
+import net.sf.jasperreports.chartthemes.simple.ChartSettings;
+import net.sf.jasperreports.chartthemes.simple.ChartThemeSettings;
+import net.sf.jasperreports.chartthemes.simple.ColorProvider;
+import net.sf.jasperreports.chartthemes.simple.FileImageProvider;
+import net.sf.jasperreports.chartthemes.simple.GradientPaintProvider;
+import net.sf.jasperreports.chartthemes.simple.LegendSettings;
+import net.sf.jasperreports.chartthemes.simple.PaintProvider;
+import net.sf.jasperreports.chartthemes.simple.PlotSettings;
+import net.sf.jasperreports.chartthemes.simple.TitleSettings;
 
 
 /**
