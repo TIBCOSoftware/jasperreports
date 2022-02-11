@@ -34,9 +34,9 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * report design time, but are dealt with only at export time, when special content is
  * generated for them by the exporter.
  * <p/>
- * A good example of a generic element use case is someone wanting to embed Flash
- * movies in reports exported to HTML format. JasperReports has built-in support for
- * displaying text and images, but there is no built-in element for displaying Flash movies.
+ * A good example of a generic element use case is someone wanting to embed Javascript
+ * visualizations in reports exported to HTML format. JasperReports has built-in support for
+ * displaying text and images, but there is no built-in element for displaying Javascript visualizations.
  * This person would need to do the following to achieve it:
  * <ul>
  * <li>A new HTML export handler is developed, bundled into a JAR and deployed in the
@@ -52,12 +52,11 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * the design report element are evaluated and the result is included in the produced
  * generic element as parameter values.</li>
  * <li>When the report will get exported to HTML, the custom HTML export handler will
- * output HTML snippets that embed Flash movies as part of the HTML output.
- * Generic element parameter values would be used to parametrize the resulting Flash
- * movie.</li>
+ * output HTML snippets that embed Javascript as part of the HTML output.
+ * Generic element parameter values would be used to parametrize the resulting Javascript code.</li>
  * </ul>
  * But generic elements can be placeholders for any kind of special content, not necessarily
- * Flash content. The generic element handler implementation has the freedom to generate
+ * Javascript visualizations. The generic element handler implementation has the freedom to generate
  * any kind of output that can be embedded in the exporter report.
  * <p/>
  * Generic report elements cannot stretch at fill time, they will always produce

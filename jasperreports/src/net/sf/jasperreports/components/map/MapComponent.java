@@ -529,7 +529,7 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String MAP_ELEMENT_NAME = "map";
 	
 	/**
-	 * The qualified type of Flash generic elements. 
+	 * The qualified type of map generic elements. 
 	 */
 	public static final JRGenericElementType MAP_ELEMENT_TYPE = 
 		new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, MAP_ELEMENT_NAME);

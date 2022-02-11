@@ -58,6 +58,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see FlashHtmlHandler
+ * @deprecated To be removed.
  */
 public final class FlashPrintElement
 {

@@ -58,8 +58,6 @@ import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.components.sort.SortElementJsonHandler;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.export.FlashHtmlHandler;
-import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -99,16 +97,17 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				return JRXmlConstants.JASPERREPORTS_NAMESPACE;
 			}
 			
+			@SuppressWarnings("deprecation")
 			@Override
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
 				if (
-					FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
+					net.sf.jasperreports.engine.export.FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
 					&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)
 					)
 				{
-					return FlashHtmlHandler.getInstance();
+					return net.sf.jasperreports.engine.export.FlashHtmlHandler.getInstance();
 				}
 				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
 				{

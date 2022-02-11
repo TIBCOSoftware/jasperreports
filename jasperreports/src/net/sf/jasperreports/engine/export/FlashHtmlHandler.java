@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.util.FlashUtils;
  * {@link FlashPrintElement}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class FlashHtmlHandler implements GenericElementHtmlHandler
 {

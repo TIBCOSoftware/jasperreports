@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
  * Utility methods related to Flash objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class FlashUtils
 {
