@@ -504,10 +504,7 @@
 			</band>
 			<band height="50">
 				<componentElement>
-					<reportElement x="0" y="0" width="500" height="30" uuid="257ba0eb-37d3-4b3a-a79f-46c5c7afec56">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
-					</reportElement>
+					<reportElement x="0" y="0" width="500" height="30" uuid="257ba0eb-37d3-4b3a-a79f-46c5c7afec56"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 						<datasetRun subDataset="TableDataset" uuid="4e7e3d4f-0bbd-4571-9185-140f57552165"/>
 						<jr:columnGroup width="500" uuid="d07b8e92-41a5-4595-93a2-e58dda291354">
@@ -631,10 +628,7 @@
 			</band>
 			<band height="50">
 				<componentElement>
-					<reportElement x="0" y="0" width="500" height="30" uuid="94672486-6f12-4aff-9820-b222f6266dad">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
-					</reportElement>
+					<reportElement x="0" y="0" width="500" height="30" uuid="94672486-6f12-4aff-9820-b222f6266dad"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 						<datasetRun subDataset="TableDataset" uuid="9db061bf-fbfa-4dd2-ac8d-70ba803aa5a5"/>
 						<jr:columnGroup width="500" uuid="e89c0428-93ba-43c9-ac36-caaf311d1c23">
