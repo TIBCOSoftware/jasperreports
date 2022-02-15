@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.NamedEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -57,6 +59,7 @@ public enum BucketOrder implements NamedEnum
 	}
 
 	@Override
+	@JsonValue(false)
 	public String getName()
 	{
 		return name;
