@@ -116,7 +116,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 *
 	 */
-	private JasperReportsContext jasperReportsContext;
+	private RepositoryContext repositoryContext;
 	
 	private JRPropertiesUtil propertiesUtil;
 	
@@ -1160,27 +1160,34 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 		}
 	}
-
+	
 	public void setJasperReportsContext(JasperReportsContext jasperReportsContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
-		if (jasperReportsContext != null)
+		setRepositoryContext(SimpleRepositoryContext.of(
+				jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext));
+	}
+
+	public void setRepositoryContext(RepositoryContext repositoryContext)
+	{
+		this.repositoryContext = repositoryContext;
+		if (repositoryContext.getJasperReportsContext() != null)
 		{
-			this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+			this.propertiesUtil = JRPropertiesUtil.getInstance(repositoryContext.getJasperReportsContext());
 		}
 	}
 	
 	protected JasperReportsContext getJasperReportsContext()
 	{
 		return filler == null
-				? (jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
+				? (repositoryContext == null || repositoryContext.getJasperReportsContext() == null 
+						? DefaultJasperReportsContext.getInstance() : repositoryContext.getJasperReportsContext())
 				: filler.getJasperReportsContext();
 	}
 	
 	protected RepositoryContext getRepositoryContext()
 	{
 		return filler == null
-				? SimpleRepositoryContext.of(jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
+				? repositoryContext
 				: filler.getRepositoryContext();
 	}
 	

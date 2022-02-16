@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -67,6 +69,21 @@ public final class JRParameterDefaultValuesEvaluator
 	 */
 	public static Map<String,Object> evaluateParameterDefaultValues(JasperReportsContext jasperReportsContext, JasperReport report, Map<String,Object> initialParameters) throws JRException
 	{
+		return evaluateParameterDefaultValues(SimpleRepositoryContext.of(jasperReportsContext), report, initialParameters);
+	}
+
+	/**
+	 * Evaluates the default values for the parameters of a report.
+	 * 
+	 * @param repositoryContext the repository context
+	 * @param report the report
+	 * @param initialParameters initial parameter value map
+	 * @return a map containing parameter values indexed by parameter names
+	 * @throws JRException
+	 */
+	//TODO use JasperReportSource instead of RepositoryContext?
+	public static Map<String,Object> evaluateParameterDefaultValues(RepositoryContext repositoryContext, JasperReport report, Map<String,Object> initialParameters) throws JRException
+	{
 		Map<String,Object> valuesMap = initialParameters == null ? new HashMap<String,Object>() : new HashMap<String,Object>(initialParameters);
 		
 		valuesMap.put(JRParameter.JASPER_REPORT, report);
@@ -77,8 +94,10 @@ public final class JRParameterDefaultValuesEvaluator
 		
 		@SuppressWarnings("deprecation")
 		JasperReportsContext depContext = 
-			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters);
-		fillDataset.setJasperReportsContext(depContext);
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(repositoryContext.getJasperReportsContext(), initialParameters);
+		RepositoryContext fillRepositoryContext = depContext == repositoryContext.getJasperReportsContext() ? repositoryContext
+				: SimpleRepositoryContext.of(depContext, repositoryContext.getResourceContext());
+		fillDataset.setRepositoryContext(fillRepositoryContext);
 		
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
