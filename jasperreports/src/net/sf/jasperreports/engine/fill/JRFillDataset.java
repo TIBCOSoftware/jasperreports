@@ -1258,20 +1258,27 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("Fill " + filler.fillerId + ": Creating " + query.getLanguage() + " query executer");
+				log.debug((filler == null ? "" : ("Fill " + filler.fillerId + ": ")) 
+						+ "Creating " + query.getLanguage() + " query executer");
 			}
 			
 			QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(getJasperReportsContext()).getExecuterFactory(query.getLanguage());
 			SimpleQueryExecutionContext queryExecutionContext = SimpleQueryExecutionContext.of(
 					getJasperReportsContext(), getRepositoryContext());
 			queryExecuter = queryExecuterFactory.createQueryExecuter(queryExecutionContext, this, parametersMap);
-			filler.fillContext.setRunningQueryExecuter(queryExecuter);
+			if (filler != null)
+			{
+				filler.fillContext.setRunningQueryExecuter(queryExecuter);
+			}
 			
 			return queryExecuter.createDatasource();
 		}
 		finally
 		{
-			filler.fillContext.clearRunningQueryExecuter();
+			if (filler != null)
+			{
+				filler.fillContext.clearRunningQueryExecuter();
+			}
 		}
 	}
 
@@ -1341,7 +1348,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("Fill " + filler.fillerId + ": closing query executer");
+				log.debug((filler == null ? "" : ("Fill " + filler.fillerId + ": ")) + "closing query executer");
 			}
 
 			queryExecuter.close();

@@ -27,10 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryContext;
@@ -84,64 +81,16 @@ public final class JRParameterDefaultValuesEvaluator
 	//TODO use JasperReportSource instead of RepositoryContext?
 	public static Map<String,Object> evaluateParameterDefaultValues(RepositoryContext repositoryContext, JasperReport report, Map<String,Object> initialParameters) throws JRException
 	{
-		Map<String,Object> valuesMap = initialParameters == null ? new HashMap<String,Object>() : new HashMap<String,Object>(initialParameters);
-		
-		valuesMap.put(JRParameter.JASPER_REPORT, report);
-		
-		ObjectFactory factory = new ObjectFactory();
-		JRDataset reportDataset = report.getMainDataset();
-		JRFillDataset fillDataset = factory.getDataset(reportDataset);
-		
-		@SuppressWarnings("deprecation")
-		JasperReportsContext depContext = 
-			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(repositoryContext.getJasperReportsContext(), initialParameters);
-		RepositoryContext fillRepositoryContext = depContext == repositoryContext.getJasperReportsContext() ? repositoryContext
-				: SimpleRepositoryContext.of(depContext, repositoryContext.getResourceContext());
-		fillDataset.setRepositoryContext(fillRepositoryContext);
-		
-		fillDataset.createCalculator(report);
-		fillDataset.initCalculator();
-
-		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
-			JRResourcesFillUtil.setResourcesFillContext(valuesMap);
-		try
+		Map<String,Object> parameterValues = new HashMap<>();
+		DatasetExecution datasetExecution = new DatasetExecution(repositoryContext, report, initialParameters);
+		datasetExecution.evaluateParameters((param, value) ->
 		{
-			fillDataset.setParameterValues(valuesMap);
-			
-			Map<String,Object> parameterValues = new HashMap<String,Object>();
-			JRParameter[] parameters = reportDataset.getParameters();
-			for (int i = 0; i < parameters.length; i++)
+			if (!param.isSystemDefined())
 			{
-				JRParameter param = parameters[i];
-				if (!param.isSystemDefined())
-				{
-					String name = param.getName();
-					Object value = fillDataset.getParameterValue(name);
-					parameterValues.put(name, value);
-				}
+				parameterValues.put(param.getName(), value);
 			}
-			
-			return parameterValues;
-		}
-		finally
-		{
-			fillDataset.disposeParameterContributors();
-			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
-		}
-	}
-	
-	protected static class ObjectFactory extends JRFillObjectFactory
-	{
-		protected ObjectFactory()
-		{
-			super((JRBaseFiller) null, null);
-		}
-
-		@Override
-		public JRFillGroup getGroup(JRGroup group)
-		{
-			return super.getGroup(null);
-		}
+		});
+		return parameterValues;
 	}
 	
 
