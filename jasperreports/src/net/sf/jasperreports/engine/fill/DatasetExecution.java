@@ -26,14 +26,14 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
+import net.sf.jasperreports.engine.JRConsumer;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRRunnable;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryContext;
@@ -82,7 +82,7 @@ public class DatasetExecution
 		});
 	}
 	
-	protected void runWithParameters(Runnable action) throws JRException
+	protected void runWithParameters(JRRunnable action) throws JRException
 	{
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
@@ -102,7 +102,7 @@ public class DatasetExecution
 		}		
 	}
 	
-	public void evaluateDataSource(Consumer<JRDataSource> dataSourceConsumer) throws JRException
+	public void evaluateDataSource(JRConsumer<JRDataSource> dataSourceConsumer) throws JRException
 	{
 		runWithParameters(() ->
 		{
@@ -112,10 +112,6 @@ public class DatasetExecution
 				fillDataset.initDatasource();
 				
 				dataSourceConsumer.accept(fillDataset.dataSource);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
 			}
 			finally
 			{
