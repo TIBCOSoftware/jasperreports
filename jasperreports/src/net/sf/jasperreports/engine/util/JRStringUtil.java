@@ -345,16 +345,18 @@ public final class JRStringUtil
 //						ret.append("&apos;");
 //						isEncodeSpace = false;
 //						break;
-				case '\n' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("<br/>");
-					isEncodeSpace = false;
-					break;
+// newline characters do not need to be encoded in HTML attributes; the only place where it is used for HTML element content encoding, 
+// the text is already split by paragraphs and does not contain newline characters
+//				case '\n' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("<br/>");
+//					isEncodeSpace = false;
+//					break;
 
 				default :
 					isEncodeSpace = false;

@@ -3101,9 +3101,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 		writer.write(">");
 
-		writer.write(
-			JRStringUtil.htmlEncode(text)
-			);
+		StringTokenizer tkzer = new StringTokenizer(text, "\n\u0085", true);
+
+		// text is split into paragraphs here because it might have not been split during initial styled text processing
+		// and was processed as a whole because there was no need to do so due to lack of paragraph styling; 
+		// htmlEncode(String) no longer takes care of newline characters, so we do it here
+		while(tkzer.hasMoreTokens()) 
+		{
+			String token = tkzer.nextToken();
+			
+			if ("\n".equals(token))
+			{
+				writer.write("<br/>");
+			}
+			else if ("\u0085".equals(token))
+			{
+				writer.write("<br aria-hidden=\"true\"/>");
+			}
+			else
+			{
+				writer.write(
+					JRStringUtil.htmlEncode(token)
+					);
+			}
+		}
 
 		writer.write("</span>");
 
