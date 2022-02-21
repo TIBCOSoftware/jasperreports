@@ -84,7 +84,8 @@ public class ParameterOverriddenResolver implements ParameterResolver
 	@Override
 	public String[] getStringArrayParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String propertyPrefix)
 	{
-		String[] values = null;
+		String[] values = (String[])parameters.get(parameter);
+
 		JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
 		if (hintsMap != null)
 		{
@@ -98,10 +99,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 				}
 			}
 		}
-		else
-		{
-			values = (String[])parameters.get(parameter);
-		}
+
 		return values;
 	}
 
@@ -109,7 +107,8 @@ public class ParameterOverriddenResolver implements ParameterResolver
 	@Override
 	public Map<String, String> getMapParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String  propertyPrefix)
 	{
-		Map<String, String> values = null; 
+		Map<String, String> values = (Map<String, String>)parameters.get(parameter);
+		
 		JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
 		if (hintsMap != null)
 		{
@@ -123,10 +122,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 				}
 			}
 		}
-		else
-		{
-			values = (Map<String, String>)parameters.get(parameter);
-		}
+
 		return values;
 	}
 	
