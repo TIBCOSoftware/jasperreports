@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 8.0.0.final using JasperReports Library version develop-55-SNAPSHOT-17810285d8e6cce831451cc942336af32b7686c2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccessibleReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="02314e1d-cb29-4cf3-a904-092a9d3e5312">
+	<property name="net.sf.jasperreports.text.save.line.breaks" value="true"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
+	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
 	<property name="net.sf.jasperreports.export.html.accessible" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
