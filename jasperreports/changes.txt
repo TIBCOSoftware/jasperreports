@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.19.0 (2022-02-1x)
+JasperReports 6.19.0 (2022-02-22)
 ---------------------------------------------
 
 - improved bulleted and numbered list support in styled text and HTML markup text fields including
