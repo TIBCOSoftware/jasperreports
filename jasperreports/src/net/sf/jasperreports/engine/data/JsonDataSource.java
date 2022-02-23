@@ -153,6 +153,16 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	{
 		this(DefaultJasperReportsContext.getInstance(), location, selectExpression);
 	}
+
+	/**
+	 * Access the JDON tree that this data source is based on.
+	 * 
+	 * @return the JSON tree used by this data source
+	 */
+	public JsonNode getRootNode()
+	{
+		return jsonTree;
+	}
 	
 	/*
 	 * (non-Javadoc)
