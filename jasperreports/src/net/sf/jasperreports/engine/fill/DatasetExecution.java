@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.function.BiConsumer;
 
 import net.sf.jasperreports.engine.JRConsumer;
@@ -33,7 +34,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRRunnable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryContext;
@@ -70,19 +71,31 @@ public class DatasetExecution
 
 	public void evaluateParameters(BiConsumer<JRParameter, Object> parameterConsumer) throws JRException
 	{
-		runWithParameters(() -> 
+		try
 		{
-			JRParameter[] parameters = fillDataset.getParameters();
-			for (int i = 0; i < parameters.length; i++)
+			runWithParameters(() -> 
 			{
-				JRParameter param = parameters[i];
-				Object value = fillDataset.getParameterValue(param.getName());
-				parameterConsumer.accept(param, value);
-			}
-		});
+				JRParameter[] parameters = fillDataset.getParameters();
+				for (int i = 0; i < parameters.length; i++)
+				{
+					JRParameter param = parameters[i];
+					Object value = fillDataset.getParameterValue(param.getName());
+					parameterConsumer.accept(param, value);
+				}
+				return null;
+			});
+		}
+		catch (JRException e)
+		{
+			throw e;
+		}
+		catch (Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
-	protected void runWithParameters(JRRunnable action) throws JRException
+	protected <R> R runWithParameters(Callable<R> action) throws Exception
 	{
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
@@ -93,7 +106,7 @@ public class DatasetExecution
 		{
 			fillDataset.setParameterValues(parameterValues);
 			
-			action.run();
+			return action.call();
 		}
 		finally
 		{
@@ -102,7 +115,7 @@ public class DatasetExecution
 		}		
 	}
 	
-	public void evaluateDataSource(JRConsumer<JRDataSource> dataSourceConsumer) throws JRException
+	public void evaluateDataSource(JRConsumer<JRDataSource> dataSourceConsumer) throws Exception
 	{
 		runWithParameters(() ->
 		{
@@ -112,6 +125,7 @@ public class DatasetExecution
 				fillDataset.initDatasource();
 				
 				dataSourceConsumer.accept(fillDataset.dataSource);
+				return null;
 			}
 			finally
 			{

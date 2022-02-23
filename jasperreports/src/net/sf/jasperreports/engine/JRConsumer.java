@@ -31,6 +31,6 @@ package net.sf.jasperreports.engine;
 public interface JRConsumer<T>
 {
 
-	void accept(T t) throws JRException;
+	void accept(T t) throws Exception;
 
 }
