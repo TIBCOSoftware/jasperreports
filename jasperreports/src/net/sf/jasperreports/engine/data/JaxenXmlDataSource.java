@@ -173,6 +173,12 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource<JaxenXmlDataSource
 		
 		mustBeMovedFirst = true;
 	}
+
+	@Override
+	public Document getDocument()
+	{
+		return document;
+	}
 	
 	// -----------------------------------------------------------------
 	// Implementation

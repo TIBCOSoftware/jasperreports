@@ -403,6 +403,12 @@ public class JRXmlDataSource extends AbstractXmlDataSource<JRXmlDataSource>
 			throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), file, selectExpression, isNamespaceAware);
 	}
+
+	@Override
+	public Document getDocument()
+	{
+		return document;
+	}
 	
 	// -----------------------------------------------------------------
 	// Implementation

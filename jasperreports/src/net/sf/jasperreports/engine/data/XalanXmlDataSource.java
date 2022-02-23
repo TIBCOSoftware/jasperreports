@@ -173,6 +173,12 @@ public class XalanXmlDataSource extends AbstractXmlDataSource<XalanXmlDataSource
 		
 		mustBeMovedFirst = true;
 	}
+
+	@Override
+	public Document getDocument()
+	{
+		return document;
+	}
 	
 	// -----------------------------------------------------------------
 	// Implementation

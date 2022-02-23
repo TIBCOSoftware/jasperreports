@@ -132,6 +132,16 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 
 	private Map<String, String> fieldExpressions = new HashMap<String, String>();
 
+	/**
+	 * Access the document that this data source is based on.
+	 * 
+	 * @return the document used by this data source
+	 */
+	//not abstract for backward compatibility, should be overridden in subclasses
+	public Document getDocument()
+	{
+		return null;
+	}
 
 	public abstract Node getCurrentNode();
 	
