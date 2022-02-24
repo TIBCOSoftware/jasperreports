@@ -40,6 +40,11 @@ public enum AccessibilityTagEnum implements NamedEnum
 	/**
 	 * 
 	 */
+	TABLE_LAYOUT("table_layout"),
+
+	/**
+	 * 
+	 */
 	COLUMN_HEADER("columnheader"),
 
 	/**

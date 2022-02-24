@@ -557,7 +557,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
+			writer.write("<table");
+			if (table.getRole() != null)
+			{
+				writer.write(" role=\"");
+				writer.write(table.getRole());
+				writer.write("\"");
+			}
+			writer.write(" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
 		HtmlBorderCollapseEnum borderCollapse = getCurrentItemConfiguration().getBorderCollapseValue();
