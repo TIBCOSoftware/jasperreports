@@ -558,7 +558,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	}
 
 	@Override
-	public void setStretchHeight(int stretchHeight)
+	public void setStretchHeight(int stretchHeight) //FIXMEICONLABEL the text fields inside the icon label component do not actually participate into stretch behavior
 	{
 		this.stretchHeight = stretchHeight;
 	}
