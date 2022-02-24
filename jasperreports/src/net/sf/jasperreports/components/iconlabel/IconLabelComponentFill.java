@@ -153,7 +153,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			printElement, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
 			);
 
-		printElement.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
+		printElement.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE_LAYOUT.getName());
 		
 //		if (contentVisible)
 //		{
