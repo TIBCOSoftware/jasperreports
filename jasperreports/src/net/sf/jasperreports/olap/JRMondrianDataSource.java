@@ -41,4 +41,10 @@ public class JRMondrianDataSource extends JROlapDataSource
 
 		this.result = result;
 	}
+	
+	@Override
+	public JRMondrianResult getOlapResult()
+	{
+		return (JRMondrianResult) super.getOlapResult();
+	}
 }
