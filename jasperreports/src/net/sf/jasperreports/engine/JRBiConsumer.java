@@ -28,9 +28,9 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @FunctionalInterface
-public interface JRConsumer<T>
+public interface JRBiConsumer<T, V>
 {
 
-	void accept(T t) throws Exception;
+	void accept(T t, V v) throws Exception;
 
 }

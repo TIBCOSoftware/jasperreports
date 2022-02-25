@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.function.BiConsumer;
 
-import net.sf.jasperreports.engine.JRConsumer;
+import net.sf.jasperreports.engine.JRBiConsumer;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -115,7 +115,7 @@ public class DatasetExecution
 		}		
 	}
 	
-	public void evaluateDataSource(JRConsumer<JRDataSource> dataSourceConsumer) throws Exception
+	public void evaluateDataSource(JRBiConsumer<JRDataSource, Map<String, Object>> dataSourceConsumer) throws Exception
 	{
 		runWithParameters(() ->
 		{
@@ -124,7 +124,7 @@ public class DatasetExecution
 				fillDataset.evaluateFieldProperties();
 				fillDataset.initDatasource();
 				
-				dataSourceConsumer.accept(fillDataset.dataSource);
+				dataSourceConsumer.accept(fillDataset.dataSource, parameterValues);
 				return null;
 			}
 			finally
