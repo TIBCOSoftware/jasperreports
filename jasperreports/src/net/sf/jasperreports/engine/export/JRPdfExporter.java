@@ -52,11 +52,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ibm.icu.util.StringTokenizer;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.PdfWriter;
 

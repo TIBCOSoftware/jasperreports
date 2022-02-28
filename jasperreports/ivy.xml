@@ -32,7 +32,7 @@
 		<dependency org="commons-io" name="commons-io" rev="2.11.0" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 		<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
-		<dependency org="com.ibm.icu" name="icu4j" rev="57.1"/>
+		<dependency org="com.ibm.icu" name="icu4j" rev="70.1"/>
 		<dependency org="javax.persistence" name="javax.persistence-api" rev="2.2"/>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
 		<!-- we need this dependency here because it was removed from Java 11 -->
