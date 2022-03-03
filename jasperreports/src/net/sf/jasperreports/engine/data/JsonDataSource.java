@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -310,9 +312,21 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 						value = selectedObject.booleanValue();
 						
 					} else if (Number.class.isAssignableFrom(valueClass)) {
-						//FIXME if the json node is a number, avoid converting to string and parsing back the value
+						if (selectedObject.isNumber()) {
+							if (BigDecimal.class.equals(valueClass) && selectedObject.isBigDecimal()) {
+								value = selectedObject.decimalValue();
+							} else if (BigInteger.class.equals(valueClass) && selectedObject.isBigInteger()) {
+								value = selectedObject.bigIntegerValue();
+							} else if (Double.class.equals(valueClass) && selectedObject.isDouble()) {
+								value = selectedObject.doubleValue();
+							} else if (Integer.class.equals(valueClass) && selectedObject.isInt()) {
+								value = selectedObject.intValue();
+							} else {
+								value = convertNumber(selectedObject.numberValue(), valueClass);
+							}
+						} else {
 							value = convertStringValue(selectedObject.asText(), valueClass);
-							
+						}
 					}
 					else if (Date.class.isAssignableFrom(valueClass)) {
 							value = convertStringValue(selectedObject.asText(), valueClass);
