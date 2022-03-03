@@ -2259,27 +2259,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				{
 					case REFERENCE :
 					{
-						if (link.getHyperlinkReference() != null)
-						{
-							switch(link.getHyperlinkTargetValue())
-							{
-								case BLANK :
-								{
-									chunk.setJavaScriptAction(
-											"if (app.viewerVersion < 7)"
-												+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
-												+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};"
-										);
-									break;
-								}
-								case SELF :
-								default :
-								{
-									chunk.setAnchor(link.getHyperlinkReference());
-									break;
-								}
-							}
-						}
+						JRHyperlinkProducer hyperlinkProducer = getHyperlinkProducer(link);
+						String referenceURL = hyperlinkProducer == null ? link.getHyperlinkReference() : hyperlinkProducer.getHyperlink(link);
+						setReferenceHyperlink(chunk, link, referenceURL);
 						break;
 					}
 					case LOCAL_ANCHOR :
@@ -2332,27 +2314,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						if (hyperlinkProducerFactory != null)
 						{
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
-							if (hyperlink != null)
-							{
-								switch(link.getHyperlinkTargetValue())
-								{
-									case BLANK :
-									{
-										chunk.setJavaScriptAction(
-												"if (app.viewerVersion < 7)"
-													+ "{this.getURL(\"" + hyperlink + "\");}"
-													+ "else {app.launchURL(\"" + hyperlink + "\", true);};"
-											);
-										break;
-									}
-									case SELF :
-									default :
-									{
-										chunk.setAnchor(hyperlink);
-										break;
-									}
-								}
-							}
+							setReferenceHyperlink(chunk, link, hyperlink);
 						}
 					}
 					case NONE :
@@ -2360,6 +2322,31 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					{
 						break;
 					}
+				}
+			}
+		}
+	}
+
+	protected void setReferenceHyperlink(PdfChunk chunk, JRPrintHyperlink link, String referenceURL)
+	{
+		if (referenceURL != null)
+		{
+			switch(link.getHyperlinkTargetValue())
+			{
+				case BLANK :
+				{
+					chunk.setJavaScriptAction(
+							"if (app.viewerVersion < 7)"
+								+ "{this.getURL(\"" + referenceURL + "\");}"
+								+ "else {app.launchURL(\"" + referenceURL + "\", true);};"
+						);
+					break;
+				}
+				case SELF :
+				default :
+				{
+					chunk.setAnchor(referenceURL);
+					break;
 				}
 			}
 		}
