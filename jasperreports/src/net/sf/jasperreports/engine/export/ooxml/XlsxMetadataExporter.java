@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
@@ -82,7 +83,6 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.ResetableExporterFilter;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
-import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -209,6 +209,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 	boolean hasDefinedColumns;
 	Map<String, Object> currentRow;	
 	Map<String, Object> repeatedValues;	
+	Map<String, Object> columnHeadersRow;	
 
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
@@ -259,6 +260,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		
 		currentRow = new HashMap<String, Object>();
 		repeatedValues = new HashMap<String, Object>();
+		columnHeadersRow = new HashMap<String, Object>();
 		onePagePerSheetMap.clear();
 		sheetsBeforeCurrentReport = 0;
 		sheetsBeforeCurrentReportMap.clear();
@@ -402,12 +404,24 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		return super.exportPage(page, xCuts, startRow, defaultSheetName);
 	}
 	
+	@Override
+	protected void exportEmptyReport() throws JRException, IOException 
+	{
+		pageFormat = jasperPrint.getPageFormat();
+		exportPage(new JRBasePrintPage());
+	}
+
 	
 	/**
 	 * 
 	 */
 	protected int exportPage(JRPrintPage page) throws JRException
 	{
+		if (oldPageFormat != pageFormat)
+		{
+			oldPageFormat = pageFormat;
+		}
+		
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		List<JRPrintElement> elements = page.getElements();
@@ -492,7 +506,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		if (columnNames.size() > 0)
 		{
 			if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) {
-				writeReportHeader();
+				exportReportHeader();
 			}
 			writeCurrentRow(currentRow, repeatedValues);
 		}
@@ -517,12 +531,20 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		return 0;
 	}
 	
-	protected void writeReportHeader() throws JRException {
-		for(int i = 0; i< columnNames.size(); i++) {
-			String columnName = columnNames.get(i);
-			JRPrintText styledText = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-			styledText.setText(columnName);
-			exportText(styledText, i, 0);
+	protected void exportReportHeader() throws JRException {
+		if(columnHeadersRow == null)
+		{
+			columnHeadersRow = new HashMap<String, Object>();
+		}
+		if(columnHeadersRow.isEmpty())
+		{
+			for(int i = 0; i< columnNames.size(); i++) 
+			{
+				String columnName = columnNames.get(i);
+				JRPrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+				text.setText(columnName);
+				columnHeadersRow.put(columnName,text);
+			}
 		}
 	}
 	
@@ -2011,7 +2033,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 
 				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) 
 				{
-					writeReportHeader();
+					exportReportHeader();
 				}
 				writeCurrentRow(currentRow, repeatedValues);
 				currentRow.clear();
@@ -2050,8 +2072,37 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 	}
 	
 	protected void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException {
-
+		int columnsCount = columnNames == null ? 0 : columnNames.size();
+		
+		for(int i = 0; i < columnsCount; i++) 
+		{
+			String columnName = columnNames.get(i);
+			JRPrintElement element = currentRow.get(columnName) == null 
+				? (repeatedValues.get(columnName) != null 
+				? (JRPrintElement)repeatedValues.get(columnName)
+				: null)
+				: (JRPrintElement)currentRow.get(columnName);
+			if(element != null) {
+				if((rowIndex == 1 && !getCurrentItemConfiguration().isWriteHeader())|| (rowIndex == 2 && getCurrentItemConfiguration().isWriteHeader())) 
+				{
+					setColumnWidth(i, element.getWidth(), false);
+				}
+			}
+		}
+		if((rowIndex == 2 && getCurrentItemConfiguration().isWriteHeader())) 
+		{
+			sheetHelper.exportRow(0, (Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
+			for(int i = 0; i < columnsCount; i++) 
+			{
+				String columnName = columnNames.get(i);
+				JRPrintText element = columnHeadersRow.get(columnName) == null 
+					? new JRBasePrintText(jasperPrint.getDefaultStyleProvider())
+					: (JRPrintText)columnHeadersRow.get(columnName);
+				exportText(element, i, 0);
+			}
+		}
 		sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
+		
 		
 		for(int i = 0; i< columnNames.size(); i++) {
 			String columnName = columnNames.get(i);
@@ -2061,10 +2112,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 				: null)
 				: (JRPrintElement)currentRow.get(columnName);
 			if(element != null) {
-				if(rowIndex == 0 || (rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader())) 
-				{
-					setColumnWidth(i, element.getWidth(), false);
-				}
 				
 				String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
 				if ("Start".equals(autofilter))
@@ -2265,7 +2312,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		XlsRowLevelInfo levelInfo
 		) throws JRException 
 	{
-		sheetHelper.exportRow(rowHeight, yCut, levelInfo);
+		//nothing to do here
 	}
 
 

@@ -83,22 +83,23 @@ public class JasperApp extends AbstractSampleApp
 	public void test() throws JRException
 	{
 		fill();
-		pdf();
-		xmlEmbed();
-		xml();
-		html();
-		rtf();
-		xls();
-		csv();
-		csvMetadata();
+//		pdf();
+//		xmlEmbed();
+//		xml();
+//		html();
+//		rtf();
+//		xls();
+//		csv();
+//		csvMetadata();
+//		jsonMetadata();
+//		odt();
+//		ods();
+//		docx();
+//		pptx();
 		xlsMetadata();
-		xlsxMetadata();
-		jsonMetadata();
-		odt();
-		ods();
-		docx();
 		xlsx();
-		pptx();
+		xlsxMetadata();
+
 	}
 	
 	
@@ -329,24 +330,43 @@ public class JasperApp extends AbstractSampleApp
 		
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xlsx");
+		File destFile1 = new File(sourceFile.getParent(), jasperPrint.getName() + ".multiSheet.metadata.xlsx");
+		File destFile2 = new File(sourceFile.getParent(), jasperPrint.getName() + ".singleSheet.metadata.xlsx");
 		
 		Map<String, String> dateFormats = new HashMap<String, String>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 		
-		XlsxMetadataExporter exporter = new XlsxMetadataExporter();
+//		long start1 = System.currentTimeMillis();
+//		XlsxMetadataExporter exporter1 = new XlsxMetadataExporter();
+//		
+//		exporter1.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		exporter1.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile1));
+//		SimpleXlsxMetadataReportConfiguration configuration1 = new SimpleXlsxMetadataReportConfiguration();
+//		configuration1.setOnePagePerSheet(true);
+//		configuration1.setDetectCellType(true);
+//		configuration1.setFormatPatternsMap(dateFormats);
+//		exporter1.setConfiguration(configuration1);
+//		
+//		exporter1.exportReport();
+//		
+//		System.err.println("XLSX multiSheet metadata creation time : " + (System.currentTimeMillis() - start1));
+//		
+		long start2 = System.currentTimeMillis();
+		XlsxMetadataExporter exporter2 = new XlsxMetadataExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimpleXlsxMetadataReportConfiguration configuration = new SimpleXlsxMetadataReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
+		exporter2.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter2.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile2));
+		SimpleXlsxMetadataReportConfiguration configuration2 = new SimpleXlsxMetadataReportConfiguration();
+		configuration2.setDetectCellType(true);
+		configuration2.setFormatPatternsMap(dateFormats);
+		exporter2.setConfiguration(configuration2);
 		
-		exporter.exportReport();
+		exporter2.exportReport();
+		
+		System.err.println("XLSX singleSheet metadata creation time : " + (System.currentTimeMillis() - start2));
 		
 		System.err.println("XLSX metadata creation time : " + (System.currentTimeMillis() - start));
+		
 	}
 	
 	
