@@ -138,7 +138,7 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		try
 		{
-			if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || styleInfo.backcolor == null)
+			if (sheetInfo != null && (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || styleInfo.backcolor == null))
 			{
 				if (Boolean.TRUE.equals(sheetInfo.whitePageBackground))
 				{

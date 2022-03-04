@@ -81,7 +81,7 @@ public class XlsxStyleInfo
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
 		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
 		
-		JRPrintElement element = gridCell.getElement();
+		JRPrintElement element = gridCell == null ? null : gridCell.getElement();
 		
 		if (!isIgnoreTextFormatting)
 		{
@@ -89,13 +89,13 @@ public class XlsxStyleInfo
 			{
 				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 			}
-			else if (gridCell.getBackcolor() != null)
+			else if (gridCell != null && gridCell.getBackcolor() != null)
 			{
 				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
 			}
 		}
 		
-		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
+		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{
 			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
@@ -107,17 +107,20 @@ public class XlsxStyleInfo
 		this.isLocked = isLocked;
 		this.isShrinkToFit = isShrinkToFit;
 		this.rotation = rotation;
-		if(sheetInfo.whitePageBackground != null)
+		if(sheetInfo != null)
 		{
-			this.whitePageBackground = sheetInfo.whitePageBackground;
-		}
-		if(sheetInfo.ignoreCellBackground != null)
-		{
-			this.ignoreCellBackground = sheetInfo.ignoreCellBackground;
-		}
-		if(sheetInfo.ignoreCellBorder != null)
-		{
-			this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
+			if(sheetInfo.whitePageBackground != null)
+			{
+				this.whitePageBackground = sheetInfo.whitePageBackground;
+			}
+			if(sheetInfo.ignoreCellBackground != null)
+			{
+				this.ignoreCellBackground = sheetInfo.ignoreCellBackground;
+			}
+			if(sheetInfo.ignoreCellBorder != null)
+			{
+				this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
+			}
 		}
 		this.direction = direction;
 	}

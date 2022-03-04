@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -53,70 +51,23 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.export.ExcelMetadataExporterProperties;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReportConfiguration, C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
-	extends JRXlsAbstractExporter<RC, C, E>
+	extends JRXlsAbstractExporter<RC, C, E> implements ExcelMetadataExporterProperties
 {
-	/**
-	 * A string that represents the name for the column that should appear in the XLS export.
-	 * It must be one of the values in {@link XlsMetadataReportConfiguration#getColumnNames()}, if provided. 
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_0_2
-			)
-	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.name";
-	
-	/**
-	 * Property that specifies whether the value associated with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME} should be repeated or not
-	 * when it is missing.
-	 * <p>
-	 * The property itself defaults to <code>false</code>.
-	 * </p>
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_0_2,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.repeat.value";
-	
-	/**
-	 * Property that specifies what value to associate with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME}.
-	 * <p>
-	 * The property itself defaults to the text value of the report element that this property is assigned to.
-	 * </p>
-	 * 
-	 * @see JRPropertiesUtil
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.TEXT_ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_0_2
-			)
-	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";
-
 	/**
 	 * 
 	 */

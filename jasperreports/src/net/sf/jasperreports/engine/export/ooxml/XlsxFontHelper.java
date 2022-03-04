@@ -71,7 +71,7 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public int getFont(JRExporterGridCell gridCell, Locale locale)
 	{
-		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
+		JRFont font = gridCell == null ? null : (gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null);
 		if (font == null)
 		{
 			return -1;			

@@ -55,7 +55,8 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	public int getBorder(JRExporterGridCell gridCell, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
 	{
-		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || gridCell.getBox() == null)
+		
+		if (gridCell == null || Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || gridCell.getBox() == null)
 		{
 			return -1;			
 		}

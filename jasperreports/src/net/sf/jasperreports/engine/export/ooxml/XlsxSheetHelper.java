@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.export.ExcelExporterProperties;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -362,6 +363,17 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportRow(int rowHeight, Cut yCut, XlsRowLevelInfo levelInfo) 
 	{
+		boolean isAutoFit = yCut.hasProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW);
+		exportRow(rowHeight, isAutoFit, levelInfo);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportRow(int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
+	{
 		if (rowIndex > 0)
 		{
 			write("</row>\n");
@@ -377,10 +389,8 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
 		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
-		if (levelInfo.getLevelMap().size() > 0)
+		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
 		}

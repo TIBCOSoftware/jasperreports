@@ -216,7 +216,7 @@ public class XlsxCellHelper extends BaseHelper
 
 		Integer styleIndex = null;
 		
-		if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+		if (gridCell != null && gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 		{
 			styleIndex = ((ElementGridCell)((OccupiedGridCell)gridCell).getOccupier()).getStyleIndex();
 		}
@@ -238,7 +238,7 @@ public class XlsxCellHelper extends BaseHelper
 					direction
 					);
 			if (
-				gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
+				gridCell != null && gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
 				&& gridCell instanceof ElementGridCell
 				)
 			{
