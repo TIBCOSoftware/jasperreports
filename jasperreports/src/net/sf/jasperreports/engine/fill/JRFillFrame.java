@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.type.BorderSplitType;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 /**
  * Fill time implementation of a frame element.
@@ -85,6 +86,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	 * Whether the frame has started filling and not ended.
 	 */
 	private boolean filling;
+	
+	private JRLineBox styleLineBox;
 
 	public JRFillFrame(JRBaseFiller filler, JRFrame frame, JRFillObjectFactory factory)
 	{
@@ -183,6 +186,20 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		filling = false;
 	}
 
+	@Override
+	protected void evaluateStyle(byte evaluation) throws JRException
+	{
+		super.evaluateStyle(evaluation);
+		
+		styleLineBox = null;
+		
+		if (providerStyle != null)
+		{
+			styleLineBox = lineBox.clone(this);
+			StyleUtil.appendBox(styleLineBox, providerStyle.getLineBox());
+		}
+	}
+	
 	@Override
 	protected void rewind() throws JRException
 	{
@@ -460,7 +477,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	@Override
 	public JRLineBox getLineBox()
 	{
-		return lineBox;
+		return styleLineBox == null ? lineBox : styleLineBox;
 	}
 
 
