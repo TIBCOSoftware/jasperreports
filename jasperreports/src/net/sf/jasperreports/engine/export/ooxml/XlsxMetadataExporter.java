@@ -426,7 +426,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		
 		List<JRPrintElement> elements = page.getElements();
 		currentRow = new HashMap<String, Object>();
-		rowIndex += configuration.isWriteHeader() ? 1 : 0;
+		//rowIndex += configuration.isWriteHeader() ? 1 : 0;
 		
 		for (int i = 0; i < elements.size(); ++i) 
 		{
@@ -505,9 +505,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		// write last row
 		if (columnNames.size() > 0)
 		{
-			if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) {
-				exportReportHeader();
-			}
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 
@@ -530,24 +527,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		
 		return 0;
 	}
-	
-	protected void exportReportHeader() throws JRException {
-		if(columnHeadersRow == null)
-		{
-			columnHeadersRow = new HashMap<String, Object>();
-		}
-		if(columnHeadersRow.isEmpty())
-		{
-			for(int i = 0; i< columnNames.size(); i++) 
-			{
-				String columnName = columnNames.get(i);
-				JRPrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-				text.setText(columnName);
-				columnHeadersRow.put(columnName,text);
-			}
-		}
-	}
-	
 	
 	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException//FIXMECONTEXT move these to an abstract up?
 	{
@@ -2031,10 +2010,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) 
 			{	// the column is for export and was already read
 
-				if(rowIndex == 1 && getCurrentItemConfiguration().isWriteHeader()) 
-				{
-					exportReportHeader();
-				}
 				writeCurrentRow(currentRow, repeatedValues);
 				currentRow.clear();
 				currentRow.put(currentColumnName, textElement);
@@ -2083,15 +2058,27 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 				: null)
 				: (JRPrintElement)currentRow.get(columnName);
 			if(element != null) {
-				if((rowIndex == 1 && !getCurrentItemConfiguration().isWriteHeader())|| (rowIndex == 2 && getCurrentItemConfiguration().isWriteHeader())) 
+				if(rowIndex == 0) 
 				{
 					setColumnWidth(i, element.getWidth(), false);
 				}
+				if(!columnHeadersRow.containsKey(columnName))
+				{
+					JRPrintText headerElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider()); 
+					headerElement.setText(columnName);
+					headerElement.setMode(ModeEnum.OPAQUE);
+					headerElement.setWidth(element.getWidth());
+					headerElement.setHeight(element.getHeight());
+					headerElement.setTextHeight(element.getHeight());
+					headerElement.setX(element.getX());
+					headerElement.setY(0);
+					columnHeadersRow.put(columnName, headerElement);
+				}
 			}
 		}
-		if((rowIndex == 2 && getCurrentItemConfiguration().isWriteHeader())) 
+		if((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
 		{
-			sheetHelper.exportRow(0, (Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
+			sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
 			for(int i = 0; i < columnsCount; i++) 
 			{
 				String columnName = columnNames.get(i);
@@ -2100,6 +2087,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 					: (JRPrintText)columnHeadersRow.get(columnName);
 				exportText(element, i, 0);
 			}
+			++rowIndex;
 		}
 		sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
 		
