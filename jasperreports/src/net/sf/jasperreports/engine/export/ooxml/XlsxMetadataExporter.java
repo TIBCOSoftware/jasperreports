@@ -69,18 +69,15 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.Cut;
-import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo;
 import net.sf.jasperreports.engine.export.JRXlsAbstractMetadataExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.ResetableExporterFilter;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
@@ -127,7 +124,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataReportConfiguration, XlsxMetadataExporterConfiguration, JRXlsxExporterContext> 
+public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataReportConfiguration, XlsxMetadataExporterConfiguration, JRXlsxExporterContext> 
 	implements ExcelMetadataExporterProperties
 
 {
@@ -181,7 +178,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 
 	protected int tableIndex;
 	protected boolean startPage;
-
 
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
@@ -257,7 +253,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 	protected void initExport()
 	{
 		super.initExport();
-		
+		sheetInfo = null;
 		currentRow = new HashMap<String, Object>();
 		repeatedValues = new HashMap<String, Object>();
 		columnHeadersRow = new HashMap<String, Object>();
@@ -391,17 +387,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		}
 		closeSheet();
 		closeWorkbook(os);
-	}
-
-	@Override
-	protected int exportPage(JRPrintPage page, CutsInfo xCuts, int startRow, String defaultSheetName) throws JRException
-	{
-		if (oldPageFormat != pageFormat)
-		{
-			oldPageFormat = pageFormat;
-		}
-
-		return super.exportPage(page, xCuts, startRow, defaultSheetName);
 	}
 	
 	@Override
@@ -768,18 +753,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 	
 
 	@Override
-	protected void addBlankCell(
-		JRExporterGridCell gridCell, 
-		int colIndex,
-		int rowIndex
-		) throws JRException 
-	{
-		cellHelper.exportHeader(null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-		cellHelper.exportFooter();
-	}
-
-
-	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException //FIXMEXLSX could throw IOException here, as other implementations do
 	{
 		if(sheetMapping != null && definedNamesMap != null && !definedNamesMap.isEmpty())
@@ -845,13 +818,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		}
 	}
 
-
-	@Override
-	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
-	{
-		createSheet(sheetInfo);
-	}
-	
 	protected void createSheet(SheetInfo sheetInfo)
 	{
 		startPage = true;
@@ -991,42 +957,12 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		}
 	}
 
-
-	@Override
-	protected void exportFrame(
-		JRPrintFrame frame, 
-		JRExporterGridCell gridCell,
-		int colIndex, 
-		int rowIndex
-		) throws JRException 
-	{
-		cellHelper.exportHeader(null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
-
-		cellHelper.exportFooter();
-	}
-
-
-	@Override
-	public void exportImage(
-		JRPrintImage image, 
-		JRExporterGridCell gridCell,
-		int colIndex, 
-		int rowIndex, 
-		int emptyCols,
-		int yCutsRow,
-		JRGridLayout layout
-		) throws JRException 
-	{
-		exportImage(image, colIndex, rowIndex, emptyCols, yCutsRow);
-	}
 	
 	public void exportImage(
 		JRPrintImage image, 
 		int colIndex, 
 		int rowIndex, 
-		int emptyCols,
-		int yCutsRow
+		int emptyCols
 		) throws JRException 
 	{
 		int topPadding =
@@ -1582,7 +1518,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		private final RenderersCache imageRenderersCache;
 		private final boolean needDimension; 
 		private int colIndex; 
-		private int rowIndex;
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 
@@ -1695,17 +1630,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		}
 	}
 
-
-	@Override
-	protected void exportLine(
-			JRPrintLine line, 
-			JRExporterGridCell gridCell,
-			int colIndex, 
-			int rowIndex
-			) throws JRException 
-	{
-		exportLine(line, colIndex, rowIndex);
-	}
 	
 	protected void exportLine(
 		JRPrintLine line, 
@@ -1759,18 +1683,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 //		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
 //		cellHelper.exportFooter();
 	}
-
-
-	@Override
-	protected void exportRectangle(
-			JRPrintGraphicElement rectangle,
-			JRExporterGridCell gridCell, 
-			int colIndex, 
-			int rowIndex
-			) throws JRException 
-		{
-			exportRectangle(rectangle, colIndex, rowIndex);
-		}
 	
 	protected void exportRectangle(
 		JRPrintGraphicElement rectangle,
@@ -1789,18 +1701,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 //		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 //		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
 //		cellHelper.exportFooter();
-	}
-
-
-	@Override
-	public void exportText(
-		final JRPrintText text, 
-		JRExporterGridCell gridCell,
-		int colIndex, 
-		int rowIndex
-		) throws JRException
-	{
-		exportText(text, colIndex, rowIndex);
 	}
 	
 	public void exportText(
@@ -2145,24 +2045,7 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		}
 		++rowIndex;
 	}
-	
-
-	
-	
-	@Override
-	protected void exportGenericElement(
-		JRGenericPrintElement element, 
-		JRExporterGridCell gridCell, 
-		int colIndex, 
-		int rowIndex, 
-		int emptyCols,
-		int yCutsRow, 
-		JRGridLayout layout
-		) throws JRException
-	{
-		exportGenericElement(element, colIndex, rowIndex);
-	}
-	
+		
 	protected void exportGenericElement(
 		JRGenericPrintElement element, 
 		int colIndex, 
@@ -2277,30 +2160,9 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 
 
 	@Override
-	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
-	{
-		//ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(occupiedGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-		cellHelper.exportFooter();
-	}
-
-
-	@Override
 	protected void setColumnWidth(int col, int width, boolean autoFit) 
 	{
 		sheetHelper.exportColumn(col, width, autoFit);
-	}
-
-
-	@Override
-	protected void setRowHeight(
-		int rowIndex, 
-		int rowHeight,
-		Cut yCut,
-		XlsRowLevelInfo levelInfo
-		) throws JRException 
-	{
-		//nothing to do here
 	}
 
 
@@ -2429,50 +2291,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 		return sheetInfo;
 	}
 
-	
-	/**
-	 *
-	 */
-	private String getSheetName(String sheetName)
-	{
-		if (sheetNames != null && sheetNamesIndex < sheetNames.length)
-		{
-			sheetName = sheetNames[sheetNamesIndex];
-		}
-		
-		if (sheetName == null)
-		{
-			// no sheet name was specified or if it was null
-			return "Page " + (sheetIndex + 1);
-		}
-
-		// sheet name specified; assuming it is first occurrence
-		int crtIndex = 1;
-		String txtIndex = "";
-
-		if(sheetNamesMap.containsKey(sheetName))
-		{
-			// sheet names must be unique; altering sheet name using number of occurrences
-			crtIndex = sheetNamesMap.get(sheetName) + 1;
-			txtIndex = String.valueOf(crtIndex);
-		}
-
-		sheetNamesMap.put(sheetName, crtIndex);
-
-		String name = sheetName;
-		if(txtIndex.length() > 0)
-		{
-			name += " " + txtIndex;
-		}
-		
-		if (name.length() > 31)
-		{
-			name = (sheetName + " ").substring(0, 31 - txtIndex.length()) + txtIndex;
-		}
-		
-		return name;
-	}	
-	
 	protected void setColumnName(String currentColumnName) {
 		// when no columns are provided, build the column names list as they are retrieved from the report element property
 		if (!hasDefinedColumns)
@@ -2484,8 +2302,6 @@ public class XlsxMetadataExporter extends JRXlsAbstractExporter<XlsxMetadataRepo
 			}
 		}
 	}
-	
-	
 	
 }
 

@@ -394,7 +394,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	/**
 	 *
 	 */
-	private String getSheetName(String sheetName)
+	@Override
+	protected String getSheetName(String sheetName)
 	{
 		if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 		{

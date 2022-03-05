@@ -88,7 +88,6 @@ public class JasperApp extends AbstractSampleApp
 //		xml();
 //		html();
 //		rtf();
-//		xls();
 //		csv();
 //		csvMetadata();
 //		jsonMetadata();
@@ -96,6 +95,7 @@ public class JasperApp extends AbstractSampleApp
 //		ods();
 //		docx();
 //		pptx();
+		xls();
 		xlsMetadata();
 		xlsx();
 		xlsxMetadata();
@@ -336,21 +336,21 @@ public class JasperApp extends AbstractSampleApp
 		Map<String, String> dateFormats = new HashMap<String, String>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
 		
-//		long start1 = System.currentTimeMillis();
-//		XlsxMetadataExporter exporter1 = new XlsxMetadataExporter();
-//		
-//		exporter1.setExporterInput(new SimpleExporterInput(jasperPrint));
-//		exporter1.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile1));
-//		SimpleXlsxMetadataReportConfiguration configuration1 = new SimpleXlsxMetadataReportConfiguration();
-//		configuration1.setOnePagePerSheet(true);
-//		configuration1.setDetectCellType(true);
-//		configuration1.setFormatPatternsMap(dateFormats);
-//		exporter1.setConfiguration(configuration1);
-//		
-//		exporter1.exportReport();
-//		
-//		System.err.println("XLSX multiSheet metadata creation time : " + (System.currentTimeMillis() - start1));
-//		
+		long start1 = System.currentTimeMillis();
+		XlsxMetadataExporter exporter1 = new XlsxMetadataExporter();
+		
+		exporter1.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter1.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile1));
+		SimpleXlsxMetadataReportConfiguration configuration1 = new SimpleXlsxMetadataReportConfiguration();
+		configuration1.setOnePagePerSheet(true);
+		configuration1.setDetectCellType(true);
+		configuration1.setFormatPatternsMap(dateFormats);
+		exporter1.setConfiguration(configuration1);
+		
+		exporter1.exportReport();
+		
+		System.err.println("XLSX multiSheet metadata creation time : " + (System.currentTimeMillis() - start1));
+		
 		long start2 = System.currentTimeMillis();
 		XlsxMetadataExporter exporter2 = new XlsxMetadataExporter();
 		
