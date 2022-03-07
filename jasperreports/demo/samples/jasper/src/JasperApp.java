@@ -83,18 +83,18 @@ public class JasperApp extends AbstractSampleApp
 	public void test() throws JRException
 	{
 		fill();
-//		pdf();
-//		xmlEmbed();
-//		xml();
-//		html();
-//		rtf();
-//		csv();
-//		csvMetadata();
-//		jsonMetadata();
-//		odt();
-//		ods();
-//		docx();
-//		pptx();
+		pdf();
+		xmlEmbed();
+		xml();
+		html();
+		rtf();
+		csv();
+		csvMetadata();
+		jsonMetadata();
+		odt();
+		ods();
+		docx();
+		pptx();
 		xls();
 		xlsMetadata();
 		xlsx();

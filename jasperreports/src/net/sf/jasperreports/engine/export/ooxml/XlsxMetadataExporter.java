@@ -325,7 +325,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						{
 							throw new ExportInterruptedException();
 						}
-
+						if(pageExported)
+						{
+							closeSheet();
+						}
 						JRPrintPage page = pages.get(pageIndex);
 
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
@@ -343,7 +346,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						
 						/*   */
 						exportPage(page);
+						pageExported = true;
 					}
+					
 				}
 				else
 				{
@@ -373,10 +378,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						exportPage(page);
+						pageExported = true;
 					}
 					
 				}
-				pageExported = true;
+				
 			}
 			else if(reportIndex == items.size() -1 && !pageExported)
 			{
@@ -1911,7 +1917,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			{	// the column is for export and was already read
 
 				writeCurrentRow(currentRow, repeatedValues);
-				currentRow.clear();
 				currentRow.put(currentColumnName, textElement);
 			}
 			// set auto fill columns
@@ -1978,7 +1983,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 		if((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
 		{
-			sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
+			sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), true, null);
 			for(int i = 0; i < columnsCount; i++) 
 			{
 				String columnName = columnNames.get(i);
@@ -2044,6 +2049,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 		}
 		++rowIndex;
+		currentRow.clear();
 	}
 		
 	protected void exportGenericElement(
