@@ -267,7 +267,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			JRPrintElement element = elements.get(i);
 			updateSheet(element);
 			
-			String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
+			String sheetName = element.getPropertiesMap().getProperty(PROPERTY_SHEET_NAME);
 			if(sheetName != null)
 			{
 				setSheetName(sheetName);
@@ -302,9 +302,9 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 				exportGenericElement((JRGenericPrintElement) element);
 			}
 			
-			String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
+			String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 			
-			String rowFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
+			String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
 				? -1 
@@ -313,7 +313,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 						: rowIndex
 						);
 			
-			String columnFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
+			String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
 				? -1 
@@ -456,7 +456,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	@Override
 	protected String getFormula(JRPrintText text)
 	{
-		String formula = text.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
+		String formula = text.getPropertiesMap().getProperty(PROPERTY_CELL_FORMULA);
 		if( formula != null)
 		{
 			formula = formula.trim();

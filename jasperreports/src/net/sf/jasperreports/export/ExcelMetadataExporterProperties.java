@@ -78,6 +78,28 @@ public interface ExcelMetadataExporterProperties {
 			sinceVersion = PropertyConstants.VERSION_4_0_2
 			)
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";
+	
+	/**
+	 * Element-level property used to adjust the column width to values suitable for Excel metadata output, taking into account 
+	 * that when column headers are included in the report, they come with no available width settings.
+	 * Also keep in mind that column widths are measured in Excel in Normal style default character width units. The pixel-to-character width 
+	 * translation depends on the default normal style character width, so it cannot be always accurately fitted. In this case, 
+	 * one can adjust the current column width by setting this property with an integer value measured in pixels. The JR engine 
+	 * will perform the pixel-to-character width mapping using this value instead of the element's <code>width</code> attribute.
+	 * <br/>
+	 * If defined, this property will override both the {@link ExcelExporterProperties#PROPERTY_COLUMN_WIDTH PROPERTY_COLUMN_WIDTH} value for 
+	 * the current column and the the element's <code>width</code> attribute
+	 * 
+	 * @see ExcelExporterProperties#PROPERTY_COLUMN_WIDTH
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_19_1,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_COLUMN_WIDTH_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.width.metadata";
 
 	public static final String CURRENT_ROW_HEIGHT = "CURRENT_ROW_HEIGHT";
 

@@ -691,10 +691,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	@Override
 	protected void exportLine(JRPrintLine line) throws JRException {
-		String currentColumnName = line.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = line.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(line, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(line, PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, line.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(line));
@@ -745,10 +745,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	@Override
 	protected void exportRectangle(JRPrintGraphicElement element) throws JRException {
-		String currentColumnName = element.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element,PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
@@ -783,11 +783,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	@Override
 	protected void exportText(final JRPrintText textElement) throws JRException {
-		String currentColumnName = textElement.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			final boolean hasCurrentColumnData = textElement.getPropertiesMap().containsProperty(ExcelMetadataExporterProperties.PROPERTY_DATA);
-			String currentColumnData = textElement.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_DATA);
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			final boolean hasCurrentColumnData = textElement.getPropertiesMap().containsProperty(PROPERTY_DATA);
+			String currentColumnData = textElement.getPropertiesMap().getProperty(PROPERTY_DATA);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, textElement.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(textElement));
@@ -1146,9 +1146,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	@Override
 	public void exportImage(JRPrintImage element) throws JRException {
 
-		String currentColumnName = element.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
@@ -1796,9 +1796,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	@Override
 	protected void exportGenericElement(JRGenericPrintElement element) throws JRException {
-		String currentColumnName = element.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		if(currentColumnName != null && currentColumnName.length() > 0) {
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, PROPERTY_REPEAT_VALUE, false);
 			int colIndex = columnNamesMap.get(currentColumnName);
 			
 			setColumnName(currentColumnName);

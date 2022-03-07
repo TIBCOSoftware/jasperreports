@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo;
-import net.sf.jasperreports.engine.export.JRXlsAbstractMetadataExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.ResetableExporterFilter;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
@@ -119,7 +118,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  * should they contain and whether the values for some columns should be auto filled when they are empty or missing (e.g. value 
  * for group columns)
  * 
- * @see net.sf.jasperreports.engine.export.JRXlsAbstractExporter
+ * @see net.sf.jasperreports.engine.export.ExcelAbstractExporter
  * @see net.sf.jasperreports.export.XlsExporterConfiguration
  * @see net.sf.jasperreports.export.XlsReportConfiguration
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
@@ -424,7 +423,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			JRPrintElement element = elements.get(i);
 //			updateSheet(element);
 			
-			String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
+			String sheetName = element.getPropertiesMap().getProperty(PROPERTY_SHEET_NAME);
 			if(sheetName != null)
 			{
 				setSheetName(sheetName);
@@ -459,9 +458,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				//exportGenericElement((JRGenericPrintElement) element);
 			}
 			
-			String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
+			String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 			
-			String rowFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
+			String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
 				? -1 
@@ -470,7 +469,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						: rowIndex
 						);
 			
-			String columnFreeze = getPropertiesUtil().getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
+			String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
 				? -1 
@@ -1427,7 +1426,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					insertPageAnchor(colIndex,rowIndex);
 					if (image.getAnchorName() != null)
 					{
-						String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
+						String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + ExcelAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 						definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 					}
 				}
@@ -1782,7 +1781,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)
 			{
-				String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
+				String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + ExcelAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 				definedNames.append("<definedName name=\"" + getDefinedName(text.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 			}
 		}
@@ -1880,13 +1879,13 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 
 	protected void exportText(final JRPrintText textElement) throws JRException {
-		String currentColumnName = textElement.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME);
+		String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			if(textElement.getPropertiesMap().containsProperty(ExcelMetadataExporterProperties.PROPERTY_DATA))
+			if(textElement.getPropertiesMap().containsProperty(PROPERTY_DATA))
 			{
-				textElement.setText(textElement.getPropertiesMap().getProperty(ExcelMetadataExporterProperties.PROPERTY_DATA));
+				textElement.setText(textElement.getPropertiesMap().getProperty(PROPERTY_DATA));
 			}
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, ExcelMetadataExporterProperties.PROPERTY_REPEAT_VALUE, false);
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
 			adjustRowHeight(textElement.getHeight(), ((JRXlsxExporterNature)nature).getRowAutoFit(textElement));
 			setColumnName(currentColumnName);
 			addTextElement(textElement, repeatValue, currentColumnName);
@@ -1965,7 +1964,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			if(element != null) {
 				if(rowIndex == 0) 
 				{
-					setColumnWidth(i, element.getWidth(), false);
+					String width = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH_METADATA);
+					width = width == null || width.isEmpty() ? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH) : width;
+					Integer columnWidth = width == null || width.isEmpty() ? element.getWidth() : Integer.valueOf(width);
+					setColumnWidth(i, columnWidth, false);
 				}
 				if(!columnHeadersRow.containsKey(columnName))
 				{

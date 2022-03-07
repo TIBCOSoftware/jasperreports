@@ -661,7 +661,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	 * 
 	 */
 	protected String getFormula(JRPrintText text) {
-		String formula = JRPropertiesUtil.getOwnProperty(text, ExcelAbstractExporter.PROPERTY_CELL_FORMULA);
+		String formula = JRPropertiesUtil.getOwnProperty(text, PROPERTY_CELL_FORMULA);
 		if (formula != null) {
 			formula = formula.trim();
 			if (formula.startsWith("=")) {

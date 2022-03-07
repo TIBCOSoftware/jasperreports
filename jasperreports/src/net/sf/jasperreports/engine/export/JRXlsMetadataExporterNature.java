@@ -31,6 +31,7 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.export.ExcelMetadataExporterProperties;
 
 
 /**
@@ -55,6 +56,6 @@ public class JRXlsMetadataExporterNature extends JRXlsExporterNature
 	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
-		return element.hasProperties() && element.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
+		return element.hasProperties() && element.getPropertiesMap().containsProperty(ExcelMetadataExporterProperties.PROPERTY_COLUMN_NAME) && super.isToExport(element);
 	}
 }
