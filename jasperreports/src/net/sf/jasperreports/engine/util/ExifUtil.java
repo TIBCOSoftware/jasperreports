@@ -50,7 +50,7 @@ public final class ExifUtil
 		{
 			Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
 			ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-			if (directory != null)
+			if (directory != null && directory.containsTag(ExifIFD0Directory.TAG_ORIENTATION))
 			{
 				exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(ExifIFD0Directory.TAG_ORIENTATION));
 			}
