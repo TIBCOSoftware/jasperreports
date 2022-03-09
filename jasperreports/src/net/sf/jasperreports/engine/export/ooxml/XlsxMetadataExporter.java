@@ -50,6 +50,8 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -67,12 +69,15 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo;
@@ -89,6 +94,7 @@ import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -135,6 +141,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	 */
 	public static final String XLSX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx";
 
+	public static final String XLSX_METADATA_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "metadata.xlsx";
+	
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xlsx.";
 	
 	protected static final String ONE_CELL = "oneCell";
@@ -413,9 +421,16 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 		
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
-		
+		if(currentRow == null)
+		{
+			currentRow = new HashMap<String, Object>();
+		}
+		else if(!currentRow.isEmpty()) 
+		{
+			writeCurrentRow(currentRow, repeatedValues);
+		}
 		List<JRPrintElement> elements = page.getElements();
-		currentRow = new HashMap<String, Object>();
+		//currentRow = new HashMap<String, Object>();
 		//rowIndex += configuration.isWriteHeader() ? 1 : 0;
 		
 		for (int i = 0; i < elements.size(); ++i) 
@@ -429,34 +444,36 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				setSheetName(sheetName);
 			}
 			
-			if (element instanceof JRPrintLine)
-			{
-				//exportLine((JRPrintLine)element);
-			}
-			else if (element instanceof JRPrintRectangle)
-			{
-				//exportRectangle((JRPrintRectangle)element);
-			}
-			else if (element instanceof JRPrintEllipse)
-			{
-				//exportRectangle((JRPrintEllipse)element);
-			}
-			else if (element instanceof JRPrintImage)
-			{
-				//exportImage((JRPrintImage) element);
-			}
-			else if (element instanceof JRPrintText)
-			{
-				exportText((JRPrintText)element);
-			}
-			else if (element instanceof JRPrintFrame)
-			{
-				//exportFrame((JRPrintFrame) element);
-			}
-			else if (element instanceof JRGenericPrintElement)
-			{
-				//exportGenericElement((JRGenericPrintElement) element);
-			}
+//			if (element instanceof JRPrintLine)
+//			{
+//				//exportLine((JRPrintLine)element);
+//			}
+//			else if (element instanceof JRPrintRectangle)
+//			{
+//				//exportRectangle((JRPrintRectangle)element);
+//			}
+//			else if (element instanceof JRPrintEllipse)
+//			{
+//				//exportRectangle((JRPrintEllipse)element);
+//			}
+//			else if (element instanceof JRPrintImage)
+//			{
+//				exportImage((JRPrintImage) element);
+//			}
+//			else if (element instanceof JRPrintText)
+//			{
+//				exportText((JRPrintText)element);
+//			}
+//			else if (element instanceof JRPrintFrame)
+//			{
+//				//exportFrame((JRPrintFrame) element);
+//			}
+//			else if (element instanceof JRGenericPrintElement)
+//			{
+//				//exportGenericElement((JRGenericPrintElement) element);
+//			}
+			
+			exportElement(element);
 			
 			String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 			
@@ -573,7 +590,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 
-	protected JRPrintElementIndex getElementIndex(int colIndex, int rowIndex)
+	protected JRPrintElementIndex getElementIndex(int colIndex)
 	{
 		JRPrintElementIndex imageIndex =
 			new JRPrintElementIndex(
@@ -963,12 +980,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 	
-	public void exportImage(
-		JRPrintImage image, 
-		int colIndex, 
-		int rowIndex, 
-		int emptyCols
-		) throws JRException 
+	public void exportImage(JRPrintImage image, int colIndex) throws JRException 
 	{
 		int topPadding =
 			Math.max(image.getLineBox().getTopPadding(), getImageBorderCorrection(image.getLineBox().getTopPen()));
@@ -985,8 +997,21 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-
+		cellHelper.exportHeader(image,
+								rowIndex, 
+								colIndex, 
+								maxColumnIndex, 
+								null, 
+								null, 
+								null, 
+								true, 
+								false, 
+								false, 
+								false, 
+								false, 
+								RotationEnum.NONE, 
+								sheetInfo,
+								null);
 		Renderable renderer = image.getRenderer();
 
 		if (
@@ -999,7 +1024,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				new InternalImageProcessor(
 					image, 
 					colIndex,
-					rowIndex,
 					availableImageWidth,
 					availableImageHeight
 					);
@@ -1435,8 +1459,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 				drawingRelsHelper.exportImage(imageProcessorResult.imagePath);
 
-				sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
-
 				ImageAnchorTypeEnum imageAnchorType = 
 					ImageAnchorTypeEnum.getByName(
 						JRPropertiesUtil.getOwnProperty(image, XlsxMetadataReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
@@ -1470,7 +1492,13 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					"</xdr:rowOff></xdr:to>\n");
 				
 				drawingHelper.write("<xdr:pic>\n");
-				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
+				String altText = image.getHyperlinkTooltip() == null ? "" : image.getHyperlinkTooltip();
+				if(!altText.isEmpty())
+				{
+					altText = " descr=\"" + altText +"\"";
+				}
+				
+				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\"" + altText + ">\n");
 
 				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)
@@ -1522,19 +1550,19 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		private final JRPrintElement imageElement;
 		private final RenderersCache imageRenderersCache;
 		private final boolean needDimension; 
-		private int colIndex; 
+		private final int colIndex;
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
 			int colIndex,
-			int rowIndex,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
+			this.colIndex = colIndex;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
 			if (
@@ -1585,7 +1613,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex = getElementIndex(colIndex, rowIndex);
+					JRPrintElementIndex imageIndex = getElementIndex(colIndex);
 
 					DataRenderable imageRenderer = 
 						getRendererUtil().getImageDataRenderable(
@@ -1636,76 +1664,90 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 	
-	protected void exportLine(
-		JRPrintLine line, 
-		int colIndex, 
-		int rowIndex
-		) throws JRException 
+	protected void exportLine(JRPrintLine line, int colIndex) throws JRException 
 	{
-//		JRLineBox box = new JRBaseLineBox(null);
-//		JRPen pen = null;
-//		LineDirectionEnum direction = null;
-//		float ratio = line.getWidth() / line.getHeight();
-//		if (ratio > 1)
-//		{
-//			if(line.getHeight() > 1)
-//			{
-//				direction = line.getDirectionValue();
-//				pen = box.getPen();
-//			}
-//			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-//			{
-//				pen = box.getTopPen();
-//			}
-//			else
-//			{
-//				pen = box.getBottomPen();
-//			}
-//		}
-//		else
-//		{
-//			if(line.getWidth() > 1)
-//			{
-//				direction = line.getDirectionValue();
-//				pen = box.getPen();
-//			}
-//			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-//			{
-//				pen = box.getLeftPen();
-//			}
-//			else
-//			{
-//				pen = box.getRightPen();
-//			}
-//		}
-//		pen.setLineColor(line.getLinePen().getLineColor());
-//		pen.setLineStyle(line.getLinePen().getLineStyleValue());
-//		pen.setLineWidth(line.getLinePen().getLineWidth());
-//
-//		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-//		
-//		cellHelper.exportHeader(null, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
-//		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
-//		cellHelper.exportFooter();
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		LineDirectionEnum direction = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if(line.getHeight() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if(line.getWidth() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		cellHelper.exportHeader(box,
+								rowIndex, 
+								colIndex, 
+								maxColumnIndex, 
+								null, 
+								null, 
+								null, 
+								true, 
+								false, 
+								false, 
+								false, 
+								false, 
+								RotationEnum.NONE, 
+								sheetInfo,
+								direction);
+		cellHelper.exportFooter();
 	}
 	
-	protected void exportRectangle(
-		JRPrintGraphicElement rectangle,
-		int colIndex, 
-		int rowIndex
-		) throws JRException 
+	protected void exportRectangle(JRPrintGraphicElement rectangle, int colIndex) throws JRException 
 	{
-//		JRLineBox box = new JRBaseLineBox(null);
-//		JRPen pen = box.getPen();
-//		pen.setLineColor(rectangle.getLinePen().getLineColor());
-//		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
-//		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
-//
-//		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-//		
-//		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-//		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
-//		cellHelper.exportFooter();
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+
+		cellHelper.exportHeader(box,
+				rowIndex, 
+				colIndex, 
+				maxColumnIndex, 
+				null, 
+				null, 
+				null, 
+				true, 
+				false, 
+				false, 
+				false, 
+				false, 
+				RotationEnum.NONE, 
+				sheetInfo,
+				null);
+		cellHelper.exportFooter();
 	}
 	
 	public void exportText(
@@ -1742,7 +1784,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		final String convertedPattern = getConvertedPattern(text, pattern);
 				
 		cellHelper.exportHeader(
-			null, rowIndex, colIndex, maxColumnIndex, textValue, 
+			text, 
+			rowIndex, 
+			colIndex, 
+			maxColumnIndex, 
+			textValue, 
 			convertedPattern, 
 			getTextLocale(text), 
 			isWrapText(text) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(text)), 
@@ -1751,10 +1797,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			isShrinkToFit(text), 
 			isIgnoreTextFormatting(text),
 			text.getRotationValue(),
-			sheetInfo
+			sheetInfo,
+			null
 			);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, 1, 1);
-
+		
 		String textFormula = getFormula(text);
 		if (textFormula != null)
 		{
@@ -1878,17 +1924,17 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 
-	protected void exportText(final JRPrintText textElement) throws JRException {
-		String currentColumnName = textElement.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
+	protected void exportElement(final JRPrintElement element) throws JRException {
+		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
-			if(textElement.getPropertiesMap().containsProperty(PROPERTY_DATA))
+			if(element instanceof JRPrintText && element.getPropertiesMap().containsProperty(PROPERTY_DATA))
 			{
-				textElement.setText(textElement.getPropertiesMap().getProperty(PROPERTY_DATA));
+				((JRPrintText)element).setText(element.getPropertiesMap().getProperty(PROPERTY_DATA));
 			}
-			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
-			adjustRowHeight(textElement.getHeight(), ((JRXlsxExporterNature)nature).getRowAutoFit(textElement));
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, PROPERTY_REPEAT_VALUE, false);
+			adjustRowHeight(element.getHeight(), ((JRXlsxExporterNature)nature).getRowAutoFit(element));
 			setColumnName(currentColumnName);
-			addTextElement(textElement, repeatValue, currentColumnName);
+			addElement(element, repeatValue, currentColumnName);
 		}
 	}
 
@@ -1904,25 +1950,24 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 	}
 	
-	protected void addTextElement(JRPrintText textElement, boolean repeatValue, String currentColumnName) throws JRException {
+	protected void addElement(JRPrintElement element, boolean repeatValue, String currentColumnName) throws JRException {
 		if (columnNames.size() > 0) 
 		{
 			if (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && isColumnReadOnTime(currentRow, currentColumnName)) 
 			{	// the column is for export but was not read yet and comes in the expected order
-				currentRow.put(currentColumnName, textElement);
+				currentRow.put(currentColumnName, element);
 				
 			} else if ( (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && !isColumnReadOnTime(currentRow, currentColumnName)) // the column is for export, was not read yet, but it is read after it should be
 					|| (columnNames.contains(currentColumnName) && currentRow.containsKey(currentColumnName)) ) 
 			{	// the column is for export and was already read
 
 				writeCurrentRow(currentRow, repeatedValues);
-				currentRow.put(currentColumnName, textElement);
+				currentRow.put(currentColumnName, element);
 			}
 			// set auto fill columns
 			if(repeatValue) {
-				String textStr = getStyledText(textElement).getText();
-				if ( currentColumnName != null && currentColumnName.length() > 0 && textStr != null && textStr.length() > 0) {
-					repeatedValues.put(currentColumnName, textElement);
+				if (currentColumnName != null && !currentColumnName.isEmpty()) {
+					repeatedValues.put(currentColumnName, element);
 				}
 			} else {
 				repeatedValues.remove(currentColumnName);
@@ -1950,103 +1995,103 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		return indexOfLastFilledColumn < columnNames.indexOf(currentColumnName);
 	}
 	
-	protected void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException {
+	protected void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException 
+	{
 		int columnsCount = columnNames == null ? 0 : columnNames.size();
-		
-		for(int i = 0; i < columnsCount; i++) 
+		for (int i = 0; i < columnsCount; i++) 
 		{
 			String columnName = columnNames.get(i);
-			JRPrintElement element = currentRow.get(columnName) == null 
-				? (repeatedValues.get(columnName) != null 
-				? (JRPrintElement)repeatedValues.get(columnName)
-				: null)
-				: (JRPrintElement)currentRow.get(columnName);
-			if(element != null) {
-				if(rowIndex == 0) 
+			JRPrintElement element = currentRow.get(columnName) == null
+					? (repeatedValues.get(columnName) != null ? (JRPrintElement) repeatedValues.get(columnName)
+							: null)
+					: (JRPrintElement) currentRow.get(columnName);
+			if (element != null) 
+			{
+				if (rowIndex == 0) 
 				{
 					String width = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH_METADATA);
-					width = width == null || width.isEmpty() ? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH) : width;
-					Integer columnWidth = width == null || width.isEmpty() ? element.getWidth() : Integer.valueOf(width);
+					width = width == null || width.isEmpty()
+							? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH)
+							: width;
+					Integer columnWidth = width == null || width.isEmpty() ? element.getWidth()
+							: Integer.valueOf(width);
 					setColumnWidth(i, columnWidth, false);
 				}
-				if(!columnHeadersRow.containsKey(columnName))
+				if (!columnHeadersRow.containsKey(columnName)) 
 				{
-					JRPrintText headerElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider()); 
+					JRPrintText headerElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 					headerElement.setText(columnName);
 					headerElement.setMode(ModeEnum.OPAQUE);
 					headerElement.setWidth(element.getWidth());
 					headerElement.setHeight(element.getHeight());
-					headerElement.setTextHeight(element.getHeight());
 					headerElement.setX(element.getX());
 					headerElement.setY(0);
 					columnHeadersRow.put(columnName, headerElement);
 				}
 			}
 		}
-		if((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
+		if ((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
 		{
-			sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), true, null);
-			for(int i = 0; i < columnsCount; i++) 
-			{
+			sheetHelper.exportRow((Integer) currentRow.get(CURRENT_ROW_HEIGHT), true, null);
+			for (int i = 0; i < columnsCount; i++) {
 				String columnName = columnNames.get(i);
-				JRPrintText element = columnHeadersRow.get(columnName) == null 
-					? new JRBasePrintText(jasperPrint.getDefaultStyleProvider())
-					: (JRPrintText)columnHeadersRow.get(columnName);
+				JRPrintText element = columnHeadersRow.get(columnName) == null
+						? new JRBasePrintText(jasperPrint.getDefaultStyleProvider())
+						: (JRPrintText) columnHeadersRow.get(columnName);
 				exportText(element, i, 0);
 			}
 			++rowIndex;
 		}
-		sheetHelper.exportRow((Integer)currentRow.get(CURRENT_ROW_HEIGHT), (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT), null);
-		
-		
-		for(int i = 0; i< columnNames.size(); i++) {
+		sheetHelper.exportRow((Integer) currentRow.get(CURRENT_ROW_HEIGHT),
+				(Boolean) currentRow.get(CURRENT_ROW_AUTOFIT), null);
+		for (int i = 0; i < columnNames.size(); i++) 
+		{
 			String columnName = columnNames.get(i);
-			JRPrintElement element = (JRPrintElement)currentRow.get(columnName) == null 
-				? (repeatedValues.get(columnName) != null 
-				? (JRPrintElement)repeatedValues.get(columnName)
-				: null)
-				: (JRPrintElement)currentRow.get(columnName);
-			if(element != null) {
-				
+			JRPrintElement element = (JRPrintElement) currentRow.get(columnName) == null
+					? (repeatedValues.get(columnName) != null ? (JRPrintElement) repeatedValues.get(columnName)
+							: null)
+					: (JRPrintElement) currentRow.get(columnName);
+			if (element != null) 
+			{
+
 				String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
-				if ("Start".equals(autofilter))
+				if ("Start".equals(autofilter)) 
 				{
 					autoFilterStart = "$" + JRStringUtil.getLetterNumeral(i + 1, true) + "$" + (rowIndex + 1);
-				}
-				else if ("End".equals(autofilter))
+				} else if ("End".equals(autofilter)) 
 				{
 					autoFilterEnd = "$" + JRStringUtil.getLetterNumeral(i + 1, true) + "$" + (rowIndex + 1);
 				}
-				
+
 				configureDefinedNames(getNature(), element);
-				
-				if (element instanceof JRPrintLine)
+
+				if (element instanceof JRPrintLine) 
 				{
-					exportLine((JRPrintLine)element, i, rowIndex);
-				}
-				else if (element instanceof JRPrintRectangle)
+					exportLine((JRPrintLine) element, i);
+				} 
+				else if (element instanceof JRPrintRectangle) 
 				{
-					exportRectangle((JRPrintRectangle)element, i, rowIndex);
-				}
-				else if (element instanceof JRPrintEllipse)
+					exportRectangle((JRPrintRectangle) element, i);
+				} 
+				else if (element instanceof JRPrintEllipse) 
 				{
-					exportRectangle((JRPrintEllipse)element, i, rowIndex);
-				}
-				else if (element instanceof JRPrintImage)
+					exportRectangle((JRPrintEllipse) element, i);
+				} 
+				else if (element instanceof JRPrintImage) 
 				{
-					//exportImage((JRPrintImage) element, i, rowIndex, emptyCols, y, layout);
-				}
-				else if (element instanceof JRPrintText)
+					exportImage((JRPrintImage) element, i);
+				} 
+				else if (element instanceof JRPrintText) 
 				{
-					exportText((JRPrintText)element, i, rowIndex);
-				}
-				else if (element instanceof JRPrintFrame)
+					exportText((JRPrintText) element, i, rowIndex);
+				} 
+				else if (element instanceof JRPrintFrame) 
 				{
-					//exportFrame((JRPrintFrame) element, i, y);//FIXME rowIndex?
-				}
-				else if (element instanceof JRGenericPrintElement)
+					exportFrame((JRPrintFrame) element, i);
+				} 
+				else if (element instanceof JRGenericPrintElement) 
 				{
-					//exportGenericElement((JRGenericPrintElement) element, i, rowIndex, emptyCols, y, layout);
+					exportGenericElement((JRGenericPrintElement) element, i);
 				}
 			}
 		}
@@ -2054,18 +2099,15 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		currentRow.clear();
 	}
 		
-	protected void exportGenericElement(
-		JRGenericPrintElement element, 
-		int colIndex, 
-		int rowIndex) throws JRException
+	protected void exportGenericElement(JRGenericPrintElement element, int colIndex) throws JRException
 	{
-		GenericElementXlsxHandler handler = (GenericElementXlsxHandler) 
-			GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
-				element.getGenericType(), XLSX_EXPORTER_KEY);
+		GenericElementXlsxMetadataHandler handler = (GenericElementXlsxMetadataHandler) 
+		GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
+			element.getGenericType(), XLSX_METADATA_EXPORTER_KEY);
 
 		if (handler != null)
 		{
-			handler.exportElement(exporterContext, element, null, colIndex, rowIndex);
+			handler.exportElement(exporterContext, element, colIndex, rowIndex);
 		}
 		else
 		{
@@ -2076,6 +2118,29 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 		}
 	}
+	
+
+	protected void exportFrame(JRPrintFrame frame, int colIndex) throws JRException 
+		{
+			cellHelper.exportHeader(frame,
+					rowIndex, 
+					colIndex, 
+					maxColumnIndex, 
+					null, 
+					null, 
+					null, 
+					true, 
+					false, 
+					false, 
+					false, 
+					false, 
+					RotationEnum.NONE, 
+					sheetInfo,
+					null);
+
+			cellHelper.exportFooter();
+		}
+
 
 
 	@Override

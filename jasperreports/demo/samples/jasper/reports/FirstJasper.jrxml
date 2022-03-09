@@ -128,7 +128,10 @@
 		<groupHeader>
 			<band height="15">
 				<line>
-					<reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758"/>
+					<reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758">
+						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+						<property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
+					</reportElement>
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="10" y="2" width="150" height="11" uuid="9f8585df-e218-4084-baf2-6d190021be29">
@@ -196,7 +199,11 @@
 					<reportElement x="0" y="0" width="555" height="1" uuid="585f4d7d-90c0-4cea-83e7-c8487105cfe4"/>
 				</line>
 				<image scaleImage="Clip">
-					<reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2"/>
+					<reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2">
+						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+						<property name="net.sf.jasperreports.export.xls.column.name" value="JasperImage"/>
+						<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="200"/>
+					</reportElement>
 					<imageExpression><![CDATA["jasperreports.png"]]></imageExpression>
 					<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 				</image>

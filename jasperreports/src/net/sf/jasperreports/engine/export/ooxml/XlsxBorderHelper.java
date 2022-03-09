@@ -27,8 +27,10 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -55,13 +57,28 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	public int getBorder(JRExporterGridCell gridCell, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
 	{
-		
-		if (gridCell == null || Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || gridCell.getBox() == null)
+		if (gridCell == null)
 		{
 			return -1;			
 		}
+		return getBorder(gridCell.getBox(), sheetInfo, direction);
+	}
 
-		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox(), direction);
+	public int getBorder(JRPrintElement element, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
+	{
+		JRLineBox box = element instanceof JRBoxContainer ? ((JRBoxContainer)element).getLineBox() : null;
+		
+		return getBorder(box, sheetInfo, direction);
+	}
+	
+	public int getBorder(JRLineBox box, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
+	{		
+		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || box == null)
+		{
+			return -1;			
+		}
+		
+		XlsxBorderInfo borderInfo = new XlsxBorderInfo(box, direction);
 		Integer borderIndex = borderCache.get(borderInfo.getId());
 		if (borderIndex == null)
 		{
@@ -71,7 +88,7 @@ public class XlsxBorderHelper extends BaseHelper
 		}
 		return borderIndex;
 	}
-
+	
 	/**
 	 *
 	 */

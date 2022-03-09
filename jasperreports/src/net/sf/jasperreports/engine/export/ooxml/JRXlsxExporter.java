@@ -1396,7 +1396,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					"</xdr:rowOff></xdr:to>\n");
 				
 				drawingHelper.write("<xdr:pic>\n");
-				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
+				String altText = image.getHyperlinkTooltip() == null ? "" : image.getHyperlinkTooltip();
+				if(!altText.isEmpty())
+				{
+					altText = " descr=\"" + altText +"\"";
+				}
+				
+				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\"" + altText + ">\n");
 
 				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)

@@ -29,6 +29,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -71,15 +73,32 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public int getFont(JRExporterGridCell gridCell, Locale locale)
 	{
-		JRFont font = gridCell == null ? null : (gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null);
+		if (gridCell == null)
+		{
+			return -1;			
+		}
+		return getFont(gridCell.getElement(), locale);
+	}
+
+	/**
+	 *
+	 */
+	public int getFont(JRLineBox box, Locale locale)
+	{
+		return -1;
+	}
+	
+	public int getFont(JRPrintElement element, Locale locale)
+	{
+		JRFont font = element instanceof JRFont ? (JRFont)element : null;
 		if (font == null)
 		{
 			return -1;			
 		}
-
+		
 		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, exporterKey);
 		
-		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(gridCell, fontName, configuration.isFontSizeFixEnabled());
+		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, configuration.isFontSizeFixEnabled());
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
 		{
@@ -89,7 +108,7 @@ public class XlsxFontHelper extends BaseHelper
 		}
 		return fontIndex;
 	}
-
+	
 	/**
 	 *
 	 */

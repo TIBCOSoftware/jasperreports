@@ -27,6 +27,8 @@ import java.io.Writer;
 import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ElementGridCell;
@@ -259,6 +261,128 @@ public class XlsxCellHelper extends BaseHelper
 		write(">");
 	}
 
+	public void exportHeader(
+			JRPrintElement element,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction
+			) 
+	{
+		try
+		{
+			if (textValue != null)
+			{
+				textValue.handle(textValueHandler);
+			}
+			else
+			{
+				textValueHandler.handle((StringTextValue)null);
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		Integer styleIndex = styleHelper.getCellStyle(
+							element, 
+							pattern, 
+							locale, 
+							isWrapText, 
+							isHidden, 
+							isLocked, 
+							isShrinkToFit, 
+							isIgnoreTextFormatting,
+							rotation,
+							sheetInfo,
+							direction
+							);
+		
+		write("  <c r=\"" 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+				+ (rowIndex + 1) 
+				+ "\" s=\"" + styleIndex + "\""
+				);
+		String type = textValueHandler.getType();
+		if (type != null)
+		{
+			write(" t=\"" + type + "\"");
+		}
+		write(">");
+	}
+	
+	public void exportHeader(
+			JRLineBox box,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction
+			) 
+	{
+		try
+		{
+			if (textValue != null)
+			{
+				textValue.handle(textValueHandler);
+			}
+			else
+			{
+				textValueHandler.handle((StringTextValue)null);
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		Integer styleIndex = styleHelper.getCellStyle(
+				box, 
+				pattern, 
+				locale, 
+				isWrapText, 
+				isHidden, 
+				isLocked, 
+				isShrinkToFit, 
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction
+				);
+		
+		write("  <c r=\"" 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+				+ (rowIndex + 1) 
+				+ "\" s=\"" + styleIndex + "\""
+				);
+		String type = textValueHandler.getType();
+		if (type != null)
+		{
+			write(" t=\"" + type + "\"");
+		}
+		write(">");
+	}
+	
 	/**
 	 *
 	 */

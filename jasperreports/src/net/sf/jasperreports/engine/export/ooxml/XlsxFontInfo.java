@@ -50,8 +50,11 @@ public class XlsxFontInfo
 	 */
 	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName, boolean isFontSizeFixEnabled)
 	{
-		JRPrintElement element = gridCell.getElement();
-
+		this(gridCell.getElement(), fontName, isFontSizeFixEnabled);
+	}
+	
+	public XlsxFontInfo(JRPrintElement element, String fontName, boolean isFontSizeFixEnabled)
+	{
 		if (element != null)
 		{
 			this.color = JRColorUtil.getColorHexa(element.getForecolor());
@@ -77,4 +80,5 @@ public class XlsxFontInfo
 			+ "|" + isUnderline + "|"+ isStrikeThrough
 			+ "|" + color; 
 	}
+	
 }

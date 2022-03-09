@@ -66,7 +66,6 @@ public class XlsxStyleInfo
 		int formatIndex, 
 		int fontIndex, 
 		int borderIndex, 
-		JRExporterGridCell gridCell, 
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
@@ -80,28 +79,6 @@ public class XlsxStyleInfo
 		this.formatIndex = formatIndex;
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
 		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
-		
-		JRPrintElement element = gridCell == null ? null : gridCell.getElement();
-		
-		if (!isIgnoreTextFormatting)
-		{
-			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
-			{
-				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
-			}
-			else if (gridCell != null && gridCell.getBackcolor() != null)
-			{
-				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
-			}
-		}
-		
-		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
-		if (align != null)
-		{
-			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
-			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
-		}
-		
 		this.isWrapText = isShrinkToFit ? false : isWrapText;
 		this.isHidden = isHidden;
 		this.isLocked = isLocked;
@@ -123,6 +100,95 @@ public class XlsxStyleInfo
 			}
 		}
 		this.direction = direction;
+	}
+	
+	public XlsxStyleInfo(
+			int formatIndex, 
+			int fontIndex, 
+			int borderIndex, 
+			JRPrintElement element, 
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			int rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction
+			)
+	{
+		this(formatIndex, 
+				fontIndex, 
+				borderIndex, 
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction);
+
+		if (!isIgnoreTextFormatting && element != null && element.getModeValue() == ModeEnum.OPAQUE)
+		{
+			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+		}
+		
+		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
+		if (align != null)
+		{
+			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+		}
+	}
+	
+	public XlsxStyleInfo(
+			int formatIndex, 
+			int fontIndex, 
+			int borderIndex, 
+			JRExporterGridCell gridCell, 
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			int rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction
+			)
+	{
+		this(formatIndex, 
+				fontIndex, 
+				borderIndex, 
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction);
+		
+		JRPrintElement element = gridCell == null ? null : gridCell.getElement();
+		
+		if (!isIgnoreTextFormatting)
+		{
+			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			}
+			else if (gridCell != null && gridCell.getBackcolor() != null)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
+			}
+		}
+		
+		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
+		if (align != null)
+		{
+			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+		}
 	}
 	
 	protected String getHorizontalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
