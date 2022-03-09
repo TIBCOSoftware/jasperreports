@@ -257,7 +257,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		else {
 			try {
 				// Try to convert to a pattern
-				DateTimeFormatter dtf = DateTimeFormatter.ofPattern(timePattern, getReportLocale());
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern(timePattern, getReportLocale()).withZone(getReportTimeZone().toZoneId());
 				return dtf.format(lt);
 			} catch (IllegalArgumentException e) {
 				// Fallback to the default solution
