@@ -430,8 +430,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 		List<JRPrintElement> elements = page.getElements();
-		//currentRow = new HashMap<String, Object>();
-		//rowIndex += configuration.isWriteHeader() ? 1 : 0;
 		
 		for (int i = 0; i < elements.size(); ++i) 
 		{
@@ -443,35 +441,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			{
 				setSheetName(sheetName);
 			}
-			
-//			if (element instanceof JRPrintLine)
-//			{
-//				//exportLine((JRPrintLine)element);
-//			}
-//			else if (element instanceof JRPrintRectangle)
-//			{
-//				//exportRectangle((JRPrintRectangle)element);
-//			}
-//			else if (element instanceof JRPrintEllipse)
-//			{
-//				//exportRectangle((JRPrintEllipse)element);
-//			}
-//			else if (element instanceof JRPrintImage)
-//			{
-//				exportImage((JRPrintImage) element);
-//			}
-//			else if (element instanceof JRPrintText)
-//			{
-//				exportText((JRPrintText)element);
-//			}
-//			else if (element instanceof JRPrintFrame)
-//			{
-//				//exportFrame((JRPrintFrame) element);
-//			}
-//			else if (element instanceof JRGenericPrintElement)
-//			{
-//				//exportGenericElement((JRGenericPrintElement) element);
-//			}
 			
 			exportElement(element);
 			
@@ -832,6 +801,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			xlsxZip.zipEntries(os);
 
 			xlsxZip.dispose();
+			
+			if(log.isInfoEnabled())
+			{
+				log.info("XLSX Metadata output created");
+			}
 			
 		}
 		catch (IOException e)
@@ -1750,15 +1724,14 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		cellHelper.exportFooter();
 	}
 	
-	public void exportText(
-				final JRPrintText text, 
-				int colIndex, 
-				int rowIndex
-				) throws JRException
-		{
+	public void exportText(final JRPrintText text, int colIndex) throws JRException
+	{
+		exportText(text, colIndex, rowIndex);
+	}
+	
+	public void exportText(final JRPrintText text, int colIndex, int rowIndex) throws JRException
+	{
 		final JRStyledText styledText = getStyledText(text);
-
-//		final int textLength = styledText == null ? 0 : styledText.length();
 
 		final String textStr = styledText.getText();
 
@@ -2083,7 +2056,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				} 
 				else if (element instanceof JRPrintText) 
 				{
-					exportText((JRPrintText) element, i, rowIndex);
+					exportText((JRPrintText) element, i);
 				} 
 				else if (element instanceof JRPrintFrame) 
 				{
