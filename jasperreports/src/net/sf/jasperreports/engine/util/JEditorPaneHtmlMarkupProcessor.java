@@ -76,7 +76,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	@Override
 	public String convert(String srcText)
 	{
-		if (srcText.contains("<"))
+		if (srcText.indexOf('<') >= 0 || srcText.indexOf('&') >= 0)
 		{
 			JRStyledText styledText = new JRStyledText();
 			
