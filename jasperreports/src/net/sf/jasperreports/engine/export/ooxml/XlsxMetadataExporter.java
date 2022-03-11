@@ -406,6 +406,16 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	protected void exportEmptyReport() throws JRException, IOException 
 	{
 		pageFormat = jasperPrint.getPageFormat();
+		sheetInfo = getSheetInfo(null, jasperPrint.getName());
+		createSheet(sheetInfo);
+		sheetIndex++;
+		sheetNamesIndex++;
+		rowIndex = 0;
+		resetAutoFilters();
+		if (filter instanceof ResetableExporterFilter)
+		{
+			((ResetableExporterFilter)filter).reset();
+		}
 		exportPage(new JRBasePrintPage());
 	}
 
@@ -804,7 +814,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			
 			if(log.isInfoEnabled())
 			{
-				log.info("XLSX Metadata output created");
+				log.info("XLSX metadata workbook closed");
 			}
 			
 		}
@@ -2119,6 +2129,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
+		if(log.isInfoEnabled())
+		{
+			log.info("XLSX metadata workbook started");
+		}
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
@@ -2321,19 +2335,35 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	{
 		SheetInfo sheetInfo = new SheetInfo();
 		sheetInfo.sheetName = getSheetName(name);
-		sheetInfo.rowFreezeIndex = configuration.getFreezeRow() == null ? -1 : configuration.getFreezeRow(); 
-		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null ? -1 : getColumnIndex(configuration.getFreezeColumn()); 
-		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
-		sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
-		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
 		sheetInfo.sheetFirstPageIndex = pageIndex;
-		sheetInfo.sheetFirstPageNumber = configuration.getFirstPageNumber();		
-		sheetInfo.sheetPageScale = configuration.getPageScale();		
-		sheetInfo.sheetShowGridlines = configuration.isShowGridLines() ;
-		sheetInfo.tabColor = configuration.getSheetTabColor();
-		sheetInfo.columnWidthRatio = configuration.getColumnWidthRatio();
 		sheetInfo.printSettings = new JRXlsAbstractExporter.SheetInfo().new SheetPrintSettings();	
-		updatePrintSettings(sheetInfo.printSettings, configuration);
+		if(configuration == null)
+		{
+			sheetInfo.printSettings.setPageHeight(0);
+			sheetInfo.printSettings.setPageWidth(0);
+			sheetInfo.printSettings.setLeftMargin(0);
+			sheetInfo.printSettings.setRightMargin(0);
+			sheetInfo.printSettings.setTopMargin(0);
+			sheetInfo.printSettings.setBottomMargin(0);
+			sheetInfo.printSettings.setHeaderMargin(0);
+			sheetInfo.printSettings.setFooterMargin(0);
+			sheetInfo.rowFreezeIndex = -1;
+			sheetInfo.columnFreezeIndex = -1;
+		}
+		else
+		{
+			sheetInfo.rowFreezeIndex = configuration.getFreezeRow() == null ? -1 : configuration.getFreezeRow(); 
+			sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null ? -1 : getColumnIndex(configuration.getFreezeColumn()); 
+			sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
+			sheetInfo.ignoreCellBorder = configuration.isIgnoreCellBorder();
+			sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
+			sheetInfo.sheetFirstPageNumber = configuration.getFirstPageNumber();		
+			sheetInfo.sheetPageScale = configuration.getPageScale();		
+			sheetInfo.sheetShowGridlines = configuration.isShowGridLines() ;
+			sheetInfo.tabColor = configuration.getSheetTabColor();
+			sheetInfo.columnWidthRatio = configuration.getColumnWidthRatio();
+			updatePrintSettings(sheetInfo.printSettings, configuration);
+		}
 		return sheetInfo;
 	}
 
