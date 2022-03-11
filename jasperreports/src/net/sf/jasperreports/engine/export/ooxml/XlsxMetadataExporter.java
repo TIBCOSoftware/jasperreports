@@ -337,7 +337,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 							closeSheet();
 						}
 						JRPrintPage page = pages.get(pageIndex);
-
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 
 						sheetInfo = getSheetInfo(configuration, null);
@@ -439,47 +438,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		{
 			writeCurrentRow(currentRow, repeatedValues);
 		}
-		List<JRPrintElement> elements = page.getElements();
 		
-		for (int i = 0; i < elements.size(); ++i) 
-		{
-			JRPrintElement element = elements.get(i);
-//			updateSheet(element);
-			
-			String sheetName = element.getPropertiesMap().getProperty(PROPERTY_SHEET_NAME);
-			if(sheetName != null)
-			{
-				setSheetName(sheetName);
-			}
-			
-			exportElement(element);
-			
-			String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
-			
-			String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
-			
-			int rowFreezeIndex = rowFreeze == null 
-				? -1 
-				: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
-						? rowIndex + 1
-						: rowIndex
-						);
-			
-			String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
-				
-			int columnFreezeIndex = columnFreeze == null 
-				? -1 
-				: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
-						? columnNamesMap.get(currentColumnName) + 1
-						: columnNamesMap.get(currentColumnName)
-						);
-
-			if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
-			{
-				setFreezePane(rowFreezeIndex, columnFreezeIndex);
-			}
-			
-		}
+		exportElements(page.getElements());
+		
 		if(columnNames.size() > maxColumnIndex+1)
 		{
 			throw 
@@ -512,6 +473,51 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 		
 		return 0;
+	}
+	
+	protected void exportElements(List<JRPrintElement> elements) throws JRException
+	{
+		if (elements != null) 
+		{
+			for (int i = 0; i < elements.size(); ++i) 
+			{
+				JRPrintElement element = elements.get(i);
+				//			updateSheet(element);
+
+				if (element instanceof JRPrintFrame) 
+				{
+					exportElements(((JRPrintFrame) element).getElements());
+				} 
+				else 
+				{
+					String sheetName = element.getPropertiesMap().getProperty(PROPERTY_SHEET_NAME);
+					if (sheetName != null) 
+					{
+						setSheetName(sheetName);
+					}
+
+					exportElement(element);
+
+					String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
+
+					String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
+
+					int rowFreezeIndex = rowFreeze == null ? -1
+							: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) ? rowIndex + 1 : rowIndex);
+
+					String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
+
+					int columnFreezeIndex = columnFreeze == null ? -1
+							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) ? columnNamesMap.get(currentColumnName) + 1
+									: columnNamesMap.get(currentColumnName));
+
+					if (rowFreezeIndex > 0 || columnFreezeIndex > 0) 
+					{
+						setFreezePane(rowFreezeIndex, columnFreezeIndex);
+					}
+				}
+			} 
+		}
 	}
 	
 	public JRPrintImage getImage(ExporterInput exporterInput, JRPrintElementIndex imageIndex) throws JRException//FIXMECONTEXT move these to an abstract up?
@@ -810,13 +816,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 			xlsxZip.zipEntries(os);
 
-			xlsxZip.dispose();
-			
-			if(log.isInfoEnabled())
-			{
-				log.info("XLSX metadata workbook closed");
-			}
-			
+			xlsxZip.dispose();			
 		}
 		catch (IOException e)
 		{
@@ -1907,9 +1907,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 
-	protected void exportElement(final JRPrintElement element) throws JRException {
+	protected void exportElement(final JRPrintElement element) throws JRException 
+	{
 		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
-		if (currentColumnName != null && currentColumnName.length() > 0) {
+		if (currentColumnName != null && currentColumnName.length() > 0) 
+		{
 			if(element instanceof JRPrintText && element.getPropertiesMap().containsProperty(PROPERTY_DATA))
 			{
 				((JRPrintText)element).setText(element.getPropertiesMap().getProperty(PROPERTY_DATA));
@@ -1923,9 +1925,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 	protected void adjustRowHeight(int rowHeight, Boolean isAutofit) 
 	{
-		if(!currentRow.containsKey(CURRENT_ROW_AUTOFIT))
+		if(!currentRow.containsKey(CURRENT_ROW_AUTOFIT) || !Boolean.TRUE.equals(currentRow.get(CURRENT_ROW_AUTOFIT)))
 		{
-			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit != null && isAutofit);
+			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit == null ? false : isAutofit);
 		} 
 		if(!currentRow.containsKey(CURRENT_ROW_HEIGHT) || (Integer)currentRow.get(CURRENT_ROW_HEIGHT) < rowHeight) 
 		{
@@ -2129,10 +2131,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
-		if(log.isInfoEnabled())
-		{
-			log.info("XLSX metadata workbook started");
-		}
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
