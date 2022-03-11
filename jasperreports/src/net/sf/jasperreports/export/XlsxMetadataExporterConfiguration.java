@@ -33,6 +33,6 @@ import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public interface XlsxMetadataExporterConfiguration extends XlsMetadataExporterConfiguration, XlsxExporterConfiguration
+public interface XlsxMetadataExporterConfiguration extends XlsxExporterConfiguration
 {
 }
