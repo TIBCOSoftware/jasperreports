@@ -628,7 +628,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				: (CellSettings)currentRow.get(columnName);
 			cell = row.createCell(i);
 			if(cellSettings != null) {
-				CellType type = cellSettings.getCellType();
+				CellType type = cellSettings.getCellType() == null ? CellType.BLANK : cellSettings.getCellType();
 				cell.setCellType(type);
 				Object cellValue = cellSettings.getCellValue();
 				if(cellValue != null) {
