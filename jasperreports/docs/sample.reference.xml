@@ -126,6 +126,7 @@
       <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
       <feature name="xlsfeatures" sample="xlsfeatures" title="Advanced Excel Features"/>
       <feature name="csvmetadataexport" sample="jasper" title="Exporting to CSV Format Using Report Metadata"/>
+      <feature name="xlsxmetadataexport" sample="jasper" title="Exporting to XLSX Format Using Report Metadata"/>
       <feature name="xlsmetadataexport" sample="jasper" title="Exporting to XLS Format Using Report Metadata"/>
       <feature name="jsonmetadataexport" sample="subreport" title="Exporting to JSON Format Using Report Metadata"/>
       <feature name="pptxfields" sample="jasper" title="Updating current date and slide numbers in PPTX export"/>

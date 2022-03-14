@@ -8,6 +8,7 @@
 
   <mainFeature ref="groups"/>
   <mainFeature ref="csvmetadataexport"/>
+  <mainFeature ref="xlsxmetadataexport"/>
   <mainFeature ref="xlsmetadataexport"/>
   <mainFeature ref="conditionalstyles"/>
   <mainFeature ref="pptxfields"/>
@@ -460,13 +461,13 @@ After running the <code>&gt;ant test view</code> command the data-centric docume
     </content>
   </feature>
 
-  <!-- xlsmetadataexport -->
+  <!-- xlsxmetadataexport -->
   
-  <feature name="xlsmetadataexport" title="Exporting to XLS Format Using Report Metadata">
+  <feature name="xlsxmetadataexport" title="Exporting to XLSX Format Using Report Metadata">
     <description>
-Shows how to export the report to XLS format using metadata associated with report elements at design time, to mark data columns.
+Shows how to export the report to XLSX format using metadata associated with report elements at design time, to mark data columns.
     </description>
-    <since>4.0.0</since>
+    <since>6.19.1</since>
     <documentedBy>
       <author>
     	<name>Sanda Zaharia</name>
@@ -474,28 +475,83 @@ Shows how to export the report to XLS format using metadata associated with repo
       </author>
     </documentedBy>
     <content>
-<subtitle name="xls_metadata_export">The Excel 2003 Metadata Exporter</subtitle>
+<subtitle name="xlsx_metadata_export">The Excel (.xlsx) Metadata Exporter</subtitle>
 <br/>
 <br/>
 As shown in the section <a href="#csv_metadata_export">above</a>, the CSV metadata exporter is a very useful tool when data-oriented outputs are preferred. The only 
 problem is that any format setting is dropped when the CSV file is saved. CSVs do not store layout and style, they only keep data safe. Sometimes this is not enough 
-for complex documents. Sometimes data needs to be presented in a meaningful way, column headers should be centered, totals should appear in a bold style, some cells 
-might require a particular background, etc. There is a need to keep together relevant data with their style and formatting information. Since the CSV metadata exporter 
-is limited to data only, another metadata-based exporter comes to solve the problem. This is the 
-<api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api> that provides a columnar Excel 2003 output. It relies on equivalent 
-metadata properties and parameters having the same meanings, but dedicated to the XLS output format:
+for complex documents. In vary situations data need to be presented in a more specific way, column headers should be centered, totals should appear in a bold style, some cells 
+might require a particular background, etc. More than that, if we want to perform calculations on data, we need to know the associated data type. And another limitation is 
+that the CSV format cannot be used to export graphic elements, like images and shapes. 
+<br/>
+In such cases we have to keep together relevant data with their style and formatting information. Since the CSV metadata exporter is limited to pure text-data only, 
+another metadata-based exporter can be used to solve the problem. This is the <api href="net/sf/jasperreports/engine/export/XlsxMetadataExporter.html">XlsxMetadataExporter</api> 
+that provides a columnar Excel (XLSX) output. It relies on equivalent metadata properties and parameters having the same meanings, but dedicated to the XLSX output format:
 <ul>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.name">net.sf.jasperreports.export.xls.column.name</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.write.header">net.sf.jasperreports.export.xls.write.header</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.repeat.value">net.sf.jasperreports.export.xls.repeat.value</a></li>
-<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a> - in the XLSX metadata export this property 
+is applicable for text elements only.</li>
 </ul>
-In this sample the same five columns are exported to XLS format: <code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and 
-<code>OrderDate</code>. Column headers are not exported and for the <code>ShipCity</code> column the exported data is customized using the 
-<a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a> property. All 
-these settings apply to the &lt;detail/&gt; section:
+Another property, which is specific to XLSX metadata export only, is 
+<a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.width.metadata">net.sf.jasperreports.export.xls.column.width.metadata</a>. This is useful 
+when we choose to export column names as column headers longer than the column width available for the non-metadata XLSX export, without affecting the non-metadata XLSX export.
+<br/>
+<br/>
+In this sample the following columns are exported to XLSX format: <code>JasperImage</code> (which is a picture), <code>LineShape</code> (a shape element), 
+<code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and <code>OrderDate</code>. Column headers are exported too, 
+and for the <code>ShipCity</code> column the exported data is customized using the <a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a> 
+property. 
+<br/>
+<br/>
+The elements were set as in the following example:
 <pre><![CDATA[
+<groupHeader>
+  <band height="15">
+    <line>
+      <reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758">
+        <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+        <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
+      </reportElement>
+    </line>
+    <textField>
+      <reportElement style="Sans_Bold" x="10" y="2" width="150" height="11" uuid="9f8585df-e218-4084-baf2-6d190021be29">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
+        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+        <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+        ...
+      </reportElement>
+      <textFieldExpression><![CDATA[$F{ShipCountry}]] ></textFieldExpression>
+    </textField>
+    ...
+  </band>
+</groupHeader>
+
+...
+
+<title>
+  <band height="100">
+    <elementGroup>
+      ...
+      <image scaleImage="Clip">
+        <reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2">
+          <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+          <property name="net.sf.jasperreports.export.xls.column.name" value="JasperImage"/>
+          <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="200"/>
+        </reportElement>
+        <imageExpression><![CDATA["jasperreports.png"]] ></imageExpression>
+        <hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]] ></hyperlinkTooltipExpression>
+      </image>
+    </elementGroup>
+    ...
+  </band>
+</title>
+
+...
+
 <detail>
   <band height="13">
   ...
@@ -503,6 +559,7 @@ these settings apply to the &lt;detail/&gt; section:
       <reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11">
         ...
         <property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
+        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="50"/>
         ...
       </reportElement>
       ...
@@ -520,6 +577,7 @@ these settings apply to the &lt;detail/&gt; section:
       <reportElement x="155" y="0" width="25" height="11">
         ...
         <property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
+        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
         ...
       </reportElement>
       ...
@@ -528,6 +586,7 @@ these settings apply to the &lt;detail/&gt; section:
       <reportElement x="185" y="0" width="50" height="11">
         ...
         <property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
+        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
         ...
       </reportElement>
       ...
@@ -536,6 +595,7 @@ these settings apply to the &lt;detail/&gt; section:
       <reportElement x="235" y="0" width="35" height="11">
         ...
         <property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
+        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
         ...
       </reportElement>
       ...
@@ -543,9 +603,39 @@ these settings apply to the &lt;detail/&gt; section:
     ...
   </band>
 </detail>]]></pre>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
-<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.xls</code>. Notice the differences between this one and the 
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the XLSX metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory in 2 forms: <code>FirstJasper.singleSheet.metadata.xlsx</code> - as single sheet document, and 
+<code>FirstJasper.multiSheet.metadata.xlsx</code> - as multisheet Excel document. Notice the differences in text formatting between these files and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
+    </content>
+  </feature>
+
+  <!-- xlsmetadataexport -->
+  
+  <feature name="xlsmetadataexport" title="Exporting to XLS Format Using Report Metadata">
+    <description>
+Shows how to export the report to XLS format using metadata associated with report elements at design time, to mark data columns.
+    </description>
+    <since>4.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="xls_metadata_export">The Excel 2003 Metadata Exporter</subtitle>
+<br/>
+<br/>
+This metadata  exporter can be used to export data in an older Microsoft Excel format (Excel 2003, or ".xls"). It is strongly recommended to use the XLSX metadata exporter instead. 
+The XLSX metadata exporter is described in the <a href="#xlsx_metadata_export">The Excel (.xlsx) Metadata Exporter</a> feature section of this document. All metadata export 
+properties presented in the <a href="#xlsx_metadata_export">The Excel (.xlsx) Metadata Exporter</a> feature are also applicable for the 
+<api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">Excel 2003 metadata exporter</api>, except 
+<a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.width.metadata">net.sf.jasperreports.export.xls.column.width.metadata</a>.
+<br/>
+<br/>
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.xls</code>.
     </content>
   </feature>
 
