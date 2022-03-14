@@ -76,8 +76,6 @@ import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo;
@@ -104,7 +102,6 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
-import net.sf.jasperreports.export.ExcelMetadataExporterProperties;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -130,8 +127,6 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataReportConfiguration, XlsxMetadataExporterConfiguration, JRXlsxExporterContext> 
-	implements ExcelMetadataExporterProperties
-
 {
 	private static final Log log = LogFactory.getLog(XlsxMetadataExporter.class);
 	
@@ -502,13 +497,16 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 					String rowFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 
-					int rowFreezeIndex = rowFreeze == null ? -1
+					int rowFreezeIndex = rowFreeze == null 
+							? -1
 							: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) ? rowIndex + 1 : rowIndex);
 
 					String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 
-					int columnFreezeIndex = columnFreeze == null ? -1
-							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) ? columnNamesMap.get(currentColumnName) + 1
+					int columnFreezeIndex = columnFreeze == null 
+							? -1
+							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
+									? columnNamesMap.get(currentColumnName) + 1
 									: columnNamesMap.get(currentColumnName));
 
 					if (rowFreezeIndex > 0 || columnFreezeIndex > 0) 
@@ -1987,8 +1985,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		{
 			String columnName = columnNames.get(i);
 			JRPrintElement element = currentRow.get(columnName) == null
-					? (repeatedValues.get(columnName) != null ? (JRPrintElement) repeatedValues.get(columnName)
-							: null)
+					? (repeatedValues.get(columnName) != null 
+						? (JRPrintElement) repeatedValues.get(columnName)
+						: null)
 					: (JRPrintElement) currentRow.get(columnName);
 			if (element != null) 
 			{
@@ -1998,7 +1997,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					width = width == null || width.isEmpty()
 							? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH)
 							: width;
-					Integer columnWidth = width == null || width.isEmpty() ? element.getWidth()
+					Integer columnWidth = width == null || width.isEmpty() 
+							? element.getWidth()
 							: Integer.valueOf(width);
 					setColumnWidth(i, columnWidth, false);
 				}
@@ -2033,8 +2033,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		{
 			String columnName = columnNames.get(i);
 			JRPrintElement element = (JRPrintElement) currentRow.get(columnName) == null
-					? (repeatedValues.get(columnName) != null ? (JRPrintElement) repeatedValues.get(columnName)
-							: null)
+					? (repeatedValues.get(columnName) != null 
+						? (JRPrintElement) repeatedValues.get(columnName)
+						: null)
 					: (JRPrintElement) currentRow.get(columnName);
 			if (element != null) 
 			{

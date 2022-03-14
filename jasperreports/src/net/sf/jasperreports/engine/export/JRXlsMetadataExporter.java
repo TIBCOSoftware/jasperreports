@@ -129,7 +129,6 @@ import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExcelMetadataExporterProperties;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;

@@ -121,7 +121,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * Keep in mind the naming order is important, sheets will be named in the same order the names are 
  * provided in this property. 
  * <p/>
- * Sheets can be also named at element level, using the {@link net.sf.jasperreports.export.ExcelExporterProperties#PROPERTY_SHEET_NAME net.sf.jasperreports.export.xls.sheet.name} 
+ * Sheets can be also named at element level, using the {@link #PROPERTY_SHEET_NAME net.sf.jasperreports.export.xls.sheet.name} 
  * element property. This name will be provided for the sheet the element belongs to.
  * <h3>Flow-Oriented Output</h3>
  * The JasperPrint documents are page-oriented. When they are exported to a single sheet
@@ -191,7 +191,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * corresponding Excel format patterns as values.
  * <p/>
  * Another way to adjust the format pattern to Excel-compatible values is to set the 
- * {@link #net.sf.jasperreports.export.ExcelExporterProperties.PROPERTY_CELL_PATTERN net.sf.jasperreports.export.xls.pattern} property at element level.
+ * {@link #PROPERTY_CELL_PATTERN net.sf.jasperreports.export.xls.pattern} property at element level.
  * <h3>Font Size Correction</h3>
  * Currently, there is no way to control the line spacing in a spreadsheet cell, which results
  * in the cell text not fitting exactly within the cell boundaries. As a workaround, in order to
@@ -707,7 +707,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 //							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 //						}
 						
-//						String sheetName = element.getPropertiesMap().getProperty(ExcelExporterProperties.PROPERTY_SHEET_NAME);
+//						String sheetName = element.getPropertiesMap().getProperty(PROPERTY_SHEET_NAME);
 //						if (sheetName != null)
 //						{
 //							setSheetName(sheetName);

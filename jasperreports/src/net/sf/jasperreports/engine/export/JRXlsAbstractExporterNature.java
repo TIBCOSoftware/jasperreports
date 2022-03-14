@@ -67,7 +67,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.export.ExcelExporterProperties;
 
 
 /**
@@ -144,14 +143,14 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return element.hasProperties() 
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(ExcelExporterProperties.PROPERTY_BREAK_BEFORE_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(ExcelAbstractExporter.PROPERTY_BREAK_BEFORE_ROW));
 	}
 	
 	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return element.hasProperties()
-				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(ExcelExporterProperties.PROPERTY_BREAK_AFTER_ROW));
+				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(ExcelAbstractExporter.PROPERTY_BREAK_AFTER_ROW));
 	}
 	
 	/**
@@ -161,12 +160,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW)
+			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW, false);
+			return getPropertiesUtil().getBooleanProperty(element, ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW, false);
 		}
 		return null;
 	}
@@ -178,12 +177,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN)
+				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN, false);
+			return getPropertiesUtil().getBooleanProperty(element, ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
 		}
 		return null;
 	}
@@ -249,12 +248,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	
 	public Integer getCustomColumnWidth(JRPrintElement element) {
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_COLUMN_WIDTH)
+			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getIntegerProperty(element, ExcelExporterProperties.PROPERTY_COLUMN_WIDTH, 0);
+			return getPropertiesUtil().getIntegerProperty(element, ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
 		}
 		return null;
 	}
@@ -275,7 +274,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (element.hasProperties())
 		{
-			return JRPropertiesUtil.getProperties(element,ExcelExporterProperties.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
+			return JRPropertiesUtil.getProperties(element,ExcelAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
 		}
 		return null;
 		
@@ -284,12 +283,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public String getSheetName(JRPrintElement element)
 	{
 		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_SHEET_NAME)
+				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_SHEET_NAME)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getProperty(element, ExcelExporterProperties.PROPERTY_SHEET_NAME);
+			return getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_SHEET_NAME);
 		}
 		return null;
 	}
@@ -297,12 +296,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public EdgeEnum getFreezeRowEdge(JRPrintElement element)
 	{
 		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_FREEZE_ROW_EDGE)
+				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelExporterProperties.PROPERTY_FREEZE_ROW_EDGE));
+			return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE));
 		}
 		return null;
 	}
@@ -310,12 +309,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public EdgeEnum getFreezeColumnEdge(JRPrintElement element)
 	{
 		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(ExcelExporterProperties.PROPERTY_FREEZE_COLUMN_EDGE)
+				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelExporterProperties.PROPERTY_FREEZE_COLUMN_EDGE));
+				return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE));
 			}
 			return null;
 	}
@@ -386,21 +385,21 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		Boolean columnAutoFit = getColumnAutoFit(element);
 		if (columnAutoFit != null)
 		{
-			if(!cut.hasProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN))
+			if(!cut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN))
 			{
-				cut.setProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN, columnAutoFit);
+				cut.setProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, columnAutoFit);
 			}
 			else
 			{
-				cut.setProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN, (Boolean)cut.getProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_COLUMN) && columnAutoFit);
+				cut.setProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, (Boolean)cut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) && columnAutoFit);
 			}
 		}
 
 		Integer columnCustomWidth = getCustomColumnWidth(element);
-		Integer cutColumnCustomWidth = (Integer)cut.getProperty(ExcelExporterProperties.PROPERTY_COLUMN_WIDTH);
+		Integer cutColumnCustomWidth = (Integer)cut.getProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH);
 		if (columnCustomWidth != null && (cutColumnCustomWidth == null || cutColumnCustomWidth < columnCustomWidth))
 		{
-			cut.setProperty(ExcelExporterProperties.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
+			cut.setProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
 		}
 
 		setXProperties(xCutsProperties, element);
@@ -440,13 +439,13 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		Boolean rowAutoFit = getRowAutoFit(element);
 		if (rowAutoFit != null)
 		{
-			if(!cut.hasProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW))
+			if(!cut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW))
 			{
-				cut.setProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW, rowAutoFit);
+				cut.setProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW, rowAutoFit);
 			}
 			else
 			{
-				cut.setProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW, (Boolean)cut.getProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW) && rowAutoFit);
+				cut.setProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW, (Boolean)cut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW) && rowAutoFit);
 			}
 		}
 
@@ -463,19 +462,19 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			}
 			
 // FIXMEXLS we should preserve existing outline level information in the current y cut
-//			SortedMap<String, Boolean> oldLevelMap = (SortedMap<String, Boolean>)cut.getProperty(ExcelExporterProperties.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
+//			SortedMap<String, Boolean> oldLevelMap = (SortedMap<String, Boolean>)cut.getProperty(ExcelAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
 //			if (oldLevelMap != null)
 //			{
 //				oldLevelMap.putAll(levelMap);
 //				levelMap = oldLevelMap;
 //			}
-			cut.setProperty(ExcelExporterProperties.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
+			cut.setProperty(ExcelAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
 		}
 		
 		String sheetName = getSheetName(element);
 		if(sheetName != null)
 		{
-			cut.setProperty(ExcelExporterProperties.PROPERTY_SHEET_NAME, sheetName);
+			cut.setProperty(ExcelAbstractExporter.PROPERTY_SHEET_NAME, sheetName);
 		}
 
 		String tabColor = getSheetTabColor(element);
@@ -529,7 +528,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 					);
 		if(columnFreezeIndex > 0)
 		{
-			cut.setProperty(ExcelExporterProperties.PROPERTY_FREEZE_COLUMN_EDGE, columnFreezeIndex);
+			cut.setProperty(ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE, columnFreezeIndex);
 		}
 		
 		EdgeEnum freezeRowEdge = getFreezeRowEdge(element);
@@ -541,7 +540,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 					);
 		if(rowFreezeIndex > 0)
 		{
-			cut.setProperty(ExcelExporterProperties.PROPERTY_FREEZE_ROW_EDGE, rowFreezeIndex);
+			cut.setProperty(ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE, rowFreezeIndex);
 		}
 		
 		Float columnWidthRatio = getColumnWidthRatio(element);

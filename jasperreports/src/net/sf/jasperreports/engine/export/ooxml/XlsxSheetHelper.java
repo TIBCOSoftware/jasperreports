@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
+import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
@@ -41,7 +42,6 @@ import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.export.ExcelExporterProperties;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -363,8 +363,8 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportRow(int rowHeight, Cut yCut, XlsRowLevelInfo levelInfo) 
 	{
-		boolean isAutoFit = yCut.hasProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(ExcelExporterProperties.PROPERTY_AUTO_FIT_ROW);
+		boolean isAutoFit = yCut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW);
 		exportRow(rowHeight, isAutoFit, levelInfo);
 	}
 	

@@ -59,7 +59,7 @@ To solve such kind of problems, 2 new export custom properties were added:
 A <code>net.sf.jasperreports.export.xls.sheet.names.{suffix}</code> property may contain one or several sheet names separated by a slash (/), and does not support 
 dynamic values via the <code>propertyExpression</code>.
 </li>
-<li>Another way is to use the <api href="net/sf/jasperreports/export/ExcelExporterProperties.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api> 
+<li>Another way is to use the <api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api> 
 property. It may be set at element level and, if present, will override all other settings for the current sheet name (ie the sheet name provided by the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetNames--">getSheetNames()</api> exporter setting or by the document-level 
 sheet names properties). Since this property supports also expressions, it's completely suitable for dynamic sheet names.
@@ -88,7 +88,7 @@ An older way to realize this translation is to use the <api href="net/sf/jasperr
 exporter setting at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the need of Java hardcoding.
 <br/>
 Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property 
-<api href="net/sf/jasperreports/export/ExcelExporterProperties.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
+<api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
 <br/>
 To see it in action, take a look at the current date textfield in the <code>XlsFeaturesReport.jrxml</code> sample's <code>&lt;pageHeader/&gt;</code> section:
 <pre><![CDATA[
@@ -274,8 +274,8 @@ freeze column (or row) property defined at element level to delimit the freeze p
 <li>The element-level properties define the freeze pane edges for the current sheet only. If multiple elements in the same sheet provide freeze pane properties, the 
 maximum values for these properties are taken into account. Element-level properties are 
 <ul>
-<li><api href="net/sf/jasperreports/export/ExcelExporterProperties.html#PROPERTY_FREEZE_ROW_EDGE">net.sf.jasperreports.export.xls.freeze.row.edge</api> and</li>
-<li><api href="net/sf/jasperreports/export/ExcelExporterProperties.html#PROPERTY_FREEZE_COLUMN_EDGE">net.sf.jasperreports.export.xls.freeze.column.edge</api></li>
+<li><api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE">net.sf.jasperreports.export.xls.freeze.row.edge</api> and</li>
+<li><api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE">net.sf.jasperreports.export.xls.freeze.column.edge</api></li>
 </ul>
 The element-level properties can take a predefined set of values: <code>Left</code> and <code>Right</code> for the 
 <code>net.sf.jasperreports.export.xls.freeze.column.edge</code>, <code>Top</code> and <code>Bottom</code> for the 
@@ -295,7 +295,7 @@ including the current row, are "frozen".
 <br/>
 <br/>
 In editable Excel documents data can be autofiltered allowing users to show/hide only the desired data in a range. This feature is also supported in JR when the 
-<api href="net/sf/jasperreports/export/ExcelExporterProperties.html#PROPERTY_AUTO_FILTER">net.sf.jasperreports.export.xls.auto.filter</api> property is explicitly 
+<api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_AUTO_FILTER">net.sf.jasperreports.export.xls.auto.filter</api> property is explicitly 
 set. This is an element-level property and may have 2 allowed values:
 <ul>
 <li><code>Start</code> - the data range starts immediately below the current cell; on the current row will be placed the autofilter lists with column data.</li>

@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExcelMetadataExporterProperties;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
@@ -66,7 +65,7 @@ import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReportConfiguration, C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
-	extends JRXlsAbstractExporter<RC, C, E> implements ExcelMetadataExporterProperties
+	extends JRXlsAbstractExporter<RC, C, E>
 {
 	/**
 	 * 
