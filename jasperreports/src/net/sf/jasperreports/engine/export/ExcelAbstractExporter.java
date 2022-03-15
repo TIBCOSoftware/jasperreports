@@ -381,7 +381,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_19_1,
+			sinceVersion = PropertyConstants.VERSION_6_20_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_COLUMN_WIDTH_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.width.metadata";

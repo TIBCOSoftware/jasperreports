@@ -467,7 +467,7 @@ After running the <code>&gt;ant test view</code> command the data-centric docume
     <description>
 Shows how to export the report to XLSX format using metadata associated with report elements at design time, to mark data columns.
     </description>
-    <since>6.19.1</since>
+    <since>6.20.0</since>
     <documentedBy>
       <author>
     	<name>Sanda Zaharia</name>
