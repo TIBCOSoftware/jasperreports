@@ -4102,7 +4102,7 @@ public class JRApiWriter
 			String strFloat = 
 				MessageFormat.format(
 					"{0}f", 
-					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
+					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replace(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strFloat}));
 		}
@@ -4128,7 +4128,7 @@ public class JRApiWriter
 			String strDouble = 
 				MessageFormat.format(
 					"{0}d", 
-					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
+					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replace(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strDouble}));
 		}
