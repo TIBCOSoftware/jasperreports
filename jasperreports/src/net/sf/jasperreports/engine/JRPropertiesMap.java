@@ -290,6 +290,21 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		return this.cloneProperties();
 	}
 	
+	/**
+	 * Copies properties from a different map into this object.
+	 * 
+	 * @param propertiesMap the map to copy properties from
+	 */
+	public void copyOwnProperties(JRPropertiesMap propertiesMap)
+	{
+		if (propertiesMap.propertiesList != null)
+		{
+			for (String prop : propertiesMap.propertiesList)
+			{
+				setProperty(prop, propertiesMap.getOwnProperty(prop));
+			}
+		}
+	}
 	
 	@Override
 	public String toString()

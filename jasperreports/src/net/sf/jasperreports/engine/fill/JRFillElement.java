@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
@@ -158,6 +157,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean shrinkable;
 
 	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap staticTransferProperties;
 	protected JRPropertiesMap dynamicProperties;
 	protected JRPropertiesMap mergedProperties;
 	
@@ -196,6 +196,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		height = element.getHeight();
 		
 		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
+		staticTransferProperties = findStaticTransferProperties();
 		mergedProperties = staticProperties;
 		
 		JRPropertyExpression[] elementPropertyExpressions = element.getPropertyExpressions();
@@ -238,12 +239,38 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		shrinkable = element.shrinkable;
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
+		staticTransferProperties = element.staticTransferProperties;
 		mergedProperties = staticProperties;
 		this.propertyExpressions = new ArrayList<JRPropertyExpression>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		// we need a style provider context for this element instance
 		initStyleProviders();
+	}
+	
+	private JRPropertiesMap findStaticTransferProperties()
+	{
+		if (staticProperties == null)
+		{
+			return null;
+		}
+		
+		String[] propertyNames = staticProperties.getPropertyNames();
+		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
+		JRPropertiesMap transferProperties = new JRPropertiesMap();
+		for (int i = 0; i < propertyNames.length; i++)
+		{
+			for (String prefix : prefixes)
+			{
+				String prop = propertyNames[i];
+				if (prop.startsWith(prefix))
+				{
+					transferProperties.setProperty(prop, staticProperties.getProperty(prop));
+					break;
+				}
+			}
+		}
+		return transferProperties.isEmpty() ? null : transferProperties;
 	}
 	
 	private List<String> findDynamicTransferProperties()
@@ -1733,8 +1760,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void transferProperties(JRTemplateElement template)
 	{
-		filler.getPropertiesUtil().transferProperties(parent, template, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+		if (staticTransferProperties != null)
+		{
+			template.getPropertiesMap().copyOwnProperties(staticTransferProperties);
+		}
 	}
 	
 	protected void transferProperties(JRPrintElement element)
