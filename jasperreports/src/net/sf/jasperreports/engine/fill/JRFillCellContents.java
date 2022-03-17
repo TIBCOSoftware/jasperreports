@@ -309,6 +309,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			case STRETCH:
 				scaleX = ((double) newWidth) / width;
 				break;
+			default:
 		}
 		
 		double scaleY =  -1d;
@@ -324,6 +325,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			case STRETCH:
 				scaleY = ((double) newHeight) / height;
 				break;
+			default:
 		}
 		
 		transformElements(getElements(), scaleX, offsetX, scaleY, offsetY);

@@ -511,6 +511,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				contentWriter.write("{\\sp{\\sn lineDashing}{\\sv 1}}");
 				break;
 			}
+			default :
 		}
 
 		contentWriter.write("{\\sp{\\sn lineWidth}{\\sv ");

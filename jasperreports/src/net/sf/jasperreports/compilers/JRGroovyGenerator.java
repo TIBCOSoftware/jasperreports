@@ -697,6 +697,7 @@ public class JRGroovyGenerator
 	
 						break;
 					}
+					default :
 				}
 			}
 		}

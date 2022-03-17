@@ -297,12 +297,6 @@ public class ParagraphStyle extends Style
 		styleWriter.write("<style:paragraph-properties");
 		switch (paragraph.getLineSpacing())
 		{
-			case SINGLE:
-			default:
-			{
-				styleWriter.write(" fo:line-height=\"100%\"");
-				break;
-			}
 			case ONE_AND_HALF:
 			{
 				styleWriter.write(" fo:line-height=\"150%\"");
@@ -326,6 +320,12 @@ public class ParagraphStyle extends Style
 			case PROPORTIONAL:
 			{
 				styleWriter.write(" fo:line-height=\"" + (100 * paragraph.getLineSpacingSize()) + "%\"");
+				break;
+			}
+			case SINGLE:
+			default:
+			{
+				styleWriter.write(" fo:line-height=\"100%\"");
 				break;
 			}
 		}

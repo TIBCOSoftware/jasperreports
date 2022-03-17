@@ -297,6 +297,7 @@ public class TableUtil
 		case COLUMN_GROUP_FOOTER:
 			cell = bc.getGroupFooter(grName);
 			break;
+		default:
 		}
 		return cell;
 	}

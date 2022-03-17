@@ -799,6 +799,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		case JRViewerEvent.EVENT_REPORT_LOADED:
 			reportLoaded();
 			break;
+		default:
 		}
 	}
 }

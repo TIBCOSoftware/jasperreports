@@ -146,6 +146,7 @@ public class ConvertChartContext implements ChartContext
 		case JRChartDataset.XYZ_DATASET:
 			dataset = createXyzDataset();
 			break;
+		default:
 		}
 		return dataset;
 	}

@@ -3180,19 +3180,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 		switch (lineSpacing)
 		{
-			case SINGLE:
-			default:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					styleBuffer.append(" line-height: 1; *line-height: normal;");
-				}
-				else
-				{
-					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
 			case ONE_AND_HALF:
 			{
 				if (lineSpacingFactor == 0)
@@ -3229,6 +3216,19 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				if (lineSpacingSize != null) {
 					styleBuffer.append(" line-height: " + lineSpacingSize + "px;");
+				}
+				break;
+			}
+			case SINGLE:
+			default:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1; *line-height: normal;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
 				}
 				break;
 			}

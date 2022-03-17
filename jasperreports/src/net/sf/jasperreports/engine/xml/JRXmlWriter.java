@@ -1122,6 +1122,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					stretchType = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
 					break;
 				}
+				default :
 			}
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchType, StretchTypeEnum.NO_STRETCH);

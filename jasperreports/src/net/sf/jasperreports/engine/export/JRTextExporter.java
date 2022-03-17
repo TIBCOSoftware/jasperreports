@@ -593,6 +593,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				rowOffset = (rowSpan - rowIndex) / 2;
 				break;
 			}
+			default :
 		}
 
 		for (int i = 0; i < rowIndex; i++) {
@@ -626,6 +627,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 					}
 					break;
 				}
+				default :
 			}
 
 			char[] chars = line.toCharArray();

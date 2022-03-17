@@ -796,12 +796,6 @@ public abstract class AbstractTextRenderer
 
 		switch(paragraph.getLineSpacing())
 		{
-			case SINGLE:
-			default :
-			{
-				lineHeight = maxLeading + 1f * maxAscent;
-				break;
-			}
 			case ONE_AND_HALF:
 			{
 				if (isFirstLine)
@@ -860,6 +854,12 @@ public abstract class AbstractTextRenderer
 				{
 					lineHeight = paragraph.getLineSpacingSize();
 				}
+				break;
+			}
+			case SINGLE:
+			default :
+			{
+				lineHeight = maxLeading + 1f * maxAscent;
 				break;
 			}
 		}

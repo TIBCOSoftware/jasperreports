@@ -1347,6 +1347,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		case JRViewerEvent.EVENT_REPORT_LOAD_FAILED:
 			refreshTabs();
 			break;
+		default:
 		}
 	}
 }

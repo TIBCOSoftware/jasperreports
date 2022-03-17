@@ -387,6 +387,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 		case JRViewerEvent.EVENT_REPORT_LOAD_FAILED:
 			JOptionPane.showMessageDialog(this, getBundleString("error.loading"));
 			break;
+		default:
 		}
 	}
 

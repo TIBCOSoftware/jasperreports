@@ -128,6 +128,7 @@ public class JsonUtil {
 				case NE:
 					result = !contextValue.equals(value);
 					break;
+				default:
 				}
 			}
 		}

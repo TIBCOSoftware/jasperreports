@@ -254,6 +254,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 					case JRChartDataset.XY_DATASET:
 						dataset = factory.getXyDataset( (JRXyDataset)chart.getDataset() );
 						break;
+					default:
 				}
 				plot = factory.getBarPlot((JRBarPlot)chart.getPlot());
 				break;

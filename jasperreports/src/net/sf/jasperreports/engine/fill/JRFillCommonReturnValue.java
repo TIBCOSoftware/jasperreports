@@ -188,6 +188,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 				filler.addVariableCalculationReq(returnValue.getToVariable(), calculation);
 				break;
 			}
+			default:
 		}
 
 		returnValueList.add(returnValue);

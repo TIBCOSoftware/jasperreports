@@ -190,6 +190,7 @@ public final class JREvaluationTime implements Serializable
 				case BAND:
 					eq = bandId == e.bandId;
 					break;
+				default:
 			}
 		}
 		

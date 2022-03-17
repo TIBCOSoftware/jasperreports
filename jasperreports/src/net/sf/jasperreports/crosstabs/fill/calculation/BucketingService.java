@@ -307,6 +307,7 @@ public abstract class BucketingService
 				addMeasure(countMeasure, index, measuresList, measureIndexList);
 				break;
 			}
+			default:
 		}
 
 		measuresList.add(measure);
@@ -390,11 +391,14 @@ public abstract class BucketingService
 				case STANDARD_DEVIATION:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_VARIANCE);
+					break;
 				}
 				case DISTINCT_COUNT:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_COUNT);
+					break;
 				}
+				default:
 			}
 		}
 		return values;

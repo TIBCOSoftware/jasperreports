@@ -995,6 +995,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				applied = stretchElementToHeight(getY() - getRelativeY() + getHeight() + containerStretch);
 				break;
 			}
+			default :
 		}
 		return applied;
 	}
@@ -1022,6 +1023,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 					applied = stretchElementToHeight(getY() - getRelativeY() + getHeight() + elementGroup.getStretchHeightDiff());
 					break;
 				}
+				default :
 			}
 		}
 		return applied;
@@ -1337,6 +1339,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 							delayedEvaluations.variables.add(chunk.getText());
 							break;
 						}
+						default:
 					}
 				}
 			}

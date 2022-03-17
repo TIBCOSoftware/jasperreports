@@ -402,6 +402,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 				break;
 			}
+			default:
 		}
 
 		variableList.add(variable);

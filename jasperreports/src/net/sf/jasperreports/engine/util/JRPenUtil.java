@@ -136,7 +136,9 @@ public final class JRPenUtil
 									0f
 									);
 						}
+						default :
 					}
+					break;
 				}
 				case DASHED :
 				{
@@ -166,7 +168,9 @@ public final class JRPenUtil
 									0f
 									);
 						}
+						default :
 					}
+					break;
 				}
 				case SOLID :
 				default :

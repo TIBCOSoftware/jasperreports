@@ -506,6 +506,7 @@ public class PropertyStyleProvider implements StyleProvider
 									variablesList.add(chunk.getText());
 									break;
 								}
+								default:
 							}
 						}
 					}

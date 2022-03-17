@@ -126,6 +126,7 @@ public class ReportExpressionsCompiler
 					break;
 				case JRExpressionChunk.TYPE_TEXT:
 					directEvaluation = constantExpressionEvaluations.get(chunk.getText());
+					break;
 				default:
 					break;
 				}

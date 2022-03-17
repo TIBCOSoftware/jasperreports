@@ -2316,6 +2316,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
 							setReferenceHyperlink(chunk, link, hyperlink);
 						}
+						break;
 					}
 					case NONE :
 					default :
@@ -3297,6 +3298,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(0, 2 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}
@@ -3314,6 +3316,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(4 * lineWidth, 4 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}

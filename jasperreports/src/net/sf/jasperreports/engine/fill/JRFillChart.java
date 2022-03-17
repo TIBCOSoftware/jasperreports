@@ -270,6 +270,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					case JRChartDataset.XY_DATASET:
 						dataset = (JRFillChartDataset) factory.getXyDataset( (JRXyDataset)chart.getDataset() );
 						break;
+					default:
 				}
 
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());

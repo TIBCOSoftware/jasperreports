@@ -684,6 +684,7 @@ public class JRClassGenerator
 	
 						break;
 					}
+					default :
 				}
 			}
 		}

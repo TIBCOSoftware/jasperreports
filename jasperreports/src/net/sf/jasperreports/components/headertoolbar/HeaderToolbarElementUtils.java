@@ -260,6 +260,7 @@ public class HeaderToolbarElementUtils
 				}
 				break;
 			}
+			default :
 		}
 		
 		filterData.setFilterPattern(filterPattern);
@@ -396,6 +397,7 @@ public class HeaderToolbarElementUtils
 				}
 				break;
 			}
+			default :
 		}
 		
 		cfd.setConditionPattern(conditionPattern);
