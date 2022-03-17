@@ -325,15 +325,6 @@ public class JacksonUtil
 	
 	
 	/**
-	 * 
-	 */
-	public String getEscapedJsonString(Object object)
-	{
-		return getJsonString(object).replaceAll("\\\"", "\\\\\\\"");
-	}
-
-
-	/**
 	 *
 	 */
 	public ObjectNode hyperlinkToJsonObject(JRPrintHyperlink hyperlink)

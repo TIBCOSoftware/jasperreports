@@ -107,7 +107,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 			String numberAsString = matcher.group(2);
 
 			if (numberAsString != null) {
-				this.number = Integer.parseInt(numberAsString.replaceAll("\\+", ""));
+				this.number = Integer.parseInt(numberAsString.replace("+", ""));
 			} else {
 				this.number = 0;
 			}
