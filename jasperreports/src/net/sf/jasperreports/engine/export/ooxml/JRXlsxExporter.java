@@ -1579,7 +1579,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
 		LineDirectionEnum direction = null;
-		float ratio = line.getWidth() / line.getHeight();
+		float ratio = line.getWidth() / (float)line.getHeight();
 		if (ratio > 1)
 		{
 			if(line.getHeight() > 1)
