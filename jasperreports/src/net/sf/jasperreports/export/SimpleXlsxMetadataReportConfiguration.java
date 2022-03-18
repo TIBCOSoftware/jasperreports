@@ -32,14 +32,6 @@ public class SimpleXlsxMetadataReportConfiguration extends AbstractXlsReportConf
 	private Boolean isWriteHeader;
 	private String[] columnNames; 
 
-
-	/**
-	 * 
-	 */
-	public SimpleXlsxMetadataReportConfiguration()
-	{
-	}	
-	
 	@Override
 	public Boolean isWriteHeader()
 	{

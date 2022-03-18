@@ -319,6 +319,7 @@
 					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="dd\/MM\/yyyy"/>
 					<property name="net.sf.jasperreports.export.json.path" value="OrderDate"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>

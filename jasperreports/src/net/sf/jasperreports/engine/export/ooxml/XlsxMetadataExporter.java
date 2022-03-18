@@ -105,6 +105,7 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.export.XlsxMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsxMetadataReportConfiguration;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -181,7 +182,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	protected int tableIndex;
 	protected boolean startPage;
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	private XlsxRunHelper runHelper;
@@ -256,9 +257,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	{
 		super.initExport();
 		sheetInfo = null;
-		currentRow = new HashMap<String, Object>();
-		repeatedValues = new HashMap<String, Object>();
-		columnHeadersRow = new HashMap<String, Object>();
+		currentRow = new HashMap<>();
+		repeatedValues = new HashMap<>();
+		columnHeadersRow = new HashMap<>();
 		onePagePerSheetMap.clear();
 		sheetsBeforeCurrentReport = 0;
 		sheetsBeforeCurrentReportMap.clear();
@@ -312,13 +313,13 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			configureDefinedNames(configuration.getDefinedNames());
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
-			if (pages != null && pages.size() > 0)
+			if (pages != null && !pages.isEmpty())
 			{
 				PageRange pageRange = getPageRange();
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				if (configuration.isOnePagePerSheet())
+				if (Boolean.TRUE.equals(configuration.isOnePagePerSheet()))
 				{
 
 					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -390,7 +391,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				exportEmptyReport();
 			}
 			
-			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
+			sheetsBeforeCurrentReport = Boolean.TRUE.equals(configuration.isOnePagePerSheet()) ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 		closeSheet();
 		closeWorkbook(os);
@@ -427,7 +428,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		if(currentRow == null)
 		{
-			currentRow = new HashMap<String, Object>();
+			currentRow = new HashMap<>();
 		}
 		else if(!currentRow.isEmpty()) 
 		{
@@ -441,11 +442,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_COLUMN_INDEX_BEYOND_LIMIT, 
-					new Object[]{columnNames.size(), maxColumnIndex+1});
+					columnNames.size(), 
+					maxColumnIndex+1);
 			
 		}
 		// write last row
-		if (columnNames.size() > 0)
+		if (!columnNames.isEmpty())
 		{
 			writeCurrentRow(currentRow, repeatedValues);
 		}
@@ -477,7 +479,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			for (int i = 0; i < elements.size(); ++i) 
 			{
 				JRPrintElement element = elements.get(i);
-				//			updateSheet(element);
 
 				if (element instanceof JRPrintFrame) 
 				{
@@ -575,13 +576,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 	protected JRPrintElementIndex getElementIndex(int colIndex)
 	{
-		JRPrintElementIndex imageIndex =
-			new JRPrintElementIndex(
+		return new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
 					String.valueOf(colIndex + 1 + rowIndex * (columnNames == null ? 0 : columnNames.size()))
 					);
-		return imageIndex;
 	}
 
 
@@ -595,7 +594,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME,
-					new Object[]{imageName});
+					imageName);
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
@@ -646,7 +645,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsxMetadataReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
+		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
 			ignoreHyperlink = configuration.isIgnoreHyperlink();
@@ -658,6 +657,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
+				boolean includeAnchors = !Boolean.TRUE.equals(configuration.isIgnoreAnchors());
+				boolean onePagePerSheet = Boolean.TRUE.equals(configuration.isOnePagePerSheet());
 				switch(link.getHyperlinkTypeValue())
 				{
 					case REFERENCE :
@@ -678,7 +679,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					}
 					case LOCAL_ANCHOR :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkAnchor() != null)		//test for ignore anchors done here
+						if (includeAnchors && link.getHyperlinkAnchor() != null)		//test for ignore anchors done here
 						{
 							href = link.getHyperlinkAnchor();
 						}
@@ -686,9 +687,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					}
 					case LOCAL_PAGE :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkPage() != null)		//test for ignore anchors done here
+						if (includeAnchors && link.getHyperlinkPage() != null)		//test for ignore anchors done here
 						{
-							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (configuration.isOnePagePerSheet() ? link.getHyperlinkPage().toString() : "1");
+							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (onePagePerSheet ? link.getHyperlinkPage().toString() : "1");
 						}
 						break;
 					}
@@ -712,16 +713,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						break;
 					}
 					case REMOTE_PAGE :
-					{
-//						if (
-//							link.getHyperlinkReference() != null &&
-//							link.getHyperlinkPage() != null
-//							)
-//						{
-//							href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-//						}
-						break;
-					}
 					case NONE :
 					default :
 					{
@@ -738,19 +729,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		return href;
 	}
 
-
-//	protected void endHyperlink(boolean isText)
-//	{
-////		wbHelper.write("</w:hyperlink>\n");
-//		wbHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
-//	}
-
-	protected void insertPageAnchor(int colIndex, int rowIndex)
+	protected void insertPageAnchor()
 	{
-		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
+		if(!Boolean.TRUE.equals(getCurrentItemConfiguration().isIgnoreAnchors()) && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (sheetIndex - sheetsBeforeCurrentReport);
-			String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+			String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$A$1";	
 			definedNames.append("<definedName name=\"" + getDefinedName(anchorPage) +"\">"+ ref +"</definedName>\n");
 			startPage = false;
 		}
@@ -788,17 +772,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			wbHelper.exportFooter();
 
 			wbHelper.close();
-
-//			if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
-//			{
-//				for(Iterator it = hyperlinksMap.keySet().iterator(); it.hasNext();)
-//				{
-//					String href = (String)it.next();
-//					String id = (String)hyperlinksMap.get(href);
-	//
-//					relsHelper.exportHyperlink(id, href);
-//				}
-//			}
 
 			relsHelper.exportFooter();
 			relsHelper.close();
@@ -1238,11 +1211,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 							normalHeight = dimension.getHeight();
 						}
 
-						double ratioX = 1d;
-						double ratioY = 1d;
-
-						double imageWidth = availableImageWidth;
-						double imageHeight = availableImageHeight;
+						double ratioX;
+						double ratioY;
+						double imageWidth;
+						double imageHeight;
 
 						switch (image.getRotation())
 						{
@@ -1427,9 +1399,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 				XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 				
-				if (!configuration.isIgnoreAnchors())
+				if (!Boolean.TRUE.equals(configuration.isIgnoreAnchors()))
 				{
-					insertPageAnchor(colIndex,rowIndex);
+					insertPageAnchor();
 					if (image.getAnchorName() != null)
 					{
 						String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + ExcelAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
@@ -1437,13 +1409,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					}
 				}
 
-//				boolean startedHyperlink = startHyperlink(image,false);
-
 				drawingRelsHelper.exportImage(imageProcessorResult.imagePath);
 
 				ImageAnchorTypeEnum imageAnchorType = 
 					ImageAnchorTypeEnum.getByName(
-						JRPropertiesUtil.getOwnProperty(image, XlsxMetadataReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+						JRPropertiesUtil.getOwnProperty(image, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
 						);
 				if (imageAnchorType == null)
 				{
@@ -1479,8 +1449,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				{
 					altText = " descr=\"" + altText +"\"";
 				}
-				
-				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\"" + altText + ">\n");
+				int hashCode = image.hashCode();
+				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (hashCode > 0 ? hashCode : -hashCode) + "\" name=\"Picture\"" + altText + ">\n");
 
 				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)
@@ -1505,23 +1475,13 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				drawingHelper.write("    <a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
 				drawingHelper.write("  </a:xfrm>\n");
 				drawingHelper.write("<a:prstGeom prst=\"rect\"></a:prstGeom>\n");
-//				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
-//				{
-//					drawingHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
-//				}
 				drawingHelper.write("</xdr:spPr>\n");
 				drawingHelper.write("</xdr:pic>\n");
 				drawingHelper.write("<xdr:clientData/>\n");
 				drawingHelper.write("</xdr:twoCellAnchor>\n");
 
-//				if(startedHyperlink)
-//				{
-//					endHyperlink(false);
-//				}
 			}
 		}
-
-//		drawingHelper.write("</w:p>");
 
 		cellHelper.exportFooter();
 	}
@@ -1580,55 +1540,47 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			
 			String imagePath = null;
 
-//			if (image.isLazy()) //FIXMEXLSX learn how to link images
-//			{
-//				
-//			}
-//			else
-//			{
-				if (
-					renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
-					&& rendererToImagePathMap.containsKey(renderer.getId())
-					)
-				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
-				}
-				else
-				{
-					JRPrintElementIndex imageIndex = getElementIndex(colIndex);
+			if (
+				renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
+				&& rendererToImagePathMap.containsKey(renderer.getId())
+				)
+			{
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+				JRPrintElementIndex imageIndex = getElementIndex(colIndex);
 
-					DataRenderable imageRenderer = 
-						getRendererUtil().getImageDataRenderable(
-							imageRenderersCache,
-							renderer,
-							new Dimension(availableImageWidth, availableImageHeight),
-							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-							);
-
-					byte[] imageData = imageRenderer.getData(jasperReportsContext);
-					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
-
-					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
-						new FileBufferedZipEntry(
-							"xl/media/" + imageName,
-							imageData
-							)
+				DataRenderable imageRenderer = 
+					getRendererUtil().getImageDataRenderable(
+						imageRenderersCache,
+						renderer,
+						new Dimension(availableImageWidth, availableImageHeight),
+						ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 						);
-					
-//					drawingRelsHelper.exportImage(imageName);
 
-					imagePath = imageName;
-					//imagePath = "Pictures/" + imageName;
-	
-					if (imageRenderer == renderer)
-					{
-						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
-					}
+				byte[] imageData = imageRenderer.getData(jasperReportsContext);
+				String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
+				String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
+
+				xlsxZip.addEntry(
+					new FileBufferedZipEntry(
+						"xl/media/" + imageName,
+						imageData
+						)
+					);
+				
+
+				imagePath = imageName;
+				//imagePath = "Pictures/" + imageName;
+
+				if (imageRenderer == renderer)
+				{
+					//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
-//			}
-			
+			}
+				
 			return new InternalImageProcessorResult(imagePath, dimension);
 		}
 	}
@@ -1646,12 +1598,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 	
-	protected void exportLine(JRPrintLine line, int colIndex) throws JRException 
+	protected void exportLine(JRPrintLine line, int colIndex) 
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
 		LineDirectionEnum direction = null;
-		float ratio = line.getWidth() / line.getHeight();
+		float ratio = line.getWidth() / (float)line.getHeight();
 		if (ratio > 1)
 		{
 			if(line.getHeight() > 1)
@@ -1706,7 +1658,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		cellHelper.exportFooter();
 	}
 	
-	protected void exportRectangle(JRPrintGraphicElement rectangle, int colIndex) throws JRException 
+	protected void exportRectangle(JRPrintGraphicElement rectangle, int colIndex)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -1748,7 +1700,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		if (configuration.isDetectCellType())
+		if (Boolean.TRUE.equals(configuration.isDetectCellType()))
 		{
 			textValue = getTextValue(text, textStr);
 			if (textValue instanceof NumberTextValue)
@@ -1761,7 +1713,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 		}
 		
-		//FIXME: use localized pattern symbols similar to XLS export (via DateFormatConverter class)
 		final String convertedPattern = getConvertedPattern(text, pattern);
 				
 		cellHelper.exportHeader(
@@ -1788,24 +1739,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			sheetHelper.write("<f>" + textFormula + "</f>\n");
 		}
 
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
-//		if (styleBuffer.length() > 0)
-//		{
-//			writer.write(" style=\"");
-//			writer.write(styleBuffer.toString());
-//			writer.write("\"");
-//		}
-//
-//		writer.write(">");
-		
-//		tableHelper.getParagraphHelper().exportProps(text);
-		if(!configuration.isIgnoreAnchors())
+		if(!Boolean.TRUE.equals(configuration.isIgnoreAnchors()))
 		{
-			insertPageAnchor(colIndex,rowIndex);
+			insertPageAnchor();
 			if (text.getAnchorName() != null)
 			{
 				String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + ExcelAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
@@ -1825,71 +1761,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 
 		
-		TextValueHandler handler = 
-			new TextValueHandler() 
-			{
-				@Override
-				public void handle(BooleanTextValue textValue) throws JRException 
-				{
-					if(textValue.getValue() != null)
-					{
-						sheetHelper.write("<v>" + textValue.getValue() + "</v>");
-					}
-				}
-				
-				@Override
-				public void handle(DateTextValue textValue) throws JRException 
-				{
-					Date date = textValue.getValue();
-					if(date != null)
-					{
-						sheetHelper.write(
-							"<v>" 
-							+ (date == null ? "" : JRDataUtils.getExcelSerialDayNumber(
-								date, 
-								getTextLocale(text), 
-								getTextTimeZone(text)
-								)) 
-							+ "</v>"
-							);
-					}
-				}
-				
-				@Override
-				public void handle(NumberTextValue textValue) throws JRException 
-				{
-					
-					if (textValue.getValue() != null)
-					{
-						sheetHelper.write("<v>"); 
-						double doubleValue = textValue.getValue().doubleValue();
-						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
-						{
-							doubleValue = doubleValue / 86400;
-						}
-						sheetHelper.write(String.valueOf(doubleValue));
-						sheetHelper.write("</v>");
-					}
-				}
-				
-				@Override
-				public void handle(StringTextValue textValue) throws JRException 
-				{
-					writeText();
-				}
-				
-				private void writeText() throws JRException 
-				{	
-					if (textStr != null && textStr.length() > 0)
-					{
-						sheetHelper.write("<is>");	//FIXMENOW make writer util; check everywhere
-						String markup = text.getMarkup();
-						boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup) && !isIgnoreTextFormatting(text);
-						exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText);
-						sheetHelper.write("</is>");
-					}
-				}
-			};
+		TextValueHandler handler = getTextValueHandler(text, convertedPattern);
 		
 		if (textValue != null)
 		{
@@ -1904,7 +1776,77 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		cellHelper.exportFooter();
 	}
 
-
+    private TextValueHandler getTextValueHandler(final JRPrintText text, final String convertedPattern)
+    {
+		final JRStyledText styledText = getStyledText(text);
+		final String textStr = styledText.getText();
+		
+    	return new TextValueHandler() 
+		{
+			@Override
+			public void handle(BooleanTextValue textValue) throws JRException 
+			{
+				if(textValue.getValue() != null)
+				{
+					sheetHelper.write("<v>" + textValue.getValue() + "</v>");
+				}
+			}
+			
+			@Override
+			public void handle(DateTextValue textValue) throws JRException 
+			{
+				Date date = textValue.getValue();
+				if(date != null)
+				{
+					sheetHelper.write(
+						"<v>" 
+						+ JRDataUtils.getExcelSerialDayNumber(
+							date, 
+							getTextLocale(text), 
+							getTextTimeZone(text)
+							)
+						+ "</v>"
+						);
+				}
+			}
+			
+			@Override
+			public void handle(NumberTextValue textValue) throws JRException 
+			{
+				
+				if (textValue.getValue() != null)
+				{
+					sheetHelper.write("<v>"); 
+					double doubleValue = textValue.getValue().doubleValue();
+					if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+					{
+						doubleValue = doubleValue / 86400;
+					}
+					sheetHelper.write(String.valueOf(doubleValue));
+					sheetHelper.write("</v>");
+				}
+			}
+			
+			@Override
+			public void handle(StringTextValue textValue) throws JRException 
+			{
+				writeText();
+			}
+			
+			private void writeText() 
+			{	
+				if (textStr != null && textStr.length() > 0)
+				{
+					sheetHelper.write("<is>");
+					String markup = text.getMarkup();
+					boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup) && !isIgnoreTextFormatting(text);
+					exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText);
+					sheetHelper.write("</is>");
+				}
+			}
+		};
+    }
+    
 	protected void exportElement(final JRPrintElement element) throws JRException 
 	{
 		String currentColumnName = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_NAME);
@@ -1925,7 +1867,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	{
 		if(!currentRow.containsKey(CURRENT_ROW_AUTOFIT) || !Boolean.TRUE.equals(currentRow.get(CURRENT_ROW_AUTOFIT)))
 		{
-			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit == null ? false : isAutofit);
+			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit == null ? Boolean.FALSE : isAutofit);
 		} 
 		if(!currentRow.containsKey(CURRENT_ROW_HEIGHT) || (Integer)currentRow.get(CURRENT_ROW_HEIGHT) < rowHeight) 
 		{
@@ -1934,7 +1876,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 	
 	protected void addElement(JRPrintElement element, boolean repeatValue, String currentColumnName) throws JRException {
-		if (columnNames.size() > 0) 
+		if (!columnNames.isEmpty()) 
 		{
 			if (columnNames.contains(currentColumnName) && !currentRow.containsKey(currentColumnName) && isColumnReadOnTime(currentRow, currentColumnName)) 
 			{	// the column is for export but was not read yet and comes in the expected order
@@ -2106,7 +2048,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 	
 
-	protected void exportFrame(JRPrintFrame frame, int colIndex) throws JRException 
+	protected void exportFrame(JRPrintFrame frame, int colIndex)
 		{
 			cellHelper.exportHeader(frame,
 					rowIndex, 
@@ -2132,11 +2074,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
-		rendererToImagePathMap = new HashMap<String,String>();
-//		imageMaps = new HashMap();
-//		hyperlinksMap = new HashMap();
+		rendererToImagePathMap = new HashMap<>();
 		definedNames = new StringBuilder();
-		sheetMapping = new HashMap<String, Integer>();
+		sheetMapping = new HashMap<>();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
@@ -2213,8 +2153,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	}
 
 	protected void setBackground() {
-		// TODO Auto-generated method stub
-		
+		// do nothing here
 	}
 
 
@@ -2312,8 +2251,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		
 		hasDefinedColumns = (columnNamesArray != null && columnNamesArray.length > 0);
 
-		columnNames = new ArrayList<String>();
-		columnNamesMap = new HashMap<String, Integer>();
+		columnNames = new ArrayList<>();
+		columnNamesMap = new HashMap<>();
 
 		List<String> columnNamesList = JRStringUtil.split(columnNamesArray, ",");
 		if (columnNamesList != null)
@@ -2368,15 +2307,15 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 	protected void setColumnName(String currentColumnName) {
 		// when no columns are provided, build the column names list as they are retrieved from the report element property
-		if (!hasDefinedColumns)
+		if (!hasDefinedColumns 
+				&& currentColumnName != null 
+				&& currentColumnName.length() > 0 
+			&& !columnNames.contains(currentColumnName))
 		{
-			if (currentColumnName != null && currentColumnName.length() > 0 && !columnNames.contains(currentColumnName))
-			{
-				columnNamesMap.put( currentColumnName, columnNames.size());
-				columnNames.add(currentColumnName);
-			}
+			columnNamesMap.put( currentColumnName, columnNames.size());
+			columnNames.add(currentColumnName);
 		}
 	}
-	
+
 }
 
