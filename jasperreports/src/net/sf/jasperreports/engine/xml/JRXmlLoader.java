@@ -204,29 +204,13 @@ public class JRXmlLoader
 	{
 		JasperDesign jasperDesign = null;
 
-		FileInputStream fis = null;
-
-		try
+		try (FileInputStream fis = new FileInputStream(file))
 		{
-			fis = new FileInputStream(file);
 			jasperDesign = JRXmlLoader.load(jasperReportsContext, fis);
 		}
-		catch(IOException e)
+		catch (IOException e)
 		{
 			throw new JRException(e);
-		}
-		finally
-		{
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return jasperDesign;

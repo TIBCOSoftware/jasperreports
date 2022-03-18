@@ -32,8 +32,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -346,16 +346,8 @@ public class CastorUtil
 	
 	public void write(Object object, OutputStream output)
 	{
-		try
-		{
-			Writer writer = new OutputStreamWriter(output, "UTF-8");//hardcoding utf8 instead of the default encoding
-			write(object, writer);
-		} 
-		catch (UnsupportedEncodingException e)
-		{
-			// should not happen
-			throw new JRRuntimeException(e);
-		}
+		Writer writer = new OutputStreamWriter(output, StandardCharsets.UTF_8);//hardcoding utf8 instead of the default encoding
+		write(object, writer);
 	}
 	
 	public void write(Object object, Writer writer)

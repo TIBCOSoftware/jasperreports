@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -72,9 +73,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITER_ERROR = "fonts.output.stream.writer.error";
 	
 	/**
-	 * Default XML output encoding.
+	 * @deprecated Replaced by {@link StandardCharsets#UTF_8}.
 	 */
-	public static final String DEFAULT_ENCODING = "UTF-8";
+	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
 	
 
 	/**
@@ -537,7 +538,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	protected static void writeFontExtensions(Writer out, FontExtensionsContainer extensions) throws IOException
 	{
 		JRXmlWriteHelper writer = new JRXmlWriteHelper(out);
-		writer.writeProlog(DEFAULT_ENCODING);
+		writer.writeProlog(StandardCharsets.UTF_8.name());
 		
 		writer.startElement("fontFamilies");
 		
@@ -831,11 +832,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		Writer out = null;
 		try
 		{
-			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
+			out = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
 			writeFontExtensions(out, extensions);
 			out.flush();
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			throw 
 				new JRException(
@@ -907,10 +908,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			OutputStream outputStream
 			) throws JRException
 	{
-		Writer out = null;
-		try
+		try (Writer out = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
 		{
-			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
 			out.write(
 					fontRegistryFactoryPropertyName + 
 					"=" + 
@@ -923,28 +922,14 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					fontFamiliesPropertyValue + 
 					"\n"
 					);
-			out.flush();
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITER_ERROR, 
 					null, 
 					e);
-		}
-		finally
-		{
-			if (out != null)
-			{
-				try
-				{
-					out.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 

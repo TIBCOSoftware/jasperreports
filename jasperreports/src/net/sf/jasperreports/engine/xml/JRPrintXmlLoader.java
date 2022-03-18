@@ -114,30 +114,14 @@ public class JRPrintXmlLoader implements ErrorHandler
 	{
 		JasperPrint jasperPrint = null;
 
-		FileInputStream fis = null;
-
-		try
+		try (FileInputStream fis = new FileInputStream(sourceFileName))
 		{
-			fis = new FileInputStream(sourceFileName);
 			JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader(jasperReportsContext);
 			jasperPrint = printXmlLoader.loadXML(fis);
 		}
 		catch(IOException e)
 		{
 			throw new JRException(e);
-		}
-		finally
-		{
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return jasperPrint;

@@ -250,15 +250,19 @@ public class JRApiWriter
 		String destFileName
 		) throws JRException
 	{
-		OutputStream os = null;
-		
-		try
+		String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING); //FIXME this is an export time config property
+		encoding = encoding == null ? "UTF-8" : encoding;
+
+		try (
+			Writer out = 
+				new OutputStreamWriter(
+					new BufferedOutputStream(
+						new FileOutputStream(destFileName)
+						), 
+					encoding
+					)
+			)
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName));
-			String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING) != null
-			? report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING)
-			: "UTF-8";//FIXME this is an export time config property
-			Writer out = new OutputStreamWriter(os, encoding);
 			writeReport(report, out);
 		}
 		catch (IOException e)
@@ -268,19 +272,6 @@ public class JRApiWriter
 					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 

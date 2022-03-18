@@ -79,30 +79,20 @@ public class FileHtmlResourceHandler implements HtmlResourceHandler
 	{
 		ensureParentFolder();
 		
-		OutputStream os = null;
-		
-		try
+		try (
+			OutputStream os = 
+				new BufferedOutputStream(
+					new FileOutputStream(
+						new File(parentFolder, id)
+						)
+					)
+			)
 		{
-			os = new BufferedOutputStream(new FileOutputStream(new File(parentFolder, id)));
 			os.write(data);
 		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch (IOException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-			}
 		}
 	}
 	

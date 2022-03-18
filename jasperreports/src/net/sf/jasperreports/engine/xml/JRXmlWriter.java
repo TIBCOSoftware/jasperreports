@@ -357,12 +357,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String encoding
 		) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (
+			Writer out = 
+				new OutputStreamWriter(
+					new BufferedOutputStream(
+						new FileOutputStream(destFileName)
+						), 
+					encoding
+					)
+			)
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName));
-			Writer out = new OutputStreamWriter(os, encoding);
 			writeReport(report, encoding, out);
 		}
 		catch (IOException e)
@@ -372,19 +376,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 

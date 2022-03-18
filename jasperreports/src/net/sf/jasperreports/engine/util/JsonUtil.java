@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -145,22 +144,10 @@ public class JsonUtil {
 	}
 	
 	public static JsonNode parseJson(File file) throws JRException {
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(file);
+		try (FileInputStream fileInputStream = new FileInputStream(file)) {
 			return parseJson(fileInputStream);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new JRException(e);
-		} finally {
-			if (fileInputStream != null) {
-				try {
-					fileInputStream.close();
-				} catch (IOException e) {
-					if (log.isWarnEnabled()) {
-						log.warn("Failed to close input stream for file " + file, e);
-					}
-				}
-			}
 		}
 	}
 	
