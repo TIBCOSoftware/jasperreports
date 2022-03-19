@@ -105,7 +105,7 @@ public class Cut
 	{
 		if (propertiesMap == null)
 		{
-			propertiesMap = new HashMap<String, Object>();
+			propertiesMap = new HashMap<>();
 		}
 		propertiesMap.put(name, value);
 	}

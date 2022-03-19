@@ -50,7 +50,7 @@ public class ColumnValuesDataSource implements JRRewindableDataSource, IndexedDa
 			throw new IllegalArgumentException();
 		}
 		
-		iterators = new LinkedHashMap<String, ColumnValuesIterator>();
+		iterators = new LinkedHashMap<>();
 		
 		this.size = size;
 		for (int i = 0; i < fieldNames.length; i++)

@@ -72,7 +72,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	public static final String EXCEPTION_MESSAGE_KEY_LOAD_PROPERTIES_FILE_FAILURE = "engine.context.load.properties.file.failure";
 	public static final String EXCEPTION_MESSAGE_KEY_DEFAULT_PROPERTIES_FILE_NOT_FOUND = "engine.context.default.properties.file.not.found";
 	
-	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
+	private Map<String, Object> values = new ConcurrentHashMap<>(16, .75f, 1);// assume low update concurrency
 
 	// FIXME remove volatile after we get rid of restoreProperties()
 	protected volatile ConcurrentHashMap<String, String> properties;
@@ -124,7 +124,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 			}
 
 			//FIXME configurable concurrency level?
-			properties = new ConcurrentHashMap<String, String>();
+			properties = new ConcurrentHashMap<>();
 			for (Enumeration<?> names = loadedProps.propertyNames(); names.hasMoreElements();)
 			{
 				String name = (String) names.nextElement();

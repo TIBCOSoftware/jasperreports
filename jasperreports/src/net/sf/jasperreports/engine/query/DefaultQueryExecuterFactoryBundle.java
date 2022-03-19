@@ -43,7 +43,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 {
 	@SuppressWarnings("deprecation")
 	private static final JRSingletonCache<JRQueryExecuterFactory> cache = 
-			new JRSingletonCache<JRQueryExecuterFactory>(JRQueryExecuterFactory.class);
+			new JRSingletonCache<>(JRQueryExecuterFactory.class);
 	
 	private static final DefaultQueryExecuterFactoryBundle INSTANCE = new DefaultQueryExecuterFactoryBundle();
 	

@@ -52,7 +52,7 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	private String datePattern = null;
 	private String numberPattern = null;
 	private boolean queryExecuterMode = false;
-	private List<String> columnNames = new ArrayList<String>();
+	private List<String> columnNames = new ArrayList<>();
 	
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}

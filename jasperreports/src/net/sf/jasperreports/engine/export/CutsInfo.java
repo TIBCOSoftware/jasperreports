@@ -48,7 +48,7 @@ public class CutsInfo
 	
 	public CutsInfo()
 	{
-		propertiesMap = new HashMap<String, Object>();
+		propertiesMap = new HashMap<>();
 		addCutOffset(0);
 	}
 	

@@ -68,7 +68,7 @@ public final class ChartUtil
 	 *
 	 */
 	private static final JRSingletonCache<ChartRenderableFactory> CHART_RENDERABLE_FACTORY_CACHE = 
-			new JRSingletonCache<ChartRenderableFactory>(ChartRenderableFactory.class);
+			new JRSingletonCache<>(ChartRenderableFactory.class);
 	
 	protected static final double AUTO_TICK_UNIT_THRESHOLD = 1e12;
 	protected static final double AUTO_TICK_UNIT_FACTOR = 1000d;
@@ -122,7 +122,7 @@ public final class ChartUtil
 			EntityCollection entityCollection = renderingInfo.getEntityCollection();
 			if (entityCollection != null && entityCollection.getEntityCount() > 0)
 			{
-				areaHyperlinks = new ArrayList<JRPrintImageAreaHyperlink>(entityCollection.getEntityCount());
+				areaHyperlinks = new ArrayList<>(entityCollection.getEntityCount());
 				
 				for (@SuppressWarnings("unchecked")
 				Iterator<ChartEntity> it = entityCollection.iterator(); it.hasNext();)

@@ -54,7 +54,7 @@ public final class ComponentsEnvironment
 	public static final String EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED = "components.bundle.not.registered";
 	
 	private final ReferenceMap<Object, Map<String, ComponentsBundle>> cache = 
-		new ReferenceMap<Object, Map<String, ComponentsBundle>>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 	
@@ -107,7 +107,7 @@ public final class ComponentsEnvironment
 
 	protected Map<String, ComponentsBundle> findBundles()
 	{
-		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
+		Map<String, ComponentsBundle> components = new HashMap<>();
 		List<ComponentsBundle> bundles = jasperReportsContext.getExtensions(ComponentsBundle.class);
 		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
 		{

@@ -48,7 +48,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 	 */
 	public DefaultXYZDataset()
 	{
-		dataset = new ArrayList<XYZElement>();
+		dataset = new ArrayList<>();
 	}
 	
 	/**

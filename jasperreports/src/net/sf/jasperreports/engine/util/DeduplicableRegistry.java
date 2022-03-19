@@ -72,7 +72,7 @@ public class DeduplicableRegistry
 		
 		public T deduplicate(T object)
 		{
-			DeduplicableWrapper<T> key = new DeduplicableWrapper<T>(object);
+			DeduplicableWrapper<T> key = new DeduplicableWrapper<>(object);
 			T existing = objects.get(key);
 			if (existing == null)
 			{
@@ -95,8 +95,7 @@ public class DeduplicableRegistry
 		}
 	}
 	
-	private final Map<Class<? extends Deduplicable>, DeduplicableMap<?>> typesMap 
-			= new HashMap<Class<? extends Deduplicable>, DeduplicableMap<?>>();
+	private final Map<Class<? extends Deduplicable>, DeduplicableMap<?>> typesMap = new HashMap<>();
 	
 	/**
 	 * Search for a duplicate of a given object in the registry, and add the object
@@ -117,7 +116,7 @@ public class DeduplicableRegistry
 		DeduplicableMap<T> typeMap = (DeduplicableMap<T>) typesMap.get(object.getClass());
 		if (typeMap == null)
 		{
-			typeMap = new DeduplicableMap<T>();
+			typeMap = new DeduplicableMap<>();
 			typesMap.put(object.getClass(), typeMap);
 		}
 		return typeMap;

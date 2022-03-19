@@ -143,8 +143,8 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<Map.Entry<K, V>> iterator()
 		{
 			Iterator<Map.Entry<K, V>> decoratedIterator = decoratedSet.iterator();
-			Map.Entry<K, V> additionalEntry = new SimpleImmutableEntry<K, V>(additionalKey, additionalValue);
-			return new AdditionalIterator<Map.Entry<K,V>>(decoratedIterator, additionalEntry);
+			Map.Entry<K, V> additionalEntry = new SimpleImmutableEntry<>(additionalKey, additionalValue);
+			return new AdditionalIterator<>(decoratedIterator, additionalEntry);
 		}
 
 		@Override

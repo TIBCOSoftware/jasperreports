@@ -116,7 +116,7 @@ public class ChromeInstanceRepository
 			log.debug("schedule chrome instance " + chromeInstance.getId() + " idle timeout check after " + delay);
 		}
 		
-		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<>(chromeInstance);
 		timeoutExecutor.schedule(() ->
 		{
 			checkIdle(configuration, instanceReference, idleTimeout);

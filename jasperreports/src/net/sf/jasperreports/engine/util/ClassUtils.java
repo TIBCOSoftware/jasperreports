@@ -93,7 +93,7 @@ public final class ClassUtils
 	 */
 	public static List<Class<?>> getInterfaces(Class<?> clazz)
 	{
-		List<Class<?>> interfaces = new ArrayList<Class<?>>();
+		List<Class<?>> interfaces = new ArrayList<>();
 		while(clazz != null)
 		{
 			interfaces.addAll(Arrays.asList(clazz.getInterfaces()));

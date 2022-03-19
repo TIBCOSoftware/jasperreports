@@ -58,7 +58,7 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 	@Override
 	public List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException
 	{
-		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();
+		List<JRAbstractScriptlet> scriptlets = new ArrayList<>();
 
 		JRAbstractScriptlet scriptlet = (JRAbstractScriptlet)context.getParameterValues().get(JRParameter.REPORT_SCRIPTLET);
 		if (scriptlet == null)

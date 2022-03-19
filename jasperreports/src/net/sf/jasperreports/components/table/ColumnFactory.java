@@ -45,7 +45,7 @@ public class ColumnFactory implements ColumnVisitor<BaseColumn>
 
 	public List<BaseColumn> createColumns(List<BaseColumn> columns)
 	{
-		List<BaseColumn> createdCols = new ArrayList<BaseColumn>(columns.size());
+		List<BaseColumn> createdCols = new ArrayList<>(columns.size());
 		for (BaseColumn tableColumn : columns)
 		{
 			BaseColumn column = tableColumn.visitColumn(this);
@@ -77,7 +77,7 @@ public class ColumnFactory implements ColumnVisitor<BaseColumn>
 		}
 		else
 		{
-			newCells = new ArrayList<GroupCell>(cells.size());
+			newCells = new ArrayList<>(cells.size());
 			for (GroupCell groupCell : cells)
 			{
 				GroupCell newCell = new StandardGroupCell(groupCell, this);

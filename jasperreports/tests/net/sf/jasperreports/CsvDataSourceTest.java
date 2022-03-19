@@ -82,7 +82,7 @@ public class CsvDataSourceTest
 	@DataProvider
 	public Object[][] detectedColumnNames()
 	{
-		List<Object[]> names = new ArrayList<Object[]>();
+		List<Object[]> names = new ArrayList<>();
 		names.add(new Object[]{new String[]{"a"}, new String[]{"a"}});
 		names.add(new Object[]{new String[]{"a" ,"b"}, new String[]{"a", "b"}});
 		names.add(new Object[]{new String[]{"a" ,"b" ,"c"}, new String[]{"a", "b", "c"}});

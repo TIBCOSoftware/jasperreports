@@ -103,7 +103,7 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 	 */
 	private final C getProxy(Class<?> clazz, InvocationHandler handler)
 	{
-		List<Class<?>> allInterfaces = new ArrayList<Class<?>>();
+		List<Class<?>> allInterfaces = new ArrayList<>();
 
 		if (clazz.isInterface())
 		{

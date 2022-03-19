@@ -50,7 +50,7 @@ public class CharPredicateCacheTest
 	@DataProvider
 	public Object[][] notCacheableCodepoints()
 	{
-		List<Object[]> codepoints = new ArrayList<Object[]>();
+		List<Object[]> codepoints = new ArrayList<>();
 		codepoints.add(new Object[]{-1});
 		codepoints.add(new Object[]{-2});
 		codepoints.add(new Object[]{Integer.MIN_VALUE});

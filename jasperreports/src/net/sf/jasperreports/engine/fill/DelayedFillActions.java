@@ -79,10 +79,10 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		this.id = assignId(reportFiller);
 		this.reportFiller = reportFiller;
 		this.fillContext = reportFiller.fillContext;
-		this.actionsMap = new HashMap<JREvaluationTime, LinkedHashMap<FillPageKey,LinkedMap<Object,EvaluationBoundAction>>>();
-		this.fillElements = new HashMap<Integer, JRFillElement>();
-		this.masterFillElementIds = new HashSet<Integer>();
-		this.listenedContexts = new HashSet<JRVirtualizationContext>();
+		this.actionsMap = new HashMap<>();
+		this.fillElements = new HashMap<>();
+		this.masterFillElementIds = new HashSet<>();
+		this.listenedContexts = new HashSet<>();
 	}
 	
 	private static int assignId(BaseReportFiller reportFiller)
@@ -402,7 +402,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 				{
 					// collection delayed evaluations for elements that are about to be externalized.
 					// the evaluations store the ID of the fill elements in order to serialize the data.
-					elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
+					elementEvaluations = new LinkedHashMap<>();
 					evaluations.put(evaluationTime, elementEvaluations);
 				}
 				

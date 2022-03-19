@@ -51,7 +51,7 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String groupName;
 
 	public ConditionalFormattingData() {
-		this.conditions = new ArrayList<FormatCondition>();
+		this.conditions = new ArrayList<>();
 	}
 
 	@JsonIgnore

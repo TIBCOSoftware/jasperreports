@@ -44,7 +44,7 @@ public class CharScriptsSet
 	{
 		if (includedScriptNames != null)
 		{
-			includedScripts = new HashSet<Integer>(includedScriptNames.size() * 4 / 3, .75f);
+			includedScripts = new HashSet<>(includedScriptNames.size() * 4 / 3, .75f);
 			for (String script : includedScriptNames)
 			{
 				int scriptCode = resolveScript(script);
@@ -62,7 +62,7 @@ public class CharScriptsSet
 		
 		if (excludedScriptNames != null)
 		{
-			excludedScripts = new HashSet<Integer>(excludedScriptNames.size() * 4 / 3, .75f);
+			excludedScripts = new HashSet<>(excludedScriptNames.size() * 4 / 3, .75f);
 			for (String script : excludedScriptNames)
 			{
 				int scriptCode = resolveScript(script);

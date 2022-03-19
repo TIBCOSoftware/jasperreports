@@ -60,7 +60,7 @@ public class CompositeFillListener implements FillListener
 		return newListener;
 	}
 	
-	private final List<FillListener> listeners = new ArrayList<FillListener>();
+	private final List<FillListener> listeners = new ArrayList<>();
 	
 	@Override
 	public void pageGenerated(JasperPrint jasperPrint, int pageIndex)

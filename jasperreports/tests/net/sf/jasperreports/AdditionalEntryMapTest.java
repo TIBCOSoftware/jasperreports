@@ -295,8 +295,7 @@ public class AdditionalEntryMapTest
 
 	private Map<Object, Object> createBaseMap(Object[][] pairs, boolean linked)
 	{
-		Map<Object, Object> map = linked ? new LinkedHashMap<>()
-				: new HashMap<Object, Object>();
+		Map<Object, Object> map = linked ? new LinkedHashMap<>() : new HashMap<>();
 		for (int i = 0; i < pairs.length; i++)
 		{
 			assert pairs[i].length == 2;

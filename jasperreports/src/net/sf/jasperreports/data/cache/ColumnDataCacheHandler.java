@@ -309,7 +309,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		{
 			if (parameters == null)
 			{
-				parameters = new LinkedHashMap<String, Object>();
+				parameters = new LinkedHashMap<>();
 			}
 			
 			parameters.put(name, value);

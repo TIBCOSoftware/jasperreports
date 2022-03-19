@@ -105,7 +105,7 @@ public final class CrosstabConverter extends FrameConverter
 	 */
 	private List<JRPrintElement> getCrosstabChildren(ReportConverter reportConverter, JRCrosstab crosstab)
 	{
-		List<JRPrintElement> crosstabElements = new ArrayList<JRPrintElement>();
+		List<JRPrintElement> crosstabElements = new ArrayList<>();
 		
 		int yOffset = 0;
 		if (crosstab.getTitleCell() != null

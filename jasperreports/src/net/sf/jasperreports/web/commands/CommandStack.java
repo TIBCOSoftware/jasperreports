@@ -35,8 +35,8 @@ public class CommandStack implements Serializable {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private LinkedList<Command> commandStack = new LinkedList<Command>();
-	private LinkedList<Command> redoStack = new LinkedList<Command>();
+	private LinkedList<Command> commandStack = new LinkedList<>();
+	private LinkedList<Command> redoStack = new LinkedList<>();
 
 	public void execute(Command command) throws CommandException{
 		try {

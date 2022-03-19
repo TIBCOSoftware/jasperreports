@@ -109,7 +109,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(new ComponentsXmlDigesterConfigurer());
 		bundle.setXmlParser(parser);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
 		ComponentsManager listManager = new ComponentsManager();
 		listManager.setDesignConverter(new ListDesignConverter());

@@ -68,8 +68,8 @@ public class DefaultSerializerRegistry implements SerializerRegistry
 	
 	public DefaultSerializerRegistry()
 	{
-		classSerializers = new HashMap<Class<?>, ObjectSerializer<?>>();
-		typeSerializers = new HashMap<Integer, ObjectSerializer<?>>();
+		classSerializers = new HashMap<>();
+		typeSerializers = new HashMap<>();
 		
 		addSerializer(String.class, new StringSerializer());
 		addSerializer(UUID.class, new UUIDSerializer());

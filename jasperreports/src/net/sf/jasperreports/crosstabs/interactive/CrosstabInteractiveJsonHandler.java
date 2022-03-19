@@ -72,7 +72,7 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 		String jsonFragment = null;
 		if (reportContext != null)
 		{
-			Map<String, Object> elementInfo = new LinkedHashMap<String, Object>();
+			Map<String, Object> elementInfo = new LinkedHashMap<>();
 			
 			String crosstabId = (String) element.getParameterValue(ELEMENT_PARAMETER_CROSSTAB_ID);
 			String crosstabFragmentId = (String) element.getParameterValue(ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID);

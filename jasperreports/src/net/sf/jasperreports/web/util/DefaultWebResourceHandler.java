@@ -91,7 +91,7 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 			{
 				if (resourceUri.indexOf(".vm.") != -1 && (isDynamicResource || resourceBundleName != null || locale != null)) 
 				{
-					Map<String, Object> contextMap = new HashMap<String, Object>();
+					Map<String, Object> contextMap = new HashMap<>();
 					contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
 					locale = locale == null ? Locale.getDefault() : locale;
 					contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider(resourceBundleName, locale)); 

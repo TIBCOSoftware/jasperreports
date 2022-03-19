@@ -54,13 +54,13 @@ public class ColumnFormatting implements Serializable
 		if (columnFormattingMap == null)
 		{
 			//FIXME concurrency?
-			columnFormattingMap = new ConcurrentHashMap<Pair<String,Integer>, ColumnFormatting>();
+			columnFormattingMap = new ConcurrentHashMap<>();
 			reportContext.setParameterValue(CONTEXT_PARAMETER_COLUMN_FORMATTING, columnFormattingMap);
 		}
 		
 		ColumnFormatting columnFormatting = new ColumnFormatting(
 				JRDataUtils.getLocaleCode(locale), JRDataUtils.getTimeZoneId(timeZone));
-		columnFormattingMap.put(new Pair<String, Integer>(tableUUID, columnIndex), columnFormatting);
+		columnFormattingMap.put(new Pair<>(tableUUID, columnIndex), columnFormatting);
 	}
 	
 	public static ColumnFormatting get(ReportContext reportContext, String tableUUID, int columnIndex)

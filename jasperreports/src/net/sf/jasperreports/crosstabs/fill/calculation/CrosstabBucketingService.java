@@ -120,14 +120,14 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders, bucketValueMap);
 		
 		cells = new CrosstabCell[rowBuckets][colBuckets];
-		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList<Bucket>(), new ArrayList<BucketMap>());
+		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList<>(), new ArrayList<>());
 	}
 
 	protected HeaderCell[][] createHeaders(byte dimension, CollectedList[] headersLists, BucketMap totalsMap)
 	{
 		HeaderCell[][] headers = new HeaderCell[buckets[dimension].length][headersLists[dimension].span];
 		
-		List<Bucket> vals = new ArrayList<Bucket>();
+		List<Bucket> vals = new ArrayList<>();
 		fillHeaders(dimension, headers, 0, 0, headersLists[dimension], vals, totalsMap);
 		
 		return headers;
@@ -563,7 +563,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 		{
 			this.totalPosition = totalPosition;
 			
-			list = new LinkedList<CollectedList>();
+			list = new LinkedList<>();
 		}
 
 		@Override
@@ -596,7 +596,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			
 			CollectedListComparator comparator = 
 				new CollectedListComparator(bucketDefinition);
-			list = new TreeSet<CollectedList>(comparator);
+			list = new TreeSet<>(comparator);
 		}
 
 		@Override

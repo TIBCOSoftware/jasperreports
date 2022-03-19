@@ -77,7 +77,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	public ExporterFilter getFilter(JRExporterContext exporterContext) throws JRException
 	{
 		List<ExporterFilterFactory> factories = getAllFilterFactories(exporterContext.getJasperReportsContext(), exporterContext.getExportedReport());
-		List<ExporterFilter> filters = new ArrayList<ExporterFilter>(factories.size());
+		List<ExporterFilter> filters = new ArrayList<>(factories.size());
 		for (Iterator<ExporterFilterFactory> it = factories.iterator(); it.hasNext();)
 		{
 			ExporterFilterFactory factory = it.next();
@@ -108,7 +108,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	{
 		List<JRPropertiesUtil.PropertySuffix> factoryProps = JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(report, 
 				PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX);
-		List<ExporterFilterFactory> factories = new ArrayList<ExporterFilterFactory>(factoryProps.size());
+		List<ExporterFilterFactory> factories = new ArrayList<>(factoryProps.size());
 		for (Iterator<JRPropertiesUtil.PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
 		{
 			JRPropertiesUtil.PropertySuffix prop = it.next();

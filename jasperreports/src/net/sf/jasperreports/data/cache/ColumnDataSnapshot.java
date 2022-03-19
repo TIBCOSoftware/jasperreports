@@ -52,7 +52,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 
 	public ColumnDataSnapshot()
 	{
-		cachedData = new LinkedHashMap<Object, ColumnCacheData>();
+		cachedData = new LinkedHashMap<>();
 		persistable = true;
 	}
 	
