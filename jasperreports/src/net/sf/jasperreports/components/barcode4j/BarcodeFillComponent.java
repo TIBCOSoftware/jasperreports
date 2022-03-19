@@ -48,7 +48,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 
 	private final BarcodeComponent barcodeComponent;
 	
-	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<JRStyle, JRTemplateImage>();
+	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<>();
 	private Renderable renderable;
 	
 	

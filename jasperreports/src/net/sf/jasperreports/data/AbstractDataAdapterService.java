@@ -117,7 +117,7 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	@Override
 	public void test() throws JRException
 	{
-		contributeParameters(new HashMap<String, Object>());
+		contributeParameters(new HashMap<>());
 		dispose();
 	}
  

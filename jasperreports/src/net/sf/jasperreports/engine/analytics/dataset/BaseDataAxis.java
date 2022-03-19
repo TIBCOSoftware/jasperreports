@@ -46,7 +46,7 @@ public class BaseDataAxis implements DataAxis, Serializable
 	
 	public BaseDataAxis()
 	{
-		this.levels = new ArrayList<DataAxisLevel>();
+		this.levels = new ArrayList<>();
 	}
 	
 	public BaseDataAxis(DataAxis dataAxis, JRBaseObjectFactory factory)
@@ -56,7 +56,7 @@ public class BaseDataAxis implements DataAxis, Serializable
 		this.axis = dataAxis.getAxis();
 		
 		List<DataAxisLevel> dataLevels = dataAxis.getLevels();
-		this.levels = new ArrayList<DataAxisLevel>(dataLevels.size());
+		this.levels = new ArrayList<>(dataLevels.size());
 		for (DataAxisLevel level : dataLevels)
 		{
 			this.levels.add(factory.getDataAxisLevel(level));

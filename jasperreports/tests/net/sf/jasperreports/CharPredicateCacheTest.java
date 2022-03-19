@@ -132,7 +132,7 @@ public class CharPredicateCacheTest
 	@DataProvider
 	public Object[][] codepoints()
 	{
-		List<Object[]> codepoints = new ArrayList<Object[]>();
+		List<Object[]> codepoints = new ArrayList<>();
 		for (int i = 0; i < 0x2ffff; i += 0x400)
 		{
 			codepoints.add(new Object[]{i, 1});

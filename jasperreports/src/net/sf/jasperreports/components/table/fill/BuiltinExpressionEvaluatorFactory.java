@@ -42,7 +42,7 @@ public class BuiltinExpressionEvaluatorFactory
 
 	public BuiltinExpressionEvaluatorFactory()
 	{
-		builtinEvaluators = new HashMap<JRExpression, BuiltinExpressionEvaluator>();
+		builtinEvaluators = new HashMap<>();
 	}
 
 	public JRDesignExpression createExpression(BuiltinExpressionEvaluator evaluator)

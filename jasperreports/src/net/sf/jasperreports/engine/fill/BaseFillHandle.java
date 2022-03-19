@@ -84,7 +84,7 @@ public abstract class BaseFillHandle implements FillHandle
 		this.dataSource = dataSource;
 		this.conn = conn;
 		this.filler = JRFiller.createReportFiller(jasperReportsContext, reportSource);
-		this.listeners = new ArrayList<AsynchronousFilllListener>();
+		this.listeners = new ArrayList<>();
 		lock = this;
 	}
 

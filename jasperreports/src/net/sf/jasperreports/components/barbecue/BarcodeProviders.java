@@ -50,7 +50,7 @@ public final class BarcodeProviders
 			return;
 		}
 
-		providers = new HashMap<String, BarcodeProvider>();
+		providers = new HashMap<>();
 		providers.put("2of7", new Barcode2of7Provider());
 		providers.put("3of9", new Barcode3of9Provider());
 		providers.put("Bookland", new BooklandProvider());

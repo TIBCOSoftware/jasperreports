@@ -201,7 +201,7 @@ public class CastorUtil
 	protected List<CastorMapping> getMappings(String version)
 	{
 		List<CastorMapping> castorMappings = jasperReportsContext.getExtensions(CastorMapping.class);
-		Map<String, CastorMapping> keyMappings = new HashMap<String, CastorMapping>();
+		Map<String, CastorMapping> keyMappings = new HashMap<>();
 		for (CastorMapping mapping : castorMappings)
 		{
 			String key = mapping.getKey();
@@ -222,7 +222,7 @@ public class CastorUtil
 			}
 		}
 		
-		List<CastorMapping> activeMappings = new ArrayList<CastorMapping>(castorMappings.size());
+		List<CastorMapping> activeMappings = new ArrayList<>(castorMappings.size());
 		for (CastorMapping mapping : castorMappings)
 		{
 			String key = mapping.getKey();

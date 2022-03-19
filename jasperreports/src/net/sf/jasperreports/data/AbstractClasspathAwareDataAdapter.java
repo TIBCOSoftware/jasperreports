@@ -32,7 +32,7 @@ import java.util.List;
  */
 public abstract class AbstractClasspathAwareDataAdapter extends AbstractDataAdapter implements ClasspathAwareDataAdapter
 {
-	private List<String> classpath = new ArrayList<String>();
+	private List<String> classpath = new ArrayList<>();
 
 	@Override
 	public void setClasspath(List<String> classpath) {

@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.base.BasePrintBookmark;
  */
 public class BookmarkIterator
 {
-	private Deque<BasePrintBookmark> stack = new LinkedList<BasePrintBookmark>();
+	private Deque<BasePrintBookmark> stack = new LinkedList<>();
 	
 	public BookmarkIterator(BasePrintBookmark root)
 	{

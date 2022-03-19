@@ -432,7 +432,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 		}
 		else
 		{
-			Map<String, Integer> newColumnNames = new LinkedHashMap<String, Integer>();
+			Map<String, Integer> newColumnNames = new LinkedHashMap<>();
 			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
 				Integer columnIndex = it.next();

@@ -86,7 +86,7 @@ public abstract class BaseHttpServlet extends HttpServlet
 			JasperPrint jasperPrint = (JasperPrint)request.getSession().getAttribute(jasperPrintSessionAttr);
 			if (jasperPrint != null)
 			{
-				jasperPrintList = new ArrayList<JasperPrint>();
+				jasperPrintList = new ArrayList<>();
 				jasperPrintList.add(jasperPrint);
 			}
 		}

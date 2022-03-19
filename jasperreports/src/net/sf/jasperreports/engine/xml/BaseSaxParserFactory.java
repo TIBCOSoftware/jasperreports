@@ -221,7 +221,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			ReferenceMap<Object, Object> cacheMap = grammarPoolCache.get();
 			if (cacheMap == null)
 			{
-				cacheMap = new ReferenceMap<Object, Object>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
+				cacheMap = new ReferenceMap<>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 				grammarPoolCache.set(cacheMap);
 			}
 			

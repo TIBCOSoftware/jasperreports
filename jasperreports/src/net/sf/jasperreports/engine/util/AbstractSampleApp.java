@@ -61,7 +61,7 @@ public abstract class AbstractSampleApp
 		
 		sb.append(appName + " usage:" + "\n\tjava " + appName + " task" + "\n\tTasks : ");
 		
-		TreeSet<String> tasks = new TreeSet<String>();
+		TreeSet<String> tasks = new TreeSet<>();
 		Method[] methods = getClass().getMethods();
 		for (Method method:methods)
 		{
@@ -112,7 +112,7 @@ public abstract class AbstractSampleApp
 	 */
 	protected File[] getFiles(File parentFile, String extension)
 	{
-		List<File> fileList = new ArrayList<File>();
+		List<File> fileList = new ArrayList<>();
 		String[] files = parentFile.list();
 		if (files != null)
 		{

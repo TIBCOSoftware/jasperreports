@@ -40,7 +40,7 @@ public abstract class AbstractZip
 	/**
 	 * 
 	 */
-	protected Map<String, ExportZipEntry> exportZipEntries = new HashMap<String, ExportZipEntry>();
+	protected Map<String, ExportZipEntry> exportZipEntries = new HashMap<>();
 
 	/**
 	 *

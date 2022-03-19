@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -48,8 +50,6 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 /**
@@ -130,7 +130,7 @@ public abstract class AbstractAction implements Action, Serializable {
 			this.jasperReportsContext = jasperReportsContext;
 			this.locale = locale;
 			this.messageBundle = messageBundle;
-			this.errorMessages = new ArrayList<String>();
+			this.errorMessages = new ArrayList<>();
 		}
 		
 		public void add(String messageKey, Object... args) {

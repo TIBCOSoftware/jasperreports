@@ -37,10 +37,10 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 public final class BarcodeUtils
 {
 	protected static JRSingletonCache<BarcodeImageProducer> imageProducerCache = 
-		new JRSingletonCache<BarcodeImageProducer>(BarcodeImageProducer.class);
+		new JRSingletonCache<>(BarcodeImageProducer.class);
 
 	protected static JRSingletonCache<QRCodeImageProducer> qrCodeProducerCache = 
-			new JRSingletonCache<QRCodeImageProducer>(QRCodeImageProducer.class);
+			new JRSingletonCache<>(QRCodeImageProducer.class);
 
 	private JasperReportsContext jasperReportsContext;
 

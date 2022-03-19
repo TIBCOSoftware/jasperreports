@@ -113,7 +113,7 @@ public abstract class AbstractTest
 	{
 		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
 		
-		HashMap<String, Object> params = new HashMap<String, Object>();
+		HashMap<String, Object> params = new HashMap<>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		params.put(TEST, this);

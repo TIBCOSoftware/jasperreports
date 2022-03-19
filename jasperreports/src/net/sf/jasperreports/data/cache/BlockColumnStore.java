@@ -56,7 +56,7 @@ public class BlockColumnStore implements ColumnStore
 		{
 			if (previousBlocks == null)
 			{
-				previousBlocks = new LinkedList<ColumnValues>();
+				previousBlocks = new LinkedList<>();
 			}
 			
 			ColumnValues currentValues = bufferStore.createValues();

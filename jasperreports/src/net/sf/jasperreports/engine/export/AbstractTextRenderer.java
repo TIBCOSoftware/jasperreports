@@ -484,7 +484,7 @@ public abstract class AbstractTextRenderer
 			float maxLeading = 0;
 			
 			// each line is split into segments, using the tab character as delimiter
-			segments = new ArrayList<TabSegment>(1);
+			segments = new ArrayList<>(1);
 
 			TabSegment oldSegment = null;
 			TabSegment crtSegment = null;

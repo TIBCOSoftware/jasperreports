@@ -49,7 +49,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 	private final JasperReportsContext jasperReportsContext;
 	private final FontUtil fontUtil;
 	
-	private final Map<String, GVTFontFamily> resolvedFontFamilies = new HashMap<String, GVTFontFamily>();
+	private final Map<String, GVTFontFamily> resolvedFontFamilies = new HashMap<>();
 
 
 	/**

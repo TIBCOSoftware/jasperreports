@@ -187,7 +187,7 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<K> iterator()
 		{
 			Iterator<K> decoratedIterator = decoratedSet.iterator();
-			return new AdditionalIterator<K>(decoratedIterator, additionalKey);
+			return new AdditionalIterator<>(decoratedIterator, additionalKey);
 		}
 
 		@Override
@@ -221,7 +221,7 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<V> iterator()
 		{
 			Iterator<V> decoratedIterator = decoratedCollection.iterator();
-			return new AdditionalIterator<V>(decoratedIterator, additionalValue);
+			return new AdditionalIterator<>(decoratedIterator, additionalValue);
 		}
 
 		@Override

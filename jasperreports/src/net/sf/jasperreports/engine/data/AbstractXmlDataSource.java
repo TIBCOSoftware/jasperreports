@@ -130,7 +130,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
 
-	private Map<String, String> fieldExpressions = new HashMap<String, String>();
+	private Map<String, String> fieldExpressions = new HashMap<>();
 
 
 	public abstract Node getCurrentNode();

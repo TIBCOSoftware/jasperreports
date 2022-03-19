@@ -48,7 +48,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 
 	private final BarbecueComponent barcodeComponent;
 	
-	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<JRStyle, JRTemplateImage>();
+	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<>();
 	
 	private String code;
 	private String applicationIdentifier;

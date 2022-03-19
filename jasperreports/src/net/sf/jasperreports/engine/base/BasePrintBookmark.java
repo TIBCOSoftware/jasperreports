@@ -94,7 +94,7 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 	{
 		if (bookmarks == null)
 		{
-			bookmarks = new ArrayList<PrintBookmark>();
+			bookmarks = new ArrayList<>();
 		}
 		bookmarks.add(child);
 	}

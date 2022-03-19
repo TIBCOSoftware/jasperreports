@@ -152,11 +152,11 @@ public class BucketDefinition
 			{
 				if (comparator == null)
 				{
-					orderComparator = new ReverseComparator<Object>();
+					orderComparator = new ReverseComparator<>();
 				}
 				else
 				{
-					orderComparator = new ReverseComparator<Object>(comparator);
+					orderComparator = new ReverseComparator<>(comparator);
 				}
 				break;
 			}

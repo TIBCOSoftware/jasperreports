@@ -54,7 +54,7 @@ public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistr
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> castorMappingProperties = JRPropertiesUtil.getProperties(properties, CASTOR_MAPPING_PROPERTY_PREFIX);
-		List<CastorMapping> castorMappings = new ArrayList<CastorMapping>();
+		List<CastorMapping> castorMappings = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = castorMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix castorMappingProp = it.next();

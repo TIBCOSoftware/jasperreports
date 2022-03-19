@@ -66,7 +66,7 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 		List<String> classpath = dataAdapter.getClasspath();
 		if(classpath.isEmpty())
 			return null;
-		List<URL> urls = new ArrayList<URL>();
+		List<URL> urls = new ArrayList<>();
 		for (String path : classpath) 
 		{
 			if(path == null || path.isEmpty())

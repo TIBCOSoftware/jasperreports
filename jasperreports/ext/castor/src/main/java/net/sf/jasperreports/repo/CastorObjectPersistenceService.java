@@ -63,7 +63,7 @@ public class CastorObjectPersistenceService implements PersistenceService
 		InputStream is = isResource == null ? null : isResource.getInputStream();
 		if (is != null)
 		{
-			resource = new CastorResource<Object>();
+			resource = new CastorResource<>();
 			try
 			{
 				resource.setValue(CastorUtil.getInstance(jasperReportsContext).read(is));
