@@ -85,7 +85,7 @@ public class ReportClassFilter implements ClassLoaderFilter
 	private boolean filterEnabled;
 	private List<ReportClassWhitelist> whitelists;
 	
-	private Map<String, Boolean> visibilityCache = new ConcurrentHashMap<String, Boolean>();
+	private Map<String, Boolean> visibilityCache = new ConcurrentHashMap<>();
 
 	public ReportClassFilter(JasperReportsContext jasperReportsContext)
 	{

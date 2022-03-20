@@ -37,7 +37,7 @@ public class FunctionBean
 	private String id;
 	private String name;
 	private String description;
-	private List<FunctionParameterBean> parameters = new ArrayList<FunctionParameterBean>();
+	private List<FunctionParameterBean> parameters = new ArrayList<>();
 	private Class<?> returnType;
 	
 	/**

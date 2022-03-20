@@ -65,7 +65,7 @@ public class ProcessFactory extends BasePooledObjectFactory<PhantomJSProcess>
 	@Override
 	public PooledObject<PhantomJSProcess> wrap(PhantomJSProcess process)
 	{
-		return new DefaultPooledObject<PhantomJSProcess>(process);
+		return new DefaultPooledObject<>(process);
 	}
 
 	@Override

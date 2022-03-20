@@ -53,7 +53,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 	protected static final String EXPRESSION_ID_VAR = "_jreid";
 	
 	private static final ReferenceMap<String, JavaScriptClassLoader> scriptClassLoaders = 
-		new ReferenceMap<String, JavaScriptClassLoader>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.SOFT
 			);
 	
@@ -85,7 +85,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 	private FunctionsUtil functionsUtil;
 	private JavaScriptEvaluatorScope evaluatorScope;
 	
-	private final Map<Integer, Script> scripts = new HashMap<Integer, Script>();
+	private final Map<Integer, Script> scripts = new HashMap<>();
 
 
 	/**

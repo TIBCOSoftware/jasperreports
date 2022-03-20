@@ -162,18 +162,18 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	static
 	{
 		Map<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
-		hssfColorsRgbs = new LinkedHashMap<HSSFColor, short[]>();
+		hssfColorsRgbs = new LinkedHashMap<>();
 		for (HSSFColor color : hssfColors.values())
 		{
 			hssfColorsRgbs.put(color, color.getTriplet());
 		}
 	}
 
-	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
-	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
-	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
-	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
-	protected Map<HSSFSheet,List<Integer>> autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<>();
+	protected Map<HSSFSheet,List<Integer>> autofitColumns = new HashMap<>();
 
 	/**
 	 *
@@ -185,7 +185,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
 	private HSSFPalette palette = null;
-	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<Color, HSSFColor>();
+	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<>();
 
 	/**
 	 *
@@ -344,8 +344,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
-		autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
-		formulaCellsMap = new HashMap<HSSFCell,String>();
+		autofitColumns = new HashMap<>();
+		formulaCellsMap = new HashMap<>();
 		
 		SummaryInformation summaryInformation = workbook.getSummaryInformation();
 		if (summaryInformation == null)
@@ -654,7 +654,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		if (autoFit)
 		{
 			//the autofit will be applied before closing workbook, after the sheet completion
-			List<Integer> autofitList= autofitColumns.get(sheet) != null ? autofitColumns.get(sheet) : new ArrayList<Integer>();
+			List<Integer> autofitList= autofitColumns.get(sheet) != null ? autofitColumns.get(sheet) : new ArrayList<>();
 			autofitList.add(col);
 			autofitColumns.put(sheet, autofitList);
 		}
@@ -2527,7 +2527,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 								}
 								else
 								{
-									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									List<Hyperlink> hrefList = new ArrayList<>();
 									hrefList.add(link);
 									anchorLinks.put(href, hrefList);
 								}
@@ -2548,7 +2548,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 							}
 							else
 							{
-								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+								List<Hyperlink> hrefList = new ArrayList<>();
 								hrefList.add(link);
 								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}

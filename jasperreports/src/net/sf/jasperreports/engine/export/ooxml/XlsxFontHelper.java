@@ -39,7 +39,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  */
 public class XlsxFontHelper extends BaseHelper
 {
-	private Map<String,Integer> fontCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private String exporterKey;
 	private XlsReportConfiguration configuration;

@@ -47,7 +47,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	
 	public static final String PROPERTY_TIME_PERIODS_SERIES = "timePeriodSeries";
 	
-	private List<JRTimePeriodSeries> timePeriodSeriesList = new ArrayList<JRTimePeriodSeries>();
+	private List<JRTimePeriodSeries> timePeriodSeriesList = new ArrayList<>();
 	
 
 	/**

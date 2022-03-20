@@ -69,7 +69,7 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	{
 		super(templateFrame, originator);
 		
-		elements = new ArrayList<JRPrintElement>();
+		elements = new ArrayList<>();
 	}
 
 	protected void setElementsList(List<JRPrintElement> elements)
@@ -148,7 +148,7 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		}
 		else
 		{
-			elements = new ArrayList<JRPrintElement>(size);
+			elements = new ArrayList<>(size);
 			for (int i = 0; i < size; i++)
 			{
 				JRPrintElement element = (JRPrintElement) in.readJRObject();

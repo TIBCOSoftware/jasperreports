@@ -117,7 +117,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	@Override
 	public Object combine(JRCalculable calculable1, JRCalculable calculable2, AbstractValueProvider valueProvider)
 	{
-		Set<Object> distinctValues = new HashSet<Object>();
+		Set<Object> distinctValues = new HashSet<>();
 		
 		DistinctCountHolder holder1  = (DistinctCountHolder)calculable1.getValue();
 		if (holder1 != null)

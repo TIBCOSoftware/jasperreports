@@ -45,7 +45,7 @@ public class PrintPartUnrollExporterInput implements ExporterInput
 	 */
 	public PrintPartUnrollExporterInput(ExporterInput exporterInput)
 	{
-		partItems = new ArrayList<ExporterInputItem>();
+		partItems = new ArrayList<>();
 		
 		for (ExporterInputItem item : exporterInput.getItems())
 		{

@@ -89,17 +89,17 @@ public class JRClassGenerator
 	
 	static
 	{
-		fieldPrefixMap = new HashMap<Byte,String>();
+		fieldPrefixMap = new HashMap<>();
 		fieldPrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		fieldPrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "");
 		fieldPrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
-		variablePrefixMap = new HashMap<Byte,String>();
+		variablePrefixMap = new HashMap<>();
 		variablePrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		variablePrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
 		variablePrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
-		methodSuffixMap = new HashMap<Byte,String>();
+		methodSuffixMap = new HashMap<>();
 		methodSuffixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		methodSuffixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
 		methodSuffixMap.put(JRExpression.EVALUATION_DEFAULT,   "");		
@@ -172,7 +172,7 @@ public class JRClassGenerator
 		sb.append(generateMethod(JRExpression.EVALUATION_DEFAULT, expressions));
 		if (sourceTask.isOnlyDefaultEvaluation())
 		{
-			List<JRExpression> empty = new ArrayList<JRExpression>();
+			List<JRExpression> empty = new ArrayList<>();
 			sb.append(generateMethod(JRExpression.EVALUATION_OLD, empty));
 			sb.append(generateMethod(JRExpression.EVALUATION_ESTIMATED, empty));
 		}
@@ -722,7 +722,7 @@ public class JRClassGenerator
 	
 	protected JRDefaultCompilationSourceCode parseSourceLines(String sourceCode)
 	{
-		List<JRExpression> expressions = new ArrayList<JRExpression>();
+		List<JRExpression> expressions = new ArrayList<>();
 		int start = 0;
 		int end = sourceCode.indexOf('\n');
 		while (end >= 0)

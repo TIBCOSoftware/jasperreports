@@ -71,7 +71,7 @@ public final class ExtensionsEnvironment
 		JRPropertiesUtil.PROPERTY_PREFIX + "extensions.registry.class";
 	
 	private static ExtensionsRegistry systemRegistry;
-	private static final ThreadLocal<ExtensionsRegistry> threadRegistry = new InheritableThreadLocal<ExtensionsRegistry>();
+	private static final ThreadLocal<ExtensionsRegistry> threadRegistry = new InheritableThreadLocal<>();
 	
 	static
 	{

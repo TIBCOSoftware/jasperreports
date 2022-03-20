@@ -142,9 +142,9 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	private static final String GROUP_PREFIX = "group.";
 	private static final String REPORT_PREFIX = "report.";
 	
-	private Map<JROrigin,Boolean> originsToExclude = new HashMap<JROrigin,Boolean>();
-	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<Integer,JRPrintElement>();
-	private Map<JROrigin,Boolean> matchedOrigins = new HashMap<JROrigin,Boolean>();
+	private Map<JROrigin,Boolean> originsToExclude = new HashMap<>();
+	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<>();
+	private Map<JROrigin,Boolean> matchedOrigins = new HashMap<>();
 	
 	public void addOrigin(JROrigin origin)
 	{
@@ -164,7 +164,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	@Override
 	public void reset()
 	{
-		firstOccurrences = new HashMap<Integer,JRPrintElement>();
+		firstOccurrences = new HashMap<>();
 	}
 	
 	@Override

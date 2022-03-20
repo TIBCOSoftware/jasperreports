@@ -38,7 +38,7 @@ import java.util.TreeMap;
  */
 public class XlsRowLevelInfo
 {
-	private SortedMap<String, Integer> levelMap = new TreeMap<String, Integer>();
+	private SortedMap<String, Integer> levelMap = new TreeMap<>();
 	private Integer endIndex;
 	
 	public XlsRowLevelInfo()

@@ -57,7 +57,7 @@ public class JRRecordedValues implements Serializable
 	 */
 	public JRRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
-		this.evaluationTimes = new HashSet<JREvaluationTime>(evaluationTimes);
+		this.evaluationTimes = new HashSet<>(evaluationTimes);
 	}
 
 	public JRRecordedValues(Set<JREvaluationTime> evaluationTimes,
@@ -117,7 +117,7 @@ public class JRRecordedValues implements Serializable
 	{
 		if (recordedVariableValues == null)
 		{
-			recordedVariableValues = new HashMap<String,Object>();
+			recordedVariableValues = new HashMap<>();
 		}
 		recordedVariableValues.put(variableName, value);
 	}
@@ -133,7 +133,7 @@ public class JRRecordedValues implements Serializable
 	{
 		if (recordedFieldValues == null)
 		{
-			recordedFieldValues = new HashMap<String,Object>();
+			recordedFieldValues = new HashMap<>();
 		}
 		recordedFieldValues.put(fieldName, value);
 	}

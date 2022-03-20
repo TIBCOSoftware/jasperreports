@@ -37,12 +37,12 @@ public class Tuple
 	
 	public Tuple ()
 	{
-		this.members = new ArrayList<TupleMember>();
+		this.members = new ArrayList<>();
 	}
 	
 	public Tuple (TupleMember member)
 	{
-		this.members = new ArrayList<TupleMember>(1);
+		this.members = new ArrayList<>(1);
 		addMember(member);
 	}
 	

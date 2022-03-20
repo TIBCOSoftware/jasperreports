@@ -80,7 +80,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 	@Override
 	public String[] getLanguages()
 	{
-		List<String> languages = new ArrayList<String>();
+		List<String> languages = new ArrayList<>();
 		List<PropertySuffix> properties = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(QueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX);
 		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();)
 		{

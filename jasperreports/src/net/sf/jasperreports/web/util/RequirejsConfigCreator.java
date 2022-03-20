@@ -105,7 +105,7 @@ public class RequirejsConfigCreator
 	{
 		String configString = toConfigString(configRoot);
 		
-		Map<String, Object> contextMap = new HashMap<String, Object>();
+		Map<String, Object> contextMap = new HashMap<>();
 		contextMap.put("config", configString);
 		
 		// going through a template so that the final output is somewhat customizable

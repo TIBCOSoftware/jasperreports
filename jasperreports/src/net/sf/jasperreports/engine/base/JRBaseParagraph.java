@@ -322,7 +322,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	{
 		if (tabStops == null)
 		{
-			tabStops = new ArrayList<TabStop>();
+			tabStops = new ArrayList<>();
 		}
 		
 		tabStops.add(tabStop);
@@ -335,7 +335,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	{
 		if (tabStops == null)
 		{
-			tabStops = new ArrayList<TabStop>();
+			tabStops = new ArrayList<>();
 		}
 		
 		tabStops.add(index, tabStop);

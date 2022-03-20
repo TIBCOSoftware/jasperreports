@@ -61,7 +61,7 @@ public class FunctionsInfo
 	private final Locale locale;
 	private final MessageUtil messageUtil;
 	
-	private final Map<String, FunctionCategoryBean> categories = new HashMap<String, FunctionCategoryBean>();
+	private final Map<String, FunctionCategoryBean> categories = new HashMap<>();
 	
 	/**
 	 * 
@@ -138,7 +138,7 @@ public class FunctionsInfo
 		Set<String> categoryIds = null;
 		if(categories != null) 
 		{
-			categoryIds = new HashSet<String>();
+			categoryIds = new HashSet<>();
 			for(Class<?> categoryClass : categories.value()) 
 			{
 				String categoryId = addCategoryClass(categoryClass);

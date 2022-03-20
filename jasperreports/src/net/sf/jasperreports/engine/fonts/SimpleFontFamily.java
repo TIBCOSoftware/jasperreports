@@ -84,9 +84,9 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			if (boldItalicFace != null)
 				clone.setBoldItalicFace((SimpleFontFace) boldItalicFace.clone());
 			if (locales != null)
-				clone.setLocales(new HashSet<String>(locales));
+				clone.setLocales(new HashSet<>(locales));
 			if (exportFonts != null)
-				clone.setExportFonts(new HashMap<String, String>(exportFonts));
+				clone.setExportFonts(new HashMap<>(exportFonts));
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new JRRuntimeException(e);

@@ -113,8 +113,8 @@ public class MatcherExporterFilter implements ExporterFilter
 			String exporterKey = typedExporter.getExporterKey();
 			if (exporterKey != null)
 			{
-				Set<String> includes = new HashSet<String>();
-				Set<String> excludes = new HashSet<String>();
+				Set<String> includes = new HashSet<>();
+				Set<String> excludes = new HashSet<>();
 				List<MatcherExportFilterMapping> mappings = exporterContext.getJasperReportsContext().getExtensions(MatcherExportFilterMapping.class);
 				for (MatcherExportFilterMapping mapping : mappings)
 				{

@@ -81,7 +81,7 @@ public class SortParameterContributor implements ParameterContributor
 
 			@SuppressWarnings("unchecked")
 			List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
-			List<JRSortField> sortFields = new ArrayList<JRSortField>();
+			List<JRSortField> sortFields = new ArrayList<>();
 
 			// add existing sort fields first
 			if (existingFields != null)
@@ -137,7 +137,7 @@ public class SortParameterContributor implements ParameterContributor
 				}
 				
 				if (existingFilter != null && true) { //FIXMEJIVE: add parameter to allow single filter on the same field
-					List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+					List<DatasetFilter> filters = new ArrayList<>();
 					getFieldFilters(existingFilter, filters, null);
 					FieldFilter filterForCurrentField = null;
 					
@@ -179,7 +179,7 @@ public class SortParameterContributor implements ParameterContributor
 			// remove filters
 			String filterForFieldToRemove = (String) reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_REMOVE_FILTER);
 			if (filterForFieldToRemove != null && existingFilter != null ) {
-				List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+				List<DatasetFilter> filters = new ArrayList<>();
 				getFieldFilters(existingFilter, filters, null);
 				FieldFilter filterToRemove = null;
 				

@@ -67,7 +67,7 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	{
 		List<PropertySuffix> themeProperties = JRPropertiesUtil.getProperties(properties, 
 				XML_CHART_THEME_PROPERTY_PREFIX);
-		Map<String, ChartTheme> themes = new HashMap<String, ChartTheme>();
+		Map<String, ChartTheme> themes = new HashMap<>();
 		for (Iterator<PropertySuffix> it = themeProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix themeProp = it.next();

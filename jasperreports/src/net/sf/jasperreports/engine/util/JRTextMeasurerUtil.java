@@ -105,7 +105,7 @@ public final class JRTextMeasurerUtil
 		JRPropertiesUtil.PROPERTY_PREFIX + "text.measurer.factory";
 	
 	private static final JRSingletonCache<JRTextMeasurerFactory> cache = 
-			new JRSingletonCache<JRTextMeasurerFactory>(JRTextMeasurerFactory.class);
+			new JRSingletonCache<>(JRTextMeasurerFactory.class);
 	
 	/**
 	 * Creates a text measurer for a text object.

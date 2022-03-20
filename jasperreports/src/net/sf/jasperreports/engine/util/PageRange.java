@@ -68,7 +68,7 @@ public class PageRange
 		
 		if (strRanges != null && strRanges.trim().length() > 0)
 		{
-			ranges = new ArrayList<PageRange>();
+			ranges = new ArrayList<>();
 
 			String[] rangeTokens = strRanges.split(",");
 			for (String rangeToken : rangeTokens)

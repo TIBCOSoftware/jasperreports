@@ -58,7 +58,7 @@ public class JavaScriptFunctionsObject implements Scriptable
 		this.context = context;
 		this.functionsUtil = functionsUtil;
 		this.evaluator = evaluator;
-		this.functions = new HashMap<String, Object>();
+		this.functions = new HashMap<>();
 	}
 	
 	@Override

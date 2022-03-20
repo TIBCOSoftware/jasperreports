@@ -123,8 +123,8 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 			if (dataset == null)
 			{
 				dataset = new DefaultCategoryDataset();
-				labelsMap = new HashMap<Comparable<?>, Map<Comparable<?>, String>>();
-				itemHyperlinks = new HashMap<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>>();
+				labelsMap = new HashMap<>();
+				itemHyperlinks = new HashMap<>();
 			}
 			
 			for(int i = 0; i < categorySeries.length; i++)
@@ -152,7 +152,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 					Map<Comparable<?>, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap<Comparable<?>, String>();
+						seriesLabels = new HashMap<>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -164,7 +164,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 					Map<Comparable<?>,JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<Comparable<?>,JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					seriesLinks.put(crtCategorySeries.getCategory(), crtCategorySeries.getPrintItemHyperlink());

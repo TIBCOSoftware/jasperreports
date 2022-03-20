@@ -58,7 +58,7 @@ public class PhantomJSProcess
 	private Process process;
 	private ProcessConnection processConnection;
 	private volatile boolean ended;
-	private AtomicReference<Integer> exitCode = new AtomicReference<Integer>();
+	private AtomicReference<Integer> exitCode = new AtomicReference<>();
 
 	public PhantomJSProcess(ProcessDirector director, int listenPort)
 	{
@@ -95,7 +95,7 @@ public class PhantomJSProcess
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
 		int idleTimeout = director.getProcessIdleTimeout();
 		
-		List<String> command = new ArrayList<String>();
+		List<String> command = new ArrayList<>();
 		command.add(director.getPhantomjsExecutablePath());
 		String options = "";
 		if(director.getOptions() != null)

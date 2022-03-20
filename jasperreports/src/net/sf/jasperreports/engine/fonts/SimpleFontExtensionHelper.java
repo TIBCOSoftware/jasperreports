@@ -419,7 +419,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	private Map<String,String> parseExportFonts(Node exportFontsNode)
 	{
-		Map<String,String> exportFonts = new HashMap<String,String>();
+		Map<String,String> exportFonts = new HashMap<>();
 		
 		NodeList nodeList = exportFontsNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -939,7 +939,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	private Set<String> parseLocales(Node localesNode) throws SAXException
 	{
-		Set<String> locales = new HashSet<String>();
+		Set<String> locales = new HashSet<>();
 		
 		NodeList nodeList = localesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)

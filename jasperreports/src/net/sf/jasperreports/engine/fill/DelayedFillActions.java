@@ -105,8 +105,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 
 	public void createDelayedEvaluationTime(JREvaluationTime evaluationTime)
 	{
-		LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> evaluationActions = 
-				new LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>();
+		LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> evaluationActions = new LinkedHashMap<>();
 		actionsMap.put(evaluationTime, evaluationActions);
 	}
 
@@ -168,7 +167,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 	{
 		if (transferredIds == null)
 		{
-			transferredIds = new HashSet<Integer>();
+			transferredIds = new HashSet<>();
 		}
 		
 		// duplicates are handled
@@ -214,7 +213,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		LinkedMap<Object, EvaluationBoundAction> pageMap = map.get(pageKey);
 		if (pageMap == null)
 		{
-			pageMap = new LinkedMap<Object, EvaluationBoundAction>();
+			pageMap = new LinkedMap<>();
 			map.put(pageKey, pageMap);
 			
 			registerPage(pageKey.page);

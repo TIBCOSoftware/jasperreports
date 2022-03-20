@@ -51,13 +51,13 @@ public class Olap4jResultAxis implements JROlapResultAxis
 			Olap4jFactory factory)
 	{
 		List<Position> positions = axis.getPositions();
-		this.tuples = new ArrayList<Olap4jTuple>(positions.size());
+		this.tuples = new ArrayList<>(positions.size());
 		for (Iterator<Position> it = positions.iterator(); it.hasNext(); )
 		{
 			tuples.add(new Olap4jTuple(it.next(), factory));
 		}
 		
-		this.hierarchies = new ArrayList<Olap4jHierarchy>(axisHierarchies.size());
+		this.hierarchies = new ArrayList<>(axisHierarchies.size());
 		for (Iterator<Hierarchy> it = axisHierarchies.iterator(); it.hasNext(); )
 		{
 			hierarchies.add(new Olap4jHierarchy(it.next()));

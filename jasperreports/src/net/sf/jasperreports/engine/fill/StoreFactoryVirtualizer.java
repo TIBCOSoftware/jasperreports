@@ -52,7 +52,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		this.storeFactory = storeFactory;
 		
 		this.contextStores = 
-			new ReferenceMap<JRVirtualizationContext, VirtualizerStore>(
+			new ReferenceMap<>(
 				ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 				);
 	}

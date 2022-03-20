@@ -124,10 +124,10 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 		{
 			if (seriesNames == null)
 			{
-				seriesNames = new ArrayList<Comparable<?>>();
-				seriesMap = new HashMap<Comparable<?>, XYSeries>();
-				labelsMap = new HashMap<Comparable<?>, Map<Number, String>>();
-				itemHyperlinks = new HashMap<Comparable<?>, Map<Pair, JRPrintHyperlink>>();
+				seriesNames = new ArrayList<>();
+				seriesMap = new HashMap<>();
+				labelsMap = new HashMap<>();
+				itemHyperlinks = new HashMap<>();
 			}
 
 			for(int i = 0; i < xySeries.length; i++)
@@ -154,7 +154,7 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 					Map<Number, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap<Number, String>();
+						seriesLabels = new HashMap<>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -166,10 +166,10 @@ public class JRFillXyDataset extends JRFillChartDataset implements JRXyDataset
 					Map<Pair, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<Pair, JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
-					Pair<Number,Number> xyKey = new Pair<Number,Number>(crtXySeries.getXValue(), crtXySeries.getYValue());
+					Pair<Number,Number> xyKey = new Pair<>(crtXySeries.getXValue(), crtXySeries.getYValue());
 					seriesLinks.put(xyKey, crtXySeries.getPrintItemHyperlink());
 				}
 			}

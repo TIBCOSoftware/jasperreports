@@ -152,7 +152,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 		public ParametersInvocationHandler()
 		{
 			//concurrency might not be involved, but let's be safe
-			values = new ConcurrentHashMap<Method, Object>(16, 0.75f, 1);
+			values = new ConcurrentHashMap<>(16, 0.75f, 1);
 		}
 		
 		@Override

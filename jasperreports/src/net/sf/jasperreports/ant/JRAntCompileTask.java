@@ -218,7 +218,7 @@ public class JRAntCompileTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		if (tempdir != null)
 		{

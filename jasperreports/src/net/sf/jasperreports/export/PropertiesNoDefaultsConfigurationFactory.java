@@ -78,7 +78,7 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 	 */
 	private final C getProxy(Class<?> clazz, InvocationHandler handler)
 	{
-		List<Class<?>> allInterfaces = new ArrayList<Class<?>>();
+		List<Class<?>> allInterfaces = new ArrayList<>();
 
 		if (clazz.isInterface())
 		{
@@ -185,7 +185,7 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(propertiesHolder, propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
-				Map<String,String> values = new HashMap<String,String>();
+				Map<String,String> values = new HashMap<>();
 				for (PropertySuffix propertySuffix : properties)
 				{
 					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());

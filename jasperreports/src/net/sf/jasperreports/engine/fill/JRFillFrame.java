@@ -101,9 +101,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer = new JRFillFrameElements(factory);
 		
-		bottomTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
-		topTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
-		topBottomTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
+		bottomTemplateFrames = new HashMap<>();
+		topTemplateFrames = new HashMap<>();
+		topBottomTemplateFrames = new HashMap<>();
 		
 		setShrinkable(true);
 	}

@@ -118,10 +118,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		{
 			if (seriesNames == null)
 			{
-				seriesNames = new ArrayList<Comparable<?>>();
-				seriesMap = new HashMap<Comparable<?>, TimeSeries>();
-				labelsMap = new HashMap<Comparable<?>, Map<RegularTimePeriod, String>>();
-				itemHyperlinks = new HashMap<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>>();
+				seriesNames = new ArrayList<>();
+				seriesMap = new HashMap<>();
+				labelsMap = new HashMap<>();
+				itemHyperlinks = new HashMap<>();
 			}
 
 			for (int i = 0; i < timeSeries.length; i++)
@@ -160,7 +160,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 					Map<RegularTimePeriod, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap<RegularTimePeriod, String>();
+						seriesLabels = new HashMap<>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -172,7 +172,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 					Map<RegularTimePeriod, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<RegularTimePeriod, JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					seriesLinks.put(tp, crtTimeSeries.getPrintItemHyperlink());

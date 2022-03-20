@@ -43,9 +43,9 @@ public class XYZElement implements Serializable {
 	private List<Number> zElements;
 	
 	public XYZElement(){
-		xElements = new ArrayList<Number>();
-		yElements = new ArrayList<Number>();
-		zElements = new ArrayList<Number>();
+		xElements = new ArrayList<>();
+		yElements = new ArrayList<>();
+		zElements = new ArrayList<>();
 	}
 
 	public void setSeries( Comparable<?> series ){

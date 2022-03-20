@@ -48,7 +48,7 @@ public class JRFillGenericElement extends JRFillElement implements
 {
 	
 	private JRGenericElementParameter[] parameters;
-	private Map<String,Object> parameterValues = new HashMap<String,Object>();
+	private Map<String,Object> parameterValues = new HashMap<>();
 	
 	public JRFillGenericElement(JRBaseFiller filler, JRGenericElement element,
 			JRFillObjectFactory factory)

@@ -228,7 +228,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-		List<FieldFilter> result = new ArrayList<FieldFilter>();
+		List<FieldFilter> result = new ArrayList<>();
 		if (target != null)
 		{
 			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());

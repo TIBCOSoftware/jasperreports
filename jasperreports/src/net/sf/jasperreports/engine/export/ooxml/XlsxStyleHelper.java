@@ -53,7 +53,7 @@ public class XlsxStyleHelper extends BaseHelper
 	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
 	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
 	
-	private Map<String,Integer> styleCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> styleCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private XlsxFormatHelper formatHelper;
 	private XlsxFontHelper fontHelper;

@@ -478,8 +478,8 @@ public class PropertyStyleProvider implements StyleProvider
 		this.context = context;
 		this.stylePropertyExpressions = stylePropertyExpressions;
 		
-		List<String> fieldsList = new ArrayList<String>();
-		List<String> variablesList = new ArrayList<String>();
+		List<String> fieldsList = new ArrayList<>();
+		List<String> variablesList = new ArrayList<>();
 		
 		if (stylePropertyExpressions != null)
 		{

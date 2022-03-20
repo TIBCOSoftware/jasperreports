@@ -273,7 +273,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			// <AxisFormat>TupleFormat</AxisFormat>
 			// </PropertyList>
 			// </Properties>
-			Map<String, String> paraList = new HashMap<String, String>();
+			Map<String, String> paraList = new HashMap<>();
 			String datasource = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE);
 			paraList.put("DataSourceInfo", datasource);
 			String catalog = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG);

@@ -59,7 +59,7 @@ public class GenericElementTest extends BaseElementsTests
 		JRRecordedValuesGenericPrintElement element = new JRRecordedValuesGenericPrintElement(template, new DefaultPrintElementOriginator(12));
 		setElement(element);
 		
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.EVALUATION_TIME_REPORT);
 		evaluationTimes.add(JREvaluationTime.getGroupEvaluationTime("g"));
 		element.initRecordedValues(evaluationTimes);

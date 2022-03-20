@@ -118,19 +118,19 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		this.reqParams = getReqParams();
 		
 		if(mapComponent.getMarkerDataList() != null){
-			markerDataList = new ArrayList<FillItemData>();
+			markerDataList = new ArrayList<>();
 			for(ItemData markerData : mapComponent.getMarkerDataList()) {
 				markerDataList.add(new FillPlaceItemData(this, markerData, factory));
 			}
 		}
 		if(mapComponent.getPathStyleList() != null){
-			pathStyleList = new ArrayList<FillItemData>();
+			pathStyleList = new ArrayList<>();
 			for(ItemData pathStyle : mapComponent.getPathStyleList()) {
 				pathStyleList.add(new FillStyleItemData(this, pathStyle, factory));
 			}
 		}
 		if(mapComponent.getPathDataList() != null){
-			pathDataList = new ArrayList<FillItemData>();
+			pathDataList = new ArrayList<>();
 			for(ItemData pathData : mapComponent.getPathDataList()) {
 				pathDataList.add(new FillPlaceItemData(this, pathData, factory));
 			}
@@ -210,7 +210,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		imageType = mapComponent.getImageType();
 
 		if(markerDataList != null) {
-			markers = new ArrayList<Map<String,Object>>();
+			markers = new ArrayList<>();
 			
 			for(FillItemData markerData : markerDataList) {
 				List<Map<String,Object>> currentItemList = markerData.getEvaluateItems(evaluation);
@@ -226,8 +226,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		
 		if(pathDataList != null) {
 			addPathStyles(evaluation);
-			paths = new ArrayList<Map<String,Object>>();
-			Map<String, Map<String,Object>> pathIds = new HashMap<String,Map<String,Object>>();
+			paths = new ArrayList<>();
+			Map<String, Map<String,Object>> pathIds = new HashMap<>();
 
 			for(FillItemData pathData : pathDataList) {
 				List<Map<String,Object>> currentItemList = pathData.getEvaluateItems(evaluation);
@@ -239,7 +239,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 							if(pathIds.containsKey(pathName)){
 								pathMap = pathIds.get(pathName);
 							} else {
-								pathMap = new HashMap<String,Object>();
+								pathMap = new HashMap<>();
 								pathMap.put(MapComponent.PARAMETER_PATH_LOCATIONS, new ArrayList<Map<String,Object>>());
 								pathIds.put(pathName, pathMap);
 								paths.add(pathMap);
@@ -256,7 +256,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 														new Object[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude}
 														);
 											}
-											Map<String,Object> location = new HashMap<String,Object>();
+											Map<String,Object> location = new HashMap<>();
 											location.put(MapComponent.ITEM_PROPERTY_latitude, currentItem.get(MapComponent.ITEM_PROPERTY_latitude));
 											location.put(MapComponent.ITEM_PROPERTY_longitude, currentItem.get(MapComponent.ITEM_PROPERTY_longitude));
 											((List<Map<String,Object>>)pathMap.get(MapComponent.PARAMETER_PATH_LOCATIONS)).add(location);
@@ -276,7 +276,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	}
 
 	protected void addPathStyles(byte evaluation) throws JRException{
-		styles = new HashMap<String, Map<String,Object>>();
+		styles = new HashMap<>();
 		if (pathStyleList != null)
 		{
 			for(FillItemData styleData : pathStyleList){
@@ -295,7 +295,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 						if(styles.containsKey(styleName)){
 							styleMap = styles.get(styleName);
 						} else {
-							styleMap = new HashMap<String,Object>();
+							styleMap = new HashMap<>();
 							styles.put(styleName, styleMap);
 						}
 						setStyle(currentStyle, styleMap);

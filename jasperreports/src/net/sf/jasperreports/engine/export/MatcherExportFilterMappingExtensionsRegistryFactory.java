@@ -65,7 +65,7 @@ public class MatcherExportFilterMappingExtensionsRegistryFactory implements Exte
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> exportFilterMappingProperties = JRPropertiesUtil.getProperties(properties, MATCHER_EXPORT_FILTER_MAPPING_PROPERTY_PREFIX);
-		List<MatcherExportFilterMapping> exportFilterMappings = new ArrayList<MatcherExportFilterMapping>();
+		List<MatcherExportFilterMapping> exportFilterMappings = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = exportFilterMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix exportFilterMappingProp = it.next();

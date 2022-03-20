@@ -345,7 +345,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				if (lineBreakOffsets == null)
 				{
-					lineBreakOffsets = new ArrayList<Integer>();
+					lineBreakOffsets = new ArrayList<>();
 				}
 
 				int breakOffset = textOffset - lastOffset;
@@ -855,7 +855,7 @@ public class TextMeasurer implements JRTextMeasurer
 		boolean isLeftToRight = true;
 		
 		// each line is split into segments, using the tab character as delimiter
-		List<TabSegment> segments = new ArrayList<TabSegment>(1);
+		List<TabSegment> segments = new ArrayList<>(1);
 
 		TabSegment oldSegment = null;
 		TabSegment crtSegment = null;

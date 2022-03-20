@@ -99,7 +99,7 @@ public class SortedDataSource implements JRRewindableDataSource, IndexedDataSour
 	private final JRDataSource originalDataSource;
 	private final List<SortRecord> records;
 	private final Integer[] recordIndexes;
-	private final Map<String, Integer> columnNamesMap = new HashMap<String, Integer>();
+	private final Map<String, Integer> columnNamesMap = new HashMap<>();
 	
 	private int currentIndex;
 	private SortRecord currentRecord;

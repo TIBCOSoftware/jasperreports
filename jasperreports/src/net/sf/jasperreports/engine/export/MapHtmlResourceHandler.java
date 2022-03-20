@@ -51,7 +51,7 @@ public class MapHtmlResourceHandler implements HtmlResourceHandler
 	 */
 	public MapHtmlResourceHandler(HtmlResourceHandler parentHandler)
 	{
-		this(parentHandler, new HashMap<String, byte[]>());
+		this(parentHandler, new HashMap<>());
 	}
 
 	/**

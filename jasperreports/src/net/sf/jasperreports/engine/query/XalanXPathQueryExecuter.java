@@ -164,7 +164,7 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 	
 	private Map<String, String> extractXmlNamespacesFromProperties() throws JRException 
 	{
-		Map<String, String> namespaces = new HashMap<String, String>();
+		Map<String, String> namespaces = new HashMap<>();
 		
 		String xmlnsPrefix = XalanXPathQueryExecuterFactory.XML_NAMESPACE_PREFIX;
 		List<PropertySuffix> nsProperties = JRPropertiesUtil.getProperties(dataset, xmlnsPrefix);

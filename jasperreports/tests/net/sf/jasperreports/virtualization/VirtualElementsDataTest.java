@@ -96,12 +96,12 @@ public class VirtualElementsDataTest extends BaseElementsTests
 		
 		VirtualElementsData data = new VirtualElementsData(elements);
 		
-		Map<JRPrintElement, Integer> reportEvaluations = new HashMap<JRPrintElement, Integer>();
+		Map<JRPrintElement, Integer> reportEvaluations = new HashMap<>();
 		reportEvaluations.put(text5, 7);
 		reportEvaluations.put(frameText4, 9);
 		data.setElementEvaluations(3, JREvaluationTime.EVALUATION_TIME_REPORT, reportEvaluations);
 		
-		Map<JRPrintElement, Integer> groupEvaluations = new HashMap<JRPrintElement, Integer>();
+		Map<JRPrintElement, Integer> groupEvaluations = new HashMap<>();
 		groupEvaluations.put(text1, 7);
 		groupEvaluations.put(text5, 8);
 		groupEvaluations.put(frameText3, 10);

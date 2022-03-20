@@ -240,8 +240,8 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 		private final int expressionsPerSource;
 		private final int scriptMaxLength;
 		
-		private final Map<String, Integer> expressionIndexes = new HashMap<String, Integer>();
-		private final List<String> scriptSources = new LinkedList<String>();
+		private final Map<String, Integer> expressionIndexes = new HashMap<>();
+		private final List<String> scriptSources = new LinkedList<>();
 		private int currentScriptIndex = 0;
 		private int currentExpressionId = 0;
 		private StringBuilder currentScriptSource;

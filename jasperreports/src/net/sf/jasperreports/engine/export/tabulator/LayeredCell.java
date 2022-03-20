@@ -39,7 +39,7 @@ public class LayeredCell implements Cell
 	public LayeredCell(FrameCell parent)
 	{
 		this.parent = parent;
-		this.layers = new LinkedList<Table>();
+		this.layers = new LinkedList<>();
 	}
 	
 	public void addLayer(Table table)

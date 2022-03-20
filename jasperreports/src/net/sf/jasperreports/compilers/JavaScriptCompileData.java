@@ -75,7 +75,7 @@ public class JavaScriptCompileData implements Serializable
 		}
 	}
 	
-	private final List<Expression> expressions = new ArrayList<Expression>();
+	private final List<Expression> expressions = new ArrayList<>();
 	
 	public void addExpression(int expressionId, Expression expression)
 	{

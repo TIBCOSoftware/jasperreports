@@ -262,7 +262,7 @@ public class TextElementTest extends BaseElementsTests
 		JRRecordedValuesPrintText text = new JRRecordedValuesPrintText(template, new DefaultPrintElementOriginator(10));
 		setTextElement(text);
 		
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.EVALUATION_TIME_REPORT);
 		evaluationTimes.add(JREvaluationTime.getGroupEvaluationTime("g"));
 		text.initRecordedValues(evaluationTimes);

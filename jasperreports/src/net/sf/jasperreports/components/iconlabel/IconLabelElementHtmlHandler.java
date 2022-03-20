@@ -82,7 +82,7 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		}
 
 		HtmlExporter htmlExporter = (HtmlExporter)context.getExporterRef();
-		List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+		List<JRPrintElement> elements = new ArrayList<>();
 		elements.add(frame);
 
 		try

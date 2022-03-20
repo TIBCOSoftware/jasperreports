@@ -95,7 +95,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 					exporterContext.getExportedReport(), excludeKeyPrefix);
 			if (!props.isEmpty())
 			{
-				Set<String> excludedKeys = new HashSet<String>();
+				Set<String> excludedKeys = new HashSet<>();
 				for (Iterator<PropertySuffix> it = props.iterator(); it.hasNext();)
 				{
 					PropertySuffix prop = it.next();

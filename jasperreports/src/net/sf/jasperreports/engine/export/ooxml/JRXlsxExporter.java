@@ -180,7 +180,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected boolean startPage;
 
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	private XlsxRunHelper runHelper;
@@ -1360,7 +1360,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), new Pair<String, ExifOrientationEnum>(imagePath, exifOrientation));
+						rendererToImagePathMap.put(renderer.getId(), new Pair<>(imagePath, exifOrientation));
 					}
 				}
 //			}
@@ -1667,11 +1667,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
-		rendererToImagePathMap = new HashMap<String, Pair<String, ExifOrientationEnum>>();
+		rendererToImagePathMap = new HashMap<>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 		definedNames = new StringBuilder();
-		sheetMapping = new HashMap<String, Integer>();
+		sheetMapping = new HashMap<>();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);

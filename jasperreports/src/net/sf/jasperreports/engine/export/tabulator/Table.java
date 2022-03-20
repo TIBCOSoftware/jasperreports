@@ -42,10 +42,10 @@ public class Table
 		this.tabulator = tabulator;
 		
 		DimensionControl<Column> columnsControl = new ColumnsControl();
-		columns = new DimensionEntries<Column>(columnsControl);
+		columns = new DimensionEntries<>(columnsControl);
 		
 		DimensionControl<Row> rowsControl = new RowsControl();
-		rows = new DimensionEntries<Row>(rowsControl);
+		rows = new DimensionEntries<>(rowsControl);
 		
 		if (log.isTraceEnabled())
 		{

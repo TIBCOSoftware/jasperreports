@@ -113,8 +113,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
-	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
-	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	private Map<String, Integer> columnNames = new LinkedHashMap<>();
+	private Map<String,Integer> columnIndexMap = new HashMap<>();
 	private boolean useFirstRowAsHeader;
 
 	private List<String> crtRecordColumnValues;
@@ -284,7 +284,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	
 	protected void assignColumnNames()
 	{
-		BidiMap<Integer, String> indexColumns = new DualHashBidiMap<Integer, String>();
+		BidiMap<Integer, String> indexColumns = new DualHashBidiMap<>();
 		for (int i = 0; i < crtRecordColumnValues.size(); i++)
 		{
 			String name = crtRecordColumnValues.get(i);
@@ -310,7 +310,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			}
 		}
 		
-		this.columnNames = new LinkedHashMap<String, Integer>();
+		this.columnNames = new LinkedHashMap<>();
 		for (int i = 0; i < crtRecordColumnValues.size(); i++)
 		{
 			String columnName = indexColumns.get(i);
@@ -462,7 +462,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean startPosition = false;
 		char c;
 		int leadingSpaces = 0;
-		crtRecordColumnValues = new ArrayList<String>();
+		crtRecordColumnValues = new ArrayList<>();
 
 		String row = getRow();
 		if (row == null)// || row.length() == 0)
@@ -852,7 +852,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					EXCEPTION_MESSAGE_KEY_CANNOT_MODIFY_PROPERTIES_AFTER_START,
 					(Object[])null);
 		}
-		this.columnNames = new LinkedHashMap<String, Integer>();
+		this.columnNames = new LinkedHashMap<>();
 		for (int i = 0; i < columnNames.length; i++)
 		{
 			this.columnNames.put(columnNames[i], i);

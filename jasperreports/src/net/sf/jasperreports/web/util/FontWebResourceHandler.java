@@ -120,7 +120,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 		public FontFamilyHtmlResourceHandler(String basePath, HtmlFontFamily htmlFontFamily)
 		{
 			this.basePath = basePath;
-			fontFaceIds = new HashMap<String, String>();
+			fontFaceIds = new HashMap<>();
 
 			FontFamily fontFamily = htmlFontFamily.getFontFamily();
 

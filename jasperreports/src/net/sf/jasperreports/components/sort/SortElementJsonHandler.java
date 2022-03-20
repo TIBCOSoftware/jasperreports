@@ -230,13 +230,13 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			Locale locale
 	) //FIXMEJIVE make utility method for translating enums
 	{
-		List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
+		List<LinkedHashMap<String, String>> result = new ArrayList<>();
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		LinkedHashMap<String, String> keys;
 
 		for (NamedEnum operator: operators)
 		{
-			keys = new LinkedHashMap<String, String>();
+			keys = new LinkedHashMap<>();
 			String key = bundleName + "." + ((Enum<?>)operator).name();
 			keys.put("key", ((Enum<?>)operator).name());
 			keys.put("val", messageProvider.getMessage(key, null, locale));
@@ -274,7 +274,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			FilterAction action = new FilterAction();
 			action.init(jasperReportsContext, reportContext);
 			CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-			List<FieldFilter> result = new ArrayList<FieldFilter>();
+			List<FieldFilter> result = new ArrayList<>();
 			if (target != null)
 			{
 				JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());

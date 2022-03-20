@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  */
 public class XlsxBorderHelper extends BaseHelper
 {
-	private Map<String,Integer> borderCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> borderCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	/**
 	 *

@@ -48,7 +48,7 @@ public class Row extends DimensionEntry
 	{
 		if (cells == null)
 		{
-			cells = new ArrayList<Cell>();
+			cells = new ArrayList<>();
 		}
 		
 		int colIdx = column.index;

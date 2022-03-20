@@ -287,7 +287,7 @@ public class JRVerifier
 
 	private JRExpressionCollector expressionCollector;
 
-	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<JRComponentElement>();
+	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<>();
 	private LinkedList<String> datasetContextStack = new LinkedList<>();
 	
 	private boolean allowElementNegativeWidth;
@@ -306,7 +306,7 @@ public class JRVerifier
 		this.jasperReportsContext = jasperReportsContext;
 		this.jasperDesign = jasperDesign;
 		this.sectionType = jasperDesign.getSectionType() == null ? SectionTypeEnum.BAND : jasperDesign.getSectionType();
-		brokenRules = new ArrayList<JRValidationFault>();
+		brokenRules = new ArrayList<>();
 
 		if (expressionCollector != null)
 		{
@@ -2052,7 +2052,7 @@ public class JRVerifier
 	{
 		verifyExpressions(expressionCollector.getExpressions(crosstab),
 				crosstab.getParametersMap(),
-				new HashMap<String,JRField>(),
+				new HashMap<>(),
 				crosstab.getVariablesMap());
 	}
 

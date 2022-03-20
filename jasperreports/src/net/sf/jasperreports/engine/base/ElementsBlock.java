@@ -83,7 +83,7 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 			log.debug("generated uid " + uid + " for " + this);
 		}
 		
-		this.elements = new ArrayList<JRPrintElement>();
+		this.elements = new ArrayList<>();
 		this.size = 0;
 		this.deepElementCount = 0;
 	}

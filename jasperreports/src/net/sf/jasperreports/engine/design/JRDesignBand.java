@@ -81,7 +81,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 */
 	public JRDesignBand()
 	{
-		returnValues = new ArrayList<ExpressionReturnValue>(2);
+		returnValues = new ArrayList<>(2);
 	}
 
 	@Override

@@ -65,10 +65,10 @@ public class VirtualElementsData implements Serializable, VirtualizationSerializ
 	{
 		if (elementEvaluations == null)
 		{
-			elementEvaluations = new HashMap<Pair<Integer, JREvaluationTime>, Map<JRPrintElement,Integer>>();
+			elementEvaluations = new HashMap<>();
 		}
 		
-		elementEvaluations.put(new Pair<Integer, JREvaluationTime>(fillerId, evaluationTime), evaluations);
+		elementEvaluations.put(new Pair<>(fillerId, evaluationTime), evaluations);
 	}
 
 	public Map<JRPrintElement, Integer> getElementEvaluations(int fillerId, JREvaluationTime evaluationTime)
@@ -142,7 +142,7 @@ public class VirtualElementsData implements Serializable, VirtualizationSerializ
 		boolean hasEvaluations = evaluationsCount > 0;
 		if (hasEvaluations)
 		{
-			elementEvaluations = new HashMap<Pair<Integer, JREvaluationTime>, Map<JRPrintElement,Integer>>(
+			elementEvaluations = new HashMap<>(
 					evaluationsCount * 4 / 3 + 1, .75f);
 			
 			for (int i = 0; i < evaluationsCount; i++)
@@ -158,7 +158,7 @@ public class VirtualElementsData implements Serializable, VirtualizationSerializ
 				}
 				else
 				{
-					evaluations = new HashMap<JRPrintElement, Integer>(count * 4 / 3 + 1, .75f);//FIXME use LinkedHashMap?
+					evaluations = new HashMap<>(count * 4 / 3 + 1, .75f);//FIXME use LinkedHashMap?
 					for (int j = 0; j < count; j++)
 					{
 						// these elements are references in the elements list, storing references
@@ -168,12 +168,12 @@ public class VirtualElementsData implements Serializable, VirtualizationSerializ
 					}
 				}
 				
-				elementEvaluations.put(new Pair<Integer, JREvaluationTime>(fillerId, evalTime), evaluations);
+				elementEvaluations.put(new Pair<>(fillerId, evalTime), evaluations);
 			}
 		}
 		
 		int size = in.readIntCompressed();
-		elements = new ArrayList<JRPrintElement>(size);
+		elements = new ArrayList<>(size);
 		for (int i = 0; i < size; i++)
 		{
 			JRPrintElement element = (JRPrintElement) in.readJRObject();

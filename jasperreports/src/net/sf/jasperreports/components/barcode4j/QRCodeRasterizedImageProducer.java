@@ -63,7 +63,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 	{
 		QRCodeWriter writer = new QRCodeWriter();
 
-		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
+		Map<EncodeHintType,Object> hints = new HashMap<>();
 		
 		String encoding = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 				componentElement, QRCodeComponent.PROPERTY_QRCODE_CHARACTER_ENCODING, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);

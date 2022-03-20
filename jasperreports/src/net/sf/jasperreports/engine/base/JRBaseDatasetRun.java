@@ -96,7 +96,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		List<ReturnValue> datesetReturnValues = datasetRun.getReturnValues();
 		if (datesetReturnValues != null && !datesetReturnValues.isEmpty())
 		{
-			this.returnValues = new ArrayList<ReturnValue>(datesetReturnValues.size());
+			this.returnValues = new ArrayList<>(datesetReturnValues.size());
 			for (ReturnValue datasetReturnValue : datesetReturnValues)
 			{
 				BaseReturnValue returnValue = factory.getReturnValue(datasetReturnValue);

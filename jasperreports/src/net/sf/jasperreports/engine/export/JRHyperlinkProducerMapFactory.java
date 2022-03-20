@@ -52,7 +52,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 */
 	public JRHyperlinkProducerMapFactory()
 	{
-		producers = new HashMap<String,JRHyperlinkProducer>();
+		producers = new HashMap<>();
 	}
 
 	

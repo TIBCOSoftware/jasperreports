@@ -56,7 +56,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 * axis.  All entries in the list are of the type
 	 * {@link net.sf.jasperreports.charts.JRChartAxis JRChartAxis}
 	 */
-	protected List<JRChartAxis> axes = new ArrayList<JRChartAxis>();
+	protected List<JRChartAxis> axes = new ArrayList<>();
 
 
 
@@ -133,7 +133,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 		}
 		else
 		{
-			cloneAxes = new ArrayList<JRChartAxis>(axes.size());
+			cloneAxes = new ArrayList<>(axes.size());
 			for (JRChartAxis axis : axes)
 			{
 				JRChartAxis axisClone = axis == null ? null : axis.clone(parentChart);

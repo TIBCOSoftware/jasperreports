@@ -153,7 +153,7 @@ public class JRImageRenderer extends JRAbstractRenderer implements DataRenderabl
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
 			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getImageData(jasperReportsContext));
-			awtImageRef = new SoftReference<Image>(awtImage);
+			awtImageRef = new SoftReference<>(awtImage);
 		}
 		return awtImageRef.get();
 	}

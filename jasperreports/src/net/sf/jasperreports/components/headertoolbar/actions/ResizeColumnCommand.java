@@ -234,7 +234,7 @@ public class ResizeColumnCommand implements Command
 		private int colIndex;
 		private int crtColIndex;
 		private int crtColX;
-		private List<ColumnGroupInfo> parentColumnGroups = new ArrayList<ColumnGroupInfo>();
+		private List<ColumnGroupInfo> parentColumnGroups = new ArrayList<>();
 		
 		ColumnUtil(int colIndex)
 		{

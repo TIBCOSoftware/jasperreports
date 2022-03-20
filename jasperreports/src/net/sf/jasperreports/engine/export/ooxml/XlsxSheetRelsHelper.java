@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class XlsxSheetRelsHelper extends BaseHelper
 {
-	private Map<String,Integer> linkCache = new HashMap<String,Integer>();
+	private Map<String,Integer> linkCache = new HashMap<>();
 
 	/**
 	 * 

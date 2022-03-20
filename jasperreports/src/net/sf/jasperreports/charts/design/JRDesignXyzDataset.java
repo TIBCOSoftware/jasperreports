@@ -44,7 +44,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	
 	public static final String PROPERTY_XYZ_SERIES = "xyzSeries";
 	
-	private List<JRXyzSeries> xyzSeriesList = new ArrayList<JRXyzSeries>();
+	private List<JRXyzSeries> xyzSeriesList = new ArrayList<>();
 
 
 	/**

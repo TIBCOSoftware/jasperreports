@@ -165,7 +165,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 
 		if (updaters == null)
 		{
-			updaters = new ArrayList<UpdaterElement>();
+			updaters = new ArrayList<>();
 		}
 		
 		updaters.add(updaterElement);
@@ -182,7 +182,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		jasperReportsContext.setProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION, String.valueOf(xmlvalidation));//FIXMECONTEXT is this needed? what about the one below?
 

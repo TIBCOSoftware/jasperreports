@@ -398,8 +398,8 @@ public class TableReport implements JRReport
 		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory
 		)
 	{
-		this.tableIndexProperties = new ArrayList<TableIndexProperties>();
-		this.headerHtmlBaseProperties = new HashMap<Integer, JRPropertiesMap>();
+		this.tableIndexProperties = new ArrayList<>();
+		this.headerHtmlBaseProperties = new HashMap<>();
 		
 		this.fillContext = fillContext;
 		this.table = table;
@@ -414,7 +414,7 @@ public class TableReport implements JRReport
 		// begin: table interactivity
 		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
 
-		this.columnInteractivityMapping = new HashMap<Column, Pair<Boolean, String>>();
+		this.columnInteractivityMapping = new HashMap<>();
 		int interactiveColumnCount = 0;
 		for (BaseColumn column: TableUtil.getAllColumns(table)) {
 			boolean interactiveColumn = isInteractiveTable;
@@ -429,7 +429,7 @@ public class TableReport implements JRReport
 			if (column.getPropertiesMap().containsProperty(JRComponentElement.PROPERTY_COMPONENT_NAME)) {
 				columnName = column.getPropertiesMap().getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME);
 			}
-			columnInteractivityMapping.put((Column)column, new Pair<Boolean, String>(interactiveColumn, columnName));
+			columnInteractivityMapping.put((Column)column, new Pair<>(interactiveColumn, columnName));
 		}
 
 		if (interactiveColumnCount > 0) {
@@ -483,7 +483,7 @@ public class TableReport implements JRReport
 	{
 		final JRDesignBand band;
 		final String bandId;
-		final List<BandRowInfo> rows = new ArrayList<BandRowInfo>();
+		final List<BandRowInfo> rows = new ArrayList<>();
 		
 		ReportBandInfo(JRDesignBand band, String bandId)
 		{
@@ -545,7 +545,7 @@ public class TableReport implements JRReport
 	protected class BandRowInfo
 	{
 		JRDesignElementGroup elementGroup;
-		List<CellInfo> cells = new ArrayList<CellInfo>();
+		List<CellInfo> cells = new ArrayList<>();
 		
 		BandRowInfo()
 		{
@@ -1045,7 +1045,7 @@ public class TableReport implements JRReport
 						List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 						if (existingFilters != null)
 						{
-							List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+							List<FieldFilter> fieldFilters = new ArrayList<>();
 							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{

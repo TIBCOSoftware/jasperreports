@@ -77,7 +77,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private JasperPrint jasperPrint;
-	private List<Exception> errors = new ArrayList<Exception>();
+	private List<Exception> errors = new ArrayList<>();
 
 
 	/**

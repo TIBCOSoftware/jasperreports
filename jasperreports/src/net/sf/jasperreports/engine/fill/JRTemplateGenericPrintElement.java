@@ -67,7 +67,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	{
 		super(template, originator);
 		
-		parameters = new LinkedHashMap<String,Object>();
+		parameters = new LinkedHashMap<>();
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	{
 		super(template, originator);
 		
-		parameters = new LinkedHashMap<String,Object>(parameterCount * 4 / 3, 0.75f);
+		parameters = new LinkedHashMap<>(parameterCount * 4 / 3, 0.75f);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 		super.readVirtualized(in);
 		
 		int paramsCount = in.readIntCompressed();
-		parameters = new LinkedHashMap<String,Object>(paramsCount * 4 / 3, 0.75f);
+		parameters = new LinkedHashMap<>(paramsCount * 4 / 3, 0.75f);
 		for (int i = 0; i < paramsCount; i++)
 		{
 			String key = (String) in.readJRObject();

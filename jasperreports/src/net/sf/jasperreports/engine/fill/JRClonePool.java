@@ -58,12 +58,12 @@ public class JRClonePool
 	{
 		this.original = original;
 		
-		availableClones = new LinkedList<JRFillCloneable>();
+		availableClones = new LinkedList<>();
 		
 		this.trackLockedClones = trackLockedClones;
 		if (trackLockedClones)
 		{
-			lockedClones = new HashSet<JRFillCloneable>();
+			lockedClones = new HashSet<>();
 		}
 		else
 		{

@@ -51,7 +51,7 @@ public class JacksonMappingExtensionsRegistryFactory implements ExtensionsRegist
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> jacksonMappingProperties = JRPropertiesUtil.getProperties(properties, JACKSON_MAPPING_PROPERTY_PREFIX);
-		List<JacksonMapping> jacksonMappings = new ArrayList<JacksonMapping>();
+		List<JacksonMapping> jacksonMappings = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = jacksonMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix jacksonMappingProp = it.next();

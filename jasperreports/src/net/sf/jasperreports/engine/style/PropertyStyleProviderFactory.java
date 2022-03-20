@@ -66,7 +66,7 @@ public final class PropertyStyleProviderFactory implements StyleProviderFactory
 				{
 					if (stylePropertyExpressions == null)
 					{
-						stylePropertyExpressions = new HashMap<String, JRPropertyExpression>();
+						stylePropertyExpressions = new HashMap<>();
 					}
 					stylePropertyExpressions.put(propertyExpression.getName(), propertyExpression);
 				}

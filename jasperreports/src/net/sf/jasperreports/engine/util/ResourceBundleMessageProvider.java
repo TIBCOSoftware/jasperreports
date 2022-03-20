@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
 public class ResourceBundleMessageProvider implements MessageProvider
 {
 	private final String baseName;
-	private final HashMap<Locale, ResourceBundle> bundles = new HashMap<Locale, ResourceBundle>();
+	private final HashMap<Locale, ResourceBundle> bundles = new HashMap<>();
 	private final ClassLoader classLoader;
 	
 	/**

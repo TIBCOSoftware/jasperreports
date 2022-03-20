@@ -44,7 +44,7 @@ public class JRPrintBand implements JRPrintElementContainer, OffsetElementsConta
 	 */
 	private int height;
 	// adding both elements and OffsetElements to this list
-	private List<Object> elements = new ArrayList<Object>();
+	private List<Object> elements = new ArrayList<>();
 	private int contentsWidth;
 	private boolean iterated = false;
 

@@ -66,7 +66,7 @@ public abstract class CVElementAbstractImageDataProvider implements CVElementIma
 		}
 
 		// Duplicate the configuration.
-		Map<String, Object> configuration = new HashMap<String, Object>();
+		Map<String, Object> configuration = new HashMap<>();
 		configuration.putAll(originalConfiguration);
 
 		ObjectMapper mapper = new ObjectMapper();

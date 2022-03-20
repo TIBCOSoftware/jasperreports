@@ -46,7 +46,7 @@ public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private List<ItemProperty> properties = new ArrayList<ItemProperty>();
+	private List<ItemProperty> properties = new ArrayList<>();
 
 	public StandardItem()
 	{

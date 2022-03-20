@@ -359,7 +359,7 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 		{
 			allTag = pdfStructure.createAllTag(language);
 			
-			tagStack = new Stack<PdfStructureEntry>();
+			tagStack = new Stack<>();
 			tagStack.push(allTag);
 		}
 	}

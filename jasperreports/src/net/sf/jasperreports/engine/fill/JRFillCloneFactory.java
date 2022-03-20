@@ -40,7 +40,7 @@ public class JRFillCloneFactory
 	
 	public JRFillCloneFactory()
 	{
-		cloneMap = new HashMap<JRFillCloneable,JRFillCloneable>();
+		cloneMap = new HashMap<>();
 	}
 
 	protected JRFillCloneable getCached(JRFillCloneable original)

@@ -37,8 +37,8 @@ public class FontExtensionsCollector implements FontExtensionsReceiver
 
 	public FontExtensionsCollector()
 	{
-		this.fontFamilies = new ArrayList<FontFamily>();
-		this.fontSets = new ArrayList<FontSet>();
+		this.fontFamilies = new ArrayList<>();
+		this.fontSets = new ArrayList<>();
 	}
 	
 	@Override

@@ -120,7 +120,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void clearAxes()
 	{
-		List<JRChartAxis> tmpList =  new ArrayList<JRChartAxis>(axes);
+		List<JRChartAxis> tmpList =  new ArrayList<>(axes);
 		for(Iterator<JRChartAxis> it = tmpList.iterator(); it.hasNext();){
 			removeAxis(it.next());
 		}

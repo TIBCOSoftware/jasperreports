@@ -165,11 +165,11 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	protected int reportIndex;
 	protected int pageIndex;
 
-	private Map<String, SchemaNode> pathToValueNode = new HashMap<String, SchemaNode>();
-	private Map<String, SchemaNode> pathToObjectNode = new HashMap<String, SchemaNode>();
-	private Map<SchemaNode, ArrayList<String>> visitedMembers = new HashMap<SchemaNode, ArrayList<String>>();
+	private Map<String, SchemaNode> pathToValueNode = new HashMap<>();
+	private Map<String, SchemaNode> pathToObjectNode = new HashMap<>();
+	private Map<SchemaNode, ArrayList<String>> visitedMembers = new HashMap<>();
 
-	private ArrayList<SchemaNode> openedSchemaNodes = new ArrayList<SchemaNode>();
+	private ArrayList<SchemaNode> openedSchemaNodes = new ArrayList<>();
 
 	private String jsonSchema;
 	private String previousPath;
@@ -187,8 +187,8 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		try {
 			JsonNode root = mapper.readTree(jsonSchema);
 			if (root.isObject()) {
-				pathToValueNode = new HashMap<String, SchemaNode>();
-				pathToObjectNode = new HashMap<String, SchemaNode>();
+				pathToValueNode = new HashMap<>();
+				pathToObjectNode = new HashMap<>();
 
 				previousPath = null;
 
@@ -784,7 +784,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			lastProp = vizMembers.get(vizMembers.size() - 1);
 			lastPropIdx = node.indexOfMember(lastProp);
 		} else {
-			vizMembers = new ArrayList<String>();
+			vizMembers = new ArrayList<>();
 			visitedMembers.put(node, vizMembers);
 		}
 
@@ -956,7 +956,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				if (lastVisitedProp != null) {
 					foundPreviousRepeated = writeReapeatedValues(parent, lastVisitedPropIdx + 1, currentPropIdx, false);
 				} else {
-					vizMembers = new ArrayList<String>();
+					vizMembers = new ArrayList<>();
 					visitedMembers.put(parent, vizMembers);
 				}
 
@@ -1048,7 +1048,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				SchemaNode parent = pathToObjectNode.get(parentPath);
 				String currentProperty = segments[i];
 
-				ArrayList<String> vizMembers = new ArrayList<String>();
+				ArrayList<String> vizMembers = new ArrayList<>();
 				vizMembers.add(currentProperty);
 				visitedMembers.put(parent, vizMembers);
 
@@ -1083,7 +1083,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 
 		// mark visited property for current node
-		ArrayList<String> members = new ArrayList<String>();
+		ArrayList<String> members = new ArrayList<>();
 		members.add(segments[i]);
 		visitedMembers.put(schemaNode, members);
 	}
@@ -1146,8 +1146,8 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			name = _name;
 			type = _type;
 			path = _path;
-			members = new ArrayList<SchemaNodeMember>();
-			memberNames = new ArrayList<String>();
+			members = new ArrayList<>();
+			memberNames = new ArrayList<>();
 		}
 
 		public NodeTypeEnum getType() {

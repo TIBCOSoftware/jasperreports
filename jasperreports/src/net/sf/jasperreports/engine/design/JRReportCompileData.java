@@ -71,8 +71,8 @@ public class JRReportCompileData implements Serializable
 	 */
 	public JRReportCompileData()
 	{
-		datasetCompileData = new HashMap<String, Serializable>();
-		crosstabCompileData = new HashMap<Integer, Serializable>();
+		datasetCompileData = new HashMap<>();
+		crosstabCompileData = new HashMap<>();
 	}
 	
 	

@@ -44,7 +44,7 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private List<MarkerProperty> properties = new ArrayList<MarkerProperty>();
+	private List<MarkerProperty> properties = new ArrayList<>();
 
 	public StandardMarker()
 	{

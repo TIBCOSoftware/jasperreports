@@ -62,11 +62,11 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 		return false;
 	}
 
-	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<ClassLoader,Integer>();
-	protected final List<ClassLoader> classLoadersList = new ArrayList<ClassLoader>();
+	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<>();
+	protected final List<ClassLoader> classLoadersList = new ArrayList<>();
 	
-	protected final Map<Class<?>, Integer> classIndexes = new HashMap<Class<?>, Integer>();
-	protected final List<Class<?>> classes = new ArrayList<Class<?>>();
+	protected final Map<Class<?>, Integer> classIndexes = new HashMap<>();
+	protected final List<Class<?>> classes = new ArrayList<>();
 
 	public LocalVirtualizationSerializer()
 	{

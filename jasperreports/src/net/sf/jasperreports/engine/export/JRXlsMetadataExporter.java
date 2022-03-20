@@ -159,14 +159,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	public static String CURRENT_ROW_HEIGHT = "CURRENT_ROW_HEIGHT";
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<Color,HSSFColor>();
+	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<>();
 
 	protected final DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
 	
-	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
-	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
-	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
-	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<>();
 
 	protected HSSFWorkbook workbook;
 	protected HSSFSheet sheet;
@@ -311,9 +311,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
-		columnWidths = new HashMap<String, Integer>();
-		columnWidthRatios = new HashMap<String, Float>();
-		formulaCellsMap = new HashMap<HSSFCell,String>();
+		columnWidths = new HashMap<>();
+		columnWidthRatios = new HashMap<>();
+		formulaCellsMap = new HashMap<>();
 	}
 
 	@Override
@@ -1003,7 +1003,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								if(anchorLinks.containsKey(href)) {
 									(anchorLinks.get(href)).add(link);
 								} else {
-									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									List<Hyperlink> hrefList = new ArrayList<>();
 									hrefList.add(link);
 									anchorLinks.put(href, hrefList);
 								}
@@ -1019,7 +1019,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
 								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							} else {
-								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+								List<Hyperlink> hrefList = new ArrayList<>();
 								hrefList.add(link);
 								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}

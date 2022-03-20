@@ -76,7 +76,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	protected static class DefaultPropertyNameProvider implements PropertyNameProvider
 	{
 		private boolean isUseFieldDescription;
-		private Map<String, String> fieldPropertyNames = new HashMap<String, String>();
+		private Map<String, String> fieldPropertyNames = new HashMap<>();
 		
 		public DefaultPropertyNameProvider(boolean isUseFieldDescription)
 		{

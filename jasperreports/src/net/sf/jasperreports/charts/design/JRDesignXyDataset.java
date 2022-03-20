@@ -51,7 +51,7 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	
 	public static final String PROPERTY_XY_SERIES = "xySeries";
 
-	private List<JRXySeries> xySeriesList = new ArrayList<JRXySeries>();
+	private List<JRXySeries> xySeriesList = new ArrayList<>();
 
 
 	/**

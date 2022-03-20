@@ -43,7 +43,7 @@ public class StandardSingleQueryParameterTypesClauseFunctionBundle implements
 			String queryLanguage)
 	{
 		this.queryLanguage = queryLanguage;
-		this.clauseFunctions = new HashMap<String, Collection<? extends ParameterTypesClauseFunction>>();
+		this.clauseFunctions = new HashMap<>();
 	}
 
 	public void setFunctions(String clauseId, ParameterTypesClauseFunction ...functions)

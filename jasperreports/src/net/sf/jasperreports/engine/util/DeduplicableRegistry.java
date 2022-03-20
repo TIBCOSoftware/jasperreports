@@ -68,7 +68,7 @@ public class DeduplicableRegistry
 	
 	protected static class DeduplicableMap<T extends Deduplicable>
 	{
-		private final Map<DeduplicableWrapper<T>, T> objects = new HashMap<DeduplicableWrapper<T>, T>();
+		private final Map<DeduplicableWrapper<T>, T> objects = new HashMap<>();
 		
 		public T deduplicate(T object)
 		{

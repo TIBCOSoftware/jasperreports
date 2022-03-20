@@ -41,8 +41,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 {
 
-	private Map<JRGroup, TableReportGroup> tableGroupMap = 
-		new HashMap<JRGroup, TableReportGroup>();
+	private Map<JRGroup, TableReportGroup> tableGroupMap = new HashMap<>();
 	
 	public TableReportBaseObjectFactory(TableReportDataset reportDataset)
 	{

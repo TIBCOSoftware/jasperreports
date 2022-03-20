@@ -70,7 +70,7 @@ public class HorizontalFillList extends BaseFillList
 				createDatasetExpressionEvaluator());
 		FillListContents fillContents = new FillListContents(
 				listContents, datasetFactory);
-		this.contentsList = new ArrayList<FillListContents>();
+		this.contentsList = new ArrayList<>();
 		this.contentsList.add(fillContents);
 	}
 
@@ -84,7 +84,7 @@ public class HorizontalFillList extends BaseFillList
 		FillListContents listContents = list.contentsList.get(0);
 		FillListContents contentsClone = new FillListContents(listContents, factory);
 		
-		this.contentsList = new ArrayList<FillListContents>();
+		this.contentsList = new ArrayList<>();
 		this.contentsList.add(contentsClone);
 	}
 

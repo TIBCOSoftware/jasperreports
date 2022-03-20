@@ -60,7 +60,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
 	private JRGenericElementType genericType;
-	private List<JRGenericElementParameter> parameters = new ArrayList<JRGenericElementParameter>();
+	private List<JRGenericElementParameter> parameters = new ArrayList<>();
 	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroupName;
 	

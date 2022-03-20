@@ -54,7 +54,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	/**
 	 *
 	 */
-	protected List<JRChild> children = new ArrayList<JRChild>();
+	protected List<JRChild> children = new ArrayList<>();
 	protected JRElementGroup elementGroup;
 
 
@@ -112,7 +112,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 		
 		if (children != null)
 		{
-			List<JRElement> allElements = new ArrayList<JRElement>();
+			List<JRElement> allElements = new ArrayList<>();
 			Object child = null;
 			JRElement[] childElementArray = null;
 			for(int i = 0; i < children.size(); i++)
@@ -218,7 +218,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 
 		if (children != null)
 		{
-			clone.children = new ArrayList<JRChild>(children.size());
+			clone.children = new ArrayList<>(children.size());
 			for(int i = 0; i < children.size(); i++)
 			{
 				clone.children.add((JRChild)(children.get(i).clone(clone)));

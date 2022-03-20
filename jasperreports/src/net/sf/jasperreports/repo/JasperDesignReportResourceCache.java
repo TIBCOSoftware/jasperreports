@@ -43,7 +43,7 @@ public class JasperDesignReportResourceCache
 	/**
 	 * 
 	 */
-	private Map<String, JasperDesignReportResource> cachedResourcesMap = new HashMap<String, JasperDesignReportResource>();
+	private Map<String, JasperDesignReportResource> cachedResourcesMap = new HashMap<>();
 
 	/**
 	 * 

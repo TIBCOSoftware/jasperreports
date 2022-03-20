@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  */
 public class SortElementUtils {
 	
-	private static Map<String, SortOrderEnum> sortOrderMapping = new HashMap<String, SortOrderEnum>();
+	private static Map<String, SortOrderEnum> sortOrderMapping = new HashMap<>();
 	
 	static {
 		sortOrderMapping.put(SortElement.SORT_ORDER_ASC, SortOrderEnum.ASCENDING);

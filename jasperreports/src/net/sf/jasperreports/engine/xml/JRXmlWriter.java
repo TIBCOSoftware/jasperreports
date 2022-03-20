@@ -286,7 +286,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		List<PropertySuffix> excludeProperties = JRPropertiesUtil.getInstance(context).getProperties(
 				PREFIX_EXCLUDE_PROPERTIES);
 		
-		excludePropertiesPattern = new ArrayList<Pattern>(excludeProperties.size());
+		excludePropertiesPattern = new ArrayList<>(excludeProperties.size());
 		for (PropertySuffix propertySuffix : excludeProperties)
 		{
 			String regex = propertySuffix.getValue();
@@ -3130,7 +3130,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		else
 		{
 			JRCrosstabCell[][] cells = crosstab.getCells();
-			Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
+			Set<JRCrosstabCell> cellsSet = new HashSet<>();
 			for (int i = cells.length - 1; i >= 0 ; --i)
 			{
 				for (int j = cells[i].length - 1; j >= 0 ; --j)

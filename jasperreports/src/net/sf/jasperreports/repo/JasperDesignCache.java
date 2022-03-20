@@ -72,9 +72,8 @@ public class JasperDesignCache implements Serializable
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private ReportCompiler reportCompiler;
-	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<String, JasperDesignReportResource>();
-	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = 
-			new ConcurrentHashMap<Pair<String, UUID>, List<JRStyle>>();
+	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<>();
+	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = new ConcurrentHashMap<>();
 	//private Map<UUID, String> cachedSubreportsMap = new HashMap<UUID, String>();
 
 	/**
@@ -287,7 +286,7 @@ public class JasperDesignCache implements Serializable
 			log.debug("Setting " + styles.size() + " styles for " + reportURI + " and " + id);
 		}
 
-		reportStyles.put(new Pair<String, UUID>(reportURI, id), styles);
+		reportStyles.put(new Pair<>(reportURI, id), styles);
 	}
 	
 	public String locateReport(JasperReport jasperReport)

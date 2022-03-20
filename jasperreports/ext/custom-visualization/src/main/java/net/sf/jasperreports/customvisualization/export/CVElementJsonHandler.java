@@ -81,7 +81,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 		}
 
 		// Duplicate the configuration.
-		Map<String, Object> configuration = new HashMap<String, Object>();
+		Map<String, Object> configuration = new HashMap<>();
 		configuration.putAll(originalConfiguration);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +106,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 
 		configuration.put("module", element.getParameterValue(CVPrintElement.MODULE));
 
-		Map<String, Object> velocityContext = new HashMap<String, Object>();
+		Map<String, Object> velocityContext = new HashMap<>();
 		velocityContext.put("elementId", CVUtils.getElementId(element));
 		velocityContext.put("configuration", configuration);
 

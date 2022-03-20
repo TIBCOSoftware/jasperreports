@@ -180,7 +180,7 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(propertiesHolder, propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
-				Map<String,String> values = new HashMap<String,String>();
+				Map<String,String> values = new HashMap<>();
 				for (PropertySuffix propertySuffix : properties)
 				{
 					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());

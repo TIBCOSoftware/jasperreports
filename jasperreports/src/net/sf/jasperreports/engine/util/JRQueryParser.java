@@ -176,7 +176,7 @@ public class JRQueryParser
 	
 	protected void parseClause(JRQueryChunkHandler chunkHandler, String clauseChunk)
 	{
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 		
 		boolean wasClauseToken = false;
 		char separator = determineClauseTokenSeparator(clauseChunk);

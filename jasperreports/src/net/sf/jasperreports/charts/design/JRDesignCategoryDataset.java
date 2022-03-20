@@ -51,7 +51,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	
 	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
 
-	private List<JRCategorySeries> categorySeriesList = new ArrayList<JRCategorySeries>();
+	private List<JRCategorySeries> categorySeriesList = new ArrayList<>();
 
 
 	/**

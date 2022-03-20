@@ -104,7 +104,7 @@ public class ReportConverter
 	/**
 	 * List containing page elements in a given order 
 	 */
-	private List<JRPrintElement> pageElements = new ArrayList<JRPrintElement>();
+	private List<JRPrintElement> pageElements = new ArrayList<>();
 	
 	protected Map<String, JRStyle> stylesMap;
 
@@ -248,7 +248,7 @@ public class ReportConverter
 	protected void setStyles(JRReport report)
 	{
 		//styleFactory = new StyleFactory();
-		stylesMap = new LinkedMap<String, JRStyle>();
+		stylesMap = new LinkedMap<>();
 		
 		loadReportStyles(report);
 		
@@ -295,7 +295,7 @@ public class ReportConverter
 		JRReportTemplate[] templates = report.getTemplates();
 		if (templates != null)
 		{
-			Set<String> loadedLocations = new HashSet<String>();
+			Set<String> loadedLocations = new HashSet<>();
 			for (int i = 0; i < templates.length; i++)
 			{
 				loadReportTemplateStyles(templates[i], loadedLocations);
@@ -318,7 +318,7 @@ public class ReportConverter
 			}
 			else
 			{
-				HashSet<String> parentLocations = new HashSet<String>();
+				HashSet<String> parentLocations = new HashSet<>();
 				loadTemplateStyles(location, loadedLocations, parentLocations);
 			}
 		}

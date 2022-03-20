@@ -115,7 +115,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(hintsMap, propertyPrefix);
 			if (properties != null && !properties.isEmpty())
 			{
-				values = new HashMap<String, String>();
+				values = new HashMap<>();
 				for(PropertySuffix property : properties)
 				{
 					values.put(property.getSuffix(), property.getValue());

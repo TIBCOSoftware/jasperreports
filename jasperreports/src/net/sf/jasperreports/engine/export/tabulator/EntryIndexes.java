@@ -57,7 +57,7 @@ public class EntryIndexes
 	{
 		if (recycled == null)
 		{
-			recycled = new TreeSet<Integer>();
+			recycled = new TreeSet<>();
 		}
 		
 		boolean added = recycled.add(index);

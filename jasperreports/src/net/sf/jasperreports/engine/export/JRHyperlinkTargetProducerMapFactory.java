@@ -51,7 +51,7 @@ public class JRHyperlinkTargetProducerMapFactory extends JRHyperlinkTargetProduc
 	 */
 	public JRHyperlinkTargetProducerMapFactory()
 	{
-		producers = new HashMap<String,JRHyperlinkTargetProducer>();
+		producers = new HashMap<>();
 	}
 
 	

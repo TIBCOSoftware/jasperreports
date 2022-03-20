@@ -46,8 +46,8 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private final List<JRTemplateReference> includedTemplates = new ArrayList<JRTemplateReference>();
-	private final List<JRStyle> styles = new ArrayList<JRStyle>();
+	private final List<JRTemplateReference> includedTemplates = new ArrayList<>();
+	private final List<JRStyle> styles = new ArrayList<>();
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
 
 	@Override

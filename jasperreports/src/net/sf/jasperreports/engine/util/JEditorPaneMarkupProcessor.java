@@ -67,7 +67,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 	 */
 	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
 	{
-		Map<Attribute,Object> attrMap = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attrMap = new HashMap<>();
 		if (attrSet.isDefined(StyleConstants.FontFamily))
 		{
 			attrMap.put(

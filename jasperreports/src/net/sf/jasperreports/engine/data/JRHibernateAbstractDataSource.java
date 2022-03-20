@@ -79,13 +79,13 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	 */
 	protected Map<String, FieldReader> assignReaders(boolean useIndexOnSingleReturn)
 	{
-		Map<String, FieldReader> readers = new HashMap<String, FieldReader>();
+		Map<String, FieldReader> readers = new HashMap<>();
 		
 		JRField[] fields = queryExecuter.getDataset().getFields();
 		Type[] returnTypes = queryExecuter.getReturnTypes();
 		String[] aliases = queryExecuter.getReturnAliases();
 		
-		Map<String, Integer> aliasesMap = new HashMap<String, Integer>();
+		Map<String, Integer> aliasesMap = new HashMap<>();
 		if (aliases != null)
 		{
 			for (int i = 0; i < aliases.length; i++)

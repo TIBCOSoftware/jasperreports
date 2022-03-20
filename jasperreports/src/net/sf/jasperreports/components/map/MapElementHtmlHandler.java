@@ -57,7 +57,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
         ReportContext reportContext = context.getExporterRef().getReportContext();
-		Map<String, Object> contextMap = new HashMap<String, Object>();
+		Map<String, Object> contextMap = new HashMap<>();
 
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 

@@ -94,7 +94,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	/**
 	 *
 	 */
-	protected List<JRExpressionChunk> chunks = new ArrayList<JRExpressionChunk>();
+	protected List<JRExpressionChunk> chunks = new ArrayList<>();
 
 
 	/**

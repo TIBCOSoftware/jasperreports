@@ -158,7 +158,7 @@ public class JavaScriptEvaluatorScope
 	private Context context;
 	private ScriptableObject scope;
 	private volatile ProtectionDomain protectionDomain;
-	private Map<String, Script> compiledExpressions = new HashMap<String, Script>();
+	private Map<String, Script> compiledExpressions = new HashMap<>();
 
 	public JavaScriptEvaluatorScope(JasperReportsContext jrContext, JREvaluator evaluator, FunctionsUtil functionsUtil)
 	{

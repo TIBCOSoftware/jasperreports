@@ -44,10 +44,10 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private List<Object[]> records = new ArrayList<Object[]>();
+	private List<Object[]> records = new ArrayList<>();
 	private ListIterator<Object[]> iterator;
 	protected Object[] currentRecord;
-	private Map<String, Integer> columnNamesMap = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNamesMap = new HashMap<>();
 
 
 	/**

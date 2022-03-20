@@ -185,7 +185,7 @@ public class ImageElementTest extends BaseElementsTests
 		JRRecordedValuesPrintImage image = new JRRecordedValuesPrintImage(template, new DefaultPrintElementOriginator(10));
 		setImageElement(image);
 		
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.EVALUATION_TIME_REPORT);
 		evaluationTimes.add(JREvaluationTime.getGroupEvaluationTime("g"));
 		image.initRecordedValues(evaluationTimes);

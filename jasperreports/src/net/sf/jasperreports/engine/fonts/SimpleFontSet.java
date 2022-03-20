@@ -67,7 +67,7 @@ public class SimpleFontSet implements FontSet
 	{
 		if (families == null)
 		{
-			families = new ArrayList<FontSetFamily>();
+			families = new ArrayList<>();
 		}
 		
 		families.add(fontSetFamily);
@@ -99,7 +99,7 @@ public class SimpleFontSet implements FontSet
 			clone.families = JRCloneUtils.cloneList(families);
 			if (exportFonts != null)
 			{
-				clone.exportFonts = new HashMap<String, String>(exportFonts);
+				clone.exportFonts = new HashMap<>(exportFonts);
 			}
 			return clone;
 		}

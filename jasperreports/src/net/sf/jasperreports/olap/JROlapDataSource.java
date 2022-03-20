@@ -333,7 +333,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	{
 		iteratePositions = new boolean[axes.length];
 
-		fieldMatchers = new HashMap<Object, FieldMatcher>();
+		fieldMatchers = new HashMap<>();
 
 		dataField = false;
 		JRField[] fields = dataset.getFields();
@@ -462,7 +462,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			first = true;
 		}
 
-		fieldValues = new HashMap<Object, Object>();
+		fieldValues = new HashMap<>();
 	}
 
 

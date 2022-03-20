@@ -75,7 +75,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 		this.queryExecuter = queryExecuter;
 		this.pageSize = pageSize;
 		
-		fieldValueReaders = new HashMap<String,FieldValueReader>();
+		fieldValueReaders = new HashMap<>();
 		
 		pageCount = 0;
 		fetchPage();

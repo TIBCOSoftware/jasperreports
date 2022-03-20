@@ -47,8 +47,8 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	private String datePattern = null;
 	private String numberPattern = null;
 	private DataFile dataFile;
-	private List<String> columnNames = new ArrayList<String>();
-	private List<Integer> columnIndexes = new ArrayList<Integer>();
+	private List<String> columnNames = new ArrayList<>();
+	private List<Integer> columnIndexes = new ArrayList<>();
 	private boolean queryExecuterMode = false;
 	private String sheetSelection;
 	

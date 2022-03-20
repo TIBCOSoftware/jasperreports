@@ -44,7 +44,7 @@ public final class ParagraphUtil
 	 */
 	public static TabStop[] getTabStops(JRParagraph paragraph, float endX)
 	{
-		List<TabStop> tabStopList = new ArrayList<TabStop>();
+		List<TabStop> tabStopList = new ArrayList<>();
 
 		TabStop lastTabStop = new TabStop();
 		

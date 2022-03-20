@@ -56,7 +56,7 @@ public class SerializedObjectPersistenceService implements PersistenceService
 		InputStream is = isResource == null ? null : isResource.getInputStream();
 		if (is != null)
 		{
-			resource = new SerializableResource<Serializable>();
+			resource = new SerializableResource<>();
 			try
 			{
 				resource.setValue((Serializable)JRLoader.loadObject(is));

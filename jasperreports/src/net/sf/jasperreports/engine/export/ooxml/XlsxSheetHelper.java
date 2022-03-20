@@ -61,7 +61,7 @@ public class XlsxSheetHelper extends BaseHelper
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final XlsReportConfiguration configuration;
 	
-	private List<Integer> rowBreaks = new ArrayList<Integer>();
+	private List<Integer> rowBreaks = new ArrayList<>();
 
 	/**
 	 * 

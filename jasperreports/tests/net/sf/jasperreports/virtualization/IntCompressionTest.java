@@ -57,7 +57,7 @@ public class IntCompressionTest
 	@DataProvider
 	public Object[][] integerValues()
 	{
-		List<Integer> values = new ArrayList<Integer>();
+		List<Integer> values = new ArrayList<>();
 		for (int i = 0; i < 32; ++i)
 		{
 			values.add(1 << i);

@@ -254,7 +254,7 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	private Map<Attribute,Object> getAttributes(JRStyle style)//FIXMEDOCX put this in util?
 	{
-		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
+		Map<Attribute,Object> styledTextAttributes = new HashMap<>(); 
 
 		if (style != null)
 		{

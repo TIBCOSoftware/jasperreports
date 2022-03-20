@@ -37,7 +37,7 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRegistryFactory {
 
 	protected static List<?> getResourceHandlers() {
-		List<WebResourceHandler> extensions = new ArrayList<WebResourceHandler>();
+		List<WebResourceHandler> extensions = new ArrayList<>();
 
 		ImageWebResourceHandler imageHandler = new ImageWebResourceHandler();
 		extensions.add(imageHandler);

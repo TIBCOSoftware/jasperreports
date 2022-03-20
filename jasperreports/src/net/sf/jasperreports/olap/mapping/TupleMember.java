@@ -37,7 +37,7 @@ public class TupleMember
 	
 	public TupleMember ()
 	{
-		this.names = new ArrayList<String>();
+		this.names = new ArrayList<>();
 	}
 	
 	public void addName (String name)

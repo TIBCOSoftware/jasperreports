@@ -50,7 +50,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	 */
 	private TableModel tableModel;
 	private int index = -1;
-	private HashMap<String, Integer> columnNames = new HashMap<String, Integer>();
+	private HashMap<String, Integer> columnNames = new HashMap<>();
 	
 
 	/**

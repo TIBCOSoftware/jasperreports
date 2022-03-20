@@ -39,7 +39,7 @@ public class Olap4jFactory
 	
 	public Olap4jFactory()
 	{
-		members = new HashMap<String, Olap4jMember>();
+		members = new HashMap<>();
 	}
 	
 	public Olap4jMember createMember(Member member)

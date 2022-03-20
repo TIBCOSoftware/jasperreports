@@ -135,9 +135,9 @@ public class JRGridLayout
 		this.elementList = elements;
 		
 		// TODO lucianc cache these across report pages?
-		this.cellSizes = new HashMap<GridCellSize, GridCellSize>();
-		this.cellStyles = new HashMap<GridCellStyle, GridCellStyle>();
-		this.emptyCells = new HashMap<Pair<GridCellSize,GridCellStyle>, EmptyGridCell>();
+		this.cellSizes = new HashMap<>();
+		this.cellStyles = new HashMap<>();
+		this.emptyCells = new HashMap<>();
 		
 		this.height = height;
 		this.width = width;
@@ -145,7 +145,7 @@ public class JRGridLayout
 		this.offsetY = offsetY;
 		this.xCuts = xCuts;
 
-		boxesCache = new HashMap<BoxKey,JRLineBox>();
+		boxesCache = new HashMap<>();
 
 		layoutGrid(null, elements);
 	}
@@ -183,7 +183,7 @@ public class JRGridLayout
 		//this constructor is called only in nested grids:
 		this.isNested = true;
 
-		boxesCache = new HashMap<BoxKey,JRLineBox>();
+		boxesCache = new HashMap<>();
 		
 		layoutGrid(parentElementIndex, elements);
 	}
@@ -408,7 +408,7 @@ public class JRGridLayout
 
 	protected EmptyGridCell emptyCell(GridCellSize size, GridCellStyle style)
 	{
-		Pair<GridCellSize, GridCellStyle> key = new Pair<GridCellSize, GridCellStyle>(size, style);
+		Pair<GridCellSize, GridCellStyle> key = new Pair<>(size, style);
 		EmptyGridCell cell = emptyCells.get(key);
 		if (cell == null)
 		{

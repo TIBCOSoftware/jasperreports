@@ -58,7 +58,7 @@ public final class GovernorFactory implements ScriptletFactory
 	@Override
 	public List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException
 	{
-		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();
+		List<JRAbstractScriptlet> scriptlets = new ArrayList<>();
 
 		boolean maxPagesEnabled = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getBooleanProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES_ENABLED, true);
 		if (maxPagesEnabled)

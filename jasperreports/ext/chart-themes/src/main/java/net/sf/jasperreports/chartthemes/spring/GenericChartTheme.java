@@ -169,8 +169,8 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
-	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<FontUtil>();
+	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<>();
+	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<>();
 	
 
 	/**

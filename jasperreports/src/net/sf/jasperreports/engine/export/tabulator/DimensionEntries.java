@@ -47,7 +47,7 @@ public class DimensionEntries<T extends DimensionEntry>
 	public DimensionEntries(DimensionControl<T> control)
 	{
 		this.control = control;
-		this.entries = new TreeSet<T>();
+		this.entries = new TreeSet<>();
 		
 		// TODO lucianc no index for column
 		T univEntry = control.createEntry(DimensionEntry.MINUS_INF, DimensionEntry.PLUS_INF);
@@ -105,7 +105,7 @@ public class DimensionEntries<T extends DimensionEntry>
 			rangeSet = tailSet.headSet(ceiling, false);
 		}
 		
-		return new DimensionRange<T>(start, end, floor, ceiling, rangeSet);
+		return new DimensionRange<>(start, end, floor, ceiling, rangeSet);
 	}
 	
 	public DimensionRange<T> addEntries(DimensionRange<T> range)
@@ -125,7 +125,7 @@ public class DimensionEntries<T extends DimensionEntry>
 		
 		// not the same, create a new range 
 		NavigableSet<T> resultRange = range.rangeSet.subSet(resultStart, true, resultEnd, false);
-		return new DimensionRange<T>(range.start, range.end, resultStart, resultEnd, resultRange);
+		return new DimensionRange<>(range.start, range.end, resultStart, resultEnd, resultRange);
 	}
 
 	protected T addStartEntry(DimensionRange<T> range)

@@ -210,7 +210,7 @@ public class XlsxRunHelper extends BaseHelper
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
 		
-		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
+		Map<Attribute,Object> styledTextAttributes = new HashMap<>(); 
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		fontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());

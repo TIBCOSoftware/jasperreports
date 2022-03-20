@@ -46,7 +46,7 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	
 	public static final String PROPERTY_GANTT_SERIES = "ganttSeries";
 
-	private List<JRGanttSeries> ganttSeriesList = new ArrayList<JRGanttSeries>();
+	private List<JRGanttSeries> ganttSeriesList = new ArrayList<>();
 
 
 	/**

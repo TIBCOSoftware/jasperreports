@@ -136,7 +136,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	protected Boolean showLegend;
 	protected String linkType;
 	protected String linkTarget;
-	protected List<JRHyperlinkParameter> hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+	protected List<JRHyperlinkParameter> hyperlinkParameters = new ArrayList<>();
 	protected Color backcolor;
 	
 	protected Color titleColor;

@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 {
-	private final Map<String,XPath> cachedXPaths = new ReferenceMap<String,XPath>();//soft cache
+	private final Map<String,XPath> cachedXPaths = new ReferenceMap<>();//soft cache
 	
 	private Map<String, String> xmlNamespaceMap;
 	
@@ -123,7 +123,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			}
 			else
 			{
-				nodes = new ArrayList<Object>();
+				nodes = new ArrayList<>();
 				nodes.add(object);
 			}
 			return new NodeListWrapper(nodes);
@@ -192,7 +192,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 	
 	private Map<String, String> extractXmlNamespaces(Node contextNode) throws JRException 
 	{
-		Map<String, String> namespaces = new HashMap<String, String>();
+		Map<String, String> namespaces = new HashMap<>();
 		List<Node> nlist;
 		String namespaceXPathString = "//namespace::node()";
 

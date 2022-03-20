@@ -435,9 +435,9 @@ public class HttpDataService implements DataFileService
 		String parameterPrefix
 		)
 	{
-		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		List<NameValuePair> postParameters = new ArrayList<>();
 		
-		Map<String, String> requestParamMappings = new HashMap<String, String>();
+		Map<String, String> requestParamMappings = new HashMap<>();
 		if (
 			context.getDataset() != null
 			&& context.getDataset().getParameters() != null

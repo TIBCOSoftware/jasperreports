@@ -44,7 +44,7 @@ public class SimpleFileResolver implements FileResolver
 	 */
 	public SimpleFileResolver(File parentFolder)
 	{
-		folders = new ArrayList<File>();
+		folders = new ArrayList<>();
 		folders.add(parentFolder);
 	}
 	

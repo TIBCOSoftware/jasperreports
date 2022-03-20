@@ -151,8 +151,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	{
 		super.initExport();
 		
-		currentRow = new HashMap<String, Object>();//FIXMEEXPORT check these two
-		repeatedValues = new HashMap<String, Object>();
+		currentRow = new HashMap<>();//FIXMEEXPORT check these two
+		repeatedValues = new HashMap<>();
 		onePagePerSheetMap.clear();
 		sheetsBeforeCurrentReport = 0;
 		sheetsBeforeCurrentReportMap.clear();
@@ -177,8 +177,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		
 		hasDefinedColumns = (columnNamesArray != null && columnNamesArray.length > 0);
 
-		columnNames = new ArrayList<String>();
-		columnNamesMap = new HashMap<String, Integer>();
+		columnNames = new ArrayList<>();
+		columnNamesMap = new HashMap<>();
 
 		List<String> columnNamesList = JRStringUtil.split(columnNamesArray, ",");
 		if (columnNamesList != null)
@@ -308,7 +308,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 		
 		List<JRPrintElement> elements = page.getElements();
-		currentRow = new HashMap<String, Object>();
+		currentRow = new HashMap<>();
 		rowIndex += configuration.isWriteHeader() ? 1 : 0;
 		
 		for (int i = 0; i < elements.size(); ++i) 

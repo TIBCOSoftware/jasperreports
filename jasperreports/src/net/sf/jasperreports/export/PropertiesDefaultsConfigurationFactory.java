@@ -76,7 +76,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 	 */
 	private final C getProxy(Class<?> clazz, InvocationHandler handler)
 	{
-		List<Class<?>> allInterfaces = new ArrayList<Class<?>>();
+		List<Class<?>> allInterfaces = new ArrayList<>();
 
 		if (clazz.isInterface())
 		{
@@ -181,7 +181,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
-				Map<String,String> values = new HashMap<String,String>();
+				Map<String,String> values = new HashMap<>();
 				for (PropertySuffix propertySuffix : properties)
 				{
 					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());

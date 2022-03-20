@@ -46,7 +46,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	private final ListableBeanFactory beanFactory;
 	
 	private final ReferenceMap<Class<?>, String[]> extensionBeanNamesCache = 
-		new ReferenceMap<Class<?>, String[]>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 
@@ -67,7 +67,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		String[] beanNames = getExtensionBeanNames(extensionType);
-		List<T> beans = new ArrayList<T>(beanNames.length);
+		List<T> beans = new ArrayList<>(beanNames.length);
 		for (int i = 0; i < beanNames.length; i++)
 		{
 			String name = beanNames[i];

@@ -517,7 +517,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 *
 	 */
-	protected List<Object> loadedFonts = new ArrayList<Object>();
+	protected List<Object> loadedFonts = new ArrayList<>();
 
 	/**
 	 *
@@ -532,9 +532,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected int reportIndex;
 	protected int pageIndex;
 	protected PrintPageFormat pageFormat;
-	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<Integer, Boolean>();
+	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<>();
 	protected int sheetsBeforeCurrentReport;
-	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<Integer, Integer>();
+	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<>();
 	protected RenderersCache renderersCache;
 	
 
@@ -955,8 +955,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		openWorkbook(os);
-		sheetNamesMap = new HashMap<String,Integer>();
-		definedNamesMap = new HashMap<NameScope, String>();
+		sheetNamesMap = new HashMap<>();
+		definedNamesMap = new HashMap<>();
 		pageFormat = null;
 		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();

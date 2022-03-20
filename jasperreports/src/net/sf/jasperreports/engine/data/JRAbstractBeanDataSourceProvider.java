@@ -92,7 +92,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
 		if(descriptors != null) 
 		{
-			ArrayList<JRField> fields = new ArrayList<JRField>(descriptors.length);
+			ArrayList<JRField> fields = new ArrayList<>(descriptors.length);
 			
 			for (int i = 0; i < descriptors.length; i++) {
 				PropertyDescriptor descriptor = descriptors[i];

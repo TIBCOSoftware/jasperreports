@@ -153,7 +153,7 @@ public final class HyperlinkUtil
 	{
 		Matcher matcher = LINK_PATTERN.matcher(text);
 		StringBuffer xml = new StringBuffer();
-		List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
+		List<HyperlinkData> hyperlinksData = new ArrayList<>();
 
 		while (matcher.find())
 		{

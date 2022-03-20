@@ -48,8 +48,8 @@ public class JRDesignSection extends JRBaseSection
 	public static final String PROPERTY_BANDS = "bands";
 	public static final String PROPERTY_PARTS = "parts";
 	
-	protected List<JRBand> bandsList = new ArrayList<JRBand>();
-	protected List<JRPart> partsList = new ArrayList<JRPart>();
+	protected List<JRBand> bandsList = new ArrayList<>();
+	protected List<JRPart> partsList = new ArrayList<>();
 
 	private JROrigin origin;
 

@@ -52,7 +52,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 	{
 		super(defaultStyleProvider);
 		
-		elements = new ArrayList<JRPrintElement>();
+		elements = new ArrayList<>();
 
 		lineBox = new JRBaseLineBox(this);
 	}

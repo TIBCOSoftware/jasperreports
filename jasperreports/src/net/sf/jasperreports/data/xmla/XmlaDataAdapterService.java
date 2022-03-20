@@ -98,7 +98,7 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 	@Override
 	public void test() throws JRException
 	{
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
 		contributeParameters(params);
 		
 		Properties props = new Properties();

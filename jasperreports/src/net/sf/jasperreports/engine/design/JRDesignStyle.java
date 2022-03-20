@@ -54,7 +54,7 @@ public class JRDesignStyle extends JRBaseStyle
 	
 	public static final String PROPERTY_CONDITIONAL_STYLES = "conditionalStyles";
 
-	private List<JRConditionalStyle> conditionalStylesList = new ArrayList<JRConditionalStyle>();
+	private List<JRConditionalStyle> conditionalStylesList = new ArrayList<>();
 
 
 	/**

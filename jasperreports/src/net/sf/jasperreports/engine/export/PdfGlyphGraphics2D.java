@@ -81,7 +81,7 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
 	public void drawGlyphVector(GlyphVector glyphVector, float x, float y)
 	{
 		Font awtFont = glyphVector.getFont();
-		Map<Attribute, Object> fontAttrs = new HashMap<Attribute, Object>();
+		Map<Attribute, Object> fontAttrs = new HashMap<>();
 		Map<TextAttribute, ?> awtFontAttributes = awtFont.getAttributes();
 		fontAttrs.putAll(awtFontAttributes);
 		

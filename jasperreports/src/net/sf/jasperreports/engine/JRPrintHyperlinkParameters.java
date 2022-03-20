@@ -50,7 +50,7 @@ public class JRPrintHyperlinkParameters implements Serializable, VirtualizationS
 	 */
 	public JRPrintHyperlinkParameters()
 	{
-		parameters = new ArrayList<JRPrintHyperlinkParameter>();
+		parameters = new ArrayList<>();
 	}
 
 
@@ -90,7 +90,7 @@ public class JRPrintHyperlinkParameters implements Serializable, VirtualizationS
 	public void readVirtualized(VirtualizationInput in) throws IOException
 	{
 		int size = in.readIntCompressed();
-		parameters = new ArrayList<JRPrintHyperlinkParameter>(size);
+		parameters = new ArrayList<>(size);
 		for (int i = 0; i < size; i++)
 		{
 			JRPrintHyperlinkParameter param = (JRPrintHyperlinkParameter) in.readJRObject();

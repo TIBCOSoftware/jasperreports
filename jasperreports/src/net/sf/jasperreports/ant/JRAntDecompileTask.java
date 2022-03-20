@@ -147,7 +147,7 @@ public class JRAntDecompileTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		AntClassLoader classLoader = null;
 		if (classpath != null)

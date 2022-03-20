@@ -62,7 +62,7 @@ public class JRViewerController
 	private net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext;
 	private ResourceBundle resourceBundle;
 	private Locale locale;
-	private final List<JRViewerListener> listeners = new ArrayList<JRViewerListener>();
+	private final List<JRViewerListener> listeners = new ArrayList<>();
 	
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML;

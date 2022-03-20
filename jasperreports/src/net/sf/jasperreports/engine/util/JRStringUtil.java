@@ -601,7 +601,7 @@ public final class JRStringUtil
 			// returning null if no tabs
 			if (index >= 0)
 			{
-				tabIndexes = new ArrayList<Integer>();
+				tabIndexes = new ArrayList<>();
 				do
 				{
 					tabIndexes.add(index);
@@ -623,7 +623,7 @@ public final class JRStringUtil
 		List<String> tokens = null;
 		if (srcArray != null)
 		{
-			tokens = new ArrayList<String>();
+			tokens = new ArrayList<>();
 			for(int i = 0; i < srcArray.length; i++)
 			{
 				if (srcArray[i] == null)

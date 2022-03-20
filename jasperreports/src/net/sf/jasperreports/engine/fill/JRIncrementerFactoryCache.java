@@ -42,7 +42,7 @@ public final class JRIncrementerFactoryCache
 	 *
 	 */
 	private static Map<Class<?>,JRIncrementerFactory> factoriesMap = 
-		new ReferenceMap<Class<?>,JRIncrementerFactory>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 

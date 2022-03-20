@@ -69,7 +69,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		this.evaluationGroupName = element.getEvaluationGroupName();
 		
 		JRGenericElementParameter[] elementParameters = element.getParameters();
-		this.parameters = new ArrayList<JRGenericElementParameter>(elementParameters.length);
+		this.parameters = new ArrayList<>(elementParameters.length);
 		for (int i = 0; i < elementParameters.length; i++)
 		{
 			JRGenericElementParameter elementParameter = elementParameters[i];

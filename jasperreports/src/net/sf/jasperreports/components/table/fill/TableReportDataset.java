@@ -68,7 +68,7 @@ public class TableReportDataset implements JRDataset
 		this.name = name;
 		
 		JRGroup[] datasetGroups = tableSubdataset.getGroups();
-		groups = new ArrayList<JRGroup>();
+		groups = new ArrayList<>();
 		if (datasetGroups == null)
 		{
 			tableGroups = null;
@@ -85,7 +85,7 @@ public class TableReportDataset implements JRDataset
 		
 		properties = tableSubdataset.getPropertiesMap().cloneProperties();
 		
-		scriptlets = new ArrayList<JRScriptlet>();
+		scriptlets = new ArrayList<>();
 		JRScriptlet[] datasetScriptlets = tableSubdataset.getScriptlets();
 		if (datasetScriptlets != null)
 		{
@@ -93,7 +93,7 @@ public class TableReportDataset implements JRDataset
 		}
 		
 		JRParameter[] datasetParameters = tableSubdataset.getParameters();
-		parameters = new ArrayList<JRParameter>();
+		parameters = new ArrayList<>();
 		if (datasetParameters != null)
 		{
 			Collections.addAll(parameters, datasetParameters);

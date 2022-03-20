@@ -155,7 +155,7 @@ public final class JRValueStringUtils
 	
 	private static Map<String,ValueSerializer> getSerializers()
 	{
-		Map<String,ValueSerializer> map = new HashMap<String,ValueSerializer>();
+		Map<String,ValueSerializer> map = new HashMap<>();
 		map.put(java.lang.String.class.getName(), new StringSerializer());
 		map.put(java.lang.Character.class.getName(), new CharacterSerializer());
 		map.put(java.lang.Boolean.class.getName(), new BooleanSerializer());

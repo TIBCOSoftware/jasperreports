@@ -196,7 +196,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		String[] imports = report.getImports();
 		if (imports != null && imports.length > 0)
 		{
-			importsSet = new HashSet<String>(imports.length);
+			importsSet = new HashSet<>(imports.length);
 			importsSet.addAll(Arrays.asList(imports));
 		}
 
@@ -671,7 +671,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	public JRBand[] getAllBands()
 	{
-		List<JRBand> bands = new ArrayList<JRBand>();
+		List<JRBand> bands = new ArrayList<>();
 		
 		addBand(title, bands);
 		addBand(pageHeader, bands);

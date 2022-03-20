@@ -55,14 +55,14 @@ public class RequirejsTemplateConfigContributor implements RequirejsConfigContri
 	
 	public RequirejsTemplateConfigContributor()
 	{
-		paths = new HashMap<String, String>();
-		resourcePaths = new HashMap<String, String>();
+		paths = new HashMap<>();
+		resourcePaths = new HashMap<>();
 	}
 	
 	@Override
 	public void contribute(WebRequestContext context, ObjectNode config)
 	{
-		Map<String, Object> templateMap = new HashMap<String, Object>();
+		Map<String, Object> templateMap = new HashMap<>();
 		RequirejsTemplateConfigContext templateContext = new RequirejsTemplateConfigContext(context, paths, resourcePaths);
 		templateMap.put("context", templateContext);
 		String configString = VelocityUtil.processTemplate(templateName, templateMap);

@@ -124,7 +124,7 @@ public class ParametersExporterInput extends SimpleExporterInput
 				}
 			}
 			
-			jasperPrintList = new ArrayList<JasperPrint>();
+			jasperPrintList = new ArrayList<>();
 			jasperPrintList.add(jasperPrint);
 		}
 		else

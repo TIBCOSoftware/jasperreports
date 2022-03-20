@@ -188,7 +188,7 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 
 	public Map<String, String> extractXmlNamespaces(Node contextNode)
 			throws JRException {
-		Map<String, String> namespaces = new HashMap<String, String>();
+		Map<String, String> namespaces = new HashMap<>();
 		XPath namespaceXPath = xpathFact.newXPath();
 		String namespaceXPathString = "//namespace::*";
 		

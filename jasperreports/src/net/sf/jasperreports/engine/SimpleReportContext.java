@@ -46,7 +46,7 @@ public class SimpleReportContext implements ReportContext, Serializable
 		this.id = System.currentTimeMillis() 
 				+ "_" + System.identityHashCode(this)
 				+ "_" + RND.nextInt();
-		this.parameters = new HashMap<String, Object>();
+		this.parameters = new HashMap<>();
 	}
 	
 	@Override

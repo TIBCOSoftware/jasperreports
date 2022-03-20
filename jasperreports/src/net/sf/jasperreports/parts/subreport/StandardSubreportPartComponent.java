@@ -58,12 +58,12 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 	/**
 	 *
 	 */
-	protected Map<String, JRSubreportParameter> parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
+	protected Map<String, JRSubreportParameter> parametersMap = new LinkedHashMap<>();
 	
 	/**
 	 * Values to be copied from the subreport into the master report.
 	 */
-	protected List<JRSubreportReturnValue> returnValues = new ArrayList<JRSubreportReturnValue>();
+	protected List<JRSubreportReturnValue> returnValues = new ArrayList<>();
 
 	/**
 	 *
@@ -89,7 +89,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		JRSubreportParameter[] jrSubreportParameters = subreport.getParameters();
 		if (jrSubreportParameters != null && jrSubreportParameters.length > 0)
 		{
-			parametersMap = new HashMap<String, JRSubreportParameter>(jrSubreportParameters.length);
+			parametersMap = new HashMap<>(jrSubreportParameters.length);
 			for(JRSubreportParameter jrSubreportParameter : jrSubreportParameters)
 			{
 				parametersMap.put(jrSubreportParameter.getName(), factory.getSubreportParameter(jrSubreportParameter));
@@ -99,7 +99,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		JRSubreportReturnValue[] subrepReturnValues = subreport.getReturnValues();
 		if (subrepReturnValues != null && subrepReturnValues.length > 0)
 		{
-			returnValues = new ArrayList<JRSubreportReturnValue>(subrepReturnValues.length);
+			returnValues = new ArrayList<>(subrepReturnValues.length);
 			for (int i = 0; i < subrepReturnValues.length; i++)
 			{
 				returnValues.add(factory.getSubreportReturnValue(subrepReturnValues[i]));
@@ -276,7 +276,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 
 		if (parametersMap != null)
 		{
-			clone.parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
+			clone.parametersMap = new LinkedHashMap<>();
 			for(Iterator<String> it = parametersMap.keySet().iterator(); it.hasNext();)
 			{
 				String name = it.next();

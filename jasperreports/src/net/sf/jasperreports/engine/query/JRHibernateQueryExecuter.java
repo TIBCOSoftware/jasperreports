@@ -87,7 +87,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			log.debug("Hibernate type constants class is " + typeConstantsClass);
 		}
 		
-		hibernateTypeMap = new HashMap<Class<?>,Type>();
+		hibernateTypeMap = new HashMap<>();
 		hibernateTypeMap.put(Boolean.class, loadTypeConstant(typeConstantsClass, "BOOLEAN"));
 		hibernateTypeMap.put(Byte.class, loadTypeConstant(typeConstantsClass, "BYTE"));
 		hibernateTypeMap.put(Double.class, loadTypeConstant(typeConstantsClass, "DOUBLE"));
@@ -304,7 +304,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		if (!parameterNames.isEmpty())
 		{
-			Set<String> namesSet = new HashSet<String>();
+			Set<String> namesSet = new HashSet<>();
 			
 			for (Iterator<String> iter = parameterNames.iterator(); iter.hasNext();)
 			{

@@ -72,7 +72,7 @@ public class PartComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(new PartComponentsXmlDigesterConfigurer());
 		bundle.setXmlParser(parser);
 		
-		HashMap<String, PartComponentManager> componentManagers = new HashMap<String, PartComponentManager>();
+		HashMap<String, PartComponentManager> componentManagers = new HashMap<>();
 		
 		PartComponentsManager reportManager = new PartComponentsManager();
 		reportManager.setComponentCompiler(new SubreportPartComponentCompiler());

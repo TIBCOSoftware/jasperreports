@@ -48,7 +48,7 @@ public class FillParts
 		}
 		else
 		{
-			parts = new ArrayList<FillPart>(sectionParts.length);
+			parts = new ArrayList<>(sectionParts.length);
 			for (JRPart part : sectionParts)
 			{
 				FillPart fillPart = new FillPart(part, fillFactory);

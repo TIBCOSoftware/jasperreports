@@ -85,7 +85,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected List<JRPropertyExpression> propertyExpressions;
 	protected List<String> dynamicTransferProperties;
 	protected JRStyle providerStyle;
-	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
+	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<>();
 	protected List<StyleProvider> styleProviders;
 
 	/**
@@ -119,7 +119,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isToPrint = true;
 	private boolean isReprinted;
 	private boolean isAlreadyPrinted;
-	private Collection<JRFillElement> dependantElements = new ArrayList<JRFillElement>();
+	private Collection<JRFillElement> dependantElements = new ArrayList<>();
 	private int relativeY;
 	private int collapsedHeightAbove;
 	private int collapsedHeightBelow;
@@ -199,8 +199,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		mergedProperties = staticProperties;
 		
 		JRPropertyExpression[] elementPropertyExpressions = element.getPropertyExpressions();
-		propertyExpressions = elementPropertyExpressions == null ? new ArrayList<JRPropertyExpression>(0)
-				: new ArrayList<JRPropertyExpression>(Arrays.asList(elementPropertyExpressions));
+		propertyExpressions = elementPropertyExpressions == null ? new ArrayList<>(0)
+				: new ArrayList<>(Arrays.asList(elementPropertyExpressions));
 		
 		dynamicTransferProperties = findDynamicTransferProperties();
 		
@@ -239,7 +239,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
 		mergedProperties = staticProperties;
-		this.propertyExpressions = new ArrayList<JRPropertyExpression>(element.propertyExpressions);
+		this.propertyExpressions = new ArrayList<>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		// we need a style provider context for this element instance
@@ -254,7 +254,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		}
 		
 		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
-		List<String> transferProperties = new ArrayList<String>(propertyExpressions.size());
+		List<String> transferProperties = new ArrayList<>(propertyExpressions.size());
 		for (JRPropertyExpression propertyExpression : propertyExpressions)
 		{
 			String propertyName = propertyExpression.getName();
@@ -728,7 +728,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				{
 					if (styleProviders == null)
 					{
-						styleProviders = new ArrayList<StyleProvider>();
+						styleProviders = new ArrayList<>();
 					}
 					styleProviders.add(styleProvider);
 				}
@@ -1255,8 +1255,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 		DelayedEvaluations()
 		{
-			fields = new HashSet<String>();
-			variables = new HashSet<String>();
+			fields = new HashSet<>();
+			variables = new HashSet<>();
 		}
 	}
 
@@ -1264,7 +1264,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		if (getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
 		{
-			delayedEvaluationsMap = new HashMap<JREvaluationTime,DelayedEvaluations>();
+			delayedEvaluationsMap = new HashMap<>();
 			collectDelayedEvaluations();
 		}
 	}

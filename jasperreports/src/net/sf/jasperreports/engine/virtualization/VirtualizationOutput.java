@@ -126,10 +126,10 @@ public class VirtualizationOutput extends ObjectOutputStream
 			switch (referenceType)
 			{
 			case OBJECT:
-				objectsMap = new HashMap<Object, Integer>();
+				objectsMap = new HashMap<>();
 				break;
 			case IDENTITY:
-				objectsMap = new IdentityHashMap<Object, Integer>();
+				objectsMap = new IdentityHashMap<>();
 				break;
 			default:
 				throw 

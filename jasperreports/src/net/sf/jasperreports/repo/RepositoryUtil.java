@@ -46,7 +46,7 @@ public final class RepositoryUtil
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND = "repo.report.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_RESOURCET_NOT_FOUND = "repo.resource.not.found";
 	
-	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
+	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<>();
 	
 
 	private RepositoryContext context;

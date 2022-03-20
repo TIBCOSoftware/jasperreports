@@ -67,7 +67,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	private Float minPercentage;
 	private Integer maxCount;
 	
-	private List<JRPieSeries> pieSeriesList = new ArrayList<JRPieSeries>();
+	private List<JRPieSeries> pieSeriesList = new ArrayList<>();
 
 	protected JRExpression otherKeyExpression;
 	protected JRExpression otherLabelExpression;
@@ -359,7 +359,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		
 		if (pieSeriesList == null)
 		{
-			pieSeriesList = new ArrayList<JRPieSeries>();
+			pieSeriesList = new ArrayList<>();
 			
 			JRDesignPieSeries ps = new JRDesignPieSeries();
 			ps.setKeyExpression(keyExpression);

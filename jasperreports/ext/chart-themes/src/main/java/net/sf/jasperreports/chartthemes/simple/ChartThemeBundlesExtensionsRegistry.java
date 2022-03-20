@@ -44,7 +44,7 @@ public class ChartThemeBundlesExtensionsRegistry implements ExtensionsRegistry
 	
 	public ChartThemeBundlesExtensionsRegistry(ChartThemeBundle chartThemeBundle)
 	{
-		this.chartThemeBundles = new ArrayList<ChartThemeBundle>(1);
+		this.chartThemeBundles = new ArrayList<>(1);
 		this.chartThemeBundles.add(chartThemeBundle);
 	}
 	

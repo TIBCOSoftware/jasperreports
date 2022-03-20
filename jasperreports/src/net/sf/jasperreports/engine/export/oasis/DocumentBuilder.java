@@ -70,7 +70,7 @@ public abstract class DocumentBuilder
 	/**
 	 *
 	 */
-	protected final Map<String, String> rendererToImagePathMap = new HashMap<String, String>();
+	protected final Map<String, String> rendererToImagePathMap = new HashMap<>();
 	protected final RenderersCache renderersCache = new RenderersCache(getJasperReportsContext());
 	protected final OasisZip oasisZip;
 	

@@ -76,7 +76,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	
 	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
 
-	private List<JRPropertyExpression> propertyExpressions = new ArrayList<JRPropertyExpression>();
+	private List<JRPropertyExpression> propertyExpressions = new ArrayList<>();
 
 	/**
 	 *
@@ -192,7 +192,7 @@ public abstract class JRDesignElement extends JRBaseElement
 		
 		if (propertyExpressions == null)
 		{
-			propertyExpressions = new ArrayList<JRPropertyExpression>();
+			propertyExpressions = new ArrayList<>();
 		}
 	}
 	

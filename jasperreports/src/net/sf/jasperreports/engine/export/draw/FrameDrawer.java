@@ -66,7 +66,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	 */
 	private ExporterFilter filter;
 	private Graphics2D grx;
-	private LinkedList<Offset> elementOffsetStack = new LinkedList<Offset>();
+	private LinkedList<Offset> elementOffsetStack = new LinkedList<>();
 	private Offset elementOffset;
 	private boolean isClip;
 	

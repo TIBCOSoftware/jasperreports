@@ -92,7 +92,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		List<ExpressionReturnValue> bandReturnValues = band.getReturnValues();
 		if (bandReturnValues != null && !bandReturnValues.isEmpty())
 		{
-			this.returnValues = new ArrayList<ExpressionReturnValue>(bandReturnValues.size());
+			this.returnValues = new ArrayList<>(bandReturnValues.size());
 			for (ExpressionReturnValue bandReturnValue : bandReturnValues)
 			{
 				BaseExpressionReturnValue returnValue = factory.getReturnValue(bandReturnValue);

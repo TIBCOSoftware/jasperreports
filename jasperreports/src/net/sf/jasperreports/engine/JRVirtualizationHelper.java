@@ -30,8 +30,8 @@ package net.sf.jasperreports.engine;
  */
 public final class JRVirtualizationHelper
 {
-	private static final ThreadLocal<JRVirtualizer> threadVirtualizer = new ThreadLocal<JRVirtualizer>();
-	private static final ThreadLocal<JasperReportsContext> threadJasperReportsContext = new ThreadLocal<JasperReportsContext>();
+	private static final ThreadLocal<JRVirtualizer> threadVirtualizer = new ThreadLocal<>();
+	private static final ThreadLocal<JasperReportsContext> threadJasperReportsContext = new ThreadLocal<>();
 
 	
 	/**

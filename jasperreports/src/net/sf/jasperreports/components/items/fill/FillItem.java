@@ -73,7 +73,7 @@ public abstract class FillItem implements Item
 		Map<String, Object> result = null;
 		if(itemProperties != null && !itemProperties.isEmpty())
 		{
-			result = new HashMap<String, Object>();
+			result = new HashMap<>();
 			for(ItemProperty property : itemProperties)
 			{
 				result.put(property.getName(), getEvaluatedValue(property, evaluator, evaluation));

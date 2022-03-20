@@ -39,8 +39,8 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 public class XlsxDrawingRelsHelper extends BaseHelper
 {
 
-	private Map<String,Integer> linkCache = new HashMap<String,Integer>();
-	private Set<String> imageNames = new HashSet<String>();
+	private Map<String,Integer> linkCache = new HashMap<>();
+	private Set<String> imageNames = new HashSet<>();
 	
 	/**
 	 * 

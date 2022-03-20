@@ -82,8 +82,8 @@ public class LinkedMap<K, V>
 	 */
 	public LinkedMap()
 	{
-		map = new HashMap<K, LinkedValue<K, V>>();
-		header = new LinkedValue<K, V>(null, null);
+		map = new HashMap<>();
+		header = new LinkedValue<>(null, null);
 		header.prev = header;
 		header.next = header;
 	}
@@ -103,7 +103,7 @@ public class LinkedMap<K, V>
 		}
 		
 		// add last
-		LinkedValue<K, V> entry = new LinkedValue<K, V>(key, value);
+		LinkedValue<K, V> entry = new LinkedValue<>(key, value);
 		entry.prev = header.prev;
 		entry.next = header;
 		header.prev.next = entry;
@@ -130,7 +130,7 @@ public class LinkedMap<K, V>
 		}
 		
 		// add first
-		LinkedValue<K, V> entry = new LinkedValue<K, V>(key, value);
+		LinkedValue<K, V> entry = new LinkedValue<>(key, value);
 		entry.next = header.next;
 		entry.prev = header;
 		header.next.prev = entry;

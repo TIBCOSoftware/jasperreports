@@ -63,7 +63,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	 *
 	 */
 	private String series;
-	private List<HighLowElement> elements = new ArrayList<HighLowElement>();
+	private List<HighLowElement> elements = new ArrayList<>();
 	private Date date;
 	private Number high;
 	private Number low;
@@ -87,8 +87,8 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	@Override
 	protected void customInitialize()
 	{
-		elements = new ArrayList<HighLowElement>();
-		itemHyperlinks = new ArrayList<JRPrintHyperlink>();
+		elements = new ArrayList<>();
+		itemHyperlinks = new ArrayList<>();
 	}
 
 

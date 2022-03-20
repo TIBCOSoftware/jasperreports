@@ -230,7 +230,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	
 	protected String invalidCharReplacement;
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	protected DocumentBuilder documentBuilder;
@@ -239,8 +239,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 	protected ExporterNature nature;
 
-	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
-	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> rowStyles = new HashMap<>();
+	protected Map<Integer, String> columnStyles = new HashMap<>();
 	
 	/**
 	 * @see #JROdtExporter(JasperReportsContext)

@@ -46,7 +46,7 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 	
 	public StandardColumnGroup()
 	{
-		children = new ArrayList<BaseColumn>();
+		children = new ArrayList<>();
 	}
 	
 	public StandardColumnGroup(ColumnGroup columnGroup, ColumnFactory factory)

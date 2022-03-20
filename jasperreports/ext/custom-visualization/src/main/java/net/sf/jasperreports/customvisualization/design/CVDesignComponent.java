@@ -62,8 +62,8 @@ public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engi
 	// Component attributes
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
-	private List<ItemProperty> itemProperties = new ArrayList<ItemProperty>();
-	private List<ItemData> itemDataList = new ArrayList<ItemData>();
+	private List<ItemProperty> itemProperties = new ArrayList<>();
+	private List<ItemData> itemDataList = new ArrayList<>();
 	private String processingClass;
 	private OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
 

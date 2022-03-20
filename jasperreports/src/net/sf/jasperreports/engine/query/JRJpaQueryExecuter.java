@@ -175,7 +175,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		List<String> parameterNames = getCollectedParameterNames();
 		if (!parameterNames.isEmpty()) {
 			// Use set to prevent the parameter to be set multiple times.
-			Set<String> namesSet = new HashSet<String>();
+			Set<String> namesSet = new HashSet<>();
 			for (Iterator<String> iter = parameterNames.iterator(); iter.hasNext();) {
 				String parameterName = iter.next();
 				if (namesSet.add(parameterName)) {

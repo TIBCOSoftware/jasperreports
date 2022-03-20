@@ -79,7 +79,7 @@ public class RowFactory
 		}
 		else
 		{
-			newRows = new ArrayList<GroupRow>(rows.size());
+			newRows = new ArrayList<>(rows.size());
 			for (GroupRow groupRow : rows)
 			{
 				GroupRow newRow = new StandardGroupRow(groupRow, this);

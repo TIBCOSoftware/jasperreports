@@ -63,7 +63,7 @@ public class JRPrintImageArea implements Serializable
 	
 	static
 	{
-		htmlShapes = new HashMap<String,Byte>();
+		htmlShapes = new HashMap<>();
 		htmlShapes.put(SHAPE_HTML_DEFAULT, SHAPE_DEFAULT);
 		htmlShapes.put(SHAPE_HTML_RECTANGLE, SHAPE_RECTANGLE);
 		htmlShapes.put(SHAPE_HTML_CIRCLE, SHAPE_CIRCLE);

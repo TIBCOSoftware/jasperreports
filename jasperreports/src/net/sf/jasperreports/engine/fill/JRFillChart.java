@@ -304,7 +304,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
-		chartCustomizers = new ArrayList<JRChartCustomizer>();
+		chartCustomizers = new ArrayList<>();
 		JRChartCustomizer chartCustomizer = createAndInitCustomizer(chart.getCustomizerClass(), null);
 		if (chartCustomizer != null)
 		{

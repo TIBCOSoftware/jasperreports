@@ -207,12 +207,12 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private Map<String, String> stylesMap = new HashMap<String, String>();
+	private Map<String, String> stylesMap = new HashMap<>();
 
 	/**
 	 *
 	 */
-	private Map<String, String> groupsMap = new HashMap<String, String>();
+	private Map<String, String> groupsMap = new HashMap<>();
 
 	
 	private Writer writer;
@@ -3178,7 +3178,7 @@ public class JRApiWriter
 			else
 			{
 				JRCrosstabCell[][] cells = crosstab.getCells();
-				Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
+				Set<JRCrosstabCell> cellsSet = new HashSet<>();
 				for (int i = cells.length - 1; i >= 0 ; --i)
 				{
 					for (int j = cells[i].length - 1; j >= 0 ; --j)

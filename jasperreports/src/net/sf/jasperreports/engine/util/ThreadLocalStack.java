@@ -37,7 +37,7 @@ public class ThreadLocalStack
 	
 	public ThreadLocalStack()
 	{
-		threadStack = new ThreadLocal<LinkedList<Object>>();
+		threadStack = new ThreadLocal<>();
 	}
 	
 	public void push(Object o)
@@ -45,7 +45,7 @@ public class ThreadLocalStack
 		LinkedList<Object> stack = threadStack.get();
 		if (stack == null)
 		{
-			stack = new LinkedList<Object>();
+			stack = new LinkedList<>();
 			threadStack.set(stack);
 		}
 		stack.addFirst(o);

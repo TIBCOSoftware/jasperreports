@@ -77,7 +77,7 @@ public class WrappingImageDataToGraphics2DRenderer extends AbstractRenderer impl
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
 			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getData(jasperReportsContext));
-			awtImageRef = new SoftReference<Image>(awtImage);
+			awtImageRef = new SoftReference<>(awtImage);
 		}
 		return awtImageRef.get();
 	}

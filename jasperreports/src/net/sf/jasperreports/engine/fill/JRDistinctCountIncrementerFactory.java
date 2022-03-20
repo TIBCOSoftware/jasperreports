@@ -124,7 +124,7 @@ class DistinctCountHolder
 
 	public DistinctCountHolder()
 	{
-		distinctValues = new HashSet<Object>();
+		distinctValues = new HashSet<>();
 	}
 
 	public DistinctCountHolder(Set<Object> distinctValues)
@@ -140,7 +140,7 @@ class DistinctCountHolder
 
 	public void init()
 	{
-		distinctValues = new HashSet<Object>();
+		distinctValues = new HashSet<>();
 	}
 
 	public Set<Object> getDistinctValues()

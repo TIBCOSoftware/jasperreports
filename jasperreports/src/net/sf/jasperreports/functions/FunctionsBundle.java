@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 public class FunctionsBundle 
 {
 
-	private List<Class<?>> functionClasses = new ArrayList<Class<?>>();
+	private List<Class<?>> functionClasses = new ArrayList<>();
 
 	
 	/**

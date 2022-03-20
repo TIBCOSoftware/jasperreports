@@ -163,7 +163,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		resourceBundle = parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		locale = parametersMap.get(JRParameter.REPORT_LOCALE);
 		
-		functions = new HashMap<String, FunctionSupport>();
+		functions = new HashMap<>();
 		functionContext = new FillFunctionContext(parametersMap);
 		
 		customizedInit(parametersMap, fieldsMap, variablesMap);

@@ -127,7 +127,7 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 				List<RepositoryService> repoServices = super.getExtensions(RepositoryService.class);
 				if (repoServices != null && repoServices.size() > 0)
 				{
-					localRepositoryServices = new ArrayList<RepositoryService>();
+					localRepositoryServices = new ArrayList<>();
 					for (RepositoryService repoService : repoServices)
 					{
 						if (repoService instanceof DefaultRepositoryService)

@@ -73,7 +73,7 @@ public abstract class FillItemData
 		List<Item> srcItemList = itemData.getItems();
 		if (srcItemList != null && !srcItemList.isEmpty())
 		{
-			itemsList = new ArrayList<FillItem>();
+			itemsList = new ArrayList<>();
 			for(Item item : srcItemList)
 			{
 				if(item != null)
@@ -138,7 +138,7 @@ public abstract class FillItemData
 		{
 			if (evaluatedItems == null || getDataset() == null)
 			{
-				evaluatedItems = new ArrayList<Map<String,Object>>();
+				evaluatedItems = new ArrayList<>();
 			}
 
 			for(FillItem item : itemsList)

@@ -70,7 +70,7 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 	
 	private FunctionsUtil functionsUtil;
 	
-	private List<ClosureMetaMethod> functionMethods = new ArrayList<ClosureMetaMethod>();
+	private List<ClosureMetaMethod> functionMethods = new ArrayList<>();
 	
 	@Override
 	public void setJasperReportsContext(JasperReportsContext context)

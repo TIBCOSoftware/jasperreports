@@ -186,7 +186,7 @@ public class ChromeInstanceRepository
 			log.debug("schedule chrome instance " + chromeInstance.getId() + " timeout after " + liveTimeout);
 		}
 		
-		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<>(chromeInstance);
 		timeoutExecutor.schedule(() ->
 		{
 			closeInstance(configuration, instanceReference);

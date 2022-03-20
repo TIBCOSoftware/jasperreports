@@ -80,8 +80,8 @@ public class JRFillField implements JRField
 		JRPropertyExpression[] fieldPropertyExpressions = field.getPropertyExpressions();
 		propertyExpressions = 
 			fieldPropertyExpressions == null 
-			? new ArrayList<JRPropertyExpression>(0)
-			: new ArrayList<JRPropertyExpression>(Arrays.asList(fieldPropertyExpressions));
+			? new ArrayList<>(0)
+			: new ArrayList<>(Arrays.asList(fieldPropertyExpressions));
 	}
 
 

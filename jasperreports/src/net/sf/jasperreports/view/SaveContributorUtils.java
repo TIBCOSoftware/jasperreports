@@ -63,7 +63,7 @@ public class SaveContributorUtils
 	public static List<JRSaveContributor> createBuiltinContributors(JasperReportsContext context,
 			Locale locale, ResourceBundle resourceBundle)
 	{
-		ArrayList<JRSaveContributor> contributors = new ArrayList<JRSaveContributor>(DEFAULT_CONTRIBUTORS.length);
+		ArrayList<JRSaveContributor> contributors = new ArrayList<>(DEFAULT_CONTRIBUTORS.length);
 		for (String contributorClassName : DEFAULT_CONTRIBUTORS)
 		{
 			try

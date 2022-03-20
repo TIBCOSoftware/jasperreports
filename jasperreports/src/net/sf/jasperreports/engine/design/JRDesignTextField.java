@@ -118,7 +118,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(null);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 	}
 		
 	/**
@@ -128,7 +128,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(defaultStyleProvider);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 	}
 		
 

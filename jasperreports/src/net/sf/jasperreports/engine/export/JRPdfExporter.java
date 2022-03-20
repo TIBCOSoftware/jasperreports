@@ -726,7 +726,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		pdfProducer.initReport();
 
 		renderersCache = new RenderersCache(getJasperReportsContext());
-		loadedImagesMap = new HashMap<String,Pair<PdfImage,ExifOrientationEnum>>();
+		loadedImagesMap = new HashMap<>();
 	}
 
 	protected PdfProducerFactory getPdfProducerFactory()
@@ -1063,7 +1063,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected void writePageAnchor(int pageIndex) 
 	{
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 		PdfTextChunk chunk = pdfProducer.createChunk(" ", attributes, getLocale());
 		
@@ -1804,7 +1804,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				try
 				{
 					imagePair = 
-						new Pair<PdfImage, ExifOrientationEnum>(
+						new Pair<>(
 							pdfProducer.createImage(data, true), 
 							ImageUtil.getExifOrientation(data)
 							);
@@ -1875,7 +1875,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				try
 				{
 					imagePair = 
-						new Pair<PdfImage, ExifOrientationEnum>(
+						new Pair<>(
 							pdfProducer.createImage(data, true),
 							ImageUtil.getExifOrientation(data)
 							);
@@ -2815,7 +2815,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 //		pdfTextField.setExtraMargin(0, 0);
 		
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, text);
 		pdfTextField.setFont(attributes, getLocale());
 		pdfTextField.setFontSize(text.getFontsize());
@@ -2844,7 +2844,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
 			StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
-			List<String> choicesList = new ArrayList<String>();
+			List<String> choicesList = new ArrayList<>();
 			while (tkzer.hasMoreTokens())
 			{
 				choicesList.add(tkzer.nextToken());
@@ -3403,7 +3403,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		BookmarkStack()
 		{
-			stack = new LinkedList<Bookmark>();
+			stack = new LinkedList<>();
 		}
 
 		void push(Bookmark bookmark)

@@ -39,7 +39,7 @@ public class JRMondrianFactory
 	
 	public JRMondrianFactory()
 	{
-		members = new HashMap<String,JRMondrianMember>();
+		members = new HashMap<>();
 	}
 	
 	public JRMondrianMember createMember(Member member)

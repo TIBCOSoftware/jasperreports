@@ -47,7 +47,7 @@ public class StandardSingleQueryClauseFunctionBundle
 	public StandardSingleQueryClauseFunctionBundle(String queryLanguage)
 	{
 		this.queryLanguage = queryLanguage;
-		this.functions = new HashMap<String, JRClauseFunction>();
+		this.functions = new HashMap<>();
 	}
 	
 	/**

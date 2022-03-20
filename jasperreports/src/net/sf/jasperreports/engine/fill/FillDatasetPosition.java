@@ -45,7 +45,7 @@ public class FillDatasetPosition implements Serializable
 	public FillDatasetPosition(FillDatasetPosition parent)
 	{
 		this.parent = parent;
-		this.attributes = new LinkedHashMap<String, Serializable>();
+		this.attributes = new LinkedHashMap<>();
 	}
 	
 	public void addAttribute(String key, Serializable value)

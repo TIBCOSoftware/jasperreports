@@ -62,7 +62,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		List<JRChild> frameChildren = frame.getChildren();
 		if (frameChildren != null)
 		{
-			children = new ArrayList<JRChild>(frameChildren.size());
+			children = new ArrayList<>(frameChildren.size());
 			for (Iterator<JRChild> it = frameChildren.iterator(); it.hasNext();)
 			{
 				JRChild child = it.next();
@@ -142,7 +142,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		
 		if (children != null)
 		{
-			clone.children = new ArrayList<JRChild>(children.size());
+			clone.children = new ArrayList<>(children.size());
 			for(int i = 0; i < children.size(); i++)
 			{
 				clone.children.add((JRChild)(children.get(i).clone(clone)));

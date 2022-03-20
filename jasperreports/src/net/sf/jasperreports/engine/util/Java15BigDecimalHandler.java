@@ -80,7 +80,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 		}
 		
 		this.minPrecision = minPrecision;
-		this.mathContexts = new ThreadLocal<MathContext[]>();
+		this.mathContexts = new ThreadLocal<>();
 	}
 	
 	private static int readConfiguredPrecision()

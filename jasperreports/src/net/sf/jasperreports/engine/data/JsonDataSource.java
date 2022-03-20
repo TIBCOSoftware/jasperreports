@@ -80,7 +80,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	// the JSON select expression that gives the nodes to iterate
 	private String selectExpression;
 
-	private Map<String, String> fieldExpressions = new HashMap<String, String>();
+	private Map<String, String> fieldExpressions = new HashMap<>();
 
 	private JsonNode dataNode;
 	private Iterator<JsonNode> jsonNodesIterator;
@@ -175,7 +175,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 		JsonNode result = getJsonData(jsonTree, selectExpression);
 		if (result != null && result.isObject()) {
 			dataNode = result;
-			final List<JsonNode> list = new ArrayList<JsonNode>();
+			final List<JsonNode> list = new ArrayList<>();
 			list.add(result);
 			jsonNodesIterator = new Iterator<JsonNode>() {
 				private int count = -1;

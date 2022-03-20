@@ -62,7 +62,7 @@ public class TableUtil
 	public static final int COLUMN_GROUP_FOOTER = 6;
 	
 	private TableComponent table;
-	private Map<Cell, Rectangle> boundsMap = new HashMap<Cell, Rectangle>();
+	private Map<Cell, Rectangle> boundsMap = new HashMap<>();
 	private JRReport report;
 
 	public TableUtil(TableComponent table, JRReport report) {
@@ -163,7 +163,7 @@ public class TableUtil
 	}
 
 	public static List<BaseColumn> getAllColumns(List<BaseColumn> cols) {
-		List<BaseColumn> lst = new ArrayList<BaseColumn>();
+		List<BaseColumn> lst = new ArrayList<>();
 		for (BaseColumn bc : cols) {
 			if (bc instanceof ColumnGroup)
 				lst.addAll(getAllColumns(((ColumnGroup) bc).getColumns()));
@@ -376,7 +376,7 @@ public class TableUtil
 	}
 
 	public static List<ColumnGroup> getHierarchicalColumnGroupsForColumn(BaseColumn column, List<BaseColumn> columns, TableComponent table) {
-		List<ColumnGroup> result = new ArrayList<ColumnGroup>();
+		List<ColumnGroup> result = new ArrayList<>();
 		List<BaseColumn> cols = columns != null ? columns : table.getColumns();
 		for (BaseColumn bc : cols) {
 			if (bc instanceof ColumnGroup){

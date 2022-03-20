@@ -515,12 +515,12 @@ public final class JRLoader
 	public static List<URL> getResources(String resource)
 	{
 		//skip duplicated resources
-		Set<URL> resources = new LinkedHashSet<URL>();
+		Set<URL> resources = new LinkedHashSet<>();
 		collectResources(resource, JRLoader.class.getClassLoader(), 
 				resources);
 		collectResources(resource, Thread.currentThread().getContextClassLoader(), 
 				resources);
-		return new ArrayList<URL>(resources);
+		return new ArrayList<>(resources);
 	}
 
 
@@ -567,13 +567,12 @@ public final class JRLoader
 	public static List<ClassLoaderResource> getClassLoaderResources(
 			String resource)
 	{
-		Map<URL, ClassLoaderResource> resources = 
-			new LinkedHashMap<URL, ClassLoaderResource>();
+		Map<URL, ClassLoaderResource> resources = new LinkedHashMap<>();
 		collectResources(resource, JRLoader.class.getClassLoader(), resources);
 		//TODO check if the classloader is the same
 		collectResources(resource, Thread.currentThread()
 				.getContextClassLoader(), resources);
-		return new ArrayList<ClassLoaderResource>(resources.values());
+		return new ArrayList<>(resources.values());
 	}
 
 	protected static void collectResources(String resourceName,
@@ -588,7 +587,7 @@ public final class JRLoader
 		{
 			// creating a list of parent classloaders, with the highest in the
 			// hierarchy first
-			LinkedList<ClassLoader> classloaders = new LinkedList<ClassLoader>();
+			LinkedList<ClassLoader> classloaders = new LinkedList<>();
 			ClassLoader ancestorLoader = classLoader;
 			while (ancestorLoader != null)
 			{

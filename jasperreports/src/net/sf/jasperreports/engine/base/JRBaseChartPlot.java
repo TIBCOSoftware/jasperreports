@@ -94,11 +94,11 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 			foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 			labelRotationDouble = plot.getLabelRotationDouble();
-			seriesColors = new TreeSet<JRSeriesColor>(plot.getSeriesColors());
+			seriesColors = new TreeSet<>(plot.getSeriesColors());
 		}
 		else
 		{
-			seriesColors = new TreeSet<JRSeriesColor>();
+			seriesColors = new TreeSet<>();
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 		foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 		labelRotationDouble = plot.getLabelRotationDouble();
-		seriesColors = new TreeSet<JRSeriesColor>(plot.getSeriesColors());
+		seriesColors = new TreeSet<>(plot.getSeriesColors());
 	}
 
 	
@@ -343,7 +343,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		if (seriesColors != null)
 		{
-			clone.seriesColors = new TreeSet<JRSeriesColor>();
+			clone.seriesColors = new TreeSet<>();
 			for(Iterator<JRSeriesColor> it = seriesColors.iterator(); it.hasNext();)
 			{
 				clone.seriesColors.add(JRCloneUtils.nullSafeClone(it.next()));

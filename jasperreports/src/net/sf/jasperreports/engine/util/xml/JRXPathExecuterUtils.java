@@ -59,7 +59,7 @@ public final class JRXPathExecuterUtils
 	public static final String PROPERTY_XPATH_EXECUTER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.executer.factory";
 	
 	private static final JRSingletonCache<JRXPathExecuterFactory> cache = 
-			new JRSingletonCache<JRXPathExecuterFactory>(JRXPathExecuterFactory.class);
+			new JRSingletonCache<>(JRXPathExecuterFactory.class);
 	
 	
 	/**

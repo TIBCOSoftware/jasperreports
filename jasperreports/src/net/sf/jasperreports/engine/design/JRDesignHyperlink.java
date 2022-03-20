@@ -72,7 +72,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public JRDesignHyperlink()
 	{
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 	}
 
 	

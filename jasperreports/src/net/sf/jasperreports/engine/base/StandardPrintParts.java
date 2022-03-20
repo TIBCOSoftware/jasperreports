@@ -46,7 +46,7 @@ public class StandardPrintParts implements PrintParts, Serializable
 
 	public StandardPrintParts()
 	{
-		this.parts = new ConcurrentSkipListMap<Integer, PrintPart>();
+		this.parts = new ConcurrentSkipListMap<>();
 	}
 	
 	@Override

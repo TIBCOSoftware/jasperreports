@@ -214,8 +214,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		ensureJasperReportsContext();
 		ensureInput();
 
-		fonts = new ArrayList<String>();
-		colors = new ArrayList<Color>();
+		fonts = new ArrayList<>();
+		colors = new ArrayList<>();
 		colors.add(null);
 
 		initExport();

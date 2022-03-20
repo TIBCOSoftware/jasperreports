@@ -263,7 +263,7 @@ public class JacksonUtil
 		if (jsonData != null) {
 			String trimmedData = jsonData.trim();
 			if (trimmedData.startsWith("{")) {
-				result = new ArrayList<T>();
+				result = new ArrayList<>();
 				result.add(loadObject(trimmedData, clazz));
 			} else if (trimmedData.startsWith("[")) {
 				result = loadList(trimmedData, clazz);

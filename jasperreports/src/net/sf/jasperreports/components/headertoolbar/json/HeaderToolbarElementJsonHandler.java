@@ -109,9 +109,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private static final String HEADER_TOOLBAR_ELEMENT_JSON_TEMPLATE = "net/sf/jasperreports/components/headertoolbar/json/resources/HeaderToolbarElementJsonTemplate.vm";
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 
-	private static final List<String> datePatterns = new ArrayList<String>(); 
-	private static final List<String> timePatterns = new ArrayList<String>(); 
-	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>();
+	private static final List<String> datePatterns = new ArrayList<>(); 
+	private static final List<String> timePatterns = new ArrayList<>(); 
+	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<>();
 
 	private static final String DURATION_PATTERN = "[h]:mm:ss";
 	
@@ -171,7 +171,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			}
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
-			Map<String, Object> contextMap = new HashMap<String, Object>();
+			Map<String, Object> contextMap = new HashMap<>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
 			contextMap.put("tableUUID", tableUUID);
 			
@@ -381,14 +381,14 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	}
 	
 	private List<HashMap<String, String>> getDatePatterns(List<String> datePatterns, Locale locale) {
-		List<HashMap<String, String>> formatPatterns = new ArrayList<HashMap<String, String>>();
+		List<HashMap<String, String>> formatPatterns = new ArrayList<>();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", locale);
 		Date today = new Date();
 		HashMap<String, String> keys;
 
 		for(String datePattern: datePatterns) {
-			keys = new HashMap<String, String>();
+			keys = new HashMap<>();
 			sdf.applyPattern(datePattern);
 			keys.put("key", datePattern);
 			keys.put("val", sdf.format(today));
@@ -398,11 +398,11 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return formatPatterns;
 	}
 	private List<HashMap<String, String>> getNumberPatterns(Map<String, String> numberPatternsMap) {
-		List<HashMap<String, String>> formatPatterns = new ArrayList<HashMap<String, String>>();
+		List<HashMap<String, String>> formatPatterns = new ArrayList<>();
 		HashMap<String, String> keys;
 
 		for(Map.Entry<String, String> entry: numberPatternsMap.entrySet()) {
-			keys = new HashMap<String, String>();
+			keys = new HashMap<>();
 			keys.put("key", entry.getKey());
 			keys.put("val", entry.getValue());
 			formatPatterns.add(keys);
@@ -495,7 +495,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
 		}
 		
-		List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+		List<DatasetFilter> filters = new ArrayList<>();
 		
 		List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 		if (existingFilters.size() > 0) {
@@ -732,7 +732,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private Map<String, ColumnInfo> getAllColumnNames(JRGenericPrintElement element, 
 			JasperReportsContext jasperReportsContext, Map<String, Object> contextMap) {
 		int prefixLength = HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX.length();
-		Map<String, ColumnInfo> columnNames = new HashMap<String, ColumnInfo>();
+		Map<String, ColumnInfo> columnNames = new HashMap<>();
 		for (String paramName : element.getParameterNames()) {
 			if (paramName.startsWith(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX)) {
 				String columnName = (String) element.getParameterValue(paramName);
@@ -758,7 +758,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		public GroupInfo(String name, String type) {
 			this.name = name;
 			this.type = type;
-			this.forColumns = new ArrayList<Integer>();
+			this.forColumns = new ArrayList<>();
 		}
 
 		public String getName() {
@@ -807,7 +807,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
 
 		int i = 0;
-		Map<JRDesignTextElement, GroupInfo> groups = new HashMap<JRDesignTextElement, GroupInfo>();
+		Map<JRDesignTextElement, GroupInfo> groups = new HashMap<>();
 		boolean found;
 
 		// build the groups map
@@ -880,7 +880,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			i++;
 		}
 
-		List<Map<String, Object>> groupsData = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> groupsData = new ArrayList<>();
 
 		// populate groupsData
 		i = 0;
@@ -895,7 +895,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			JRDesignTextElement styledElement = resolveElementStyle(textElement, reportContext, target);
 			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, styledElement, locale);
 
-			Map<String, Object> groupData = new HashMap<String, Object>();
+			Map<String, Object> groupData = new HashMap<>();
 			groupData.put("groupType", groupInfo.getType());
 			groupData.put("id", groupInfo.getType() + "_" + i);
 			groupData.put("groupData", textElementData);
@@ -1038,7 +1038,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	}
 
 	private Set<String> getFontExtensionsFontNames(JasperReportsContext jasperReportsContext) {
-		Set<String> classes = new TreeSet<String>(); 
+		Set<String> classes = new TreeSet<>(); 
 
 		Collection<String> extensionFonts = FontUtil.getInstance(jasperReportsContext).getFontNames();
 		for (Iterator<String> it = extensionFonts.iterator(); it.hasNext();) {
@@ -1051,7 +1051,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 	private Set<String> getSystemFontNames(JasperReportsContext jasperReportsContext) {
 		Set<String> fontExtensionsFontNames = getFontExtensionsFontNames(jasperReportsContext);
-		Set<String> classes = new TreeSet<String>();
+		Set<String> classes = new TreeSet<>();
 
 		String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		for (int i = 0; i < names.length; i++) {

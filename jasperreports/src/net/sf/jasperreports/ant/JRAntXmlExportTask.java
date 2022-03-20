@@ -146,7 +146,7 @@ public class JRAntXmlExportTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		//JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);//FIXMECONTEXT is this needed? what about the one below?
 

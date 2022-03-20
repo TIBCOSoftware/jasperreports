@@ -169,7 +169,7 @@ public class Report
 	{
 		if (params == null)
 		{
-			params = new HashMap<String, Object>();
+			params = new HashMap<>();
 		}
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));

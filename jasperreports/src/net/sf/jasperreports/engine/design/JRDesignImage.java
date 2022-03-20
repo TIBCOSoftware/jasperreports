@@ -132,7 +132,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	{
 		super(defaultStyleProvider);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 		
 		lineBox = new JRBaseLineBox(this);
 	}

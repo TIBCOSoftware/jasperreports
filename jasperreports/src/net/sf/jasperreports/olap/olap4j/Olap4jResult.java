@@ -70,7 +70,7 @@ public class Olap4jResult implements JROlapResult
 	@Override
 	public JROlapCell getCell(int[] axisPositions)
 	{
-		List<Integer> positions = new ArrayList<Integer>(axisPositions.length);
+		List<Integer> positions = new ArrayList<>(axisPositions.length);
 		for (int index = 0; index < axisPositions.length; index++)
 		{
 			positions.add(axisPositions[index]);

@@ -47,7 +47,7 @@ public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisP
 		super(multiAxisPlot, factory);
 
 		List<JRChartAxis> parentAxes = multiAxisPlot.getAxes();
-		this.axes = new ArrayList<JRChartAxis>(parentAxes.size());
+		this.axes = new ArrayList<>(parentAxes.size());
 		Iterator<JRChartAxis> iter = parentAxes.iterator();
 		while (iter.hasNext())
 		{

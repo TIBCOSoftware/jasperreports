@@ -188,7 +188,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		
 		setChartType(chartType);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 		
 		lineBox = new JRBaseLineBox(this);
 	}

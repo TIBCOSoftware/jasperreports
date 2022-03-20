@@ -143,7 +143,7 @@ public abstract class JacksonObjectPersistenceService implements PersistenceServ
 				}
 			}
 			
-			resource = new JacksonResource<Object>();
+			resource = new JacksonResource<>();
 			resource.setValue(value);
 		}
 

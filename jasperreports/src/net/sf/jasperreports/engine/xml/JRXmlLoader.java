@@ -91,16 +91,14 @@ public class JRXmlLoader
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private JasperDesign jasperDesign;
-	private LinkedList<XmlLoaderReportContext> contextStack = 
-		new LinkedList<XmlLoaderReportContext>();
+	private LinkedList<XmlLoaderReportContext> contextStack = new LinkedList<>();
 	
-	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = 
-		new HashMap<XmlGroupReference, XmlLoaderReportContext>();
+	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = new HashMap<>();
 	
 	//TODO use XmlGroupReference for datasets
-	private Set<JRElementDataset> groupBoundDatasets = new HashSet<JRElementDataset>();
+	private Set<JRElementDataset> groupBoundDatasets = new HashSet<>();
 	
-	private List<Exception> errors = new ArrayList<Exception>();
+	private List<Exception> errors = new ArrayList<>();
 
 	private Digester digester;
 

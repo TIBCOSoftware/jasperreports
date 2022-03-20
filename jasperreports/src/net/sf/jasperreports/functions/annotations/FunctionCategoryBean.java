@@ -34,7 +34,7 @@ public class FunctionCategoryBean
 	/**
 	 * 
 	 */
-	private List<FunctionBean> functions = new ArrayList<FunctionBean>();
+	private List<FunctionBean> functions = new ArrayList<>();
 	private String id;
 	private String name;
 	private String description;

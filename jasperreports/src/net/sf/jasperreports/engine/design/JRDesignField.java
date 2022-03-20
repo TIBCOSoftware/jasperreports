@@ -53,7 +53,7 @@ public class JRDesignField extends JRBaseField
 	
 	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
 
-	private List<JRPropertyExpression> propertyExpressions = new ArrayList<JRPropertyExpression>();
+	private List<JRPropertyExpression> propertyExpressions = new ArrayList<>();
 
 	/**
 	 *
@@ -183,7 +183,7 @@ public class JRDesignField extends JRBaseField
 		
 		if (propertyExpressions == null)
 		{
-			propertyExpressions = new ArrayList<JRPropertyExpression>();
+			propertyExpressions = new ArrayList<>();
 		}
 	}
 }

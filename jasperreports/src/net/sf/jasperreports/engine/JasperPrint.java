@@ -225,10 +225,10 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 		}
 	}
 
-	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
-	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
-	private Map<JROrigin, Integer> originsMap = new HashMap<JROrigin, Integer>();
-	private List<JROrigin> originsList = new ArrayList<JROrigin>();
+	private Map<String, JRStyle> stylesMap = new HashMap<>();
+	private List<JRStyle> stylesList = new ArrayList<>();
+	private Map<JROrigin, Integer> originsMap = new HashMap<>();
+	private List<JROrigin> originsList = new ArrayList<>();
 
 	private PrintParts parts;
 	//FIXME unsynchronize on serialization?
@@ -251,7 +251,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	 */
 	public JasperPrint()
 	{
-		this(new ArrayList<JRPrintPage>());
+		this(new ArrayList<>());
 	}
 
 	protected JasperPrint(List<JRPrintPage> pages)
@@ -715,7 +715,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 		if (originsMap.containsKey(origin))
 		{
 			originsList.remove(origin);
-			originsMap = new HashMap<JROrigin, Integer>();
+			originsMap = new HashMap<>();
 			for (int i = 0; i < originsList.size(); i++)
 			{
 				originsMap.put(originsList.get(i), i);
@@ -854,7 +854,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	{
 		if (bookmarks == null)
 		{
-			bookmarks = new ArrayList<PrintBookmark>();
+			bookmarks = new ArrayList<>();
 		}
 		bookmarks.add(bookmark);
 		
@@ -884,7 +884,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	{
 		if (anchorIndexes == null)
 		{
-			anchorIndexes = new HashMap<String,JRPrintAnchorIndex>();
+			anchorIndexes = new HashMap<>();
 			
 			int i = 0;
 			for(Iterator<JRPrintPage> itp = pages.iterator(); itp.hasNext(); i++)

@@ -399,7 +399,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 	protected Map<String,String> getJdtSettings()
 	{
-		final Map<String,String> settings = new HashMap<String,String>();
+		final Map<String,String> settings = new HashMap<>();
 		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
@@ -874,7 +874,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				if (missingMethods == null)
 				{
-					missingMethods = new HashSet<Method>();
+					missingMethods = new HashSet<>();
 				}
 				
 				missingMethods.add(missingMethod);
@@ -897,7 +897,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				if (resolvedMethods == null)
 				{
-					resolvedMethods = new HashSet<Method>();
+					resolvedMethods = new HashSet<>();
 				}
 				resolvedMethods.addAll(missingMethods);
 			}

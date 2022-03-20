@@ -127,12 +127,12 @@ public class JRResultSetDataSource implements JRDataSource
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private ResultSet resultSet;
-	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	private Map<String,Integer> columnIndexMap = new HashMap<>();
 
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
 	private TimeZone reportTimeZone;
-	private Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
+	private Map<JRField, Calendar> fieldCalendars = new HashMap<>();
 
 	private int rowCount;
 

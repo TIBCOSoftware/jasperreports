@@ -359,7 +359,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 				}
 			}
 			
-			List<Boolean> status = new ArrayList<Boolean>();
+			List<Boolean> status = new ArrayList<>();
 			// fix for bug ID artf1455 from jasperforge.org bug database
 			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
 			{

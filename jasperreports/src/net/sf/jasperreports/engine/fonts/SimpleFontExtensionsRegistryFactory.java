@@ -52,7 +52,7 @@ public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFa
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> fontFamiliesProperties = JRPropertiesUtil.getProperties(properties, SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX);
-		List<String> fontFamiliesLocations = new ArrayList<String>();
+		List<String> fontFamiliesLocations = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = fontFamiliesProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix fontFamiliesProp = it.next();

@@ -78,7 +78,7 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 		parser.setDigesterConfigurer(new CVDigester());
 		bundle.setXmlParser(parser);
 
-		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 
 		CVComponentManager componentManager = new CVComponentManager();
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());

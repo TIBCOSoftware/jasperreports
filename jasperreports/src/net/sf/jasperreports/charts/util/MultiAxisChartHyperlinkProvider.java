@@ -49,7 +49,7 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map<Dataset, ChartHyperlinkProvider> datasetProviders = new HashMap<Dataset, ChartHyperlinkProvider>();
+	private Map<Dataset, ChartHyperlinkProvider> datasetProviders = new HashMap<>();
 	
 	/**
 	 * Creates a multiple axis chart hyperlink provider.

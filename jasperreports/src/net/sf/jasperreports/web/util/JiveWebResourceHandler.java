@@ -47,7 +47,7 @@ public class JiveWebResourceHandler extends AbstractWebResourceHandler
 	public JiveWebResourceHandler(String bundleName) 
 	{
 		this.bundleName = bundleName;
-		this.keyToFileMappings = new HashMap<String, String>();
+		this.keyToFileMappings = new HashMap<>();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class JiveWebResourceHandler extends AbstractWebResourceHandler
 			try 
 			{
 				Locale locale = LocaleResolverUtil.instance(jasperReportsContext).getLocale(request);
-				Map<String, Object> contextMap = new HashMap<String, Object>();
+				Map<String, Object> contextMap = new HashMap<>();
 				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
 				contextMap.put("msgProvider", MessageUtil.getInstance(jasperReportsContext).getLocalizedMessageProvider(bundleName, locale)); 
 				String resourceString = VelocityUtil.processTemplate(keyToFileMappings.get(resourceKey), contextMap);

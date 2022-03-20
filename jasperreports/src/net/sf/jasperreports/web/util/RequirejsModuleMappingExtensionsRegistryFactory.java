@@ -53,7 +53,7 @@ public class RequirejsModuleMappingExtensionsRegistryFactory implements Extensio
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> requirejsModuleProperties = JRPropertiesUtil.getProperties(properties, REQUIREJS_MAPPING_PROPERTY_PREFIX);
-		List<RequirejsModuleMapping> requirejsModules = new ArrayList<RequirejsModuleMapping>();
+		List<RequirejsModuleMapping> requirejsModules = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = requirejsModuleProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix requirejsModuleProp = it.next();

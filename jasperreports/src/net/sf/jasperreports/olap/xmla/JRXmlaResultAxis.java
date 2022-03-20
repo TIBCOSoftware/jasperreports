@@ -46,8 +46,8 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 	public JRXmlaResultAxis(String axisName)
 	{
 		this.axisName = axisName;
-		this.hierarchyList = new ArrayList<JRXmlaHierarchy>();
-		this.tuples = new ArrayList<JRXmlaMemberTuple>();
+		this.hierarchyList = new ArrayList<>();
+		this.tuples = new ArrayList<>();
 	}
 	
 	public String getAxisName()

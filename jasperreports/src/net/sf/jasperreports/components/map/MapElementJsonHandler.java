@@ -50,7 +50,7 @@ public class MapElementJsonHandler implements GenericElementJsonHandler
 	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
-		Map<String, Object> contextMap = new HashMap<String, Object>();
+		Map<String, Object> contextMap = new HashMap<>();
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 
         Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
