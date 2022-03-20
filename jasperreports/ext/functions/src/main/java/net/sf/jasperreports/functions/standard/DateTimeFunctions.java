@@ -32,14 +32,17 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.zone.ZoneRules;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
@@ -389,8 +392,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = LocalDate.ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = LocalDate.ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
+			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
 			return (int) ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -409,7 +412,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = LocalDate.ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
 			return YearMonth.from(ld).lengthOfMonth();
 		}
 	}
@@ -428,7 +431,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = LocalDate.ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
 			return YearMonth.from(ld).lengthOfYear();
 		}
 	}
@@ -454,8 +457,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = LocalDate.ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = LocalDate.ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
+			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
 			return (int) ChronoUnit.WEEKS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -480,7 +483,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			//		> if the 1 January is a Wednesday in a leap year
 			// 	- 52 weeks:
 			//		> all other cases
-			LocalDate ld = LocalDate.ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
 			LocalDate firstDayOfYear = LocalDate.of(ld.getYear(), 1, 1);
 			if (firstDayOfYear.getDayOfWeek() == DayOfWeek.THURSDAY
 					|| (firstDayOfYear.getDayOfWeek() == DayOfWeek.WEDNESDAY && firstDayOfYear.isLeapYear())) {
@@ -504,7 +507,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = LocalDate.ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
 			return ld.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 		}
 	}
@@ -530,8 +533,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = LocalDate.ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = LocalDate.ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
+			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
 			return (int) ChronoUnit.MONTHS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -557,8 +560,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = LocalDate.ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = LocalDate.ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
+			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
 			return (int) ChronoUnit.YEARS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -577,7 +580,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = LocalDate.ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
 			return ld.isLeapYear();
 		}
 	}
@@ -731,5 +734,20 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 	 */
 	private static boolean isWeekendDay(DayOfWeek day) {
 		return DayOfWeek.SATURDAY.equals(day) || DayOfWeek.SUNDAY.equals(day);
+	}
+
+	/**
+	 * Copied from Java 9.
+	 * @deprecated To be removed.
+	 */
+	private static LocalDate ofInstant(Instant instant, ZoneId zone)
+	{
+		Objects.requireNonNull(instant, "instant");
+		Objects.requireNonNull(zone, "zone");
+		ZoneRules rules = zone.getRules();
+		ZoneOffset offset = rules.getOffset(instant);
+		long localSecond = instant.getEpochSecond() + offset.getTotalSeconds();
+		long localEpochDay = Math.floorDiv(localSecond, 86400);//LocalDate.SECONDS_PER_DAY
+		return LocalDate.ofEpochDay(localEpochDay);
 	}
 }
