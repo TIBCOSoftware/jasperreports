@@ -25,6 +25,7 @@ package net.sf.jasperreports.customvisualization.export;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -166,9 +167,10 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 		}
 
 		// Add all the items properties...
-		for (String itemPropertyKey : configuration.keySet())
+		for (Entry<String, Object> itemProperty : configuration.entrySet())
 		{
-			Object value = configuration.get(itemPropertyKey);
+			String itemPropertyKey = itemProperty.getKey();
+			Object value = itemProperty.getValue();
 
 			if (
 				itemPropertyKey == null

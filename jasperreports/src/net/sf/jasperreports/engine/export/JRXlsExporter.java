@@ -48,6 +48,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -550,9 +551,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		try
 		{
-			for (Object anchorName : anchorNames.keySet())		// the anchorNames map contains no entries for reports with ignore anchors == true;
+			for (Entry<String, HSSFName> entry : anchorNames.entrySet())		// the anchorNames map contains no entries for reports with ignore anchors == true;
 			{
-				HSSFName anchor = anchorNames.get(anchorName);
+				String anchorName = entry.getKey();
+				HSSFName anchor = entry.getValue();
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
@@ -608,8 +610,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			}
 			
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true 
-				List<Hyperlink> linkList = pageLinks.get(linkPage);
+			for (Entry<Integer, List<Hyperlink>> entry : pageLinks.entrySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true
+				Integer linkPage = entry.getKey();
+				List<Hyperlink> linkList = entry.getValue();
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
 						index = onePagePerSheetMap.get(linkPage-1)!= null 
@@ -2667,11 +2670,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		Map<String, Integer> levelMap = levelInfo.getLevelMap();
 		if(levelMap != null && levelMap.size() > 0)
 		{
-			for(String l : levelMap.keySet())
+			for (Entry<String, Integer> entry : levelMap.entrySet())
 			{
+				String l = entry.getKey(); 
 				if (level == null || l.compareTo(level) >= 0)
 				{
-					Integer startIndex = levelMap.get(l);
+					Integer startIndex = entry.getValue();
 					if(levelInfo.getEndIndex() >= startIndex)
 					{
 						sheet.groupRow(startIndex, levelInfo.getEndIndex());

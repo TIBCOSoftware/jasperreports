@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -318,14 +319,24 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		}
 	}
 	
-	protected void setStyle(Map<String,Object> parentStyleMap, Map<String,Object> styleMap){
-		if(parentStyleMap != null){
-			for(String styleProperty : parentStyleMap.keySet()) {
-				if(!(MapComponent.ITEM_PROPERTY_name.equals(styleProperty) 
-						|| MapComponent.ITEM_PROPERTY_latitude.equals(styleProperty) 
-						|| MapComponent.ITEM_PROPERTY_longitude.equals(styleProperty))
-						&& parentStyleMap.get(styleProperty) != null && parentStyleMap.get(styleProperty).toString().length() > 0){
-					styleMap.put(styleProperty, parentStyleMap.get(styleProperty));
+	protected void setStyle(Map<String,Object> parentStyleMap, Map<String,Object> styleMap)
+	{
+		if (parentStyleMap != null)
+		{
+			for (Entry<String, Object> entry : parentStyleMap.entrySet())
+			{
+				String styleProperty = entry.getKey();
+				if (
+					!(MapComponent.ITEM_PROPERTY_name.equals(styleProperty) 
+					|| MapComponent.ITEM_PROPERTY_latitude.equals(styleProperty) 
+					|| MapComponent.ITEM_PROPERTY_longitude.equals(styleProperty))
+					)
+				{
+					Object styleValue = entry.getValue();
+					if (styleValue != null && styleValue.toString().length() > 0)
+					{
+						styleMap.put(styleProperty, styleValue);
+					}
 				}
 			}
 		}

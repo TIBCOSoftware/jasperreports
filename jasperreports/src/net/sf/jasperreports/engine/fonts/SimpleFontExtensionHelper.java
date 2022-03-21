@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -631,9 +632,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		if(exportFonts != null)
 		{
 			writer.startElement(NODE_exportFonts);
-			for(String key : exportFonts.keySet())
+			for (Entry<String, String> exportFont : exportFonts.entrySet())
 			{
-				writer.writeCDATAElement(NODE_export, exportFonts.get(key), ATTRIBUTE_key, key);
+				writer.writeCDATAElement(NODE_export, exportFont.getValue(), ATTRIBUTE_key, exportFont.getKey());
 			}
 			writer.closeElement();
 		}

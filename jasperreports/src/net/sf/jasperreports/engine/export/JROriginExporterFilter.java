@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -180,11 +181,12 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			
 			if (keepFirst == null)
 			{
-				for (JROrigin originToExclude : originsToExclude.keySet())
+				for (Entry<JROrigin, Boolean> entry : originsToExclude.entrySet())
 				{
+					JROrigin originToExclude = entry.getKey();
 					if (match(originToExclude, origin))
 					{
-						keepFirst = originsToExclude.get(originToExclude);
+						keepFirst = entry.getValue();
 						matchedOrigins.put(origin, keepFirst);
 						break;
 					}

@@ -30,6 +30,7 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -104,10 +105,10 @@ public abstract class BaseFontHelper extends BaseHelper
 			writer.write(getEndFontTag());
 		}
 	
-		for (String fontPath : fontPaths.keySet())
+		for (Entry<String, String> fontPath : fontPaths.entrySet())
 		{
-			String rIdf = fontPaths.get(fontPath);
-			embedFont(rIdf, fontPath);
+			String rIdf = fontPath.getValue();
+			embedFont(rIdf, fontPath.getKey());
 		}
 	}
 	

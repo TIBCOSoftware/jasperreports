@@ -64,9 +64,8 @@ public abstract class AbstractZip
 		ZipOutputStream zipos = new ZipOutputStream(os);
 		zipos.setMethod(ZipOutputStream.DEFLATED);
 		
-		for (String name : exportZipEntries.keySet()) 
+		for (ExportZipEntry exportZipEntry : exportZipEntries.values()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			ZipEntry zipEntry = new ZipEntry(exportZipEntry.getName());
 			zipos.putNextEntry(zipEntry);
 			exportZipEntry.writeData(zipos);
@@ -81,9 +80,8 @@ public abstract class AbstractZip
 	 */
 	public void dispose()
 	{
-		for (String name : exportZipEntries.keySet()) 
+		for (ExportZipEntry exportZipEntry : exportZipEntries.values()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			exportZipEntry.dispose();
 		}
 	}

@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.actions;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -57,9 +58,10 @@ public class SaveAction extends AbstractAction {
 //		JasperDesign jasperDesign = getJasperDesign();
 		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 		Map<String, JasperDesignReportResource> cachedResources = cache.getCachedResources();
-		for (String uri : cachedResources.keySet())
+		for (Entry<String, JasperDesignReportResource> entry : cachedResources.entrySet())
 		{
-			JasperDesignReportResource resource = cachedResources.get(uri);
+			String uri = entry.getKey();
+			JasperDesignReportResource resource = entry.getValue();
 			JasperDesign jasperDesign = resource.getJasperDesign();
 			if (jasperDesign != null)
 			{

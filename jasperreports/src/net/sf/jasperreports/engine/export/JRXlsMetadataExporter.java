@@ -53,6 +53,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -470,8 +471,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
-			for (Object anchorName : anchorNames.keySet()) {
-				HSSFName anchor = anchorNames.get(anchorName);
+			for (Entry<String, HSSFName> entry : anchorNames.entrySet()) {
+				String anchorName = entry.getKey();
+				HSSFName anchor = entry.getValue();
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
@@ -525,8 +527,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 			
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {
-				List<Hyperlink> linkList = pageLinks.get(linkPage);
+			for (Entry<Integer, List<Hyperlink>> entry : pageLinks.entrySet()) {
+				Integer linkPage = entry.getKey();
+				List<Hyperlink> linkList = entry.getValue();
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
 						index = onePagePerSheetMap.get(linkPage-1)!= null 

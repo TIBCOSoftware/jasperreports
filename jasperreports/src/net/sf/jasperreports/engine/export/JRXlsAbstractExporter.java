@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
@@ -1668,9 +1669,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
 
-			for (String level : rowLevelMap.keySet())
+			for (Entry<String, Boolean> rowLevel : rowLevelMap.entrySet())
 			{
-				Boolean isEndMarker = rowLevelMap.get(level);
+				String level = rowLevel.getKey();
+				Boolean isEndMarker = rowLevel.getValue();
 				
 				//check if this level group is already open
 				if (crtLevelMap.containsKey(level))
