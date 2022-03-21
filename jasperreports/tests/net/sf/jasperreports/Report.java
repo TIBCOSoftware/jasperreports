@@ -215,15 +215,15 @@ public class Report
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
-		try
+		try (
+			DigestOutputStream out = 
+				new DigestOutputStream(
+					new BufferedOutputStream(new FileOutputStream(outputFile)), 
+					digest
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
 			xmlExport(print, out);
-		}
-		finally
-		{
-			output.close();
 		}
 		
 		return toDigestString(digest);

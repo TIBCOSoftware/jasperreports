@@ -253,15 +253,15 @@ public abstract class AbstractTest
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
-		try
+		try (
+			DigestOutputStream out = 
+				new DigestOutputStream(
+					new BufferedOutputStream(new FileOutputStream(outputFile)), 
+					digest
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
 			export(print, out);
-		}
-		finally
-		{
-			output.close();
 		}
 		
 		String digestSha = toDigestString(digest);
@@ -288,20 +288,17 @@ public abstract class AbstractTest
 		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
-		OutputStreamWriter osw = null;
-		try
+		try (
+			OutputStreamWriter osw = 
+				new OutputStreamWriter(
+					new DigestOutputStream(
+						new BufferedOutputStream(new FileOutputStream(outputFile)), 
+						digest
+						)
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
-			//PrintStream ps = new PrintStream(out);
-			//t.printStackTrace(ps);
-			osw = new OutputStreamWriter(out, "UTF-8");
 			osw.write(String.valueOf(t.getMessage()));
-		}
-		finally
-		{
-			osw.close();
-			output.close();
 		}
 		
 		return toDigestString(digest);

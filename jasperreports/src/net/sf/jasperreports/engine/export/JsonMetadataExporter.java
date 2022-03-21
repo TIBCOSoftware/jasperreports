@@ -24,8 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -414,24 +414,15 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			String jsonSchemaResource = currentItemConfiguration.getJsonSchemaResource();
 
 			if (jsonSchemaResource != null) {
-				InputStream is = null;
-				try
+				try (
+					Scanner scanner = 
+						new Scanner(
+							getRepository().getInputStreamFromLocation(jsonSchemaResource), 
+							StandardCharsets.UTF_8
+							)
+					)
 				{
-					is = getRepository().getInputStreamFromLocation(jsonSchemaResource);
-					jsonSchema = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
-				}
-				finally
-				{
-					if (is != null)
-					{
-						try
-						{
-							is.close();
-						}
-						catch (IOException e)
-						{
-						}
-					}
+					jsonSchema = scanner.useDelimiter("\\A").next();
 				}
 
 				validateSchema(jsonSchema);

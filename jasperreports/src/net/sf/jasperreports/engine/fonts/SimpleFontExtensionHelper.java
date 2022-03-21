@@ -777,11 +777,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		FontExtensionsContainer extensions
 		) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destFileName)))
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName));
 			writeFontExtensionsXml(os, extensions);
 		}
 		catch (IOException e)
@@ -791,19 +788,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					EXCEPTION_MESSAGE_KEY_FILE_WRITER_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -848,11 +832,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public static void writeFontExtensionsProperties(String fontsXmlLocation, String destFileName) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destFileName, false)))
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName, false));
 			writeFontExtensionsProperties(fontsXmlLocation, os);
 		}
 		catch (IOException e)
@@ -862,19 +843,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					EXCEPTION_MESSAGE_KEY_FILE_WRITER_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 

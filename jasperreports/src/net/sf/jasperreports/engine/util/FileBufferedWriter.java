@@ -30,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -78,7 +79,7 @@ public class FileBufferedWriter extends Writer
 		{
 			close();
 			
-			reader = new InputStreamReader(fbos.getDataInputStream(), "UTF-8");
+			reader = new InputStreamReader(fbos.getDataInputStream(), StandardCharsets.UTF_8);
 
 			char[] chars = new char[10000];
 			int ln = 0;
