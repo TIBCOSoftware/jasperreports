@@ -181,15 +181,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 			/*   */
 			digester.parse(is);
 		}
-		catch(ParserConfigurationException e)
-		{
-			throw new JRException(e);
-		}
-		catch(SAXException e)
-		{
-			throw new JRException(e);
-		}
-		catch(IOException e)
+		catch (ParserConfigurationException | SAXException | IOException e)
 		{
 			throw new JRException(e);
 		}

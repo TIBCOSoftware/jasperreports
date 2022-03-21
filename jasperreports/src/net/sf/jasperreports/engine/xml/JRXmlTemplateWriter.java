@@ -24,14 +24,15 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
@@ -43,9 +44,6 @@ import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -185,10 +183,6 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 			Writer writer = new OutputStreamWriter(out, encoding);
 			writeTemplate(jasperReportsContext, template, writer, encoding);
 		}
-		catch (UnsupportedEncodingException e)
-		{
-			throw new JRRuntimeException(e);
-		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
@@ -257,10 +251,6 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 			fileOut.flush();
 			close = false;
 			fileOut.close();
-		}
-		catch (FileNotFoundException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		catch (IOException e)
 		{

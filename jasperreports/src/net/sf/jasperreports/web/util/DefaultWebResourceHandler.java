@@ -103,9 +103,7 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 				} else {
 					bytes = JRLoader.loadBytesFromResource(resourceUri);
 				}
-			} catch (IOException e) {
-				throw new JRRuntimeException(e);
-			} catch (JRException e) {
+			} catch (IOException | JRException e) {
 				throw new JRRuntimeException(e);
 			}
 			

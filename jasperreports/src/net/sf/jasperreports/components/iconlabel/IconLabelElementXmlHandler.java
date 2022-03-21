@@ -86,11 +86,7 @@ public class IconLabelElementXmlHandler implements GenericElementXmlHandler
 		{
 			exporter.exportElement(frame);
 		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IOException e)
+		catch (JRException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}

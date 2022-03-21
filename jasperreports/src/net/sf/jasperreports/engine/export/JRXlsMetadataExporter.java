@@ -291,9 +291,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						}
 					}
 				}
-			} catch (JRException e) {
-				throw new JRRuntimeException(e);
-			} catch (IOException e) {
+			} catch (JRException | IOException e) {
 				throw new JRRuntimeException(e);
 			} finally {
 				if (templateIs != null)	{

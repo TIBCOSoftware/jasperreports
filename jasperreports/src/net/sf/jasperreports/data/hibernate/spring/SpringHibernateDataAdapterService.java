@@ -90,19 +90,8 @@ public class SpringHibernateDataAdapterService extends
 										session);
 					}
 				}
-			} catch (ClassNotFoundException e) {
-				throw new JRException(e);
-			} catch (InstantiationException e) {
-				throw new JRException(e);
-			} catch (IllegalAccessException e) {
-				throw new JRException(e);
-			} catch (IllegalArgumentException e) {
-				throw new JRException(e);
-			} catch (SecurityException e) {
-				throw new JRException(e);
-			} catch (InvocationTargetException e) {
-				throw new JRException(e);
-			} catch (NoSuchMethodException e) {
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
+					| IllegalArgumentException | SecurityException | InvocationTargetException | NoSuchMethodException e) {
 				throw new JRException(e);
 			}
 		}

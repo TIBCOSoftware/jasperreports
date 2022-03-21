@@ -237,11 +237,7 @@ public class JRXmlLoader
 		{
 			xmlLoader = new JRXmlLoader(jasperReportsContext, JRXmlDigesterFactory.createDigester(jasperReportsContext));
 		}
-		catch (ParserConfigurationException e) 
-		{
-			throw new JRException(e);
-		}
-		catch (SAXException e) 
+		catch (ParserConfigurationException | SAXException e) 
 		{
 			throw new JRException(e);
 		}
@@ -272,11 +268,7 @@ public class JRXmlLoader
 			/*   */
 			digester.parse(is);
 		}
-		catch(SAXException e)
-		{
-			throw new JRException(e);
-		}
-		catch(IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw new JRException(e);
 		}

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -154,23 +155,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				value = PropertyUtils.getProperty(bean, propertyName);
 			}
-			catch (java.lang.IllegalAccessException e)
-			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
-						new Object[]{propertyName}, 
-						e);
-			}
-			catch (java.lang.reflect.InvocationTargetException e)
-			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
-						new Object[]{propertyName}, 
-						e);
-			}
-			catch (java.lang.NoSuchMethodException e)
+			catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
 			{
 				throw 
 					new JRException(

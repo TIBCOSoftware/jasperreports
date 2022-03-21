@@ -130,11 +130,7 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		{
 			configureDigester(jasperReportsContext, digester);
 		}
-		catch (SAXException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ParserConfigurationException e)
+		catch (SAXException | ParserConfigurationException e)
 		{
 			throw new JRRuntimeException(e);
 		}

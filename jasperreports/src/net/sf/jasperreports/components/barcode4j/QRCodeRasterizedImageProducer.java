@@ -100,11 +100,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 			BufferedImage image = getImage(matrix, componentElement.getForecolor());
 			return RendererUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
 		}
-		catch (WriterException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JRException e)
+		catch (WriterException | JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

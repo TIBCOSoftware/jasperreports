@@ -229,15 +229,10 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	{
 		try
 		{
-			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));
+			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, StandardCharsets.UTF_8)));
 			parseFontExtensions(jasperReportsContext, document.getDocumentElement(), receiver, loadFonts);
 		}
-		catch (SAXException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}

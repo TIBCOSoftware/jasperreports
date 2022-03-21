@@ -120,19 +120,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			Type type = (Type) constant.get(null);
 			return type;
 		}
-		catch (NoSuchFieldException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SecurityException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IllegalArgumentException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IllegalAccessException e)
+		catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
 		{
 			throw new JRRuntimeException(e);
 		}

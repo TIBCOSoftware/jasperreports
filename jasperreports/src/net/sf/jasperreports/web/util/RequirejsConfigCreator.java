@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -119,14 +117,6 @@ public class RequirejsConfigCreator
 		try
 		{
 			objectMapper.writeValue(outWriter, configRoot);
-		}
-		catch (JsonGenerationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JsonMappingException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		catch (IOException e)
 		{

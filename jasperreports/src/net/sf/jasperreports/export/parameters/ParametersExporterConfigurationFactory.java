@@ -196,11 +196,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 						exporterParameter.name()
 						).get(null);
 			}
-			catch (NoSuchFieldException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (IllegalAccessException e)
+			catch (NoSuchFieldException | IllegalAccessException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -288,15 +284,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 						Method byNameMethod = type.getMethod("getByName", new Class<?>[]{String.class});
 						value = byNameMethod.invoke(null, value);
 					}
-					catch (NoSuchMethodException e)
-					{
-						throw new JRRuntimeException(e);
-					}
-					catch (InvocationTargetException e)
-					{
-						throw new JRRuntimeException(e);
-					}
-					catch (IllegalAccessException e)
+					catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
 					{
 						throw new JRRuntimeException(e);
 					}

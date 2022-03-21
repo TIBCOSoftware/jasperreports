@@ -76,17 +76,8 @@ public class EjbqlDataAdapterService extends AbstractDataAdapterService {
 				parameters.put(
 						JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER,
 						em);
-			} catch (IllegalArgumentException e) {
-				throw new JRException(e);
-			} catch (SecurityException e) {
-				throw new JRException(e);
-			} catch (IllegalAccessException e) {
-				throw new JRException(e);
-			} catch (InvocationTargetException e) {
-				throw new JRException(e);
-			} catch (NoSuchMethodException e) {
-				throw new JRException(e);
-			} catch (ClassNotFoundException e) {
+			} catch (IllegalArgumentException | SecurityException | IllegalAccessException 
+					| InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
 				throw new JRException(e);
 			}
 		}

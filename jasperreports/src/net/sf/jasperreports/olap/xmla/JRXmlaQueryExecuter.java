@@ -139,11 +139,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			xmlaResult = new JRXmlaResult();
 			parseResult(resultMessage);
 		}
-		catch (MalformedURLException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SOAPException e)
+		catch (MalformedURLException | SOAPException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -219,11 +215,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
 			return scf.createConnection();
 		}
-		catch (UnsupportedOperationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SOAPException e)
+		catch (UnsupportedOperationException | SOAPException e)
 		{
 			throw new JRRuntimeException(e);
 		}

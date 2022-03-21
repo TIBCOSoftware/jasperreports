@@ -96,11 +96,7 @@ public abstract class AbstractSampleApp
 		{
 			System.out.println(usage());
 		}
-		catch (IllegalAccessException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (InvocationTargetException e)
+		catch (IllegalAccessException | InvocationTargetException e)
 		{
 			e.getCause().printStackTrace();
 		}
@@ -148,11 +144,7 @@ public abstract class AbstractSampleApp
 			Class.forName(driver);
 			conn = DriverManager.getConnection(connectString, user, password);
 		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRException(e);
-		}
-		catch (SQLException e)
+		catch (ClassNotFoundException | SQLException e)
 		{
 			throw new JRException(e);
 			

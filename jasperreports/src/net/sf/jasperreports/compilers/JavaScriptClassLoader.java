@@ -98,15 +98,7 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 				scriptClass = defineClass(className, classBytes, 0, classBytes.length, domain);
 				linkClass(scriptClass);
 			}
-			catch (SecurityException e)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_LOAD_ERROR,
-						new Object[]{className},
-						e);
-			}
-			catch (IllegalArgumentException e)
+			catch (SecurityException | IllegalArgumentException e)
 			{
 				throw 
 					new JRRuntimeException(

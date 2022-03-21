@@ -315,11 +315,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 				}
 			} 
-			catch (JRException e) 
-			{
-				throw new JRRuntimeException(e);
-			} 
-			catch (IOException e) 
+			catch (JRException | IOException e) 
 			{
 				throw new JRRuntimeException(e);
 			}

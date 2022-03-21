@@ -226,11 +226,7 @@ public class XlsxZip extends FileBufferedZip
 				}
 			}
 		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IOException e)
+		catch (JRException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}

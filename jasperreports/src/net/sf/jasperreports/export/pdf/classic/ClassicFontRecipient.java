@@ -84,11 +84,7 @@ public class ClassicFontRecipient implements FontRecipient
 			baseFont = BaseFont.createFont(pdfFontName, pdfEncoding, isPdfEmbedded,
 					true, fontData, null);
 		}
-		catch(DocumentException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch(IOException e)
+		catch (DocumentException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}

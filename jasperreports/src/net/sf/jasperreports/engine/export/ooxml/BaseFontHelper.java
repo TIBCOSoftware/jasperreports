@@ -138,11 +138,7 @@ public abstract class BaseFontHelper extends BaseHelper
 			byte[] bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(path);
 			zip.addEntry(entryPath, bytes);
 		}
-		catch(IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch(JRException e)
+		catch (IOException | JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

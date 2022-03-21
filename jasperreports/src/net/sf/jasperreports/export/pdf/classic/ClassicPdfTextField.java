@@ -76,11 +76,7 @@ public class ClassicPdfTextField extends ClassicPdfField implements PdfTextField
 
 			pdfProducer.getPdfWriter().addAnnotation(field);
 		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (DocumentException e)
+		catch (IOException | DocumentException e)
 		{
 			throw new JRRuntimeException(e);
 		}

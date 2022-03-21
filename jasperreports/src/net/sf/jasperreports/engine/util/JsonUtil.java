@@ -32,7 +32,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -178,8 +177,6 @@ public class JsonUtil {
 		JsonNode jsonTree;
 		try {
 			jsonTree = mapper.readTree(jsonStream);
-		} catch (JsonProcessingException e) {
-			throw new JRException(e);
 		} catch (IOException e) {
 			throw new JRException(e);
 		}

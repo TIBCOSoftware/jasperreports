@@ -88,17 +88,9 @@ public class BeanDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 							new Object[]{clazz.getName()});
 				}
 			}
-			catch (ClassNotFoundException e) {
-				throw new JRException(e);
-			} catch (IllegalAccessException e) {
-				throw new JRException(e);
-			} catch (SecurityException e) {
-				throw new JRException(e);
-			} catch (NoSuchMethodException e) {
-				throw new JRException(e);
-			} catch (IllegalArgumentException e) {
-				throw new JRException(e);
-			} catch (InvocationTargetException e) {
+			catch (ClassNotFoundException | IllegalAccessException | SecurityException 
+				| NoSuchMethodException | IllegalArgumentException | InvocationTargetException e) 
+			{
 				throw new JRException(e);
 			}
 			finally

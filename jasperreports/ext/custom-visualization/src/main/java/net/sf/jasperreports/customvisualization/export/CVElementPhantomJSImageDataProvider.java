@@ -391,11 +391,7 @@ public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageD
 			}
 
 		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (InterruptedException e)
+		catch (IOException | InterruptedException e)
 		{
 			throw new JRRuntimeException(e);
 		}

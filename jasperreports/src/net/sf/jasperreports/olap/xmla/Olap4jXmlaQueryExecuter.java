@@ -34,17 +34,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
-import net.sf.jasperreports.olap.JRMdxQueryExecuterFactory;
-import net.sf.jasperreports.olap.JROlapDataSource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.olap4j.Axis;
@@ -60,6 +49,17 @@ import org.olap4j.layout.CellSetFormatter;
 import org.olap4j.layout.RectangularCellSetFormatter;
 import org.olap4j.metadata.Hierarchy;
 import org.olap4j.metadata.Member;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRDataset;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
+import net.sf.jasperreports.olap.JRMdxQueryExecuterFactory;
+import net.sf.jasperreports.olap.JROlapDataSource;
 
 
 
@@ -358,10 +358,6 @@ public class Olap4jXmlaQueryExecuter extends JRAbstractQueryExecuter
 				{
 					caption = (String) captionMethod.invoke(m, new Object[]{null});
 				}
-				catch (IllegalAccessException e)
-				{
-					throw new JRRuntimeException(e);
-				} 
 				catch (Exception e)
 				{
 					throw new JRRuntimeException(e);

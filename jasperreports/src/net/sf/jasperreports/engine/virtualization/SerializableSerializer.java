@@ -59,15 +59,7 @@ public class SerializableSerializer<T extends VirtualizationSerializable> implem
 		{
 			return type.getConstructor(NO_ARGS_TYPES);
 		}
-		catch (NoSuchMethodException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_INITIALIZATION_FAILED,
-					new Object[]{type.getName()},
-					e);
-		}
-		catch (SecurityException e)
+		catch (NoSuchMethodException | SecurityException e)
 		{
 			throw 
 				new JRRuntimeException(

@@ -163,31 +163,7 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 			
 			connection.close();
 		}
-		catch (ClassNotFoundException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		} 
-		catch (InvocationTargetException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		}
-		catch (SQLException e)
+		catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | SQLException e)
 		{
 			throw 
 				new JRException(

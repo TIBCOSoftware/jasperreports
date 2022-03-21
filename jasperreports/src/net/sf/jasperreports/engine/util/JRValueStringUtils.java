@@ -559,11 +559,7 @@ public final class JRValueStringUtils
 				ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
 				return objectIn.readObject();
 			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (ClassNotFoundException e)
+			catch (IOException | ClassNotFoundException e)
 			{
 				throw new JRRuntimeException(e);
 			}

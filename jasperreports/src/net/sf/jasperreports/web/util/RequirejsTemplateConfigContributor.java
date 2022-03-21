@@ -33,8 +33,6 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -84,18 +82,10 @@ public class RequirejsTemplateConfigContributor implements RequirejsConfigContri
 			ObjectNode templateConfig = objectMapper.readValue(new StringReader(configString), ObjectNode.class);
 			return templateConfig;
 		}
-		catch (JsonParseException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (JsonMappingException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
+		} 
 	}
 	
 	//FIXME move to a util class

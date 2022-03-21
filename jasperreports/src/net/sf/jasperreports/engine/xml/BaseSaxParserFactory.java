@@ -118,15 +118,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			configureParser(parser);
 			return parser;
 		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
-					(Object[])null,
-					e);
-		}
-		catch (ParserConfigurationException e)
+		catch (SAXException | ParserConfigurationException e)
 		{
 			throw 
 				new JRRuntimeException(

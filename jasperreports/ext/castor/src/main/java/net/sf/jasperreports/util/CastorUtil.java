@@ -25,7 +25,6 @@ package net.sf.jasperreports.util;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -292,11 +291,7 @@ public class CastorUtil
 			Object object = unmarshaller.unmarshal(new InputSource(is));
 			return object;
 		}
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ValidationException e)
+		catch (MarshalException | ValidationException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -319,10 +314,6 @@ public class CastorUtil
 			write(object, output);
 			output.close();
 			closed = true;
-		}
-		catch (FileNotFoundException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		catch (IOException e)
 		{
@@ -359,15 +350,7 @@ public class CastorUtil
 			marshaller.setMarshalAsDocument(false);
 			marshaller.marshal(object);
 		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (ValidationException e)
+		catch (IOException | MarshalException | ValidationException e)
 		{
 			throw new JRRuntimeException(e);
 		}

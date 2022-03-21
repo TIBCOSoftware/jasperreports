@@ -102,11 +102,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 			
 			provider = new SVGCanvasProvider(false, OrientationEnum.UP.getValue());
 		}
-		catch (WriterException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (BarcodeCanvasSetupException e)
+		catch (WriterException | BarcodeCanvasSetupException e)
 		{
 			throw new JRRuntimeException(e);
 		}

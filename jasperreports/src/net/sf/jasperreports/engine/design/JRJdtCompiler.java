@@ -107,11 +107,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			is2ArgsConstr = true;
 			success = true;
 		}
-		catch (NoSuchMethodException e)
-		{
-			success = false;
-		}
-		catch (ClassNotFoundException ex)
+		catch (NoSuchMethodException | ClassNotFoundException ex)
 		{
 			success = false;
 		}
@@ -278,31 +274,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				{
 					log.error("Compilation error", exc);
 				}
-				catch (InvocationTargetException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (IllegalArgumentException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (InstantiationException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (IllegalAccessException e)
+				catch (InvocationTargetException | IllegalArgumentException | InstantiationException | IllegalAccessException e)
 				{
 					throw 
 						new JRRuntimeException(
@@ -768,31 +740,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			try {
 				Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
 				return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
-			} catch (SecurityException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
-						(Object[])null,
-						e);
-			} catch (NoSuchMethodException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
-						(Object[])null,
-						e);
-			} catch (IllegalArgumentException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
-						(Object[])null,
-						e);
-			} catch (IllegalAccessException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
-						(Object[])null,
-						e);
-			} catch (InvocationTargetException e) {
+			} catch (SecurityException | NoSuchMethodException | IllegalArgumentException 
+					| IllegalAccessException | InvocationTargetException e) {
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,

@@ -32,11 +32,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -237,14 +234,6 @@ public class JacksonUtil
 			{
 				result = mapper.readValue(jsonData, mapper.getTypeFactory().constructParametricType(List.class, clazz));
 			}
-			catch (JsonParseException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JsonMappingException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
 			catch (IOException e) 
 			{
 				throw new JRRuntimeException(e);
@@ -284,14 +273,6 @@ public class JacksonUtil
 		{
 			return mapper.writeValueAsString(object);
 		} 
-		catch (JsonGenerationException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (JsonMappingException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
 		catch (IOException e) 
 		{
 			throw new JRRuntimeException(e);
@@ -308,14 +289,6 @@ public class JacksonUtil
 		try
 		{
 			return mapper.writeValueAsString(object);
-		} 
-		catch (JsonGenerationException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (JsonMappingException e) 
-		{
-			throw new JRRuntimeException(e);
 		} 
 		catch (IOException e) 
 		{

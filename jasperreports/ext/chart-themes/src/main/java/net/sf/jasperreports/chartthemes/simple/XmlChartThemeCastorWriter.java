@@ -75,23 +75,7 @@ public final class XmlChartThemeCastorWriter
 
 			marshaller.marshal(settings);
 		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (MappingException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ValidationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JRException e)
+		catch (IOException | MappingException | MarshalException | ValidationException | JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

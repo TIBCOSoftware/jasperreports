@@ -673,15 +673,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 			return str.toString();
 		}
-		catch (SQLException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_RESULT_SET_CLOB_VALUE_READ_FAILURE, 
-					null, 
-					e);
-		}
-		catch (IOException e)
+		catch (SQLException | IOException e)
 		{
 			throw 
 				new JRException(

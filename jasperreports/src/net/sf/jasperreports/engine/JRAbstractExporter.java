@@ -1020,14 +1020,9 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 					textValue = getTextValueString(text, textStr);
 				} 
 			}
-			catch (ParseException e)
+			catch (ParseException | ClassNotFoundException e)
 			{
-				//log.warn("Error parsing text value", e);
-				textValue = getTextValueString(text, textStr);
-			}
-			catch (ClassNotFoundException e)
-			{
-				//log.warn("Error loading text value class", e);
+				//log.warn("Error loading text value", e);
 				textValue = getTextValueString(text, textStr);
 			}			
 		}
