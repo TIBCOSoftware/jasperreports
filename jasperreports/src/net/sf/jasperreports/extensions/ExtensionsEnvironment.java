@@ -152,7 +152,7 @@ public final class ExtensionsEnvironment
 	 */
 	public static void resetThreadExtensionsRegistry()
 	{
-		threadRegistry.set(null);
+		threadRegistry.remove();
 	}
 	
 	/**

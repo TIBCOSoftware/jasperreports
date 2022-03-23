@@ -53,7 +53,7 @@ public final class JRVirtualizationHelper
 	 */
 	public static void clearThreadVirtualizer()
 	{
-		threadVirtualizer.set(null);
+		threadVirtualizer.remove();
 	}
 
 	
@@ -90,7 +90,7 @@ public final class JRVirtualizationHelper
 	 */
 	public static void clearThreadJasperReportsContext()
 	{
-		threadJasperReportsContext.set(null);
+		threadJasperReportsContext.remove();
 	}
 
 	
