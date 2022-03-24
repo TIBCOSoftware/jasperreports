@@ -32,6 +32,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -140,14 +141,15 @@ public class XlsxStyleHelper extends BaseHelper
 			boolean isIgnoreTextFormatting,
 			RotationEnum rotation,
 			JRXlsAbstractExporter.SheetInfo sheetInfo,
-			LineDirectionEnum direction
+			LineDirectionEnum direction,
+			JRStyle parentStyle
 			)
 	{
 		XlsxStyleInfo styleInfo = 
 				new XlsxStyleInfo(
 						formatHelper.getFormat(pattern) + 1,
 						fontHelper.getFont(element, locale) + 1,
-						borderHelper.getBorder(element, sheetInfo, direction) + 1,
+						borderHelper.getBorder(element, sheetInfo, direction, parentStyle) + 1,
 						element,
 						isWrapText,
 						isHidden,
@@ -156,7 +158,8 @@ public class XlsxStyleHelper extends BaseHelper
 						isIgnoreTextFormatting, 
 						getRotation(rotation),
 						sheetInfo,
-						direction
+						direction,
+						parentStyle
 						);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
@@ -179,14 +182,15 @@ public class XlsxStyleHelper extends BaseHelper
 			boolean isIgnoreTextFormatting,
 			RotationEnum rotation,
 			JRXlsAbstractExporter.SheetInfo sheetInfo,
-			LineDirectionEnum direction
+			LineDirectionEnum direction,
+			JRStyle parentStyle
 			)
 	{
 		XlsxStyleInfo styleInfo = 
 				new XlsxStyleInfo(
 						formatHelper.getFormat(pattern) + 1,
 						fontHelper.getFont(box, locale) + 1,
-						borderHelper.getBorder(box, sheetInfo, direction) + 1,
+						borderHelper.getBorder(box, sheetInfo, direction, parentStyle) + 1,
 						isWrapText,
 						isHidden,
 						isLocked,

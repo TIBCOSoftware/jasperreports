@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 
 /**
@@ -50,7 +51,8 @@ public interface GenericElementXlsxMetadataHandler extends GenericElementHandler
 		JRXlsxExporterContext exporterContext, 
 		JRGenericPrintElement element, 
 		int colIndex,
-		int rowIndex) throws JRException;
+		int rowIndex,
+		JRStyle parentStyle) throws JRException;
 	
 	/**
 	 * Creates an equivalent image of the {@link JRGenericPrintElement} element to be exported instead.

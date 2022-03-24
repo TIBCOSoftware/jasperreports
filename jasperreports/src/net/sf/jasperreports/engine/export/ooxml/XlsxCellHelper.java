@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -276,7 +277,8 @@ public class XlsxCellHelper extends BaseHelper
 			boolean isIgnoreTextFormatting, 
 			RotationEnum rotation,
 			JRXlsAbstractExporter.SheetInfo sheetInfo,
-			LineDirectionEnum direction
+			LineDirectionEnum direction,
+			JRStyle parentStyle
 			) 
 	{
 		try
@@ -306,7 +308,8 @@ public class XlsxCellHelper extends BaseHelper
 							isIgnoreTextFormatting,
 							rotation,
 							sheetInfo,
-							direction
+							direction,
+							parentStyle
 							);
 		
 		write("  <c r=\"" 
@@ -337,7 +340,8 @@ public class XlsxCellHelper extends BaseHelper
 			boolean isIgnoreTextFormatting, 
 			RotationEnum rotation,
 			JRXlsAbstractExporter.SheetInfo sheetInfo,
-			LineDirectionEnum direction
+			LineDirectionEnum direction,
+			JRStyle parentStyle
 			) 
 	{
 		try
@@ -367,7 +371,8 @@ public class XlsxCellHelper extends BaseHelper
 				isIgnoreTextFormatting,
 				rotation,
 				sheetInfo,
-				direction
+				direction,
+				parentStyle
 				);
 		
 		write("  <c r=\"" 

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -114,7 +115,8 @@ public class XlsxStyleInfo
 			boolean isIgnoreTextFormatting,
 			int rotation,
 			JRXlsAbstractExporter.SheetInfo sheetInfo,
-			LineDirectionEnum direction
+			LineDirectionEnum direction,
+			JRStyle parentStyle
 			)
 	{
 		this(formatIndex, 
@@ -128,10 +130,17 @@ public class XlsxStyleInfo
 				rotation,
 				sheetInfo,
 				direction);
-
-		if (!isIgnoreTextFormatting && element != null && element.getModeValue() == ModeEnum.OPAQUE)
+		
+		if (!isIgnoreTextFormatting)
 		{
-			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			}
+			else if (parentStyle != null && parentStyle.getBackcolor() != null)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(parentStyle.getBackcolor());
+			}
 		}
 		
 		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;

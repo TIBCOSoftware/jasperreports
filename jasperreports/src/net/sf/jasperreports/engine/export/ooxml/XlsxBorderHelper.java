@@ -31,10 +31,14 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -64,16 +68,52 @@ public class XlsxBorderHelper extends BaseHelper
 		return getBorder(gridCell.getBox(), sheetInfo, direction);
 	}
 
-	public int getBorder(JRPrintElement element, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
-	{
-		JRLineBox box = element instanceof JRBoxContainer ? ((JRBoxContainer)element).getLineBox() : null;
+	public int getBorder(JRPrintElement element, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction, JRStyle parentStyle)
+	{	
+		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBorder))
+		{
+			return -1;			
+		}
+		JRLineBox box = null;
+		if(element instanceof JRBoxContainer && ((JRBoxContainer)element).getLineBox() != null)
+		{
+			box = new JRBaseLineBox(null);
+			if(parentStyle != null && parentStyle.getLineBox() != null)
+			{
+				StyleUtil.appendBox(box, parentStyle.getLineBox());
+			}
+			if(element.getStyle() != null && element.getStyle().getLineBox() != null)
+			{
+				StyleUtil.appendBox(box, element.getStyle().getLineBox());
+			}
+			StyleUtil.appendBox(box, ((JRBoxContainer)element).getLineBox());
+		}
+		else
+		{
+			box = element == null || element.getStyle() == null 
+				? (parentStyle == null ? null : parentStyle.getLineBox()) 
+				: element.getStyle().getLineBox();
+		}
 		
 		return getBorder(box, sheetInfo, direction);
 	}
 	
-	public int getBorder(JRLineBox box, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
+	public int getBorder(JRLineBox box, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction, JRStyle parentStyle)
 	{		
-		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || box == null)
+		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBorder))
+		{
+			return -1;			
+		}
+		if(box == null && parentStyle != null)
+		{
+			box = parentStyle.getLineBox();
+		}
+		return getBorder(box, sheetInfo, direction);
+	}
+	
+	private int getBorder(JRLineBox box, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
+	{		
+		if (box == null)
 		{
 			return -1;			
 		}
