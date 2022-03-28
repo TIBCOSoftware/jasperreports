@@ -1730,8 +1730,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		String pattern = null;
 		
 		XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
+		Boolean isDetectCellType = Boolean.TRUE.equals(configuration.isDetectCellType());
 		
-		if (Boolean.TRUE.equals(configuration.isDetectCellType()))
+		if (isDetectCellType)
 		{
 			textValue = getTextValue(text, textStr, useCurrentData);
 			if (textValue instanceof NumberTextValue)
@@ -1744,7 +1745,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 		}
 		
-		final String convertedPattern = getConvertedPattern(text, pattern);
+		final String convertedPattern = isDetectCellType ? getConvertedPattern(text, pattern) : null;
 	
 		cellHelper.exportHeader(
 			text, 
@@ -1875,15 +1876,23 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
     
     protected TextValue getTextValue(JRPrintText text, String textStr, boolean useCurrentData)
     {
+    	boolean isDetectCellType = Boolean.TRUE.equals(getCurrentItemConfiguration().isDetectCellType());
     	if(!useCurrentData)
     	{
-    		return super.getTextValue(text, textStr);
+    		if(isDetectCellType)
+    		{
+    			return super.getTextValue(text, textStr);
+    		}
+    		else
+    		{
+    			return super.getTextValueString(text, textStr);
+    		}
     	}
     	if (currentDataElement == null)
     	{
     		currentDataElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
     	}
-    	currentDataElement.setValueClassName(text.getValueClassName());
+    	currentDataElement.setValueClassName(isDetectCellType ? text.getValueClassName() : null);
     	currentDataElement.setPattern(text.getPattern());
     	currentDataElement.setLocaleCode(text.getLocaleCode());
     	currentDataElement.setTimeZoneId(text.getTimeZoneId());
