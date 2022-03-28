@@ -885,12 +885,14 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	{			
 		if (sheetHelper != null)
 		{
-			for(String columnName: columnNames)
-			{
-				int rowSpanStartIndex = rowSpanStartIndexesMap.get(columnName);
-				sheetHelper.exportMergedCells(rowSpanStartIndex, columnNamesMap.get(columnName), maxColumnIndex, rowIndex - rowSpanStartIndex, 1);
-				rowSpanStartIndexesMap.put(columnName, 0);
-			}
+			// merged cells generate accessibility warnings in Excel documents:
+			
+//			for(String columnName: columnNames)
+//			{
+//				int rowSpanStartIndex = rowSpanStartIndexesMap.get(columnName);
+//				sheetHelper.exportMergedCells(rowSpanStartIndex, columnNamesMap.get(columnName), maxColumnIndex, rowIndex - rowSpanStartIndex, 1);
+//				rowSpanStartIndexesMap.put(columnName, 0);
+//			}
 
 			XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 			
@@ -2005,17 +2007,24 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		for (int i = 0; i < columnNames.size(); i++) 
 		{
 			String columnName = columnNames.get(i);
-			JRPrintElement element = (JRPrintElement)currentRow.get(columnName);
-			if(element != null)
-			{
-				int rowSpanStartIndex = getPropertiesUtil().getBooleanProperty(element, PROPERTY_REPEAT_VALUE, false) ? rowIndex : rowSpanStartIndexesMap.get(columnName);
-				sheetHelper.exportMergedCells(rowSpanStartIndex, columnNamesMap.get(columnName), maxColumnIndex, rowIndex - rowSpanStartIndex, 1);
-				rowSpanStartIndexesMap.put(columnName, rowIndex);
-			}
-			else
-			{
-				element = (JRPrintElement)repeatedValues.get(columnName);
-			}
+			
+			JRPrintElement element = currentRow.containsKey(columnName) 
+					? (JRPrintElement)currentRow.get(columnName) 
+					: (JRPrintElement)repeatedValues.get(columnName);
+			
+			// merged cells generate accessibility warnings in Excel documents:
+			
+//			JRPrintElement element = (JRPrintElement)currentRow.get(columnName);
+//			if(element != null)
+//			{
+//				int rowSpanStartIndex = getPropertiesUtil().getBooleanProperty(element, PROPERTY_REPEAT_VALUE, false) ? rowIndex : rowSpanStartIndexesMap.get(columnName);
+//				sheetHelper.exportMergedCells(rowSpanStartIndex, columnNamesMap.get(columnName), maxColumnIndex, rowIndex - rowSpanStartIndex, 1);
+//				rowSpanStartIndexesMap.put(columnName, rowIndex);
+//			}
+//			else
+//			{
+//				element = (JRPrintElement)repeatedValues.get(columnName);
+//			}
 			if (element != null) 
 			{
 				String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
