@@ -2,8 +2,10 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.19.1 (2022-0x-xx)
+JasperReports 6.19.1 (2022-03-29)
 ---------------------------------------------
+
+- replaced Joda-Time with Java 8 Date/Time API in the functions extension;
 
 - minor bug fixes and improvements;
 
