@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.fill.events.FillEvents;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -112,6 +113,7 @@ public class JRFillContext
 	 */
 	private final boolean legacyBandEvaluationEnabled;
 
+	private final FillEvents fillEvents;
 	
 	/**
 	 * Constructs a fill context.
@@ -139,6 +141,8 @@ public class JRFillContext
 			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
 				);
+		
+		fillEvents = new FillEvents(this);
 	}
 
 	public BaseReportFiller getMasterFiller()
@@ -149,6 +153,11 @@ public class JRFillContext
 	protected JRStyledTextUtil getStyledTextUtil()
 	{
 		return styledTextUtil;
+	}
+
+	public FillEvents getFillEvents()
+	{
+		return fillEvents;
 	}
 
 	/**
