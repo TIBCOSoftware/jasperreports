@@ -35,6 +35,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSimpleTemplate;
@@ -58,14 +59,17 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	protected static final String PATTERN_ROOT = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
 	protected static final String PATTERN_INCLUDED_TEMPLATE = PATTERN_ROOT + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
 	protected static final String PATTERN_STYLE = PATTERN_ROOT + "/" + JRXmlConstants.ELEMENT_style;
-	protected static final String PATTERN_STYLE_PEN = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_pen;
-	protected static final String PATTERN_BOX = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_box;
+	protected static final String PATTERN_CONDITIONAL_STYLE = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_conditionalStyle;
+	protected static final String PATTERN_CONDITION_EXPRESSION = PATTERN_CONDITIONAL_STYLE + "/" + JRXmlConstants.ELEMENT_conditionExpression;
+	protected static final String PATTERN_CONDITIONAL_STYLE_STYLE = PATTERN_CONDITIONAL_STYLE + "/" + JRXmlConstants.ELEMENT_style;
+	protected static final String PATTERN_PEN = "*/" + JRXmlConstants.ELEMENT_pen;
+	protected static final String PATTERN_BOX = "*/" + JRXmlConstants.ELEMENT_box;
 	protected static final String PATTERN_BOX_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_pen;
 	protected static final String PATTERN_BOX_TOP_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_topPen;
 	protected static final String PATTERN_BOX_LEFT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_leftPen;
 	protected static final String PATTERN_BOX_BOTTOM_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_bottomPen;
 	protected static final String PATTERN_BOX_RIGHT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_rightPen;
-	protected static final String PATTERN_PARAGRAPH = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_paragraph;
+	protected static final String PATTERN_PARAGRAPH = "*/" + JRXmlConstants.ELEMENT_paragraph;
 	protected static final String PATTERN_TAB_STOP = PATTERN_PARAGRAPH + "/" + JRXmlConstants.ELEMENT_tabStop;
 	
 	private static final JRXmlTemplateDigesterFactory instance = new JRXmlTemplateDigesterFactory();
@@ -101,7 +105,15 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 				digester.addFactoryCreate(PATTERN_STYLE, JRTemplateStyleFactory.class);
 				digester.addSetNext(PATTERN_STYLE, "addStyle", JRStyle.class.getName());
 				
-				digester.addFactoryCreate(PATTERN_STYLE_PEN, JRPenFactory.Style.class.getName());
+				digester.addFactoryCreate(PATTERN_CONDITIONAL_STYLE, JRConditionalStyleFactory.class.getName());
+				@SuppressWarnings("deprecation")
+				Class<?> depBooleanExprFactoryClass = JRExpressionFactory.BooleanExpressionFactory.class;
+				digester.addFactoryCreate(PATTERN_CONDITION_EXPRESSION, depBooleanExprFactoryClass.getName());
+				digester.addSetNext(PATTERN_CONDITION_EXPRESSION, "setConditionExpression", JRExpression.class.getName());
+				digester.addCallMethod(PATTERN_CONDITION_EXPRESSION, "setText", 0);
+				digester.addFactoryCreate(PATTERN_CONDITIONAL_STYLE_STYLE, JRConditionalStyleFillerFactory.class.getName());
+
+				digester.addFactoryCreate(PATTERN_PEN, JRPenFactory.Style.class.getName());
 				
 				digester.addFactoryCreate(PATTERN_BOX, JRBoxFactory.class.getName());
 				digester.addFactoryCreate(PATTERN_BOX_PEN, JRPenFactory.Box.class.getName());
