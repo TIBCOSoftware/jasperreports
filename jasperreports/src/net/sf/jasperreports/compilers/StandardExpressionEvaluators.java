@@ -127,7 +127,9 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 		switch (evaluation.getType())
 		{
 		case CONSTANT:
-			evaluator = new ConstantEvaluator(((ConstantExpressionEvaluation) evaluation).getValue());
+			Object expressionValue = ((ConstantExpressionEvaluation) evaluation).getValue();
+			Object value = valueFilter.filterValue(expressionValue, null);
+			evaluator = new DirectConstantEvaluator(value);
 			break;
 		case SIMPLE_TEXT:
 			evaluator = new SimpleTextEvaluator(((SimpleTextEvaluation) evaluation).getChunks());
@@ -140,7 +142,7 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 				//shout not happen
 				throw new JRRuntimeException("Did not find parameter " + parameterName);
 			}
-			evaluator = new ParameterEvaluator(parameter);
+			evaluator = new DirectParameterEvaluator(parameter, valueFilter);
 			break;
 		case FIELD:
 			String fieldName = ((FieldEvaluation) evaluation).getName();
@@ -150,7 +152,7 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 				//shout not happen
 				throw new JRRuntimeException("Did not find field " + fieldName);
 			}
-			evaluator = new FieldEvaluator(field);
+			evaluator = new DirectFieldEvaluator(field, valueFilter);
 			break;
 		case VARIABLE:
 			String variableName = ((VariableEvaluation) evaluation).getName();
@@ -160,37 +162,18 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 				//shout not happen
 				throw new JRRuntimeException("Did not find variable " + variableName);
 			}
-			evaluator = new VariableEvaluator(variable);
+			evaluator = new DirectVariableEvaluator(variable, valueFilter);
 			break;
 		case RESOURCE:
-			evaluator = new ResourceEvaluator(((ResourceEvaluation) evaluation).getMessageKey());
+			String messageKey = ((ResourceEvaluation) evaluation).getMessageKey();
+			Object message = valueFilter.filterValue(this.evaluator.str(messageKey), null);
+			evaluator = new DirectConstantEvaluator(message);
 			break;
 		default:
 			//should not happen
 			throw new JRRuntimeException("Unknown direct expression evaluation type " + evaluation.getType());
 		}
 		return evaluator;
-	}
-	
-	protected Object filterValue(Object value, Class<?> expectedType)
-	{
-		return valueFilter == null ? value : valueFilter.filterValue(value, expectedType);
-	}
-	
-	protected class ConstantEvaluator extends UniformExpressionEvaluator
-	{
-		private Object value;
-		
-		public ConstantEvaluator(Object value)
-		{
-			this.value = value;
-		}
-
-		@Override
-		protected Object defaultEvaluate()
-		{
-			return filterValue(value, null);
-		}
 	}
 	
 	protected class SimpleTextEvaluator implements DirectExpressionEvaluator
@@ -219,94 +202,6 @@ public class StandardExpressionEvaluators implements DirectExpressionEvaluators
 		{
 			return SimpleTextExpressionEvaluator.evaluate(chunks, estimatedValues);
 		}	
-	}
-	
-	protected class ParameterEvaluator extends UniformExpressionEvaluator
-	{
-		private JRFillParameter parameter;
-		
-		public ParameterEvaluator(JRFillParameter parameter)
-		{
-			this.parameter = parameter;
-		}
-
-		@Override
-		protected Object defaultEvaluate()
-		{
-			return filterValue(parameter.getValue(), parameter.getValueClass());
-		}
-	}
-	
-	protected class FieldEvaluator implements DirectExpressionEvaluator
-	{
-		private JRFillField field;
-		
-		public FieldEvaluator(JRFillField field)
-		{
-			this.field = field;
-		}
-
-		@Override
-		public Object evaluate()
-		{
-			return filterValue(field.getValue(), field.getValueClass());
-		}
-
-		@Override
-		public Object evaluateOld()
-		{
-			return filterValue(field.getOldValue(), field.getValueClass());
-		}
-
-		@Override
-		public Object evaluateEstimated()
-		{
-			return filterValue(field.getValue(), field.getValueClass());
-		}
-	}
-	
-	protected class VariableEvaluator implements DirectExpressionEvaluator
-	{
-		private JRFillVariable variable;
-		
-		public VariableEvaluator(JRFillVariable variable)
-		{
-			this.variable = variable;
-		}
-
-		@Override
-		public Object evaluate()
-		{
-			return filterValue(variable.getValue(), variable.getValueClass());
-		}
-
-		@Override
-		public Object evaluateOld()
-		{
-			return filterValue(variable.getOldValue(), variable.getValueClass());
-		}
-
-		@Override
-		public Object evaluateEstimated()
-		{
-			return filterValue(variable.getEstimatedValue(), variable.getValueClass());
-		}
-	}
-	
-	protected class ResourceEvaluator extends UniformExpressionEvaluator
-	{
-		private String messageKey;
-		
-		public ResourceEvaluator(String messageKey)
-		{
-			this.messageKey = messageKey;
-		}
-
-		@Override
-		protected Object defaultEvaluate()
-		{
-			return filterValue(evaluator.str(messageKey), null);
-		}
 	}
 
 }
