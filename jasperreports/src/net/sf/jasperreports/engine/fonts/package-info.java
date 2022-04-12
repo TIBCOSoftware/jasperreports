@@ -77,7 +77,7 @@
  * works with the {@link net.sf.jasperreports.engine.fonts.SimpleFontFace} default implementation 
  * of the font face.
  * <p/> 
- * The best way to deploy font files as extensions is to rely on the Spring-based extension 
+ * The best way to deploy font files as extensions is to rely on the font extension 
  * registry factory shipped with JasperReports and make use of the default font interfaces. 
  * <h3>Simple Font Extension Example</h3>
  * The samples shipped with the JasperReports project distribution package under the
@@ -93,18 +93,18 @@
  * <p/>
  * This file is required by the JasperReports extension mechanism and describes the content
  * of any given extension. The first line in this particular properties file specifies that the 
- * built-in Spring-based extension registry factory is used by the current extension:
+ * built-in font extension registry factory is used by the current extension:
  * <pre>
- * net.sf.jasperreports.extension.registry.factory.fonts=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory
- * net.sf.jasperreports.extension.fonts.spring.beans.resource=fonts.xml
+ * net.sf.jasperreports.extension.registry.factory.simple.font.families=net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory
+ * net.sf.jasperreports.extension.simple.font.families.dejavu=net/sf/jasperreports/fonts/fonts.xml
  * </pre>
- * The second line gives the name of the Spring XML file required by this Spring-based
- * extension factory, containing the Spring bean definitions. 
+ * The second line gives the name of the XML file required by this font
+ * extension factory, containing the font family and font set definitions. 
  * <p/>
- * This Spring XML file contains the beans that are going to be loaded by the Spring-based
+ * This XML file contains the elements that are going to be loaded by the font
  * extension registry factory. As mentioned earlier, the font extension point in
- * JasperReports is expecting font families, so the beans in our Spring XML file are
- * instances of the convenience
+ * JasperReports is expecting font families, so the elements in our XML file are
+ * converted into instances of the convenience
  * {@link net.sf.jasperreports.engine.fonts.SimpleFontFamily} implementation of the
  * {@link net.sf.jasperreports.engine.fonts.FontFamily} interface and introduce two 
  * font families: the <code>DejaVu Sans</code> and the <code>DejaVu Serif</code>.

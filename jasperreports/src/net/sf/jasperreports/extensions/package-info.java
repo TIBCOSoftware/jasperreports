@@ -130,7 +130,7 @@
  * Once the Spring beans XML file is loaded, this factory creates a 
  * {@link net.sf.jasperreports.extensions.SpringExtensionsRegistry} instance which 
  * will use the bean factory. 
- * This Spring-based extension registry factory is used by the built-in font extensions mechanism. 
+ * This Spring-based extension registry factory is used by the built-in chart themes extensions mechanism. 
  * 
  * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
