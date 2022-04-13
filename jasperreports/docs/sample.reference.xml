@@ -47,6 +47,7 @@
       <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
       <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
       <feature name="accessible" sample="accessible" title="Designing Accessible Reports"/>
+      <feature name="conditional_styles" sample="query" title="Using Conditional Styles Defined in Style Templates"/>
     </content>
   </category>
   

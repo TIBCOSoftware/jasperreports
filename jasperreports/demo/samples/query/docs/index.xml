@@ -8,6 +8,7 @@
 
   <mainFeature ref="query"/>
   <secondaryFeature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
+  <secondaryFeature name="conditional_styles" sample="query" title="Using Conditional Styles Defined in Style Templates"/>
   
   <!-- query -->
   
@@ -18,7 +19,7 @@ How to pass parameter references to report queries and how to change the report 
     <since>0.1.0</since>
     <documentedBy>
       <author>
-    	<name>Luke Shannon</name>
+		<name>Luke Shannon</name>
     	<email>lshannon@users.sourceforge.net</email>
       </author>
       <author>
@@ -472,6 +473,164 @@ report user (example: A user may provide a start and end date for which they wan
 	2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #2 (ExcludedCities[1] of type java.lang.String): Boston
      ]]>
 	</pre>
+    </content>
+  </feature>
+
+  <!-- conditional_styles -->
+  
+  <feature name="conditional_styles" title="Using Conditional Styles Defined in Style Templates">
+    <description>
+How to declare conditional styles in style templates and refer them in the report.
+    </description>
+    <since>6.20.0</since>
+	<otherSample ref="templates"/>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="templates">Defining Conditional Styles in Style Templates</subtitle>
+<br/>
+<br/>
+The most convenient way to configure a report element appearance is to use the <code>style</code> 
+attribute for that element. Any type of report element can use this attribute to reference a report style definition, 
+and to inherit all applicable properties declared in that style.  
+<br/>
+<br/>
+In case there are several reports that need to work with very similar (or identical) styles, a good practice 
+would be to define those styles only once in an external style template file (*.jrtx), and then refer to this template 
+everywhere it is needed. All styles defined in a style template become visible in the report after it is referenced 
+via the &lt;template/&gt; tag.
+<br/>
+<br/>
+In our report sample we can see this style template declaration:
+<pre><![CDATA[
+  <template><![CDATA["ReportStyles.jrtx"]] ></template>
+]]></pre>
+
+<b>Conditional Styles</b>
+<br/>
+<br/>
+Starting with JasperReports v.6.20.0 conditional styles can be also defined in a style template file, with respect to the following requirement:
+<br/>
+<br/>
+The <code>&lt;conditionExpression/&gt;</code> used for distinguish a style must be a simple parameter/field/variable reference.
+<br/>
+<br/>
+In other words, the <code>&lt;conditionExpression/&gt;</code> is allowed to have one of the following forms:
+<ul>
+<li><code>$P{parameter_name}</code></li>
+<li><code>$F{field_name}</code></li>
+<li><code>$V{variable_name}</code></li>
+</ul>
+Complex expressions are not allowed. And because they represent a condition, the <code>$P{parameter_name}</code>, 
+<code>$F{field_name}</code> or <code>$V{variable_name}</code> expressions should be Boolean (or boolean) type. Null 
+values are evaluated as Boolean.FALSE.
+<br/>
+<br/>
+<subtitle name="query_sample">Conditional Styles in the Query Sample</subtitle>
+<br/>
+<br/>
+Let's take a look at the content of the external <code>ReportStyles.jrxt</code> template file. We'll see the following 
+style definitions:
+<pre><![CDATA[
+<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+<style name="RowStyle" style="Sans_Normal">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[$V{ConditionalRow}]] ></conditionExpression>
+    <style backcolor="#EEEEEE"/>
+  </conditionalStyle>
+</style>
+<style name="FieldStyle" style="RowStyle">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[$F{ConditionalField}]] ></conditionExpression>
+    <style forecolor="#0000FF"/>
+  </conditionalStyle>
+</style>
+<style name="TitleStyle" style="Sans_Normal" fontSize="22">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[$P{ConditionalParam}]] ></conditionExpression>
+    <style fontSize="26" isBold="true"/>
+  </conditionalStyle>
+</style>
+]]></pre>
+
+There are 3 static styles in this template, followed by 3 conditional styles:
+<br/>
+<br/>
+The <code>RowStyle</code> depends on the 
+<code>$V{ConditionalRow}</code> boolean variable and configures the element's backcolor when the condition is met. It will be used 
+in the report to generate alternate row colors in a tabular structure.
+<br/>
+The <code>FieldStyle</code> depends on the dynamic <code>$F{ConditionalField}</code> boolean field value and configures the element's 
+forecolor when the condition is met.
+<br/>
+The <code>TitleStyle</code> depends on the <code>$P{ConditionalParam}</code> boolean parameter and configures the element's 
+font size and font weight when the condition is met. It will decorate the report title in our sample.
+<br/>
+<br/>
+Now let's see how were these styles referred to in the report. First, we referenced the external style template file:
+<pre><![CDATA[
+  <template><![CDATA["ReportStyles.jrtx"]] ></template>
+]]></pre>
+
+Then, we declared a boolean parameter, for instance named <code>ConditionalParam</code>:
+
+<pre><![CDATA[
+<parameter name="ConditionalParam" class="java.lang.Boolean">
+  <defaultValueExpression><![CDATA[true]] ></defaultValueExpression>
+</parameter>
+]]></pre>
+
+Then, we have a report query that retrieves at least a Boolean field (here identified as <code>ConditionalField</code>):
+
+<pre><![CDATA[
+<queryString>
+  <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField 
+  FROM Address 
+  WHERE $X{NOTIN, City, ExcludedCities} 
+  ORDER BY $P!{OrderClause}]] >
+</queryString>
+]]></pre>
+
+Finally, we have a boolean report variable (named <code>ConditionalRow</code>) that depends on the built-in <code>CityGroup_COUNT</code> variable:
+
+<pre><![CDATA[
+<variable name="ConditionalRow" class="java.lang.Boolean" resetType="Group" resetGroup="CityGroup">
+  <variableExpression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]] ></variableExpression>
+  <initialValueExpression><![CDATA[null]] ></initialValueExpression>
+</variable>
+]]></pre>
+
+After ensuring the needed parameter, field or variable are present in the report, we just use the <code>style</code> attribute 
+of the element to reference the needed style. For instance, for the text element in the title section:
+
+<pre><![CDATA[
+<textField isBlankWhenNull="true">
+  <reportElement style="TitleStyle" x="0" y="10" width="515" height="35" uuid="f4319415-6741-45b7-b0f1-db7067341070"/>
+  <textElement textAlignment="Center">
+    <paragraph lineSpacing="Single"/>
+  </textElement>
+<textFieldExpression><![CDATA[$P{ReportTitle}]] ></textFieldExpression>
+</textField>
+]]></pre>
+<br/>
+<br/>
+<subtitle name="running_sample">Running the Sample</subtitle>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/query</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/query/build/reports</code> directory. 
     </content>
   </feature>
 
