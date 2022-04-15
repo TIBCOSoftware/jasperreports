@@ -20,7 +20,8 @@
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartcustomizers" sample="chartcustomizers" title="Multiple Chart Customizers"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
-      <feature name="conditionalstyles" sample="jasper" title="Conditional Styles"/>
+      <feature name="conditionalStylesInReports" sample="jasper" title="Conditional Styles in Reports"/>
+      <feature name="conditionalStylesInTemplates" sample="query" title="Conditional Styles in Style Templates"/>
       <feature name="crosstabs" sample="crosstabs" title="Crosstabs"/>
       <feature name="fonts" sample="fonts" title="Fonts"/>
       <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
@@ -47,7 +48,6 @@
       <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
       <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
       <feature name="accessible" sample="accessible" title="Designing Accessible Reports"/>
-      <feature name="conditional_styles" sample="query" title="Using Conditional Styles Defined in Style Templates"/>
     </content>
   </category>
   
