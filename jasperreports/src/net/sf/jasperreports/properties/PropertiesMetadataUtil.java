@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.table.Cell;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.data.DataAdapterServiceUtil;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.data.FileDataAdapter;
+import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
@@ -58,6 +61,7 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
@@ -129,17 +133,13 @@ public class PropertiesMetadataUtil
 
 	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope, String qualificationName)
 	{
-		List<PropertyMetadata> properties = new ArrayList<>();
-		Collection<PropertyMetadata> allProperties = allProperties();
-		for (PropertyMetadata property : allProperties)
-		{
-			if (property.getScopes().contains(primaryScope)
-					&& property.getScopeQualifications().contains(qualificationName))
-			{
-				properties.add(property);
-			}
-		}
-		return properties;
+		return qualifiedProperties(primaryScope, qualificationName).collect(Collectors.toList());
+	}
+
+	protected Stream<PropertyMetadata> qualifiedProperties(PropertyScope primaryScope, String qualificationName)
+	{
+		return allProperties().stream().filter(property -> property.getScopes().contains(primaryScope)
+				&& property.getScopeQualifications().contains(qualificationName));
 	}
 	
 	public List<PropertyMetadata> getParameterProperties(DataAdapter dataAdapter)
@@ -375,11 +375,29 @@ public class PropertiesMetadataUtil
 		return false;
 	}
 
-	public List<PropertyMetadata> getScriptletProperties(String scriptletClass) throws JRException
+	public List<PropertyMetadata> getScriptletProperties(String scriptletClassName) throws JRException
 	{
-		String qualification = scriptletClass;
-		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.SCRIPTLET, qualification);
-		return properties;
+		Class<?> scriptletClass;
+		try
+		{
+			scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new JRException("Could not load scriptlet class " + scriptletClassName, e);
+		}
+
+		Stream<PropertyMetadata> properties = Stream.empty();
+		do
+		{
+			String qualification = scriptletClass.getName();
+			Stream<PropertyMetadata> qualifiedProperties = qualifiedProperties(PropertyScope.SCRIPTLET, qualification);
+			properties = Stream.concat(properties, qualifiedProperties);
+			
+			scriptletClass = scriptletClass.getSuperclass();
+		}
+		while (scriptletClass != null && JRAbstractScriptlet.class.isAssignableFrom(scriptletClass));
+		return properties.collect(Collectors.toList());
 	}
 
 }
