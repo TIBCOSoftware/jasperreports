@@ -147,6 +147,11 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		this.id = id;
 	}
 
+	public void setInterpreted()
+	{
+		this.id = ID_INTERPRETED;
+	}
+
 	/**
 	 *
 	 */

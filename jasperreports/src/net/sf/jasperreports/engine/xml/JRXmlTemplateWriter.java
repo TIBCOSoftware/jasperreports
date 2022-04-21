@@ -375,6 +375,6 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	@Override
 	protected boolean toWriteConditionalStyles()
 	{
-		return false;
+		return true;
 	}
 }
