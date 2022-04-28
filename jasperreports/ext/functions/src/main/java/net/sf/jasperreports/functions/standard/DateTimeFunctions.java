@@ -284,7 +284,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			Instant instant = convertedDate.toInstant();
+			Instant instant = Instant.ofEpochMilli(convertedDate.getTime());
 			ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, getReportTimeZone().toZoneId());
 			ZonedDateTime newZdt = zdt.plusMonths(months);
 			return Date.from(newZdt.toInstant());
@@ -306,7 +306,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			ZonedDateTime zdt = ZonedDateTime.ofInstant(convertedDate.toInstant(), getReportTimeZone().toZoneId());
+			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(convertedDate.getTime()), getReportTimeZone().toZoneId());
 			boolean lookBack = workdays < 0;
 			int remainingDays = Math.abs(workdays);
 			while (remainingDays > 0) {
@@ -346,8 +346,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			ZonedDateTime zdtCursor = ZonedDateTime.ofInstant(startDateObj.toInstant(), reportZoneID);
-			ZonedDateTime zdtEnd = ZonedDateTime.ofInstant(endDateObj.toInstant(), reportZoneID);
+			ZonedDateTime zdtCursor = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startDateObj.getTime()), reportZoneID);
+			ZonedDateTime zdtEnd = ZonedDateTime.ofInstant(Instant.ofEpochMilli(endDateObj.getTime()), reportZoneID);
 			
 			int workingDays = 0;
 			if(zdtCursor.isAfter(zdtEnd)) {
@@ -392,8 +392,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(Instant.ofEpochMilli(startDateObj.getTime()), reportZoneID);
+			LocalDate endLocalDate = ofInstant(Instant.ofEpochMilli(endDateObj.getTime()), reportZoneID);
 			return (int) ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -412,7 +412,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(Instant.ofEpochMilli(date.getTime()), getReportTimeZone().toZoneId());
 			return YearMonth.from(ld).lengthOfMonth();
 		}
 	}
@@ -431,7 +431,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(Instant.ofEpochMilli(date.getTime()), getReportTimeZone().toZoneId());
 			return YearMonth.from(ld).lengthOfYear();
 		}
 	}
@@ -457,8 +457,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(Instant.ofEpochMilli(startDateObj.getTime()), reportZoneID);
+			LocalDate endLocalDate = ofInstant(Instant.ofEpochMilli(endDateObj.getTime()), reportZoneID);
 			return (int) ChronoUnit.WEEKS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -483,7 +483,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			//		> if the 1 January is a Wednesday in a leap year
 			// 	- 52 weeks:
 			//		> all other cases
-			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(Instant.ofEpochMilli(date.getTime()), getReportTimeZone().toZoneId());
 			LocalDate firstDayOfYear = LocalDate.of(ld.getYear(), 1, 1);
 			if (firstDayOfYear.getDayOfWeek() == DayOfWeek.THURSDAY
 					|| (firstDayOfYear.getDayOfWeek() == DayOfWeek.WEDNESDAY && firstDayOfYear.isLeapYear())) {
@@ -507,7 +507,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(Instant.ofEpochMilli(date.getTime()), getReportTimeZone().toZoneId());
 			return ld.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 		}
 	}
@@ -533,8 +533,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(Instant.ofEpochMilli(startDateObj.getTime()), reportZoneID);
+			LocalDate endLocalDate = ofInstant(Instant.ofEpochMilli(endDateObj.getTime()), reportZoneID);
 			return (int) ChronoUnit.MONTHS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -560,8 +560,8 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			ZoneId reportZoneID = getReportTimeZone().toZoneId();
-			LocalDate startLocalDate = ofInstant(startDateObj.toInstant(), reportZoneID);
-			LocalDate endLocalDate = ofInstant(endDateObj.toInstant(), reportZoneID);
+			LocalDate startLocalDate = ofInstant(Instant.ofEpochMilli(startDateObj.getTime()), reportZoneID);
+			LocalDate endLocalDate = ofInstant(Instant.ofEpochMilli(endDateObj.getTime()), reportZoneID);
 			return (int) ChronoUnit.YEARS.between(startLocalDate, endLocalDate);
 		}
 	}
@@ -580,7 +580,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			LocalDate ld = ofInstant(date.toInstant(), getReportTimeZone().toZoneId());
+			LocalDate ld = ofInstant(Instant.ofEpochMilli(date.getTime()), getReportTimeZone().toZoneId());
 			return ld.isLeapYear();
 		}
 	}
@@ -600,7 +600,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		else{
 			ZoneId zoneId = getReportTimeZone().toZoneId();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatPattern, getReportLocale()).withZone(zoneId);
-			ZonedDateTime zdt = ZonedDateTime.ofInstant(dateObj.toInstant(), zoneId);
+			ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochMilli(dateObj.getTime()), zoneId);
 			return formatter.format(zdt);
 		}
 	}
