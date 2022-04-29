@@ -35,6 +35,8 @@ public class JasperDesignReportResource extends ReportResource
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JasperDesign jasperDesign;
+
+	private boolean designDirty;
 	
 	/**
 	 * 
@@ -49,6 +51,25 @@ public class JasperDesignReportResource extends ReportResource
 	 */
 	public void setJasperDesign(JasperDesign jasperDesign)
 	{
+		setJasperDesign(jasperDesign, true);
+	}
+
+	public void setJasperDesign(JasperDesign jasperDesign, boolean markDirty)
+	{
 		this.jasperDesign = jasperDesign;
+		if (markDirty)
+		{
+			setDesignDirty(true);
+		}
+	}
+
+	public boolean isDesignDirty()
+	{
+		return designDirty;
+	}
+
+	public void setDesignDirty(boolean designDirty)
+	{
+		this.designDirty = designDirty;
 	}
 }
