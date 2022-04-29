@@ -135,10 +135,15 @@ public class JasperDesignCache implements Serializable
 	 */
 	public JasperDesign getJasperDesign(String uri)
 	{
+		return getJasperDesign(uri, true);
+	}
+
+	public JasperDesign getJasperDesign(String uri, boolean markDirty)
+	{
 		JasperDesignReportResource resource = getResource(uri);
 		if (resource != null)
 		{
-			ensureJasperDesign(resource);
+			ensureJasperDesign(resource, markDirty);
 			return resource.getJasperDesign();
 		}
 		return null;
@@ -221,7 +226,7 @@ public class JasperDesignCache implements Serializable
 		return resource;
 	}
 
-	protected void ensureJasperDesign(JasperDesignReportResource resource)
+	protected void ensureJasperDesign(JasperDesignReportResource resource, boolean markDirty)
 	{
 		JasperDesign jasperDesign = resource.getJasperDesign();
 		JasperReport jasperReport = resource.getReport();
@@ -243,7 +248,7 @@ public class JasperDesignCache implements Serializable
 					new JRXmlWriter(jasperReportsContext).write(jasperReport, baos, "UTF-8");
 					bais = new ByteArrayInputStream(baos.toByteArray());
 					jasperDesign = JRXmlLoader.load(bais);
-					resource.setJasperDesign(jasperDesign);
+					resource.setJasperDesign(jasperDesign, markDirty);
 				}
 				catch (JRException e)
 				{
@@ -264,7 +269,11 @@ public class JasperDesignCache implements Serializable
 					}
 				}
 			}
-		}		
+		}
+		else if (markDirty)
+		{
+			resource.setDesignDirty(true);
+		}
 	}
 
 	/**
