@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,7 +31,7 @@ package net.sf.jasperreports.compilers;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,8 +44,8 @@ import org.codehaus.groovy.tools.GroovyClass;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.design.CompiledClasses;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -62,7 +62,10 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 public class JRGroovyCompiler extends JRAbstractJavaCompiler 
 {
 
-	protected static final String SOURCE_ENCODING = "UTF-8";
+	/**
+	 * @deprecated Replaced by {@link StandardCharsets#UTF_8}.
+	 */
+	protected static final String SOURCE_ENCODING = StandardCharsets.UTF_8.name();
 	public static final String EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE = "compilers.compiling.expressions.class.file";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED = "compilers.groovy.too.few.classes.generated";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED = "compilers.groovy.too.many.classes.generated";
@@ -88,7 +91,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		CompilerConfiguration config = new CompilerConfiguration();
-		config.setSourceEncoding(SOURCE_ENCODING);
+		config.setSourceEncoding(StandardCharsets.UTF_8.name());
 		//config.setClasspath(classpath);
 		
 		if (reportClassFilter.isFilteringEnabled())
@@ -100,15 +103,8 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		
 		for (int i = 0; i < units.length; i++)
 		{
-			try
-			{
-				byte[] sourceBytes = units[i].getSourceCode().getBytes(SOURCE_ENCODING);
-				unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				throw new JRRuntimeException(e);
-			}
+			byte[] sourceBytes = units[i].getSourceCode().getBytes(StandardCharsets.UTF_8);
+			unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
 		}
 		
 		try 
@@ -132,19 +128,13 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 					EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED,
 					(Object[])null);
 		} 
-		else if (generatedClasses.size() > units.length) 
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED,
-					(Object[])null);
-		}
 		
 		Map<String, byte[]> classBytes = generatedClasses.stream().collect(
 				Collectors.toMap(GroovyClass::getName, GroovyClass::getBytes));
+		CompiledClasses compiledClasses = new CompiledClasses(classBytes);
 		for (int i = 0; i < units.length; i++)
 		{
-			units[i].setCompileData(classBytes.get(units[i].getName()));
+			units[i].setCompileData(compiledClasses);
 		}
 		
 		return null;
@@ -184,6 +174,12 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	protected Class<?> loadClass(String className, byte[] compileData)
 	{
 		return JRClassLoader.loadClassFromBytes(className, compileData);
+	}
+
+	@Override
+	protected Class<?> loadClass(String className, CompiledClasses classes)
+	{
+		return JRClassLoader.loadClassFromBytes(null, className, classes);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -138,8 +138,8 @@ public abstract class BucketingService
 		System.arraycopy(buckets[DIMENSION_COLUMN], 0, allBuckets, rowBucketCount, colBucketCount);
 
 		origMeasureCount = measures.size();
-		List<MeasureDefinition> measuresList = new ArrayList<MeasureDefinition>(measures.size() * 2);
-		List<Integer> measureIndexList = new ArrayList<Integer>(measures.size() * 2);
+		List<MeasureDefinition> measuresList = new ArrayList<>(measures.size() * 2);
+		List<Integer> measureIndexList = new ArrayList<>(measures.size() * 2);
 		for (int i = 0; i < measures.size(); ++i)
 		{
 			MeasureDefinition measure =  measures.get(i);
@@ -307,6 +307,7 @@ public abstract class BucketingService
 				addMeasure(countMeasure, index, measuresList, measureIndexList);
 				break;
 			}
+			default:
 		}
 
 		measuresList.add(measure);
@@ -390,11 +391,14 @@ public abstract class BucketingService
 				case STANDARD_DEVIATION:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_VARIANCE);
+					break;
 				}
 				case DISTINCT_COUNT:
 				{
 					values[i].setHelper(values[i - 1], JRCalculable.HELPER_COUNT);
+					break;
 				}
+				default:
 			}
 		}
 		return values;
@@ -695,7 +699,7 @@ public abstract class BucketingService
 		{
 			super(level);
 			
-			this.map = sortedMap ? new TreeMap<Bucket, Object>() : new LinkedHashMap<Bucket, Object>();
+			this.map = sortedMap ? new TreeMap<>() : new LinkedHashMap<>();
 		}
 		
 		@Override
@@ -841,8 +845,8 @@ public abstract class BucketingService
 		{
 			super(level);
 
-			entries = new ArrayList<Map.Entry<Bucket, Object>>();
-			entryMap = new HashMap<Bucket, Object>();
+			entries = new ArrayList<>();
+			entryMap = new HashMap<>();
 		}
 
 		@Override

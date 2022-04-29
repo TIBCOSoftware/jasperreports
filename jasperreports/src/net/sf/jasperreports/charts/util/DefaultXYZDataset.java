@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,7 +48,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 	 */
 	public DefaultXYZDataset()
 	{
-		dataset = new ArrayList<XYZElement>();
+		dataset = new ArrayList<>();
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,21 +41,6 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 public class FunctionsRegistryFactory  implements ExtensionsRegistryFactory
 {
 	/**
-	 * The key used inside a jasperrpeorts_extensions.properties file to denote the classes
-	 * referenced by this extension 
-	 * @deprecated Replaced by {@link #FUNCTIONS_CLASSES_PROPERTY_PREFIX}.
-	 */
-	public final static String EXPRESSION_FUNCTIONS_CLASSES_PROPERTY_PREFIX = 
-		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "expression.functions.classes.";
-	
-	/**
-	 * The key used to register the specific type of extension factory
-	 * @deprecated To be removed.
-	 */
-	public final static String PROPERTY_EXPRESSION_FUNCTIONS_REGISTRY_FACTORY =
-		DefaultExtensionsRegistry.PROPERTY_REGISTRY_FACTORY_PREFIX + "expression.functions";
-
-	/**
 	 * The key used inside a jasperreports_extensions.properties file to denote the classes
 	 * referenced by this extension 
 	 */
@@ -65,9 +50,8 @@ public class FunctionsRegistryFactory  implements ExtensionsRegistryFactory
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
-		List<String> classNames = new ArrayList<String>();
+		List<String> classNames = new ArrayList<>();
 
-		addFunctionClasses(classNames, properties, EXPRESSION_FUNCTIONS_CLASSES_PROPERTY_PREFIX);
 		addFunctionClasses(classNames, properties, FUNCTIONS_CLASSES_PROPERTY_PREFIX);
 		
 		return new SingletonExtensionRegistry<FunctionsBundle>(FunctionsBundle.class, new FunctionsBundle(classNames));

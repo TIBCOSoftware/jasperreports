@@ -2,6 +2,46 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.19.1 (2022-03-29)
+---------------------------------------------
+
+- replaced Joda-Time with Java 8 Date/Time API in the functions extension;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.19.0 (2022-02-22)
+---------------------------------------------
+
+- improved bulleted and numbered list support in styled text and HTML markup text fields including
+better indentation and support for nested lists;
+
+- support for accessible HTML output using semantic tags for marking up headings (h1 to h6), 
+bulleted and numbered lists, alternate text for images and nested table tags for semantic tables;
+
+- support for Groovy closures in report expressions;
+
+- honour the EXIF orientation information found in photos taken with mobile digital cameras and
+thus match the way browsers make use of this information to auto-rotate photos in HTML;
+
+- deprecated Castor XML persistence layer used for data adapter files and XML chart theme files by moving
+it to a separate optional extension artifact (jasperreports-castor) while replacing it in the core library 
+with an equivalent and compatible Jackson XML persistence layer;
+
+- introduced the *.jrdax file extension convention for data adapter XML files;
+
+- various dependencies upgrades including: Apache POI 5.1.0, Jackson 2.13.1, Apache Log4J 2.17.1, 
+Mozilla Rhino 1.7.14, Spring 5.3.14, HyperSQL 2.6.1 and Jetty 9.4.44;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.18.1 (2021-10-29)
 ---------------------------------------------
 

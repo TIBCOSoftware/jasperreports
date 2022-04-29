@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -61,7 +61,7 @@ public abstract class AbstractSampleApp
 		
 		sb.append(appName + " usage:" + "\n\tjava " + appName + " task" + "\n\tTasks : ");
 		
-		TreeSet<String> tasks = new TreeSet<String>();
+		TreeSet<String> tasks = new TreeSet<>();
 		Method[] methods = getClass().getMethods();
 		for (Method method:methods)
 		{
@@ -96,11 +96,7 @@ public abstract class AbstractSampleApp
 		{
 			System.out.println(usage());
 		}
-		catch (IllegalAccessException e)
-		{
-			e.getCause().printStackTrace();
-		}
-		catch (InvocationTargetException e)
+		catch (IllegalAccessException | InvocationTargetException e)
 		{
 			e.getCause().printStackTrace();
 		}
@@ -112,7 +108,7 @@ public abstract class AbstractSampleApp
 	 */
 	protected File[] getFiles(File parentFile, String extension)
 	{
-		List<File> fileList = new ArrayList<File>();
+		List<File> fileList = new ArrayList<>();
 		String[] files = parentFile.list();
 		if (files != null)
 		{
@@ -148,11 +144,7 @@ public abstract class AbstractSampleApp
 			Class.forName(driver);
 			conn = DriverManager.getConnection(connectString, user, password);
 		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRException(e);
-		}
-		catch (SQLException e)
+		catch (ClassNotFoundException | SQLException e)
 		{
 			throw new JRException(e);
 			

@@ -232,7 +232,7 @@
   
   <feature name="alternaterowcolor" title="Alternate Row Colors In The Detail Section">
     <description>
-Shows how to get alternate row colors in a detail section using <a href="../jasper/index.html#conditionalstyles">conditional styles</a>.
+Shows how to get alternate row colors in a detail section using <a href="../jasper/index.html#conditionalStylesInReports">conditional styles</a>.
     </description>
     <since>1.2.0</since>
     <documentedBy>
@@ -247,7 +247,7 @@ Shows how to get alternate row colors in a detail section using <a href="../jasp
 <subtitle name="alternate_colors_overview">Alternate Row Colors In The Detail Section</subtitle>
 <br/>
 <br/>
-<a href="../jasper/index.html#conditionalstyles">Conditional styles</a> combined with some specific report built-in variables can 
+<a href="../jasper/index.html#conditionalStylesInReports">Conditional styles</a> combined with some specific report built-in variables can 
 be used to generate alternate row colors in the detail section. 
 <br/>
 As known, the detail section is repetitive and contains  common layout information for records in the dataset. 
@@ -258,7 +258,7 @@ might be needed.
 To obtain alternate row colors, two things are necessary:
 <ol>
 <li>to know the current record number in order to determine if it's odd or even</li>
-<li>a <a href="../jasper/index.html#conditionalstyles">conditional style</a> with specific style properties for odd or even rows</li>
+<li>a <a href="../jasper/index.html#conditionalStylesInReports">conditional style</a> with specific style properties for odd or even rows</li>
 </ol>
 The first requirement is accomplished with the help of report built-in counting variables:
 <ul>

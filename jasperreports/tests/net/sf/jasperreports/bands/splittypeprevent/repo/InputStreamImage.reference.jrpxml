@@ -10,7 +10,7 @@
 			<reportElement uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" x="0" y="0" width="160" height="58" origin="0" srcId="1" printId="1"/>
 			<textContent><![CDATA[record 1 on page 1 aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd]]></textContent>
 		</text>
-		<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+		<image>
 			<reportElement uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" x="0" y="63" width="60" height="25" origin="0" srcId="2" printId="1"/>
 			<imageSource isEmbedded="true">
 				<![CDATA[iVBORw0KGgoAAAANSUhEUgAAAeYAAACACAYAAAGpTvqqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
@@ -261,7 +261,7 @@ bIKsxfPeqE/RHXbyceoHhUKhUCgU4eN/FtDn3k3epKQAAAAASUVORK5CYII=]]>
 			<reportElement uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" x="0" y="0" width="160" height="58" origin="0" srcId="1" printId="3"/>
 			<textContent><![CDATA[record 2 on page 2 aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd]]></textContent>
 		</text>
-		<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+		<image>
 			<reportElement uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" x="0" y="63" width="60" height="25" origin="0" srcId="2" printId="2"/>
 			<imageSource isEmbedded="true">
 				<![CDATA[iVBORw0KGgoAAAANSUhEUgAAAz4AAADLCAYAAACvfEbvAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
@@ -557,7 +557,7 @@ Agohl5SPAAAAAElFTkSuQmCC]]>
 			<reportElement uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" x="0" y="0" width="160" height="58" origin="0" srcId="1" printId="5"/>
 			<textContent><![CDATA[record 3 on page 3 aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd]]></textContent>
 		</text>
-		<image scaleImage="RetainShape" hAlign="Left" vAlign="Top">
+		<image>
 			<reportElement uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" x="0" y="63" width="60" height="25" origin="0" srcId="2" printId="3"/>
 			<imageSource isEmbedded="true">
 				<![CDATA[/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a

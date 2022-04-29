@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -125,8 +125,10 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -253,6 +255,8 @@ public class TableReport implements JRReport
 	 * 
 	 * <p>
 	 * The default global value of this property is <code>false</code>
+	 * 
+	 * @deprecated Replaced by {@link #PROPERTY_ACCESSIBLE_TABLE}.
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
@@ -263,6 +267,27 @@ public class TableReport implements JRReport
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_GENERATE_TABLE_PDF_TAGS = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.generate.pdf.tags";
+
+	/**
+	 * Property that enables/disables the automatic addition of specific custom properties to the elements that make up the table and its cells.
+	 * These properties would be then used to produce special document accessibility metadata during exports.
+	 * 
+	 * <p>
+	 * The property can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
+			sinceVersion = PropertyConstants.VERSION_6_19_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_ACCESSIBLE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.accessible";
 
 	/**
 	 * Column property that specifies the field to be used for sorting, filtering and conditional formatting 
@@ -315,22 +340,6 @@ public class TableReport implements JRReport
 	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
 
 	/**
-	 * Column property that enables/disables conditional formatting
-	 * 
-	 * <p>
-	 * It defaults to <code>true</code>
-	 * @deprecated To be removed.
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = PropertyConstants.VERSION_5_0_1,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
-
-	/**
 	 * Property that provides a name for table.
 	 * 
 	 * <p>
@@ -378,7 +387,7 @@ public class TableReport implements JRReport
 	private String tableName;
 	private boolean isInteractiveTable;
 	private boolean hasFloatingHeader;
-	private boolean isGeneratePdfTags;
+	private boolean isAccessibleTable;
 	private Map<Column, Pair<Boolean, String>> columnInteractivityMapping;
 	
 	public TableReport(
@@ -389,8 +398,8 @@ public class TableReport implements JRReport
 		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory
 		)
 	{
-		this.tableIndexProperties = new ArrayList<TableIndexProperties>();
-		this.headerHtmlBaseProperties = new HashMap<Integer, JRPropertiesMap>();
+		this.tableIndexProperties = new ArrayList<>();
+		this.headerHtmlBaseProperties = new HashMap<>();
 		
 		this.fillContext = fillContext;
 		this.table = table;
@@ -405,7 +414,7 @@ public class TableReport implements JRReport
 		// begin: table interactivity
 		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
 
-		this.columnInteractivityMapping = new HashMap<Column, Pair<Boolean, String>>();
+		this.columnInteractivityMapping = new HashMap<>();
 		int interactiveColumnCount = 0;
 		for (BaseColumn column: TableUtil.getAllColumns(table)) {
 			boolean interactiveColumn = isInteractiveTable;
@@ -420,7 +429,7 @@ public class TableReport implements JRReport
 			if (column.getPropertiesMap().containsProperty(JRComponentElement.PROPERTY_COMPONENT_NAME)) {
 				columnName = column.getPropertiesMap().getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME);
 			}
-			columnInteractivityMapping.put((Column)column, new Pair<Boolean, String>(interactiveColumn, columnName));
+			columnInteractivityMapping.put((Column)column, new Pair<>(interactiveColumn, columnName));
 		}
 
 		if (interactiveColumnCount > 0) {
@@ -429,7 +438,12 @@ public class TableReport implements JRReport
 		}
 		// end: table interactivity
 		
-		this.isGeneratePdfTags  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_GENERATE_TABLE_PDF_TAGS, fillContext.getComponentElement(), this.parentReport));
+		String accessibleProp = propertiesUtil.getProperty(PROPERTY_ACCESSIBLE_TABLE, fillContext.getComponentElement(), this.parentReport);
+		if (accessibleProp == null)
+		{
+			accessibleProp = propertiesUtil.getProperty(PROPERTY_GENERATE_TABLE_PDF_TAGS, fillContext.getComponentElement(), this.parentReport);
+		}
+		this.isAccessibleTable = Boolean.valueOf(accessibleProp);
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -469,7 +483,7 @@ public class TableReport implements JRReport
 	{
 		final JRDesignBand band;
 		final String bandId;
-		final List<BandRowInfo> rows = new ArrayList<BandRowInfo>();
+		final List<BandRowInfo> rows = new ArrayList<>();
 		
 		ReportBandInfo(JRDesignBand band, String bandId)
 		{
@@ -531,7 +545,7 @@ public class TableReport implements JRReport
 	protected class BandRowInfo
 	{
 		JRDesignElementGroup elementGroup;
-		List<CellInfo> cells = new ArrayList<CellInfo>();
+		List<CellInfo> cells = new ArrayList<>();
 		
 		BandRowInfo()
 		{
@@ -834,7 +848,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		return detailBand;
 	}
@@ -1031,7 +1045,7 @@ public class TableReport implements JRReport
 						List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 						if (existingFilters != null)
 						{
-							List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+							List<FieldFilter> fieldFilters = new ArrayList<>();
 							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{
@@ -1275,7 +1289,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, true);
+		setAccessibilitTags(bandInfo, true);
 		
 		if (columnHeader.getHeight() == 0)
 		{
@@ -1328,7 +1342,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 
 		if (pageFooter.getHeight() == 0)
 		{
@@ -1414,7 +1428,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (title.getHeight() == 0) //FIXMETABLE not sure we actually need this; maybe check the section is truly empty; do the same for the other sections as well
 		{
@@ -1467,7 +1481,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 
 		if (summary.getHeight() == 0)
 		{
@@ -1526,7 +1540,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (header.getHeight() == 0)
 		{
@@ -1585,7 +1599,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (footer.getHeight() == 0)//FIXMENOW why zero height cells are not generating any content? could be expanding frames...
 		{
@@ -1617,9 +1631,9 @@ public class TableReport implements JRReport
 		
 	}
 
-	private void setPdfTags(ReportBandInfo bandInfo, boolean isHeader)
+	private void setAccessibilitTags(ReportBandInfo bandInfo, boolean isHeader)
 	{
-		if (!isGeneratePdfTags)
+		if (!isAccessibleTable)
 		{
 			return;
 		}
@@ -1637,6 +1651,10 @@ public class TableReport implements JRReport
 			for (CellInfo cell : cells)
 			{
 				cell.getElement().getPropertiesMap().setProperty(cellTagProp, JRPdfExporterTagHelper.TAG_FULL);
+				if (isHeader)
+				{
+					cell.getElement().getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.COLUMN_HEADER.getName());
+				}
 				if (cell.getRowSpan() > 1)
 				{
 					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
@@ -1655,9 +1673,9 @@ public class TableReport implements JRReport
 		}		
 	}
 
-	protected boolean isGeneratePdfTags()
+	protected boolean isAccessibleTable()
 	{
-		return isGeneratePdfTags;
+		return isAccessibleTable;
 	}
 
 	
@@ -1819,7 +1837,7 @@ public class TableReport implements JRReport
 		frame.setWidth(width);
 		frame.setHeight(cell.getHeight());
 		frame.setPositionType(PositionTypeEnum.FLOAT);
-		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
+		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_BOTTOM);
 		
 		frame.setStyle(cell.getStyle());
 		frame.setStyleNameReference(cell.getStyleNameReference());

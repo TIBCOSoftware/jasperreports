@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -78,7 +79,7 @@ public class FileBufferedWriter extends Writer
 		{
 			close();
 			
-			reader = new InputStreamReader(fbos.getDataInputStream(), "UTF-8");
+			reader = new InputStreamReader(fbos.getDataInputStream(), StandardCharsets.UTF_8);
 
 			char[] chars = new char[10000];
 			int ln = 0;

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,7 +24,7 @@
 package com.update;
 
 import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -46,15 +46,11 @@ public class RenewUuidsUpdater implements ReportUpdater
 	{
 		JRXmlWriter writer = new JRXmlWriter(DefaultJasperReportsContext.getInstance());
 		writer.setExcludeUuids(true);
-		String jrxml = writer.write(jasperDesign, "UTF-8");
+		String jrxml = writer.write(jasperDesign, StandardCharsets.UTF_8.name());
 		
 		try
 		{
-			jasperDesign = JRXmlLoader.load(new ByteArrayInputStream(jrxml.getBytes("UTF-8")));
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			throw new JRRuntimeException(e);
+			jasperDesign = JRXmlLoader.load(new ByteArrayInputStream(jrxml.getBytes(StandardCharsets.UTF_8)));
 		}
 		catch (JRException e)
 		{

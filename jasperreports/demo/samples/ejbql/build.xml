@@ -1,8 +1,6 @@
-<project name="ejbql" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ejbql" default="test" basedir=".">
 
 	<description>Shows how EJBQL could be used in reports.</description>
-
-	<import file="../build-sample-classpath.xml"/>
 
 	<property name="sample.dir" value="ejbql"/>
 	<property name="sample.base.name" value="Ejbql" />
@@ -18,11 +16,8 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="fill"/>
-			<classpath refid="sample-classpath"/>
-		</java>
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">

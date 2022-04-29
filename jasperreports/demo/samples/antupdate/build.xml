@@ -1,4 +1,4 @@
-<project name="antupdate" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="antupdate" default="test" basedir=".">
 
 	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 

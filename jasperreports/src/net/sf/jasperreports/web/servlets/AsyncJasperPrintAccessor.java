@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,14 +30,14 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.AsynchronousFilllListener;
 import net.sf.jasperreports.engine.fill.FillHandle;
 import net.sf.jasperreports.engine.fill.FillListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Generated report accessor used for asynchronous report executions that publishes pages
@@ -57,7 +57,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 	private FillHandle fillHandle;
 	private final Lock lock;
 	private final Condition pageCondition;
-	private final Map<Integer, Long> trackedPages = new HashMap<Integer, Long>();
+	private final Map<Integer, Long> trackedPages = new HashMap<>();
 	
 	private volatile boolean done;
 	private boolean cancelled;

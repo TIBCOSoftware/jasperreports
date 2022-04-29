@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -42,10 +42,10 @@ public class Table
 		this.tabulator = tabulator;
 		
 		DimensionControl<Column> columnsControl = new ColumnsControl();
-		columns = new DimensionEntries<Column>(columnsControl);
+		columns = new DimensionEntries<>(columnsControl);
 		
 		DimensionControl<Row> rowsControl = new RowsControl();
-		rows = new DimensionEntries<Row>(rowsControl);
+		rows = new DimensionEntries<>(rowsControl);
 		
 		if (log.isTraceEnabled())
 		{

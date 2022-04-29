@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -432,7 +432,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 		}
 		else
 		{
-			Map<String, Integer> newColumnNames = new LinkedHashMap<String, Integer>();
+			Map<String, Integer> newColumnNames = new LinkedHashMap<>();
 			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
 				Integer columnIndex = it.next();

@@ -6,16 +6,24 @@
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="ExcludedCities" class="java.util.Collection"/>
 	<parameter name="OrderClause" class="java.lang.String"/>
+	<parameter name="ConditionalParam" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT * FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}]]>
+		<![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}]]>
 	</queryString>
 	<field name="Id" class="java.lang.Integer"/>
 	<field name="FirstName" class="java.lang.String"/>
 	<field name="LastName" class="java.lang.String"/>
 	<field name="Street" class="java.lang.String"/>
 	<field name="City" class="java.lang.String"/>
+	<field name="ConditionalField" class="java.lang.Boolean"/>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
 		<initialValueExpression><![CDATA[$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)]]></initialValueExpression>
+	</variable>
+	<variable name="ConditionalRow" class="java.lang.Boolean" resetType="Group" resetGroup="CityGroup">
+		<variableExpression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]]></variableExpression>
+		<initialValueExpression><![CDATA[null]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
 		<groupExpression><![CDATA[$F{City}]]></groupExpression>
@@ -67,9 +75,8 @@
 				<reportElement x="0" y="0" width="515" height="1" forecolor="#000000" uuid="ac7d6df3-0eb6-4f79-9585-1732142d717f"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="f4319415-6741-45b7-b0f1-db7067341070"/>
+				<reportElement style="TitleStyle" x="0" y="10" width="515" height="35" uuid="f4319415-6741-45b7-b0f1-db7067341070"/>
 				<textElement textAlignment="Center">
-					<font size="22"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
@@ -96,16 +103,19 @@
 	<detail>
 		<band height="20">
 			<textField>
-				<reportElement x="0" y="4" width="50" height="15" uuid="21d5b9b3-0c48-489a-95ce-436044902f49"/>
-				<textElement textAlignment="Right"/>
+				<reportElement style="FieldStyle" mode="Opaque" x="0" y="0" width="55" height="19" uuid="21d5b9b3-0c48-489a-95ce-436044902f49"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement positionType="Float" x="55" y="4" width="200" height="15" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
+				<reportElement style="RowStyle" positionType="Float" mode="Opaque" x="55" y="0" width="205" height="19" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement positionType="Float" x="260" y="4" width="255" height="15" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
+				<reportElement style="RowStyle" positionType="Float" mode="Opaque" x="260" y="0" width="255" height="19" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 			</textField>
 			<line>

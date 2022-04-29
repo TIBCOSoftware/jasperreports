@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -435,9 +435,9 @@ public class HttpDataService implements DataFileService
 		String parameterPrefix
 		)
 	{
-		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		List<NameValuePair> postParameters = new ArrayList<>();
 		
-		Map<String, String> requestParamMappings = new HashMap<String, String>();
+		Map<String, String> requestParamMappings = new HashMap<>();
 		if (
 			context.getDataset() != null
 			&& context.getDataset().getParameters() != null

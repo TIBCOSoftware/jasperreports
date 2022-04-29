@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,11 +27,10 @@ import java.awt.Color;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
-import net.sf.jasperreports.engine.util.JRColorUtil;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class ColorFieldHandler extends GeneralizedFieldHandler
 {
@@ -46,21 +45,13 @@ public class ColorFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return "#" + JRColorUtil.getColorHexa((Color)value);
+		return ColorSerializer.convert((Color)value);
 	}
 
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return JRColorUtil.getColor((String)value, null);
+		return ColorDeserializer.convert((String)value);
 	}
 	
 	@Override

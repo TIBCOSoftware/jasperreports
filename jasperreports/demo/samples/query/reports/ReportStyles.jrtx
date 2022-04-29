@@ -3,4 +3,22 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
 	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
 	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+	<style name="RowStyle" style="Sans_Normal">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ConditionalRow}]]></conditionExpression>
+			<style backcolor="#EEEEEE"/>
+		</conditionalStyle>
+	</style>
+	<style name="FieldStyle" style="RowStyle">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{ConditionalField}]]></conditionExpression>
+			<style forecolor="#0000FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="TitleStyle" style="Sans_Normal" fontSize="22">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{ConditionalParam}]]></conditionExpression>
+			<style fontSize="26" isBold="true"/>
+		</conditionalStyle>
+	</style>
 </jasperTemplate>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -101,7 +101,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private final Map<String, String> localizedProperties;
 	
 	//FIXME keep these in the filler/context
-	private Map<String, TimeZone> generalPatternTimeZones = new HashMap<String, TimeZone>();
+	private Map<String, TimeZone> generalPatternTimeZones = new HashMap<>();
 
 	/**
 	 *
@@ -114,9 +114,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		super(filler, textField, factory);
 		
-		this.textTemplates = new HashMap<Pair<JRStyle,TextFormat>, JRTemplateElement>();
+		this.textTemplates = new HashMap<>();
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
-		this.localizedProperties = new HashMap<String, String>();
+		this.localizedProperties = new HashMap<>();
 	}
 
 	
@@ -483,14 +483,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	protected JRTemplateElement getTemplate(JRStyle style)
 	{
-		Pair<JRStyle, TextFormat> key = new Pair<JRStyle, TextFormat>(style, textFormat);
+		Pair<JRStyle, TextFormat> key = new Pair<>(style, textFormat);
 		return textTemplates.get(key);
 	}
 
 	@Override
 	protected void registerTemplate(JRStyle style, JRTemplateElement template)
 	{
-		Pair<JRStyle, TextFormat> key = new Pair<JRStyle, TextFormat>(style, textFormat);
+		Pair<JRStyle, TextFormat> key = new Pair<>(style, textFormat);
 		textTemplates.put(key, template);
 		
 		if (log.isDebugEnabled())

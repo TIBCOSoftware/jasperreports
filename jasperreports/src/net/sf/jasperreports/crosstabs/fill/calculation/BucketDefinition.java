@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -152,11 +152,11 @@ public class BucketDefinition
 			{
 				if (comparator == null)
 				{
-					orderComparator = new ReverseComparator<Object>();
+					orderComparator = new ReverseComparator<>();
 				}
 				else
 				{
-					orderComparator = new ReverseComparator<Object>(comparator);
+					orderComparator = new ReverseComparator<>(comparator);
 				}
 				break;
 			}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -206,12 +207,12 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private Map<String, String> stylesMap = new HashMap<String, String>();
+	private Map<String, String> stylesMap = new HashMap<>();
 
 	/**
 	 *
 	 */
-	private Map<String, String> groupsMap = new HashMap<String, String>();
+	private Map<String, String> groupsMap = new HashMap<>();
 
 	
 	private Writer writer;
@@ -249,15 +250,19 @@ public class JRApiWriter
 		String destFileName
 		) throws JRException
 	{
-		FileOutputStream fos = null;
-		
-		try
+		String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING); //FIXME this is an export time config property
+		encoding = encoding == null ? "UTF-8" : encoding;
+
+		try (
+			Writer out = 
+				new OutputStreamWriter(
+					new BufferedOutputStream(
+						new FileOutputStream(destFileName)
+						), 
+					encoding
+					)
+			)
 		{
-			fos = new FileOutputStream(destFileName);
-			String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING) != null
-			? report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING)
-			: "UTF-8";//FIXME this is an export time config property
-			Writer out = new OutputStreamWriter(fos, encoding);
 			writeReport(report, out);
 		}
 		catch (IOException e)
@@ -267,19 +272,6 @@ public class JRApiWriter
 					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -3186,7 +3178,7 @@ public class JRApiWriter
 			else
 			{
 				JRCrosstabCell[][] cells = crosstab.getCells();
-				Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
+				Set<JRCrosstabCell> cellsSet = new HashSet<>();
 				for (int i = cells.length - 1; i >= 0 ; --i)
 				{
 					for (int j = cells[i].length - 1; j >= 0 ; --j)
@@ -4101,7 +4093,7 @@ public class JRApiWriter
 			String strFloat = 
 				MessageFormat.format(
 					"{0}f", 
-					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
+					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replace(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strFloat}));
 		}
@@ -4127,7 +4119,7 @@ public class JRApiWriter
 			String strDouble = 
 				MessageFormat.format(
 					"{0}d", 
-					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
+					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replace(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strDouble}));
 		}

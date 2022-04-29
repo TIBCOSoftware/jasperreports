@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ public class CharScriptsSet
 	{
 		if (includedScriptNames != null)
 		{
-			includedScripts = new HashSet<Integer>(includedScriptNames.size() * 4 / 3, .75f);
+			includedScripts = new HashSet<>(includedScriptNames.size() * 4 / 3, .75f);
 			for (String script : includedScriptNames)
 			{
 				int scriptCode = resolveScript(script);
@@ -62,7 +62,7 @@ public class CharScriptsSet
 		
 		if (excludedScriptNames != null)
 		{
-			excludedScripts = new HashSet<Integer>(excludedScriptNames.size() * 4 / 3, .75f);
+			excludedScripts = new HashSet<>(excludedScriptNames.size() * 4 / 3, .75f);
 			for (String script : excludedScriptNames)
 			{
 				int scriptCode = resolveScript(script);

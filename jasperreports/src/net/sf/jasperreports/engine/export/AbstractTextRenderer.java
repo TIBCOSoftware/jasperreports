@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,9 +27,11 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRParagraph;
@@ -40,7 +42,11 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 
 
 /**
@@ -76,6 +82,10 @@ public abstract class AbstractTextRenderer
 	protected int segmentIndex;
 	protected boolean indentFirstLine;
 	protected boolean justifyLastLine;
+
+	protected int htmlListIndent;
+	protected String bulletText;
+	protected AttributedString bulletChunk;
 	
 	/**
 	 * 
@@ -334,44 +344,88 @@ public abstract class AbstractTextRenderer
 	 */
 	public void render()
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
+		StyledTextListWriter listWriter = getListWriter();
+		
 		AttributedCharacterIterator allParagraphs = getAttributedString().getIterator(); 
 
-		int tokenPosition = 0;
-		int prevParagraphStart = 0;
-		String prevParagraphText = null;
-
 		isFirstParagraph = true;
+
 		
-		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
+		int runLimit = 0;
 
-		// text is split into paragraphs, using the newline character as delimiter
-		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
+		while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
-			String token = tkzer.nextToken();
+			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
-			if ("\n".equals(token))
+			context.next(attributes);
+			
+			context.writeLists(listWriter);
+
+			prepareBullet(context, attributes);
+
+			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
+			AttributedCharacterIterator runParagraphs = 
+				new AttributedString(
+						allParagraphs, 
+						allParagraphs.getIndex(), 
+						allParagraphs.getIndex() + runText.length()
+						).getIterator();
+			
+			int tokenPosition = 0;
+			int prevParagraphStart = 0;
+			String prevParagraphText = null;
+			
+			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
+
+			// text is split into paragraphs, using the newline character as delimiter
+			while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 			{
-				renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
+				String token = tkzer.nextToken();
 
-				isFirstParagraph = false;
-				isLastParagraph = !tkzer.hasMoreTokens();
-				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-				prevParagraphText = null;
+				if ("\n".equals(token))
+				{
+					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					{
+						renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
+					}
+
+					isFirstParagraph = false;
+					isLastParagraph = !tkzer.hasMoreTokens();
+					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+					prevParagraphText = null;
+				}
+				else
+				{
+					prevParagraphStart = tokenPosition;
+					prevParagraphText = token;
+				}
+
+				tokenPosition += token.length();
 			}
-			else
+			
+			if (!isMaxHeightReached && prevParagraphStart < runText.length())
 			{
-				prevParagraphStart = tokenPosition;
-				prevParagraphText = token;
+				isLastParagraph = true;
+				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
+				{
+					renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
+				}
 			}
 
-			tokenPosition += token.length();
+			allParagraphs.setIndex(runLimit);
 		}
+		
+		context.next(null);
+		
+		context.writeLists(listWriter);
+	}
 
-		if (!isMaxHeightReached && prevParagraphStart < allText.length())
-		{
-			isLastParagraph = true;
-			renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
-		}
+
+	protected StyledTextListWriter getListWriter()
+	{
+		return null;
 	}
 
 
@@ -430,7 +484,7 @@ public abstract class AbstractTextRenderer
 			float maxLeading = 0;
 			
 			// each line is split into segments, using the tab character as delimiter
-			segments = new ArrayList<TabSegment>(1);
+			segments = new ArrayList<>(1);
 
 			TabSegment oldSegment = null;
 			TabSegment crtSegment = null;
@@ -454,7 +508,7 @@ public abstract class AbstractTextRenderer
 					firstLineIndent = 0;
 				}
 				
-				float startX = firstLineIndent + leftPadding;
+				float startX = htmlListIndent + firstLineIndent + leftPadding;
 				endX = width - text.getParagraph().getRightIndent() - rightPadding;
 				endX = endX < startX ? startX : endX;
 				//formatWidth = endX - startX;
@@ -677,6 +731,9 @@ public abstract class AbstractTextRenderer
 
 					/*   */
 					draw();
+					
+					bulletText = null;
+					bulletChunk = null;
 				}
 				
 				drawPosY += maxDescent;
@@ -690,6 +747,30 @@ public abstract class AbstractTextRenderer
 			{
 				isMaxHeightReached = true;
 			}
+		}
+	}
+	
+	
+	private void prepareBullet(
+		StyledTextWriteContext context, 
+		Map<Attribute,Object> attributes
+		)
+	{
+		htmlListIndent = context.getDepth() * 50; //FIXMEBULLET always 50?
+
+		bulletText = JRStyledTextUtil.getBulletText(context);
+		
+		if (bulletText == null)
+		{
+			bulletChunk = null;
+		}
+		else
+		{
+			bulletChunk = 
+				new AttributedString(
+					bulletText,
+					attributes
+					);
 		}
 	}
 	
@@ -715,12 +796,6 @@ public abstract class AbstractTextRenderer
 
 		switch(paragraph.getLineSpacing())
 		{
-			case SINGLE:
-			default :
-			{
-				lineHeight = maxLeading + 1f * maxAscent;
-				break;
-			}
 			case ONE_AND_HALF:
 			{
 				if (isFirstLine)
@@ -779,6 +854,12 @@ public abstract class AbstractTextRenderer
 				{
 					lineHeight = paragraph.getLineSpacingSize();
 				}
+				break;
+			}
+			case SINGLE:
+			default :
+			{
+				lineHeight = maxLeading + 1f * maxAscent;
 				break;
 			}
 		}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -113,8 +113,8 @@ public class MatcherExporterFilter implements ExporterFilter
 			String exporterKey = typedExporter.getExporterKey();
 			if (exporterKey != null)
 			{
-				Set<String> includes = new HashSet<String>();
-				Set<String> excludes = new HashSet<String>();
+				Set<String> includes = new HashSet<>();
+				Set<String> excludes = new HashSet<>();
 				List<MatcherExportFilterMapping> mappings = exporterContext.getJasperReportsContext().getExtensions(MatcherExportFilterMapping.class);
 				for (MatcherExportFilterMapping mapping : mappings)
 				{

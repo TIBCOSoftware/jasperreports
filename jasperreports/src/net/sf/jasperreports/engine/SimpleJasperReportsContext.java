@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,7 +40,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 */
 	private JasperReportsContext parent;
 	
-	private Map<String, Object> values = new ConcurrentHashMap<String, Object>(16, .75f, 1);// assume low update concurrency
+	private Map<String, Object> values = new ConcurrentHashMap<>(16, .75f, 1);// assume low update concurrency
 	private Map<String, String> properties;
 	private Map<Class<?>, List<?>> extensionsMap;
 
@@ -158,7 +158,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 					}
 					else
 					{
-						List<T> returnedList = new ArrayList<T>();
+						List<T> returnedList = new ArrayList<>();
 						returnedList.addAll(extensionsList);
 						returnedList.addAll(parentExtensions);
 						return returnedList;
@@ -175,7 +175,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	{
 		if (extensionsMap == null)
 		{
-			extensionsMap = new HashMap<Class<?>, List<?>>();
+			extensionsMap = new HashMap<>();
 		}
 		extensionsMap.put(extensionType, extensions);
 	}
@@ -225,7 +225,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	{
 		if (properties == null)
 		{
-			properties = new HashMap<String, String>();
+			properties = new HashMap<>();
 		}
 		
 		properties.put(key, value);
@@ -282,7 +282,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 					}
 					else
 					{
-						Map<String, String> returnedMap = new HashMap<String, String>();
+						Map<String, String> returnedMap = new HashMap<>();
 						returnedMap.putAll(parentProperties);
 						returnedMap.putAll(properties);
 						return returnedMap;

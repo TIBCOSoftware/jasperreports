@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,7 +52,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 	public static final String PROPERTY_ITEMS = "items";
 	public static final String PROPERTY_DATASET = "dataset";
 
-	private List<Item> itemsList = new ArrayList<Item>();
+	private List<Item> itemsList = new ArrayList<>();
 	private JRElementDataset dataset;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -74,7 +74,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 			return null;
 		}
 		
-		List<Item> compiledItems = new ArrayList<Item>(items.size());
+		List<Item> compiledItems = new ArrayList<>(items.size());
 		for (Iterator<Item> it = items.iterator(); it.hasNext();)
 		{
 			Item item = it.next();
@@ -91,7 +91,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 			return null;
 		}
 		
-		List<ItemProperty> compiledProperties = new ArrayList<ItemProperty>(properties.size());
+		List<ItemProperty> compiledProperties = new ArrayList<>(properties.size());
 		for (Iterator<ItemProperty> it = properties.iterator(); it.hasNext();)
 		{
 			ItemProperty property = it.next();

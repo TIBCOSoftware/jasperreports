@@ -143,12 +143,12 @@ Now we'll see how to configure and use the built-in Excel data adapter in order 
 <br/>
 There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
 <ul>
-<li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct data source mode</li>
-<li><code>ExcelXlsQeDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
-<li><code>ExcelXlsxDataAdapter.xml</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct data source mode</li>
-<li><code>ExcelXlsxQeDataAdapter.xml</code> - reads data from the same XLSX data file, but works in query executer mode</li>
+<li><code>ExcelXlsDataAdapter.jrdax</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct data source mode</li>
+<li><code>ExcelXlsQeDataAdapter.jrdax</code> - reads data from the same XLS data file, but works in query executer mode</li>
+<li><code>ExcelXlsxDataAdapter.jrdax</code> - reads data from a XLSX data file (see <code>data/XlsxDataSource.data.xlsx</code> Excel file) and works in direct data source mode</li>
+<li><code>ExcelXlsxQeDataAdapter.jrdax</code> - reads data from the same XLSX data file, but works in query executer mode</li>
 </ul> 
-Below is the content of the <code>ExcelXlsDataAdapter.xml</code>:
+Below is the content of the <code>ExcelXlsDataAdapter.jrdax</code>:
 <pre><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <excelDataAdapter class="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
@@ -185,16 +185,16 @@ The other 3 data adapter configurations are set in a similar way, with differenc
 <br/>
 For each data adapter there is a JRXML file to be compiled, filled and exported to various output formats:
 <ul>
-<li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.xml</code> that works in direct data source mode</li>
-<li><code>reports/ExcelXlsQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQeDataAdapter.xml</code> that works in query executer mode</li>
-<li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.xml</code> that works in direct data source mode</li>
-<li><code>reports/ExcelXlsxQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQeDataAdapter.xml</code> that works in query executer mode</li>
+<li><code>reports/ExcelXlsDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsDataAdapter.jrdax</code> that works in direct data source mode</li>
+<li><code>reports/ExcelXlsQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsQeDataAdapter.jrdax</code> that works in query executer mode</li>
+<li><code>reports/ExcelXlsxDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxDataAdapter.jrdax</code> that works in direct data source mode</li>
+<li><code>reports/ExcelXlsxQeDataAdapterReport.jrxml</code> - uses the <code>ExcelXlsxQeDataAdapter.jrdax</code> that works in query executer mode</li>
 </ul>
 Settings for data adapter are very simple in JRXML files. We need to set the <code>net.sf.jasperreports.data.adapter</code> report property to point to the 
 appropriate data adapter configuration. We also have to define the fields to be picked up from the data source. For instance, in the 
 <code>ExcelXlsDataAdapterReport.jrxml</code> we have the following settings:
 <pre><![CDATA[
-<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.xml"/>
+<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.jrdax"/>
 ...
 <field name="id" class="java.lang.Integer"/>
 <field name="name" class="java.lang.String"/>
@@ -215,7 +215,7 @@ If the data adapter is designed to work in query executer mode (ie <code>&lt;que
 a query string in the JRXML file. The query language should be set to "excel" (or "EXCEL"). An example can be seen in the <code>ExcelXlsQeDataAdapterReport.jrxml</code> 
 file:
 <pre><![CDATA[
-<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQeDataAdapter.xml"/>
+<property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQeDataAdapter.jrdax"/>
 ...
 <queryString language="excel">
   <![CDATA[]] >

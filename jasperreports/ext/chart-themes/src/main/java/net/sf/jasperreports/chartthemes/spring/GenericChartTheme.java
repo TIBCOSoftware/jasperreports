@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -117,7 +117,6 @@ import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
-import net.sf.jasperreports.charts.JRCategoryPlot;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowPlot;
@@ -170,8 +169,8 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
-	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<FontUtil>();
+	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<>();
+	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<>();
 	
 
 	/**

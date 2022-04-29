@@ -196,7 +196,7 @@ one of them will process the input in order to get a JSONQL data source, the oth
 Following are the 2 data adapter definitions:
 <br/>
 <br/>
-<b>Content of the JSON Data Adapter </b>(see <code>data/JsonHttpDataAdapter.xml</code> file provided in this sample directory):
+<b>Content of the JSON Data Adapter </b>(see <code>data/JsonHttpDataAdapter.jrdax</code> file provided in this sample directory):
 <pre><![CDATA[
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
   <name>JSON Http Data Adapter</name>
@@ -212,7 +212,7 @@ Following are the 2 data adapter definitions:
       xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
   <selectExpression></selectExpression>
 </jsonDataAdapter>]]></pre>
-<b>Content of the XML Data Adapter </b>(see <code>data/XmlHttpDataAdapter.xml</code> file provided in this sample directory):
+<b>Content of the XML Data Adapter </b>(see <code>data/XmlHttpDataAdapter.jrdax</code> file provided in this sample directory):
 <pre><![CDATA[
 <xmlDataAdapter class="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
   <name>XML Http Data Adapter</name>
@@ -269,12 +269,12 @@ Each JRXML report
 Following are presented the settings in the <b>JsonHttpDataAdapterReport.jrxml</b> file:
 <pre><![CDATA[
 <jasperReport ... name="JsonHttpDataAdapterReport" ...>
-  <property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.jrdax"/>
   <subDataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06">
     <parameter name="title" class="java.lang.String"/>
   </subDataset>
   <subDataset name="MoviesDataset" uuid="bb6eeca6-9992-4268-8570-db12d8d5c79d">
-    <property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.xml"/>
+    <property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.jrdax"/>
     <parameter name="title" class="java.lang.String">
       <property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
     </parameter>
@@ -309,7 +309,7 @@ Following are presented the settings in the <b>JsonHttpDataAdapterReport.jrxml</
   </field>
   ...
 </jasperReport>]]></pre>
-Both the main dataset and <code>MoviesDataset</code> require information from <code><b>JsonHttpDataAdapter.xml</b></code> file 
+Both the main dataset and <code>MoviesDataset</code> require information from <code><b>JsonHttpDataAdapter.jrdax</b></code> file 
 via <code><b>net.sf.jasperreports.data.adapter</b></code> property.
 <br/>
 In the main dataset we have a report parameter named <code><b>title</b></code> that will serve also as HTTP request URL parameter, 
@@ -459,12 +459,12 @@ Report parameters definitions are the same in both JRXML files. Query languages 
 Following are presented the main differences exposed by <b>XmlHttpDataAdapterReport.jrxml</b>:
 <pre><![CDATA[
 <jasperReport name="XmlHttpDataAdapterReport" ...>
-<property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.xml"/>
+<property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.jrdax"/>
   <subDataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06">
     <parameter name="title" class="java.lang.String"/>
   </subDataset>
   <subDataset name="MoviesDataset" uuid="bb6eeca6-9992-4268-8570-db12d8d5c79d">
-    <property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.xml"/>
+    <property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.jrdax"/>
     <parameter name="title" class="java.lang.String">
       <property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
     </parameter>
@@ -500,7 +500,7 @@ Following are presented the main differences exposed by <b>XmlHttpDataAdapterRep
   ...
 </jasperReport>]]></pre>
 <ul>
-<li>this JRXML file requires information from <code><b>data/XmlHttpDataAdapter.xml</b></code> data adapter for both main dataset and <code>MoviesDataset</code></li>
+<li>this JRXML file requires information from <code><b>data/XmlHttpDataAdapter.jrdax</b></code> data adapter for both main dataset and <code>MoviesDataset</code></li>
 <li>
 The response content will be delivered in the following XML format:
 <pre><![CDATA[

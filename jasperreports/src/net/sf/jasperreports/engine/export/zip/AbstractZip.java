@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,7 +40,7 @@ public abstract class AbstractZip
 	/**
 	 * 
 	 */
-	protected Map<String, ExportZipEntry> exportZipEntries = new HashMap<String, ExportZipEntry>();
+	protected Map<String, ExportZipEntry> exportZipEntries = new HashMap<>();
 
 	/**
 	 *
@@ -64,9 +64,8 @@ public abstract class AbstractZip
 		ZipOutputStream zipos = new ZipOutputStream(os);
 		zipos.setMethod(ZipOutputStream.DEFLATED);
 		
-		for (String name : exportZipEntries.keySet()) 
+		for (ExportZipEntry exportZipEntry : exportZipEntries.values()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			ZipEntry zipEntry = new ZipEntry(exportZipEntry.getName());
 			zipos.putNextEntry(zipEntry);
 			exportZipEntry.writeData(zipos);
@@ -81,9 +80,8 @@ public abstract class AbstractZip
 	 */
 	public void dispose()
 	{
-		for (String name : exportZipEntries.keySet()) 
+		for (ExportZipEntry exportZipEntry : exportZipEntries.values()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			exportZipEntry.dispose();
 		}
 	}

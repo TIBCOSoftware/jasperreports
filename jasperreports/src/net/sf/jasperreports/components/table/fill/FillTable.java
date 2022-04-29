@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.table.BaseColumn;
@@ -64,9 +67,8 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.VirtualizableFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 
 /**
  * 
@@ -89,7 +91,7 @@ public class FillTable extends BaseFillComponent
 	private boolean filling;
 	private List<FillColumn> fillColumns;
 	private int fillWidth;
-	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<JRStyle, JRTemplateFrame>();
+	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<>();
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
 	{
@@ -101,7 +103,7 @@ public class FillTable extends BaseFillComponent
 		// this is needed for returned variables with evaluationTime=Auto
 		factory.registerDatasetRun(fillDatasetRun);
 		
-		this.fillSubreportFactories = new HashMap<List<FillColumn>, FillTableSubreportFactory>();
+		this.fillSubreportFactories = new HashMap<>();
 	}
 
 	public FillTable(FillTable table, JRFillCloneFactory factory)
@@ -248,7 +250,7 @@ public class FillTable extends BaseFillComponent
 				if (toPrint)
 				{
 					List<BaseColumn> columns = columnGroup.getColumns();
-					List<FillColumn> subColumns = new ArrayList<FillColumn>(columns.size());
+					List<FillColumn> subColumns = new ArrayList<>(columns.size());
 					int printWidth = 0;
 					for (BaseColumn column : columns)
 					{
@@ -289,7 +291,7 @@ public class FillTable extends BaseFillComponent
 	{
 		FillColumnEvaluator columnEvaluator = new FillColumnEvaluator(evaluation);
 		List<BaseColumn> columns = table.getColumns();
-		fillColumns = new ArrayList<FillColumn>(columns.size());
+		fillColumns = new ArrayList<>(columns.size());
 		fillWidth = 0;
 		for (BaseColumn column : columns)
 		{
@@ -456,9 +458,10 @@ public class FillTable extends BaseFillComponent
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
-		if (fillSubreport.getTableReport().getBaseReport().isGeneratePdfTags())
+		if (fillSubreport.getTableReport().getBaseReport().isAccessibleTable())
 		{
 			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
+			printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
 		}
 		
 		List<JRStyle> styles = fillSubreport.getSubreportStyles();

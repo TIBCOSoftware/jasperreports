@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -67,7 +67,7 @@ public class GlyphRendering
 	public GlyphRendering(ClassicPdfProducer pdfProducer)
 	{
 		this.pdfProducer = pdfProducer;
-		this.glyphRendererFonts = new HashMap<FontKey, Boolean>();
+		this.glyphRendererFonts = new HashMap<>();
 		
 		PdfProducerContext context = pdfProducer.getContext();
 		this.glyphRendererAddActualText = context.getProperties().getBooleanProperty( 
@@ -80,7 +80,7 @@ public class GlyphRendering
 
 	protected void initGlyphRenderer() 
 	{
-		glyphRendererBlocks = new HashSet<Character.UnicodeBlock>();
+		glyphRendererBlocks = new HashSet<>();
 		PdfProducerContext context = pdfProducer.getContext();
 		List<PropertySuffix> props = context.getProperties().getAllProperties(
 				context.getCurrentJasperPrint(), 
@@ -190,7 +190,7 @@ public class GlyphRendering
 	
 	protected boolean canUseGlyphRendering(FontKey fontKey, boolean awtIgnoreMissingFont) 
 	{
-		Map<Attribute, Object> fontAttributes = new HashMap<Attribute, Object>();
+		Map<Attribute, Object> fontAttributes = new HashMap<>();
 		fontKey.fontAttribute.putAttributes(fontAttributes);
 		fontAttributes.put(TextAttribute.SIZE, 10f);
 

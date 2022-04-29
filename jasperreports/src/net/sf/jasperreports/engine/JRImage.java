@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -137,7 +137,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyperlink, JRImageAlignment, JRCommonImage
+public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyperlink, JRCommonImage
 {
 
 
@@ -149,17 +149,6 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * or null in case the flag was never explicitly set on this image element
 	 */
 	public Boolean getUsingCache();
-
-	/**
-	 * Specifies if the engine should be loading the current image from cache. If set to true, the reporting engine
-	 * will try to recognize previously loaded images using their specified source. For example, it will recognize
-	 * an image if the image source is a file name that it has already loaded, or if it is the same URL.
-	 * <p>
-	 * For image elements that have expressions returning <tt>java.lang.String</tt> objects as the image source, 
-	 * representing file names, URLs or classpath resources, the default value for this flag is true. 
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	public void setUsingCache(boolean isUsingCache);
 
 	/**
 	 * Specifies if the engine should be loading the current image from cache. If set to Boolean.TRUE, the reporting engine

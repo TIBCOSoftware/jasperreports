@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -38,7 +38,7 @@ import java.util.TreeMap;
  */
 public class XlsRowLevelInfo
 {
-	private SortedMap<String, Integer> levelMap = new TreeMap<String, Integer>();
+	private SortedMap<String, Integer> levelMap = new TreeMap<>();
 	private Integer endIndex;
 	
 	public XlsRowLevelInfo()

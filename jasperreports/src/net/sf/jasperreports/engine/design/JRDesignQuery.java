@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -60,7 +60,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected List<JRQueryChunk> chunks = new ArrayList<JRQueryChunk>();
+	protected List<JRQueryChunk> chunks = new ArrayList<>();
 
 	
 	private transient JRQueryChunkHandler chunkAdder;
@@ -207,7 +207,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	public void setText(String text)
 	{
 		Object old = getText();
-		chunks = new ArrayList<JRQueryChunk>();
+		chunks = new ArrayList<>();
 		JRQueryParser.instance().parse(text, chunkAdder());
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, getText());
 	}

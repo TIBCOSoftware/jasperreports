@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -85,8 +85,7 @@ public class MultiAxisDataService
 	private final MultiAxisData data;
 	private final MultiAxisBucketingService bucketingService;
 	
-	private final Map<DataAxisLevel, Map<String, Integer>> axisLevelBucketPropertyIndexes = 
-			new HashMap<DataAxisLevel, Map<String,Integer>>();
+	private final Map<DataAxisLevel, Map<String, Integer>> axisLevelBucketPropertyIndexes = new HashMap<>();
 	
 	private final List<List<AxisLevel>> axisLevels;
 	private final Bucket[] axisRoots;
@@ -107,10 +106,10 @@ public class MultiAxisDataService
 			log.debug("creating multi axis data service for " + data);
 		}
 		
-		this.axisLevels = new ArrayList<List<AxisLevel>>(Axis.axisCount());
+		this.axisLevels = new ArrayList<>(Axis.axisCount());
 		this.axisLevels.addAll(Collections.<List<AxisLevel>>nCopies(Axis.axisCount(), null));
 		
-		List<List<BucketDefinition>> axisBuckets = new ArrayList<List<BucketDefinition>>(Axis.axisCount());
+		List<List<BucketDefinition>> axisBuckets = new ArrayList<>(Axis.axisCount());
 		axisBuckets.addAll(Collections.<List<BucketDefinition>>nCopies(Axis.axisCount(), null));
 		
 		this.axisRoots = new Bucket[Axis.axisCount()];
@@ -123,10 +122,10 @@ public class MultiAxisDataService
 			
 			int levelCount = axisLevels.size();
 			
-			List<AxisLevel> levels = new ArrayList<AxisLevel>(levelCount + 1);
+			List<AxisLevel> levels = new ArrayList<>(levelCount + 1);
 			levels.add(createRootLevel(axis));
 			
-			List<BucketDefinition> buckets = new ArrayList<BucketDefinition>(levelCount + 1);
+			List<BucketDefinition> buckets = new ArrayList<>(levelCount + 1);
 			BucketDefinition rowRootBucket = createRootBucket();
 			buckets.add(rowRootBucket);
 			axisRoots[axis.ordinal()] = rowRootBucket.create(SingleValue.VALUE);
@@ -150,8 +149,8 @@ public class MultiAxisDataService
 		}
 
 		List<DataMeasure> dataMeasures = data.getMeasures();
-		this.measures = new ArrayList<Measure>(dataMeasures.size());
-		List<MeasureDefinition> measureList = new ArrayList<MeasureDefinition>(dataMeasures.size());
+		this.measures = new ArrayList<>(dataMeasures.size());
+		List<MeasureDefinition> measureList = new ArrayList<>(dataMeasures.size());
 		for (DataMeasure dataMeasure : dataMeasures)
 		{
 			// create the data source measure
@@ -236,7 +235,7 @@ public class MultiAxisDataService
 				|| (bucketProperties != null && !bucketProperties.isEmpty()))
 		{
 			// wrapping values in a ValuePropertiesWrapper in order to store property values
-			Map<String, Integer> propertyIndexes = new LinkedHashMap<String, Integer>();
+			Map<String, Integer> propertyIndexes = new LinkedHashMap<>();
 			for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
 			{
 				DataLevelBucketProperty bucketProperty = it.next();
@@ -457,7 +456,7 @@ public class MultiAxisDataService
 		
 		public DataSource()
 		{
-			axisDataLevels = new ArrayList<List<AxisLevel>>(axisLevels.size());
+			axisDataLevels = new ArrayList<>(axisLevels.size());
 			for (List<AxisLevel> levels : axisLevels)
 			{
 				List<AxisLevel> dataLevels = Collections.unmodifiableList(levels.subList(1, levels.size()));
@@ -531,7 +530,7 @@ public class MultiAxisDataService
 			Object bucketValue;
 			if (bucketMap != null)
 			{
-				LinkedList<Bucket> columnBuckets = new LinkedList<Bucket>();
+				LinkedList<Bucket> columnBuckets = new LinkedList<>();
 				if (columnNode != null)
 				{
 					// add all column node parent buckets except the root
@@ -584,8 +583,7 @@ public class MultiAxisDataService
 				values = bucketingService.getUserMeasureValues(rawValues);
 			}
 			
-			List<net.sf.jasperreports.engine.analytics.data.MeasureValue> measureValues = 
-					new ArrayList<net.sf.jasperreports.engine.analytics.data.MeasureValue>(values.length);
+			List<net.sf.jasperreports.engine.analytics.data.MeasureValue> measureValues = new ArrayList<>(values.length);
 			for (int i = 0; i < values.length; i++)
 			{
 				Measure measure = measures.get(i);
@@ -735,7 +733,7 @@ public class MultiAxisDataService
 				return Collections.<AxisLevelNode>emptyList();
 			}
 
-			List<LevelNode> children = new ArrayList<LevelNode>(childrenMap.size());
+			List<LevelNode> children = new ArrayList<>(childrenMap.size());
 			for (Iterator<Entry<Bucket, Object>> entryIterator = childrenMap.entryIterator(); entryIterator.hasNext();)
 			{
 				Entry<Bucket, Object> entry = entryIterator.next();

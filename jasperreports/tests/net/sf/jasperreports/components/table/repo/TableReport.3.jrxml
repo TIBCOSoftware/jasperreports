@@ -9,7 +9,7 @@
 	<style name="TableHeader" mode="Opaque" backcolor="#808080"/>
 	<style name="TableFooter" mode="Opaque" backcolor="#C0C0C0"/>
 	<subDataset name="TableData" uuid="c97671fc-0b4b-478a-828d-ced52c9cb393">
-		<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.31.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.31.jrdax"/>
 		<variable name="Column1" class="java.lang.String">
 			<variableExpression><![CDATA["multi\nline text"]]></variableExpression>
 		</variable>

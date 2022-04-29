@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -79,10 +79,10 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		this.id = assignId(reportFiller);
 		this.reportFiller = reportFiller;
 		this.fillContext = reportFiller.fillContext;
-		this.actionsMap = new HashMap<JREvaluationTime, LinkedHashMap<FillPageKey,LinkedMap<Object,EvaluationBoundAction>>>();
-		this.fillElements = new HashMap<Integer, JRFillElement>();
-		this.masterFillElementIds = new HashSet<Integer>();
-		this.listenedContexts = new HashSet<JRVirtualizationContext>();
+		this.actionsMap = new HashMap<>();
+		this.fillElements = new HashMap<>();
+		this.masterFillElementIds = new HashSet<>();
+		this.listenedContexts = new HashSet<>();
 	}
 	
 	private static int assignId(BaseReportFiller reportFiller)
@@ -105,8 +105,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 
 	public void createDelayedEvaluationTime(JREvaluationTime evaluationTime)
 	{
-		LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> evaluationActions = 
-				new LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>();
+		LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> evaluationActions = new LinkedHashMap<>();
 		actionsMap.put(evaluationTime, evaluationActions);
 	}
 
@@ -168,7 +167,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 	{
 		if (transferredIds == null)
 		{
-			transferredIds = new HashSet<Integer>();
+			transferredIds = new HashSet<>();
 		}
 		
 		// duplicates are handled
@@ -214,7 +213,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		LinkedMap<Object, EvaluationBoundAction> pageMap = map.get(pageKey);
 		if (pageMap == null)
 		{
-			pageMap = new LinkedMap<Object, EvaluationBoundAction>();
+			pageMap = new LinkedMap<>();
 			map.put(pageKey, pageMap);
 			
 			registerPage(pageKey.page);
@@ -402,7 +401,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 				{
 					// collection delayed evaluations for elements that are about to be externalized.
 					// the evaluations store the ID of the fill elements in order to serialize the data.
-					elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
+					elementEvaluations = new LinkedHashMap<>();
 					evaluations.put(evaluationTime, elementEvaluations);
 				}
 				

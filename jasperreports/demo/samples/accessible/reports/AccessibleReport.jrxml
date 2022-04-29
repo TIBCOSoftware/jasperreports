@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 8.0.0.final using JasperReports Library version develop-55-SNAPSHOT-17810285d8e6cce831451cc942336af32b7686c2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccessibleReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="02314e1d-cb29-4cf3-a904-092a9d3e5312">
+	<property name="net.sf.jasperreports.text.save.line.breaks" value="true"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
+	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
+	<property name="net.sf.jasperreports.export.html.accessible" value="true"/>
+	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+	<property name="net.sf.jasperreports.export.pdf.metadata.title" value="Accessible Report"/>
+	<property name="net.sf.jasperreports.export.pdf.display.metadata.title" value="true"/>
+	<property name="net.sf.jasperreports.components.table.accessible" value="true"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Description" mode="Opaque" backcolor="#EEEEEE">
+		<box>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Heading1" fontSize="16" isBold="true"/>
+	<style name="Heading2" fontSize="10" isBold="true" isItalic="true"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#D2B48C">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#FFE4BF">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#CA9755">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#D2B48C">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="CrosstabDataset" uuid="8d840d56-f9c3-4fc9-9b27-68f869d1946c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<property name="net.sf.jasperreports.data.adapter" value="data/ProductsCsvDataAdapter.jrdax"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Type" class="java.lang.String"/>
+		<field name="Year" class="java.lang.Integer"/>
+		<field name="Quantity" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="TableDataset" uuid="585654d1-206d-4bd4-a0cf-2be100953a97">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<property name="net.sf.jasperreports.data.adapter" value="data/PersonsCsvDataAdapter.jrdax"/>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[id]]></fieldDescription>
+		</field>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[name]]></fieldDescription>
+		</field>
+		<field name="address" class="java.lang.String">
+			<fieldDescription><![CDATA[street address]]></fieldDescription>
+		</field>
+		<field name="city" class="java.lang.String">
+			<fieldDescription><![CDATA[city]]></fieldDescription>
+		</field>
+		<field name="state" class="java.lang.String">
+			<fieldDescription><![CDATA[state]]></fieldDescription>
+		</field>
+		<field name="latitude" class="java.lang.String">
+			<fieldDescription><![CDATA[latitude]]></fieldDescription>
+		</field>
+		<field name="longitude" class="java.lang.String">
+			<fieldDescription><![CDATA[longitude]]></fieldDescription>
+		</field>
+		<field name="moveInDate" class="java.util.Date">
+			<fieldDescription><![CDATA[moveInDate]]></fieldDescription>
+		</field>
+		<sortField name="name"/>
+	</subDataset>
+	<group name="Group1">
+		<groupHeader>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="f4f107df-72cf-4276-927e-8e04fea1ff36"/>
+					<textFieldExpression><![CDATA["This is a sequence of level 1 and level 2 headings."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Heading1" x="0" y="0" width="500" height="10" uuid="7dac312f-4c73-41f3-bef6-0edcacc789a0">
+						<property name="net.sf.jasperreports.export.accessibility.tag" value="h1"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Fruit"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="5e8edc65-3ae1-4008-bcc4-997e4e36ea2e"/>
+					<textFieldExpression><![CDATA["In botany, a fruit is the seed-bearing structure in flowering plants."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="3b9e83ea-55d1-4224-bcb2-dcb612d76258">
+						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Apples"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="e83c3cdc-53ac-439a-9e67-4dc2b847bda1"/>
+					<textFieldExpression><![CDATA["An apple is an edible fruit produced by an apple tree (Malus domestica)."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="c31fb47d-10ae-47cf-b1f5-5b2b6e45aa0c">
+						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Bananas"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="b9123f2b-c55b-4c3e-a307-cda5fd32f3ee"/>
+					<textFieldExpression><![CDATA["A banana is an elongated, edible fruit produced by several kinds of large herbaceous flowering plants in the genus Musa."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Heading1" x="0" y="0" width="500" height="10" uuid="9ef7cebf-7244-41a0-af98-844412fd0333">
+						<property name="net.sf.jasperreports.export.accessibility.tag" value="h1"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Vegetables"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="1dddd147-7d32-4052-b81f-a94f7f461a3b"/>
+					<textFieldExpression><![CDATA["Vegetables are parts of plants that are consumed by humans or other animals as food."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Heading2" x="0" y="0" width="500" height="10" uuid="3ecd40e1-fb0c-43b6-954a-6c55a576cf77">
+						<property name="net.sf.jasperreports.export.accessibility.tag" value="h2"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Cucumbers"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="9acca496-1625-4b69-838d-384f63788a75"/>
+					<textFieldExpression><![CDATA["Cucumber (Cucumis sativus) is a widely-cultivated creeping vine plant in the Cucurbitaceae family that bears usually cylindrical fruits, which are used as vegetables."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="30"/>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="8418cbff-c5ae-447d-a752-2490b0057308"/>
+					<textFieldExpression><![CDATA["This is a bulleted list with two levels."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Sans_Normal" x="0" y="0" width="500" height="10" uuid="e6726dbf-f84d-45e2-9f86-0b4e899ccbe6"/>
+					<textElement markup="styled"/>
+					<textFieldExpression><![CDATA["<ul><li>Fruit<ol><li>Apples</li><li>Bananas</li><li>Pears</li></ol></li><li>Vegetables<ol><li>Cucumber</li><li>Lettuce</li><li>Tomatoes</li></ol></li></ul>"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="30"/>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="f6590373-78af-4976-ab23-a2d8ef68b693"/>
+					<textFieldExpression><![CDATA["This is an image."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<image hAlign="Center" vAlign="Middle" isUsingCache="false">
+					<reportElement x="0" y="0" width="150" height="40" uuid="e8c7ab7c-52e0-4d9f-98b7-e26323e4838c"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
+					<hyperlinkTooltipExpression><![CDATA["The Dukesign Image"]]></hyperlinkTooltipExpression>
+				</image>
+			</band>
+			<band height="30"/>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="48c45474-ff24-4cb8-b1b0-456c2ea0a8de"/>
+					<textFieldExpression><![CDATA["This is a crosstab without a header cell at its the top left corner."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<crosstab>
+					<reportElement x="0" y="0" width="510" height="30" uuid="bd692f7b-a38d-41e3-a7f1-0762e26ae74e">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					</reportElement>
+					<crosstabDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="CrosstabDataset" uuid="40791c66-0992-4fdc-94b8-0d5a7f337145"/>
+						</dataset>
+					</crosstabDataset>
+					<rowGroup name="Category" width="70" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Category}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="3b4d0e0a-13a1-4073-a60f-cf57011934db"/>
+									<textFieldExpression><![CDATA[$V{Category}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="030fffa3-2bd9-4d08-9124-eaa4c7053e79"/>
+									<textFieldExpression><![CDATA["Category Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<rowGroup name="Type" width="60" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Type}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="daca1d35-ae94-4fca-9ba6-a41c69018bd4"/>
+									<textFieldExpression><![CDATA[$V{Type}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="2036fe22-10c5-4351-ad88-ed780eb66e2d"/>
+									<textFieldExpression><![CDATA["Type Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="Year" height="10" totalPosition="End">
+						<bucket class="java.lang.Integer">
+							<bucketExpression><![CDATA[$F{Year}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="00690fcb-022f-4a1b-92b4-ee6e5ed421c1"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA[$V{Year}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="51d11170-3965-4f3d-ab6e-18b2811f2472"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA["Year Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="Quantity_MEASURE" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{Quantity}]]></measureExpression>
+					</measure>
+					<crosstabCell width="60" height="10">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CD" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8d3f6b26-adaa-4d41-88e1-febcee2301f6"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="7d73ed34-bf87-4c9a-871b-b77b75aecd07"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Category">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="5b5d1848-4020-4cbc-8dc0-939be53f6e44"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="cb812594-7af5-4e0f-9920-2d58b5a13cb9"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Type">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="57742681-cf4b-4b3a-824f-74a3d8fdb982"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="e13f7404-4313-47ae-9469-90d57505ed30"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="a98a7704-439e-45ee-af84-a3cfb2b4ab17"/>
+					<textFieldExpression><![CDATA["This is a crosstab having a header cell at its the top left corner."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<crosstab>
+					<reportElement x="0" y="0" width="510" height="30" uuid="dc45d523-d168-4907-b9f5-309d373cf476">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					</reportElement>
+					<crosstabDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="CrosstabDataset" uuid="5b7dd341-4cad-4742-8661-c7d2f6306610"/>
+						</dataset>
+					</crosstabDataset>
+					<crosstabHeaderCell>
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="be844fc8-8eb5-4039-a9ee-8d8aef21cc38"/>
+								<textFieldExpression><![CDATA["Category"]]></textFieldExpression>
+							</textField>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="70" y="0" width="60" height="10" uuid="298d12fd-070a-4320-915c-da5342c25845"/>
+								<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="Category" width="70" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Category}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="9ed275d3-e315-47ae-9623-fa9efc6e5359"/>
+									<textFieldExpression><![CDATA[$V{Category}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="9c76c8d7-da7d-470d-b93c-8519004de07d"/>
+									<textFieldExpression><![CDATA["Category Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<rowGroup name="Type" width="60" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Type}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="9d6822df-11b2-4927-beca-f4e6a7616cc9"/>
+									<textFieldExpression><![CDATA[$V{Type}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="fffc90cc-f08f-4533-92c7-23342bb7297a"/>
+									<textFieldExpression><![CDATA["Type Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="Year" height="10" totalPosition="End">
+						<bucket class="java.lang.Integer">
+							<bucketExpression><![CDATA[$F{Year}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="4413a5ed-7f27-4878-89b8-901a9e67aa04"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA[$V{Year}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents>
+								<textField textAdjust="StretchHeight">
+									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="527fc20d-76bc-4faf-8507-24a67883ab30"/>
+									<textElement textAlignment="Right"/>
+									<textFieldExpression><![CDATA["Year Total"]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="Quantity_MEASURE" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{Quantity}]]></measureExpression>
+					</measure>
+					<crosstabCell width="60" height="10">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CD" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d2d41097-3e1d-4456-bdec-b4db36166a0e"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="01f09e46-c4fa-4bc7-bf00-c0671526b152"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Category">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8e59fa44-35ff-4b5e-a87c-883467bd058d"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d1cf940c-dbb0-48c8-bfbb-a2c9654597b9"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Type">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="6f9c82ea-3d4c-46fa-82b0-1f177e8a10ba"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
+						<cellContents>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="f2bdfe3d-bd63-405d-a09f-edcf6f112002"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="533e9a7f-78a8-4c12-b306-92ae7b8fda38"/>
+					<textFieldExpression><![CDATA["This is a table having a column group header that wraps the third and fourth column headers."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<componentElement>
+					<reportElement x="0" y="0" width="500" height="30" uuid="257ba0eb-37d3-4b3a-a79f-46c5c7afec56"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+						<datasetRun subDataset="TableDataset" uuid="4e7e3d4f-0bbd-4571-9185-140f57552165"/>
+						<jr:columnGroup width="500" uuid="d07b8e92-41a5-4595-93a2-e58dda291354">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
+							<jr:column width="30" uuid="139e4257-c1e0-4fec-9810-8f4dfcc0d462">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+								<jr:columnHeader height="20" rowSpan="2">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="30" height="20" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d"/>
+										<textElement textAlignment="Right"/>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="10" uuid="13e935bc-3fc6-420f-ad28-dc6a6eb42f9f"/>
+										<textElement textAlignment="Right"/>
+										<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="100" uuid="3e29a52e-a43a-4f78-9338-442b5c4ccf52">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader height="20" rowSpan="2">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="49c36abf-d000-4f3a-a6c8-8f3823db156b"/>
+										<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="100" height="10" uuid="bec5d55d-c6b5-4352-961e-e5eb8b258746"/>
+										<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:columnGroup width="190" uuid="6e249030-faab-40e1-a25c-a80ee5be404e">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+								<jr:columnHeader height="10">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" x="0" y="0" width="190" height="10" uuid="0c5a981e-93de-4f47-8872-cafaa817166a"/>
+										<textFieldExpression><![CDATA["Address"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:column width="120" uuid="c8a14c10-28be-4ede-937c-44e0cb8c6f3b">
+									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+									<jr:columnHeader height="10" rowSpan="1">
+										<property name="com.jaspersoft.studio.unit.height" value="px"/>
+										<textField textAdjust="StretchHeight">
+											<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="8bacb782-c042-4db5-a844-0b8bc5ef9af2"/>
+											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+										</textField>
+									</jr:columnHeader>
+									<jr:detailCell height="10">
+										<textField textAdjust="StretchHeight">
+											<reportElement style="Table_TD" x="0" y="0" width="120" height="10" uuid="b60098ff-15f7-422d-a834-1664f4b42356"/>
+											<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="70" uuid="94e0ac43-3866-4a08-828a-02f4f673ee8c">
+									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+									<jr:columnHeader height="10">
+										<textField textAdjust="StretchHeight">
+											<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="a38ed8db-8bf7-4763-9075-e374795a2a86"/>
+											<textFieldExpression><![CDATA["City"]]></textFieldExpression>
+										</textField>
+									</jr:columnHeader>
+									<jr:detailCell height="10">
+										<property name="com.jaspersoft.studio.unit.height" value="px"/>
+										<textField textAdjust="StretchHeight">
+											<reportElement style="Table_TD" x="0" y="0" width="70" height="10" uuid="1929e684-b617-4974-b409-72c5b7de42ec"/>
+											<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+							</jr:columnGroup>
+							<jr:column width="100" uuid="3c815a04-14db-4271-a533-38e8aff35aaa">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+								<jr:columnHeader height="20" rowSpan="2">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="d1f1a41e-1291-4548-bb85-cc86f12ed7c8"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA["Account Type"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="100" height="10" uuid="6d1cddf3-3614-4364-832e-046e9735cc2c"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="80" uuid="195ef0da-f000-49e0-b5e0-c4001a22dbcf">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+								<jr:columnHeader height="20" rowSpan="2">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="80" height="20" uuid="26770ca2-5c50-4bc9-96ed-4169a7ac1901"/>
+										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
+										<reportElement style="Table_TD" x="0" y="0" width="80" height="10" uuid="d3a42fa4-d563-4c7f-b68e-f25649651583"/>
+										<textFieldExpression><![CDATA[$F{moveInDate}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:table>
+				</componentElement>
+			</band>
+			<band height="20">
+				<textField textAdjust="StretchHeight">
+					<reportElement style="Description" x="0" y="0" width="500" height="10" uuid="3ef700c5-fa90-4f2b-93b5-f30ecad244b6"/>
+					<textFieldExpression><![CDATA["This is a simple table without any column header grouping."]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="50">
+				<componentElement>
+					<reportElement x="0" y="0" width="500" height="30" uuid="94672486-6f12-4aff-9820-b222f6266dad"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+						<datasetRun subDataset="TableDataset" uuid="9db061bf-fbfa-4dd2-ac8d-70ba803aa5a5"/>
+						<jr:columnGroup width="500" uuid="e89c0428-93ba-43c9-ac36-caaf311d1c23">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
+							<jr:column width="30" uuid="bbdb515a-0d6d-46cc-84d3-d22c1fbd8781">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+								<jr:columnHeader height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="30" height="10" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274"/>
+										<textElement textAlignment="Right"/>
+										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="10" uuid="9cabc025-7bcf-4292-a165-a504f529076a"/>
+										<textElement textAlignment="Right"/>
+										<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="100" uuid="9b577d40-88c0-4ecc-a51c-eab910a80d0a">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader height="10">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="9df76cf5-3a52-4389-9efc-6bc42cf88486"/>
+										<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="100" height="10" uuid="252757ed-7648-4643-bb41-b5d50e6e359b"/>
+										<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="120" uuid="bb948094-4211-4122-8fc1-ee7e5990f30b">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+								<jr:columnHeader height="10" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="c7199a0a-e57b-4759-834b-4f7c2406849a"/>
+										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="120" height="10" uuid="ee227a8c-c78b-419f-8671-cb9e89fee28e"/>
+										<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="70" uuid="1e3a3e84-c651-4402-bfab-5b24f78a2236">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+								<jr:columnHeader height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="61ca596e-db16-4d78-8f44-5beee220a74b"/>
+										<textFieldExpression><![CDATA["City"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="70" height="10" uuid="67e5e9d8-c3b3-4ee5-bec3-abef6e19f220"/>
+										<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="100" uuid="eacd8541-0c7b-4627-a554-61966379e947">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+								<jr:columnHeader height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="34211dc0-6819-47b7-91c4-f4fd9b947228"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA["Account Type"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TD" x="0" y="0" width="100" height="10" uuid="c562d4cd-1c2b-4a48-ac51-210d86ffd3f1"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="80" uuid="cbdb4bbc-b7e2-4d2b-a6c9-ab5ae5957bbf">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+								<jr:columnHeader height="10">
+									<textField textAdjust="StretchHeight">
+										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="80" height="10" uuid="e0bb20ff-231d-4b96-a74f-c51bde1947ad"/>
+										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
+									</textField>
+								</jr:columnHeader>
+								<jr:detailCell height="10">
+									<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
+										<reportElement style="Table_TD" x="0" y="0" width="80" height="10" uuid="b8677949-7c32-4067-a99c-d991317b69d7"/>
+										<textFieldExpression><![CDATA[$F{moveInDate}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

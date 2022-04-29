@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,7 +26,9 @@ package net.sf.jasperreports.engine.util;
 import java.io.InvalidObjectException;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -41,7 +43,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private static final Map<String,JRTextAttribute> instanceMap = new HashMap<String,JRTextAttribute>(4);
+	private static final Map<String,JRTextAttribute> instanceMap = new HashMap<>(4);
 
 	/**
 	 *
@@ -55,6 +57,12 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 *
 	 */
 	public static final JRTextAttribute HYPERLINK = new JRTextAttribute("HYPERLINK");
+	
+	/**
+	 *
+	 */
+	public static final JRTextAttribute HTML_LIST = new JRTextAttribute("HTML_LIST");
+	public static final JRTextAttribute HTML_LIST_ITEM = new JRTextAttribute("HTML_LIST_ITEM");
 
     /**
 	 *
@@ -63,6 +71,14 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 
 	public static final JRTextAttribute FONT_INFO = new JRTextAttribute("FONT_INFO");
 	
+	
+	public static final Set<JRTextAttribute> HTML_LIST_ATTRIBUTES = new HashSet<>();
+	static
+	{
+		HTML_LIST_ATTRIBUTES.add(JRTextAttribute.HTML_LIST);
+		HTML_LIST_ATTRIBUTES.add(JRTextAttribute.HTML_LIST_ITEM);
+	}
+
 	/**
 	 *
 	 */

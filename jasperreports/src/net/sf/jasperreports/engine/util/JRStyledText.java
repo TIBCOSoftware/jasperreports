@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -77,7 +77,7 @@ public class JRStyledText implements Cloneable
 	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 
 		JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);
 	
-	private static final Set<Attribute> FONT_ATTRS = new HashSet<Attribute>();
+	private static final Set<Attribute> FONT_ATTRS = new HashSet<>();
 	static
 	{
 		FONT_ATTRS.add(TextAttribute.FAMILY);
@@ -132,6 +132,14 @@ public class JRStyledText implements Cloneable
 		this.runs = Collections.singletonList(new Run(globalAttributes, 0, text.length()));
 	}
 	
+	public JRStyledText(Locale locale, String text, Map<Attribute,Object> globalAttributes, List<Run> runs)
+	{
+		this.locale = locale;
+		this.text = text;
+		this.globalAttributes = globalAttributes;
+		this.runs = runs;
+	}
+	
 	private void ensureBuffer()
 	{
 		if (sbuffer == null)
@@ -176,7 +184,7 @@ public class JRStyledText implements Cloneable
 		{
 			if (currentSize == 1 && !(runs instanceof ArrayList))
 			{
-				List<Run> newRuns = new ArrayList<Run>();
+				List<Run> newRuns = new ArrayList<>();
 				newRuns.add(runs.get(0));
 				runs = newRuns;
 			}
@@ -414,7 +422,7 @@ public class JRStyledText implements Cloneable
 	
 	protected static Map<Attribute,Object> cloneAttributesMap(Map<Attribute,Object> attributes)
 	{
-		return attributes == null ? null : new HashMap<Attribute,Object>(attributes);
+		return attributes == null ? null : new HashMap<>(attributes);
 	}
 
 	
@@ -441,7 +449,7 @@ public class JRStyledText implements Cloneable
 			}
 			else
 			{
-				clone.runs = new ArrayList<Run>(runsCount);
+				clone.runs = new ArrayList<>(runsCount);
 				for (Iterator<Run> it = runs.iterator(); it.hasNext();)
 				{
 					Run run = it.next();

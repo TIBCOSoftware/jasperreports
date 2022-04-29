@@ -269,7 +269,7 @@
 		<field name="tickCount" type="java.lang.Integer">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="tickInterval" type="java.lang.Number">
+		<field name="tickInterval" type="java.lang.Double">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="axisIntegerUnit" type="java.lang.Boolean">

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,7 +78,7 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 		parser.setDigesterConfigurer(new CVDigester());
 		bundle.setXmlParser(parser);
 
-		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 
 		CVComponentManager componentManager = new CVComponentManager();
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());
@@ -117,7 +117,6 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 		}
 
 		@Override
-		@SuppressWarnings("deprecation")
 		public GenericElementHandler getHandler(String elementName, String exporterKey)
 		{
 			if (CVConstants.COMPONENT_NAME.equals(elementName))
