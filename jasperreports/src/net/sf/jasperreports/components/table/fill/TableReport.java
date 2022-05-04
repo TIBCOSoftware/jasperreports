@@ -1174,8 +1174,7 @@ public class TableReport implements JRReport
 					
 					componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY);
 					
-					JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
-					element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
+					headerTextElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
 
 					//frame.getChildren().remove(0);
 					frame.getChildren().add(componentElement);

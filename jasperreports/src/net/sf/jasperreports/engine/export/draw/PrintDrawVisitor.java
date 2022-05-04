@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
@@ -133,8 +134,32 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 			);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, ExporterFilter, RenderersCache, boolean, boolean, boolean, boolean)}.
+	 */
 	public PrintDrawVisitor(
 		JRGraphics2DExporterContext exporterContext, 
+		RenderersCache renderersCache,
+		boolean minimizePrinterJobSize,
+		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
+		boolean defaultJustifyLastLine
+		)
+	{
+		this(
+			exporterContext, 
+			null,
+			renderersCache,
+			minimizePrinterJobSize,
+			ignoreMissingFont,
+			true,
+			false
+			);
+	}
+	
+	public PrintDrawVisitor(
+		JRGraphics2DExporterContext exporterContext,
+		ExporterFilter filter,
 		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont,
@@ -158,7 +183,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				);
 		
 		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
-		frameDrawer = new FrameDrawer(exporterContext, null, this);
+		frameDrawer = new FrameDrawer(exporterContext, filter, this);
 	}
 		
 	public void setTextDrawer(TextDrawer textDrawer)

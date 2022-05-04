@@ -382,14 +382,18 @@ public class Tabulator
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
 			boolean createNestedTable = false;
+			String nestedTableRole = null;
 			if (isAccessibleHtml)
 			{
-				String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
-				createNestedTable = AccessibilityTagEnum.TABLE == AccessibilityTagEnum.getByName(accessibilityTag);
+				String accessibilityTagProp = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+				AccessibilityTagEnum accessibilityTag = AccessibilityTagEnum.getByName(accessibilityTagProp);
+				createNestedTable = AccessibilityTagEnum.TABLE == accessibilityTag || AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag;
+				nestedTableRole = AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag ? "none" : null;
 			}
 			if (createNestedTable)
 			{
 				Table nestedTable = new Table(this);
+				nestedTable.setRole(nestedTableRole);
 				DimensionRange<Column> nestedColRange = nestedTable.columns.addEntries(nestedTable.columns.getRange(0, frame.getWidth()));
 				DimensionRange<Row> nestedRowRange = nestedTable.rows.addEntries(nestedTable.rows.getRange(0, element.getHeight()));
 				layoutFrame(nestedTable, null, 0, 0, parentIndex, elementIndex, nestedColRange, nestedRowRange, frame);

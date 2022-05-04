@@ -358,7 +358,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("  </style>\n");
 			writer.write("</head>\n");
 			writer.write("<body text=\"#000000\" link=\"#000000\" alink=\"#000000\" vlink=\"#000000\">\n");
-			writer.write("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
+			writer.write("<table role=\"none\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
 			writer.write("<tr><td width=\"50%\">&nbsp;</td><td align=\"center\">\n");
 			writer.write("\n");
 		}
@@ -558,7 +558,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
+			writer.write("<table");
+			if (table.getRole() != null)
+			{
+				writer.write(" role=\"");
+				writer.write(table.getRole());
+				writer.write("\"");
+			}
+			writer.write(" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
 		HtmlBorderCollapseEnum borderCollapse = getCurrentItemConfiguration().getBorderCollapseValue();
