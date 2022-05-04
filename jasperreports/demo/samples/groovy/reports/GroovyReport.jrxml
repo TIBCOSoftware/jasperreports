@@ -82,6 +82,20 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{A} + $P{B}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="310" width="259" height="35" uuid="49d3f7b7-6606-4fd3-92e6-a15bf8dc1296"/>
+				<textElement textAlignment="Right">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Groovy closure =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="310" width="200" height="35" forecolor="#008080" uuid="680c3815-af28-4096-a838-80fb4ef8897e"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[[5, 6, 7, 8, 9].findAll{it % 2 == 1}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 </jasperReport>

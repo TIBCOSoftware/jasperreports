@@ -23,9 +23,11 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -77,12 +79,12 @@ public class FileXmlResourceHandler implements XmlResourceHandler
 	{
 		ensureParentFolder();
 		
-		FileOutputStream fos = null;
+		OutputStream os = null;
 		
 		try
 		{
-			fos = new FileOutputStream(new File(parentFolder, id));
-			fos.write(data);
+			os = new BufferedOutputStream(new FileOutputStream(new File(parentFolder, id)));
+			os.write(data);
 		}
 		catch (IOException e)
 		{
@@ -90,11 +92,11 @@ public class FileXmlResourceHandler implements XmlResourceHandler
 		}
 		finally
 		{
-			if (fos != null)
+			if (os != null)
 			{
 				try
 				{
-					fos.close();
+					os.close();
 				}
 				catch (IOException e)
 				{

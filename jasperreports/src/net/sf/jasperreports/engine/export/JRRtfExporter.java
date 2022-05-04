@@ -80,7 +80,9 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
@@ -654,9 +656,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 * @param text JasperReports text object (JRPrintText)
 	 * @throws JRException
 	 */
-	public void exportText(JRPrintText text) throws IOException, JRException {
-
-
+	public void exportText(JRPrintText text) throws IOException, JRException 
+	{
 		// use styled text
 		JRStyledText styledText = getStyledText(text);
 		if (styledText == null)
@@ -927,6 +928,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		boolean startedHyperlink = exportHyperlink(text);
 
+		StyledTextWriteContext context = new StyledTextWriteContext();
+
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
 		int runLimit = 0;
@@ -937,59 +940,28 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			&& (runLimit = iterator.getRunLimit()) <= styledText.length()
 			)
 		{
-
 			Map<Attribute,Object> styledTextAttributes = iterator.getAttributes();
-			JRFont styleFont = new JRBaseFont(styledTextAttributes);
-			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
-			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
 
-			contentWriter.write("\\f");
-			contentWriter.write(String.valueOf(getFontIndex(styleFont, getTextLocale(text))));
-			contentWriter.write("\\fs");
-			contentWriter.write(String.valueOf((int)(2 * styleFont.getFontsize())));
+			String runText = plainText.substring(iterator.getIndex(), runLimit);
 
-			if (styleFont.isBold())
+			context.next(styledTextAttributes, runText);
+			
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
 			{
-				contentWriter.write("\\b");
-			}
-			if (styleFont.isItalic())
-			{
-				contentWriter.write("\\i");
-			}
-			if (styleFont.isUnderline())
-			{
-				contentWriter.write("\\ul");
-			}
-			if (styleFont.isStrikeThrough())
-			{
-				contentWriter.write("\\strike");
+				runText = runText.substring(1);
 			}
 
-			if (TextAttribute.SUPERSCRIPT_SUPER.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
+			if (runText.length() > 0)
 			{
-				contentWriter.write("\\super");
-			}
-			else if (TextAttribute.SUPERSCRIPT_SUB.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
-			{
-				contentWriter.write("\\sub");
-			}
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
 
-			if(!(null == styleBackground || styleBackground.equals(text.getBackcolor()))){
-				contentWriter.write("\\highlight");
-				contentWriter.write(String.valueOf(getColorIndex(styleBackground)));
+				exportStyledTextRun(
+					styledTextAttributes, 
+					(bulletText == null ? "" : bulletText) + runText, 
+					getTextLocale(text),
+					text.getBackcolor()
+					);
 			}
-			contentWriter.write("\\cf");
-			contentWriter.write(String.valueOf(getColorIndex(styleForeground)));
-			contentWriter.write(" ");
-
-			contentWriter.write(
-				handleUnicodeText(
-					plainText.substring(iterator.getIndex(), runLimit)					
-					)
-				);
-
-			// reset all styles in the paragraph
-			contentWriter.write("\\plain");
 
 			iterator.setIndex(runLimit);
 		}
@@ -1002,6 +974,69 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		finishElement();
 
 		exportBox(text.getLineBox(), text.getX() + getOffsetX(), text.getY() + getOffsetY(), width, height);
+	}
+
+
+	/**
+	 * 
+	 */
+	protected void exportStyledTextRun(
+		Map<AttributedCharacterIterator.Attribute, Object> styledTextAttributes, 
+		String text,
+		Locale locale,
+		Color backcolor
+		) throws IOException, JRException 
+	{
+		JRFont styleFont = new JRBaseFont(styledTextAttributes);
+		Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
+		Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
+
+		contentWriter.write("\\f");
+		contentWriter.write(String.valueOf(getFontIndex(styleFont, locale)));
+		contentWriter.write("\\fs");
+		contentWriter.write(String.valueOf((int)(2 * styleFont.getFontsize())));
+
+		if (styleFont.isBold())
+		{
+			contentWriter.write("\\b");
+		}
+		if (styleFont.isItalic())
+		{
+			contentWriter.write("\\i");
+		}
+		if (styleFont.isUnderline())
+		{
+			contentWriter.write("\\ul");
+		}
+		if (styleFont.isStrikeThrough())
+		{
+			contentWriter.write("\\strike");
+		}
+
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			contentWriter.write("\\super");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(styledTextAttributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			contentWriter.write("\\sub");
+		}
+
+		if (!(null == styleBackground || styleBackground.equals(backcolor)))
+		{
+			contentWriter.write("\\highlight");
+			contentWriter.write(String.valueOf(getColorIndex(styleBackground)));
+		}
+		contentWriter.write("\\cf");
+		contentWriter.write(String.valueOf(getColorIndex(styleForeground)));
+		contentWriter.write(" ");
+
+		contentWriter.write(
+			handleUnicodeText(text)
+			);
+
+		// reset all styles in the paragraph
+		contentWriter.write("\\plain");
 	}
 
 

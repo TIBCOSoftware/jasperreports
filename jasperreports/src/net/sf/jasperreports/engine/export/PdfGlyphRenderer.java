@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.font.GlyphVector;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
@@ -121,14 +124,21 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	}
 
 	@Override
-	public void initialize(JRPdfExporter pdfExporter, PdfProducer pdfProducer, JRPrintText text,
-			JRStyledText styledText, int offsetX, int offsetY)
+	public void initialize(
+		JRPdfExporter pdfExporter, 
+		PdfProducer pdfProducer,
+		JRPdfExporterTagHelper tagHelper,
+		JRPrintText text,
+		JRStyledText styledText, 
+		int offsetX, 
+		int offsetY
+		)
 	{
 		if (!(pdfProducer instanceof ClassicPdfProducer))
 		{
 			throw new IllegalArgumentException("Only ClassicPdfProducer is supported");
 		}
-		super.initialize(pdfExporter, pdfProducer, text, styledText, offsetX, offsetY);
+		super.initialize(pdfExporter, pdfProducer, tagHelper, text, styledText, offsetX, offsetY);
 		
 		itextPdfProducer = (ClassicPdfProducer) pdfProducer;
 		pdfContentByte = itextPdfProducer.getPdfContentByte();
@@ -139,14 +149,7 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	{
 		Locale locale = pdfExporter.getTextLocale(text);
 		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, itextPdfProducer, locale);
-		super.render();
-		pdfGraphics2D.dispose();
-	}
-	
-	
-	@Override
-	public void draw()
-	{
+
 		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
 		if (addText)
 		{
@@ -154,18 +157,46 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 			markedContentProps.put(PdfName.ACTUALTEXT, new PdfString(allText, PdfObject.TEXT_UNICODE));
 			pdfContentByte.beginMarkedContentSequence(PdfName.SPAN, markedContentProps, true);
 		}
+
+		super.render();
+
+		if (addText)
+		{
+			pdfContentByte.endMarkedContentSequence();
+		}
 		
+		pdfGraphics2D.dispose();
+	}
+	
+	
+	@Override
+	public void draw()
+	{
+		if (bulletChunk != null)
+		{
+			AttributedCharacterIterator bulletIterator = bulletChunk.getIterator();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(bulletIterator, getFontRenderContext());//grx.getFontRenderContext()
+
+			TextLayout bulletLayout = 
+				lineMeasurer.nextLayout(
+					1000,
+					bulletIterator.getEndIndex(),
+					true
+					);
+			
+			bulletLayout.draw(
+				pdfGraphics2D, 
+				x + drawPosX - bulletLayout.getVisibleAdvance() - 10, 
+				y + topPadding + verticalAlignOffset + drawPosY
+				);
+		}
+
 		TabSegment segment = segments.get(segmentIndex);
 		segment.layout.draw(
 				pdfGraphics2D,
 				x + drawPosX,// + leftPadding,
 				y + topPadding + verticalAlignOffset + drawPosY
 				);
-		
-		if (addText)
-		{
-			pdfContentByte.endMarkedContentSequence();
-		}
 		
 		return;
 	}

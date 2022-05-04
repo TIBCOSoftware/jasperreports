@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.design.CompiledClasses;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -132,19 +133,13 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 					EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED,
 					(Object[])null);
 		} 
-		else if (generatedClasses.size() > units.length) 
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED,
-					(Object[])null);
-		}
 		
 		Map<String, byte[]> classBytes = generatedClasses.stream().collect(
 				Collectors.toMap(GroovyClass::getName, GroovyClass::getBytes));
+		CompiledClasses compiledClasses = new CompiledClasses(classBytes);
 		for (int i = 0; i < units.length; i++)
 		{
-			units[i].setCompileData(classBytes.get(units[i].getName()));
+			units[i].setCompileData(compiledClasses);
 		}
 		
 		return null;
@@ -184,6 +179,12 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	protected Class<?> loadClass(String className, byte[] compileData)
 	{
 		return JRClassLoader.loadClassFromBytes(className, compileData);
+	}
+
+	@Override
+	protected Class<?> loadClass(String className, CompiledClasses classes)
+	{
+		return JRClassLoader.loadClassFromBytes(null, className, classes);
 	}
 
 	@Override

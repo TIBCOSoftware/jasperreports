@@ -320,7 +320,7 @@ public class LuceneUtil {
 
 
 	protected String displayTokens(String text, String elementId) throws IOException {
-		Analyzer analyzer = new LuceneSimpleAnalyzer(isCaseSensitive, removeAccents);;
+		Analyzer analyzer = new LuceneSimpleAnalyzer(isCaseSensitive, removeAccents);
 		StringBuilder sb = new StringBuilder();
 		sb.append(elementId).append(": ").append(text).append(": ");
 

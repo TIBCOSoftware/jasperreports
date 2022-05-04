@@ -40,9 +40,12 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
+import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.pdf.PdfProducer;
 import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfStructureEntry;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -180,7 +183,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRPdfExporterTagHelper
+public class JRPdfExporterTagHelper implements StyledTextListWriter
 {
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
@@ -206,48 +209,72 @@ public class JRPdfExporterTagHelper
 			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_TD = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.td";
+	/**
+	 * @deprecated Replaced by styled text and HTML markup based bulleted and numbered lists. 
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_L = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.l";
+	/**
+	 * @deprecated Replaced by styled text and HTML markup based bulleted and numbered lists. 
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_LI = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.li";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H1}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H1 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h1";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H2}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H2 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h2";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H3}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H3 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h3";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H4}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_H4 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h4";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H5}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_H5 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h5";
+	/**
+	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H6}.
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
@@ -593,21 +620,26 @@ public class JRPdfExporterTagHelper
 				createListItemStartTag(element);
 			}
 
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1), "H1");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2), "H2");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3), "H3");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4), "H4");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5), "H5");
-			createStartHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6), "H6");
+			createStartHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
+			createStartHeadingTags(element, PROPERTY_TAG_H2, AccessibilityTagEnum.H2);
+			createStartHeadingTags(element, PROPERTY_TAG_H3, AccessibilityTagEnum.H3);
+			createStartHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
+			createStartHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
+			createStartHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
 		}
 	}
 
 
-	protected void createStartHeadingTags(String prop, String pdfName)
+	protected void createStartHeadingTags(JRPrintElement element, String pdfTagProp, AccessibilityTagEnum accessibilityTag)
 	{
-		if (TAG_START.equals(prop) || TAG_FULL.equals(prop))
+		String accessibilityTagPropValue = element.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+		String pdfTagPropValue = element.getPropertiesMap().getProperty(pdfTagProp);
+		if (
+			accessibilityTag.getName().equals(accessibilityTagPropValue)
+			|| TAG_START.equals(pdfTagPropValue) || TAG_FULL.equals(pdfTagPropValue)
+			)
 		{
-			PdfStructureEntry headingTag = pdfStructure.createTag(tagStack.peek(), pdfName);
+			PdfStructureEntry headingTag = pdfStructure.createTag(tagStack.peek(), accessibilityTag.name());
 			//pdfContentByte.beginMarkedContentSequence(headingTag);
 			headingTag.putArray("K");
 			tagStack.push(headingTag);
@@ -703,7 +735,7 @@ public class JRPdfExporterTagHelper
 
 	protected void createListStartTag()
 	{
-		PdfStructureEntry listTag = pdfStructure.createTag(allTag, "L");
+		PdfStructureEntry listTag = pdfStructure.createTag(tagStack.peek(), "L");
 		//pdfContentByte.beginMarkedContentSequence(tableTag);
 		listTag.putArray("K");
 		tagStack.push(listTag);
@@ -724,12 +756,12 @@ public class JRPdfExporterTagHelper
 	{
 		if (element.hasProperties())
 		{
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H6));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H5));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H4));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H3));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H2));
-			createEndHeadingTags(element.getPropertiesMap().getProperty(PROPERTY_TAG_H1));
+			createEndHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
+			createEndHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
+			createEndHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
+			createEndHeadingTags(element, PROPERTY_TAG_H3, AccessibilityTagEnum.H3);
+			createEndHeadingTags(element, PROPERTY_TAG_H2, AccessibilityTagEnum.H2);
+			createEndHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
 
 			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LI);
 			if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
@@ -833,9 +865,14 @@ public class JRPdfExporterTagHelper
 	}
 
 
-	protected void createEndHeadingTags(String prop)
+	protected void createEndHeadingTags(JRPrintElement element, String pdfTagProp, AccessibilityTagEnum accessibilityTag)
 	{
-		if (TAG_END.equals(prop) || TAG_FULL.equals(prop))
+		String accessibilityTagPropValue = element.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+		String pdfTagPropValue = element.getPropertiesMap().getProperty(pdfTagProp);
+		if (
+			accessibilityTag.getName().equals(accessibilityTagPropValue)
+			|| TAG_END.equals(pdfTagPropValue) || TAG_FULL.equals(pdfTagPropValue)
+			)
 		{
 			//pdfContentByte.endMarkedContentSequence(); 
 
@@ -847,5 +884,52 @@ public class JRPdfExporterTagHelper
 
 			tagStack.pop();
 		}
+	}
+
+	@Override
+	public void startUl() 
+	{
+		createListStartTag();
+	}
+
+	@Override
+	public void endUl() 
+	{
+		tagStack.pop();
+	}
+
+	@Override
+	public void startOl(String type, int cutStart) 
+	{
+		createListStartTag();
+	}
+
+	@Override
+	public void endOl() 
+	{
+		tagStack.pop();
+	}
+
+	@Override
+	public void startLi(boolean noBullet) 
+	{
+		createListItemStartTag(null);
+	}
+
+	@Override
+	public void endLi() 
+	{
+		if (isTagEmpty)
+		{
+			pdfStructure.beginTag(tagStack.peek(), "Span");
+			pdfStructure.endTag();
+		}
+		
+		tagStack.pop();
+	}
+
+	protected StyledTextListWriter getListWriter()
+	{
+		return isTagged ? this : null;
 	}
 }

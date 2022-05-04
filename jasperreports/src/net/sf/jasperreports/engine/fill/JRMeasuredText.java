@@ -77,7 +77,7 @@ public interface JRMeasuredText
 	boolean isLeftToRight();
 
 	/**
-	 * Returns whether the text was during a paragraph or the last paragraph was complete.
+	 * Returns whether the text was cut during a paragraph or the last paragraph was complete.
 	 * 
 	 * @return whether the last paragraph was cut
 	 */

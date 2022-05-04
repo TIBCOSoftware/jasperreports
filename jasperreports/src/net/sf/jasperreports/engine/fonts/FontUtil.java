@@ -657,6 +657,27 @@ public final class FontUtil
 		return awtFont;
 	}
 	
+	public Font resolveDeserializedFont(Font font)
+	{
+		// We use the font.getName() method here because the name field in the java.awt.Font class is the only font name related information that gets serialized,
+		// along with the size and style. The font.getFontName() and font.getFamily() both return runtime calculated values, which are not accurate in case of AWT fonts
+		// created at runtime through font extensions (both seem to return 'Dialog').
+		// For AWT fonts created from font extensions using the Font.createFont(int, InputStream), the name field is set to the same value as the font.getFontName(),
+		// which is the recommended method to get the name of an AWT font.
+		String fontName = font.getName();
+		// We load an instance of an AWT font, even if the specified font name is not available (ignoreMissingFont=true),
+		// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
+		// and they are responsible for the drawing as well.
+		// Here we rely on the utility method ability to find a font by face name, not only family name. This is because font.getName() above returns an AWT font name,
+		// not a font family name.
+		Font newFont = getAwtFontFromBundles(fontName, font.getStyle(), font.getSize2D(), null, true);
+		if (newFont != null)
+		{
+			return newFont.deriveFont(font.getAttributes());
+		}
+
+		return font;
+	}
 	
 	private FontUtil()
 	{

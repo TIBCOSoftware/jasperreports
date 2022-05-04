@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export.parameters;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -85,7 +86,7 @@ public class ParametersOutputStreamExporterOutput extends AbstractParametersExpo
 
 			try
 			{
-				outputStream = new FileOutputStream(destFile);
+				outputStream = new BufferedOutputStream(new FileOutputStream(destFile));
 				toClose = true;
 			}
 			catch (IOException e)

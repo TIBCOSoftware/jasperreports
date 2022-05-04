@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.io.ObjectInputStream.GetField;
 import java.io.Serializable;
@@ -56,6 +57,7 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
 import net.sf.jasperreports.engine.base.VirtualizableElementList;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 import net.sf.jasperreports.renderers.Renderable;
@@ -598,6 +600,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 				throw new JRRuntimeException("Context with ID " + id + " not found");
 			}
 			resolve = context;
+		}
+		else if (obj instanceof Font)
+		{
+			resolve = FontUtil.getInstance(jasperReportsContext).resolveDeserializedFont((Font) obj);
 		}
 		return resolve;
 	}

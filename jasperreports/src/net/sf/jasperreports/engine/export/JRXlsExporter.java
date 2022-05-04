@@ -120,6 +120,7 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -1090,18 +1091,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale)
 	{
+		styledText = JRStyledTextUtil.getBulletedStyledText(styledText);
+		
 		String text = styledText.getText();
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
-			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
-					forecolor;
+			short runForecolor = 
+				attributes.get(TextAttribute.FOREGROUND) != null 
+				? getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex()
+				: forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
 			iterator.setIndex(runLimit);
@@ -2640,6 +2644,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			hashCode = computeHash();
 		}
 	
+		@SuppressWarnings("deprecation")
 		protected int computeHash()
 		{
 			int hash = mode.hashCode();
@@ -2647,7 +2652,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			hash = 31*hash + horizontalAlignment.hashCode();
 			hash = 31*hash + verticalAlignment.hashCode();
 			hash = 31*hash + rotation;
-			hash = 31*hash + (font == null ? 0 : font.getIndex());
+			hash = 31*hash + (font == null ? 0 : font.getIndexAsInt());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + lcDataFormat;
 			hash = 31*hash + (lcWrapText ? 0 : 1);
@@ -2679,6 +2684,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			return hashCode;
 		}
 	
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean equals(Object o)
 		{
@@ -2689,7 +2695,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					&& s.horizontalAlignment == horizontalAlignment
 					&& s.verticalAlignment == verticalAlignment
 					&& s.rotation == rotation
-					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
+					&& (s.font == null ? font == null : (font != null && s.font.getIndexAsInt() == font.getIndexAsInt()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
 					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden

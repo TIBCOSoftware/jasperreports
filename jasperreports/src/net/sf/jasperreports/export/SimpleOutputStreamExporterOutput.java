@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class SimpleOutputStreamExporterOutput implements OutputStreamExporterOut
 		{
 			try
 			{
-				outputStream = new FileOutputStream(file);
+				outputStream = new BufferedOutputStream(new FileOutputStream(file));
 			}
 			catch (IOException e)
 			{

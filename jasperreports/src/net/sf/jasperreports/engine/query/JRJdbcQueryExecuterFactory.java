@@ -204,7 +204,11 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 				java.util.Date.class.getName(), 
 				java.sql.Date.class.getName(), 
 				java.sql.Timestamp.class.getName(), 
-				java.sql.Time.class.getName() };
+				java.sql.Time.class.getName(),
+				java.time.LocalDate.class.getName(),
+				java.time.LocalDateTime.class.getName(),
+				java.time.LocalTime.class.getName()
+				};
 
 		Arrays.sort(queryParameterClassNames);
 	}

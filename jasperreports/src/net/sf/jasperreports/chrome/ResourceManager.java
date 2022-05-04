@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.chrome;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -204,7 +205,7 @@ public class ResourceManager
 			}
 
 			byte[] buf = new byte[COPY_BUFFER_SIZE];
-			try (OutputStream output = new FileOutputStream(file))
+			try (OutputStream output = new BufferedOutputStream(new FileOutputStream(file)))
 			{
 				int read = 0;
 				while ((read = data.read(buf)) > 0)
