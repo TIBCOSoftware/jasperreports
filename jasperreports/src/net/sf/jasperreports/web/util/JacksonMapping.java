@@ -24,55 +24,17 @@
 package net.sf.jasperreports.web.util;
 
 
-
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @deprecated Replaced by {@link net.sf.jasperreports.util.JacksonMapping}.
  */
-public class JacksonMapping
+public class JacksonMapping extends net.sf.jasperreports.util.JacksonMapping
 {
-	private String name;
-	private String className;
-	
 	/**
 	 * 
 	 */
 	public JacksonMapping(String name, String className)
 	{
-		this.name = name;
-		this.className = className;
-	}
-
-	/**
-	 * 
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * 
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	/**
-	 * 
-	 */
-	public String getClassName()
-	{
-		return className;
-	}
-
-	/**
-	 * 
-	 */
-	public void setClassName(String className)
-	{
-		this.className = className;
+		super(name, className);
 	}
 }
