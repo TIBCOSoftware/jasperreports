@@ -131,23 +131,6 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		this.chunks.add(chunk);
 	}
 	
-
-	/**
-	 * Adds a {@link JRQueryChunk#TYPE_CLAUSE_TOKENS clause chunk} to the query.
-	 * 
-	 * @param tokens the clause tokens
-	 * @see JRDesignQueryChunk#setTokens(String[])
-	 * @deprecated Replaced by {@link #addClauseChunk(String[], char)}.
-	 */
-	public void addClauseChunk(String[] tokens)
-	{
-		JRDesignQueryChunk chunk = new JRDesignQueryChunk();
-		chunk.setType(JRQueryChunk.TYPE_CLAUSE_TOKENS);
-		chunk.setTokens(tokens);
-
-		this.chunks.add(chunk);
-	}
-
 	/**
 	 * Adds a {@link JRQueryChunk#TYPE_CLAUSE_TOKENS clause chunk} to the query.
 	 * 
