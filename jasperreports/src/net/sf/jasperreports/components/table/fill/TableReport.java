@@ -125,6 +125,8 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -253,6 +255,8 @@ public class TableReport implements JRReport
 	 * 
 	 * <p>
 	 * The default global value of this property is <code>false</code>
+	 * 
+	 * @deprecated Replaced by {@link #PROPERTY_ACCESSIBLE_TABLE}.
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
@@ -263,6 +267,27 @@ public class TableReport implements JRReport
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_GENERATE_TABLE_PDF_TAGS = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.generate.pdf.tags";
+
+	/**
+	 * Property that enables/disables the automatic addition of specific custom properties to the elements that make up the table and its cells.
+	 * These properties would be then used to produce special document accessibility metadata during exports.
+	 * 
+	 * <p>
+	 * The property can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
+			sinceVersion = PropertyConstants.VERSION_6_19_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_ACCESSIBLE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.accessible";
 
 	/**
 	 * Column property that specifies the field to be used for sorting, filtering and conditional formatting 
@@ -378,7 +403,7 @@ public class TableReport implements JRReport
 	private String tableName;
 	private boolean isInteractiveTable;
 	private boolean hasFloatingHeader;
-	private boolean isGeneratePdfTags;
+	private boolean isAccessibleTable;
 	private Map<Column, Pair<Boolean, String>> columnInteractivityMapping;
 	
 	public TableReport(
@@ -429,7 +454,12 @@ public class TableReport implements JRReport
 		}
 		// end: table interactivity
 		
-		this.isGeneratePdfTags  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_GENERATE_TABLE_PDF_TAGS, fillContext.getComponentElement(), this.parentReport));
+		String accessibleProp = propertiesUtil.getProperty(PROPERTY_ACCESSIBLE_TABLE, fillContext.getComponentElement(), this.parentReport);
+		if (accessibleProp == null)
+		{
+			accessibleProp = propertiesUtil.getProperty(PROPERTY_GENERATE_TABLE_PDF_TAGS, fillContext.getComponentElement(), this.parentReport);
+		}
+		this.isAccessibleTable = Boolean.valueOf(accessibleProp);
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -834,7 +864,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		return detailBand;
 	}
@@ -1160,8 +1190,7 @@ public class TableReport implements JRReport
 					
 					componentElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_ICON_LABEL_MATCHER_EXPORT_KEY);
 					
-					JRBaseElement element = (JRBaseElement)frame.getChildren().get(0);
-					element.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
+					headerTextElement.getPropertiesMap().setProperty(MatcherExporterFilter.PROPERTY_MATCHER_EXPORT_FILTER_KEY, TABLE_HEADER_LABEL_MATCHER_EXPORT_KEY);
 
 					//frame.getChildren().remove(0);
 					frame.getChildren().add(componentElement);
@@ -1275,7 +1304,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, true);
+		setAccessibilitTags(bandInfo, true);
 		
 		if (columnHeader.getHeight() == 0)
 		{
@@ -1328,7 +1357,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 
 		if (pageFooter.getHeight() == 0)
 		{
@@ -1414,7 +1443,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (title.getHeight() == 0) //FIXMETABLE not sure we actually need this; maybe check the section is truly empty; do the same for the other sections as well
 		{
@@ -1467,7 +1496,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 
 		if (summary.getHeight() == 0)
 		{
@@ -1526,7 +1555,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 		
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (header.getHeight() == 0)
 		{
@@ -1585,7 +1614,7 @@ public class TableReport implements JRReport
 			xOffset = subVisitor.xOffset;
 		}
 
-		setPdfTags(bandInfo, false);
+		setAccessibilitTags(bandInfo, false);
 		
 		if (footer.getHeight() == 0)//FIXMENOW why zero height cells are not generating any content? could be expanding frames...
 		{
@@ -1617,9 +1646,9 @@ public class TableReport implements JRReport
 		
 	}
 
-	private void setPdfTags(ReportBandInfo bandInfo, boolean isHeader)
+	private void setAccessibilitTags(ReportBandInfo bandInfo, boolean isHeader)
 	{
-		if (!isGeneratePdfTags)
+		if (!isAccessibleTable)
 		{
 			return;
 		}
@@ -1637,6 +1666,10 @@ public class TableReport implements JRReport
 			for (CellInfo cell : cells)
 			{
 				cell.getElement().getPropertiesMap().setProperty(cellTagProp, JRPdfExporterTagHelper.TAG_FULL);
+				if (isHeader)
+				{
+					cell.getElement().getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.COLUMN_HEADER.getName());
+				}
 				if (cell.getRowSpan() > 1)
 				{
 					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
@@ -1655,9 +1688,9 @@ public class TableReport implements JRReport
 		}		
 	}
 
-	protected boolean isGeneratePdfTags()
+	protected boolean isAccessibleTable()
 	{
-		return isGeneratePdfTags;
+		return isAccessibleTable;
 	}
 
 	
@@ -1819,7 +1852,7 @@ public class TableReport implements JRReport
 		frame.setWidth(width);
 		frame.setHeight(cell.getHeight());
 		frame.setPositionType(PositionTypeEnum.FLOAT);
-		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
+		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_BOTTOM);
 		
 		frame.setStyle(cell.getStyle());
 		frame.setStyleNameReference(cell.getStyleNameReference());

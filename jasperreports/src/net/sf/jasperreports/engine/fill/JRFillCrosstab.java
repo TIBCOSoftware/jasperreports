@@ -126,6 +126,8 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -940,6 +942,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		int chunkIndex = getChunkIndex();
 		String chunkId = getUUID().toString() + "." + chunkIndex;
 		
+		printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
+
 		if (interactive)
 		{
 			printFrame.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID, 

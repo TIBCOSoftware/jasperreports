@@ -132,6 +132,14 @@ public class JRStyledText implements Cloneable
 		this.runs = Collections.singletonList(new Run(globalAttributes, 0, text.length()));
 	}
 	
+	public JRStyledText(Locale locale, String text, Map<Attribute,Object> globalAttributes, List<Run> runs)
+	{
+		this.locale = locale;
+		this.text = text;
+		this.globalAttributes = globalAttributes;
+		this.runs = runs;
+	}
+	
 	private void ensureBuffer()
 	{
 		if (sbuffer == null)

@@ -83,6 +83,7 @@ public class PropertiesDocReader
 	private static final String ELEMENT_SCOPE = "scope";
 	private static final String ELEMENT_CONTEXT_UNAWARE = "contextUnaware";
 	private static final String ELEMENT_SINCE = "since";
+	private static final String ELEMENT_DEPRECATED = "deprecated";
 
 	private ProcessingEnvironment environment;
 	private CompiledPropertiesMetadata properties;
@@ -376,6 +377,13 @@ public class PropertiesDocReader
 			Element sinceElem = refDoc.createElement(ELEMENT_SINCE);
 			sinceElem.setTextContent(propertyMetadata.getSinceVersion());
 			refProp.appendChild(sinceElem);
+		}
+		
+		if (propertyMetadata.isDeprecated())
+		{
+			Element deprecatedElem = refDoc.createElement(ELEMENT_DEPRECATED);
+			deprecatedElem.setTextContent(Boolean.TRUE.toString());
+			refProp.appendChild(deprecatedElem);
 		}
 		
 		return refProp;

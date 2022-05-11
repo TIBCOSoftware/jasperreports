@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -214,7 +215,7 @@ public class Report
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
+		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try
 		{
 			DigestOutputStream out = new DigestOutputStream(output, digest);
@@ -250,6 +251,10 @@ public class Report
 		else
 		{
 			File outputDir = new File(outputDirPath);
+			if (!outputDir.exists())
+			{
+				outputDir.mkdirs(); // for some reason, File.createTempFile method below does not create missing parent folders on Windows
+			}
 			outputFile = File.createTempFile("jr_tests_", ".jrpxml", outputDir);
 		}
 		outputFile.deleteOnExit();

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -252,7 +253,7 @@ public abstract class AbstractTest
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
+		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try
 		{
 			DigestOutputStream out = new DigestOutputStream(output, digest);
@@ -266,7 +267,7 @@ public abstract class AbstractTest
 		String digestSha = toDigestString(digest);
 		
 		File outputShaFile = new File(new File(testContext.getOutputDirectory()), referenceFileNamePrefix + "." + getExportFileExtension() + ".sha");
-		OutputStreamWriter shaWriter = new OutputStreamWriter(new FileOutputStream(outputShaFile), "UTF-8");
+		OutputStreamWriter shaWriter = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(outputShaFile)), "UTF-8");
 
 		try
 		{
@@ -287,7 +288,7 @@ public abstract class AbstractTest
 		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
+		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 		OutputStreamWriter osw = null;
 		try
 		{
@@ -328,6 +329,10 @@ public abstract class AbstractTest
 		else
 		{
 			File outputDir = new File(outputDirPath);
+			if (!outputDir.exists())
+			{
+				outputDir.mkdirs(); // for some reason, File.createTempFile method below does not create missing parent folders on Windows
+			}
 			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
 		outputFile.deleteOnExit();

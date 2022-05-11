@@ -4,6 +4,6 @@
 	</info>
 	<dependencies>
 		<dependency org="joda-time" name="joda-time" rev="2.9.9" conf="compile->*"/>
-		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*"/>
+		<dependency org="org.hsqldb" name="hsqldb" rev="2.6.1" conf="test->*"/>
 	</dependencies>
 </ivy-module>

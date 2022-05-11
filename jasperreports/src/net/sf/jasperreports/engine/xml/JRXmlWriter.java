@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -356,12 +357,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String encoding
 		) throws JRException
 	{
-		FileOutputStream fos = null;
+		OutputStream os = null;
 
 		try
 		{
-			fos = new FileOutputStream(destFileName);
-			Writer out = new OutputStreamWriter(fos, encoding);
+			os = new BufferedOutputStream(new FileOutputStream(destFileName));
+			Writer out = new OutputStreamWriter(os, encoding);
 			writeReport(report, encoding, out);
 		}
 		catch (IOException e)
@@ -374,11 +375,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		finally
 		{
-			if (fos != null)
+			if (os != null)
 			{
 				try
 				{
-					fos.close();
+					os.close();
 				}
 				catch(IOException e)
 				{

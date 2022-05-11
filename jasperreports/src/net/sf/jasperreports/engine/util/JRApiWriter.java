@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -249,15 +250,15 @@ public class JRApiWriter
 		String destFileName
 		) throws JRException
 	{
-		FileOutputStream fos = null;
+		OutputStream os = null;
 		
 		try
 		{
-			fos = new FileOutputStream(destFileName);
+			os = new BufferedOutputStream(new FileOutputStream(destFileName));
 			String encoding = report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING) != null
 			? report.getProperty(WriterExporterOutput.PROPERTY_CHARACTER_ENCODING)
 			: "UTF-8";//FIXME this is an export time config property
-			Writer out = new OutputStreamWriter(fos, encoding);
+			Writer out = new OutputStreamWriter(os, encoding);
 			writeReport(report, out);
 		}
 		catch (IOException e)
@@ -270,11 +271,11 @@ public class JRApiWriter
 		}
 		finally
 		{
-			if (fos != null)
+			if (os != null)
 			{
 				try
 				{
-					fos.close();
+					os.close();
 				}
 				catch(IOException e)
 				{

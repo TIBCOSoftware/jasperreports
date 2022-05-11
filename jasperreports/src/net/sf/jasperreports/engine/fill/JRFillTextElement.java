@@ -58,6 +58,8 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -1202,16 +1204,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 					);
 			}
 			
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				//rewrite as styled text
-				String styledText = filler.getStyledTextParser().write(
-						fullStyledText);
-				setPrintText(printText, styledText);
+				setPrintText(printText, fullText);
 			}
 			else
 			{
-				setPrintText(printText, fullText);
+				//rewrite as styled text
+				String styledText = filler.getStyledTextParser().write(fullStyledText);
+				setPrintText(printText, styledText);
 			}
 			
 			if (endIndex < fullText.length())
@@ -1221,20 +1222,57 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		else
 		{
-			String printedText;
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				printedText = filler.getStyledTextParser().write(
-						fullStyledText, 
-						startIndex, endIndex);
+				// relying on substring to return the same String object when whole substring
+				setPrintText(printText, fullText.substring(startIndex, endIndex));
 			}
 			else
 			{
-				// relying on substring to return the same String object when whole substring
-				printedText = fullText.substring(startIndex, endIndex);
+				if (startIndex > 0) // if this is an overflow
+				{
+					// preparing bulleted list cuts is a share responsibility between the TextMeasurer and the JRFillTextElement here;
+					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
+					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
+					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+					StyledTextListInfo[] cutListStack = null;
+
+					List<Run> runs = fullStyledText.getRuns();
+					for (int i = runs.size() - 1; i >= 0; i--)
+					{
+						Run run = runs.get(i);
+						if (run.startIndex <= startIndex && startIndex < run.endIndex)
+						{
+							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+							if (listStack != null)
+							{
+								cutListStack = listStack;
+							}
+
+							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+							if (listItem != null)
+							{
+								listItem.setNoBullet(run.startIndex < startIndex);
+							}
+						}
+					}
+					
+					if (cutListStack != null && cutListStack.length > 0)
+					{
+						for (int i = cutListStack.length - 1; i > 0; i--)
+						{
+							StyledTextListInfo list = cutListStack[i];
+							if (!list.hasParentLi())
+							{
+								StyledTextListInfo parentList = cutListStack[i - 1];
+								parentList.setCutStart(parentList.getCutStart() + 1);
+							}
+						}
+					}
+				}
+				String styledText = filler.getStyledTextParser().write(fullStyledText, startIndex, endIndex);
+				setPrintText(printText, styledText);
 			}
-			
-			setPrintText(printText, printedText);
 		}
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());

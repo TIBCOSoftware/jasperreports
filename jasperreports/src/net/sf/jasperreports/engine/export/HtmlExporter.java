@@ -87,10 +87,12 @@ import net.sf.jasperreports.engine.export.tabulator.Column;
 import net.sf.jasperreports.engine.export.tabulator.ElementCell;
 import net.sf.jasperreports.engine.export.tabulator.FrameCell;
 import net.sf.jasperreports.engine.export.tabulator.LayeredCell;
+import net.sf.jasperreports.engine.export.tabulator.NestedTableCell;
 import net.sf.jasperreports.engine.export.tabulator.Row;
 import net.sf.jasperreports.engine.export.tabulator.SplitCell;
 import net.sf.jasperreports.engine.export.tabulator.Table;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
+import net.sf.jasperreports.engine.export.tabulator.TableCell.CellType;
 import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
@@ -113,10 +115,14 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
+import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.export.type.HtmlBorderCollapseEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
@@ -351,7 +357,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("  </style>\n");
 			writer.write("</head>\n");
 			writer.write("<body text=\"#000000\" link=\"#000000\" alink=\"#000000\" vlink=\"#000000\">\n");
-			writer.write("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
+			writer.write("<table role=\"none\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
 			writer.write("<tr><td width=\"50%\">&nbsp;</td><td align=\"center\">\n");
 			writer.write("\n");
 		}
@@ -384,8 +390,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					}
 
 					page = pages.get(pageIndex);
-
-					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"></a>\n");
 
 					/*   */
 					exportPage(page);
@@ -476,10 +480,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(tableFilter, page.getElements());
-		tabulator.tabulate(getOffsetX(), getOffsetY());
+		HtmlReportConfiguration configuration = getCurrentItemConfiguration();
 
-		HtmlReportConfiguration configuration = getCurrentItemConfiguration(); 
+		Tabulator tabulator = new Tabulator(tableFilter, page.getElements(), configuration.isAccessibleHtml());
+		tabulator.tabulate(getOffsetX(), getOffsetY());
 		
 		boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
 		if (!isIgnorePageMargins)
@@ -515,7 +519,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	public void exportElements(List<JRPrintElement> elements) throws IOException
 	{
-		Tabulator tabulator = new Tabulator(tableFilter, elements);
+		Tabulator tabulator = new Tabulator(tableFilter, elements, getCurrentItemConfiguration().isAccessibleHtml());
 		tabulator.tabulate();
 		
 		Table table = tabulator.getTable();
@@ -536,12 +540,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			return;
 		}
 		
-
+		String tableId = null;
+		
 		if (isMainReportTable)
 		{
 			int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
-			int totalHeight = rows.last().getEndCoord() - rows.first().getStartCoord();
-			writer.write("<table class=\"jrPage\" data-jr-height=\"");
+		 	int totalHeight = rows.last().getEndCoord() - rows.first().getStartCoord();
+		 	tableId = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
+			writer.write("<table id=\"");
+			writer.write(tableId);
+			writer.write("\" role=\"none\" class=\"jrPage\" data-jr-height=\"");
 			writer.write(String.valueOf(totalHeight)); // no need for size unit
 			writer.write("\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
 			writer.write(toSizeUnit(totalWidth));
@@ -549,7 +557,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
+			writer.write("<table");
+			if (table.getRole() != null)
+			{
+				writer.write(" role=\"");
+				writer.write(table.getRole());
+				writer.write("\"");
+			}
+			writer.write(" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
 		HtmlBorderCollapseEnum borderCollapse = getCurrentItemConfiguration().getBorderCollapseValue();
@@ -566,8 +581,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		writer.write("\">\n");
 
+		if (isMainReportTable)
+		{
+			writer.write("<style type=\"text/css\">\n");
+			writer.write("  #" + tableId + " th {font-weight: normal;}\n");
+			writer.write("  #" + tableId + " ul {list-style-type: disc; padding-inline-start: 40px; margin: 0px;}\n");
+			writer.write("  #" + tableId + " ol {list-style-type: decimal; padding-inline-start: 40px; margin: 0px;}\n");
+			writer.write("</style>\n");
+		}
+		
 		// TODO lucianc check whether we can use the first row for setting col widths
-		writer.write("<tr valign=\"top\" style=\"height:0\">\n");
+		writer.write("<tr role=\"none\" valign=\"top\" style=\"height:0\">\n");
 		for (Column col : columns)
 		{
 			writer.write("<td style=\"width:");
@@ -728,16 +752,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (text.getAnchorName() != null)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JRStringUtil.encodeXmlAttribute(text.getAnchorName()));
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (text.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 
 		if (rotationValue != null)
@@ -755,6 +779,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write(";\">");
 		}
 		
+		AccessibilityTagEnum headingTag = startHeading(text);
 		boolean hyperlinkStarted = startHyperlink(text);
 
 		if (textLength > 0)
@@ -768,13 +793,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			endHyperlink();
 		}
+
+		endHeading(headingTag);
 		
 		if (rotationValue != null)
 		{
 			writer.write("</span></span></div>");
 		}
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected String setRotationStyles(JRPrintText text, String horizontalAlignment, 
@@ -946,16 +973,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (image.getAnchorName() != null)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JRStringUtil.encodeXmlAttribute(image.getAnchorName()));
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (image.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
 		{
-			writer.write("<a name=\"");
+			writer.write("<a id=\"");
 			writer.write(JR_BOOKMARK_ANCHOR_PREFIX + reportIndex + "_" + pageIndex + "_" + cell.getElementAddress());
-			writer.write("\"/>");
+			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 		
 		if (renderer != null)
@@ -1318,8 +1345,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						writer.write(" usemap=\"#" + imageMapName + "\"");
 					}
 					
-					writer.write(" alt=\"\"");
-					
 					if (hasHyperlinks)
 					{
 						writer.write(" border=\"0\"");
@@ -1327,9 +1352,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					
 					if (image.getHyperlinkTooltip() != null)
 					{
-						writer.write(" title=\"");
-						writer.write(JRStringUtil.encodeXmlAttribute(image.getHyperlinkTooltip()));
+						String tooltip = JRStringUtil.encodeXmlAttribute(image.getHyperlinkTooltip()); 
+						writer.write(" alt=\"");
+						writer.write(tooltip);
 						writer.write("\"");
+						writer.write(" title=\"");
+						writer.write(tooltip);
+						writer.write("\"");
+					}
+					else
+					{
+						writer.write(" alt=\"\""); // screen readers do not read images with empty alt attribute, which are considered just decorations
 					}
 					
 					writer.write("/>");
@@ -1353,7 +1386,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	
@@ -1785,7 +1818,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("\"/></svg>");
 		}
 
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeEllipse(JRPrintEllipse ellipse, TableCell cell) throws IOException
@@ -1801,7 +1834,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writeSvgStyle(ellipse);
 		writer.write("\"/></svg>");
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeSvgStyle(JRPrintGraphicElement element) throws IOException
@@ -1893,7 +1926,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			finishStartCell();			
 		}
 		
-		endCell();
+		endCell(cell.getCellType());
 	}
 	
 	
@@ -1938,7 +1971,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				
 				writer.write(htmlFragment);
 				
-				endCell();
+				endCell(cell.getCellType());
 			}
 		}
 	}
@@ -1989,12 +2022,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writer.write("</div>\n");
 		restoreBackcolor();
 
-		endCell();
+		endCell(cell.getCellType());
+	}
+	
+	protected void writeNestedTable(Table table, TableVisitor tableVisitor, TableCell cell) throws IOException
+	{
+		startCell(cell);
+
+		StringBuilder styleBuffer = new StringBuilder();
+		appendElementCellGenericStyle(cell, styleBuffer);
+		appendBackcolorStyle(cell, styleBuffer);
+		appendBorderStyle(cell.getBox(), styleBuffer);
+		appendPaddingStyle(cell.getBox(), styleBuffer);
+		writeStyle(styleBuffer);
+
+		finishStartCell();
+
+		exportTable(tableVisitor, table, false, false);
+
+		endCell(cell.getCellType());
 	}
 
 	protected void startCell(JRPrintElement element, TableCell cell) throws IOException
 	{
-		startCell(cell.getColumnSpan(), cell.getRowSpan());
+		startCell(cell.getColumnSpan(), cell.getRowSpan(), cell.getCellType());
 
 		String dataAttr = getDataAttributes(element, cell);
 		if (dataAttr != null)
@@ -2082,9 +2133,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		startCell(cell.getElement(), cell);
 	}
 
-	protected void startCell(int colSpan, int rowSpan) throws IOException
+	protected void startCell(int colSpan, int rowSpan, CellType cellType) throws IOException
 	{
-		writer.write("<td");
+		String tag = "td"; 
+		String role = null; 
+		if (cellType == CellType.COLUMN_HEADER)
+		{
+			tag = "th";
+			role = "columnheader";
+		}
+		else  if (cellType == CellType.ROW_HEADER)
+		{
+			tag = "th";
+			role = "rowheader";
+		}
+		writer.write("<");
+		writer.write(tag);
+		if (role != null)
+		{
+			writer.write(" role=\"");
+			writer.write(role);
+			writer.write("\"");
+		}
 		if (colSpan > 1)
 		{
 			writer.write(" colspan=\"");
@@ -2104,16 +2174,26 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writer.write(">\n");
 	}
 	
-	protected void endCell() throws IOException
+	protected void endCell(CellType cellType) throws IOException
 	{
-		writer.write("</td>\n");
+		if (
+			cellType == CellType.COLUMN_HEADER
+			|| cellType == CellType.ROW_HEADER
+			)
+		{
+			writer.write("</th>\n");
+		}
+		else
+		{
+			writer.write("</td>\n");
+		}
 	}
 	
 	protected void writeEmptyCell(int colSpan, int rowSpan) throws IOException
 	{
-		startCell(colSpan, rowSpan);
+		startCell(colSpan, rowSpan, null);
 		finishStartCell();
-		endCell();
+		endCell(null);
 	}
 	
 	protected void writeFrameCell(TableCell cell) throws IOException
@@ -2127,7 +2207,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writeStyle(styleBuffer);
 
 		finishStartCell();
-		endCell();
+		endCell(cell.getCellType());
 	}
 
 	protected void writeStyle(StringBuilder styleBuffer) throws IOException
@@ -2388,6 +2468,41 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return addedToStyle;
 	}
 
+
+	protected AccessibilityTagEnum startHeading(JRPrintText text) throws IOException
+	{
+		AccessibilityTagEnum headingTag = null;
+		
+		if (text.getPropertiesMap().containsProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG))
+		{
+			AccessibilityTagEnum accessibilityTag = 
+				AccessibilityTagEnum.getByName(
+					text.getPropertiesMap().getProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG)
+					);
+			if (accessibilityTag != null && accessibilityTag.name().startsWith("H"))
+			{
+				headingTag = accessibilityTag;
+				writer.write("<");
+				writer.write(headingTag.getName());
+				writer.write(" style=\"margin:0\">");
+			}
+		}
+
+		return headingTag;
+	}
+
+	
+	protected void endHeading(AccessibilityTagEnum headingTag) throws IOException
+	{
+		if (headingTag != null)
+		{
+			writer.write("</");
+			writer.write(headingTag.getName());
+			writer.write(">");
+		}
+	}
+
+	
 	protected boolean startHyperlink(JRPrintHyperlink link) throws IOException
 	{
 		boolean hyperlinkStarted = false,
@@ -2681,6 +2796,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip, boolean hyperlinkStarted) throws IOException
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+
 		String allText = styledText.getText();
 
 		addSearchAttributes(styledText, printText);
@@ -2730,6 +2847,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				if ("\n".equals(token))
 				{
 					exportParagraph(
+						context,
 						printText, allParagraphs, prevParagraphStart, prevParagraphText,
 						isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
 						isLastParagraph && justifyLastLine, 
@@ -2759,6 +2877,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (prevParagraphStart < allText.length())
 		{
 			exportParagraph(
+				context,
 				printText, allParagraphs, prevParagraphStart, prevParagraphText,
 				isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
 				justifyLastLine, // isLastParagraph would be considered true here, so no point in keeping && operation 
@@ -2768,6 +2887,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportParagraph(
+		StyledTextWriteContext context,
 		JRPrintText printText, 
 		AttributedCharacterIterator allParagraphs,
 		int paragraphStart,
@@ -2844,7 +2964,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		boolean highlightStarted = false;
 
-		while(runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
+		while (runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
 			if (first && runLimit < paragraphText.length() && tooltip != null)
@@ -2868,20 +2988,42 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				writer.write("</span>");
 			}
 
+			String textRunStyle = 
+				getTextRunStyle(
+					attributes,
+					locale,
+					lineSpacing,
+					lineSpacingSize,
+					lineSpacingFactor,
+					backcolor,
+					hyperlinkStarted
+					);
+			
+			String runText = paragraphText.substring(paragraph.getIndex(), runLimit);
+
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			context.writeLists(new HtmlStyledTextListWriter(textRunStyle));
+
 			exportStyledTextRun(
+				textRunStyle,
 				attributes,
-				paragraphText.substring(paragraph.getIndex(), runLimit),
+				runText,
 				tooltip,
-				locale,
-				lineSpacing,
-				lineSpacingSize,
-				lineSpacingFactor,
-				backcolor,
 				hyperlinkStarted
 			);
 
 			paragraph.setIndex(runLimit);
 		}
+
+		context.next(null, null);
+
+		context.writeLists(new HtmlStyledTextListWriter(null));
 
 		if (highlightStarted) {
 			writer.write("</span>");
@@ -2902,16 +3044,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 	
 	protected void exportStyledTextRun(
-			Map<Attribute,Object> attributes,
-			String text,
-			String tooltip,
-			Locale locale,
-			LineSpacingEnum lineSpacing,
-			Float lineSpacingSize,
-			float lineSpacingFactor,
-			Color backcolor,
-			boolean hyperlinkStarted
-			) throws IOException
+		String textRunStyle,
+		Map<Attribute,Object> attributes,
+		String text,
+		String tooltip,
+		boolean hyperlinkStarted
+		) throws IOException
 	{
 		boolean localHyperlink = false;
 		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
@@ -2920,129 +3058,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			localHyperlink = startHyperlink(hyperlink);
 		}
 
-		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
-		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
-
-		String fontFamily = resolveFontFamily(attributes, locale);
-
-		// do not put single quotes around family name here because the value might already contain quotes, 
-		// especially if it is coming from font extension export configuration
-		writer.write("<span style=\"font-family: ");
-		// don't encode single quotes as the output would be too verbose and too much of a chance compared to previous releases
-		writer.write(JRStringUtil.encodeXmlAttribute(fontFamily, true)); 
-		writer.write("; ");
-
-		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
-		if (!hyperlinkStarted || !Color.black.equals(forecolor))
-		{
-			writer.write("color: ");
-			writer.write(JRColorUtil.getCssColor(forecolor));
-			writer.write("; ");
-		}
-
-		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
-		if (runBackcolor != null && !runBackcolor.equals(backcolor))
-		{
-			writer.write("background-color: ");
-			writer.write(JRColorUtil.getCssColor(runBackcolor));
-			writer.write("; ");
-		}
-
-		writer.write("font-size: ");
-		writer.write(toSizeUnit((Float)attributes.get(TextAttribute.SIZE)));
-		writer.write(";");
-			
-		switch (lineSpacing)
-		{
-			case SINGLE:
-			default:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 1; *line-height: normal;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case ONE_AND_HALF:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 1.5;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case DOUBLE:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					writer.write(" line-height: 2.0;");
-				}
-				else
-				{
-					writer.write(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
-			case PROPORTIONAL:
-			{
-				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize + ";");
-				}
-				break;
-			}
-			case AT_LEAST:
-			case FIXED:
-			{
-				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize + "px;");
-				}
-				break;
-			}
-		}
-
-		/*
-		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-		{
-			writer.write(" text-align: ");
-			writer.write(horizontalAlignment);
-			writer.write(";");
-		}
-		*/
-
-		if (isBold)
-		{
-			writer.write(" font-weight: bold;");
-		}
-		if (isItalic)
-		{
-			writer.write(" font-style: italic;");
-		}
-		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
-		{
-			writer.write(" text-decoration: underline;");
-		}
-		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
-		{
-			writer.write(" text-decoration: line-through;");
-		}
-
-		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-		{
-			writer.write(" vertical-align: super;");
-		}
-		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
-		{
-			writer.write(" vertical-align: sub;");
-		}
-			
+		writer.write("<span style=\"");
+		writer.write(textRunStyle);
 		writer.write("\"");
 
 		if (tooltip != null)
@@ -3054,9 +3071,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 		writer.write(">");
 
-		writer.write(
-			JRStringUtil.htmlEncode(text)
-			);
+		StringTokenizer tkzer = new StringTokenizer(text, "\n\u0085", true);
+
+		// text is split into paragraphs here because it might have not been split during initial styled text processing
+		// and was processed as a whole because there was no need to do so due to lack of paragraph styling; 
+		// htmlEncode(String) no longer takes care of newline characters, so we do it here
+		while(tkzer.hasMoreTokens()) 
+		{
+			String token = tkzer.nextToken();
+			
+			if ("\n".equals(token))
+			{
+				writer.write("<br/>");
+			}
+			else if ("\u0085".equals(token))
+			{
+				writer.write("<br aria-hidden=\"true\"/>");
+			}
+			else
+			{
+				writer.write(
+					JRStringUtil.htmlEncode(token)
+					);
+			}
+		}
 
 		writer.write("</span>");
 
@@ -3064,6 +3102,144 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			endHyperlink();
 		}
+	}
+		
+	protected String getTextRunStyle(
+		Map<Attribute,Object> attributes,
+		Locale locale,
+		LineSpacingEnum lineSpacing,
+		Float lineSpacingSize,
+		float lineSpacingFactor,
+		Color backcolor,
+		boolean hyperlinkStarted
+		) throws IOException
+	{
+		StringBuilder styleBuffer = new StringBuilder();
+		
+		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
+		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
+
+		String fontFamily = resolveFontFamily(attributes, locale);
+
+		// do not put single quotes around family name here because the value might already contain quotes, 
+		// especially if it is coming from font extension export configuration
+		styleBuffer.append("font-family: ");
+		// don't encode single quotes as the output would be too verbose and too much of a chance compared to previous releases
+		styleBuffer.append(JRStringUtil.encodeXmlAttribute(fontFamily, true)); 
+		styleBuffer.append("; ");
+
+		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
+		if (!hyperlinkStarted || !Color.black.equals(forecolor))
+		{
+			styleBuffer.append("color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(forecolor));
+			styleBuffer.append("; ");
+		}
+
+		Color runBackcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
+		if (runBackcolor != null && !runBackcolor.equals(backcolor))
+		{
+			styleBuffer.append("background-color: ");
+			styleBuffer.append(JRColorUtil.getCssColor(runBackcolor));
+			styleBuffer.append("; ");
+		}
+
+		styleBuffer.append("font-size: ");
+		styleBuffer.append(toSizeUnit((Float)attributes.get(TextAttribute.SIZE)));
+		styleBuffer.append(";");
+			
+		switch (lineSpacing)
+		{
+			case SINGLE:
+			default:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1; *line-height: normal;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1.5;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case DOUBLE:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 2.0;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
+				}
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				if (lineSpacingSize != null) {
+					styleBuffer.append(" line-height: " + lineSpacingSize + ";");
+				}
+				break;
+			}
+			case AT_LEAST:
+			case FIXED:
+			{
+				if (lineSpacingSize != null) {
+					styleBuffer.append(" line-height: " + lineSpacingSize + "px;");
+				}
+				break;
+			}
+		}
+
+		/*
+		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+		{
+			styleBuffer.append(" text-align: ");
+			styleBuffer.append(horizontalAlignment);
+			styleBuffer.append(";");
+		}
+		*/
+
+		if (isBold)
+		{
+			styleBuffer.append(" font-weight: bold;");
+		}
+		if (isItalic)
+		{
+			styleBuffer.append(" font-style: italic;");
+		}
+		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
+		{
+			styleBuffer.append(" text-decoration: underline;");
+		}
+		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
+		{
+			styleBuffer.append(" text-decoration: line-through;");
+		}
+
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			styleBuffer.append(" vertical-align: super;");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
+		{
+			styleBuffer.append(" vertical-align: sub;");
+		}
+		
+		return styleBuffer.toString();
 	}
 
 	protected class TableVisitor implements CellVisitor<TablePosition, Void, IOException>
@@ -3107,6 +3283,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			TableCell tableCell = tabulator.getTableCell(position, layeredCell);
 			HtmlExporter.this.writeLayers(layeredCell.getLayers(), this, tableCell);
+			return null;
+		}
+
+		@Override
+		public Void visit(NestedTableCell nestedTableCell, TablePosition position) throws IOException
+		{
+			TableCell tableCell = tabulator.getTableCell(position, nestedTableCell);
+			HtmlExporter.this.writeNestedTable(nestedTableCell.getTable(), this, tableCell);
 			return null;
 		}
 	}
@@ -3208,6 +3392,123 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return HtmlExporter.this.getHyperlinkURL(link);
+		}
+	}
+	
+	protected class HtmlStyledTextListWriter implements StyledTextListWriter
+	{
+		private String textRunStyle;
+		
+		public HtmlStyledTextListWriter(String textRunStyle)
+		{
+			this.textRunStyle = textRunStyle;
+		}
+
+		@Override
+		public void startUl() 
+		{
+			try
+			{
+				writer.write("<ul>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endUl() 
+		{
+			try
+			{
+				writer.write("</ul>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void startOl(String type, int cutStart) 
+		{
+			try
+			{
+				writer.write("<ol");
+				if (type != null)
+				{
+					switch (type)
+					{
+						case "a" : { type = "lower-alpha"; break; }
+						case "A" : { type = "upper-alpha"; break; }
+						case "i" : { type = "lower-roman"; break; }
+						case "I" : { type = "upper-roman"; break; }
+						case "1" :
+						default : { type = null; }
+					}
+					if (type != null)
+					{
+						writer.write(" style=\"list-style-type: " + type + "\"");
+					}
+				}
+				if (cutStart > 1)
+				{
+					writer.write(" start=\"" + cutStart + "\"");
+				}
+				writer.write(">");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endOl() 
+		{
+			try
+			{
+				writer.write("</ol>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void startLi(boolean noBullet) 
+		{
+			try
+			{
+				writer.write("<li");
+				if (noBullet || textRunStyle != null)
+				{
+					writer.write(" style=\"");
+					writer.write(noBullet ? "list-style-type: none; " : "");
+					writer.write(textRunStyle == null ? "" : textRunStyle);
+					writer.write("\"");
+				}
+				writer.write(">");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		@Override
+		public void endLi() 
+		{
+			try
+			{
+				writer.write("</li>");
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 	}
 }

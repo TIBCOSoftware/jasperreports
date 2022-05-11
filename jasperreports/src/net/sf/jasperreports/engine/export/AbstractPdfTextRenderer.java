@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.text.AttributedCharacterIterator;
+
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.export.pdf.PdfProducer;
 import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 
@@ -41,6 +44,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	 */
 	protected JRPdfExporter pdfExporter;
 	protected PdfProducer pdfProducer;
+	protected JRPdfExporterTagHelper tagHelper;
 	protected PdfTextAlignment horizontalAlignment;
 	protected float leftOffsetFactor;
 	protected float rightOffsetFactor;
@@ -84,6 +88,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	public void initialize(
 		JRPdfExporter pdfExporter, 
 		PdfProducer pdfProducer,
+		JRPdfExporterTagHelper tagHelper,
 		JRPrintText text, 
 		JRStyledText styledText, 
 		int offsetX,
@@ -92,6 +97,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	{
 		this.pdfExporter = pdfExporter;
 		this.pdfProducer = pdfProducer;
+		this.tagHelper = tagHelper;
 		
 		horizontalAlignment = PdfTextAlignment.LEFT;
 		leftOffsetFactor = 0f;
@@ -148,5 +154,32 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		super.initialize(text, styledText, offsetX, offsetY);
 	}
 	
+	@Override
+	protected StyledTextListWriter getListWriter()
+	{
+		return tagHelper.getListWriter();
+	}
+	
 	public abstract boolean addActualText();
+	
+	 @Override
+	protected void renderParagraph(
+		AttributedCharacterIterator allParagraphs, 
+		int paragraphStart,
+		String paragraphText
+		) 
+	 {
+		if (addActualText())
+		{
+			tagHelper.startText(paragraphText, text.getLinkType() != null);
+		}
+		else
+		{
+			tagHelper.startText(text.getLinkType() != null);
+		}
+		
+		super.renderParagraph(allParagraphs, paragraphStart, paragraphText);
+		
+		tagHelper.endText();
+	}
 }

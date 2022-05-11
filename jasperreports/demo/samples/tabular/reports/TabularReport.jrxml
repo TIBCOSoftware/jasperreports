@@ -177,7 +177,7 @@
 					<reportElement stretchType="RelativeToTallestObject" x="455" y="0" width="100" height="15" uuid="2f8779ab-6689-4239-99f0-6ef0a55775cc">
 						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 					</reportElement>
-					<box>
+					<box rightPadding="10">
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="1.0" lineColor="#FF0000"/>
