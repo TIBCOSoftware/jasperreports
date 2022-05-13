@@ -37,6 +37,8 @@ public class Table
 	protected DimensionEntries<Column> columns;
 	protected DimensionEntries<Row> rows;
 	
+	private String role;
+	
 	public Table(Tabulator tabulator)
 	{
 		this.tabulator = tabulator;
@@ -79,6 +81,16 @@ public class Table
 	public DimensionEntries<Row> getRows()
 	{
 		return rows;
+	}
+
+	public String getRole()
+	{
+		return role;
+	}
+
+	public void setRole(String role)
+	{
+		this.role = role;
 	}
 
 	protected class ColumnsControl implements DimensionControl<Column>

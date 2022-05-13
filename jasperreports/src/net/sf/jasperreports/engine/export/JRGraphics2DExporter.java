@@ -267,6 +267,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		drawVisitor = 
 			new PrintDrawVisitor(
 				exporterContext,
+				filter,
 				getRenderersCache(),
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont,
