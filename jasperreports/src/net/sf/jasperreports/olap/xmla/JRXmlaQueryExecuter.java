@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -139,11 +139,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			xmlaResult = new JRXmlaResult();
 			parseResult(resultMessage);
 		}
-		catch (MalformedURLException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SOAPException e)
+		catch (MalformedURLException | SOAPException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -219,11 +215,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
 			return scf.createConnection();
 		}
-		catch (UnsupportedOperationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SOAPException e)
+		catch (UnsupportedOperationException | SOAPException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -273,7 +265,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			// <AxisFormat>TupleFormat</AxisFormat>
 			// </PropertyList>
 			// </Properties>
-			Map<String, String> paraList = new HashMap<String, String>();
+			Map<String, String> paraList = new HashMap<>();
 			String datasource = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE);
 			paraList.put("DataSourceInfo", datasource);
 			String catalog = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG);

@@ -25,8 +25,9 @@
     <element name="pen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
     <element ref="jrt:box" minOccurs="0" maxOccurs="1"/>
     <element ref="jrt:paragraph" minOccurs="0" maxOccurs="1"/>
+    <element ref="jrt:conditionalStyle" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
-   <attribute name="name" type="string" use="required">
+   <attribute name="name" type="string" use="optional">
    </attribute>
    <attribute name="isDefault" use="optional">
     <simpleType>
@@ -399,6 +400,20 @@
    </attribute>
    <attribute name="position" type="NMTOKEN" use="required">
    </attribute>
+  </complexType>
+ </element>
+
+ <element name="conditionalStyle">
+  <complexType>
+   <sequence>
+    <element ref="jrt:conditionExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jrt:style"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="conditionExpression">
+  <complexType mixed="true">
   </complexType>
  </element>
 

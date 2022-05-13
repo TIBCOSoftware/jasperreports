@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -82,8 +82,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	/**
 	 *
 	 */
-	protected Set<JRStyle> stylesToEvaluate = new HashSet<JRStyle>();
-	protected Map<JRStyle,JRStyle> evaluatedStyles = new HashMap<JRStyle,JRStyle>();
+	protected Set<JRStyle> stylesToEvaluate = new HashSet<>();
+	protected Map<JRStyle,JRStyle> evaluatedStyles = new HashMap<>();
 	
 	protected boolean hasPrintWhenOverflowElement;
 	
@@ -127,7 +127,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		}
 		else
 		{
-			List<JRFillElement> deepElementsList = new ArrayList<JRFillElement>(elements.length);
+			List<JRFillElement> deepElementsList = new ArrayList<>(elements.length);
 			collectDeepElements(elements, deepElementsList);
 			deepElements = new JRFillElement[deepElementsList.size()];
 			deepElementsList.toArray(deepElements);
@@ -158,10 +158,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		
 		if (elements != null && elements.length > 0)
 		{
-			List<JRFillElement> sortedElemsList = new ArrayList<JRFillElement>();
-			List<JRFillElement> stretchElemsList = new ArrayList<JRFillElement>();
-			List<JRFillElement> bandBottomElemsList = new ArrayList<JRFillElement>();
-			List<JRFillElement> removableElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> sortedElemsList = new ArrayList<>();
+			List<JRFillElement> stretchElemsList = new ArrayList<>();
+			List<JRFillElement> bandBottomElemsList = new ArrayList<>();
+			List<JRFillElement> removableElemsList = new ArrayList<>();
 			
 			topElementInGroup = null;
 			bottomElementInGroup = null;
@@ -245,9 +245,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		
 		if (elements != null && elements.length > 0)
 		{
-			List<JRFillElement> stretchElemsList = new ArrayList<JRFillElement>();
-			List<JRFillElement> bandBottomElemsList = new ArrayList<JRFillElement>();
-			List<JRFillElement> removableElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> stretchElemsList = new ArrayList<>();
+			List<JRFillElement> bandBottomElemsList = new ArrayList<>();
+			List<JRFillElement> removableElemsList = new ArrayList<>();
 			
 			JRYComparator yComparator = new JRYComparator();
 
@@ -1223,7 +1223,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		JRStyle consolidatedStyle = initialStyle;
 
 		StringBuilder code = new StringBuilder();
-		List<JRStyle> condStylesToApply = new ArrayList<JRStyle>();
+		List<JRStyle> condStylesToApply = new ArrayList<>();
 		
 		boolean anyTrue = buildConsolidatedStyle(initialStyle, evaluation, code, condStylesToApply);
 		

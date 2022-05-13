@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	/**
 	 *
 	 */
-	protected List<JRChild> children = new ArrayList<JRChild>();
+	protected List<JRChild> children = new ArrayList<>();
 	protected JRElementGroup elementGroup;
 
 	/**
@@ -134,7 +134,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 		{
 			if (this.children != null)
 			{
-				List<JRElement> allElements = new ArrayList<JRElement>();
+				List<JRElement> allElements = new ArrayList<>();
 				Object child = null;
 				JRElement[] childElementArray = null;
 				for(int i = 0; i < this.children.size(); i++)

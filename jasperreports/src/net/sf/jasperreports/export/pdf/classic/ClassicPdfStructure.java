@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,7 +63,7 @@ public class ClassicPdfStructure implements PdfStructure
 		PdfName pdfNameALL = new PdfName("All");
 		root.mapRole(pdfNameALL, PdfName.SECT);
 		root.mapRole(PdfName.IMAGE, PdfName.FIGURE);
-		root.mapRole(PdfName.TEXT, PdfName.TEXT);
+		root.mapRole(PdfName.TEXT, PdfName.P);
 		PdfStructureElement allTag = new PdfStructureElement(root, pdfNameALL);
 		if(pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A)
 		{

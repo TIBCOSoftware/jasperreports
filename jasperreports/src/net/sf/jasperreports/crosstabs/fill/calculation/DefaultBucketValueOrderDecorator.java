@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,7 +33,7 @@ public class DefaultBucketValueOrderDecorator<T extends Comparable<T>>
 	public static final <T extends Comparable<T>> DefaultBucketValueOrderDecorator<T> wrap(T value, OrderPosition position)
 	{
 		// null values are left untouched
-		return value == null ? null : new DefaultBucketValueOrderDecorator<T>(value, 
+		return value == null ? null : new DefaultBucketValueOrderDecorator<>(value, 
 				position == null ? OrderPosition.NORMAL : position);
 	}
 	

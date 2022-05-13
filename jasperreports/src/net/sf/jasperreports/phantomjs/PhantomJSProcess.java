@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -58,7 +58,7 @@ public class PhantomJSProcess
 	private Process process;
 	private ProcessConnection processConnection;
 	private volatile boolean ended;
-	private AtomicReference<Integer> exitCode = new AtomicReference<Integer>();
+	private AtomicReference<Integer> exitCode = new AtomicReference<>();
 
 	public PhantomJSProcess(ProcessDirector director, int listenPort)
 	{
@@ -95,7 +95,7 @@ public class PhantomJSProcess
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
 		int idleTimeout = director.getProcessIdleTimeout();
 		
-		List<String> command = new ArrayList<String>();
+		List<String> command = new ArrayList<>();
 		command.add(director.getPhantomjsExecutablePath());
 		String options = "";
 		if(director.getOptions() != null)

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -68,11 +68,7 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 			}
 			else if (DataAdapterResource.class.isAssignableFrom(resourceType))
 			{
-				return new CastorDataAdapterPersistenceService(jasperReportsContext);
-			}
-			else if (CastorResource.class.isAssignableFrom(resourceType))
-			{
-				return new CastorObjectPersistenceService(jasperReportsContext);
+				return new JacksonDataAdapterPersistenceService(jasperReportsContext);
 			}
 			else if (SerializableResource.class.isAssignableFrom(resourceType))
 			{

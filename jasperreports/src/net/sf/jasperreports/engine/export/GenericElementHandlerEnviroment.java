@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,7 +57,7 @@ public final class GenericElementHandlerEnviroment
 			"export.common.handlers.not.found.for.namespace";
 	
 	private final ReferenceMap<Object, Map<String, GenericElementHandlerBundle>> handlersCache = 
-		new ReferenceMap<Object, Map<String, GenericElementHandlerBundle>>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 	
@@ -133,7 +133,7 @@ public final class GenericElementHandlerEnviroment
 	protected Map<String,GenericElementHandlerBundle> loadBundles()
 	{
 		List<GenericElementHandlerBundle> bundleList = jasperReportsContext.getExtensions(GenericElementHandlerBundle.class);
-		Map<String,GenericElementHandlerBundle> bundles = new HashMap<String,GenericElementHandlerBundle>();
+		Map<String,GenericElementHandlerBundle> bundles = new HashMap<>();
 		for (Iterator<GenericElementHandlerBundle> it = bundleList.iterator(); it.hasNext();)
 		{
 			GenericElementHandlerBundle bundle = it.next();

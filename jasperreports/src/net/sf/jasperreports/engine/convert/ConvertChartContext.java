@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -146,6 +146,7 @@ public class ConvertChartContext implements ChartContext
 		case JRChartDataset.XYZ_DATASET:
 			dataset = createXyzDataset();
 			break;
+		default:
 		}
 		return dataset;
 	}
@@ -167,7 +168,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static DefaultCategoryDataset sampleCategoryDataset;
 	
-	private CategoryDataset createCategoryDataset()
+	private static CategoryDataset createCategoryDataset()
 	{
 		if (sampleCategoryDataset == null)
 		{
@@ -205,7 +206,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static PieDataset samplePieDataset;
 	
-	private PieDataset createPieDataset()
+	private static PieDataset createPieDataset()
 	{
 		if (samplePieDataset == null)
 		{
@@ -224,7 +225,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static XYSeriesCollection sampleXyDataset;
 	
-	private XYDataset createXyDataset()
+	private static XYDataset createXyDataset()
 	{
 		if (sampleXyDataset == null)
 		{
@@ -274,7 +275,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static TimeSeriesCollection sampleTimeSeriesDataset;
 	
-	private TimeSeriesCollection createTimeSeriesDataset()
+	private static TimeSeriesCollection createTimeSeriesDataset()
 	{
 //		TimeSeries series1 = new TimeSeries("Series 1", Day.class);
 //		series1.add(new Day(1, 1, 2003), 54.3);
@@ -340,7 +341,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static DefaultXYZDataset sampleXyzDataset;
 	
-	private XYZDataset createXyzDataset()
+	private static XYZDataset createXyzDataset()
 	{
 		if (sampleXyzDataset == null)
 		{
@@ -363,7 +364,7 @@ public class ConvertChartContext implements ChartContext
 
 	private static TaskSeriesCollection sampleGanttDataset;
 	
-	private IntervalCategoryDataset createGanttDataset() 
+	private static IntervalCategoryDataset createGanttDataset() 
 	{
 		if (sampleGanttDataset == null)
 		{
@@ -400,7 +401,7 @@ public class ConvertChartContext implements ChartContext
 
 	private static DefaultHighLowDataset sampleHighLowDataset;
 	
-	private OHLCDataset createHighLowDataset() 
+	private static OHLCDataset createHighLowDataset() 
 	{
 		if (sampleHighLowDataset == null)
 		{
@@ -751,7 +752,7 @@ public class ConvertChartContext implements ChartContext
 	
 	private static TimePeriodValuesCollection sampleTimePeriodDataset;
 	
-	private XYDataset createTimePeriodDataset()
+	private static XYDataset createTimePeriodDataset()
 	{
 		if (sampleTimePeriodDataset == null)
 		{

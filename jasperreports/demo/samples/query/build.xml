@@ -1,4 +1,4 @@
-<project name="query" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="query" default="test" basedir=".">
 
 	<description>Shows how the report query can be build dynamically using report parameters.</description>
 
@@ -26,11 +26,8 @@
 		</copy>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="fill"/>
-			<classpath refid="sample-classpath"/>
-		</java>
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
 	</target>
 
 	<target name="fillIgnorePagination" description="Fills the compiled report design with no pagination." depends="prepare-test-classpath">

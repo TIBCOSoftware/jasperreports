@@ -1,4 +1,4 @@
-<project name="i18n" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="i18n" default="test" basedir=".">
 
 	<description>Shows how a report could be rendered in different languages.</description>
 

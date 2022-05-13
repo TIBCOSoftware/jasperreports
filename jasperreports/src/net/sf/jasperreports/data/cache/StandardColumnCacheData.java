@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -90,7 +90,7 @@ public class StandardColumnCacheData implements Serializable, ColumnCacheData
 		int paramsCount = in.readInt();
 		if (paramsCount > 0)
 		{
-			parameters = new LinkedHashMap<String, Object>(paramsCount * 4 / 3);
+			parameters = new LinkedHashMap<>(paramsCount * 4 / 3);
 			for (int i = 0; i < paramsCount; i++)
 			{
 				String key = (String) in.readObject();

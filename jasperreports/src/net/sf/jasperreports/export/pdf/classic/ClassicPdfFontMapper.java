@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -51,7 +51,7 @@ public class ClassicPdfFontMapper implements FontMapper
 		// not setting underline and strikethrough as we only need the base font.
 		// underline and strikethrough will not work here because PdfGraphics2D
 		// doesn't check the font attributes.
-		Map<Attribute,Object> atts = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> atts = new HashMap<>();
 		atts.putAll(font.getAttributes());
 		Font pdfFont = pdfProducer.getFont(atts, null);
 		return pdfFont.getBaseFont();

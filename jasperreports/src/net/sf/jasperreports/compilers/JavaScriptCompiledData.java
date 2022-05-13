@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -120,8 +120,8 @@ public class JavaScriptCompiledData implements Serializable
 		return expressionIndex & 0x7fff;
 	}
 	
-	private final List<ExpressionIndexes> expressionIndexes = new ArrayList<ExpressionIndexes>();
-	private final List<CompiledClass> compiledClasses = new ArrayList<CompiledClass>(1);
+	private final List<ExpressionIndexes> expressionIndexes = new ArrayList<>();
+	private final List<CompiledClass> compiledClasses = new ArrayList<>(1);
 	
 	public void addExpression(int expressionId, 
 			int defaultExpressionIdx, int oldExpressionIdx, int estimatedExpressionIdx)

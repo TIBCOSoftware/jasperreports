@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -65,7 +65,7 @@ public final class JRCloneUtils
 		}
 		else
 		{
-			clone = new ArrayList<T>(items.size());
+			clone = new ArrayList<>(items.size());
 			for (T item : items)
 			{
 				clone.add(JRCloneUtils.nullSafeClone(item));
@@ -93,7 +93,7 @@ public final class JRCloneUtils
 		else
 		{
 			clone = items.clone();
-			List<T> list = new ArrayList<T>(items.length);
+			List<T> list = new ArrayList<>(items.length);
 			for (T item : items)
 			{
 				list.add(JRCloneUtils.nullSafeClone(item));

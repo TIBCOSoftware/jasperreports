@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,7 +43,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private static final Map<String,JRTextAttribute> instanceMap = new HashMap<String,JRTextAttribute>(4);
+	private static final Map<String,JRTextAttribute> instanceMap = new HashMap<>(4);
 
 	/**
 	 *
@@ -72,7 +72,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	public static final JRTextAttribute FONT_INFO = new JRTextAttribute("FONT_INFO");
 	
 	
-	public static final Set<JRTextAttribute> HTML_LIST_ATTRIBUTES = new HashSet<JRTextAttribute>();
+	public static final Set<JRTextAttribute> HTML_LIST_ATTRIBUTES = new HashSet<>();
 	static
 	{
 		HTML_LIST_ATTRIBUTES.add(JRTextAttribute.HTML_LIST);

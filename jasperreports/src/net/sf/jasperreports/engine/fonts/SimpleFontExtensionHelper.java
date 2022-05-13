@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,10 +31,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -72,9 +74,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITER_ERROR = "fonts.output.stream.writer.error";
 	
 	/**
-	 * Default XML output encoding.
+	 * @deprecated Replaced by {@link StandardCharsets#UTF_8}.
 	 */
-	public static final String DEFAULT_ENCODING = "UTF-8";
+	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
 	
 
 	/**
@@ -227,15 +229,10 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	{
 		try
 		{
-			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));
+			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, StandardCharsets.UTF_8)));
 			parseFontExtensions(jasperReportsContext, document.getDocumentElement(), receiver, loadFonts);
 		}
-		catch (SAXException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -418,7 +415,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	private Map<String,String> parseExportFonts(Node exportFontsNode)
 	{
-		Map<String,String> exportFonts = new HashMap<String,String>();
+		Map<String,String> exportFonts = new HashMap<>();
 		
 		NodeList nodeList = exportFontsNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -537,7 +534,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	protected static void writeFontExtensions(Writer out, FontExtensionsContainer extensions) throws IOException
 	{
 		JRXmlWriteHelper writer = new JRXmlWriteHelper(out);
-		writer.writeProlog(DEFAULT_ENCODING);
+		writer.writeProlog(StandardCharsets.UTF_8.name());
 		
 		writer.startElement("fontFamilies");
 		
@@ -630,9 +627,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		if(exportFonts != null)
 		{
 			writer.startElement(NODE_exportFonts);
-			for(String key : exportFonts.keySet())
+			for (Entry<String, String> exportFont : exportFonts.entrySet())
 			{
-				writer.writeCDATAElement(NODE_export, exportFonts.get(key), ATTRIBUTE_key, key);
+				writer.writeCDATAElement(NODE_export, exportFont.getValue(), ATTRIBUTE_key, exportFont.getKey());
 			}
 			writer.closeElement();
 		}
@@ -780,11 +777,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		FontExtensionsContainer extensions
 		) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destFileName)))
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName));
 			writeFontExtensionsXml(os, extensions);
 		}
 		catch (IOException e)
@@ -794,19 +788,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					EXCEPTION_MESSAGE_KEY_FILE_WRITER_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -831,11 +812,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		Writer out = null;
 		try
 		{
-			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
+			out = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
 			writeFontExtensions(out, extensions);
 			out.flush();
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			throw 
 				new JRException(
@@ -851,11 +832,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public static void writeFontExtensionsProperties(String fontsXmlLocation, String destFileName) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destFileName, false)))
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName, false));
 			writeFontExtensionsProperties(fontsXmlLocation, os);
 		}
 		catch (IOException e)
@@ -865,19 +843,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					EXCEPTION_MESSAGE_KEY_FILE_WRITER_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -907,10 +872,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			OutputStream outputStream
 			) throws JRException
 	{
-		Writer out = null;
-		try
+		try (Writer out = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
 		{
-			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
 			out.write(
 					fontRegistryFactoryPropertyName + 
 					"=" + 
@@ -923,28 +886,14 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					fontFamiliesPropertyValue + 
 					"\n"
 					);
-			out.flush();
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITER_ERROR, 
 					null, 
 					e);
-		}
-		finally
-		{
-			if (out != null)
-			{
-				try
-				{
-					out.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -954,7 +903,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	private Set<String> parseLocales(Node localesNode) throws SAXException
 	{
-		Set<String> locales = new HashSet<String>();
+		Set<String> locales = new HashSet<>();
 		
 		NodeList nodeList = localesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)

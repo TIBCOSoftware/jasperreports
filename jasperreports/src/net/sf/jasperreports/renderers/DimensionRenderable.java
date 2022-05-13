@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
- * This interface is implemented by renderable objects that want to provide a dimention for the graphics they render,
+ * This interface is implemented by renderable objects that want to provide a dimension for the graphics they render,
  * usually by also implementing the {@link Graphics2DRenderable} interface.
  * Data renderables such as images or SVG files do not need to provide a dimension as that will be read from the files themselves when needed.
  * Reading the dimension of images and SVG documents is performed using wrapping rendeable implementations that wrap the original data renderable and only ask them for their data.

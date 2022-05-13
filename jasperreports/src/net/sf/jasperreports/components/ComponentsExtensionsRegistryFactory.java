@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -109,7 +109,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(new ComponentsXmlDigesterConfigurer());
 		bundle.setXmlParser(parser);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
 		ComponentsManager listManager = new ComponentsManager();
 		listManager.setDesignConverter(new ListDesignConverter());

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ public class ChartThemeBundlesExtensionsRegistry implements ExtensionsRegistry
 	
 	public ChartThemeBundlesExtensionsRegistry(ChartThemeBundle chartThemeBundle)
 	{
-		this.chartThemeBundles = new ArrayList<ChartThemeBundle>(1);
+		this.chartThemeBundles = new ArrayList<>(1);
 		this.chartThemeBundles.add(chartThemeBundle);
 	}
 	

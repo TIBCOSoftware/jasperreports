@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -70,13 +70,13 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	private boolean isNewPageColumn;
 	private boolean isFirstWholeOnPageColumn;
-	private Map<JRGroup,Boolean> isNewGroupMap = new HashMap<JRGroup,Boolean>();
+	private Map<JRGroup,Boolean> isNewGroupMap = new HashMap<>();
 
 	private Set<JREvaluationTime> nowEvaluationTimes;
 	
 	// used by subreports to save values of variables used as return receptacles
 	// so that the values can be restored when the bands gets rewound
-	private Map<String,Object> savedVariableValues = new HashMap<String,Object>();
+	private Map<String,Object> savedVariableValues = new HashMap<>();
 
 	protected JROrigin origin;
 	
@@ -131,7 +131,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		parent = band;
 		
 		// we need to do this before setBand()
-		returnValuesSet = new LinkedHashSet<FillReturnValues>();
+		returnValuesSet = new LinkedHashSet<>();
 
 		if (deepElements.length > 0)
 		{
@@ -154,7 +154,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		initConditionalStyles();
 
-		nowEvaluationTimes = new HashSet<JREvaluationTime>();
+		nowEvaluationTimes = new HashSet<>();
 	}
 
 
@@ -463,7 +463,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		isNewPageColumn = false;
-		isNewGroupMap = new HashMap<JRGroup,Boolean>();
+		isNewGroupMap = new HashMap<>();
 
 		JRPrintBand printBand = new JRPrintBand();
 		fillElements(printBand);

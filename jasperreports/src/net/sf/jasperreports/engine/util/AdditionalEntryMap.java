@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -143,8 +143,8 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<Map.Entry<K, V>> iterator()
 		{
 			Iterator<Map.Entry<K, V>> decoratedIterator = decoratedSet.iterator();
-			Map.Entry<K, V> additionalEntry = new SimpleImmutableEntry<K, V>(additionalKey, additionalValue);
-			return new AdditionalIterator<Map.Entry<K,V>>(decoratedIterator, additionalEntry);
+			Map.Entry<K, V> additionalEntry = new SimpleImmutableEntry<>(additionalKey, additionalValue);
+			return new AdditionalIterator<>(decoratedIterator, additionalEntry);
 		}
 
 		@Override
@@ -187,7 +187,7 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<K> iterator()
 		{
 			Iterator<K> decoratedIterator = decoratedSet.iterator();
-			return new AdditionalIterator<K>(decoratedIterator, additionalKey);
+			return new AdditionalIterator<>(decoratedIterator, additionalKey);
 		}
 
 		@Override
@@ -221,7 +221,7 @@ public class AdditionalEntryMap<K, V> extends AbstractMap<K, V>
 		public Iterator<V> iterator()
 		{
 			Iterator<V> decoratedIterator = decoratedCollection.iterator();
-			return new AdditionalIterator<V>(decoratedIterator, additionalValue);
+			return new AdditionalIterator<>(decoratedIterator, additionalValue);
 		}
 
 		@Override

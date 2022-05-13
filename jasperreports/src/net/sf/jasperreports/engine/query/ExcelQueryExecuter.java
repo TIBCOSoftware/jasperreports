@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -222,23 +222,7 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 			Constructor<? extends AbstractXlsDataSource> constructor = dataSourceClass.getConstructor(constrParamTypes);
 			datasource = constructor.newInstance(constrParamValues);
 		}
-		catch (InvocationTargetException e)
-		{
-			throw new JRException(e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new JRException(e);
-		}
-		catch (InstantiationException e)
-		{
-			throw new JRException(e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			throw new JRException(e);
-		}
-		catch (ClassNotFoundException e)
+		catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException e)
 		{
 			throw new JRException(e);
 		}

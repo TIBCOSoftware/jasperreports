@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,7 +52,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 	public static final String PROPERTY_MARKER = "marker";
 	public static final String PROPERTY_DATASET_RUN = "datasetRun";
 
-	private List<Marker> markerList = new ArrayList<Marker>();
+	private List<Marker> markerList = new ArrayList<>();
 	private JRDatasetRun datasetRun;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -74,7 +74,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 			return null;
 		}
 		
-		List<Marker> compiledMarkers = new ArrayList<Marker>(markers.size());
+		List<Marker> compiledMarkers = new ArrayList<>(markers.size());
 		for (Iterator<Marker> it = markers.iterator(); it.hasNext();)
 		{
 			Marker marker = it.next();
@@ -91,7 +91,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 			return null;
 		}
 		
-		List<MarkerProperty> compiledProperties = new ArrayList<MarkerProperty>(properties.size());
+		List<MarkerProperty> compiledProperties = new ArrayList<>(properties.size());
 		for (Iterator<MarkerProperty> it = properties.iterator(); it.hasNext();)
 		{
 			MarkerProperty property = it.next();

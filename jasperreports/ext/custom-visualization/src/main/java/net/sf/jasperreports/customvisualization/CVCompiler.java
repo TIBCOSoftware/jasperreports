@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -59,46 +59,6 @@ public class CVCompiler implements ComponentCompiler
 		}
 
 	}
-
-	/**
-	 * @deprecated Replaced by
-	 *             {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}
-	 *             .
-	 */
-	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
-	{
-		ItemCompiler.collectExpressions(data, collector);
-	}
-	// /**
-	// * Collect the expressions in a cv item dataset.
-	// *
-	// * @param cvDataset
-	// * @param collector
-	// */
-	// public static void collectExpressions(ItemData cvData,
-	// JRExpressionCollector collector) {
-	// if (cvData != null) {
-	// JRExpressionCollector datasetCollector = collector;
-	//
-	// JRElementDataset dataset = cvData.getDataset();
-	// if (dataset != null) {
-	// collector.collect(dataset);
-	// }
-	//
-	// List<Item> items = cvData.getItems();
-	// if (items != null && !items.isEmpty()) {
-	// for (Item item : items) {
-	// List<ItemProperty> itemProperties = item.getProperties();
-	// if (itemProperties != null) {
-	// for (ItemProperty property : itemProperties) {
-	// datasetCollector.addExpression(property
-	// .getValueExpression());
-	// }
-	// }
-	// }
-	// }
-	// }
-	// }
 
 	@Override
 	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory)

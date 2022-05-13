@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -22,6 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */package net.sf.jasperreports.data.random;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
@@ -30,6 +32,8 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  *
  */
+
+@JsonRootName(value = "randomDataAdapter")
 public class RandomDataAdapterImpl extends AbstractDataAdapter implements RandomDataAdapter {
 
 	private int recordNumber = 10;

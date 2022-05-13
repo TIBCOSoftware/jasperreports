@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -33,7 +32,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -128,6 +126,7 @@ public class JsonUtil {
 				case NE:
 					result = !contextValue.equals(value);
 					break;
+				default:
 				}
 			}
 		}
@@ -144,22 +143,10 @@ public class JsonUtil {
 	}
 	
 	public static JsonNode parseJson(File file) throws JRException {
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(file);
+		try (FileInputStream fileInputStream = new FileInputStream(file)) {
 			return parseJson(fileInputStream);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new JRException(e);
-		} finally {
-			if (fileInputStream != null) {
-				try {
-					fileInputStream.close();
-				} catch (IOException e) {
-					if (log.isWarnEnabled()) {
-						log.warn("Failed to close input stream for file " + file, e);
-					}
-				}
-			}
 		}
 	}
 	
@@ -190,8 +177,6 @@ public class JsonUtil {
 		JsonNode jsonTree;
 		try {
 			jsonTree = mapper.readTree(jsonStream);
-		} catch (JsonProcessingException e) {
-			throw new JRException(e);
 		} catch (IOException e) {
 			throw new JRException(e);
 		}
