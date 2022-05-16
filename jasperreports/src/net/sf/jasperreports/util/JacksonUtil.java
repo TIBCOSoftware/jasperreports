@@ -88,6 +88,14 @@ public class JacksonUtil
 		{
 			mapper = new ObjectMapper();
 
+			@SuppressWarnings("deprecation")
+			List<net.sf.jasperreports.web.util.JacksonMapping> depJacksonMappings = 
+				jasperReportsContext.getExtensions(net.sf.jasperreports.web.util.JacksonMapping.class);
+			for (JacksonMapping jacksonMapping : depJacksonMappings)
+			{
+				register(mapper, jacksonMapping);
+			}
+
 			List<JacksonMapping> jacksonMappings = jasperReportsContext.getExtensions(JacksonMapping.class);
 			for (JacksonMapping jacksonMapping : jacksonMappings)
 			{
