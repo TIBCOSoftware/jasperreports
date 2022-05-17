@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -116,7 +116,7 @@ public class ChromeInstanceRepository
 			log.debug("schedule chrome instance " + chromeInstance.getId() + " idle timeout check after " + delay);
 		}
 		
-		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<>(chromeInstance);
 		timeoutExecutor.schedule(() ->
 		{
 			checkIdle(configuration, instanceReference, idleTimeout);
@@ -186,7 +186,7 @@ public class ChromeInstanceRepository
 			log.debug("schedule chrome instance " + chromeInstance.getId() + " timeout after " + liveTimeout);
 		}
 		
-		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<>(chromeInstance);
 		timeoutExecutor.schedule(() ->
 		{
 			closeInstance(configuration, instanceReference);

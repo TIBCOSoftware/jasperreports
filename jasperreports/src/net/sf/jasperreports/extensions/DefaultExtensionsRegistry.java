@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -114,12 +114,12 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			JRPropertiesUtil.PROPERTY_PREFIX + "extension.";
 
 	private final ReferenceMap<Object, List<ExtensionsRegistry>> registrySetCache = 
-		new ReferenceMap<Object, List<ExtensionsRegistry>>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 	
 	private final ReferenceMap<ClassLoader, Map<URL, URLRegistries>> registryCache = 
-		new ReferenceMap<ClassLoader, Map<URL, URLRegistries>>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 
@@ -127,7 +127,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		List<ExtensionsRegistry> registries = getRegistries();
-		List<T> extensions = new ArrayList<T>(registries.size());
+		List<T> extensions = new ArrayList<>(registries.size());
 		for (Iterator<ExtensionsRegistry> it = registries.iterator(); it.hasNext();)
 		{
 			ExtensionsRegistry registry = it.next();
@@ -165,7 +165,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	{
 		//there is no identity linked hash map/set, using separate map and list
 		IdentityHashMap<ExtensionsRegistry, Object> registrySet = new IdentityHashMap<>();
-		List<ExtensionsRegistry> allRegistries = new ArrayList<ExtensionsRegistry>();
+		List<ExtensionsRegistry> allRegistries = new ArrayList<>();
 		
 		List<ClassLoaderResource> extensionResources = loadExtensionPropertyResources();
 		for (ClassLoaderResource extensionResource : extensionResources)
@@ -175,7 +175,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			
 			URL url = extensionResource.getUrl();
 			List<ExtensionsRegistry> registries;
-			Map<String, Exception> registryExceptions = new LinkedHashMap<String, Exception>();
+			Map<String, Exception> registryExceptions = new LinkedHashMap<>();
 			synchronized (classLoaderRegistries)
 			{
 				URLRegistries urlRegistries = classLoaderRegistries.get(url);
@@ -244,7 +244,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			Map<URL, URLRegistries> registries = registryCache.get(classLoader);
 			if (registries == null)
 			{
-				registries = new HashMap<URL, URLRegistries>();
+				registries = new HashMap<>();
 				registryCache.put(classLoader, registries);
 			}
 			return registries;
@@ -254,7 +254,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	protected List<ExtensionsRegistry> loadRegistries(JRPropertiesMap properties, 
 			Map<String, Exception> registryExceptions)
 	{
-		List<ExtensionsRegistry> registries = new ArrayList<ExtensionsRegistry>();
+		List<ExtensionsRegistry> registries = new ArrayList<>();
 		List<PropertySuffix> factoryProps = JRPropertiesUtil.getProperties(properties, 
 				PROPERTY_REGISTRY_FACTORY_PREFIX);
 		for (Iterator<PropertySuffix> it = factoryProps.iterator(); it.hasNext();)

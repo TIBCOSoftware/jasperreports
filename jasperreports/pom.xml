@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-64-SNAPSHOT</version>
+	<version>develop-69-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -54,6 +54,7 @@
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skipTests>true</skipTests>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -115,9 +116,16 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>com.drewnoakes</groupId>
+			<artifactId>metadata-extractor</artifactId>
+			<version>2.17.0</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>com.adobe.xmp</groupId>
 			<artifactId>xmpcore</artifactId>
-			<version>5.1.3</version>
+			<version>6.1.11</version>
  			<scope>compile</scope>
  			<optional>true</optional>
 		</dependency>
@@ -336,14 +344,14 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>5.3.14</version>
+			<version>5.3.19</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>5.3.14</version>
+			<version>5.3.19</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -372,19 +380,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-xml</artifactId>
-			<version>1.4.1</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 			<version>2.3</version>
@@ -394,23 +389,37 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.12.2</version>
+			<version>2.13.1</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.12.2</version>
+			<version>2.13.1</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.12.2</version>
+			<version>2.13.1</version>
 			<scope>compile</scope>
 			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.13.1</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>2.13.1</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>xml-apis</groupId>
@@ -446,7 +455,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-14-SNAPSHOT</version>
+			<version>develop-15-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -501,7 +510,7 @@
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
-			<version>57.1</version>
+			<version>70.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -515,7 +524,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>develop-59-SNAPSHOT</version>
+			<version>develop-69-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -597,6 +606,7 @@
 					<include>**/*.sha</include>
 					<include>**/*.jrpxml</include>
 					<include>**/*.svg</include>
+					<include>**/*.jrdax</include>
 					<include>**/*.xml</include>
 					<include>**/*.csv</include>
 					<include>**/*.png</include>
@@ -643,7 +653,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>develop-59-SNAPSHOT</version>
+							<version>develop-69-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -682,7 +692,7 @@
 				<artifactId>clirr-maven-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-					<comparisonVersion>6.17.0</comparisonVersion>
+					<comparisonVersion>6.19.0</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -105,16 +105,16 @@ public class LuceneUtil {
 		TopDocs results = searcher.search(query, Integer.MAX_VALUE);
 		ScoreDoc[] hits = results.scoreDocs;
 
-		Map<Integer, List<Term>> hitTermsMap = new LinkedHashMap<Integer, List<Term>>();
+		Map<Integer, List<Term>> hitTermsMap = new LinkedHashMap<>();
 
 		for (int i = 0; i < hits.length; i++) {
 			getHitTerms(query, searcher, hits[i].doc, hitTermsMap);
 		}
 
-		Map<Term,TermContext> termContexts = new HashMap<Term,TermContext>();
+		Map<Term,TermContext> termContexts = new HashMap<>();
 
 		// get the info for each matched term from the document's termVector
-		Map<Integer, List<HitTermInfo>> hitTermsInfoMap = new HashMap<Integer, List<HitTermInfo>>();
+		Map<Integer, List<HitTermInfo>> hitTermsInfoMap = new HashMap<>();
 		for (Entry<Integer, List<Term>> entry: hitTermsMap.entrySet()) {
 			List<Term> terms = entry.getValue();
 			Terms termVector = reader.getTermVector(entry.getKey(), CONTENT_FIELD);
@@ -132,7 +132,7 @@ public class LuceneUtil {
 
 					for (int i = 0, freq = docsAndPositions.freq(); i < freq; ++i) {
 						if (hitTermsInfoMap.get(entry.getKey()) == null) {
-							hitTermsInfoMap.put(entry.getKey(), new ArrayList<HitTermInfo>());
+							hitTermsInfoMap.put(entry.getKey(), new ArrayList<>());
 						}
 						hitTermsInfoMap.get(entry.getKey()).add(new HitTermInfo(docsAndPositions.nextPosition(), docsAndPositions.startOffset(), docsAndPositions.endOffset(), termBytesRef.utf8ToString()));
 					}
@@ -276,7 +276,7 @@ public class LuceneUtil {
 
 
 	protected SpanQuery buildQuery(List<String> queryTerms) {
-		List<SpanQuery> clauses = new ArrayList<SpanQuery>();
+		List<SpanQuery> clauses = new ArrayList<>();
 		for (int i = 0, ln = queryTerms.size(); i < ln; i++) {
 			String term = queryTerms.get(i);
 			if (isWholeWordsOnly) {
@@ -305,7 +305,7 @@ public class LuceneUtil {
 
 
 	protected List<String> getQueryTerms(String queryString) throws IOException {
-		List<String> queryTerms = new ArrayList<String>();
+		List<String> queryTerms = new ArrayList<>();
 		Analyzer analyzer = getConfiguredAnalyzer();
 		TokenStream tokenStream = analyzer.tokenStream(null, queryString);
 		CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
@@ -345,7 +345,7 @@ public class LuceneUtil {
 		if (query instanceof SpanTermQuery) {
 			if (searcher.explain(query, docId).isMatch() == true) {
 				if (!hitTerms.containsKey(docId)) {
-					hitTerms.put(docId, new ArrayList<Term>());
+					hitTerms.put(docId, new ArrayList<>());
 				}
 				hitTerms.get(docId).add(((SpanTermQuery) query).getTerm());
 			}

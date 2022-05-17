@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -76,7 +76,7 @@ public class JRStyledTextParser implements ErrorHandler
 {
 	private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
-	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<String>();
+	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<>();
 	static
 	{
 		//FIXME doing this in a static block obscures exceptions, move it to some other place
@@ -152,12 +152,12 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 * Thread local soft cache of instances.
 	 */
-	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<SoftReference<JRStyledTextParser>>();
+	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<>();
 	
 	/**
 	 * 
 	 */
-	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
+	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<>();
 	
 	/**
 	 * Return a cached instance.
@@ -175,7 +175,7 @@ public class JRStyledTextParser implements ErrorHandler
 		if (instance == null)
 		{
 			instance = new JRStyledTextParser();
-			threadInstances.set(new SoftReference<JRStyledTextParser>(instance));
+			threadInstances.set(new SoftReference<>(instance));
 		}
 		return instance;
 	}
@@ -255,7 +255,7 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 		
 		hyperlink = null;
-		htmlListStack = new Stack<StyledTextListInfo>();
+		htmlListStack = new Stack<>();
 		
 		parseStyle(styledText, document.getDocumentElement());
 		
@@ -277,7 +277,11 @@ public class JRStyledTextParser implements ErrorHandler
 	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, Locale locale)
 	{
 		JRStyledText styledText = null;
-		if (isStyledText && text != null && text.contains("<"))
+		if (
+			isStyledText 
+			&& text != null 
+			&& (text.indexOf('<') >= 0 || text.indexOf('&') >= 0)
+			)
 		{
 			try
 			{
@@ -519,7 +523,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
@@ -631,7 +635,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 
 				int startIndex = styledText.length();
@@ -642,7 +646,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 
 				int startIndex = styledText.length();
@@ -653,7 +657,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 
 				int startIndex = styledText.length();
@@ -664,7 +668,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sup.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER);
 
 				int startIndex = styledText.length();
@@ -675,7 +679,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sub.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
 
 				int startIndex = styledText.length();
@@ -688,7 +692,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
@@ -742,7 +746,7 @@ public class JRStyledTextParser implements ErrorHandler
 				resizeRuns(styledText.getRuns(), startIndex, 1);
 
 				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+				styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
 
 				if (startIndex < styledText.length()) {
 					styledText.append("\n");
@@ -790,7 +794,7 @@ public class JRStyledTextParser implements ErrorHandler
 				
 				insideLi = false;
 				
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
@@ -805,7 +809,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				StyledTextListInfo htmlList = null;
 				
@@ -860,7 +864,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					NamedNodeMap nodeAttrs = node.getAttributes();
 
-					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+					Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 					hyperlink = new JRBasePrintHyperlink();
 					hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);

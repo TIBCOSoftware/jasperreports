@@ -2,7 +2,7 @@
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2005 Works, Inc. All rights reserved.
  * http://www.works.com
- * Copyright (C) 2005 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -90,8 +90,8 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		Cache(int maxSize)
 		{
 			this.maxSize = maxSize;
-			map = new LinkedHashMap<String, CacheReference>(16, 0.75f, true);
-			refQueue = new ReferenceQueue<JRVirtualizable>();
+			map = new LinkedHashMap<>(16, 0.75f, true);
+			refQueue = new ReferenceQueue<>();
 		}
 
 		protected JRVirtualizable getMapValue(CacheReference val)
@@ -158,7 +158,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 			
 			int candidateCount = map.size() - maxSize;
-			List<JRVirtualizable> candidates = new ArrayList<JRVirtualizable>();
+			List<JRVirtualizable> candidates = new ArrayList<>();
 			Iterator<Entry<String, CacheReference>> mapIterator = map.entrySet().iterator();
 			while (candidates.size() < candidateCount && mapIterator.hasNext())
 			{
@@ -252,11 +252,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		this.serializer = serializer;
 		
 		this.pagedIn = new Cache(maxSize);
-		this.pagedOut = new ReferenceMap<String, Object>(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.WEAK);
+		this.pagedOut = new ReferenceMap<>(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.WEAK);
 		this.lastObjectRef = null;
 
-		this.lastObjectMap = new ReferenceMap<JRVirtualizationContext, Object>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK);
-		this.lastObjectSet = new ReferenceMap<Object, Boolean>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
+		this.lastObjectMap = new ReferenceMap<>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK);
+		this.lastObjectSet = new ReferenceMap<>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 	}
 
 	protected synchronized final boolean isPagedOut(String id)
@@ -287,7 +287,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		if (o != null && currentLast != o)
 		{
 			// lastObject is mostly an optimization, we don't care if we don't have atomic operations here
-			this.lastObjectRef = new WeakReference<JRVirtualizable>(o);
+			this.lastObjectRef = new WeakReference<>(o);
 			
 			synchronized (this)
 			{

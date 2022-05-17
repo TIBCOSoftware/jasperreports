@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.hibernate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 /**
@@ -30,6 +32,7 @@ import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
  */
 public interface HibernateDataAdapter extends ClasspathAwareDataAdapter {
 
+	@JsonProperty("xMLFileName")
 	public String getXMLFileName();
 
 	public void setXMLFileName(String fileName);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -308,8 +308,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		DatasetPropertyExpression[] datasetPropertyExpressions = dataset.getPropertyExpressions();
 		propertyExpressions = 
 			datasetPropertyExpressions == null 
-			? new ArrayList<DatasetPropertyExpression>(0)
-			: new ArrayList<DatasetPropertyExpression>(Arrays.asList(datasetPropertyExpressions));
+			? new ArrayList<>(0)
+			: new ArrayList<>(Arrays.asList(datasetPropertyExpressions));
 	}
 	
 	
@@ -325,7 +325,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (jrParameters != null && jrParameters.length > 0)
 		{
 			parameters = new JRFillParameter[jrParameters.length];
-			parametersMap = new HashMap<String,JRFillParameter>();
+			parametersMap = new HashMap<>();
 			for (int i = 0; i < parameters.length; i++)
 			{
 				parameters[i] = factory.getParameter(jrParameters[i]);
@@ -354,9 +354,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		JRVariable[] jrVariables = dataset.getVariables();
 		if (jrVariables != null && jrVariables.length > 0)
 		{
-			List<JRFillVariable> variableList = new ArrayList<JRFillVariable>(jrVariables.length * 3);
+			List<JRFillVariable> variableList = new ArrayList<>(jrVariables.length * 3);
 
-			variablesMap = new HashMap<String,JRFillVariable>();
+			variablesMap = new HashMap<>();
 			for (int i = 0; i < jrVariables.length; i++)
 			{
 				addVariable(jrVariables[i], variableList, factory);
@@ -403,6 +403,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 				break;
 			}
+			default:
 		}
 
 		variableList.add(variable);
@@ -464,7 +465,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (jrFields != null && jrFields.length > 0)
 		{
 			fields = new JRFillField[jrFields.length];
-			fieldsMap = new HashMap<String,JRFillField>();
+			fieldsMap = new HashMap<>();
 			for (int i = 0; i < fields.length; i++)
 			{
 				fields[i] = factory.getField(jrFields[i]);
@@ -530,7 +531,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		ScriptletFactoryContext context = new ScriptletFactoryContext(getJasperReportsContext(), this, parameterValues);
 		
-		scriptlets = new ArrayList<JRAbstractScriptlet>();
+		scriptlets = new ArrayList<>();
 		
 		List<ScriptletFactory> factories = getJasperReportsContext().getExtensions(ScriptletFactory.class);
 		for (Iterator<ScriptletFactory> it = factories.iterator(); it.hasNext();)
@@ -903,7 +904,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 					}
 				}
 				
-				cacheRecordIndexCallbacks = new HashMap<Integer, CacheRecordIndexCallback>();
+				cacheRecordIndexCallbacks = new HashMap<>();
 			}
 			else
 			{
@@ -1217,7 +1218,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		List<?> factories = getJasperReportsContext().getExtensions(ParameterContributorFactory.class);
 		if (factories != null && factories.size() > 0)
 		{
-			allContributors = new ArrayList<ParameterContributor>();
+			allContributors = new ArrayList<>();
 			for (Iterator<?> it = factories.iterator(); it.hasNext();)
 			{
 				ParameterContributorFactory factory = (ParameterContributorFactory)it.next();
@@ -1782,7 +1783,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		if (variableCalculationReqs == null)
 		{
-			variableCalculationReqs = new HashSet<VariableCalculationReq>();
+			variableCalculationReqs = new HashSet<>();
 		}
 
 		variableCalculationReqs.add(new VariableCalculationReq(variableName, calculation));
@@ -1798,7 +1799,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		if (variableCalculationReqs != null && !variableCalculationReqs.isEmpty())
 		{
-			List<JRFillVariable> variableList = new ArrayList<JRFillVariable>(variables.length * 2);
+			List<JRFillVariable> variableList = new ArrayList<>(variables.length * 2);
 
 			for (int i = 0; i < variables.length; i++)
 			{

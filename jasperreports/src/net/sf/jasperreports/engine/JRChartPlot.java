@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,8 +29,6 @@ import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
-
-import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
@@ -68,19 +66,9 @@ public interface JRChartPlot extends JRCloneable
 
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	public PlotOrientation getOrientation();
-	
-	/**
 	 * Gets the plot orientation (horizontal or vertical).
 	 */
 	public PlotOrientationEnum getOrientationValue();
-	
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
-	 */
-	public void setOrientation(PlotOrientation orientation);
 
 	/**
 	 * Sets the plot orientation (horizontal or vertical).

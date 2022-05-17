@@ -10,15 +10,15 @@
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
-		<mkdir dir="./build/classes"/> 
-		<javac srcdir="../../../ext/functions/src/main/java" destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/functions/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
-		<copy todir="./build/classes">
+		<copy todir="./build/ext">
 			<fileset dir="../../../ext/functions/src/main/resources">
 				<include name="**/*.properties"/>
 			</fileset>

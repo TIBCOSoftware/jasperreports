@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -80,7 +80,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	protected void customInitialize()
 	{
 		dataset = new DefaultXYZDataset();
-		itemHyperlinks = new HashMap<Comparable<?>, Map<Pair, JRPrintHyperlink>>();
+		itemHyperlinks = new HashMap<>();
 	}
 	
 	@Override
@@ -126,10 +126,10 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 					Map<Pair, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(crtXyzSeries.getSeries());
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<Pair, JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(crtXyzSeries.getSeries(), seriesLinks);
 					}
-					Pair<Number,Number> xyKey = new Pair<Number,Number>(crtXyzSeries.getXValue(), crtXyzSeries.getYValue());
+					Pair<Number,Number> xyKey = new Pair<>(crtXyzSeries.getXValue(), crtXyzSeries.getYValue());
 					seriesLinks.put(xyKey, crtXyzSeries.getPrintItemHyperlink());
 				}
 			}

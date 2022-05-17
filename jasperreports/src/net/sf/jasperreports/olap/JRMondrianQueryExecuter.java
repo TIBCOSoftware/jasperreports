@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -144,8 +144,8 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		JRMondrianResult monResult = new JRMondrianResult(result);
-		Set<String> measureNames = new HashSet<String>();
-		List<List<String>> allLevelExpressions = new ArrayList<List<String>>();
+		Set<String> measureNames = new HashSet<>();
+		List<List<String>> allLevelExpressions = new ArrayList<>();
 		int axisCount = 0;
 		int levelCount = 0;
 		for (JROlapResultAxis axis : monResult.getAxes())
@@ -180,7 +180,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 							List<String> thisLevelExpressions = null;
 							if (levelCount >= allLevelExpressions.size())
 							{
-								thisLevelExpressions = new ArrayList<String>();
+								thisLevelExpressions = new ArrayList<>();
 								allLevelExpressions.add(thisLevelExpressions);
 							} 
 							else

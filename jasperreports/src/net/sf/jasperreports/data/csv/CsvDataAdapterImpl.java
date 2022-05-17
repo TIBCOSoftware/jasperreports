@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.RepositoryDataLocation;
@@ -36,6 +38,8 @@ import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "csvDataAdapter")
 public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAdapter
 {
 	private DataFile dataFile;
@@ -48,7 +52,7 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	private String datePattern = null;
 	private String numberPattern = null;
 	private boolean queryExecuterMode = false;
-	private List<String> columnNames = new ArrayList<String>();
+	private List<String> columnNames = new ArrayList<>();
 	
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}

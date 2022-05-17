@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,6 +53,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -159,14 +160,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	public static String CURRENT_ROW_HEIGHT = "CURRENT_ROW_HEIGHT";
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<Color,HSSFColor>();
+	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<>();
 
 	protected final DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
 	
-	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
-	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
-	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
-	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<>();
 
 	protected HSSFWorkbook workbook;
 	protected HSSFSheet sheet;
@@ -290,9 +291,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						}
 					}
 				}
-			} catch (JRException e) {
-				throw new JRRuntimeException(e);
-			} catch (IOException e) {
+			} catch (JRException | IOException e) {
 				throw new JRRuntimeException(e);
 			} finally {
 				if (templateIs != null)	{
@@ -311,9 +310,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
-		columnWidths = new HashMap<String, Integer>();
-		columnWidthRatios = new HashMap<String, Float>();
-		formulaCellsMap = new HashMap<HSSFCell,String>();
+		columnWidths = new HashMap<>();
+		columnWidthRatios = new HashMap<>();
+		formulaCellsMap = new HashMap<>();
 	}
 
 	@Override
@@ -470,8 +469,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
-			for (Object anchorName : anchorNames.keySet()) {
-				HSSFName anchor = anchorNames.get(anchorName);
+			for (Entry<String, HSSFName> entry : anchorNames.entrySet()) {
+				String anchorName = entry.getKey();
+				HSSFName anchor = entry.getValue();
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
@@ -525,8 +525,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 			
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {
-				List<Hyperlink> linkList = pageLinks.get(linkPage);
+			for (Entry<Integer, List<Hyperlink>> entry : pageLinks.entrySet()) {
+				Integer linkPage = entry.getKey();
+				List<Hyperlink> linkList = entry.getValue();
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
 						index = onePagePerSheetMap.get(linkPage-1)!= null 
@@ -1003,7 +1004,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								if(anchorLinks.containsKey(href)) {
 									(anchorLinks.get(href)).add(link);
 								} else {
-									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									List<Hyperlink> hrefList = new ArrayList<>();
 									hrefList.add(link);
 									anchorLinks.put(href, hrefList);
 								}
@@ -1019,7 +1020,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
 								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							} else {
-								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+								List<Hyperlink> hrefList = new ArrayList<>();
 								hrefList.add(link);
 								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}

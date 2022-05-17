@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ExcelXlsQeDataAdapterReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
-	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsQeDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsQeDataAdapter.jrdax"/>
 	<property name="net.sf.jasperreports.xls.column.names" value="city,id,name,address,state,date"/>
 	<property name="net.sf.jasperreports.xls.column.indexes" value="0,2,3,4,5,6"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>

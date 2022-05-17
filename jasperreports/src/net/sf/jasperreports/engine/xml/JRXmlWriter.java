@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -286,7 +286,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		List<PropertySuffix> excludeProperties = JRPropertiesUtil.getInstance(context).getProperties(
 				PREFIX_EXCLUDE_PROPERTIES);
 		
-		excludePropertiesPattern = new ArrayList<Pattern>(excludeProperties.size());
+		excludePropertiesPattern = new ArrayList<>(excludeProperties.size());
 		for (PropertySuffix propertySuffix : excludeProperties)
 		{
 			String regex = propertySuffix.getValue();
@@ -357,12 +357,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String encoding
 		) throws JRException
 	{
-		OutputStream os = null;
-
-		try
+		try (
+			Writer out = 
+				new OutputStreamWriter(
+					new BufferedOutputStream(
+						new FileOutputStream(destFileName)
+						), 
+					encoding
+					)
+			)
 		{
-			os = new BufferedOutputStream(new FileOutputStream(destFileName));
-			Writer out = new OutputStreamWriter(os, encoding);
 			writeReport(report, encoding, out);
 		}
 		catch (IOException e)
@@ -372,19 +376,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (os != null)
-			{
-				try
-				{
-					os.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -691,15 +682,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writeTemplate(template);
 			}
 		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #writeTemplates(JRReport)}.
-	 */
-	protected void writeTemplates() throws IOException
-	{
-		writeTemplates(report);
 	}
 
 
@@ -1135,6 +1117,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					stretchType = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
 					break;
 				}
+				default :
 			}
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchType, StretchTypeEnum.NO_STRETCH);
@@ -3151,7 +3134,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		else
 		{
 			JRCrosstabCell[][] cells = crosstab.getCells();
-			Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
+			Set<JRCrosstabCell> cellsSet = new HashSet<>();
 			for (int i = cells.length - 1; i >= 0 ; --i)
 			{
 				for (int j = cells[i].length - 1; j >= 0 ; --j)

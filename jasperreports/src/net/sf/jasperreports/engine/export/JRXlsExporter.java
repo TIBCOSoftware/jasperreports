@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,6 +48,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -110,13 +111,16 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -159,18 +163,18 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	static
 	{
 		Map<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
-		hssfColorsRgbs = new LinkedHashMap<HSSFColor, short[]>();
+		hssfColorsRgbs = new LinkedHashMap<>();
 		for (HSSFColor color : hssfColors.values())
 		{
 			hssfColorsRgbs.put(color, color.getTriplet());
 		}
 	}
 
-	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
-	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
-	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
-	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
-	protected Map<HSSFSheet,List<Integer>> autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<>();
+	protected Map<HSSFSheet,List<Integer>> autofitColumns = new HashMap<>();
 
 	/**
 	 *
@@ -182,7 +186,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
 	private HSSFPalette palette = null;
-	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<Color, HSSFColor>();
+	private Map<Color,HSSFColor> hssfColorsCache = new HashMap<>();
 
 	/**
 	 *
@@ -311,11 +315,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 				}
 			} 
-			catch (JRException e) 
-			{
-				throw new JRRuntimeException(e);
-			} 
-			catch (IOException e) 
+			catch (JRException | IOException e) 
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -341,8 +341,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
-		autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
-		formulaCellsMap = new HashMap<HSSFCell,String>();
+		autofitColumns = new HashMap<>();
+		formulaCellsMap = new HashMap<>();
 		
 		SummaryInformation summaryInformation = workbook.getSummaryInformation();
 		if (summaryInformation == null)
@@ -547,9 +547,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		try
 		{
-			for (Object anchorName : anchorNames.keySet())		// the anchorNames map contains no entries for reports with ignore anchors == true;
+			for (Entry<String, HSSFName> entry : anchorNames.entrySet())		// the anchorNames map contains no entries for reports with ignore anchors == true;
 			{
-				HSSFName anchor = anchorNames.get(anchorName);
+				String anchorName = entry.getKey();
+				HSSFName anchor = entry.getValue();
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
@@ -605,8 +606,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			}
 			
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true 
-				List<Hyperlink> linkList = pageLinks.get(linkPage);
+			for (Entry<Integer, List<Hyperlink>> entry : pageLinks.entrySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true
+				Integer linkPage = entry.getKey();
+				List<Hyperlink> linkList = entry.getValue();
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
 						index = onePagePerSheetMap.get(linkPage-1)!= null 
@@ -651,7 +653,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		if (autoFit)
 		{
 			//the autofit will be applied before closing workbook, after the sheet completion
-			List<Integer> autofitList= autofitColumns.get(sheet) != null ? autofitColumns.get(sheet) : new ArrayList<Integer>();
+			List<Integer> autofitList= autofitColumns.get(sheet) != null ? autofitColumns.get(sheet) : new ArrayList<>();
 			autofitList.add(col);
 			autofitColumns.put(sheet, autofitList);
 		}
@@ -1765,6 +1767,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			int translateY = 0;
 			short angle = 0;
 			
+			// exif orientation is taken care inside the wrapping renderer 
 			switch (imageElement.getRotation())
 			{
 				case LEFT :
@@ -1876,9 +1879,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		
 		private InternalImageProcessorResult processImageFillFrame(DataRenderable renderer) throws JRException
 		{
+			byte[] imageData = renderer.getData(jasperReportsContext); 
+			ExifOrientationEnum exifOrientation = ImageUtil.getExifOrientation(imageData);
+
 			short angle = 0;
 			
-			switch (imageElement.getRotation())
+			switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 			{
 				case LEFT:
 					angle = -90;
@@ -1897,7 +1903,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			
 			return 
 				new InternalImageProcessorResult(
-					renderer.getData(jasperReportsContext), 
+					imageData, 
 					0,
 					0,
 					0,
@@ -1932,7 +1938,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 			short angle = 0;
 	
-			switch (imageElement.getRotation())
+			byte[] imageData = renderer.getData(jasperReportsContext); 
+			ExifOrientationEnum exifOrientation = ImageUtil.getExifOrientation(imageData);
+
+			switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 			{
 				case LEFT:
 					ratioX = availableImageWidth / normalHeight;
@@ -1988,10 +1997,260 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					angle = 0;
 					break;
 			}
+
+			/*
+			 * The code below the result of tests alone and not the result of prior design or understanding of how image cropping works in the Microsoft document formats.
+			 * Trial and error during tests were the only way to achieve desired output and this code is the result of this trial and error technique alone, 
+			 * without actually understanding how image cropping works in these document formats.
+			 */
+			switch (imageElement.getRotation())
+			{
+				case LEFT :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case RIGHT :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case UPSIDE_DOWN :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+				case NONE :
+				default :
+					switch (exifOrientation)
+					{
+						case UPSIDE_DOWN :
+						{
+							int t = leftOffset;
+							leftOffset = rightOffset;
+							rightOffset = t;
+							t = topOffset;
+							topOffset = bottomOffset;
+							bottomOffset = t;
+							break;
+						}
+						case RIGHT :
+						{
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							break;
+						}
+						case LEFT :
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								)
+							{
+								int t = topOffset;
+								topOffset = bottomOffset;
+								bottomOffset = t;
+							}
+							if (
+								(imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.BOTTOM)
+								|| (imageElement.getHorizontalImageAlign() == HorizontalImageAlignEnum.RIGHT && imageElement.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)
+								)
+							{
+								int t = leftOffset;
+								leftOffset = rightOffset;
+								rightOffset = t;
+							}
+							break;
+						case NORMAL :
+						default :
+							break;
+					}
+					break;
+			}
 			
 			return 
 				new InternalImageProcessorResult(
-					renderer.getData(jasperReportsContext), 
+					imageData, 
 					topOffset, 
 					leftOffset, 
 					bottomOffset, 
@@ -2267,7 +2526,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 								}
 								else
 								{
-									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									List<Hyperlink> hrefList = new ArrayList<>();
 									hrefList.add(link);
 									anchorLinks.put(href, hrefList);
 								}
@@ -2288,7 +2547,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 							}
 							else
 							{
-								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+								List<Hyperlink> hrefList = new ArrayList<>();
 								hrefList.add(link);
 								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}
@@ -2407,11 +2666,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		Map<String, Integer> levelMap = levelInfo.getLevelMap();
 		if(levelMap != null && levelMap.size() > 0)
 		{
-			for(String l : levelMap.keySet())
+			for (Entry<String, Integer> entry : levelMap.entrySet())
 			{
+				String l = entry.getKey(); 
 				if (level == null || l.compareTo(level) >= 0)
 				{
-					Integer startIndex = levelMap.get(l);
+					Integer startIndex = entry.getValue();
 					if(levelInfo.getEndIndex() >= startIndex)
 					{
 						sheet.groupRow(startIndex, levelInfo.getEndIndex());

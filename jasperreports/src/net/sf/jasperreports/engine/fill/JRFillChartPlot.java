@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,8 +26,6 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
-
-import org.jfree.chart.plot.PlotOrientation;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
@@ -107,28 +105,10 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 	}
 
-	/**
-	 * @deprecated Replaed by {@link #getOrientationValue()}.
-	 */
-	@Override
-	public PlotOrientation getOrientation()
-	{
-		return getOrientationValue().getOrientation();
-	}
-	
 	@Override
 	public PlotOrientationEnum getOrientationValue()
 	{
 		return parent.getOrientationValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
-	 */
-	@Override
-	public void setOrientation(PlotOrientation orientation)
-	{
-		setOrientation(PlotOrientationEnum.getByValue(orientation));
 	}
 		
 	@Override

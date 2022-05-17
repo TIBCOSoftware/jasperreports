@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -65,7 +65,7 @@ public class MatcherExportFilterMappingExtensionsRegistryFactory implements Exte
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> exportFilterMappingProperties = JRPropertiesUtil.getProperties(properties, MATCHER_EXPORT_FILTER_MAPPING_PROPERTY_PREFIX);
-		List<MatcherExportFilterMapping> exportFilterMappings = new ArrayList<MatcherExportFilterMapping>();
+		List<MatcherExportFilterMapping> exportFilterMappings = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = exportFilterMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix exportFilterMappingProp = it.next();

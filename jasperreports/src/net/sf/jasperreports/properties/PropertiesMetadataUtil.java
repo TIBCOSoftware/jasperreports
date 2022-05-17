@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -185,7 +185,7 @@ public class PropertiesMetadataUtil
 	public List<PropertyMetadata> getElementProperties(JRElement element)
 	{
 		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> elementProperties = new ArrayList<PropertyMetadata>();
+		List<PropertyMetadata> elementProperties = new ArrayList<>();
 		for (PropertyMetadata propertyMetadata : allProperties)
 		{
 			if (inScope(propertyMetadata, element))
@@ -276,7 +276,7 @@ public class PropertiesMetadataUtil
 	public List<PropertyMetadata> getReportProperties(JRReport report)
 	{
 		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> reportProperties = new ArrayList<PropertyMetadata>();
+		List<PropertyMetadata> reportProperties = new ArrayList<>();
 		for (PropertyMetadata propertyMetadata : allProperties)
 		{
 			List<PropertyScope> scopes = propertyMetadata.getScopes();
@@ -306,7 +306,7 @@ public class PropertiesMetadataUtil
 		String dataFileQualification = dataAdapter == null ? null : dataFileQualification(dataAdapter);
 		
 		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> reportProperties = new ArrayList<PropertyMetadata>();
+		List<PropertyMetadata> reportProperties = new ArrayList<>();
 		for (PropertyMetadata propertyMetadata : allProperties)
 		{
 			List<PropertyScope> scopes = propertyMetadata.getScopes();
@@ -337,7 +337,7 @@ public class PropertiesMetadataUtil
 	public List<PropertyMetadata> getContainerProperties(JRElementGroup container)
 	{
 		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> containerProperties = new ArrayList<PropertyMetadata>();
+		List<PropertyMetadata> containerProperties = new ArrayList<>();
 		for (PropertyMetadata propertyMetadata : allProperties)
 		{
 			if (inScope(propertyMetadata, container))

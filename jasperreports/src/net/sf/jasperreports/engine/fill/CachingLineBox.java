@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -170,15 +170,6 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnPadding();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setPadding(Integer)}.
-	 */
-	@Override
-	public void setPadding(int padding)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	@Override
 	public void setPadding(Integer padding)
 	{
@@ -195,15 +186,6 @@ public class CachingLineBox implements JRLineBox
 	public Integer getOwnTopPadding()
 	{
 		return base.getOwnTopPadding();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTopPadding(Integer)}.
-	 */
-	@Override
-	public void setTopPadding(int padding)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -224,15 +206,6 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnLeftPadding();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setLeftPadding(Integer)}.
-	 */
-	@Override
-	public void setLeftPadding(int padding)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	@Override
 	public void setLeftPadding(Integer padding)
 	{
@@ -251,15 +224,6 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnBottomPadding();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setBottomPadding(Integer)}.
-	 */
-	@Override
-	public void setBottomPadding(int padding)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	@Override
 	public void setBottomPadding(Integer padding)
 	{
@@ -276,15 +240,6 @@ public class CachingLineBox implements JRLineBox
 	public Integer getOwnRightPadding()
 	{
 		return base.getOwnRightPadding();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRightPadding(Integer)}.
-	 */
-	@Override
-	public void setRightPadding(int padding)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

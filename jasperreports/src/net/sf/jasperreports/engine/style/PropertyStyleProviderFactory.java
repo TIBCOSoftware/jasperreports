@@ -1,7 +1,7 @@
 package net.sf.jasperreports.engine.style;
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -66,7 +66,7 @@ public final class PropertyStyleProviderFactory implements StyleProviderFactory
 				{
 					if (stylePropertyExpressions == null)
 					{
-						stylePropertyExpressions = new HashMap<String, JRPropertyExpression>();
+						stylePropertyExpressions = new HashMap<>();
 					}
 					stylePropertyExpressions.put(propertyExpression.getName(), propertyExpression);
 				}

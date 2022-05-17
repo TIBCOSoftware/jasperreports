@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,7 +30,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -92,14 +91,10 @@ public class HttpDataConnection implements DataFileConnection
 			
 			return entity.getContent();
 		}
-		catch (ClientProtocolException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
+		} 
 	}
 
 	@Override

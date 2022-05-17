@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -70,7 +70,7 @@ public class HorizontalFillList extends BaseFillList
 				createDatasetExpressionEvaluator());
 		FillListContents fillContents = new FillListContents(
 				listContents, datasetFactory);
-		this.contentsList = new ArrayList<FillListContents>();
+		this.contentsList = new ArrayList<>();
 		this.contentsList.add(fillContents);
 	}
 
@@ -84,7 +84,7 @@ public class HorizontalFillList extends BaseFillList
 		FillListContents listContents = list.contentsList.get(0);
 		FillListContents contentsClone = new FillListContents(listContents, factory);
 		
-		this.contentsList = new ArrayList<FillListContents>();
+		this.contentsList = new ArrayList<>();
 		this.contentsList.add(contentsClone);
 	}
 

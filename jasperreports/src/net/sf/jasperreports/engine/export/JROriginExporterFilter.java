@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -142,9 +143,9 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	private static final String GROUP_PREFIX = "group.";
 	private static final String REPORT_PREFIX = "report.";
 	
-	private Map<JROrigin,Boolean> originsToExclude = new HashMap<JROrigin,Boolean>();
-	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<Integer,JRPrintElement>();
-	private Map<JROrigin,Boolean> matchedOrigins = new HashMap<JROrigin,Boolean>();
+	private Map<JROrigin,Boolean> originsToExclude = new HashMap<>();
+	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<>();
+	private Map<JROrigin,Boolean> matchedOrigins = new HashMap<>();
 	
 	public void addOrigin(JROrigin origin)
 	{
@@ -164,7 +165,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	@Override
 	public void reset()
 	{
-		firstOccurrences = new HashMap<Integer,JRPrintElement>();
+		firstOccurrences = new HashMap<>();
 	}
 	
 	@Override
@@ -180,11 +181,12 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			
 			if (keepFirst == null)
 			{
-				for (JROrigin originToExclude : originsToExclude.keySet())
+				for (Entry<JROrigin, Boolean> entry : originsToExclude.entrySet())
 				{
+					JROrigin originToExclude = entry.getKey();
 					if (match(originToExclude, origin))
 					{
-						keepFirst = originsToExclude.get(originToExclude);
+						keepFirst = entry.getValue();
 						matchedOrigins.put(origin, keepFirst);
 						break;
 					}

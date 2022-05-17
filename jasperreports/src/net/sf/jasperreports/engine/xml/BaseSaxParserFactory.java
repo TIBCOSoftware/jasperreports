@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -118,15 +118,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			configureParser(parser);
 			return parser;
 		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_PARSER_CREATION_ERROR,
-					(Object[])null,
-					e);
-		}
-		catch (ParserConfigurationException e)
+		catch (SAXException | ParserConfigurationException e)
 		{
 			throw 
 				new JRRuntimeException(
@@ -221,7 +213,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			ReferenceMap<Object, Object> cacheMap = grammarPoolCache.get();
 			if (cacheMap == null)
 			{
-				cacheMap = new ReferenceMap<Object, Object>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
+				cacheMap = new ReferenceMap<>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 				grammarPoolCache.set(cacheMap);
 			}
 			

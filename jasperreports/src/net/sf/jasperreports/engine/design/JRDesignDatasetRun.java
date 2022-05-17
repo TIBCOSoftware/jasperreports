@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -70,8 +70,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 */
 	public JRDesignDatasetRun()
 	{
-		parametersMap = new HashMap<String, JRDatasetParameter>();
-		parametersList = new ArrayList<JRDatasetParameter>();
+		parametersMap = new HashMap<>();
+		parametersList = new ArrayList<>();
 		
 		returnValues = new ArrayList<ReturnValue>(2);
 	}
@@ -254,8 +254,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList<JRDatasetParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String, JRDatasetParameter>(parametersList.size());
+			clone.parametersList = new ArrayList<>(parametersList.size());
+			clone.parametersMap = new HashMap<>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRDatasetParameter parameter = JRCloneUtils.nullSafeClone(parametersList.get(i));

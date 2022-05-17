@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,7 +50,7 @@ public class CharPredicateCacheTest
 	@DataProvider
 	public Object[][] notCacheableCodepoints()
 	{
-		List<Object[]> codepoints = new ArrayList<Object[]>();
+		List<Object[]> codepoints = new ArrayList<>();
 		codepoints.add(new Object[]{-1});
 		codepoints.add(new Object[]{-2});
 		codepoints.add(new Object[]{Integer.MIN_VALUE});
@@ -132,7 +132,7 @@ public class CharPredicateCacheTest
 	@DataProvider
 	public Object[][] codepoints()
 	{
-		List<Object[]> codepoints = new ArrayList<Object[]>();
+		List<Object[]> codepoints = new ArrayList<>();
 		for (int i = 0; i < 0x2ffff; i += 0x400)
 		{
 			codepoints.add(new Object[]{i, 1});

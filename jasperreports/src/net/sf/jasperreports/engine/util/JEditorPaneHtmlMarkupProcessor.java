@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -76,11 +76,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	@Override
 	public String convert(String srcText)
 	{
-		if (srcText.contains("<"))
+		if (srcText.indexOf('<') >= 0 || srcText.indexOf('&') >= 0)
 		{
 			JRStyledText styledText = new JRStyledText();
 			
-			htmlListStack = new Stack<StyledTextListInfo>();
+			htmlListStack = new Stack<>();
 
 			JEditorPane editorPane = new JEditorPane("text/html", srcText);
 			editorPane.setEditable(false);
@@ -94,7 +94,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				processElement(styledText, root);
 			}
 
-			styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
+			styledText.setGlobalAttributes(new HashMap<>());
 			
 			return JRStyledTextParser.getInstance().write(styledText);
 		}
@@ -130,7 +130,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 
 					processElement(styledText, element);
-					styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+					styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
 
 					if (startIndex < styledText.length()) {
 						styledText.append("\n");
@@ -156,7 +156,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					
 					insideLi = false;
 					
-					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+					Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
@@ -171,7 +171,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if (htmlTag == Tag.LI)
 				{
-					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+					Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 					StyledTextListInfo htmlList = null;
 					

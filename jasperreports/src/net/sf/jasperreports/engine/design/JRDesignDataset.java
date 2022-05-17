@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -121,43 +121,43 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * Scriptlets mapped by name.
 	 */
-	protected Map<String, JRScriptlet> scriptletsMap = new HashMap<String, JRScriptlet>();
-	protected List<JRScriptlet> scriptletsList = new ArrayList<JRScriptlet>();
+	protected Map<String, JRScriptlet> scriptletsMap = new HashMap<>();
+	protected List<JRScriptlet> scriptletsList = new ArrayList<>();
 
 	/**
 	 * Parameters mapped by name.
 	 */
-	protected Map<String, JRParameter> parametersMap = new HashMap<String, JRParameter>();
-	protected List<JRParameter> parametersList = new ArrayList<JRParameter>();
+	protected Map<String, JRParameter> parametersMap = new HashMap<>();
+	protected List<JRParameter> parametersList = new ArrayList<>();
 
 	/**
 	 * Fields mapped by name.
 	 */
-	protected Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
-	protected List<JRField> fieldsList = new ArrayList<JRField>();
+	protected Map<String, JRField> fieldsMap = new HashMap<>();
+	protected List<JRField> fieldsList = new ArrayList<>();
 
 
 	/**
 	 * Sort fields mapped by name.
 	 */
-	protected Map<String, JRSortField> sortFieldsMap = new HashMap<String, JRSortField>();
-	protected List<JRSortField> sortFieldsList = new ArrayList<JRSortField>();
+	protected Map<String, JRSortField> sortFieldsMap = new HashMap<>();
+	protected List<JRSortField> sortFieldsList = new ArrayList<>();
 
 
 	/**
 	 * Variables mapped by name.
 	 */
-	protected Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
-	protected List<JRVariable> variablesList = new ArrayList<JRVariable>();
+	protected Map<String, JRVariable> variablesMap = new HashMap<>();
+	protected List<JRVariable> variablesList = new ArrayList<>();
 
 
 	/**
 	 * Groups mapped by name.
 	 */
-	protected Map<String, JRGroup> groupsMap = new HashMap<String, JRGroup>();
-	protected List<JRGroup> groupsList = new ArrayList<JRGroup>();
+	protected Map<String, JRGroup> groupsMap = new HashMap<>();
+	protected List<JRGroup> groupsList = new ArrayList<>();
 
-	private List<DatasetPropertyExpression> propertyExpressions = new ArrayList<DatasetPropertyExpression>();
+	private List<DatasetPropertyExpression> propertyExpressions = new ArrayList<>();
 
 	
 	private class QueryLanguageChangeListener implements PropertyChangeListener, Serializable
@@ -1416,16 +1416,16 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (sortFieldsMap == null)
 		{
-			sortFieldsMap = new HashMap<String, JRSortField>();
+			sortFieldsMap = new HashMap<>();
 		}
 		if (sortFieldsList == null)
 		{
-			sortFieldsList = new ArrayList<JRSortField>();
+			sortFieldsList = new ArrayList<>();
 		}
 		
 		if (propertyExpressions == null)
 		{
-			propertyExpressions = new ArrayList<DatasetPropertyExpression>();
+			propertyExpressions = new ArrayList<>();
 		}
 
 		@SuppressWarnings("resource")
@@ -1456,8 +1456,8 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList<JRParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String, JRParameter>(parametersList.size());
+			clone.parametersList = new ArrayList<>(parametersList.size());
+			clone.parametersMap = new HashMap<>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRParameter parameter = JRCloneUtils.nullSafeClone(parametersList.get(i));
@@ -1468,8 +1468,8 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (fieldsList != null)
 		{
-			clone.fieldsList = new ArrayList<JRField>(fieldsList.size());
-			clone.fieldsMap = new HashMap<String, JRField>(fieldsList.size());
+			clone.fieldsList = new ArrayList<>(fieldsList.size());
+			clone.fieldsMap = new HashMap<>(fieldsList.size());
 			for(int i = 0; i < fieldsList.size(); i++)
 			{
 				JRField field = JRCloneUtils.nullSafeClone(fieldsList.get(i));
@@ -1480,8 +1480,8 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (sortFieldsList != null)
 		{
-			clone.sortFieldsList = new ArrayList<JRSortField>(sortFieldsList.size());
-			clone.sortFieldsMap = new HashMap<String, JRSortField>(sortFieldsList.size());
+			clone.sortFieldsList = new ArrayList<>(sortFieldsList.size());
+			clone.sortFieldsMap = new HashMap<>(sortFieldsList.size());
 			for(int i = 0; i < sortFieldsList.size(); i++)
 			{
 				JRSortField sortField = JRCloneUtils.nullSafeClone(sortFieldsList.get(i));
@@ -1494,8 +1494,8 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (variablesList != null)
 		{
-			clone.variablesList = new ArrayList<JRVariable>(variablesList.size());
-			clone.variablesMap = new HashMap<String, JRVariable>(variablesList.size());
+			clone.variablesList = new ArrayList<>(variablesList.size());
+			clone.variablesMap = new HashMap<>(variablesList.size());
 			for(int i = 0; i < variablesList.size(); i++)
 			{
 				JRVariable variable = cloneStore.clone(variablesList.get(i));
@@ -1506,8 +1506,8 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (groupsList != null)
 		{
-			clone.groupsList = new ArrayList<JRGroup>(groupsList.size());
-			clone.groupsMap = new HashMap<String, JRGroup>(groupsList.size());
+			clone.groupsList = new ArrayList<>(groupsList.size());
+			clone.groupsMap = new HashMap<>(groupsList.size());
 			for(int i = 0; i < groupsList.size(); i++)
 			{
 				JRGroup group = cloneStore.clone(groupsList.get(i));

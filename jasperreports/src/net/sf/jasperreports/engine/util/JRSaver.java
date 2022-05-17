@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -76,18 +76,16 @@ public final class JRSaver
 		File file
 		) throws JRException
 	{
-		FileOutputStream fos = null;
-		ObjectOutputStream oos = null;
-
-		try
+		try (
+			ObjectOutputStream oos = 
+				new ObjectOutputStream(
+					new BufferedOutputStream(
+						new FileOutputStream(file)
+						)
+					)
+			)
 		{
-			fos = new FileOutputStream(file);
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			oos = new ObjectOutputStream(bos);
 			oos.writeObject(obj);
-			oos.flush();
-			bos.flush();
-			fos.flush();
 		}
 		catch (IOException e)
 		{
@@ -96,30 +94,6 @@ public final class JRSaver
 					EXCEPTION_MESSAGE_KEY_FILE_SAVE_ERROR,
 					new Object[]{file},
 					e);
-		}
-		finally
-		{
-			if (oos != null)
-			{
-				try
-				{
-					oos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -159,15 +133,14 @@ public final class JRSaver
 		File file
 		) throws JRException
 	{
-		FileWriter fwriter = null;
-
-		try
+		try (
+			BufferedWriter writer = 
+				new BufferedWriter(
+					new FileWriter(file)
+					)
+			)
 		{
-			fwriter = new FileWriter(file);
-			BufferedWriter bufferedWriter = new BufferedWriter(fwriter);
-			bufferedWriter.write(source);
-			bufferedWriter.flush();
-			fwriter.flush();
+			writer.write(source);
 		}
 		catch (IOException e)
 		{
@@ -177,19 +150,6 @@ public final class JRSaver
 					new Object[]{file},
 					e);
 		}
-		finally
-		{
-			if (fwriter != null)
-			{
-				try
-				{
-					fwriter.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
 	}
 
 
@@ -198,33 +158,13 @@ public final class JRSaver
 	 */
 	public static void saveResource(String resource, File file)
 	{
-		FileOutputStream fos = null;
-
-		try
+		try (FileOutputStream fos = new FileOutputStream(file))
 		{
-			fos = new FileOutputStream(file);
 			fos.write(JRLoader.loadBytesFromResource(resource));
 		}
-		catch (JRException e)
+		catch (JRException | IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 	

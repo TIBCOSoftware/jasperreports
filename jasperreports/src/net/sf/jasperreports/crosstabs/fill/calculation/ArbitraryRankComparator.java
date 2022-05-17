@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -42,7 +42,7 @@ public class ArbitraryRankComparator implements Comparator<Object>
 
 	// using a weak ref map to store ranks per objects
 	private final ReferenceMap<Object, Long> ranks = 
-		new ReferenceMap<Object, Long>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
 	private long rankCounter = Long.MIN_VALUE;

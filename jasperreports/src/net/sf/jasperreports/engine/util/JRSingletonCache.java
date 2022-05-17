@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,7 +53,7 @@ public class JRSingletonCache<T>
 	 */
 	public JRSingletonCache(Class<T> itf)
 	{
-		cache = new ReferenceMap<Object, Map<String,T>>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
+		cache = new ReferenceMap<>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 		this.itf = itf;
 	}
 
@@ -121,7 +121,7 @@ public class JRSingletonCache<T>
 		Map<String,T> contextCache = cache.get(contextKey);
 		if (contextCache == null)
 		{
-			contextCache = new ReferenceMap<String,T>();
+			contextCache = new ReferenceMap<>();
 			cache.put(contextKey, contextCache);
 		}
 		return contextCache;

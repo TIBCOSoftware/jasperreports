@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -71,7 +71,7 @@ public final class ExtensionsEnvironment
 		JRPropertiesUtil.PROPERTY_PREFIX + "extensions.registry.class";
 	
 	private static ExtensionsRegistry systemRegistry;
-	private static final ThreadLocal<ExtensionsRegistry> threadRegistry = new InheritableThreadLocal<ExtensionsRegistry>();
+	private static final ThreadLocal<ExtensionsRegistry> threadRegistry = new InheritableThreadLocal<>();
 	
 	static
 	{
@@ -152,7 +152,7 @@ public final class ExtensionsEnvironment
 	 */
 	public static void resetThreadExtensionsRegistry()
 	{
-		threadRegistry.set(null);
+		threadRegistry.remove();
 	}
 	
 	/**

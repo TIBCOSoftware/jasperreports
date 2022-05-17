@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -84,9 +84,9 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			if (boldItalicFace != null)
 				clone.setBoldItalicFace((SimpleFontFace) boldItalicFace.clone());
 			if (locales != null)
-				clone.setLocales(new HashSet<String>(locales));
+				clone.setLocales(new HashSet<>(locales));
 			if (exportFonts != null)
-				clone.setExportFonts(new HashMap<String, String>(exportFonts));
+				clone.setExportFonts(new HashMap<>(exportFonts));
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new JRRuntimeException(e);
@@ -194,14 +194,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	}
 
 	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getNormalPdfFont() {
-		return getNormalFace() == null ? null : getNormalFace().getPdf();
-	}
-
-	/**
 	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setNormalPdfFont(String normalPdfFont) {
@@ -209,14 +201,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			normalFace = new SimpleFontFace(jasperReportsContext);
 		}
 		normalFace.setPdf(normalPdfFont);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getBoldPdfFont() {
-		return getBoldFace() == null ? null : getBoldFace().getPdf();
 	}
 
 	/**
@@ -230,14 +214,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	}
 
 	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getItalicPdfFont() {
-		return getItalicFace() == null ? null : getItalicFace().getPdf();
-	}
-
-	/**
 	 * @deprecated Replaced by {@link SimpleFontFace#setPdf(String)}.
 	 */
 	public void setItalicPdfFont(String italicPdfFont) {
@@ -245,14 +221,6 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			italicFace = new SimpleFontFace(jasperReportsContext);
 		}
 		italicFace.setPdf(italicPdfFont);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	@Override
-	public String getBoldItalicPdfFont() {
-		return getBoldItalicFace() == null ? null : getBoldItalicFace().getPdf();
 	}
 
 	/**
