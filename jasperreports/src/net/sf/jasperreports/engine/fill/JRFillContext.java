@@ -113,7 +113,7 @@ public class JRFillContext
 	 */
 	private final boolean legacyBandEvaluationEnabled;
 
-	private final FillEvents fillEvents;
+	private FillEvents fillEvents;
 	
 	/**
 	 * Constructs a fill context.
@@ -141,8 +141,6 @@ public class JRFillContext
 			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
 				);
-		
-		fillEvents = new FillEvents(this);
 	}
 
 	public BaseReportFiller getMasterFiller()
@@ -153,6 +151,11 @@ public class JRFillContext
 	protected JRStyledTextUtil getStyledTextUtil()
 	{
 		return styledTextUtil;
+	}
+
+	public void init()
+	{
+		fillEvents = new FillEvents(this);
 	}
 
 	public FillEvents getFillEvents()
