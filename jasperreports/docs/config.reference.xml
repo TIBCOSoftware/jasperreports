@@ -7389,4 +7389,16 @@ See the documentation of <code>java.sql.Connection</code> for details on the tra
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.html.include.element.uuid -->
+
+  <configProperty name="net.sf.jasperreports.export.html.include.element.uuid">
+    <description>
+Property that determines whether design element UUIDs are included in the HTML exporter output as <code>data-eluuid</code> attributes of <code>td</code> elements.
+<br/>
+Its value is used as default for the
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isIncludeElementUUID()">HtmlReportConfiguration.isIncludeElementUUID()</api> HTML export configuration setting.
+    </description>
+  </configProperty>
+
+
 </configReference>

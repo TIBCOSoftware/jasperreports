@@ -45,6 +45,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean isEmbeddedSvgUseFonts;
 	private Boolean isConvertSvgToImage;
 	private Boolean isUseBackgroundImageToAlign;
+	private Boolean includeElementUUID;
 
 	
 	/**
@@ -252,4 +253,16 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	{
 		this.isUseBackgroundImageToAlign = isUseBackgroundImageToAlign;
 	}
+
+	@Override
+	public Boolean isIncludeElementUUID()
+	{
+		return includeElementUUID;
+	}
+
+	public void setIncludeElementUUID(Boolean includeElementUUID)
+	{
+		this.includeElementUUID = includeElementUUID;
+	}
+
 }

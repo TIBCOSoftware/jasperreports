@@ -2017,6 +2017,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			sb.append(" class=\"" + JRStringUtil.encodeXmlAttribute(clazz) +"\"");
 		}
+
+		if (getCurrentItemConfiguration().isIncludeElementUUID())
+		{
+			sb.append(" data-eluuid=\"" + element.getUUID() + "\"");
+		}
+
 		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);//FIXMEJIVE register properties like this in a pluggable way; extensions?
 		if (colUuid != null)
 		{
