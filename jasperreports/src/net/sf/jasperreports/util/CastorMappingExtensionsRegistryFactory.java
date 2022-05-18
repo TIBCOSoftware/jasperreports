@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,7 @@ import net.sf.jasperreports.extensions.ListExtensionRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
@@ -53,7 +54,7 @@ public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistr
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> castorMappingProperties = JRPropertiesUtil.getProperties(properties, CASTOR_MAPPING_PROPERTY_PREFIX);
-		List<CastorMapping> castorMappings = new ArrayList<CastorMapping>();
+		List<CastorMapping> castorMappings = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = castorMappingProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix castorMappingProp = it.next();

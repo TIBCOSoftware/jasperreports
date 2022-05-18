@@ -12,7 +12,7 @@
 	topMargin="50" 
 	bottomMargin="50" 
 	uuid="623644de-c1a7-4f9b-a0b8-6cd49534177b">
-	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsxQeDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="data/ExcelXlsxQeDataAdapter.jrdax"/>
 	<property name="net.sf.jasperreports.xlsx.column.names" value="city,id,name,address,state,date"/>
 	<property name="net.sf.jasperreports.xlsx.column.indexes" value="0,2,3,4,5,6"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>

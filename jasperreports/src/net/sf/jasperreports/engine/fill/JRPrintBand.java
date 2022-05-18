@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ public class JRPrintBand implements JRPrintElementContainer, OffsetElementsConta
 	 */
 	private int height;
 	// adding both elements and OffsetElements to this list
-	private List<Object> elements = new ArrayList<Object>();
+	private List<Object> elements = new ArrayList<>();
 	private int contentsWidth;
 	private boolean iterated = false;
 

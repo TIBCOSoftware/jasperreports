@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -165,7 +165,7 @@ public class JRAntApiWriteTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		AntClassLoader classLoader = null;
 		if (classpath != null)
@@ -236,8 +236,7 @@ public class JRAntApiWriteTask extends JRBaseAntTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(@SuppressWarnings("unchecked")
-		Iterator<Resource> it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
 			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;

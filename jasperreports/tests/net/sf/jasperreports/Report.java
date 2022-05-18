@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -169,7 +169,7 @@ public class Report
 	{
 		if (params == null)
 		{
-			params = new HashMap<String, Object>();
+			params = new HashMap<>();
 		}
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
@@ -215,15 +215,15 @@ public class Report
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
-		try
+		try (
+			DigestOutputStream out = 
+				new DigestOutputStream(
+					new BufferedOutputStream(new FileOutputStream(outputFile)), 
+					digest
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
 			xmlExport(print, out);
-		}
-		finally
-		{
-			output.close();
 		}
 		
 		return toDigestString(digest);

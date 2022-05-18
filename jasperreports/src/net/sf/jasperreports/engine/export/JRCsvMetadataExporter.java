@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -169,8 +169,8 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		List<JRPrintElement> elements = page.getElements();
-		Map<String, String> currentRow = new HashMap<String, String>();
-		Map<String, String> repeatedValues = new HashMap<String, String>();
+		Map<String, String> currentRow = new HashMap<>();
+		Map<String, String> repeatedValues = new HashMap<>();
 		CsvMetadataReportConfiguration configuration = getCurrentItemConfiguration(); 
 		boolean hasDefinedColumns = columnNames != null; // if columns where passed in as property
 		
@@ -255,7 +255,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 			{
 				if (columnNames == null) 
 				{
-					columnNames = new ArrayList<String>();
+					columnNames = new ArrayList<>();
 				}
 				
 				if (currentColumnName != null && currentColumnName.length() > 0 && !columnNames.contains(currentColumnName))

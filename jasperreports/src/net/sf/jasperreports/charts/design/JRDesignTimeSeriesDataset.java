@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,7 +49,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	
 	public static final String PROPERTY_TIME_SERIES = "timeSeries";
 	
-	private List<JRTimeSeries> timeSeriesList = new ArrayList<JRTimeSeries>();
+	private List<JRTimeSeries> timeSeriesList = new ArrayList<>();
 	private Class<?> timePeriod;
 	
 

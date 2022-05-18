@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -149,7 +149,7 @@ public class JRExpressionCollector
 
 	protected static class GeneratedIds
 	{
-		private final TreeMap<Integer, JRExpression> ids = new TreeMap<Integer, JRExpression>();
+		private final TreeMap<Integer, JRExpression> ids = new TreeMap<>();
 		private int nextId;
 		private List<JRExpression> expressions;
 		
@@ -190,7 +190,7 @@ public class JRExpressionCollector
 		{
 			if (expressions == null)
 			{
-				expressions = new ArrayList<JRExpression>(ids.values());
+				expressions = new ArrayList<>(ids.values());
 			}
 			return expressions;
 		}
@@ -225,12 +225,12 @@ public class JRExpressionCollector
 
 		if (parent == null)
 		{
-			expressionIds = new HashMap<JRExpression,Integer>();
-			datasetCollectors = new HashMap<String,JRExpressionCollector>();
-			crosstabCollectors = new HashMap<JRCrosstab,JRExpressionCollector>();
-			contextStack = new LinkedList<Object>();
-			expressionContextMap = new HashMap<JRExpression, Object>();
-			crosstabIds = new HashMap<JRCrosstab,Integer>();
+			expressionIds = new HashMap<>();
+			datasetCollectors = new HashMap<>();
+			crosstabCollectors = new HashMap<>();
+			contextStack = new LinkedList<>();
+			expressionContextMap = new HashMap<>();
+			crosstabIds = new HashMap<>();
 		}
 		else
 		{
@@ -240,7 +240,7 @@ public class JRExpressionCollector
 			crosstabIds = parent.crosstabIds;
 		}
 
-		collectedStyles = new HashSet<JRStyle>();
+		collectedStyles = new HashSet<>();
 	}
 
 	/**
@@ -370,7 +370,7 @@ public class JRExpressionCollector
 	protected List<JRExpressionCollector> collectorsForExpression(Integer id, JRExpression expression)
 	{
 		JRExpressionCollector root = rootCollector();
-		List<JRExpressionCollector> collectors = new ArrayList<JRExpressionCollector>();
+		List<JRExpressionCollector> collectors = new ArrayList<>();
 		
 		if (root.hasExpression(id, expression))
 		{
@@ -537,7 +537,7 @@ public class JRExpressionCollector
 	 */
 	public List<JRExpression> getExpressions()
 	{
-		return new ArrayList<JRExpression>(generatedIds.expressions());
+		return new ArrayList<>(generatedIds.expressions());
 	}
 
 

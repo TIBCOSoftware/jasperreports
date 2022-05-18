@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -33,6 +32,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -46,7 +46,7 @@ public final class RepositoryUtil
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_NOT_FOUND = "repo.report.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_RESOURCET_NOT_FOUND = "repo.resource.not.found";
 	
-	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
+	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<>();
 	
 
 	private RepositoryContext context;
@@ -208,30 +208,17 @@ public final class RepositoryUtil
 	 */
 	public byte[] getBytesFromLocation(String location) throws JRException
 	{
-		InputStream is = findInputStream(location);
-		
-		if (is == null)
+		try (InputStream is = findInputStream(location))
 		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_BYTE_DATA_NOT_FOUND,
-					new Object[]{location});
-		}
-
-		ByteArrayOutputStream baos = null;
-
-		try
-		{
-			baos = new ByteArrayOutputStream();
-
-			byte[] bytes = new byte[10000];
-			int ln = 0;
-			while ((ln = is.read(bytes)) > 0)
+			if (is == null)
 			{
-				baos.write(bytes, 0, ln);
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_BYTE_DATA_NOT_FOUND,
+						new Object[]{location});
 			}
-
-			baos.flush();
+	
+			return JRLoader.readBytes(is);
 		}
 		catch (IOException e)
 		{
@@ -241,32 +228,6 @@ public final class RepositoryUtil
 					new Object[]{location},
 					e);
 		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (is != null)
-			{
-				try
-				{
-					is.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return baos.toByteArray();
 	}
 	
 	public ResourceInfo getResourceInfo(String location)

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -103,7 +103,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	static
 	{
 		// white list of Unicode blocks that have simple text layout
-		simpleLayoutBlocks = new HashSet<Character.UnicodeBlock>();
+		simpleLayoutBlocks = new HashSet<>();
 		// got these from sun.font.FontUtilities, but the list is not exhaustive
 		simpleLayoutBlocks.add(Character.UnicodeBlock.GREEK);
 		simpleLayoutBlocks.add(Character.UnicodeBlock.CYRILLIC);
@@ -181,7 +181,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 				}
 			}
 
-			fontInfos = new HashMap<FontKey, ElementFontInfo>();
+			fontInfos = new HashMap<>();
 		}
 	}
 
@@ -275,7 +275,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		{
 			JRFillElement fillElement = (JRFillElement) context.getElement();
 			JRFillContext fillContext = fillElement.getFiller().getFillContext();
-			elementFontKey = new Pair<UUID, FontKey>(fillElement.getUUID(), fontKey);
+			elementFontKey = new Pair<>(fillElement.getUUID(), fontKey);
 			
 			elementFontInfos = (Map<Pair<UUID, FontKey>, ElementFontInfo>) fillContext.getFillCache(FILL_CACHE_KEY_ELEMENT_FONT_INFOS);
 			if (elementFontInfos == null)
@@ -342,7 +342,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			generalFontInfos = (Map<FontKey, FontInfo>) fillContext.getFillCache(FILL_CACHE_KEY_GENERAL_FONT_INFOS);
 			if (generalFontInfos == null)
 			{
-				generalFontInfos = new HashMap<FontKey, FontInfo>();
+				generalFontInfos = new HashMap<>();
 				fillContext.setFillCache(FILL_CACHE_KEY_GENERAL_FONT_INFOS, generalFontInfos);
 			}
 			
@@ -565,7 +565,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	protected int measureExactLineBreakIndex(float width, int endLimit, boolean requireWord)
 	{
 		//FIXME would it be faster to create and cache a LineBreakMeasurer for the whole paragraph?
-		Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
+		Map<Attribute, Object> attributes = new HashMap<>();
 		// we only need the font as it includes the size and style
 		attributes.put(TextAttribute.FONT, fontInfo.fontInfo.font);
 		

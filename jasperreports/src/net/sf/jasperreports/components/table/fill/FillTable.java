@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -91,7 +91,7 @@ public class FillTable extends BaseFillComponent
 	private boolean filling;
 	private List<FillColumn> fillColumns;
 	private int fillWidth;
-	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<JRStyle, JRTemplateFrame>();
+	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<>();
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
 	{
@@ -103,7 +103,7 @@ public class FillTable extends BaseFillComponent
 		// this is needed for returned variables with evaluationTime=Auto
 		factory.registerDatasetRun(fillDatasetRun);
 		
-		this.fillSubreportFactories = new HashMap<List<FillColumn>, FillTableSubreportFactory>();
+		this.fillSubreportFactories = new HashMap<>();
 	}
 
 	public FillTable(FillTable table, JRFillCloneFactory factory)
@@ -250,7 +250,7 @@ public class FillTable extends BaseFillComponent
 				if (toPrint)
 				{
 					List<BaseColumn> columns = columnGroup.getColumns();
-					List<FillColumn> subColumns = new ArrayList<FillColumn>(columns.size());
+					List<FillColumn> subColumns = new ArrayList<>(columns.size());
 					int printWidth = 0;
 					for (BaseColumn column : columns)
 					{
@@ -291,7 +291,7 @@ public class FillTable extends BaseFillComponent
 	{
 		FillColumnEvaluator columnEvaluator = new FillColumnEvaluator(evaluation);
 		List<BaseColumn> columns = table.getColumns();
-		fillColumns = new ArrayList<FillColumn>(columns.size());
+		fillColumns = new ArrayList<>(columns.size());
 		fillWidth = 0;
 		for (BaseColumn column : columns)
 		{

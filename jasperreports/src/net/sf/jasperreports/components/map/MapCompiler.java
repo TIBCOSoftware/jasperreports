@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 public class MapCompiler implements ComponentCompiler
 {
 	
-	private final static Map<String,String> addressMap = new HashMap<String,String>();
+	private final static Map<String,String> addressMap = new HashMap<>();
 	static {
 		addressMap.put(MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_address);
 		addressMap.put(MapComponent.ITEM_PROPERTY_longitude, MapComponent.ITEM_PROPERTY_address);

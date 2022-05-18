@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -180,7 +180,7 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(propertiesHolder, propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
-				Map<String,String> values = new HashMap<String,String>();
+				Map<String,String> values = new HashMap<>();
 				for (PropertySuffix propertySuffix : properties)
 				{
 					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());
@@ -261,15 +261,7 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 					Method byNameMethod = type.getMethod("getByName", new Class<?>[]{String.class});
 					value = byNameMethod.invoke(null, value);
 				}
-				catch (NoSuchMethodException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-				catch (InvocationTargetException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-				catch (IllegalAccessException e)
+				catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
 				{
 					throw new JRRuntimeException(e);
 				}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -203,10 +203,10 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Report templates.
 	 */
-	private List<JRReportTemplate> templateList = new ArrayList<JRReportTemplate>();
+	private List<JRReportTemplate> templateList = new ArrayList<>();
 
-	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
-	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
+	private Map<String, JRStyle> stylesMap = new HashMap<>();
+	private List<JRStyle> stylesList = new ArrayList<>();
 
 	/**
 	 * Main report dataset.
@@ -216,8 +216,8 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Report sub datasets indexed by name.
 	 */
-	private Map<String, JRDataset> datasetMap = new HashMap<String, JRDataset>();
-	private List<JRDataset> datasetList = new ArrayList<JRDataset>();
+	private Map<String, JRDataset> datasetMap = new HashMap<>();
+	private List<JRDataset> datasetList = new ArrayList<>();
 	
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
@@ -1207,7 +1207,7 @@ public class JasperDesign extends JRBaseReport
 
 	protected List<JRCrosstab> getCrosstabs()
 	{
-		final List<JRCrosstab> crosstabs = new ArrayList<JRCrosstab>();
+		final List<JRCrosstab> crosstabs = new ArrayList<>();
 		JRElementsVisitor.visitReport(this, new JRVisitorSupport()
 		{
 			@Override

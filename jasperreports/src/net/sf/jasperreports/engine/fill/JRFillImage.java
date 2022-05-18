@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -51,9 +51,11 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -232,14 +234,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getUsingCache();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	@Override
-	public void setUsingCache(boolean isUsingCache)
-	{
-	}
-		
 	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
@@ -284,14 +278,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	public JRLineBox getLineBox()
 	{
 		return lineBox == null ? initLineBox : lineBox;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
 	}
 
 	@Override
@@ -774,9 +760,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 								Dimension2D imageSize = dimensionRenderer.getDimension(filler.getJasperReportsContext()); 
 								if (imageSize != null)
 								{
+									ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+									
+									DataRenderable dataRenderable = dimensionRenderer instanceof DataRenderable ? (DataRenderable)dimensionRenderer : null;
+									if (dataRenderable != null)
+									{
+										exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(filler.getJasperReportsContext()));
+									}
+									
 									fits = 
 										fitImage(
-											imageSize, 
+											imageSize,
+											exifOrientation,
 											availableHeight - getRelativeY() - padding, 
 											imageOverflowAllowed, 
 											getHorizontalImageAlign(),
@@ -859,6 +854,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 	protected boolean fitImage(
 		Dimension2D imageSize, 
+		ExifOrientationEnum exifOrientation,
 		int availableHeight, 
 		boolean overflowAllowed,
 		HorizontalImageAlignEnum hAlign,
@@ -873,9 +869,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		int realWidth = (int) imageSize.getWidth();
 		boolean fitted;
 		
+		RotationEnum exifRotation = ImageUtil.getRotation(getRotation(), exifOrientation);
+		
 		if (
-			getRotation() == RotationEnum.LEFT
-			|| getRotation() == RotationEnum.RIGHT
+			exifRotation == RotationEnum.LEFT
+			|| exifRotation == RotationEnum.RIGHT
 			)
 		{
 			int t = realWidth;
@@ -1117,8 +1115,17 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							printImage.getLineBox().getBottomPadding() 
 							+ printImage.getLineBox().getTopPadding();
 							
+						ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+						
+						DataRenderable dataRenderable = dimensionRenderer instanceof DataRenderable ? (DataRenderable)dimensionRenderer : null;
+						if (dataRenderable != null)
+						{
+							exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(filler.getJasperReportsContext()));
+						}
+						
 						fitImage(
 							imageSize,
+							exifOrientation,
 							getHeight() - padding, 
 							false, 
 							printImage.getHorizontalImageAlign(),

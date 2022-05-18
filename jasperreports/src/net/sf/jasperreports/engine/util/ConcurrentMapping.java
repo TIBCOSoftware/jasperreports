@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -119,7 +119,7 @@ public class ConcurrentMapping<K, V, C>
 		
 		private void setValue(V value)
 		{
-			this.result = new Result<V>(Status.AVAILABLE, value);
+			this.result = new Result<>(Status.AVAILABLE, value);
 			this.statusCondition.signalAll();
 		}
 		
@@ -151,7 +151,7 @@ public class ConcurrentMapping<K, V, C>
 	public ConcurrentMapping(Mapper<K, V, C> mapper)
 	{
 		this.mapper = mapper;
-		this.entries = new ConcurrentHashMap<K, Entry<V>>();
+		this.entries = new ConcurrentHashMap<>();
 	}
 	
 	public V get(K key, C context)
@@ -161,7 +161,7 @@ public class ConcurrentMapping<K, V, C>
 		V result;
 		if (existingEntry == null)
 		{
-			newEntry = new Entry<V>();
+			newEntry = new Entry<>();
 			existingEntry = entries.putIfAbsent(key, newEntry);
 			if (existingEntry == null)
 			{

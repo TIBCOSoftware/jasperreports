@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -350,15 +350,6 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataset.delegateScriptlet.callBeforeReportInit();
 		dataset.calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 		dataset.delegateScriptlet.callAfterReportInit();
-	}
-
-	/**
-	 * @deprecated replaced by {@link #startData()}
-	 */
-	@Deprecated
-	protected void init() throws JRScriptletException, JRException
-	{
-		startData();
 	}
 
 	protected void detail() throws JRScriptletException, JRException

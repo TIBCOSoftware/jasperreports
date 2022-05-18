@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -155,9 +155,9 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	@Override
 	protected void customInitialize()
 	{
-		values = new LinkedHashMap<Comparable<?>, Number>();
-		labels = new HashMap<Comparable<?>, String>();
-		sectionHyperlinks = new HashMap<Comparable<?>, JRPrintHyperlink>();
+		values = new LinkedHashMap<>();
+		labels = new HashMap<>();
+		sectionHyperlinks = new HashMap<>();
 		
 		// read property here because fill dataset is null on constructor
 		ignoreDuplicatedKey = 
@@ -255,7 +255,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	public Dataset getCustomDataset()
 	{
 		double total = 0;
-		List<Double> sortedValues = new ArrayList<Double>();
+		List<Double> sortedValues = new ArrayList<>();
 		for(Number nv: values.values())
 		{
 			double dvalue = nv.doubleValue();

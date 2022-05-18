@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -128,7 +128,7 @@ import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -340,22 +340,6 @@ public class TableReport implements JRReport
 	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
 
 	/**
-	 * Column property that enables/disables conditional formatting
-	 * 
-	 * <p>
-	 * It defaults to <code>true</code>
-	 * @deprecated To be removed.
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = PropertyConstants.VERSION_5_0_1,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
-
-	/**
 	 * Property that provides a name for table.
 	 * 
 	 * <p>
@@ -414,8 +398,8 @@ public class TableReport implements JRReport
 		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory
 		)
 	{
-		this.tableIndexProperties = new ArrayList<TableIndexProperties>();
-		this.headerHtmlBaseProperties = new HashMap<Integer, JRPropertiesMap>();
+		this.tableIndexProperties = new ArrayList<>();
+		this.headerHtmlBaseProperties = new HashMap<>();
 		
 		this.fillContext = fillContext;
 		this.table = table;
@@ -430,7 +414,7 @@ public class TableReport implements JRReport
 		// begin: table interactivity
 		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
 
-		this.columnInteractivityMapping = new HashMap<Column, Pair<Boolean, String>>();
+		this.columnInteractivityMapping = new HashMap<>();
 		int interactiveColumnCount = 0;
 		for (BaseColumn column: TableUtil.getAllColumns(table)) {
 			boolean interactiveColumn = isInteractiveTable;
@@ -445,7 +429,7 @@ public class TableReport implements JRReport
 			if (column.getPropertiesMap().containsProperty(JRComponentElement.PROPERTY_COMPONENT_NAME)) {
 				columnName = column.getPropertiesMap().getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME);
 			}
-			columnInteractivityMapping.put((Column)column, new Pair<Boolean, String>(interactiveColumn, columnName));
+			columnInteractivityMapping.put((Column)column, new Pair<>(interactiveColumn, columnName));
 		}
 
 		if (interactiveColumnCount > 0) {
@@ -499,7 +483,7 @@ public class TableReport implements JRReport
 	{
 		final JRDesignBand band;
 		final String bandId;
-		final List<BandRowInfo> rows = new ArrayList<BandRowInfo>();
+		final List<BandRowInfo> rows = new ArrayList<>();
 		
 		ReportBandInfo(JRDesignBand band, String bandId)
 		{
@@ -561,7 +545,7 @@ public class TableReport implements JRReport
 	protected class BandRowInfo
 	{
 		JRDesignElementGroup elementGroup;
-		List<CellInfo> cells = new ArrayList<CellInfo>();
+		List<CellInfo> cells = new ArrayList<>();
 		
 		BandRowInfo()
 		{
@@ -1061,7 +1045,7 @@ public class TableReport implements JRReport
 						List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 						if (existingFilters != null)
 						{
-							List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+							List<FieldFilter> fieldFilters = new ArrayList<>();
 							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{

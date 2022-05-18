@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -81,17 +81,17 @@ public class JRGroovyGenerator
 
 	static
 	{
-		fieldPrefixMap = new HashMap<Byte, String>();
+		fieldPrefixMap = new HashMap<>();
 		fieldPrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		fieldPrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "");
 		fieldPrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
-		variablePrefixMap = new HashMap<Byte, String>();
+		variablePrefixMap = new HashMap<>();
 		variablePrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		variablePrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
 		variablePrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
-		methodSuffixMap = new HashMap<Byte, String>();
+		methodSuffixMap = new HashMap<>();
 		methodSuffixMap.put(JRExpression.EVALUATION_OLD,       "Old");
 		methodSuffixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
 		methodSuffixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
@@ -160,7 +160,7 @@ public class JRGroovyGenerator
 		sb.append(this.generateMethod(JRExpression.EVALUATION_DEFAULT, expressions));
 		if (sourceTask.isOnlyDefaultEvaluation())
 		{
-			List<JRExpression> empty = new ArrayList<JRExpression>();
+			List<JRExpression> empty = new ArrayList<>();
 			sb.append(this.generateMethod(JRExpression.EVALUATION_OLD, empty));
 			sb.append(this.generateMethod(JRExpression.EVALUATION_ESTIMATED, empty));
 		}
@@ -697,6 +697,7 @@ public class JRGroovyGenerator
 	
 						break;
 					}
+					default :
 				}
 			}
 		}

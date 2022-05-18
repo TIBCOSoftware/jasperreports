@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -125,8 +125,8 @@ public class JRXmlDigester extends Digester
 
 	private void initInternalResources()
 	{
-		internalEntityResources = new HashMap<String, URL>();
-		entityURLs = new HashSet<String>();
+		internalEntityResources = new HashMap<>();
+		entityURLs = new HashSet<>();
 		
 		//FIXME only add entities relevant to the current document type (report, print, template)
 		addEntityResource(JRXmlConstants.JASPERREPORT_SYSTEM_ID, 

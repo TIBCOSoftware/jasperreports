@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,7 +43,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 {
 	@SuppressWarnings("deprecation")
 	private static final JRSingletonCache<JRQueryExecuterFactory> cache = 
-			new JRSingletonCache<JRQueryExecuterFactory>(JRQueryExecuterFactory.class);
+			new JRSingletonCache<>(JRQueryExecuterFactory.class);
 	
 	private static final DefaultQueryExecuterFactoryBundle INSTANCE = new DefaultQueryExecuterFactoryBundle();
 	
@@ -80,7 +80,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 	@Override
 	public String[] getLanguages()
 	{
-		List<String> languages = new ArrayList<String>();
+		List<String> languages = new ArrayList<>();
 		List<PropertySuffix> properties = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(QueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX);
 		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();)
 		{

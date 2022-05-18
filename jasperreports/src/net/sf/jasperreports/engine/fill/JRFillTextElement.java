@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -96,8 +96,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
-			new JRSingletonCache<MarkupProcessorFactory>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<String,MarkupProcessor>();
+			new JRSingletonCache<>(MarkupProcessorFactory.class);
+	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
 
 	/**
 	 *
@@ -119,7 +119,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText;
 	private JRStyledText styledText;
 	private JRStyledText processedStyledText;
-	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
+	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<>();
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
@@ -155,7 +155,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		this.dynamicScaleFontStepLimit = hasDynamicProperty(PROPERTY_SCALE_FONT_STEP_LIMIT);
 		
-		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
+		this.fillStyleObjectsMap = new HashMap<>();
 	}
 	
 
@@ -347,14 +347,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				: paragraph;
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return this;
-	}
-
 	
 	/**
 	 *
@@ -365,7 +357,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		Map<Attribute,Object> styledTextAttributes = styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
-			styledTextAttributes = new HashMap<Attribute,Object>(); 
+			styledTextAttributes = new HashMap<>(); 
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			FontUtil.getInstance(filler.getJasperReportsContext()).getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
@@ -908,15 +900,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -937,15 +920,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnItalic()
 	{
 		return providerStyle == null || providerStyle.isOwnItalic() == null ? ((JRFont)parent).isOwnItalic() : providerStyle.isOwnItalic();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -971,15 +945,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -999,15 +964,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnStrikeThrough()
 	{
 		return providerStyle == null || providerStyle.isOwnStrikeThrough() == null ? ((JRFont)parent).isOwnStrikeThrough() : providerStyle.isOwnStrikeThrough();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1086,15 +1042,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnPdfEmbedded()
 	{
 		return providerStyle == null || providerStyle.isOwnPdfEmbedded() == null ? ((JRFont)parent).isOwnPdfEmbedded() : providerStyle.isOwnPdfEmbedded();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**

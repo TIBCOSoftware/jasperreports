@@ -2,7 +2,7 @@
 
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -508,7 +508,7 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	
 	public final List<Member>  memberFilter() throws RecognitionException, TokenStreamException {
-		List<Member> filter = new ArrayList<Member>();
+		List<Member> filter = new ArrayList<>();
 		
 		Member member;
 		
@@ -540,7 +540,7 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	
 	public final List<AxisPosition> axisPositions() throws RecognitionException, TokenStreamException {
-		List<AxisPosition> positions = new ArrayList<AxisPosition>();
+		List<AxisPosition> positions = new ArrayList<>();
 		
 		AxisPosition pos; int axis = 0;
 		

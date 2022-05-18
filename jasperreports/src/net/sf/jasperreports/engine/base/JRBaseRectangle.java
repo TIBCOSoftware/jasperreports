@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -75,15 +75,6 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	public Integer getOwnRadius()
 	{
 		return this.radius;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRadius(Integer)}.
-	 */
-	@Override
-	public void setRadius(int radius)
-	{
-		setRadius((Integer)radius);
 	}
 
 	@Override

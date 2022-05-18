@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -127,7 +127,7 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 				List<RepositoryService> repoServices = super.getExtensions(RepositoryService.class);
 				if (repoServices != null && repoServices.size() > 0)
 				{
-					localRepositoryServices = new ArrayList<RepositoryService>();
+					localRepositoryServices = new ArrayList<>();
 					for (RepositoryService repoService : repoServices)
 					{
 						if (repoService instanceof DefaultRepositoryService)

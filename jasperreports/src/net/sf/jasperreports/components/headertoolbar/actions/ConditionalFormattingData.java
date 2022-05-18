@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -45,15 +45,13 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String conditionPattern;
 	private String localeCode;
 	private String timeZoneId;
-	private String columnType;
-	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
 
 	private String applyTo;
 	private String groupName;
 
 	public ConditionalFormattingData() {
-		this.conditions = new ArrayList<FormatCondition>();
+		this.conditions = new ArrayList<>();
 	}
 
 	@JsonIgnore
@@ -100,38 +98,6 @@ public class ConditionalFormattingData extends BaseColumnData {
 	@JsonIgnore
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public String getColumnType() {
-		return columnType;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public void setColumnType(String columnType) {
-		this.columnType = columnType;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public String getFieldOrVariableName() {
-		return fieldOrVariableName;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public void setFieldOrVariableName(String fieldOrVariableName) {
-		this.fieldOrVariableName = fieldOrVariableName;
 	}
 
 	public List<FormatCondition> getConditions() {

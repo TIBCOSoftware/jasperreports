@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -39,7 +39,7 @@ public class LayeredCell implements Cell
 	public LayeredCell(FrameCell parent)
 	{
 		this.parent = parent;
-		this.layers = new LinkedList<Table>();
+		this.layers = new LinkedList<>();
 	}
 	
 	public void addLayer(Table table)

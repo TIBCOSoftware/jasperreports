@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -155,7 +155,7 @@ public final class JRValueStringUtils
 	
 	private static Map<String,ValueSerializer> getSerializers()
 	{
-		Map<String,ValueSerializer> map = new HashMap<String,ValueSerializer>();
+		Map<String,ValueSerializer> map = new HashMap<>();
 		map.put(java.lang.String.class.getName(), new StringSerializer());
 		map.put(java.lang.Character.class.getName(), new CharacterSerializer());
 		map.put(java.lang.Boolean.class.getName(), new BooleanSerializer());
@@ -559,11 +559,7 @@ public final class JRValueStringUtils
 				ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
 				return objectIn.readObject();
 			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (ClassNotFoundException e)
+			catch (IOException | ClassNotFoundException e)
 			{
 				throw new JRRuntimeException(e);
 			}

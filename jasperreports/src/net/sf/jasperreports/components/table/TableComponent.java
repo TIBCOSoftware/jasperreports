@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,11 +52,6 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 			valueType = WhenNoDataTypeTableEnum.class
 			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
-
-	/**
-	 * @deprecated Replaced by {@link #CONFIG_PROPERTY_WHEN_NO_DATA_TYPE}.
-	 */
-	public static final String PROPERTY_WHEN_NO_DATA_TYPE = CONFIG_PROPERTY_WHEN_NO_DATA_TYPE;
 
 	@Override
 	JRDatasetRun getDatasetRun();

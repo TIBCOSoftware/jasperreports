@@ -4,5 +4,8 @@
 	</info>
 	<dependencies>
 		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.6" conf="test->*"/>
+		<!-- castor is needed here because ext/chart-themes sources are built from within this sample -->
+		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
+		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
 	</dependencies>
 </ivy-module>

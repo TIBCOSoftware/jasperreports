@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -80,12 +80,12 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 
 	// @JVM Crash workaround
 	// Reference to the loaded class class in a per thread map
-	private static ThreadLocal<Class<?>> classFromBytesRef = new ThreadLocal<Class<?>>();
+	private static ThreadLocal<Class<?>> classFromBytesRef = new ThreadLocal<>();
 
 
 	private static final Object CLASS_CACHE_NULL_KEY = new Object();
 	private static Map<Object,Map<String,Class<?>>> classCache = 
-		new ReferenceMap<Object,Map<String,Class<?>>>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT
 			);
 	
@@ -195,7 +195,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		Map<String,Class<?>> contextMap = classCache.get(key);
 		if (contextMap == null)
 		{
-			contextMap = new ReferenceMap<String,Class<?>>(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.SOFT);
+			contextMap = new ReferenceMap<>(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.SOFT);
 			classCache.put(key, contextMap);
 		}
 		contextMap.put(className, loadedClass);

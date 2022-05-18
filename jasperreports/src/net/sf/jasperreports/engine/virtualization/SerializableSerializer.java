@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -59,15 +59,7 @@ public class SerializableSerializer<T extends VirtualizationSerializable> implem
 		{
 			return type.getConstructor(NO_ARGS_TYPES);
 		}
-		catch (NoSuchMethodException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_INITIALIZATION_FAILED,
-					new Object[]{type.getName()},
-					e);
-		}
-		catch (SecurityException e)
+		catch (NoSuchMethodException | SecurityException e)
 		{
 			throw 
 				new JRRuntimeException(

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -153,7 +153,7 @@ public class JRImageRenderer extends JRAbstractRenderer implements DataRenderabl
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
 			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getImageData(jasperReportsContext));
-			awtImageRef = new SoftReference<Image>(awtImage);
+			awtImageRef = new SoftReference<>(awtImage);
 		}
 		return awtImageRef.get();
 	}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,6 +29,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.VelocityContext;
+
 import net.sf.jasperreports.components.sort.actions.FilterAction;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.SortAction;
@@ -50,13 +54,9 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -230,13 +230,13 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			Locale locale
 	) //FIXMEJIVE make utility method for translating enums
 	{
-		List<LinkedHashMap<String, String>> result = new ArrayList<LinkedHashMap<String, String>>();
+		List<LinkedHashMap<String, String>> result = new ArrayList<>();
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		LinkedHashMap<String, String> keys;
 
 		for (NamedEnum operator: operators)
 		{
-			keys = new LinkedHashMap<String, String>();
+			keys = new LinkedHashMap<>();
 			String key = bundleName + "." + ((Enum<?>)operator).name();
 			keys.put("key", ((Enum<?>)operator).name());
 			keys.put("val", messageProvider.getMessage(key, null, locale));
@@ -274,7 +274,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 			FilterAction action = new FilterAction();
 			action.init(jasperReportsContext, reportContext);
 			CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
-			List<FieldFilter> result = new ArrayList<FieldFilter>();
+			List<FieldFilter> result = new ArrayList<>();
 			if (target != null)
 			{
 				JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);
