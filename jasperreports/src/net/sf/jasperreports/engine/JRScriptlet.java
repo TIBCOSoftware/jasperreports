@@ -58,4 +58,11 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	 */
 	public String getValueClassName();
 
+	/**
+	 * Returns the list of dynamic/expression-based properties for this scriptlet.
+	 * 
+	 * @return an array containing the expression-based properties of this scriptlet
+	 */
+	public JRPropertyExpression[] getPropertyExpressions();
+
 }

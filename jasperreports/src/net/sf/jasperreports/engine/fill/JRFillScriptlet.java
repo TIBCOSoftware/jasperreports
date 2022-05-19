@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRScriptlet;
 
 
@@ -132,6 +133,13 @@ public class JRFillScriptlet implements JRScriptlet
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
+	}
+
+
+	@Override
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return parent.getPropertyExpressions();
 	}
 
 }

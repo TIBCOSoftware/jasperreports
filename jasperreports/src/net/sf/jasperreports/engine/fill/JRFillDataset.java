@@ -264,6 +264,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	private Map<Integer, CacheRecordIndexCallback> cacheRecordIndexCallbacks;
 	private boolean cacheSkipped;
 	private CachedDataset cachedDataset;
+	private boolean sortingData;
 	private boolean sortedDataSource;
 	
 	private boolean ended;
@@ -737,10 +738,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 		if (DatasetSortUtil.needSorting(this))
 		{
+			sortingData = true;
 			dataSource = DatasetSortUtil.getSortedDataSource(filler, this, locale);
+			sortingData = false;
+
 			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
 			sortedDataSource = true;
 		}
+	}
+
+	public boolean isSortingData()
+	{
+		return sortingData;
 	}
 
 	public FillDatasetPosition getFillPosition()
@@ -1171,14 +1180,14 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 	}
 	
-	protected JasperReportsContext getJasperReportsContext()
+	public JasperReportsContext getJasperReportsContext()
 	{
 		return filler == null
 				? (jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
 				: filler.getJasperReportsContext();
 	}
 	
-	protected RepositoryContext getRepositoryContext()
+	public RepositoryContext getRepositoryContext()
 	{
 		return filler == null
 				? SimpleRepositoryContext.of(jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)

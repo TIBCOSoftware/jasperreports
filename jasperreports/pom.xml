@@ -524,7 +524,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>develop-69-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -653,7 +653,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>develop-SNAPSHOT</version>
+							<version>develop-69-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
