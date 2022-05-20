@@ -455,6 +455,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			//for sure reportContext is not null, because otherwise there would be no item in the hyperilnkData
 			reportContext.setParameterValue("net.sf.jasperreports.html.hyperlinks", hyperlinksData);
 		}
+
+		if (getCurrentItemConfiguration().isIncludeElementUUID())
+		{
+			reportContext.setParameterValue("net.sf.jasperreports.html.clickable.elements", Boolean.TRUE);
+		}
 		
 		if (htmlFooter == null)
 		{
@@ -2018,7 +2023,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			sb.append(" class=\"" + JRStringUtil.encodeXmlAttribute(clazz) +"\"");
 		}
 
-		if (getCurrentItemConfiguration().isIncludeElementUUID())
+		if (element != null && getCurrentItemConfiguration().isIncludeElementUUID())
 		{
 			sb.append(" data-eluuid=\"" + element.getUUID() + "\"");
 		}
