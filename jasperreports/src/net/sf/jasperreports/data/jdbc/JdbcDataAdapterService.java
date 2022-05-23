@@ -129,6 +129,22 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		parameters.put(JRParameter.REPORT_CONNECTION, connection);
 	}
 	
+	/**
+	 * Some custom JDBC data adapters might require to tweak at runtime
+	 * the URL information used to create the connection.
+	 * 
+	 * @return the custom (if needed) data adapter URL
+	 */
+	protected String getUrlForConnection() {
+		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
+		if(jdbcDataAdapter!=null) {
+			return jdbcDataAdapter.getUrl();
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public Connection getConnection() throws SQLException{
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
 		if (jdbcDataAdapter != null) 
@@ -162,18 +178,18 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
 				
-				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
+				connection = driver.connect(getUrlForConnection(), connectProps);
 				if(connection == null)
 				{
-					boolean urlValid = driver.acceptsURL(jdbcDataAdapter.getUrl());
+					boolean urlValid = driver.acceptsURL(getUrlForConnection());
 					if (!urlValid)
 					{
 						throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_INVALID_URL, 
-								new Object[] {jdbcDataAdapter.getUrl(), jdbcDataAdapter.getDriver()});
+								new Object[] {getUrlForConnection(), jdbcDataAdapter.getDriver()});
 					}
 					
 					throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_CONNECTION_NOT_CREATED, 
-							new Object[] {jdbcDataAdapter.getUrl()});
+							new Object[] {getUrlForConnection()});
 				}
 				
 				setupConnection(jdbcDataAdapter);
