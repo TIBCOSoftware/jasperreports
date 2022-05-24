@@ -8,7 +8,17 @@ public class Utilities extends JRDefaultScriptlet {
 
     public boolean getRequiredStringBooleanMapValue(Map<String, Boolean> map, String mapKey) {
         return map.computeIfAbsent(mapKey, s -> {
-            throw new RuntimeException("Missing entry in map for required key: \"" + mapKey + "\"");
+            throw missingKeyException(mapKey);
         });
+    }
+
+    public String getRequiredStringStringMapValue(Map<String, String> map, String mapKey) {
+        return map.computeIfAbsent(mapKey, s -> {
+            throw missingKeyException(mapKey);
+        });
+    }
+
+    private RuntimeException missingKeyException(String key) {
+        return new RuntimeException("Missing entry in map for required key: \"" + key + "\"");
     }
 }
