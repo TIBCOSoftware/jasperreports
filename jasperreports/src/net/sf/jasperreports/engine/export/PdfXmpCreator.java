@@ -63,7 +63,7 @@ public class PdfXmpCreator
 	{
 		try
 		{
-			Class.forName("com.adobe.xmp.XMPMetaFactory");
+			Class.forName("com.adobe.internal.xmp.XMPMetaFactory");
 			return true;
 		} catch (ClassNotFoundException e)
 		{
