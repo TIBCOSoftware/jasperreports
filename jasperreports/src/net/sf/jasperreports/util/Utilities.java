@@ -18,6 +18,12 @@ public class Utilities extends JRDefaultScriptlet {
         });
     }
 
+    public int getRequiredStringIntegerMapValue(Map<String, Integer> map, String mapKey) {
+        return map.computeIfAbsent(mapKey, s -> {
+            throw missingKeyException(mapKey);
+        });
+    }
+
     private RuntimeException missingKeyException(String key) {
         return new RuntimeException("Missing entry in map for required key: \"" + key + "\"");
     }
