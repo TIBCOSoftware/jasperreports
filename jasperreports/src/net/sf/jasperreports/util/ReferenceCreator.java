@@ -1,14 +1,15 @@
 package net.sf.jasperreports.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 
@@ -36,20 +37,20 @@ public class ReferenceCreator {
      * field. Must be rendered at Report time or at least after the given reference key has been added.
      * @param referenceKey
      * @return
-     * @throws JRException If the given key is not found (ensures robust report configuration).
+     * @throws RuntimeException if the given key is not found (ensures robust report configuration).
      */
-    private String getReferenceNumberForKey(String referenceKey) throws JRException {
+    private String getReferenceNumberForKey(String referenceKey) {
         for (Map<String, String> reference : this.references) {
             if (referenceKey.equals(reference.get(REFERENCE_KEY))) {
                 return reference.get(REFERENCE_NUMBER);
             }
         }
-        throw new JRException("Reference key \"" + referenceKey + "\" not found! Potential mis-match of key names, or" +
+        throw new RuntimeException("Reference key \"" + referenceKey + "\" not found! Potential mis-match of key names, or" +
                 "a call to getReferenceNumberForKey() when the text was empty - if the latter, try using " +
                 "getStyledReferenceNumberTextForKey() instead.");
     }
 
-    public String createReferenceNumberAnchorForKey(String referenceKey) throws JRException {
+    public String createReferenceNumberAnchorForKey(String referenceKey) {
 
         if (!keysAdded.contains(referenceKey)) {
             return null;
@@ -58,13 +59,34 @@ public class ReferenceCreator {
         return createReferenceNumberAnchor(getReferenceNumberForKey(referenceKey));
     }
 
-    public String createReferenceNumberAnchor(String value) throws JRException {
+    /**
+     * Creates an anchor to the lowest reference number for whichever of the reference keys is present in keys added.
+     * @param referenceKeys
+     * @return
+     */
+    public String createReferenceNumberAnchorForKeys(String... referenceKeys) {
+
+        Set<String> addedKeys = filterKeysAdded(referenceKeys);
+        if (addedKeys.isEmpty()) {
+            return null;
+        }
+
+        String smallestReferenceNumber = addedKeys.stream().map(this::getReferenceNumberForKey)
+                .map(Integer::parseInt).min(Integer::compare).map(String::valueOf)
+                .orElseThrow(() -> new RuntimeException("Missing reference number for reference keys " +
+                        String.join(", ", addedKeys)));
+
+        return createReferenceNumberAnchor(smallestReferenceNumber);
+
+    }
+
+    public String createReferenceNumberAnchor(String value) {
 
         try {
             Integer.parseInt(value);
         } catch (NumberFormatException e) {
             // Additional validation to align the method name with it's counterpart "...ForKey".
-            throw new JRException("Value is not numeric!");
+            throw new RuntimeException("Value is not numeric!");
         }
 
         return "ref_" + value;
@@ -73,12 +95,11 @@ public class ReferenceCreator {
     /**
      * Returns the reference number for the given key as a string of super-script styled XML to be used in a text
      * element. The text element must have the attribute {@code markup="styled"}. If the reference key is not in the
-     * list of references, for example due to the provided text being empty, then an empty string is returned.
+     * list of reference keys added, for example due to the provided text being empty, then an empty string is returned.
      * @param referenceKey
      * @return
-     * @throws JRException
      */
-    public String getStyledReferenceNumberTextForKey(String referenceKey) throws JRException {
+    public String getStyledReferenceNumberTextForKey(String referenceKey) {
 
         if (!keysAdded.contains(referenceKey)) {
             return "";
@@ -86,6 +107,33 @@ public class ReferenceCreator {
 
         String referenceNumberStr = getReferenceNumberForKey(referenceKey);
         return String.format(STYLED_REFERENCE_NUMBER_FORMAT, referenceNumberStr);
+    }
+
+    private Set<String> filterKeysAdded(String... referenceKeys) {
+        return Arrays.stream(referenceKeys).filter(keysAdded::contains).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns the reference numbers for the given keys as a string of CSV super-script styled XML to be used in a text
+     * element. The text element must have the attribute {@code markup="styled"}. If none of the reference keys are in
+     * the list of reference keys added, for example due to the provided text being empty, then an empty string is
+     * returned.
+     * @param referenceKeys
+     * @return
+     */
+    public String getStyledReferenceNumberTextForKeys(String... referenceKeys) {
+
+        Set<String> addedKeys = filterKeysAdded(referenceKeys);
+        if (addedKeys.isEmpty()) {
+            return "";
+        }
+
+        List<String> sortedReferenceNumbers = addedKeys.stream().map(this::getReferenceNumberForKey)
+                .map(Integer::parseInt).sorted().map(String::valueOf)
+                .collect(Collectors.toList());
+
+        String sortedReferenceNumbersString = String.join(", ", sortedReferenceNumbers);
+        return String.format(STYLED_REFERENCE_NUMBER_FORMAT, sortedReferenceNumbersString);
     }
 
     /**
@@ -114,12 +162,12 @@ public class ReferenceCreator {
      * @param referenceText
      * @param referenceKey
      * @return The reference key.
-     * @throws JRException If text has already been added for the given key (ensures robust report configuration).
+     * @throws RuntimeException if text has already been added for the given key (ensures robust report configuration).
      */
-    public String addReferenceTextForKey(String referenceText, String referenceKey) throws JRException {
+    public String addReferenceTextForKey(String referenceText, String referenceKey) {
 
         if (keysAdded.contains(referenceKey)) {
-            throw new JRException("Reference text was already added for key \"" + referenceKey + "\"!");
+            throw new RuntimeException("Reference text was already added for key \"" + referenceKey + "\"!");
         }
 
         if (referenceText != null && !referenceText.isEmpty()) {
