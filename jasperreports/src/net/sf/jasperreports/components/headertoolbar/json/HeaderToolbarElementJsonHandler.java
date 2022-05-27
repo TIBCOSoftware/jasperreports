@@ -209,7 +209,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 			FilterAction action = new FilterAction();
 			action.init(jrContext, reportContext);
-			CommandTarget target = action.getCommandTarget(UUID.fromString(tableUUID));
+			CommandTarget target = action.getCommandTarget(UUID.fromString(tableUUID), false);
 
 			JasperDesign jasperDesign = null;
 			JRDesignDataset dataset = null;
@@ -221,7 +221,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 				table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
 				JasperDesignCache cache = JasperDesignCache.getInstance(jrContext, reportContext);
-				jasperDesign = cache.getJasperDesign(target.getUri());
+				jasperDesign = cache.getJasperDesign(target.getUri(), false);
 				JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 				String datasetName = datasetRun.getDatasetName();
 				dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
@@ -422,7 +422,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		SortAction action = new SortAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
 		if (target != null)
 		{
 			JRIdentifiable identifiable = target.getIdentifiable();
@@ -433,7 +433,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			
 			String datasetName = datasetRun.getDatasetName();
 			
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);//FIXMEJIVE getJasperReport not design
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
 			
 			List<JRSortField> existingFields =  dataset.getSortFieldsList();

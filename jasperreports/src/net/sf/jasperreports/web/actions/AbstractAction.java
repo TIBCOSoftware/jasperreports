@@ -183,10 +183,21 @@ public abstract class AbstractAction implements Action, Serializable {
 	 */
 	public CommandTarget getCommandTarget(UUID uuid)
 	{
-		return getCommandTarget(uuid, JRDesignComponentElement.class);
+		return getCommandTarget(uuid, JRDesignComponentElement.class, true);
+	}
+
+	public CommandTarget getCommandTarget(UUID uuid, boolean markDirty)
+	{
+		return getCommandTarget(uuid, JRDesignComponentElement.class, markDirty);
 	}
 
 	public CommandTarget getCommandTarget(final UUID uuid, final Class<? extends JRDesignElement> elementType)
+	{
+		return getCommandTarget(uuid, elementType, true);
+	}
+
+	public CommandTarget getCommandTarget(final UUID uuid, final Class<? extends JRDesignElement> elementType,
+			final boolean markDirty)
 	{
 		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 
@@ -197,7 +208,7 @@ public abstract class AbstractAction implements Action, Serializable {
 			final CommandTarget target = new CommandTarget();
 			target.setUri(uri);
 			
-			JasperDesign jasperDesign = cache.getJasperDesign(uri);
+			JasperDesign jasperDesign = cache.getJasperDesign(uri, false);
 			JRElementsVisitor.visitReport(jasperDesign, new UniformElementVisitor()
 			{
 				private boolean found = false;
@@ -223,6 +234,11 @@ public abstract class AbstractAction implements Action, Serializable {
 			
 			if (target.getIdentifiable() != null)
 			{
+				if (markDirty)
+				{
+					cache.getJasperDesign(target.getUri(), true);
+				}
+
 				return target;
 			}
 		}

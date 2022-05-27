@@ -712,6 +712,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, scriptlet.getValueClassName());
 	
 			writeProperties(scriptlet);
+			if (isNewerVersionOrEqual(JRConstants.VERSION_6_19_0))
+			{
+				writePropertyExpressions(scriptlet.getPropertyExpressions());
+			}
 	
 			writer.writeCDATAElement(JRXmlConstants.ELEMENT_scriptletDescription, scriptlet.getDescription());
 	

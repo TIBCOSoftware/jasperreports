@@ -167,10 +167,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		SortAction action = new SortAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
 		if (target != null)
 		{
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
 			
 			List<JRSortField> existingFields =  dataset.getSortFieldsList();
@@ -227,11 +227,11 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
 		List<FieldFilter> result = new ArrayList<>();
 		if (target != null)
 		{
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
 			
 			// get existing filter as JSON string
