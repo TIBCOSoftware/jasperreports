@@ -158,16 +158,40 @@ public class ReferenceCreator {
 
     /**
      * Adds the reference text for the given reference key. This should be called before any attempt is made to get the
-     * reference number or text for the given reference key.
+     * reference number or text for the given reference key. If the given reference key already exists, the reference
+     * text will be appended to the existing reference text for the key.
      * @param referenceText
      * @param referenceKey
      * @return The reference key.
-     * @throws RuntimeException if text has already been added for the given key (ensures robust report configuration).
      */
     public String addReferenceTextForKey(String referenceText, String referenceKey) {
+        return addReferenceTextForKey(referenceText, referenceKey, false);
+    }
+
+    /**
+     * Adds the reference text for the given reference key. This should be called before any attempt is made to get the
+     * reference number or text for the given reference key. If the given reference key already exists, the reference
+     * text will either be appended or prepended to the existing reference text for the key, depending on the value of
+     * {@code prependAdditional}.
+     * @param referenceText
+     * @param referenceKey
+     * @param prependAdditional
+     * @return
+     */
+    public String addReferenceTextForKey(String referenceText, String referenceKey, boolean prependAdditional) {
 
         if (keysAdded.contains(referenceKey)) {
-            throw new RuntimeException("Reference text was already added for key \"" + referenceKey + "\"!");
+            // Add the reference text as a new line to the existing reference text.
+            for (Map<String, String> refEntry : references) {
+                if (refEntry.get(REFERENCE_KEY).equals(referenceKey)) {
+                    String currentText = refEntry.get(REFERENCE_TEXT);
+                    refEntry.put(REFERENCE_TEXT,
+                            String.join("\n", prependAdditional ? referenceText : currentText,
+                                    prependAdditional ? currentText : referenceText));
+                    return referenceKey;
+                }
+            }
+            throw new RuntimeException("Reference key appears in keysAdded but no refEntry was found!");
         }
 
         if (referenceText != null && !referenceText.isEmpty()) {
@@ -176,6 +200,29 @@ public class ReferenceCreator {
         }
 
         return referenceKey;
+    }
+
+    /**
+     * If the value text exceeds the given length, prepends the value text to the reference text for the given reference
+     * key and returns the value text having been shortened and ellipsised. Otherwise, returns the value text unaltered
+     * without adding a reference.<br><br>
+     *
+     * For use with data that is too long to display in a text field that should instead be referenced in a footnote.
+     * Expected to be used with the same reference key as any normal reference for the given text field.
+     * @param valueText
+     * @param referenceKey
+     * @param length
+     * @return The value text if it does not exceed {@code length}, or the value text curtailed with ellipsis if it
+     * does.
+     */
+    public String addValueTextForKeyIfLengthExceeds(String valueText, String referenceKey, int length) {
+
+        if (valueText != null && valueText.length() > length) {
+            addReferenceTextForKey(valueText, referenceKey, true);
+            return valueText.substring(0, length) + "…";
+        }
+
+        return valueText;
     }
 
     private Map<String, String> createReferenceEntry(String referenceText, String referenceKey) {
