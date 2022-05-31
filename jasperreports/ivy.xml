@@ -14,7 +14,7 @@
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="6.1.11"/>
 		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
-		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.16.0" conf="compile->*"/>
+		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.17.0" conf="compile->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.13.1" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.1" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.13.1" conf="compile,annotations->*"/>
@@ -32,7 +32,7 @@
 		<dependency org="commons-io" name="commons-io" rev="2.11.0" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 		<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
-		<dependency org="com.ibm.icu" name="icu4j" rev="57.1"/>
+		<dependency org="com.ibm.icu" name="icu4j" rev="70.1"/>
 		<dependency org="javax.persistence" name="javax.persistence-api" rev="2.2"/>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
 		<!-- we need this dependency here because it was removed from Java 11 -->
@@ -95,8 +95,8 @@
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
-		<dependency org="org.springframework" name="spring-beans" rev="5.3.14"/>
-		<dependency org="org.springframework" name="spring-core" rev="5.3.14"/>
+		<dependency org="org.springframework" name="spring-beans" rev="5.3.19"/>
+		<dependency org="org.springframework" name="spring-core" rev="5.3.19"/>
 		<dependency org="org.testng" name="testng" rev="6.8.1" conf="test->*"/>
 		<dependency org="xalan" name="xalan" rev="2.7.2"/>
 		<dependency org="xml-apis" name="xml-apis-ext" rev="1.3.04"/>

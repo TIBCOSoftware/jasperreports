@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -345,16 +345,18 @@ public final class JRStringUtil
 //						ret.append("&apos;");
 //						isEncodeSpace = false;
 //						break;
-				case '\n' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("<br/>");
-					isEncodeSpace = false;
-					break;
+// newline characters do not need to be encoded in HTML attributes; the only place where it is used for HTML element content encoding, 
+// the text is already split by paragraphs and does not contain newline characters
+//				case '\n' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("<br/>");
+//					isEncodeSpace = false;
+//					break;
 
 				default :
 					isEncodeSpace = false;
@@ -599,7 +601,7 @@ public final class JRStringUtil
 			// returning null if no tabs
 			if (index >= 0)
 			{
-				tabIndexes = new ArrayList<Integer>();
+				tabIndexes = new ArrayList<>();
 				do
 				{
 					tabIndexes.add(index);
@@ -621,7 +623,7 @@ public final class JRStringUtil
 		List<String> tokens = null;
 		if (srcArray != null)
 		{
-			tokens = new ArrayList<String>();
+			tokens = new ArrayList<>();
 			for(int i = 0; i < srcArray.length; i++)
 			{
 				if (srcArray[i] == null)

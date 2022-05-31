@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,9 +31,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import net.sf.jasperreports.compilers.CompositeDirectExpressionEvaluators;
 import net.sf.jasperreports.compilers.DirectEvaluator;
+import net.sf.jasperreports.compilers.DirectExpressionEvaluators;
 import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
 import net.sf.jasperreports.compilers.DirectValueClassFilterDecorator;
+import net.sf.jasperreports.compilers.IdentityExpressionValueFilter;
+import net.sf.jasperreports.compilers.InterpretedExpressionEvaluators;
 import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.compilers.ReportExpressionEvaluationData;
 import net.sf.jasperreports.compilers.ReportExpressionsCompilation;
@@ -419,7 +423,9 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	protected JREvaluator createEvaluator(Serializable compileData, String unitName) throws JRException
 	{
+		DirectExpressionValueFilter directValueFilter = effectiveDirectValueFilter();
 		JREvaluator evaluator;
+		DirectExpressionEvaluators baseDirectEvaluators;
 		if (compileData instanceof ReportExpressionEvaluationData)
 		{
 			ReportExpressionEvaluationData evaluationData = (ReportExpressionEvaluationData) compileData;
@@ -433,17 +439,21 @@ public abstract class JRAbstractCompiler implements JRCompiler
 				evaluator = loadEvaluator(evaluatorCompileData, unitName);
 			}
 			
-			StandardExpressionEvaluators evaluators = new StandardExpressionEvaluators(
+			baseDirectEvaluators = new StandardExpressionEvaluators(
 					evaluationData.getDirectEvaluations(), 
-					effectiveDirectValueFilter());
-			evaluator.setDirectExpressionEvaluators(evaluators);
+					directValueFilter);
 		}
 		else
 		{
 			//report compiled with version older than 6.13
 			evaluator = loadEvaluator(compileData, unitName);
-			evaluator.setDirectExpressionEvaluators(new SimpleTextEvaluators());
+			baseDirectEvaluators = new SimpleTextEvaluators();
 		}
+
+		CompositeDirectExpressionEvaluators directEvaluators = new CompositeDirectExpressionEvaluators();
+		directEvaluators.add(baseDirectEvaluators);
+		directEvaluators.add(new InterpretedExpressionEvaluators(directValueFilter));
+		evaluator.setDirectExpressionEvaluators(directEvaluators);
 		return evaluator;
 	}
 	
@@ -464,7 +474,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	protected DirectExpressionValueFilter directValueFilter()
 	{
-		return null;
+		return IdentityExpressionValueFilter.instance();
 	}
 	
 	/**

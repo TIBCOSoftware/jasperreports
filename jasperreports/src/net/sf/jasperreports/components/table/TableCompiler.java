@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -130,7 +130,7 @@ public class TableCompiler implements ComponentCompiler
 
 	protected boolean detectLoops(JRVerifier verifier, List<BaseColumn> columns)
 	{
-		Set<BaseColumn> parents = new HashSet<BaseColumn>();
+		Set<BaseColumn> parents = new HashSet<>();
 		return detectLoops(verifier, columns, parents);
 	}
 
@@ -260,7 +260,7 @@ public class TableCompiler implements ComponentCompiler
 	{
 		if (cells != null)
 		{
-			Set<String> groupNames = new HashSet<String>();
+			Set<String> groupNames = new HashSet<>();
 			for (GroupCell groupCell : cells)
 			{
 				String groupName = groupCell.getGroupName();
@@ -533,7 +533,7 @@ public class TableCompiler implements ComponentCompiler
 			JRVerifier verifier, 
 			final ColumnCellSelector cellSelector)
 	{
-		final List<List<Cell>> tableCellRows = new ArrayList<List<Cell>>();
+		final List<List<Cell>> tableCellRows = new ArrayList<>();
 		
 		ColumnVisitor<Void> cellCollector = new ColumnVisitor<Void>()
 		{
@@ -546,7 +546,7 @@ public class TableCompiler implements ComponentCompiler
 				{
 					for (int i = currentRowCount; i <= rowIdx; i++)
 					{
-						tableCellRows.add(new ArrayList<Cell>());
+						tableCellRows.add(new ArrayList<>());
 					}
 				}
 				return tableCellRows.get(rowIdx);
@@ -596,7 +596,7 @@ public class TableCompiler implements ComponentCompiler
 		
 		boolean validRowHeights = true;
 		
-		List<Integer> rowHeights = new ArrayList<Integer>(tableCellRows.size());
+		List<Integer> rowHeights = new ArrayList<>(tableCellRows.size());
 		for (int rowIdx = 0; rowIdx < tableCellRows.size(); ++rowIdx)
 		{
 			Integer rowHeight = null;

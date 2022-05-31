@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -117,7 +117,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	@Override
 	public Object combine(JRCalculable calculable1, JRCalculable calculable2, AbstractValueProvider valueProvider)
 	{
-		Set<Object> distinctValues = new HashSet<Object>();
+		Set<Object> distinctValues = new HashSet<>();
 		
 		DistinctCountHolder holder1  = (DistinctCountHolder)calculable1.getValue();
 		if (holder1 != null)

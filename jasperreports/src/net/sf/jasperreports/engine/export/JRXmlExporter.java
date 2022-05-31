@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -231,7 +231,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected Map<String,String> rendererToImagePathMap;
 	protected RenderersCache renderersCache;
 //	protected Map fontsMap = new HashMap();
-	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
+	protected Map<String,JRStyle> stylesMap = new HashMap<>();
 
 	/**
 	 *
@@ -319,7 +319,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		
 		if (!isEmbeddingImages)
 		{
-			rendererToImagePathMap = new HashMap<String,String>();
+			rendererToImagePathMap = new HashMap<>();
 		}
 
 		renderersCache = new RenderersCache(getJasperReportsContext());

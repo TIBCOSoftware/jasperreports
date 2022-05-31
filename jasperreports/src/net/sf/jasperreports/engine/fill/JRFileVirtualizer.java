@@ -2,7 +2,7 @@
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2005 Works, Inc. All rights reserved.
  * http://www.works.com
- * Copyright (C) 2005 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -45,9 +48,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Virtualizes data to the filesystem. When this object is finalized, it removes
@@ -146,20 +146,12 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 				file.deleteOnExit();
 			}
 
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(file);
-				BufferedOutputStream bufferedOut = new BufferedOutputStream(fos);
+			try (BufferedOutputStream bufferedOut = new BufferedOutputStream(new FileOutputStream(file))) {
 				writeData(o, bufferedOut);
 			}
 			catch (FileNotFoundException e) {
 				log.error("Error virtualizing object", e);
 				throw new JRRuntimeException(e);
-			}
-			finally {
-				if (fos != null) {
-					fos.close();
-				}
 			}
 		} else {
 			if (!isReadOnly(o)) {
@@ -176,20 +168,12 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		String filename = makeFilename(o);
 		File file = new File(directory, filename);
 
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-			BufferedInputStream bufferedIn = new BufferedInputStream(fis);
+		try (BufferedInputStream bufferedIn = new BufferedInputStream(new FileInputStream(file))) {
 			readData(o, bufferedIn);
 		}
 		catch (FileNotFoundException e) {
 			log.error("Error devirtualizing object", e);
 			throw new JRRuntimeException(e);
-		}
-		finally {
-			if (fis != null) {
-				fis.close();
-			}
 		}
 
 		if (!isReadOnly(o)) {

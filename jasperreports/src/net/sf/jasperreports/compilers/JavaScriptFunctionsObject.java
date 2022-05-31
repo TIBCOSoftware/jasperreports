@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -58,7 +58,7 @@ public class JavaScriptFunctionsObject implements Scriptable
 		this.context = context;
 		this.functionsUtil = functionsUtil;
 		this.evaluator = evaluator;
-		this.functions = new HashMap<String, Object>();
+		this.functions = new HashMap<>();
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,7 +57,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
         ReportContext reportContext = context.getExporterRef().getReportContext();
-		Map<String, Object> contextMap = new HashMap<String, Object>();
+		Map<String, Object> contextMap = new HashMap<>();
 
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 

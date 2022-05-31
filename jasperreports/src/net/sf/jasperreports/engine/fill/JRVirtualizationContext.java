@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,7 +78,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	private static final Log log = LogFactory.getLog(JRVirtualizationContext.class);
 	
 	private static final ReferenceMap<JasperPrint, JRVirtualizationContext> contexts = 
-		new ReferenceMap<JasperPrint, JRVirtualizationContext>(
+		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK
 			);
 
@@ -116,8 +116,8 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		this.root = true;
 		this.jasperReportsContext = jasperReportsContext;
 		
-		cachedRenderers = new ConcurrentHashMap<String,Renderable>(16, 0.75f, 1);
-		cachedTemplates = new ConcurrentHashMap<String,JRTemplateElement>(16, 0.75f, 1);
+		cachedRenderers = new ConcurrentHashMap<>(16, 0.75f, 1);
+		cachedTemplates = new ConcurrentHashMap<>(16, 0.75f, 1);
 		virtualizableLists = new ConcurrentHashMap<>(16, 0.75f, 1);
 		
 		subContexts = new ConcurrentHashMap<>(16, 0.75f, 1);
@@ -174,7 +174,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	{
 		if (listeners == null)
 		{
-			listeners = new CopyOnWriteArrayList<VirtualizationListener<VirtualElementsData>>();
+			listeners = new CopyOnWriteArrayList<>();
 		}
 		
 		listeners.add(listener);
@@ -486,7 +486,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	protected void traverseDeepElements(PrintElementVisitor<Void> visitor, 
 			Collection<? extends JRPrintElement> elements)
 	{
-		DeepPrintElementVisitor<Void> deepVisitor = new DeepPrintElementVisitor<Void>(visitor);
+		DeepPrintElementVisitor<Void> deepVisitor = new DeepPrintElementVisitor<>(visitor);
 		for (JRPrintElement element : elements)
 		{
 			element.accept(deepVisitor, null);

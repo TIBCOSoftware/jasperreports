@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,10 +23,9 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.ProtectionDomain;
 import java.util.HashMap;
 import java.util.Map;
@@ -319,50 +318,7 @@ public class JRClassLoader extends ClassLoader
 	 */
 	protected Class<?> loadClass(String className, File file) throws IOException
 	{
-		FileInputStream fis = null;
-		ByteArrayOutputStream baos = null;
-
-		byte[] bytecodes = new byte[10000];
-		int ln = 0;
-
-		try
-		{
-			fis = new FileInputStream(file);
-			baos = new ByteArrayOutputStream();
-
-			while ( (ln = fis.read(bytecodes)) > 0 )
-			{
-				baos.write(bytecodes, 0, ln);
-			}
-
-			baos.flush();
-		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return loadClass(className, baos.toByteArray());
+		return loadClass(className, Files.readAllBytes(file.toPath()));
 	}
 
 	protected synchronized ProtectionDomain getProtectionDomain()

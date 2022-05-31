@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,11 +32,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -90,6 +87,14 @@ public class JacksonUtil
 		if (mapper == null)
 		{
 			mapper = new ObjectMapper();
+
+			@SuppressWarnings("deprecation")
+			List<net.sf.jasperreports.web.util.JacksonMapping> depJacksonMappings = 
+				jasperReportsContext.getExtensions(net.sf.jasperreports.web.util.JacksonMapping.class);
+			for (JacksonMapping jacksonMapping : depJacksonMappings)
+			{
+				register(mapper, jacksonMapping);
+			}
 
 			List<JacksonMapping> jacksonMappings = jasperReportsContext.getExtensions(JacksonMapping.class);
 			for (JacksonMapping jacksonMapping : jacksonMappings)
@@ -237,14 +242,6 @@ public class JacksonUtil
 			{
 				result = mapper.readValue(jsonData, mapper.getTypeFactory().constructParametricType(List.class, clazz));
 			}
-			catch (JsonParseException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JsonMappingException e) 
-			{
-				throw new JRRuntimeException(e);
-			}
 			catch (IOException e) 
 			{
 				throw new JRRuntimeException(e);
@@ -263,7 +260,7 @@ public class JacksonUtil
 		if (jsonData != null) {
 			String trimmedData = jsonData.trim();
 			if (trimmedData.startsWith("{")) {
-				result = new ArrayList<T>();
+				result = new ArrayList<>();
 				result.add(loadObject(trimmedData, clazz));
 			} else if (trimmedData.startsWith("[")) {
 				result = loadList(trimmedData, clazz);
@@ -284,14 +281,6 @@ public class JacksonUtil
 		{
 			return mapper.writeValueAsString(object);
 		} 
-		catch (JsonGenerationException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (JsonMappingException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
 		catch (IOException e) 
 		{
 			throw new JRRuntimeException(e);
@@ -309,14 +298,6 @@ public class JacksonUtil
 		{
 			return mapper.writeValueAsString(object);
 		} 
-		catch (JsonGenerationException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (JsonMappingException e) 
-		{
-			throw new JRRuntimeException(e);
-		} 
 		catch (IOException e) 
 		{
 			throw new JRRuntimeException(e);
@@ -324,15 +305,6 @@ public class JacksonUtil
 	}
 	
 	
-	/**
-	 * 
-	 */
-	public String getEscapedJsonString(Object object)
-	{
-		return getJsonString(object).replaceAll("\\\"", "\\\\\\\"");
-	}
-
-
 	/**
 	 *
 	 */

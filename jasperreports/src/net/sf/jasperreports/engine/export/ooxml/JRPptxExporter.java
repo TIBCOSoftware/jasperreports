@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -295,7 +295,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		ensureJasperReportsContext();
 		ensureInput();
 
-		rendererToImagePathMap = new HashMap<String,Pair<String,ExifOrientationEnum>>();
+		rendererToImagePathMap = new HashMap<>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 		
@@ -559,7 +559,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected boolean exportPageToSlideMaster(JRPrintPage page, boolean isBackgroundAsSlideMaster) throws JRException
 	{
-		frameIndexStack = new ArrayList<Integer>();
+		frameIndexStack = new ArrayList<>();
 
 		boolean hasSlideMasterElements = false;
 		
@@ -596,7 +596,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected void exportPage(JRPrintPage page, boolean isBackgroundAsSlideMaster, boolean hasToSlideMasterElements) throws JRException
 	{
-		frameIndexStack = new ArrayList<Integer>();
+		frameIndexStack = new ArrayList<>();
 
 		List<JRPrintElement> elements = page.getElements();
 		if (elements != null && elements.size() > 0)
@@ -1670,7 +1670,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), new Pair<String, ExifOrientationEnum>(imagePath, exifOrientation));
+						rendererToImagePathMap.put(renderer.getId(), new Pair<>(imagePath, exifOrientation));
 					}
 				}
 //			}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -55,6 +55,8 @@ import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.StyleResolver;
+import net.sf.jasperreports.export.AccessibilityUtil;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 
 /**
  * 
@@ -150,6 +152,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			iconLabelComponent.getContext().getComponentElement(),//FIXMEICONLABEL copy from fill element? 
 			printElement, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
 			);
+
+		printElement.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE_LAYOUT.getName());
 		
 //		if (contentVisible)
 //		{
@@ -554,7 +558,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	}
 
 	@Override
-	public void setStretchHeight(int stretchHeight)
+	public void setStretchHeight(int stretchHeight) //FIXMEICONLABEL the text fields inside the icon label component do not actually participate into stretch behavior
 	{
 		this.stretchHeight = stretchHeight;
 	}

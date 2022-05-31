@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -97,7 +97,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 		exporterContext = new ExporterContext();
 		jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
-		hyperlinksData = new ArrayList<HyperlinkData>();
+		hyperlinksData = new ArrayList<>();
 	}
 
 
@@ -638,7 +638,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			
 			if (fontsToProcess == null)
 			{
-				fontsToProcess = new HashMap<String, HtmlFontFamily>();
+				fontsToProcess = new HashMap<>();
 				reportContext.setParameterValue(REPORT_CONTEXT_PARAMETER_WEB_FONTS, fontsToProcess);
 			}
 			

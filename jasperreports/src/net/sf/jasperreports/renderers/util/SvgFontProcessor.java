@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -111,15 +110,7 @@ public abstract class SvgFontProcessor
 			
 			return baos.toByteArray();
 		}
-		catch (TransformerConfigurationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (TransformerException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IOException e)
+		catch (TransformerException | IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}

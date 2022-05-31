@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,7 +80,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	// the JSON select expression that gives the nodes to iterate
 	private String selectExpression;
 
-	private Map<String, String> fieldExpressions = new HashMap<String, String>();
+	private Map<String, String> fieldExpressions = new HashMap<>();
 
 	private JsonNode dataNode;
 	private Iterator<JsonNode> jsonNodesIterator;
@@ -183,7 +185,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 		JsonNode result = getJsonData(jsonTree, selectExpression);
 		if (result != null && result.isObject()) {
 			dataNode = result;
-			final List<JsonNode> list = new ArrayList<JsonNode>();
+			final List<JsonNode> list = new ArrayList<>();
 			list.add(result);
 			jsonNodesIterator = new Iterator<JsonNode>() {
 				private int count = -1;
@@ -320,9 +322,21 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 						value = selectedObject.booleanValue();
 						
 					} else if (Number.class.isAssignableFrom(valueClass)) {
-						//FIXME if the json node is a number, avoid converting to string and parsing back the value
+						if (selectedObject.isNumber()) {
+							if (BigDecimal.class.equals(valueClass) && selectedObject.isBigDecimal()) {
+								value = selectedObject.decimalValue();
+							} else if (BigInteger.class.equals(valueClass) && selectedObject.isBigInteger()) {
+								value = selectedObject.bigIntegerValue();
+							} else if (Double.class.equals(valueClass) && selectedObject.isDouble()) {
+								value = selectedObject.doubleValue();
+							} else if (Integer.class.equals(valueClass) && selectedObject.isInt()) {
+								value = selectedObject.intValue();
+							} else {
+								value = convertNumber(selectedObject.numberValue(), valueClass);
+							}
+						} else {
 							value = convertStringValue(selectedObject.asText(), valueClass);
-							
+						}
 					}
 					else if (Date.class.isAssignableFrom(valueClass)) {
 							value = convertStringValue(selectedObject.asText(), valueClass);

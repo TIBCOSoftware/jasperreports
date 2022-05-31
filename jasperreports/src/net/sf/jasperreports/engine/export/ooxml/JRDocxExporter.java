@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -200,7 +200,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected PrintPageFormat pageFormat;
 	protected JRGridLayout pageGridLayout;
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	protected DocxRunHelper runHelper;
@@ -322,7 +322,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		super.initExport();
 
-		rendererToImagePathMap = new HashMap<String,Pair<String,ExifOrientationEnum>>();//FIXMEIMAGE why this is reset at export and not report; are there any others?
+		rendererToImagePathMap = new HashMap<>();//FIXMEIMAGE why this is reset at export and not report; are there any others?
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 	}
@@ -1495,7 +1495,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), new Pair<String, ExifOrientationEnum>(imagePath, exifOrientation));
+						rendererToImagePathMap.put(renderer.getId(), new Pair<>(imagePath, exifOrientation));
 					}
 				}
 //			}

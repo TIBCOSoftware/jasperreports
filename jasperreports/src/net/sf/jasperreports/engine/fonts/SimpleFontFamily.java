@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -84,9 +84,9 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 			if (boldItalicFace != null)
 				clone.setBoldItalicFace((SimpleFontFace) boldItalicFace.clone());
 			if (locales != null)
-				clone.setLocales(new HashSet<String>(locales));
+				clone.setLocales(new HashSet<>(locales));
 			if (exportFonts != null)
-				clone.setExportFonts(new HashMap<String, String>(exportFonts));
+				clone.setExportFonts(new HashMap<>(exportFonts));
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new JRRuntimeException(e);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,10 +44,10 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private List<Object[]> records = new ArrayList<Object[]>();
+	private List<Object[]> records = new ArrayList<>();
 	private ListIterator<Object[]> iterator;
 	protected Object[] currentRecord;
-	private Map<String, Integer> columnNamesMap = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNamesMap = new HashMap<>();
 
 
 	/**

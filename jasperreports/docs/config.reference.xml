@@ -3587,7 +3587,7 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.csv.write.header">
     <description>
-Property that specifies whether the export header (the column names) should be written or not.
+Property that specifies whether the CSV metadata-based exporter should include a header (the column names) in the output.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#isWriteHeader--">isWriteHeader()</api> CSV metadata export configuration setting.

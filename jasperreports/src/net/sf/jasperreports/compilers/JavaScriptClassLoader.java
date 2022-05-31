@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -98,15 +98,7 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 				scriptClass = defineClass(className, classBytes, 0, classBytes.length, domain);
 				linkClass(scriptClass);
 			}
-			catch (SecurityException e)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_LOAD_ERROR,
-						new Object[]{className},
-						e);
-			}
-			catch (IllegalArgumentException e)
+			catch (SecurityException | IllegalArgumentException e)
 			{
 				throw 
 					new JRRuntimeException(

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -105,7 +103,7 @@ public class RequirejsConfigCreator
 	{
 		String configString = toConfigString(configRoot);
 		
-		Map<String, Object> contextMap = new HashMap<String, Object>();
+		Map<String, Object> contextMap = new HashMap<>();
 		contextMap.put("config", configString);
 		
 		// going through a template so that the final output is somewhat customizable
@@ -119,14 +117,6 @@ public class RequirejsConfigCreator
 		try
 		{
 			objectMapper.writeValue(outWriter, configRoot);
-		}
-		catch (JsonGenerationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JsonMappingException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		catch (IOException e)
 		{

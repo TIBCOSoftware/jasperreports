@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 8.0.0.final using JasperReports Library version develop-55-SNAPSHOT-17810285d8e6cce831451cc942336af32b7686c2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AccessibleReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="02314e1d-cb29-4cf3-a904-092a9d3e5312">
+	<property name="net.sf.jasperreports.text.save.line.breaks" value="true"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="true"/>
+	<property name="net.sf.jasperreports.components.table.interactive" value="true"/>
 	<property name="net.sf.jasperreports.export.html.accessible" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
@@ -15,30 +18,49 @@
 	</style>
 	<style name="Heading1" fontSize="16" isBold="true"/>
 	<style name="Heading2" fontSize="10" isBold="true" isItalic="true"/>
-	<style name="Crosstab_CH" mode="Opaque" backcolor="#D2B48C">
+	<style name="Crosstab_RowHeader" mode="Opaque" backcolor="#D2B48C">
 		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Crosstab_CG" mode="Opaque" backcolor="#FFE4BF">
+	<style name="Crosstab_ColumnHeader" mode="Opaque" backcolor="#D2B48C">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_ColumnHeader_Text">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3"/>
+	</style>
+	<style name="Crosstab_RowGroupTotal" mode="Opaque" backcolor="#FFE4BF">
 		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Crosstab_CT" mode="Opaque" backcolor="#CA9755">
+	<style name="Crosstab_Total" mode="Opaque" backcolor="#CA9755">
 		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+	<style name="Crosstab_TotalColumnHeader" mode="Opaque" backcolor="#CA9755">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_TotalColumnHeader_Text">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3"/>
+	</style>
+	<style name="Crosstab_Detail" mode="Opaque" backcolor="#FFFFFF">
 		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
 	<style name="Table_TH" mode="Opaque" backcolor="#D2B48C">
-		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
+		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+	</style>
+	<style name="Table_TH_Text">
+		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3"/>
 	</style>
 	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3">
@@ -205,10 +227,6 @@
 				<crosstab>
 					<reportElement x="0" y="0" width="510" height="30" uuid="bd692f7b-a38d-41e3-a7f1-0762e26ae74e">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
-						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
-						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
-						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
 					</reportElement>
 					<crosstabDataset>
 						<dataset resetType="Report">
@@ -222,7 +240,7 @@
 						<crosstabRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="3b4d0e0a-13a1-4073-a60f-cf57011934db"/>
+									<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="3b4d0e0a-13a1-4073-a60f-cf57011934db"/>
 									<textFieldExpression><![CDATA[$V{Category}]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -230,7 +248,7 @@
 						<crosstabTotalRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="030fffa3-2bd9-4d08-9124-eaa4c7053e79"/>
+									<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="030fffa3-2bd9-4d08-9124-eaa4c7053e79"/>
 									<textFieldExpression><![CDATA["Category Total"]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -243,7 +261,7 @@
 						<crosstabRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="daca1d35-ae94-4fca-9ba6-a41c69018bd4"/>
+									<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="daca1d35-ae94-4fca-9ba6-a41c69018bd4"/>
 									<textFieldExpression><![CDATA[$V{Type}]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -251,7 +269,7 @@
 						<crosstabTotalRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="2036fe22-10c5-4351-ad88-ed780eb66e2d"/>
+									<reportElement style="Crosstab_RowGroupTotal" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="2036fe22-10c5-4351-ad88-ed780eb66e2d"/>
 									<textFieldExpression><![CDATA["Type Total"]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -262,18 +280,18 @@
 							<bucketExpression><![CDATA[$F{Year}]]></bucketExpression>
 						</bucket>
 						<crosstabColumnHeader>
-							<cellContents>
+							<cellContents style="Crosstab_ColumnHeader">
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="00690fcb-022f-4a1b-92b4-ee6e5ed421c1"/>
+									<reportElement style="Crosstab_ColumnHeader_Text" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="00690fcb-022f-4a1b-92b4-ee6e5ed421c1"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA[$V{Year}]]></textFieldExpression>
 								</textField>
 							</cellContents>
 						</crosstabColumnHeader>
 						<crosstabTotalColumnHeader>
-							<cellContents>
+							<cellContents style="Crosstab_TotalColumnHeader">
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="51d11170-3965-4f3d-ab6e-18b2811f2472"/>
+									<reportElement style="Crosstab_TotalColumnHeader_Text" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="51d11170-3965-4f3d-ab6e-18b2811f2472"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA["Year Total"]]></textFieldExpression>
 								</textField>
@@ -286,7 +304,7 @@
 					<crosstabCell width="60" height="10">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CD" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8d3f6b26-adaa-4d41-88e1-febcee2301f6"/>
+								<reportElement style="Crosstab_Detail" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8d3f6b26-adaa-4d41-88e1-febcee2301f6"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -295,7 +313,7 @@
 					<crosstabCell width="60" height="10" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="7d73ed34-bf87-4c9a-871b-b77b75aecd07"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="7d73ed34-bf87-4c9a-871b-b77b75aecd07"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -304,7 +322,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Category">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="5b5d1848-4020-4cbc-8dc0-939be53f6e44"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="5b5d1848-4020-4cbc-8dc0-939be53f6e44"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -313,7 +331,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="cb812594-7af5-4e0f-9920-2d58b5a13cb9"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="cb812594-7af5-4e0f-9920-2d58b5a13cb9"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -322,7 +340,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Type">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="57742681-cf4b-4b3a-824f-74a3d8fdb982"/>
+								<reportElement style="Crosstab_RowGroupTotal" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="57742681-cf4b-4b3a-824f-74a3d8fdb982"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -331,7 +349,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="e13f7404-4313-47ae-9469-90d57505ed30"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="e13f7404-4313-47ae-9469-90d57505ed30"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -350,10 +368,6 @@
 				<crosstab>
 					<reportElement x="0" y="0" width="510" height="30" uuid="dc45d523-d168-4907-b9f5-309d373cf476">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
-						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
-						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
-						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
 					</reportElement>
 					<crosstabDataset>
 						<dataset resetType="Report">
@@ -363,11 +377,11 @@
 					<crosstabHeaderCell>
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="be844fc8-8eb5-4039-a9ee-8d8aef21cc38"/>
+								<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="be844fc8-8eb5-4039-a9ee-8d8aef21cc38"/>
 								<textFieldExpression><![CDATA["Category"]]></textFieldExpression>
 							</textField>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="70" y="0" width="60" height="10" uuid="298d12fd-070a-4320-915c-da5342c25845"/>
+								<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="70" y="0" width="60" height="10" uuid="298d12fd-070a-4320-915c-da5342c25845"/>
 								<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -379,7 +393,7 @@
 						<crosstabRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="9ed275d3-e315-47ae-9623-fa9efc6e5359"/>
+									<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="9ed275d3-e315-47ae-9623-fa9efc6e5359"/>
 									<textFieldExpression><![CDATA[$V{Category}]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -387,7 +401,7 @@
 						<crosstabTotalRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="9c76c8d7-da7d-470d-b93c-8519004de07d"/>
+									<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="130" height="10" uuid="9c76c8d7-da7d-470d-b93c-8519004de07d"/>
 									<textFieldExpression><![CDATA["Category Total"]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -400,7 +414,7 @@
 						<crosstabRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="9d6822df-11b2-4927-beca-f4e6a7616cc9"/>
+									<reportElement style="Crosstab_RowHeader" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="9d6822df-11b2-4927-beca-f4e6a7616cc9"/>
 									<textFieldExpression><![CDATA[$V{Type}]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -408,7 +422,7 @@
 						<crosstabTotalRowHeader>
 							<cellContents>
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="fffc90cc-f08f-4533-92c7-23342bb7297a"/>
+									<reportElement style="Crosstab_RowGroupTotal" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="fffc90cc-f08f-4533-92c7-23342bb7297a"/>
 									<textFieldExpression><![CDATA["Type Total"]]></textFieldExpression>
 								</textField>
 							</cellContents>
@@ -419,18 +433,18 @@
 							<bucketExpression><![CDATA[$F{Year}]]></bucketExpression>
 						</bucket>
 						<crosstabColumnHeader>
-							<cellContents>
+							<cellContents style="Crosstab_ColumnHeader">
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CH" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="4413a5ed-7f27-4878-89b8-901a9e67aa04"/>
+									<reportElement style="Crosstab_ColumnHeader_Text" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="4413a5ed-7f27-4878-89b8-901a9e67aa04"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA[$V{Year}]]></textFieldExpression>
 								</textField>
 							</cellContents>
 						</crosstabColumnHeader>
 						<crosstabTotalColumnHeader>
-							<cellContents>
+							<cellContents style="Crosstab_TotalColumnHeader">
 								<textField textAdjust="StretchHeight">
-									<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="527fc20d-76bc-4faf-8507-24a67883ab30"/>
+									<reportElement style="Crosstab_TotalColumnHeader_Text" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="527fc20d-76bc-4faf-8507-24a67883ab30"/>
 									<textElement textAlignment="Right"/>
 									<textFieldExpression><![CDATA["Year Total"]]></textFieldExpression>
 								</textField>
@@ -443,7 +457,7 @@
 					<crosstabCell width="60" height="10">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CD" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d2d41097-3e1d-4456-bdec-b4db36166a0e"/>
+								<reportElement style="Crosstab_Detail" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d2d41097-3e1d-4456-bdec-b4db36166a0e"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -452,7 +466,7 @@
 					<crosstabCell width="60" height="10" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="01f09e46-c4fa-4bc7-bf00-c0671526b152"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="01f09e46-c4fa-4bc7-bf00-c0671526b152"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -461,7 +475,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Category">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8e59fa44-35ff-4b5e-a87c-883467bd058d"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="8e59fa44-35ff-4b5e-a87c-883467bd058d"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -470,7 +484,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d1cf940c-dbb0-48c8-bfbb-a2c9654597b9"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="d1cf940c-dbb0-48c8-bfbb-a2c9654597b9"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -479,7 +493,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Type">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CG" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="6f9c82ea-3d4c-46fa-82b0-1f177e8a10ba"/>
+								<reportElement style="Crosstab_RowGroupTotal" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="6f9c82ea-3d4c-46fa-82b0-1f177e8a10ba"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -488,7 +502,7 @@
 					<crosstabCell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
 						<cellContents>
 							<textField textAdjust="StretchHeight">
-								<reportElement style="Crosstab_CT" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="f2bdfe3d-bd63-405d-a09f-edcf6f112002"/>
+								<reportElement style="Crosstab_Total" stretchType="ContainerHeight" x="0" y="0" width="60" height="10" uuid="f2bdfe3d-bd63-405d-a09f-edcf6f112002"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$V{Quantity_MEASURE}]]></textFieldExpression>
 							</textField>
@@ -511,9 +525,9 @@
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
 							<jr:column width="30" uuid="139e4257-c1e0-4fec-9810-8f4dfcc0d462">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-								<jr:columnHeader height="20" rowSpan="2">
+								<jr:columnHeader height="20" rowSpan="2" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="30" height="20" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="30" height="20" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d"/>
 										<textElement textAlignment="Right"/>
 										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 									</textField>
@@ -528,10 +542,11 @@
 							</jr:column>
 							<jr:column width="100" uuid="3e29a52e-a43a-4f78-9338-442b5c4ccf52">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-								<jr:columnHeader height="20" rowSpan="2">
+								<jr:columnHeader height="20" rowSpan="2" style="Table_TH">
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="49c36abf-d000-4f3a-a6c8-8f3823db156b"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="49c36abf-d000-4f3a-a6c8-8f3823db156b"/>
+										<box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3"/>
 										<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -544,19 +559,19 @@
 							</jr:column>
 							<jr:columnGroup width="190" uuid="6e249030-faab-40e1-a25c-a80ee5be404e">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" x="0" y="0" width="190" height="10" uuid="0c5a981e-93de-4f47-8872-cafaa817166a"/>
+										<reportElement style="Table_TH_Text" x="0" y="0" width="190" height="10" uuid="0c5a981e-93de-4f47-8872-cafaa817166a"/>
 										<textFieldExpression><![CDATA["Address"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
 								<jr:column width="120" uuid="c8a14c10-28be-4ede-937c-44e0cb8c6f3b">
 									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-									<jr:columnHeader height="10" rowSpan="1">
+									<jr:columnHeader height="10" rowSpan="1" style="Table_TH">
 										<property name="com.jaspersoft.studio.unit.height" value="px"/>
 										<textField textAdjust="StretchHeight">
-											<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="8bacb782-c042-4db5-a844-0b8bc5ef9af2"/>
+											<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="8bacb782-c042-4db5-a844-0b8bc5ef9af2"/>
 											<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>
@@ -569,9 +584,9 @@
 								</jr:column>
 								<jr:column width="70" uuid="94e0ac43-3866-4a08-828a-02f4f673ee8c">
 									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-									<jr:columnHeader height="10">
+									<jr:columnHeader height="10" style="Table_TH">
 										<textField textAdjust="StretchHeight">
-											<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="a38ed8db-8bf7-4763-9075-e374795a2a86"/>
+											<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="a38ed8db-8bf7-4763-9075-e374795a2a86"/>
 											<textFieldExpression><![CDATA["City"]]></textFieldExpression>
 										</textField>
 									</jr:columnHeader>
@@ -586,9 +601,9 @@
 							</jr:columnGroup>
 							<jr:column width="100" uuid="3c815a04-14db-4271-a533-38e8aff35aaa">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-								<jr:columnHeader height="20" rowSpan="2">
+								<jr:columnHeader height="20" rowSpan="2" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="d1f1a41e-1291-4548-bb85-cc86f12ed7c8"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" uuid="d1f1a41e-1291-4548-bb85-cc86f12ed7c8"/>
 										<textElement textAlignment="Center"/>
 										<textFieldExpression><![CDATA["Account Type"]]></textFieldExpression>
 									</textField>
@@ -603,9 +618,9 @@
 							</jr:column>
 							<jr:column width="80" uuid="195ef0da-f000-49e0-b5e0-c4001a22dbcf">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-								<jr:columnHeader height="20" rowSpan="2">
+								<jr:columnHeader height="20" rowSpan="2" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="80" height="20" uuid="26770ca2-5c50-4bc9-96ed-4169a7ac1901"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="80" height="20" uuid="26770ca2-5c50-4bc9-96ed-4169a7ac1901"/>
 										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -635,9 +650,9 @@
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
 							<jr:column width="30" uuid="bbdb515a-0d6d-46cc-84d3-d22c1fbd8781">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="30" height="10" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="30" height="10" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274"/>
 										<textElement textAlignment="Right"/>
 										<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
 									</textField>
@@ -652,10 +667,10 @@
 							</jr:column>
 							<jr:column width="100" uuid="9b577d40-88c0-4ecc-a51c-eab910a80d0a">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="9df76cf5-3a52-4389-9efc-6bc42cf88486"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="9df76cf5-3a52-4389-9efc-6bc42cf88486"/>
 										<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -668,10 +683,10 @@
 							</jr:column>
 							<jr:column width="120" uuid="bb948094-4211-4122-8fc1-ee7e5990f30b">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-								<jr:columnHeader height="10" rowSpan="1">
+								<jr:columnHeader height="10" rowSpan="1" style="Table_TH">
 									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="c7199a0a-e57b-4759-834b-4f7c2406849a"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="120" height="10" uuid="c7199a0a-e57b-4759-834b-4f7c2406849a"/>
 										<textFieldExpression><![CDATA["Street"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -684,9 +699,9 @@
 							</jr:column>
 							<jr:column width="70" uuid="1e3a3e84-c651-4402-bfab-5b24f78a2236">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="61ca596e-db16-4d78-8f44-5beee220a74b"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="70" height="10" uuid="61ca596e-db16-4d78-8f44-5beee220a74b"/>
 										<textFieldExpression><![CDATA["City"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>
@@ -700,9 +715,9 @@
 							</jr:column>
 							<jr:column width="100" uuid="eacd8541-0c7b-4627-a554-61966379e947">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="34211dc0-6819-47b7-91c4-f4fd9b947228"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="100" height="10" uuid="34211dc0-6819-47b7-91c4-f4fd9b947228"/>
 										<textElement textAlignment="Center"/>
 										<textFieldExpression><![CDATA["Account Type"]]></textFieldExpression>
 									</textField>
@@ -717,9 +732,9 @@
 							</jr:column>
 							<jr:column width="80" uuid="cbdb4bbc-b7e2-4d2b-a6c9-ab5ae5957bbf">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-								<jr:columnHeader height="10">
+								<jr:columnHeader height="10" style="Table_TH">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TH" stretchType="ContainerHeight" x="0" y="0" width="80" height="10" uuid="e0bb20ff-231d-4b96-a74f-c51bde1947ad"/>
+										<reportElement style="Table_TH_Text" stretchType="ContainerHeight" x="0" y="0" width="80" height="10" uuid="e0bb20ff-231d-4b96-a74f-c51bde1947ad"/>
 										<textFieldExpression><![CDATA["Move-In Date"]]></textFieldExpression>
 									</textField>
 								</jr:columnHeader>

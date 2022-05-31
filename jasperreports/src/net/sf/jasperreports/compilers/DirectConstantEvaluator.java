@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,25 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.j2ee.servlets;
-
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.export.JRXml4SwfExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporter;
+package net.sf.jasperreports.compilers;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class Xml4SwfServlet extends XmlServlet
+public class DirectConstantEvaluator extends UniformExpressionEvaluator
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private final Object value;
+	
+	public DirectConstantEvaluator(Object value)
+	{
+		this.value = value;
+	}
 
 	@Override
-	public JRXmlExporter getExporter()
+	protected Object defaultEvaluate()
 	{
-		return new JRXml4SwfExporter(DefaultJasperReportsContext.getInstance());
+		return value;
 	}
-}
 
+}

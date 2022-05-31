@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,7 +78,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	
 	public StandardTable()
 	{
-		columns = new ArrayList<BaseColumn>();
+		columns = new ArrayList<>();
 
 		// these fields are a later addition so they can be null through deserialization;
 		// no point in instantiating them here
@@ -265,7 +265,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	{
 		if (groupHeaders == null)
 		{
-			groupHeaders = new ArrayList<GroupRow>();
+			groupHeaders = new ArrayList<>();
 		}
 		groupHeaders.add(groupRow);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_HEADERS, 
@@ -276,7 +276,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	{
 		if (groupFooters == null)
 		{
-			groupFooters = new ArrayList<GroupRow>();
+			groupFooters = new ArrayList<>();
 		}
 		groupFooters.add(groupRow);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_FOOTERS, 

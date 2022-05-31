@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -67,7 +67,7 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	{
 		List<PropertySuffix> themeProperties = JRPropertiesUtil.getProperties(properties, 
 				XML_CHART_THEME_PROPERTY_PREFIX);
-		Map<String, ChartTheme> themes = new HashMap<String, ChartTheme>();
+		Map<String, ChartTheme> themes = new HashMap<>();
 		for (Iterator<PropertySuffix> it = themeProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix themeProp = it.next();

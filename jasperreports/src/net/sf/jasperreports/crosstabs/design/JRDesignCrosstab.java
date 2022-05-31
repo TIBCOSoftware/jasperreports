@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -182,21 +182,21 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		super(defaultStyleProvider);
 		
-		parametersList = new ArrayList<JRCrosstabParameter>();
-		parametersMap = new HashMap<String, JRCrosstabParameter>();
-		rowGroupsMap = new HashMap<String, Integer>();
-		rowGroups = new ArrayList<JRCrosstabRowGroup>();
-		columnGroupsMap = new HashMap<String, Integer>();
-		columnGroups = new ArrayList<JRCrosstabColumnGroup>();
-		measuresMap = new HashMap<String, Integer>();
-		measures = new ArrayList<JRCrosstabMeasure>();
+		parametersList = new ArrayList<>();
+		parametersMap = new HashMap<>();
+		rowGroupsMap = new HashMap<>();
+		rowGroups = new ArrayList<>();
+		columnGroupsMap = new HashMap<>();
+		columnGroups = new ArrayList<>();
+		measuresMap = new HashMap<>();
+		measures = new ArrayList<>();
 		
-		cellsMap = new HashMap<Pair<String,String>,JRCrosstabCell>();
-		cellsList = new ArrayList<JRCrosstabCell>();
+		cellsMap = new HashMap<>();
+		cellsList = new ArrayList<>();
 		
 		addBuiltinParameters();
 		
-		variablesList = new LinkedMap<String, JRVariable>();
+		variablesList = new LinkedMap<>();
 		addBuiltinVariables();
 		
 		dataset = new JRDesignCrosstabDataset();
@@ -933,7 +933,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					new Object[]{columnTotalGroup});
 		}
 		
-		Pair<String,String> cellKey = new Pair<String,String>(rowTotalGroup, columnTotalGroup);
+		Pair<String,String> cellKey = new Pair<>(rowTotalGroup, columnTotalGroup);
 		if (cellsMap.containsKey(cellKey))
 		{
 			throw 
@@ -1135,7 +1135,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public Map<String, JRVariable> getVariablesMap()
 	{
 		JRVariable[] variables = getVariables();
-		Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
+		Map<String, JRVariable> variablesMap = new HashMap<>();
 		
 		for (int i = 0; i < variables.length; i++)
 		{
@@ -1700,8 +1700,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList<JRCrosstabParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String, JRCrosstabParameter>(parametersList.size());
+			clone.parametersList = new ArrayList<>(parametersList.size());
+			clone.parametersMap = new HashMap<>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRCrosstabParameter parameter = JRCloneUtils.nullSafeClone(parametersList.get(i));
@@ -1716,12 +1716,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		// keep group and measure cloned variables to reuse the clone instances
 		// in the variables list
-		Map<JRVariable,JRVariable> clonedVariables = new HashMap<JRVariable,JRVariable>();
+		Map<JRVariable,JRVariable> clonedVariables = new HashMap<>();
 		
 		if (rowGroups != null)
 		{
-			clone.rowGroups = new ArrayList<JRCrosstabRowGroup>(rowGroups.size());
-			clone.rowGroupsMap = new HashMap<String, Integer>(rowGroups.size());
+			clone.rowGroups = new ArrayList<>(rowGroups.size());
+			clone.rowGroupsMap = new HashMap<>(rowGroups.size());
 			for(int i = 0; i < rowGroups.size(); i++)
 			{
 				JRDesignCrosstabRowGroup group = 
@@ -1743,8 +1743,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (columnGroups != null)
 		{
-			clone.columnGroups = new ArrayList<JRCrosstabColumnGroup>(columnGroups.size());
-			clone.columnGroupsMap = new HashMap<String, Integer>(columnGroups.size());
+			clone.columnGroups = new ArrayList<>(columnGroups.size());
+			clone.columnGroupsMap = new HashMap<>(columnGroups.size());
 			for(int i = 0; i < columnGroups.size(); i++)
 			{
 				JRDesignCrosstabColumnGroup group = 
@@ -1767,8 +1767,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (measures != null)
 		{
-			clone.measures = new ArrayList<JRCrosstabMeasure>(measures.size());
-			clone.measuresMap = new HashMap<String,Integer>(measures.size());
+			clone.measures = new ArrayList<>(measures.size());
+			clone.measuresMap = new HashMap<>(measures.size());
 			for(int i = 0; i < measures.size(); i++)
 			{
 				JRDesignCrosstabMeasure measure = 
@@ -1787,7 +1787,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (variablesList != null)
 		{
-			clone.variablesList = new LinkedMap<String, JRVariable>(variablesList.size());
+			clone.variablesList = new LinkedMap<>(variablesList.size());
 			for(Iterator<?> it = variablesList.values().iterator(); it.hasNext();)
 			{
 				JRVariable variable = (JRVariable) it.next();
@@ -1803,14 +1803,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (cellsList != null)
 		{
-			clone.cellsList = new ArrayList<JRCrosstabCell>(cellsList.size());
-			clone.cellsMap = new HashMap<Pair<String,String>,JRCrosstabCell>(cellsList.size());
+			clone.cellsList = new ArrayList<>(cellsList.size());
+			clone.cellsMap = new HashMap<>(cellsList.size());
 			for(int i = 0; i < cellsList.size(); i++)
 			{
 				JRCrosstabCell cell = JRCloneUtils.nullSafeClone(cellsList.get(i));
 				adjustCrosstabReference(clone, (JRDesignCellContents) cell.getContents());
 				clone.cellsList.add(cell);
-				clone.cellsMap.put(new Pair<String,String>(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
+				clone.cellsMap.put(new Pair<>(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
 			}
 		}
 		
@@ -1940,7 +1940,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (variablesList.getClass().getName().equals("org.apache.commons.collections.SequencedHashMap"))
 		{
 			// converting to the new type
-			variablesList = new LinkedMap<String, JRVariable>(variablesList);
+			variablesList = new LinkedMap<>(variablesList);
 		}
 	}
 

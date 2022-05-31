@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -62,7 +62,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 	@Override
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
-		List<Class<?>> parameterTypes = new ArrayList<Class<?>>(parameterPositions.length);
+		List<Class<?>> parameterTypes = new ArrayList<>(parameterPositions.length);
 		for (int position : parameterPositions)
 		{
 			Class<?> parameterType = determineParameterType(clauseTokens,
@@ -152,7 +152,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 		if (cache == null)
 		{
 			// we need a concurrent map as the context and cache might be used by several threads
-			cache = new ConcurrentHashMap<Object, JRClauseFunction>();
+			cache = new ConcurrentHashMap<>();
 			
 			// we don't need to handle race conditions here as it's a lightweight cache
 			queryContext.getJasperReportsContext().setValue(CONTEXT_KEY_FUNCTION_PER_TYPES_CACHE, cache);
@@ -181,8 +181,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 			typesKey = parameterTypes;
 		}
 		
-		Pair<String, String> clauseKey = new Pair<String, String>(
-				queryContext.getCanonicalQueryLanguage(), clauseTokens.getClauseId());
+		Pair<String, String> clauseKey = new Pair<>(queryContext.getCanonicalQueryLanguage(), clauseTokens.getClauseId());
 		return new Pair<Pair<String, String>, Object>(clauseKey, typesKey);
 	}
 
@@ -201,7 +200,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 		// fetch extensions
 		List<ParameterTypesClauseFunctionBundle> functionsBundles = queryContext.getJasperReportsContext().getExtensions(
 				ParameterTypesClauseFunctionBundle.class);
-		List<Pair<List<Class<?>>, JRClauseFunction>> candidateFunctions = new ArrayList<Pair<List<Class<?>>,JRClauseFunction>>();
+		List<Pair<List<Class<?>>, JRClauseFunction>> candidateFunctions = new ArrayList<>();
 		for (ParameterTypesClauseFunctionBundle functionsBundle : functionsBundles)
 		{
 			Collection<? extends ParameterTypesClauseFunction> functions = functionsBundle.getTypeFunctions(queryLanguage, clauseId);
@@ -220,8 +219,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 									+ " for types " + supportedTypes);
 						}
 						
-						Pair<List<Class<?>>, JRClauseFunction> candidate = 
-								new Pair<List<Class<?>>, JRClauseFunction>(supportedTypes, function);
+						Pair<List<Class<?>>, JRClauseFunction> candidate = new Pair<>(supportedTypes, function);
 						candidateFunctions.add(candidate);
 					}
 				}
@@ -260,7 +258,7 @@ public class ParameterTypeSelectorClauseFunction implements JRClauseFunction
 			List<Class<?>> parameterTypes)
 	{
 		Collection<Class<?>> functionTypes = typesFunction.getSupportedTypes();
-		List<Class<?>> supportedTypes = new ArrayList<Class<?>>(parameterTypes.size());
+		List<Class<?>> supportedTypes = new ArrayList<>(parameterTypes.size());
 		for (Class<?> paramType : parameterTypes)
 		{
 			Class<?> supportedType = findSupportedType(functionTypes, paramType);

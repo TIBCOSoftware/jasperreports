@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -110,8 +110,8 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + name;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.rowStyles = rowStyles == null ? new HashMap<>() : rowStyles;
+		this.columnStyles = columnStyles == null ? new HashMap<>() : columnStyles;
 		this.tabColor = tabColor;
 	}
 	
@@ -156,8 +156,8 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + pageFormatIndex + "_" + pageIndex;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.rowStyles = rowStyles == null ? new HashMap<>() : rowStyles;
+		this.columnStyles = columnStyles == null ? new HashMap<>() : columnStyles;
 		this.tabColor = tabColor;
 	}
 

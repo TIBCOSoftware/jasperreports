@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,7 +43,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -142,11 +141,7 @@ public class PropertiesDocReader
 			readCategories(rootElement);
 			readPropertyDocs(rootElement);
 		}
-		catch (SAXException e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -417,15 +412,7 @@ public class PropertiesDocReader
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.transform(new DOMSource(refDoc), new StreamResult(new File(refFile)));
 		}
-		catch (TransformerConfigurationException e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (TransformerFactoryConfigurationError e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (TransformerException e)
+		catch (TransformerFactoryConfigurationError | TransformerException e)
 		{
 			throw new RuntimeException(e);
 		}

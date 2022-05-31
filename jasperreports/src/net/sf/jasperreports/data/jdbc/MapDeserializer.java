@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -66,6 +66,6 @@ public class MapDeserializer extends StdDeserializer<Map<String, String>>
 	@Override
 	public Map<String, String> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException 
 	{
-		return deserialize(p, ctxt, new HashMap<String, String>());
+		return deserialize(p, ctxt, new HashMap<>());
     }
 }

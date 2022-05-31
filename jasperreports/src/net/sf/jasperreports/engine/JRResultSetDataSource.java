@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -127,12 +127,12 @@ public class JRResultSetDataSource implements JRDataSource
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private ResultSet resultSet;
-	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	private Map<String,Integer> columnIndexMap = new HashMap<>();
 
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
 	private TimeZone reportTimeZone;
-	private Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
+	private Map<JRField, Calendar> fieldCalendars = new HashMap<>();
 
 	private int rowCount;
 
@@ -682,15 +682,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 			return str.toString();
 		}
-		catch (SQLException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_RESULT_SET_CLOB_VALUE_READ_FAILURE, 
-					null, 
-					e);
-		}
-		catch (IOException e)
+		catch (SQLException | IOException e)
 		{
 			throw 
 				new JRException(

@@ -1,9 +1,5 @@
-<?xml version="1.0"?>
-<!DOCTYPE jasperTemplate
-  PUBLIC "-//JasperReports//DTD Template//EN"
-  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
-
-<jasperTemplate>
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
 
 	<style name="Base" isDefault="true" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle"
 			fontSize="10" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false">

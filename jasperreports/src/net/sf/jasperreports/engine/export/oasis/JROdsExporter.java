@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -145,8 +145,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	protected StringBuilder namedExpressions;
 
-	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
-	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> rowStyles = new HashMap<>();
+	protected Map<Integer, String> columnStyles = new HashMap<>();
 
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException, IOException

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -132,7 +132,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	{
 		super(defaultStyleProvider);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 		
 		lineBox = new JRBaseLineBox(this);
 	}

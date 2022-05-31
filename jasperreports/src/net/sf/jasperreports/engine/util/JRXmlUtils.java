@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,16 +32,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
  * XML parsing utilities.
@@ -78,15 +78,7 @@ public final class JRXmlUtils
 		{
 			return createDocumentBuilder(isNamespaceAware).parse(is);
 		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
-					null,
-					e);
-		}
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw 
 				new JRException(
@@ -135,15 +127,7 @@ public final class JRXmlUtils
 		{
 			return createDocumentBuilder(isNamespaceAware).parse(file);
 		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
-					null,
-					e);
-		}
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw 
 				new JRException(
@@ -194,15 +178,7 @@ public final class JRXmlUtils
 			is = url.openStream();
 			return createDocumentBuilder(isNamespaceAware).parse(is);
 		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE,
-					null,
-					e);
-		}
-		catch (IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw 
 				new JRException(

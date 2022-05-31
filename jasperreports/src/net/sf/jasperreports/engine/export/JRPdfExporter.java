@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,11 +52,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ibm.icu.util.StringTokenizer;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -726,7 +726,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		pdfProducer.initReport();
 
 		renderersCache = new RenderersCache(getJasperReportsContext());
-		loadedImagesMap = new HashMap<String,Pair<PdfImage,ExifOrientationEnum>>();
+		loadedImagesMap = new HashMap<>();
 	}
 
 	protected PdfProducerFactory getPdfProducerFactory()
@@ -1063,7 +1063,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected void writePageAnchor(int pageIndex) 
 	{
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 		PdfTextChunk chunk = pdfProducer.createChunk(" ", attributes, getLocale());
 		
@@ -1804,7 +1804,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				try
 				{
 					imagePair = 
-						new Pair<PdfImage, ExifOrientationEnum>(
+						new Pair<>(
 							pdfProducer.createImage(data, true), 
 							ImageUtil.getExifOrientation(data)
 							);
@@ -1875,7 +1875,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				try
 				{
 					imagePair = 
-						new Pair<PdfImage, ExifOrientationEnum>(
+						new Pair<>(
 							pdfProducer.createImage(data, true),
 							ImageUtil.getExifOrientation(data)
 							);
@@ -2259,27 +2259,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				{
 					case REFERENCE :
 					{
-						if (link.getHyperlinkReference() != null)
-						{
-							switch(link.getHyperlinkTargetValue())
-							{
-								case BLANK :
-								{
-									chunk.setJavaScriptAction(
-											"if (app.viewerVersion < 7)"
-												+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
-												+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};"
-										);
-									break;
-								}
-								case SELF :
-								default :
-								{
-									chunk.setAnchor(link.getHyperlinkReference());
-									break;
-								}
-							}
-						}
+						JRHyperlinkProducer hyperlinkProducer = getHyperlinkProducer(link);
+						String referenceURL = hyperlinkProducer == null ? link.getHyperlinkReference() : hyperlinkProducer.getHyperlink(link);
+						setReferenceHyperlink(chunk, link, referenceURL);
 						break;
 					}
 					case LOCAL_ANCHOR :
@@ -2332,34 +2314,40 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						if (hyperlinkProducerFactory != null)
 						{
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
-							if (hyperlink != null)
-							{
-								switch(link.getHyperlinkTargetValue())
-								{
-									case BLANK :
-									{
-										chunk.setJavaScriptAction(
-												"if (app.viewerVersion < 7)"
-													+ "{this.getURL(\"" + hyperlink + "\");}"
-													+ "else {app.launchURL(\"" + hyperlink + "\", true);};"
-											);
-										break;
-									}
-									case SELF :
-									default :
-									{
-										chunk.setAnchor(hyperlink);
-										break;
-									}
-								}
-							}
+							setReferenceHyperlink(chunk, link, hyperlink);
 						}
+						break;
 					}
 					case NONE :
 					default :
 					{
 						break;
 					}
+				}
+			}
+		}
+	}
+
+	protected void setReferenceHyperlink(PdfChunk chunk, JRPrintHyperlink link, String referenceURL)
+	{
+		if (referenceURL != null)
+		{
+			switch(link.getHyperlinkTargetValue())
+			{
+				case BLANK :
+				{
+					chunk.setJavaScriptAction(
+							"if (app.viewerVersion < 7)"
+								+ "{this.getURL(\"" + referenceURL + "\");}"
+								+ "else {app.launchURL(\"" + referenceURL + "\", true);};"
+						);
+					break;
+				}
+				case SELF :
+				default :
+				{
+					chunk.setAnchor(referenceURL);
+					break;
 				}
 			}
 		}
@@ -2827,7 +2815,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 //		pdfTextField.setExtraMargin(0, 0);
 		
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, text);
 		pdfTextField.setFont(attributes, getLocale());
 		pdfTextField.setFontSize(text.getFontsize());
@@ -2856,7 +2844,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
 			StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
-			List<String> choicesList = new ArrayList<String>();
+			List<String> choicesList = new ArrayList<>();
 			while (tkzer.hasMoreTokens())
 			{
 				choicesList.add(tkzer.nextToken());
@@ -3310,6 +3298,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(0, 2 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}
@@ -3327,6 +3316,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(4 * lineWidth, 4 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}
@@ -3413,7 +3403,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		BookmarkStack()
 		{
-			stack = new LinkedList<Bookmark>();
+			stack = new LinkedList<>();
 		}
 
 		void push(Bookmark bookmark)

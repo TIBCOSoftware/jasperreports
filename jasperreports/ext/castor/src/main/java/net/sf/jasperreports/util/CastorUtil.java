@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,15 +25,14 @@ package net.sf.jasperreports.util;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -201,7 +200,7 @@ public class CastorUtil
 	protected List<CastorMapping> getMappings(String version)
 	{
 		List<CastorMapping> castorMappings = jasperReportsContext.getExtensions(CastorMapping.class);
-		Map<String, CastorMapping> keyMappings = new HashMap<String, CastorMapping>();
+		Map<String, CastorMapping> keyMappings = new HashMap<>();
 		for (CastorMapping mapping : castorMappings)
 		{
 			String key = mapping.getKey();
@@ -222,7 +221,7 @@ public class CastorUtil
 			}
 		}
 		
-		List<CastorMapping> activeMappings = new ArrayList<CastorMapping>(castorMappings.size());
+		List<CastorMapping> activeMappings = new ArrayList<>(castorMappings.size());
 		for (CastorMapping mapping : castorMappings)
 		{
 			String key = mapping.getKey();
@@ -292,11 +291,7 @@ public class CastorUtil
 			Object object = unmarshaller.unmarshal(new InputSource(is));
 			return object;
 		}
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (ValidationException e)
+		catch (MarshalException | ValidationException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -320,10 +315,6 @@ public class CastorUtil
 			output.close();
 			closed = true;
 		}
-		catch (FileNotFoundException e)
-		{
-			throw new JRRuntimeException(e);
-		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
@@ -346,16 +337,8 @@ public class CastorUtil
 	
 	public void write(Object object, OutputStream output)
 	{
-		try
-		{
-			Writer writer = new OutputStreamWriter(output, "UTF-8");//hardcoding utf8 instead of the default encoding
-			write(object, writer);
-		} 
-		catch (UnsupportedEncodingException e)
-		{
-			// should not happen
-			throw new JRRuntimeException(e);
-		}
+		Writer writer = new OutputStreamWriter(output, StandardCharsets.UTF_8);//hardcoding utf8 instead of the default encoding
+		write(object, writer);
 	}
 	
 	public void write(Object object, Writer writer)
@@ -367,15 +350,7 @@ public class CastorUtil
 			marshaller.setMarshalAsDocument(false);
 			marshaller.marshal(object);
 		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (MarshalException e)
-		{
-			throw new JRRuntimeException(e);
-		} 
-		catch (ValidationException e)
+		catch (IOException | MarshalException | ValidationException e)
 		{
 			throw new JRRuntimeException(e);
 		}

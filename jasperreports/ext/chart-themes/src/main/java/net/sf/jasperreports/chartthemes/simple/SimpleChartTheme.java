@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -165,8 +165,8 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
-	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<FontUtil>();
+	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<>();
+	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<>();
 	
 
 	/**
@@ -3108,7 +3108,7 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + themeSeriesPaintProvider.size()];
 			colorSequence = new Paint[themeSeriesPaintProvider.size()];
-			List<Paint> themeSeriesColors = new ArrayList<Paint>();
+			List<Paint> themeSeriesColors = new ArrayList<>();
 			for (int i=0; i< themeSeriesPaintProvider.size(); i++)
 			{
 				themeSeriesColors.add(themeSeriesPaintProvider.get(i).getPaint());

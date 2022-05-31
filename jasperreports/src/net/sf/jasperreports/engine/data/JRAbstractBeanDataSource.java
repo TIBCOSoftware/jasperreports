@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	protected static class DefaultPropertyNameProvider implements PropertyNameProvider
 	{
 		private boolean isUseFieldDescription;
-		private Map<String, String> fieldPropertyNames = new HashMap<String, String>();
+		private Map<String, String> fieldPropertyNames = new HashMap<>();
 		
 		public DefaultPropertyNameProvider(boolean isUseFieldDescription)
 		{
@@ -154,23 +155,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			{
 				value = PropertyUtils.getProperty(bean, propertyName);
 			}
-			catch (java.lang.IllegalAccessException e)
-			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
-						new Object[]{propertyName}, 
-						e);
-			}
-			catch (java.lang.reflect.InvocationTargetException e)
-			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED,
-						new Object[]{propertyName}, 
-						e);
-			}
-			catch (java.lang.NoSuchMethodException e)
+			catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
 			{
 				throw 
 					new JRException(

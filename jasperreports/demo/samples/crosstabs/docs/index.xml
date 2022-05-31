@@ -156,7 +156,7 @@ the entries in both row and column groups</li>
 <li><code>COLUMN_COUNT</code> - variable that counts the columns in a column group</li>
 </ol>
 <b>Note:</b> Based on the <code>ROW_COUNT</code> and <code>COLUMN_COUNT</code> one can generate alternate colors for rows or columns 
-in a crosstab, using <a href="../jasper/index.html#conditionalstyles">conditional styles</a>:
+in a crosstab, using <a href="../jasper/index.html#conditionalStylesInReports">conditional styles</a>:
 <pre><![CDATA[
 <style name="RowStyle" isDefault="false" mode="Opaque">
   <conditionalStyle>
@@ -201,7 +201,7 @@ This report template shows how to use the most common crosstab features in order
 <ul>
 <li>The crosstab is placed in the report summary.</li>
 <li>It works with the report main dataset.</li>
-<li>It uses <a href="../jasper/index.html#conditionalstyles">conditional styles</a> based on the <code>ROW_COUNT</code> variable.</li>
+<li>It uses <a href="../jasper/index.html#conditionalStylesInReports">conditional styles</a> based on the <code>ROW_COUNT</code> variable.</li>
 <li>Because data are not presorted, the engine performs internally data sorting, taking into account the <code>&lt;orderByExpression&gt;</code> criteria.</li>
 <li>It contains a single row group, bucketing the country names, and a single column group bucketing freight values.</li>
 <li>Detail cells contain multiple textfields with complementary information.</li>

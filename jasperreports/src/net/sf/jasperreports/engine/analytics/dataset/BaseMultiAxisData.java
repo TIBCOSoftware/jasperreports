@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,8 +50,8 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 	
 	public BaseMultiAxisData()
 	{
-		this.axisList = new ArrayList<DataAxis>();
-		this.measures = new ArrayList<DataMeasure>();
+		this.axisList = new ArrayList<>();
+		this.measures = new ArrayList<>();
 	}
 	
 	public BaseMultiAxisData(MultiAxisData data, JRBaseObjectFactory factory)
@@ -61,7 +61,7 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 		this.dataset = factory.getMultiAxisDataset(data.getDataset());
 		
 		List<DataAxis> dataAxes = data.getDataAxisList();
-		this.axisList = new ArrayList<DataAxis>(dataAxes.size());
+		this.axisList = new ArrayList<>(dataAxes.size());
 		for (DataAxis dataAxis : dataAxes)
 		{
 			DataAxis axis = factory.getDataAxis(dataAxis);
@@ -70,7 +70,7 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 		}
 		
 		List<DataMeasure> dataMeasures = data.getMeasures();
-		this.measures = new ArrayList<DataMeasure>(dataMeasures.size());
+		this.measures = new ArrayList<>(dataMeasures.size());
 		for (DataMeasure measure : dataMeasures)
 		{
 			this.measures.add(factory.getDataMeasure(measure));

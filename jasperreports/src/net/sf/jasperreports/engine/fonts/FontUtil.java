@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -86,7 +86,7 @@ public final class FontUtil
 	{
 		@Override
 		protected Set<String> initialValue() {
-			return new HashSet<String>();
+			return new HashSet<>();
 		}
 	};
 	
@@ -296,7 +296,7 @@ public final class FontUtil
 	{
 		//FIXMEFONT do some cache
 		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
-		HashMap<String, FontFamily> fontFamilies = new HashMap<String, FontFamily>(allFontFamilies.size() * 4 / 3, .75f);
+		HashMap<String, FontFamily> fontFamilies = new HashMap<>(allFontFamilies.size() * 4 / 3, .75f);
 		for (FontFamily family : allFontFamilies)
 		{
 			if (family.getName() != null
@@ -306,7 +306,7 @@ public final class FontUtil
 			}
 		}
 		
-		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<String, FontSetFamilyInfo>();
+		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<>();
 		List<FontSet> allSets = jasperReportsContext.getExtensions(FontSet.class);
 		FontSet foundFontSet = null;
 		FontSetFamilyInfo primaryFamily = null;
@@ -356,7 +356,7 @@ public final class FontUtil
 		}
 		
 		//TODO lucianc handle sets with no families
-		List<FontSetFamilyInfo> familyInfoList = new ArrayList<FontSetFamilyInfo>(setFamilyInfos.values());
+		List<FontSetFamilyInfo> familyInfoList = new ArrayList<>(setFamilyInfos.values());
 		if (primaryFamily == null && !familyInfoList.isEmpty())
 		{
 			primaryFamily = familyInfoList.get(0);
@@ -391,7 +391,7 @@ public final class FontUtil
 	 */
 	public Collection<String> getFontFamilyNames()
 	{
-		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
+		TreeSet<String> familyNames = new TreeSet<>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
 		collectFontFamilyNames(familyNames);
 		return familyNames;
@@ -417,7 +417,7 @@ public final class FontUtil
 	 */
 	public Collection<String> getFontNames()
 	{
-		TreeSet<String> fontNames = new TreeSet<String>();//FIXMEFONT use collator for order?
+		TreeSet<String> fontNames = new TreeSet<>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
 		collectFontFamilyNames(fontNames);
 		collectFontSetNames(fontNames);
@@ -553,7 +553,7 @@ public final class FontUtil
 	 */ //FIXMECONTEXT check how to make this cache effective again
 	public void resetThreadMissingFontsCache()
 	{
-		threadMissingFontsCache.set(new HashSet<String>());
+		threadMissingFontsCache.set(new HashSet<>());
 	}
 	
 	
@@ -610,13 +610,13 @@ public final class FontUtil
 		
 		if (awtFont == null)
 		{
-			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap<Attribute,Object>(), font));
+			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap<>(), font));
 		}
 		else
 		{
 			// add underline and strikethrough attributes since these are set at
 			// style/font level
-			Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
+			Map<Attribute, Object> attributes = new HashMap<>();
 			if (font.isUnderline())
 			{
 				attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);

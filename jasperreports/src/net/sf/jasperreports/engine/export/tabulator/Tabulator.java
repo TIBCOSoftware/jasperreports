@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -382,14 +382,18 @@ public class Tabulator
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
 			boolean createNestedTable = false;
+			String nestedTableRole = null;
 			if (isAccessibleHtml)
 			{
-				String accessibilityTag = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
-				createNestedTable = AccessibilityTagEnum.TABLE == AccessibilityTagEnum.getByName(accessibilityTag);
+				String accessibilityTagProp = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+				AccessibilityTagEnum accessibilityTag = AccessibilityTagEnum.getByName(accessibilityTagProp);
+				createNestedTable = AccessibilityTagEnum.TABLE == accessibilityTag || AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag;
+				nestedTableRole = AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag ? "none" : null;
 			}
 			if (createNestedTable)
 			{
 				Table nestedTable = new Table(this);
+				nestedTable.setRole(nestedTableRole);
 				DimensionRange<Column> nestedColRange = nestedTable.columns.addEntries(nestedTable.columns.getRange(0, frame.getWidth()));
 				DimensionRange<Row> nestedRowRange = nestedTable.rows.addEntries(nestedTable.rows.getRange(0, element.getHeight()));
 				layoutFrame(nestedTable, null, 0, 0, parentIndex, elementIndex, nestedColRange, nestedRowRange, frame);
@@ -462,13 +466,13 @@ public class Tabulator
 	
 	protected Cell overlapParentCell(Cell existingCell, FrameCell currentParent)
 	{
-		LinkedList<FrameCell> existingParents = new LinkedList<FrameCell>();
+		LinkedList<FrameCell> existingParents = new LinkedList<>();
 		for (FrameCell parent = existingCell.getParent(); parent != null; parent = parent.getParent())
 		{
 			existingParents.addFirst(parent);
 		}
 		
-		LinkedList<FrameCell> currentParents = new LinkedList<FrameCell>();
+		LinkedList<FrameCell> currentParents = new LinkedList<>();
 		for (FrameCell parent = currentParent; parent != null; parent = parent.getParent())
 		{
 			currentParents.addFirst(parent);
@@ -515,7 +519,7 @@ public class Tabulator
 		assert endCol != null;
 		assert startCol.startCoord < endCol.startCoord;
 		
-		return new Pair<Column, Column>(startCol, endCol);
+		return new Pair<>(startCol, endCol);
 	}
 	
 	protected Pair<Row, Row> getRowSpanRange(Table table, Column col, Row row, Cell spanned)
@@ -544,7 +548,7 @@ public class Tabulator
 		assert endRow != null;
 		assert startRow.startCoord < endRow.startCoord;
 		
-		return new Pair<Row, Row>(startRow, endRow);
+		return new Pair<>(startRow, endRow);
 	}
 
 	protected void moveCellsToLayerTable(FrameCell parentCell, Table layerTable,
@@ -586,7 +590,7 @@ public class Tabulator
 
 	protected void collapseSpanColumns(Table table, DimensionRange<Column> range)
 	{
-		List<Pair<Column, Column>> removeList = new ArrayList<Pair<Column, Column>>();
+		List<Pair<Column, Column>> removeList = new ArrayList<>();
 		Column prevColumn = null;
 		for (Column column : range.rangeSet)
 		{
@@ -613,7 +617,7 @@ public class Tabulator
 			if (collapse)
 			{
 				// removing outside the iteration so that the iterator is not broken
-				removeList.add(new Pair<Column, Column>(column, prevColumn));
+				removeList.add(new Pair<>(column, prevColumn));
 			}
 			else
 			{
@@ -629,7 +633,7 @@ public class Tabulator
 
 	protected void collapseSpanRows(Table table, DimensionRange<Row> range)
 	{
-		List<Pair<Row, Row>> removeList = new ArrayList<Pair<Row, Row>>();
+		List<Pair<Row, Row>> removeList = new ArrayList<>();
 		Row prevRow = null;
 		for (Row row : range.rangeSet)
 		{
@@ -656,7 +660,7 @@ public class Tabulator
 			if (collapse)
 			{
 				// removing outside the iteration so that the iterator is not broken
-				removeList.add(new Pair<Row, Row>(row, prevRow));
+				removeList.add(new Pair<>(row, prevRow));
 			}
 			else
 			{
@@ -794,7 +798,7 @@ public class Tabulator
 			++span;
 			lastCol = tailCol;
 		}
-		return new SpanInfo<Column>(span, lastCol);
+		return new SpanInfo<>(span, lastCol);
 	}
 
 	protected SpanInfo<Row> getRowCellSpan(TablePosition position, Cell cell)
@@ -817,7 +821,7 @@ public class Tabulator
 			++span;
 			lastRow = tailRow;
 		}
-		return new SpanInfo<Row>(span, lastRow);
+		return new SpanInfo<>(span, lastRow);
 	}
 
 	protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
@@ -983,7 +987,7 @@ public class Tabulator
 	
 	protected class ParentDrop implements CellVisitor<FrameCell, Cell, RuntimeException>
 	{
-		private final Map<FrameCell, FrameCell> parentMapping = new HashMap<FrameCell, FrameCell>();
+		private final Map<FrameCell, FrameCell> parentMapping = new HashMap<>();
 
 		protected FrameCell droppedParent(FrameCell existingParent, FrameCell parent)
 		{

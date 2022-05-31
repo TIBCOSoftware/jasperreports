@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -84,7 +84,8 @@ public class ParameterOverriddenResolver implements ParameterResolver
 	@Override
 	public String[] getStringArrayParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String propertyPrefix)
 	{
-		String[] values = null;
+		String[] values = (String[])parameters.get(parameter);
+
 		JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
 		if (hintsMap != null)
 		{
@@ -98,10 +99,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 				}
 			}
 		}
-		else
-		{
-			values = (String[])parameters.get(parameter);
-		}
+
 		return values;
 	}
 
@@ -109,24 +107,22 @@ public class ParameterOverriddenResolver implements ParameterResolver
 	@Override
 	public Map<String, String> getMapParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String  propertyPrefix)
 	{
-		Map<String, String> values = null; 
+		Map<String, String> values = (Map<String, String>)parameters.get(parameter);
+		
 		JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
 		if (hintsMap != null)
 		{
 			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(hintsMap, propertyPrefix);
 			if (properties != null && !properties.isEmpty())
 			{
-				values = new HashMap<String, String>();
+				values = new HashMap<>();
 				for(PropertySuffix property : properties)
 				{
 					values.put(property.getSuffix(), property.getValue());
 				}
 			}
 		}
-		else
-		{
-			values = (Map<String, String>)parameters.get(parameter);
-		}
+
 		return values;
 	}
 	

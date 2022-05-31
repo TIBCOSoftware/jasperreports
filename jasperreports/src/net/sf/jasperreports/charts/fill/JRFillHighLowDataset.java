@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,7 +63,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	 *
 	 */
 	private String series;
-	private List<HighLowElement> elements = new ArrayList<HighLowElement>();
+	private List<HighLowElement> elements = new ArrayList<>();
 	private Date date;
 	private Number high;
 	private Number low;
@@ -87,8 +87,8 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	@Override
 	protected void customInitialize()
 	{
-		elements = new ArrayList<HighLowElement>();
-		itemHyperlinks = new ArrayList<JRPrintHyperlink>();
+		elements = new ArrayList<>();
+		itemHyperlinks = new ArrayList<>();
 	}
 
 

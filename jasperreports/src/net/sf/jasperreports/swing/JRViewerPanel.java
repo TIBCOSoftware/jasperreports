@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -123,8 +123,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	private boolean pnlTabsChangeListenerEnabled = true;
 	
-	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<JRHyperlinkListener>();
-	private Map<JPanel, JRPrintHyperlink> linksMap = new HashMap<JPanel, JRPrintHyperlink>();
+	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<>();
+	private Map<JPanel, JRPrintHyperlink> linksMap = new HashMap<>();
 
 	/**
 	 * the screen resolution.
@@ -844,7 +844,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 
 		pnlLinks.removeAll();
-		linksMap = new HashMap<JPanel, JRPrintHyperlink>();
+		linksMap = new HashMap<>();
 
 		createHyperlinks();
 
@@ -1347,6 +1347,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		case JRViewerEvent.EVENT_REPORT_LOAD_FAILED:
 			refreshTabs();
 			break;
+		default:
 		}
 	}
 }

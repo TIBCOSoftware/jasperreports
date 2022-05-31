@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
@@ -517,7 +518,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 *
 	 */
-	protected List<Object> loadedFonts = new ArrayList<Object>();
+	protected List<Object> loadedFonts = new ArrayList<>();
 
 	/**
 	 *
@@ -532,9 +533,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected int reportIndex;
 	protected int pageIndex;
 	protected PrintPageFormat pageFormat;
-	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<Integer, Boolean>();
+	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<>();
 	protected int sheetsBeforeCurrentReport;
-	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<Integer, Integer>();
+	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<>();
 	protected RenderersCache renderersCache;
 	
 
@@ -955,8 +956,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		openWorkbook(os);
-		sheetNamesMap = new HashMap<String,Integer>();
-		definedNamesMap = new HashMap<NameScope, String>();
+		sheetNamesMap = new HashMap<>();
+		definedNamesMap = new HashMap<>();
 		pageFormat = null;
 		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();
@@ -1668,9 +1669,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
 
-			for (String level : rowLevelMap.keySet())
+			for (Entry<String, Boolean> rowLevel : rowLevelMap.entrySet())
 			{
-				Boolean isEndMarker = rowLevelMap.get(level);
+				String level = rowLevel.getKey();
+				Boolean isEndMarker = rowLevel.getValue();
 				
 				//check if this level group is already open
 				if (crtLevelMap.containsKey(level))

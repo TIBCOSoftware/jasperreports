@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,7 +50,7 @@ public final class ExifUtil
 		{
 			Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(data));
 			ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-			if (directory != null)
+			if (directory != null && directory.containsTag(ExifIFD0Directory.TAG_ORIENTATION))
 			{
 				exifOrientation = ExifOrientationEnum.getByValue(directory.getInt(ExifIFD0Directory.TAG_ORIENTATION));
 			}

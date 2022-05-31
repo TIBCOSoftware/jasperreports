@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,7 +52,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		this.storeFactory = storeFactory;
 		
 		this.contextStores = 
-			new ReferenceMap<JRVirtualizationContext, VirtualizerStore>(
+			new ReferenceMap<>(
 				ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 				);
 	}

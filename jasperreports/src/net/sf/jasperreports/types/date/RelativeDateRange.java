@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -107,7 +107,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 			String numberAsString = matcher.group(2);
 
 			if (numberAsString != null) {
-				this.number = Integer.parseInt(numberAsString.replaceAll("\\+", ""));
+				this.number = Integer.parseInt(numberAsString.replace("+", ""));
 			} else {
 				this.number = 0;
 			}

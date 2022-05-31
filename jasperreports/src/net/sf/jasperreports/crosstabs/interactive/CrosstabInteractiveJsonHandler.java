@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -72,7 +72,7 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 		String jsonFragment = null;
 		if (reportContext != null)
 		{
-			Map<String, Object> elementInfo = new LinkedHashMap<String, Object>();
+			Map<String, Object> elementInfo = new LinkedHashMap<>();
 			
 			String crosstabId = (String) element.getParameterValue(ELEMENT_PARAMETER_CROSSTAB_ID);
 			String crosstabFragmentId = (String) element.getParameterValue(ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -230,7 +230,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	
 	protected String invalidCharReplacement;
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	protected DocumentBuilder documentBuilder;
@@ -239,8 +239,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 	protected ExporterNature nature;
 
-	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
-	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> rowStyles = new HashMap<>();
+	protected Map<Integer, String> columnStyles = new HashMap<>();
 	
 	/**
 	 * @see #JROdtExporter(JasperReportsContext)

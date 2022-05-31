@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -149,8 +150,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				Properties	connectProps = new Properties();
 				Map<String, String> map = jdbcDataAdapter.getProperties();
 				if(map != null)
-					for(String key: map.keySet())
-						connectProps.setProperty(key, map.get(key));
+					for (Entry<String, String> entry : map.entrySet())
+						connectProps.setProperty(entry.getKey(), entry.getValue());
 				
 
 				String password = jdbcDataAdapter.getPassword();

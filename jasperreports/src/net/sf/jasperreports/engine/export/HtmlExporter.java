@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -194,13 +194,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected int reportIndex;
 	protected int pageIndex;
 	
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	
 	protected ExporterFilter tableFilter;
 	
 	protected int pointerEventsNoneStack = 0;
 
-	private List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
+	private List<HyperlinkData> hyperlinksData = new ArrayList<>();
 	
 	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
@@ -236,8 +236,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		ensureJasperReportsContext();
 		ensureInput();
 
-		rendererToImagePathMap = new HashMap<String,String>();
-		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
+		rendererToImagePathMap = new HashMap<>();
+		imageMaps = new HashMap<>();
 		renderersCache = new RenderersCache(getJasperReportsContext());
 
 		fontsToProcess = new HashMap<String, HtmlFontFamily>();
@@ -358,7 +358,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("  </style>\n");
 			writer.write("</head>\n");
 			writer.write("<body text=\"#000000\" link=\"#000000\" alink=\"#000000\" vlink=\"#000000\">\n");
-			writer.write("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
+			writer.write("<table role=\"none\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n");
 			writer.write("<tr><td width=\"50%\">&nbsp;</td><td align=\"center\">\n");
 			writer.write("\n");
 		}
@@ -558,7 +558,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			writer.write("<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
+			writer.write("<table");
+			if (table.getRole() != null)
+			{
+				writer.write(" role=\"");
+				writer.write(table.getRole());
+				writer.write("\"");
+			}
+			writer.write(" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: 100%;");
 		}
 		
 		HtmlBorderCollapseEnum borderCollapse = getCurrentItemConfiguration().getBorderCollapseValue();
@@ -1032,7 +1039,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					
 					if (renderer instanceof DataRenderable)
 					{
-						imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
+						imageMaps.put(new Pair<>(renderer.getId(), renderingArea), imageMapName);
 					}
 				}
 			}
@@ -3101,9 +3108,30 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 		writer.write(">");
 
-		writer.write(
-			JRStringUtil.htmlEncode(text)
-			);
+		StringTokenizer tkzer = new StringTokenizer(text, "\n\u0085", true);
+
+		// text is split into paragraphs here because it might have not been split during initial styled text processing
+		// and was processed as a whole because there was no need to do so due to lack of paragraph styling; 
+		// htmlEncode(String) no longer takes care of newline characters, so we do it here
+		while(tkzer.hasMoreTokens()) 
+		{
+			String token = tkzer.nextToken();
+			
+			if ("\n".equals(token))
+			{
+				writer.write("<br/>");
+			}
+			else if ("\u0085".equals(token))
+			{
+				writer.write("<br aria-hidden=\"true\"/>");
+			}
+			else
+			{
+				writer.write(
+					JRStringUtil.htmlEncode(token)
+					);
+			}
+		}
 
 		writer.write("</span>");
 
@@ -3159,19 +3187,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 		switch (lineSpacing)
 		{
-			case SINGLE:
-			default:
-			{
-				if (lineSpacingFactor == 0)
-				{
-					styleBuffer.append(" line-height: 1; *line-height: normal;");
-				}
-				else
-				{
-					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
-				}
-				break;
-			}
 			case ONE_AND_HALF:
 			{
 				if (lineSpacingFactor == 0)
@@ -3208,6 +3223,19 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				if (lineSpacingSize != null) {
 					styleBuffer.append(" line-height: " + lineSpacingSize + "px;");
+				}
+				break;
+			}
+			case SINGLE:
+			default:
+			{
+				if (lineSpacingFactor == 0)
+				{
+					styleBuffer.append(" line-height: 1; *line-height: normal;");
+				}
+				else
+				{
+					styleBuffer.append(" line-height: " + lineSpacingFactor + ";");
 				}
 				break;
 			}

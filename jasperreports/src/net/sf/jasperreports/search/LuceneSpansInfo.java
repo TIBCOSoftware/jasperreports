@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,13 +44,13 @@ public class LuceneSpansInfo implements SpansInfo, Serializable {
 
 	public LuceneSpansInfo(int termsPerQuery) {
 		this.termsPerQuery = termsPerQuery;
-		this.hitTermsInfo = new LinkedHashMap<String, List<HitTermInfo>>();
-		this.hitTermsPerPage = new LinkedHashMap<String, Integer>();
+		this.hitTermsInfo = new LinkedHashMap<>();
+		this.hitTermsPerPage = new LinkedHashMap<>();
 	}
 
 	public void addTermInfo(String key, HitTermInfo hitTermInfo) {
 		if (!hitTermsInfo.containsKey(key)) {
-			hitTermsInfo.put(key, new ArrayList<HitTermInfo>());
+			hitTermsInfo.put(key, new ArrayList<>());
 		}
 
 		if (!hitTermsPerPage.containsKey(hitTermInfo.getPageNo())) {

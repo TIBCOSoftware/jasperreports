@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ public class JRStyledTextUtil
 	private final boolean ignoreMissingFonts;
 	
 	private final Map<Pair<String, Locale>, FamilyFonts> familyFonts = 
-			new ConcurrentHashMap<Pair<String, Locale>, FamilyFonts>();
+			new ConcurrentHashMap<>();
 	
 	/**
 	 *
@@ -190,7 +190,7 @@ public class JRStyledTextUtil
 			FamilyFonts families = getFamilyFonts(attributes, locale);
 			if (families.needsToResolveFonts(exporterKey))//TODO lucianc check for single family
 			{
-				newRuns = new ArrayList<Run>(runs.size() + 2);
+				newRuns = new ArrayList<>(runs.size() + 2);
 				matchFonts(text, 0, styledText.length(), attributes, families, newRuns);
 			}
 		}
@@ -210,7 +210,7 @@ public class JRStyledTextUtil
 			
 			if (needsFontMatching)
 			{
-				newRuns = new ArrayList<Run>(runs.size() + 2);
+				newRuns = new ArrayList<>(runs.size() + 2);
 				AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
 				int index = 0;
 				while (index < styledText.length())
@@ -338,7 +338,7 @@ public class JRStyledTextUtil
 		{
 			//using the primary font as fallback for characters that are not found in any fonts
 			//TODO lucianc enhance AdditionalEntryMap to support overwriting an entry
-			newAttributes = new HashMap<Attribute, Object>(attributes);
+			newAttributes = new HashMap<>(attributes);
 			String primaryFamilyName = familyFonts.fontSet.getPrimaryFamily().getFontFamily().getName();
 			newAttributes.put(TextAttribute.FAMILY, primaryFamilyName);
 		}
@@ -355,7 +355,7 @@ public class JRStyledTextUtil
 			int startIndex, int endIndex, FontInfo fontInfo)
 	{
 		//directly putting the FontInfo as an attribute
-		Map<Attribute, Object> newAttributes = new AdditionalEntryMap<Attribute, Object>(
+		Map<Attribute, Object> newAttributes = new AdditionalEntryMap<>(
 				attributes, JRTextAttribute.FONT_INFO, fontInfo);
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
@@ -369,7 +369,7 @@ public class JRStyledTextUtil
 	
 	protected FontMatch fontMatchRun(String text, int startIndex, int endIndex, List<Face> fonts)
 	{
-		LinkedList<Face> validFonts = new LinkedList<Face>(fonts);
+		LinkedList<Face> validFonts = new LinkedList<>(fonts);
 		Face lastValid = null;
 		int charIndex = startIndex;
 		int nextCharIndex = charIndex;
@@ -434,7 +434,7 @@ public class JRStyledTextUtil
 	
 	protected FamilyFonts getFamilyFonts(String name, Locale locale)
 	{
-		Pair<String, Locale> key = new Pair<String, Locale>(name, locale);
+		Pair<String, Locale> key = new Pair<>(name, locale);
 		FamilyFonts fonts = familyFonts.get(key);
 		if (fonts == null)
 		{
@@ -492,10 +492,10 @@ public class JRStyledTextUtil
 			}
 			
 			List<FontSetFamilyInfo> families = fontSet.getFamilies();
-			this.normalFonts = new ArrayList<Face>(families.size());
-			this.boldFonts = new ArrayList<Face>(families.size());
-			this.italicFonts = new ArrayList<Face>(families.size());
-			this.boldItalicFonts = new ArrayList<Face>(families.size());
+			this.normalFonts = new ArrayList<>(families.size());
+			this.boldFonts = new ArrayList<>(families.size());
+			this.italicFonts = new ArrayList<>(families.size());
+			this.boldItalicFonts = new ArrayList<>(families.size());
 			
 			for (FontSetFamilyInfo fontSetFamily : families)
 			{

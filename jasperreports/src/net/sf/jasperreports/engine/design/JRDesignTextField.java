@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -118,7 +118,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(null);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 	}
 		
 	/**
@@ -128,7 +128,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(defaultStyleProvider);
 		
-		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+		hyperlinkParameters = new ArrayList<>();
 	}
 		
 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -91,16 +91,14 @@ public class JRXmlLoader
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private JasperDesign jasperDesign;
-	private LinkedList<XmlLoaderReportContext> contextStack = 
-		new LinkedList<XmlLoaderReportContext>();
+	private LinkedList<XmlLoaderReportContext> contextStack = new LinkedList<>();
 	
-	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = 
-		new HashMap<XmlGroupReference, XmlLoaderReportContext>();
+	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = new HashMap<>();
 	
 	//TODO use XmlGroupReference for datasets
-	private Set<JRElementDataset> groupBoundDatasets = new HashSet<JRElementDataset>();
+	private Set<JRElementDataset> groupBoundDatasets = new HashSet<>();
 	
-	private List<Exception> errors = new ArrayList<Exception>();
+	private List<Exception> errors = new ArrayList<>();
 
 	private Digester digester;
 
@@ -204,29 +202,13 @@ public class JRXmlLoader
 	{
 		JasperDesign jasperDesign = null;
 
-		FileInputStream fis = null;
-
-		try
+		try (FileInputStream fis = new FileInputStream(file))
 		{
-			fis = new FileInputStream(file);
 			jasperDesign = JRXmlLoader.load(jasperReportsContext, fis);
 		}
-		catch(IOException e)
+		catch (IOException e)
 		{
 			throw new JRException(e);
-		}
-		finally
-		{
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return jasperDesign;
@@ -255,11 +237,7 @@ public class JRXmlLoader
 		{
 			xmlLoader = new JRXmlLoader(jasperReportsContext, JRXmlDigesterFactory.createDigester(jasperReportsContext));
 		}
-		catch (ParserConfigurationException e) 
-		{
-			throw new JRException(e);
-		}
-		catch (SAXException e) 
+		catch (ParserConfigurationException | SAXException e) 
 		{
 			throw new JRException(e);
 		}
@@ -290,11 +268,7 @@ public class JRXmlLoader
 			/*   */
 			digester.parse(is);
 		}
-		catch(SAXException e)
-		{
-			throw new JRException(e);
-		}
-		catch(IOException e)
+		catch (SAXException | IOException e)
 		{
 			throw new JRException(e);
 		}

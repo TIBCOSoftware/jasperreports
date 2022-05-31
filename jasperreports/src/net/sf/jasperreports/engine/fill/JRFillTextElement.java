@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -96,8 +96,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
-			new JRSingletonCache<MarkupProcessorFactory>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<String,MarkupProcessor>();
+			new JRSingletonCache<>(MarkupProcessorFactory.class);
+	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
 
 	/**
 	 *
@@ -119,7 +119,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText;
 	private JRStyledText styledText;
 	private JRStyledText processedStyledText;
-	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
+	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<>();
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
@@ -155,7 +155,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		this.dynamicScaleFontStepLimit = hasDynamicProperty(PROPERTY_SCALE_FONT_STEP_LIMIT);
 		
-		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
+		this.fillStyleObjectsMap = new HashMap<>();
 	}
 	
 
@@ -357,7 +357,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		Map<Attribute,Object> styledTextAttributes = styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
-			styledTextAttributes = new HashMap<Attribute,Object>(); 
+			styledTextAttributes = new HashMap<>(); 
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			FontUtil.getInstance(filler.getJasperReportsContext()).getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());

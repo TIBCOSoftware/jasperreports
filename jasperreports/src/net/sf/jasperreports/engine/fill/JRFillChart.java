@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -270,6 +270,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 					case JRChartDataset.XY_DATASET:
 						dataset = (JRFillChartDataset) factory.getXyDataset( (JRXyDataset)chart.getDataset() );
 						break;
+					default:
 				}
 
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
@@ -303,7 +304,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
-		chartCustomizers = new ArrayList<JRChartCustomizer>();
+		chartCustomizers = new ArrayList<>();
 		JRChartCustomizer chartCustomizer = createAndInitCustomizer(chart.getCustomizerClass(), null);
 		if (chartCustomizer != null)
 		{
