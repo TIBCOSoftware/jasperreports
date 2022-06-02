@@ -106,8 +106,7 @@ public class ChromePage
 		viewport.setScale(zoomFactor);
 		
 		Page page = devToolsService.getPage();
-		String screenshotString = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100,
-				viewport, true);
+		String screenshotString = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100, viewport, true, false);
 		try
 		{
 			byte[] imageData = Base64Util.decode(screenshotString);
