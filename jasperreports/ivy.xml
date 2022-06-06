@@ -23,7 +23,7 @@
 		<dependency org="com.fasterxml.woodstox" name="woodstox-core" rev="6.2.7" conf="test->*"/>
 		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="4.0.0"/>
 		<dependency org="com.google.zxing" name="core" rev="3.4.0"/>
-		<dependency org="com.lowagie" name="itext" rev="2.1.7.js9"/>
+		<dependency org="com.lowagie" name="itext" rev="2.1.7.js10-SNAPSHOT"/>
 		<dependency org="com.zaxxer" name="SparseBitSet" rev="1.2" conf="test->*"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.4"/>
 		<dependency org="commons-codec" name="commons-codec" rev="1.15" conf="test->*"/>
