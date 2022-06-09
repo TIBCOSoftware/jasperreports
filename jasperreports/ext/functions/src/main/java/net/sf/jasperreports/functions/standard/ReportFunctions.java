@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.HierarchicalDataSource;
 import net.sf.jasperreports.engine.fill.SortedDataSource;
 import net.sf.jasperreports.functions.AbstractFunctionSupport;
@@ -34,6 +35,8 @@ import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -113,4 +116,30 @@ public class ReportFunctions extends AbstractFunctionSupport
 		return hierarchicalDataSource;
 	}
 	
+	@Function("RESOURCE_DATA")
+	@FunctionParameters({@FunctionParameter("location")})
+	public byte[] RESOURCE_DATA(String location)
+	{
+		RepositoryUtil repository;
+		Object repositoryContext = getContext().getParameterValue(JRParameter.REPOSITORY_CONTEXT, true);
+		if (repositoryContext instanceof RepositoryContext)
+		{
+			repository = RepositoryUtil.getInstance((RepositoryContext) repositoryContext);
+		}
+		else
+		{
+			JasperReportsContext jasperReportsContext = (JasperReportsContext) getContext().getParameterValue(
+					JRParameter.JASPER_REPORTS_CONTEXT);
+			repository = RepositoryUtil.getInstance(jasperReportsContext);
+		}
+
+		try
+		{
+			return repository.getBytesFromLocation(location);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
 }

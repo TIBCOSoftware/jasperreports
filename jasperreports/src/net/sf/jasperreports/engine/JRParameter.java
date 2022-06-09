@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 
 /**
@@ -312,6 +313,13 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * for filtering dataset rows.
 	 */
 	public static final String FILTER = "FILTER";
+
+	/**
+	 *  The name under which the current repository context is published in the parameters map.
+	 *  
+	 *  @see RepositoryContext
+	 */
+	public static final String REPOSITORY_CONTEXT = "REPOSITORY_CONTEXT";
 
 	/**
 	 *

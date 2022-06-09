@@ -628,6 +628,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			// the only case when this filler is null is when called from JRParameterDefaultValuesEvaluator
 			// and that utility method already sets the report object in the map
 			parameterValues.put(JRParameter.JASPER_REPORT, filler.getJasperReport());
+
+			parameterValues.put(JRParameter.REPOSITORY_CONTEXT, filler.getRepositoryContext());
 		}
 		
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
