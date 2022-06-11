@@ -28,19 +28,16 @@ import java.awt.font.LineBreakMeasurer;
 import java.awt.font.LineMetrics;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
-import java.lang.Character.UnicodeBlock;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.text.Bidi;
 import java.text.BreakIterator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -53,6 +50,7 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.engine.util.text.TextLayoutUtils;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -90,35 +88,12 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	protected static final double FONT_WIDTH_CHECK_FACTOR = 1.2;
 	
 	protected static final int NEXT_BREAK_INDEX_THRESHOLD = 3;
-	protected static final int COMPEX_LAYOUT_START_CHAR = 0x0300;// got this from sun.font.FontUtilities
-	protected static final int COMPEX_LAYOUT_END_CHAR = 0x206F;// got this from sun.font.FontUtilities
 	
 	protected static final String FILL_CACHE_KEY_ELEMENT_FONT_INFOS = 
 			SimpleTextLineWrapper.class.getName() + "#elementFontInfos";
 	
 	protected static final String FILL_CACHE_KEY_GENERAL_FONT_INFOS = 
 			SimpleTextLineWrapper.class.getName() + "#generalFontInfos";
-	
-	protected static final Set<Character.UnicodeBlock> simpleLayoutBlocks;
-	static
-	{
-		// white list of Unicode blocks that have simple text layout
-		simpleLayoutBlocks = new HashSet<>();
-		// got these from sun.font.FontUtilities, but the list is not exhaustive
-		simpleLayoutBlocks.add(Character.UnicodeBlock.GREEK);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.CYRILLIC);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.CYRILLIC_SUPPLEMENTARY);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.ARMENIAN);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.SYRIAC);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.THAANA);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.MYANMAR);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.GEORGIAN);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.ETHIOPIC);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.TAGALOG);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.MONGOLIAN);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.LATIN_EXTENDED_ADDITIONAL);
-		simpleLayoutBlocks.add(Character.UnicodeBlock.GREEK_EXTENDED);
-	}
 	
 	// storing per instance to avoid too many calls (and to allow runtime level changes)
 	private final boolean logTrace = log.isTraceEnabled();
@@ -476,34 +451,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 
 	protected boolean hasComplexLayout(char[] chars)
 	{
-		UnicodeBlock prevBlock = null;
-		for (int i = 0; i < chars.length; i++)
-		{
-			char ch = chars[i];
-			if (ch >= COMPEX_LAYOUT_START_CHAR && ch <= COMPEX_LAYOUT_END_CHAR)
-			{
-				//FIXME use icu4j or CharPredicateCache
-				UnicodeBlock chBlock = Character.UnicodeBlock.of(ch);
-				if (chBlock == null)
-				{
-					// being conservative
-					return true;
-				}
-				
-				// if the same block as the previous block, avoid going to the hash set
-				// this could offer some speed improvement
-				if (prevBlock != chBlock)
-				{
-					prevBlock = chBlock;
-					
-					if (!simpleLayoutBlocks.contains(chBlock))
-					{
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+		return TextLayoutUtils.textLayoutAssessor().hasComplexLayout(chars);
 	}
 
 	@Override
