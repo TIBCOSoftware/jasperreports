@@ -24,6 +24,13 @@
 package net.sf.jasperreports.engine.util.text;
 
 import java.awt.Font;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * Complex text layout check that uses Java 9 {@link Font}.
@@ -33,10 +40,44 @@ import java.awt.Font;
 public class FontTextLayoutAssessor implements TextLayoutAssessor
 {
 
+	private static final Log log = LogFactory.getLog(FontTextLayoutAssessor.class);
+
+	private final Method fontLayoutMethod;
+	
+	public FontTextLayoutAssessor()
+	{
+		Method method;
+		try
+		{
+			method = Font.class.getMethod("textRequiresLayout", char[].class, int.class, int.class);
+		}
+		catch (NoSuchMethodException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("java.awt.Font.textRequiresLayout method not found: " + e.getMessage());
+			}
+			method = null;
+		}
+		fontLayoutMethod = method;
+	}
+
+	public boolean available()
+	{
+		return fontLayoutMethod != null;
+	}
+
 	@Override
 	public boolean hasComplexLayout(char[] chars)
 	{
-		return Font.textRequiresLayout(chars, 0, chars.length);
+		try
+		{
+			return (boolean) fontLayoutMethod.invoke(null, chars, 0, chars.length);
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }

@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.util.text;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -33,29 +30,12 @@ import org.apache.commons.logging.LogFactory;
 public class TextLayoutUtils
 {
 
-	private static final Log log = LogFactory.getLog(TextLayoutUtils.class);
-
 	private static final TextLayoutAssessor ASSESSOR;
 
 	static
 	{
-		TextLayoutAssessor assessor;
-		try
-		{
-			assessor = new FontTextLayoutAssessor();
-			//testing whether Java 9 Font method is available
-			assessor.hasComplexLayout(new char[] {'a'});
-		}
-		catch (Error e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Java 9 complex text layout check not available: " + e.getMessage());
-			}
-			assessor = new LegacyTextLayoutAssessor();
-		}
-		
-		ASSESSOR = assessor;
+		FontTextLayoutAssessor fontAssessor = new FontTextLayoutAssessor();
+		ASSESSOR = fontAssessor.available() ? fontAssessor : new LegacyTextLayoutAssessor();
 	}
 
 	public static TextLayoutAssessor textLayoutAssessor()
