@@ -115,6 +115,8 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	private int paragraphOffset;
 	private int paragraphPosition;
 	private BreakIterator paragraphBreakIterator;
+	private LineBreakMeasurer exactBreakMeasurer;
+	private int exactBreakMeasurerStart;
 
 	public SimpleTextLineWrapper()
 	{
@@ -420,6 +422,8 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		paragraphBreakIterator = truncateAtChar ? BreakIterator.getCharacterInstance()
 				: BreakIterator.getLineInstance();
 		paragraphBreakIterator.setText(paragraphText);
+
+		exactBreakMeasurer = null;
 	}
 
 	protected boolean isLeftToRight(char[] chars)
@@ -511,22 +515,30 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	}
 	
 	protected int measureExactLineBreakIndex(float width, int endLimit, boolean requireWord)
-	{
-		//FIXME would it be faster to create and cache a LineBreakMeasurer for the whole paragraph?
-		Map<Attribute, Object> attributes = new HashMap<>();
-		// we only need the font as it includes the size and style
-		attributes.put(TextAttribute.FONT, fontInfo.fontInfo.font);
-		
-		String textLine = paragraphText.substring(paragraphPosition, endLimit);
-		AttributedString attributedLine = new AttributedString(textLine, attributes);
+	{		
+		if (exactBreakMeasurer == null)
+		{
+			Map<Attribute, Object> attributes = new HashMap<>();
+			// we only need the font as it includes the size and style
+			attributes.put(TextAttribute.FONT, fontInfo.fontInfo.font);
+			
+			String textLine = paragraphText.substring(paragraphPosition, endLimit);
+			AttributedString attributedLine = new AttributedString(textLine, attributes);
 
-		// we need a fresh iterator for the line
-		BreakIterator breakIterator = paragraphTruncateAtChar ? BreakIterator.getCharacterInstance()
-				: BreakIterator.getLineInstance();
-		LineBreakMeasurer breakMeasurer = new LineBreakMeasurer(attributedLine.getIterator(), 
-				breakIterator, context.getFontRenderContext());
-		int breakIndex = breakMeasurer.nextOffset(width, endLimit - paragraphPosition, requireWord) 
-				+ paragraphPosition;
+			// we need a fresh iterator for the line
+			BreakIterator breakIterator = paragraphTruncateAtChar ? BreakIterator.getCharacterInstance()
+					: BreakIterator.getLineInstance();
+			exactBreakMeasurer = new LineBreakMeasurer(attributedLine.getIterator(), 
+					breakIterator, context.getFontRenderContext());
+			exactBreakMeasurerStart = paragraphPosition;
+		}
+		else
+		{
+			exactBreakMeasurer.setPosition(paragraphPosition - exactBreakMeasurerStart);
+		}
+
+		int breakIndex = exactBreakMeasurer.nextOffset(width, endLimit - exactBreakMeasurerStart, requireWord) 
+				+ exactBreakMeasurerStart;
 		if (logTrace)
 		{
 			log.trace("exact line break index measured at " + (paragraphOffset + breakIndex));
