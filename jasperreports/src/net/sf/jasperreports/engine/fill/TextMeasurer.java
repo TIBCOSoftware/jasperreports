@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,9 +24,12 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.font.FontRenderContext;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +51,9 @@ import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -228,6 +233,8 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected TextMeasuredState measuredState;
 	protected TextMeasuredState prevMeasuredState;
+
+	protected int htmlListIndent;
 	
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
@@ -338,7 +345,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				if (lineBreakOffsets == null)
 				{
-					lineBreakOffsets = new ArrayList<Integer>();
+					lineBreakOffsets = new ArrayList<>();
 				}
 
 				int breakOffset = textOffset - lastOffset;
@@ -558,41 +565,70 @@ public class TextMeasurer implements JRTextMeasurer
 			lineWrapper.start(styledText);
 		}
 		
-		int tokenPosition = remainingTextStart;
-		int prevParagraphStart = remainingTextStart;
-		String prevParagraphText = null;
+		// preparing bulleted list cuts is a share responsibility between the TextMeasurer here and the JRFillTextElement;
+		// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
+		// while in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
+		// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+		StyledTextWriteContext context = new StyledTextWriteContext(true);
+
+		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
+
+		allParagraphs.setIndex(remainingTextStart);
 
 		isFirstParagraph = true;
 
-		String remainingText = styledText.getText().substring(remainingTextStart);
-		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
-
 		boolean rendered = true;
-		// text is split into paragraphs, using the newline character as delimiter
-		while(tkzer.hasMoreTokens() && rendered) 
+		int runLimit = remainingTextStart;
+
+		while (rendered && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
-			String token = tkzer.nextToken();
+			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
-			if ("\n".equals(token))
+			context.next(attributes);
+
+			prepareBullet(context);
+			
+			int tokenPosition = 0;
+			int prevParagraphStart = 0;
+			String prevParagraphText = null;
+
+			String runText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
+			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
+
+			// text is split into paragraphs, using the newline character as delimiter
+			while(tkzer.hasMoreTokens() && rendered) 
 			{
-				rendered = renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
+				String token = tkzer.nextToken();
 
-				isFirstParagraph = false;
-				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-				prevParagraphText = null;
+				if ("\n".equals(token))
+				{
+					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					{
+						rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+					}
+
+					isFirstParagraph = false;
+					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+					prevParagraphText = null;
+				}
+				else
+				{
+					prevParagraphStart = tokenPosition;
+					prevParagraphText = token;
+				}
+
+				tokenPosition += token.length();
 			}
-			else
+
+			if (rendered && prevParagraphStart < runText.length())
 			{
-				prevParagraphStart = tokenPosition;
-				prevParagraphText = token;
+				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
+				{
+					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+				}
 			}
 
-			tokenPosition += token.length();
-		}
-
-		if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
-		{
-			renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
+			allParagraphs.setIndex(runLimit);
 		}
 		
 		return measuredState;
@@ -668,6 +704,11 @@ public class TextMeasurer implements JRTextMeasurer
 		return rendered;
 	}
 	
+	private void prepareBullet(StyledTextWriteContext context)
+	{
+		htmlListIndent = context.getDepth() * 50;
+	}
+		
 	protected void processLastTruncatedRow(
 		TextLineWrapper lineWrapper,
 		String paragraphText, 
@@ -814,7 +855,7 @@ public class TextMeasurer implements JRTextMeasurer
 		boolean isLeftToRight = true;
 		
 		// each line is split into segments, using the tab character as delimiter
-		List<TabSegment> segments = new ArrayList<TabSegment>(1);
+		List<TabSegment> segments = new ArrayList<>(1);
 
 		TabSegment oldSegment = null;
 		TabSegment crtSegment = null;
@@ -835,7 +876,7 @@ public class TextMeasurer implements JRTextMeasurer
 				firstLineIndent = 0;
 			}
 			
-			float startX = firstLineIndent + leftPadding;
+			float startX = htmlListIndent + firstLineIndent + leftPadding;
 			float endX = width - jrParagraph.getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;

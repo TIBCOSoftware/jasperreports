@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,7 +63,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 	{
 		QRCodeWriter writer = new QRCodeWriter();
 
-		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
+		Map<EncodeHintType,Object> hints = new HashMap<>();
 		
 		String encoding = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 				componentElement, QRCodeComponent.PROPERTY_QRCODE_CHARACTER_ENCODING, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
@@ -100,11 +100,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 			BufferedImage image = getImage(matrix, componentElement.getForecolor());
 			return RendererUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
 		}
-		catch (WriterException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (JRException e)
+		catch (WriterException | JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

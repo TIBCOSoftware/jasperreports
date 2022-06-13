@@ -3,7 +3,7 @@
 	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
 	<import value="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	<subDataset name="categoryDataset" uuid="f674686b-b3b5-451d-a81b-3617caa71a9f">
-		<property name="net.sf.jasperreports.data.adapter" value="data/CategoryCsvDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="data/CategoryCsvDataAdapter.jrdax"/>
 		<field name="full_name" class="java.lang.String"/>
 		<field name="amount" class="java.lang.Integer"/>
 		<field name="sales_state" class="java.lang.String"/>
@@ -18,7 +18,7 @@
 		</group>
 	</subDataset>
 	<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
-		<property name="net.sf.jasperreports.data.adapter" value="data/XYCsvDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="data/XYCsvDataAdapter.jrdax"/>
 		<field name="amount" class="java.lang.Integer"/>
 		<field name="probability" class="java.lang.Integer"/>
 		<field name="sales_state" class="java.lang.String"/>

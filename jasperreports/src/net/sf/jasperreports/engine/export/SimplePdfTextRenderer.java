@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,6 +78,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	public void initialize(
 		JRPdfExporter pdfExporter, 
 		PdfProducer pdfProducer,
+		JRPdfExporterTagHelper tagHelper,
 		JRPrintText text, 
 		JRStyledText styledText, 
 		int offsetX,
@@ -87,6 +88,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		super.initialize(
 			pdfExporter, 
 			pdfProducer,
+			tagHelper,
 			text, 
 			styledText, 
 			offsetX,
@@ -116,6 +118,31 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		String paragraphText
 		)
 	{
+		tagHelper.startText(text.getLinkType() != null);
+
+		if (bulletChunk != null)
+		{
+			PdfPhrase phrase = pdfProducer.createPhrase();
+			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
+
+			phrase.go(
+				x + leftPadding,
+				yLine,
+				htmlListIndent + x + leftPadding - 10,
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- height
+					+ bottomPadding,
+				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
+				text.getLineSpacingFactor(),
+				PdfTextAlignment.RIGHT,
+				TextDirection.LTR
+				);
+		}
+
+		bulletText = null;
+		bulletChunk = null;
+
 		AttributedString paragraph = null;
 		
 		if (paragraphText == null)
@@ -144,7 +171,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 		PdfPhrase phrase = pdfProducer.createPhrase();
 		pdfExporter.getPhrase(paragraph, paragraphText, text, phrase);
 		yLine = phrase.go(
-			x + leftPadding,
+			htmlListIndent + x + leftPadding,
 			yLine,
 			x + width - rightPadding,
 			pdfExporter.getCurrentPageFormat().getPageHeight()
@@ -158,6 +185,8 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
 			);
+		
+		tagHelper.endText();
 	}
 
 

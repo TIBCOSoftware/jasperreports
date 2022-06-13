@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -109,7 +109,7 @@ public abstract class JRStyledTextAttributeSelector
 		@Override
 		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
-			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
+			Map<Attribute,Object> attributes = new HashMap<>(); 
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
@@ -146,7 +146,7 @@ public abstract class JRStyledTextAttributeSelector
 		@Override
 		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
-			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
+			Map<Attribute,Object> attributes = new HashMap<>(); 
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());

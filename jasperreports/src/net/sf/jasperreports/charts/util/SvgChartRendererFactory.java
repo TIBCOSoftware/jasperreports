@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,7 +25,7 @@ package net.sf.jasperreports.charts.util;
 
 import java.awt.geom.Rectangle2D;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -80,15 +80,7 @@ public class SvgChartRendererFactory extends AbstractChartRenderableFactory
 		{
 			StringWriter swriter = new StringWriter();
 			grx.stream(swriter);
-			byte[] svgData = null;
-			try
-			{
-				svgData = swriter.getBuffer().toString().getBytes("UTF-8");
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				throw new JRRuntimeException(e);
-			}
+			byte[] svgData = swriter.getBuffer().toString().getBytes(StandardCharsets.UTF_8);
 			return new SimpleRenderToImageAwareDataRenderer(svgData, areaHyperlinks);
 		}
 		catch (SVGGraphics2DIOException e)

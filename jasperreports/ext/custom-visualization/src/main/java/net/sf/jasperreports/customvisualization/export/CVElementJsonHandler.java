@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,6 +25,7 @@ package net.sf.jasperreports.customvisualization.export;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,7 +82,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 		}
 
 		// Duplicate the configuration.
-		Map<String, Object> configuration = new HashMap<String, Object>();
+		Map<String, Object> configuration = new HashMap<>();
 		configuration.putAll(originalConfiguration);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +107,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 
 		configuration.put("module", element.getParameterValue(CVPrintElement.MODULE));
 
-		Map<String, Object> velocityContext = new HashMap<String, Object>();
+		Map<String, Object> velocityContext = new HashMap<>();
 		velocityContext.put("elementId", CVUtils.getElementId(element));
 		velocityContext.put("configuration", configuration);
 
@@ -166,9 +167,10 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 		}
 
 		// Add all the items properties...
-		for (String itemPropertyKey : configuration.keySet())
+		for (Entry<String, Object> itemProperty : configuration.entrySet())
 		{
-			Object value = configuration.get(itemPropertyKey);
+			String itemPropertyKey = itemProperty.getKey();
+			Object value = itemProperty.getValue();
 
 			if (
 				itemPropertyKey == null

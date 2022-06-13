@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,8 +53,8 @@ import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**
@@ -167,10 +167,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		SortAction action = new SortAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
 		if (target != null)
 		{
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
 			
 			List<JRSortField> existingFields =  dataset.getSortFieldsList();
@@ -227,11 +227,11 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-		List<FieldFilter> result = new ArrayList<FieldFilter>();
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid), false);
+		List<FieldFilter> result = new ArrayList<>();
 		if (target != null)
 		{
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri(), false);
 			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
 			
 			// get existing filter as JSON string

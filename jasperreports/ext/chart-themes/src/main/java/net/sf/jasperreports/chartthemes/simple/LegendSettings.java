@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,7 +32,18 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.VerticalAlignment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -43,6 +54,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class LegendSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -58,34 +70,40 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_horizontalAlignment = "horizontalAlignment";
 	public static final String PROPERTY_verticalAlignment = "verticalAlignment";
 	
-	/**
-	 * @deprecated replaced by {@link #PROPERTY_frame}
-	 */
-	@Deprecated
-	public static final String PROPERTY_blockFrame = "blockFrame";
-	
 	public static final String PROPERTY_frame = "frame";
 	public static final String PROPERTY_padding = "padding";
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "show-legend", isAttribute = true)
 	private Boolean showLegend;
+
+	@JacksonXmlProperty(localName = "position", isAttribute = true)
 	private EdgeEnum positionValue;
+	
+	@JacksonXmlProperty(localName = "foreground-paint")
 	private PaintProvider foregroundPaint;
+	
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
+	
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
+	
+	@JacksonXmlProperty(localName = "horizontal-alignment", isAttribute = true)
+	@JsonSerialize(using = HorizontalAlignmentSerializer.class)
 	private HorizontalAlignment horizontalAlignment;
+	
+	@JacksonXmlProperty(localName = "vertical-alignment", isAttribute = true)
+	@JsonSerialize(using = VerticalAlignmentSerializer.class)
 	private VerticalAlignment verticalAlignment;
 	
-	/**
-	 * @deprecated replaced by {@link #frame}
-	 */
-	@Deprecated
-	private BlockFrame blockFrame;
-
 	private BlockFrameProvider frame;
 	
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
 	/**
@@ -217,16 +235,6 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 		return frame == null ? null : frame.getBlockFrame();
 	}
 
-	/**
-	 * @param blockFrame the blockFrame to set
-	 * @deprecated replaced by {@link #setFrame(BlockFrameProvider)}
-	 */
-	@Deprecated
-	public void setBlockFrame(BlockFrame blockFrame) {
-		BlockFrameWrapper frameProvider = new BlockFrameWrapper(blockFrame);
-		setFrame(frameProvider);
-	}
-
 	public BlockFrameProvider getFrame() {
 		return frame;
 	}
@@ -277,6 +285,11 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	 * @deprecated
 	 */
 	private Byte position;
+	/**
+	 * @deprecated
+	 */
+	@JsonIgnore
+	private BlockFrame blockFrame;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

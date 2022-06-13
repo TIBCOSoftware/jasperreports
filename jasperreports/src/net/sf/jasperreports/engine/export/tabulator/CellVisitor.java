@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -36,5 +36,7 @@ public interface CellVisitor<T, R, E extends Exception>
 	R visit(FrameCell frameCell, T arg) throws E;
 
 	R visit(LayeredCell layeredCell, T arg) throws E;
+
+	R visit(NestedTableCell layeredCell, T arg) throws E;
 
 }

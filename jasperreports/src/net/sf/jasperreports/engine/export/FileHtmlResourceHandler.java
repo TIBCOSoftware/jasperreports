@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,9 +23,11 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -77,30 +79,20 @@ public class FileHtmlResourceHandler implements HtmlResourceHandler
 	{
 		ensureParentFolder();
 		
-		FileOutputStream fos = null;
-		
-		try
+		try (
+			OutputStream os = 
+				new BufferedOutputStream(
+					new FileOutputStream(
+						new File(parentFolder, id)
+						)
+					)
+			)
 		{
-			fos = new FileOutputStream(new File(parentFolder, id));
-			fos.write(data);
+			os.write(data);
 		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch (IOException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-			}
 		}
 	}
 	

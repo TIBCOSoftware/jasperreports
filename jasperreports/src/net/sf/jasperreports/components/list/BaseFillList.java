@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -42,9 +45,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Base fill list component implementation.
  * 
@@ -58,7 +58,7 @@ public abstract class BaseFillList extends BaseFillComponent implements JRFillCl
 	protected final int contentsHeight;
 	protected final FillDatasetRun datasetRun;
 	
-	protected Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<JRStyle, JRTemplateFrame>();
+	protected Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<>();
 	protected JRTemplatePrintFrame printFrame;
 	protected boolean filling;
 	protected boolean fillStarted;

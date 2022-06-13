@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,7 +40,7 @@ public class ListExtensionsRegistry implements ExtensionsRegistry
 	
 	public ListExtensionsRegistry()
 	{
-		extensions = new HashMap<Class<?>, List<Object>>();
+		extensions = new HashMap<>();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ListExtensionsRegistry implements ExtensionsRegistry
 		List<Object> list = extensions.get(type);
 		if (list == null)
 		{
-			list = new ArrayList<Object>();
+			list = new ArrayList<>();
 			extensions.put(type, list);
 		}
 		

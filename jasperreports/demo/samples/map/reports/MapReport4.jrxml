@@ -3,7 +3,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
-		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
@@ -15,7 +15,7 @@
 		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
-		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
@@ -29,7 +29,7 @@
 		<filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
-		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>

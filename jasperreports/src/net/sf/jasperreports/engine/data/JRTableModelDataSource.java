@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,7 +50,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	 */
 	private TableModel tableModel;
 	private int index = -1;
-	private HashMap<String, Integer> columnNames = new HashMap<String, Integer>();
+	private HashMap<String, Integer> columnNames = new HashMap<>();
 	
 
 	/**

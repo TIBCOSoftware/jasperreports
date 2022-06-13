@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -285,7 +286,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		List<PropertySuffix> excludeProperties = JRPropertiesUtil.getInstance(context).getProperties(
 				PREFIX_EXCLUDE_PROPERTIES);
 		
-		excludePropertiesPattern = new ArrayList<Pattern>(excludeProperties.size());
+		excludePropertiesPattern = new ArrayList<>(excludeProperties.size());
 		for (PropertySuffix propertySuffix : excludeProperties)
 		{
 			String regex = propertySuffix.getValue();
@@ -356,12 +357,16 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String encoding
 		) throws JRException
 	{
-		FileOutputStream fos = null;
-
-		try
+		try (
+			Writer out = 
+				new OutputStreamWriter(
+					new BufferedOutputStream(
+						new FileOutputStream(destFileName)
+						), 
+					encoding
+					)
+			)
 		{
-			fos = new FileOutputStream(destFileName);
-			Writer out = new OutputStreamWriter(fos, encoding);
 			writeReport(report, encoding, out);
 		}
 		catch (IOException e)
@@ -371,19 +376,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					EXCEPTION_MESSAGE_KEY_FILE_WRITE_ERROR,
 					new Object[]{destFileName},
 					e);
-		}
-		finally
-		{
-			if (fos != null)
-			{
-				try
-				{
-					fos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 	}
 
@@ -694,15 +686,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeTemplates(JRReport)}.
-	 */
-	protected void writeTemplates() throws IOException
-	{
-		writeTemplates(report);
-	}
-
-
-	/**
 	 * 
 	 * @param template
 	 * @throws IOException
@@ -729,6 +712,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, scriptlet.getValueClassName());
 	
 			writeProperties(scriptlet);
+			if (isNewerVersionOrEqual(JRConstants.VERSION_6_19_0))
+			{
+				writePropertyExpressions(scriptlet.getPropertyExpressions());
+			}
 	
 			writer.writeCDATAElement(JRXmlConstants.ELEMENT_scriptletDescription, scriptlet.getDescription());
 	
@@ -1130,6 +1117,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 					stretchType = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
 					break;
 				}
+				default :
 			}
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchType, StretchTypeEnum.NO_STRETCH);
@@ -3146,7 +3134,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		else
 		{
 			JRCrosstabCell[][] cells = crosstab.getCells();
-			Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
+			Set<JRCrosstabCell> cellsSet = new HashSet<>();
 			for (int i = cells.length - 1; i >= 0 ; --i)
 			{
 				for (int j = cells[i].length - 1; j >= 0 ; --j)

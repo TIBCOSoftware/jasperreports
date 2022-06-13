@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -100,7 +100,7 @@ public class JRFillContext
 	private final AtomicInteger fillerIdSeq = new AtomicInteger();
 	private final AtomicInteger fillElementSeq = new AtomicInteger();
 	
-	private Map<String, Object> fillCaches = new HashMap<String, Object>();
+	private Map<String, Object> fillCaches = new HashMap<>();
 
 	/**
 	 * @deprecated To be removed.
@@ -122,7 +122,7 @@ public class JRFillContext
 		this.jasperReportsContext = masterFiller.getJasperReportsContext();
 		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 		
-		loadedImageRenderers = new HashMap<Object,Renderable>();
+		loadedImageRenderers = new HashMap<>();
 		renderersCache = new RenderersCache(jasperReportsContext);
 		loadedSubreports = new HashMap<>();
 		loadedTemplates = new HashMap<>();
@@ -529,7 +529,7 @@ public class JRFillContext
 			else if (cacheHandler.isRecordingEnabled())
 			{
 				dataRecorder = cacheHandler.createDataRecorder();
-				recordedData = new ArrayList<Pair<FillDatasetPosition,Object>>();
+				recordedData = new ArrayList<>();
 			}
 		}
 	}
@@ -567,7 +567,7 @@ public class JRFillContext
 
 	public void addDataRecordResult(FillDatasetPosition fillPosition, Object recorded)
 	{
-		recordedData.add(new Pair<FillDatasetPosition, Object>(fillPosition, recorded));
+		recordedData.add(new Pair<>(fillPosition, recorded));
 	}
 	
 	public void cacheDone()

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,7 +49,7 @@ public class GroupFillParts
 		headerParts = new FillParts(group.getGroupHeaderSection(), fillFactory);
 		footerParts = new FillParts(group.getGroupFooterSection(), fillFactory);
 		
-		groupEvaluatedParts = new ArrayList<DelayedPrintPart>();
+		groupEvaluatedParts = new ArrayList<>();
 	}
 	
 	public boolean hasChanged()

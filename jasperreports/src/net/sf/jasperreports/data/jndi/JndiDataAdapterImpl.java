@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.data.jndi;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import net.sf.jasperreports.data.AbstractDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+
+@JsonRootName(value = "jndiDataAdapter")
 public class JndiDataAdapterImpl extends AbstractDataAdapter implements JndiDataAdapter
 {
 	private String dataSourceName;

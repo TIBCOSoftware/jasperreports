@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,11 +23,19 @@
  */
 package net.sf.jasperreports.data;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
+import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class),
+	@JsonSubTypes.Type(value = StandardHttpDataLocation.class)
+})
+// we do not need a @JsonTypeInfo annotation here because one is used in the DataFile getter of the FileDataAdapter
 public interface DataFile extends JRCloneable
 {
 

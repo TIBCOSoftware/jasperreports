@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -186,7 +186,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
-public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
+public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
 {
 	
 	/**
@@ -461,11 +461,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setFill(FillEnum fill);
 
 	/**
-	 * @deprecated Replaced by {@link #setRadius(Integer)}.
-	 */
-	public void setRadius(int radius);
-
-	/**
 	 *
 	 */
 	public void setRadius(Integer radius);
@@ -503,19 +498,9 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setFontName(String fontName);
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	public void setBold(boolean bold);
-
-	/**
 	 *
 	 */
 	public void setBold(Boolean bold);
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	public void setItalic(boolean italic);
 
 	/**
 	 *
@@ -523,19 +508,9 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setItalic(Boolean italic);
 
 	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	public void setPdfEmbedded(boolean pdfEmbedded);
-
-	/**
 	 *
 	 */
 	public void setPdfEmbedded(Boolean pdfEmbedded);
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	public void setStrikeThrough(boolean strikeThrough);
 
 	/**
 	 *
@@ -548,11 +523,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setMarkup(String markup);
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	public void setUnderline(boolean underline);
-
-	/**
 	 *
 	 */
 	public void setUnderline(Boolean underline);
@@ -561,11 +531,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 *
 	 */
 	public void setPattern(String pattern);
-
-	/**
-	 * @deprecated Replaced by {@link #setBlankWhenNull(Boolean)}.
-	 */
-	public void setBlankWhenNull(boolean isBlankWhenNull);
 
 	/**
 	 *

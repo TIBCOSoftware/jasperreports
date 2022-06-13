@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -98,7 +98,7 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 	@Override
 	public void test() throws JRException
 	{
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
 		contributeParameters(params);
 		
 		Properties props = new Properties();
@@ -163,31 +163,7 @@ public class XmlaDataAdapterService extends AbstractDataAdapterService
 			
 			connection.close();
 		}
-		catch (ClassNotFoundException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		} 
-		catch (InvocationTargetException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_XMLA_CONNECTION, 
-					null, 
-					e);
-		}
-		catch (SQLException e)
+		catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | SQLException e)
 		{
 			throw 
 				new JRException(

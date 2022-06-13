@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -176,7 +176,7 @@ public class JRQueryParser
 	
 	protected void parseClause(JRQueryChunkHandler chunkHandler, String clauseChunk)
 	{
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 		
 		boolean wasClauseToken = false;
 		char separator = determineClauseTokenSeparator(clauseChunk);
@@ -293,19 +293,6 @@ public class JRQueryParser
 		}
 		
 		return text;
-	}
-	
-	/**
-	 * (Re)constructs a query clause chunk from the chunk tokens.
-	 * 
-	 * @param tokens the chunk tokens
-	 * @return the reconstructed query clause chunk
-	 * @see JRQueryChunk#TYPE_CLAUSE_TOKENS
-	 * @deprecated Replaced by {@link #asClauseText(String[], Character)}.
-	 */
-	public String asClauseText(String[] tokens)
-	{
-		return asClauseText(tokens, null);
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -55,7 +55,6 @@ public class EditTextElementData extends BaseColumnData {
 	private String formatPattern;
 	private String mode;
 
-	private String dataType;
 	private String applyTo;
 	private String groupName;
 
@@ -160,22 +159,6 @@ public class EditTextElementData extends BaseColumnData {
 
 	public void setMode(String mode) {
 		this.mode = mode;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public String getDataType() {
-		return dataType;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@JsonIgnore
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
 	}
 
 	@JsonIgnore

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -75,7 +76,7 @@ public class JRStyledTextParser implements ErrorHandler
 {
 	private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
-	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<String>();
+	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<>();
 	static
 	{
 		//FIXME doing this in a static block obscures exceptions, move it to some other place
@@ -115,6 +116,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String NODE_sub = "sub";
 	private static final String NODE_font = "font";
 	private static final String NODE_br = "br";
+	private static final String NODE_ul = "ul";
+	private static final String NODE_ol = "ol";
 	private static final String NODE_li = "li";
 	private static final String NODE_a = "a";
 	private static final String NODE_param = "param";
@@ -136,6 +139,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String ATTRIBUTE_target = "target";
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_valueClass = "valueClass";
+	private static final String ATTRIBUTE_start = "start";
+	private static final String ATTRIBUTE_noBullet = "noBullet";
 
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
@@ -147,12 +152,12 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 * Thread local soft cache of instances.
 	 */
-	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<SoftReference<JRStyledTextParser>>();
+	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<>();
 	
 	/**
 	 * 
 	 */
-	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
+	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<>();
 	
 	/**
 	 * Return a cached instance.
@@ -170,7 +175,7 @@ public class JRStyledTextParser implements ErrorHandler
 		if (instance == null)
 		{
 			instance = new JRStyledTextParser();
-			threadInstances.set(new SoftReference<JRStyledTextParser>(instance));
+			threadInstances.set(new SoftReference<>(instance));
 		}
 		return instance;
 	}
@@ -201,6 +206,14 @@ public class JRStyledTextParser implements ErrorHandler
 	 *
 	 */
 	private JRBasePrintHyperlink hyperlink;
+	
+	/**
+	 *
+	 */
+	private Stack<StyledTextListInfo> htmlListStack;
+	private boolean insideLi;
+	private boolean liStart;
+	private StyledTextListInfo justClosedList;
 
 
 	/**
@@ -242,6 +255,7 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 		
 		hyperlink = null;
+		htmlListStack = new Stack<>();
 		
 		parseStyle(styledText, document.getDocumentElement());
 		
@@ -263,7 +277,11 @@ public class JRStyledTextParser implements ErrorHandler
 	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, Locale locale)
 	{
 		JRStyledText styledText = null;
-		if (isStyledText)
+		if (
+			isStyledText 
+			&& text != null 
+			&& (text.indexOf('<') >= 0 || text.indexOf('&') >= 0)
+			)
 		{
 			try
 			{
@@ -309,34 +327,30 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	public String write(Map<Attribute,Object> parentAttrs, AttributedCharacterIterator iterator, String text)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		StringBuilder sb = new StringBuilder();
+		XmlStyledTextListWriter xmlListWriter = new XmlStyledTextListWriter(sb);
 		
 		int runLimit = 0;
 
-		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
+		while (runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
 		{
 			String chunk = text.substring(iterator.getIndex(), runLimit);
 			Map<Attribute,Object> attrs = iterator.getAttributes();
 			
-			StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
-			if (styleBuilder.length() > 0)
-			{
-				sb.append(LESS);
-				sb.append(NODE_style);
-				sb.append(styleBuilder.toString());
-				sb.append(GREATER);
-				writeChunk(sb, parentAttrs, attrs, chunk);
-				sb.append(LESS_SLASH);
-				sb.append(NODE_style);
-				sb.append(GREATER);
-			}
-			else
-			{
-				writeChunk(sb, parentAttrs, attrs, chunk);
-			}
+			context.next(attrs);
+
+			context.writeLists(xmlListWriter);
+
+			writeChunk(context, sb, parentAttrs, attrs, chunk);
 
 			iterator.setIndex(runLimit);
 		}
+		
+		context.next(null);
+
+		context.writeLists(xmlListWriter);
 		
 		return sb.toString();
 	}
@@ -364,8 +378,18 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	public void writeChunk(StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
+	public void writeChunk(StyledTextWriteContext context, StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
 	{
+		StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
+		boolean isStyle = styleBuilder.length() > 0;
+		if (isStyle)
+		{
+			sb.append(LESS);
+			sb.append(NODE_style);
+			sb.append(styleBuilder.toString());
+			sb.append(GREATER);
+		}
+
 		Object value = attrs.get(TextAttribute.SUPERSCRIPT);
 		Object oldValue = parentAttrs.get(TextAttribute.SUPERSCRIPT);
 
@@ -467,6 +491,13 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(scriptNode);
 			sb.append(GREATER);
 		}
+		
+		if (isStyle)
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_style);
+			sb.append(GREATER);
+		}
 	}
 
 	/**
@@ -480,6 +511,9 @@ public class JRStyledTextParser implements ErrorHandler
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.TEXT_NODE)
 			{
+				liStart = false;
+				justClosedList = null;
+
 				styledText.append(node.getNodeValue());
 			}
 			else if (
@@ -489,7 +523,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
@@ -601,7 +635,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 
 				int startIndex = styledText.length();
@@ -612,7 +646,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 
 				int startIndex = styledText.length();
@@ -623,7 +657,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 
 				int startIndex = styledText.length();
@@ -634,7 +668,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sup.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER);
 
 				int startIndex = styledText.length();
@@ -645,7 +679,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sub.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
 
 				int startIndex = styledText.length();
@@ -658,7 +692,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
@@ -712,39 +746,116 @@ public class JRStyledTextParser implements ErrorHandler
 				resizeRuns(styledText.getRuns(), startIndex, 1);
 
 				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+				styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
 
 				if (startIndex < styledText.length()) {
 					styledText.append("\n");
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
+			else if (
+				node.getNodeType() == Node.ELEMENT_NODE 
+				&& (NODE_ul.equalsIgnoreCase(node.getNodeName()) || NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				)
+			{
+				boolean ordered = false;
+				String type = null;
+				Integer start = null;
+				if (NODE_ol.equalsIgnoreCase(node.getNodeName()))
+				{
+					ordered = true;
+					NamedNodeMap nodeAttrs = node.getAttributes();
+					if (nodeAttrs != null)
+					{
+						Node typeNode = nodeAttrs.getNamedItem(ATTRIBUTE_type);
+						if (typeNode != null)
+						{
+							type = typeNode.getNodeValue();
+						}
+						Node startNode = nodeAttrs.getNamedItem(ATTRIBUTE_start);
+						if (startNode != null)
+						{
+							start = Integer.valueOf(startNode.getNodeValue());
+						}
+					}
+				}
+				
+				StyledTextListInfo htmlList = 
+					new StyledTextListInfo(
+						ordered,
+						type,
+						start,
+						insideLi
+						);
+
+				htmlList.setAtLiStart(liStart);
+				
+				htmlListStack.push(htmlList);
+				
+				insideLi = false;
+				
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
+
+				styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+				
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+				
+				justClosedList = htmlListStack.pop();
+			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_li.equalsIgnoreCase(node.getNodeName()))
 			{
-				String tmpText = styledText.getText();
-				if(tmpText.length() > 0 && !tmpText.endsWith("\n"))
-				{
-					styledText.append("\n");
-				}
-				styledText.append(" \u2022 ");
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
 
-				int startIndex = styledText.length();
-				resizeRuns(styledText.getRuns(), startIndex, 1);
-				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
+				StyledTextListInfo htmlList = null;
 				
-				// if the text in the next node does not start with a '\n', or 
-				// if the next node is not a <li /> one, we have to append a new line
-				Node nextNode = node.getNextSibling();
-				String textContent = getFirstTextOccurence(nextNode);
-				if(nextNode != null && 
-						!((nextNode.getNodeType() == Node.ELEMENT_NODE &&
-								NODE_li.equalsIgnoreCase(nextNode.getNodeName()) ||
-						(textContent != null && textContent.startsWith("\n")))
-						))
+				boolean ulAdded = false;
+				if (htmlListStack.size() == 0)
 				{
-					styledText.append("\n");
-					resizeRuns(styledText.getRuns(), startIndex, 1);
+					htmlList = new StyledTextListInfo(false, null, null, false);
+					htmlListStack.push(htmlList);
+					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
+					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
+					ulAdded = true;
+				}
+				else
+				{
+					htmlList = htmlListStack.peek();
+				}
+				htmlList.setItemCount(htmlList.getItemCount() + 1);
+				insideLi = true;
+				liStart = true;
+				justClosedList = null;
+				
+				StyledTextListItemInfo listItem = new StyledTextListItemInfo(htmlList.getItemCount() - 1);
+				NamedNodeMap nodeAttrs = node.getAttributes();
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_noBullet) != null)
+				{
+					listItem.setNoBullet(Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_noBullet).getNodeValue()));
+				}
+				
+				styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, listItem);
+				
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+				
+				insideLi = false;
+				liStart = false;
+				if (justClosedList != null)
+				{
+					justClosedList.setAtLiEnd(true);
+				}
+
+				if (ulAdded)
+				{
+					htmlListStack.pop();
 				}
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_a.equalsIgnoreCase(node.getNodeName()))
@@ -753,7 +864,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					NamedNodeMap nodeAttrs = node.getAttributes();
 
-					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
+					Map<Attribute,Object> styleAttrs = new HashMap<>();
 
 					hyperlink = new JRBasePrintHyperlink();
 					hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
@@ -991,31 +1102,6 @@ public class JRStyledTextParser implements ErrorHandler
 		return sb;
 	}
 	
-	/**
-	 * The method returns the first text occurrence in a given node element
-	 * @param node
-	 * @return String
-	 */
-	private String getFirstTextOccurence(Node node){
-		if(node != null)
-		{
-			if(node.getNodeValue() != null)
-			{
-				return node.getNodeValue();
-			}
-			NodeList nodeList = node.getChildNodes();
-			for (int i=0; i< nodeList.getLength(); i++)
-			{
-				String firstOccurence = getFirstTextOccurence(nodeList.item(i));
-				if(firstOccurence != null)
-				{
-					return firstOccurence;
-				}
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void error(SAXParseException e) {
 		if(log.isErrorEnabled())
@@ -1040,4 +1126,75 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 	}
 
+
+	protected class XmlStyledTextListWriter implements StyledTextListWriter
+	{
+		private StringBuilder sb;
+		
+		public XmlStyledTextListWriter(StringBuilder sb)
+		{
+			this.sb = sb;
+		}
+	
+		@Override
+		public void startUl() 
+		{
+			sb.append(LESS);
+			sb.append(NODE_ul);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endUl() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_ul);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void startOl(String type, int cutStart) 
+		{
+			sb.append(LESS);
+			sb.append(NODE_ol);
+			if (type != null)
+			{
+				sb.append(" " + ATTRIBUTE_type + "=\"" + type + "\"");
+			}
+			if (cutStart > 1)
+			{
+				sb.append(" " + ATTRIBUTE_start + "=\"" + cutStart + "\"");
+			}
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endOl() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_ol);
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void startLi(boolean noBullet) 
+		{
+			sb.append(LESS);
+			sb.append(NODE_li);
+			if (noBullet)
+			{
+				sb.append(" " + ATTRIBUTE_noBullet + "=\"true\"");
+			}
+			sb.append(GREATER);
+		}
+	
+		@Override
+		public void endLi() 
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_li);
+			sb.append(GREATER);
+		}
+	}
 }
+

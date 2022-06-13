@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,14 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.design.JRCompiler;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.util.ReportUpdater;
-import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
-
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -47,6 +39,14 @@ import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.util.RegexpPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.design.JRCompiler;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.ReportUpdater;
+import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -165,7 +165,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 
 		if (updaters == null)
 		{
-			updaters = new ArrayList<UpdaterElement>();
+			updaters = new ArrayList<>();
 		}
 		
 		updaters.add(updaterElement);
@@ -182,7 +182,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap<String, String>();
+		reportFilesMap = new HashMap<>();
 
 		jasperReportsContext.setProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION, String.valueOf(xmlvalidation));//FIXMECONTEXT is this needed? what about the one below?
 
@@ -246,8 +246,7 @@ public class JRAntUpdateTask extends JRBaseAntTask
 	 */
 	protected void scanSrc() throws BuildException //FIXME put this method in base class
 	{
-		for(@SuppressWarnings("unchecked")
-		Iterator<Resource> it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
 			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;

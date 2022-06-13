@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -55,19 +55,19 @@ public class AdditionalEntryMapTest
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void nullKeyTest()
 	{
-		new AdditionalEntryMap<Object, Object>(new HashMap<Object, Object>(), null, "val");
+		new AdditionalEntryMap<Object, Object>(new HashMap<>(), null, "val");
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void nullValueTest()
 	{
-		new AdditionalEntryMap<Object, Object>(new HashMap<Object, Object>(), "key", null);
+		new AdditionalEntryMap<Object, Object>(new HashMap<>(), "key", null);
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void mapContainsTest()
 	{
-		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		HashMap<Object, Object> map = new HashMap<>();
 		map.put("k1", "v1");
 		map.put("k2", "v2");
 		map.put("k3", "v3");
@@ -78,12 +78,12 @@ public class AdditionalEntryMapTest
 	public void mapTest(Object[][] pairs, Object addKey, Object addValue)
 	{
 		Map<Object, Object> baseMap = createBaseMap(pairs, false);
-		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<Object, Object>(
+		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<>(
 				baseMap, addKey, addValue);
 		assert !addMap.isEmpty();
 		assert addMap.size() == pairs.length + 1;
 		
-		HashMap<Object, Object> newMap = new HashMap<Object, Object>(baseMap);
+		HashMap<Object, Object> newMap = new HashMap<>(baseMap);
 		newMap.put(addKey, addValue);
 		assert addMap.equals(newMap);		
 	}
@@ -92,12 +92,12 @@ public class AdditionalEntryMapTest
 	public void linkedMapTest(Object[][] pairs, Object addKey, Object addValue)
 	{
 		Map<Object, Object> baseMap = createBaseMap(pairs, true);
-		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<Object, Object>(
+		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<>(
 				baseMap, addKey, addValue);
 		assert !addMap.isEmpty();
 		assert addMap.size() == pairs.length + 1;
 		
-		HashMap<Object, Object> newMap = new HashMap<Object, Object>(baseMap);
+		HashMap<Object, Object> newMap = new HashMap<>(baseMap);
 		newMap.put(addKey, addValue);
 		assert addMap.equals(newMap);		
 	}
@@ -281,22 +281,21 @@ public class AdditionalEntryMapTest
 	
 	private Map.Entry<Object, Object> entry(Object key, Object value)
 	{
-		return new AbstractMap.SimpleImmutableEntry<Object, Object>(key, value);
+		return new AbstractMap.SimpleImmutableEntry<>(key, value);
 	}
 
 	private AdditionalEntryMap<Object, Object> createAdditionalMap(Object[][] pairs, Object addKey, Object addValue,
 			boolean linked)
 	{
 		Map<Object, Object> map = createBaseMap(pairs, linked);
-		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<Object, Object>(
+		AdditionalEntryMap<Object, Object> addMap = new AdditionalEntryMap<>(
 				map, addKey, addValue);
 		return addMap;
 	}
 
 	private Map<Object, Object> createBaseMap(Object[][] pairs, boolean linked)
 	{
-		Map<Object, Object> map = linked ? new LinkedHashMap<Object, Object>()
-				: new HashMap<Object, Object>();
+		Map<Object, Object> map = linked ? new LinkedHashMap<>() : new HashMap<>();
 		for (int i = 0; i < pairs.length; i++)
 		{
 			assert pairs[i].length == 2;

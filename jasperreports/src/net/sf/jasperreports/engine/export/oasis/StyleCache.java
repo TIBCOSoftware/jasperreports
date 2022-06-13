@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,27 +53,27 @@ public class StyleCache
 	 */
 	private final FontUtil fontUtil;
 	private final WriterHelper styleWriter;
-	private Set<String> fontFaces = new HashSet<String>();
+	private Set<String> fontFaces = new HashSet<>();
 	private final String exporterKey;
 
 	/**
 	 *
 	 */
-	private Map<String,String> tableStyles = new HashMap<String,String>();//FIXMEODT soft cache?
+	private Map<String,String> tableStyles = new HashMap<>();//FIXMEODT soft cache?
 	private int tableStylesCounter;
-	private Map<String,String> rowStyles = new HashMap<String,String>();
+	private Map<String,String> rowStyles = new HashMap<>();
 	private int rowStylesCounter;
-	private Map<String,String> columnStyles = new HashMap<String,String>();
+	private Map<String,String> columnStyles = new HashMap<>();
 	private int columnStylesCounter;
-	private Map<String,String> frameStyles = new HashMap<String,String>();
+	private Map<String,String> frameStyles = new HashMap<>();
 	private int frameStylesCounter;
-	private Map<String,String> cellStyles = new HashMap<String,String>();
+	private Map<String,String> cellStyles = new HashMap<>();
 	private int cellStylesCounter;
-	private Map<String,String> graphicStyles = new HashMap<String,String>();
+	private Map<String,String> graphicStyles = new HashMap<>();
 	private int graphicStylesCounter;
-	private Map<String,String> paragraphStyles = new HashMap<String,String>();
+	private Map<String,String> paragraphStyles = new HashMap<>();
 	private int paragraphStylesCounter;
-	private Map<String,String> textSpanStyles = new HashMap<String,String>();
+	private Map<String,String> textSpanStyles = new HashMap<>();
 	private int textSpanStylesCounter;
 
 

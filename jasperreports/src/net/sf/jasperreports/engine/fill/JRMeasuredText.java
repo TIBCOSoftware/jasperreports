@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -77,7 +77,7 @@ public interface JRMeasuredText
 	boolean isLeftToRight();
 
 	/**
-	 * Returns whether the text was during a paragraph or the last paragraph was complete.
+	 * Returns whether the text was cut during a paragraph or the last paragraph was complete.
 	 * 
 	 * @return whether the last paragraph was cut
 	 */

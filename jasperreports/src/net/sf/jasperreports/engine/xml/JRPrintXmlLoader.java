@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -77,7 +77,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	 */
 	private final JasperReportsContext jasperReportsContext;
 	private JasperPrint jasperPrint;
-	private List<Exception> errors = new ArrayList<Exception>();
+	private List<Exception> errors = new ArrayList<>();
 
 
 	/**
@@ -114,30 +114,14 @@ public class JRPrintXmlLoader implements ErrorHandler
 	{
 		JasperPrint jasperPrint = null;
 
-		FileInputStream fis = null;
-
-		try
+		try (FileInputStream fis = new FileInputStream(sourceFileName))
 		{
-			fis = new FileInputStream(sourceFileName);
 			JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader(jasperReportsContext);
 			jasperPrint = printXmlLoader.loadXML(fis);
 		}
 		catch(IOException e)
 		{
 			throw new JRException(e);
-		}
-		finally
-		{
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return jasperPrint;
@@ -197,15 +181,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 			/*   */
 			digester.parse(is);
 		}
-		catch(ParserConfigurationException e)
-		{
-			throw new JRException(e);
-		}
-		catch(SAXException e)
-		{
-			throw new JRException(e);
-		}
-		catch(IOException e)
+		catch (ParserConfigurationException | SAXException | IOException e)
 		{
 			throw new JRException(e);
 		}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,7 +48,7 @@ public final class JRPercentageCalculatorFactory
 
 	static
 	{
-		builtInCalculators = new HashMap<String, JRPercentageCalculator>();
+		builtInCalculators = new HashMap<>();
 		builtInCalculators.put(Float.class.getName(), new FloatPercentageCalculator());
 		builtInCalculators.put(Double.class.getName(), new DoublePercentageCalculator());
 		builtInCalculators.put(Integer.class.getName(), new IntegerPercentageCalculator());
@@ -58,7 +58,7 @@ public final class JRPercentageCalculatorFactory
 		builtInCalculators.put(BigDecimal.class.getName(), new BigDecimalPercentageCalculator());
 		builtInCalculators.put(BigInteger.class.getName(), new BigIntegerPercentageCalculator());
 
-		cachedCalculators = new HashMap<String, JRPercentageCalculator>();
+		cachedCalculators = new HashMap<>();
 	}
 
 	

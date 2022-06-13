@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VirtualizedFrames" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="ab7e07f2-79ec-4d1c-b8d6-85059172a296">
 	<property name="net.sf.jasperreports.virtual.page.element.size" value="5"/>
-	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/empty40.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/empty40.jrdax"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>
 	<detail>
 		<band height="200">

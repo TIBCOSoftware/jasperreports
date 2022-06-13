@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -140,7 +140,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 			List<String> columnNamesList = null;
 			String columnNames = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
 			if(columnNames != null) {
-				columnNamesList = new ArrayList<String>();
+				columnNamesList = new ArrayList<>();
 				columnNamesList.add(columnNames);
 			} else {
 				String[] columnNamesArray = (String[]) getParameterValue(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, true);
@@ -149,7 +149,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 				} else {
 					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
 					if (properties != null && !properties.isEmpty()) {
-						columnNamesList = new ArrayList<String>();
+						columnNamesList = new ArrayList<>();
 						for(int i = 0; i < properties.size(); i++) {
 							String property = properties.get(i).getValue();
 							columnNamesList.add(property);
@@ -158,7 +158,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 						JRField[] fields = dataset.getFields();
 						if (fields != null && fields.length > 0)
 						{
-							columnNamesList = new ArrayList<String>();
+							columnNamesList = new ArrayList<>();
 							for (int i = 0; i < fields.length; i++)
 							{
 								columnNamesList.add(fields[i].getName());
@@ -169,7 +169,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 			}
 
 			if (columnNamesList != null && columnNamesList.size() > 0) {
-				List<String> splitColumnNamesList = new ArrayList<String>();
+				List<String> splitColumnNamesList = new ArrayList<>();
 				for(int i = 0; i < columnNamesList.size(); i++) {
 					String names = columnNamesList.get(i);
 					for(String token: names.split(",")){

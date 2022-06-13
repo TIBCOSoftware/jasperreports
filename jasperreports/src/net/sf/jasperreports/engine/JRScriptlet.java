@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,5 +57,12 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	 *
 	 */
 	public String getValueClassName();
+
+	/**
+	 * Returns the list of dynamic/expression-based properties for this scriptlet.
+	 * 
+	 * @return an array containing the expression-based properties of this scriptlet
+	 */
+	public JRPropertyExpression[] getPropertyExpressions();
 
 }

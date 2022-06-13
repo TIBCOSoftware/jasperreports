@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,6 +30,7 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -51,9 +52,9 @@ public abstract class BaseFontHelper extends BaseHelper
 	public static final String WORD_FONTS_DIR = "word/" + FONTS_DIR;
 	public static final String PPT_FONTS_DIR = "ppt/" + FONTS_DIR;
 	
-	protected Map<String, String> ooxmlFontsFirstLocales = new HashMap<String,String>();// remember first locale for each font to prevent adding locale to font name if only one locale used
-	protected Map<String, OoxmlFont> ooxmlFonts = new HashMap<String, OoxmlFont>();
-	protected Map<String, String> fontPaths = new HashMap<String, String>();
+	protected Map<String, String> ooxmlFontsFirstLocales = new HashMap<>();// remember first locale for each font to prevent adding locale to font name if only one locale used
+	protected Map<String, OoxmlFont> ooxmlFonts = new HashMap<>();
+	protected Map<String, String> fontPaths = new HashMap<>();
 	protected final Writer relsWriter;
 	protected final FileBufferedZip zip;
 	protected final boolean isEmbedFonts;
@@ -104,10 +105,10 @@ public abstract class BaseFontHelper extends BaseHelper
 			writer.write(getEndFontTag());
 		}
 	
-		for (String fontPath : fontPaths.keySet())
+		for (Entry<String, String> fontPath : fontPaths.entrySet())
 		{
-			String rIdf = fontPaths.get(fontPath);
-			embedFont(rIdf, fontPath);
+			String rIdf = fontPath.getValue();
+			embedFont(rIdf, fontPath.getKey());
 		}
 	}
 	
@@ -137,11 +138,7 @@ public abstract class BaseFontHelper extends BaseHelper
 			byte[] bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(path);
 			zip.addEntry(entryPath, bytes);
 		}
-		catch(IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch(JRException e)
+		catch (IOException | JRException e)
 		{
 			throw new JRRuntimeException(e);
 		}

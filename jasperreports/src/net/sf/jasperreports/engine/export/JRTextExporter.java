@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,7 @@ import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -40,6 +41,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.TextExporterConfiguration;
@@ -591,6 +593,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				rowOffset = (rowSpan - rowIndex) / 2;
 				break;
 			}
+			default :
 		}
 
 		for (int i = 0; i < rowIndex; i++) {
@@ -624,6 +627,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 					}
 					break;
 				}
+				default :
 			}
 
 			char[] chars = line.toCharArray();
@@ -697,7 +701,14 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return styledTextUtil.getStyledText(textElement, noneSelector);
+		JRStyledText styledText = styledTextUtil.getStyledText(textElement, noneSelector);
+		
+		if (styledText != null && !JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+		{
+			styledText = JRStyledTextUtil.getBulletedText(styledText);
+		}
+
+		return styledText;
 	}
 
 	@Override

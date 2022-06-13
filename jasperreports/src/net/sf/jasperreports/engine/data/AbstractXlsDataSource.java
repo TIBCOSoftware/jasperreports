@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,10 +88,10 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	
 	protected DateFormat dateFormat = new SimpleDateFormat();
 	protected NumberFormat numberFormat = new DecimalFormat();//these two here prevent commons beanutils conversion from superclass unless explicitly set to null; but it was like this since day one 
-	protected Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
+	protected Map<String, Integer> columnNames = new LinkedHashMap<>();
 	protected boolean useFirstRowAsHeader;
 
-	protected Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	protected Map<String,Integer> columnIndexMap = new HashMap<>();
 	
 
 	/**

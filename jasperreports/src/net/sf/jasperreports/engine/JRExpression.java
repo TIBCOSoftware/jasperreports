@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -162,6 +162,11 @@ public interface JRExpression extends JRCloneable
 	public static final Integer NOT_USED_ID = -1;
 
 	/**
+	 * ID that is assigned to expression that are not compiled and need to be interpreted at fill time.
+	 */
+	public static final Integer ID_INTERPRETED = -2;
+
+	/**
 	 * Returns the expression return value class.
 	 * @deprecated To be removed.
 	 */
@@ -193,5 +198,9 @@ public interface JRExpression extends JRCloneable
 	 */
 	public ExpressionTypeEnum getType();
 
+	default boolean isInterpreted()
+	{
+		return getId() == ID_INTERPRETED;
+	}
 
 }

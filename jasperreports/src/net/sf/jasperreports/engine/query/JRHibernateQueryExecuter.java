@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -87,7 +87,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			log.debug("Hibernate type constants class is " + typeConstantsClass);
 		}
 		
-		hibernateTypeMap = new HashMap<Class<?>,Type>();
+		hibernateTypeMap = new HashMap<>();
 		hibernateTypeMap.put(Boolean.class, loadTypeConstant(typeConstantsClass, "BOOLEAN"));
 		hibernateTypeMap.put(Byte.class, loadTypeConstant(typeConstantsClass, "BYTE"));
 		hibernateTypeMap.put(Double.class, loadTypeConstant(typeConstantsClass, "DOUBLE"));
@@ -120,19 +120,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			Type type = (Type) constant.get(null);
 			return type;
 		}
-		catch (NoSuchFieldException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (SecurityException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IllegalArgumentException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IllegalAccessException e)
+		catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
 		{
 			throw new JRRuntimeException(e);
 		}
@@ -304,7 +292,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		
 		if (!parameterNames.isEmpty())
 		{
-			Set<String> namesSet = new HashSet<String>();
+			Set<String> namesSet = new HashSet<>();
 			
 			for (Iterator<String> iter = parameterNames.iterator(); iter.hasNext();)
 			{

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,12 +31,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.JRXmlUtils;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.JRXmlUtils;
 
 /**
  * Produces a <code>org.w3c.dom.Document</code> based on a <code>java.io.File</code>, <code>java.io.InputStream</code> or a <code>java.lang.String</code> uri
@@ -105,13 +105,7 @@ public class JRXmlDocumentProducer {
 			} else if (uri != null) {
 				return getDocumentBuilder().parse(uri);
 			}
-		} catch (SAXException e) {
-			throw 
-				new JRException(
-					JRXmlUtils.EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE, 
-					null,
-					e);
-		} catch (IOException e) {
+		} catch (SAXException | IOException e) {
 			throw 
 				new JRException(
 					JRXmlUtils.EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE, 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,8 +27,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.commands.Command;
-import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,7 +63,7 @@ public class SimpleExporterInput implements ExporterInput
 	{
 		if (jasperPrint != null)
 		{
-			this.items = new ArrayList<ExporterInputItem>();
+			this.items = new ArrayList<>();
 			items.add(new SimpleExporterInputItem(jasperPrint));
 		}
 	}
@@ -86,7 +86,7 @@ public class SimpleExporterInput implements ExporterInput
 			{
 				throw new JRRuntimeException(e);
 			}
-			this.items = new ArrayList<ExporterInputItem>();
+			this.items = new ArrayList<>();
 			items.add(new SimpleExporterInputItem(jasperPrint));
 		}
 	}
@@ -110,7 +110,7 @@ public class SimpleExporterInput implements ExporterInput
 			{
 				throw new JRRuntimeException(e);
 			}
-			this.items = new ArrayList<ExporterInputItem>();
+			this.items = new ArrayList<>();
 			items.add(new SimpleExporterInputItem(jasperPrint));
 		}
 	}
@@ -133,7 +133,7 @@ public class SimpleExporterInput implements ExporterInput
 			{
 				throw new JRRuntimeException(e);
 			}
-			this.items = new ArrayList<ExporterInputItem>();
+			this.items = new ArrayList<>();
 			items.add(new SimpleExporterInputItem(jasperPrint));
 		}
 	}
@@ -156,7 +156,7 @@ public class SimpleExporterInput implements ExporterInput
 			{
 				throw new JRRuntimeException(e);
 			}
-			this.items = new ArrayList<ExporterInputItem>();
+			this.items = new ArrayList<>();
 			items.add(new SimpleExporterInputItem(jasperPrint));
 		}
 	}
@@ -187,7 +187,7 @@ public class SimpleExporterInput implements ExporterInput
 		
 		if (jasperPrintList != null)
 		{
-			items = new ArrayList<ExporterInputItem>(jasperPrintList.size());
+			items = new ArrayList<>(jasperPrintList.size());
 			for (JasperPrint jasperPrint : jasperPrintList)
 			{
 				items.add(new SimpleExporterInputItem(jasperPrint));

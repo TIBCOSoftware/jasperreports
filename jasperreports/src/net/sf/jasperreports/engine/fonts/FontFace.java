@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,11 +37,6 @@ public interface FontFace
 	 * Returns the non-null name of the font face.
 	 */
 	public String getName();
-	
-	/**
-	 * @deprecated Replaced by {@link #getTtf()}.
-	 */
-	public String getFile();
 	
 	/**
 	 * Returns the TTF file, if the font face has specified one (the font face does not specify a TTF file in case it maps

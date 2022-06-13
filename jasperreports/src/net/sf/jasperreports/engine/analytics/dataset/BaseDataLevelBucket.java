@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 
 	protected BaseDataLevelBucket()
 	{
-		this.bucketProperties = new ArrayList<DataLevelBucketProperty>();
+		this.bucketProperties = new ArrayList<>();
 	}
 	
 	public BaseDataLevelBucket(DataLevelBucket bucket, JRBaseObjectFactory factory)
@@ -78,7 +78,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 		
 		List<DataLevelBucketProperty> properties = bucket.getBucketProperties();
-		this.bucketProperties = new ArrayList<DataLevelBucketProperty>(properties.size());
+		this.bucketProperties = new ArrayList<>(properties.size());
 		for (DataLevelBucketProperty property : properties)
 		{
 			this.bucketProperties.add(factory.getDataLevelBucketProperty(property));
