@@ -21,49 +21,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple.handlers;
+package net.sf.jasperreports.engine.util.text;
 
-import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.jfree.chart.plot.PlotOrientation;
-
+import net.sf.jasperreports.engine.fill.SimpleTextLineWrapper;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed.
+ * Complex text layout check used by {@link SimpleTextLineWrapper}.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
+public interface TextLayoutAssessor
 {
+
 	/**
-	 *
+	 * Determines if a text chunk requires complex text layout.
+	 * 
+	 * @param chars the text chunk
+	 * @return whether the text requires complex text layout
 	 */
-	public PlotOrientationFieldHandler()
-	{
-		super();
-	}
-	
-	@Override
-	public Object convertUponGet(Object value)
-	{
-		return PlotOrientationSerializer.convert((PlotOrientation)value);
-	}
+	boolean hasComplexLayout(char[] chars);
 
-	@Override
-	public Object convertUponSet(Object value)
-	{
-		return PlotOrientationDeserializer.convert((String) value);
-	}
-	
-	@Override
-	public Class<?> getFieldType()
-	{
-		return PlotOrientation.class;
-	}
-
-	@Override
-	public Object newInstance(Object parent) throws IllegalStateException
-	{
-		//-- Since it's marked as a string...just return null,
-		//-- it's not needed.
-		return null;
-	}
 }

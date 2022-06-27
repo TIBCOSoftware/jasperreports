@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-71-SNAPSHOT</version>
+	<version>develop-74-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
-			<version>2.1.7.js9</version>
+			<version>2.1.7.js10-SNAPSHOT</version>
  			<scope>compile</scope>
 			<optional>false</optional>
 			<exclusions>
@@ -344,14 +344,14 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>5.3.19</version>
+			<version>5.3.20</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>5.3.19</version>
+			<version>5.3.20</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -389,35 +389,35 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -455,7 +455,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-15-SNAPSHOT</version>
+			<version>develop-16-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -524,14 +524,14 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>develop-69-SNAPSHOT</version>
+			<version>develop-74-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.kklisura.cdt</groupId>
 			<artifactId>cdt-java-client</artifactId>
-			<version>2.0.0</version>
+			<version>4.0.0</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -653,7 +653,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>develop-69-SNAPSHOT</version>
+							<version>develop-74-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

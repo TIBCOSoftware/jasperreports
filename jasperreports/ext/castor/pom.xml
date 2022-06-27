@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-castor</artifactId>
-	<version>develop-15-SNAPSHOT</version>
+	<version>develop-16-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Castor Persistence</name>
 	<description>JasperReports Castor Persistence</description>
@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>develop-69-SNAPSHOT</version>
+			<version>develop-74-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

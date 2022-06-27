@@ -40,6 +40,7 @@ import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentDeserializ
 import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.PlotOrientationDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.PlotOrientationSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
@@ -92,6 +93,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	 *
 	 */
 	@JacksonXmlProperty(isAttribute = true)
+	@JsonDeserialize(using = PlotOrientationDeserializer.class)
 	@JsonSerialize(using = PlotOrientationSerializer.class)
 	private PlotOrientation orientation;
 	
