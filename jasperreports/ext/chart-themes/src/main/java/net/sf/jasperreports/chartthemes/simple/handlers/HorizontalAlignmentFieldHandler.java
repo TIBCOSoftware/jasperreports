@@ -50,17 +50,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			HorizontalAlignment.LEFT.toString().equals(value) 
-			? HorizontalAlignment.LEFT 
-			: HorizontalAlignment.CENTER.toString().equals(value)
-			? HorizontalAlignment.CENTER
-			: HorizontalAlignment.RIGHT.toString().equals(value)
-			? HorizontalAlignment.RIGHT : null;
+		return HorizontalAlignmentDeserializer.convert((String) value);
 	}
 	
 	@Override

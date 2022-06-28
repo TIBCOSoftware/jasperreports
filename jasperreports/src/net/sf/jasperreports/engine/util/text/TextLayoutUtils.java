@@ -21,49 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple.handlers;
-
-import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.jfree.chart.plot.PlotOrientation;
-
+package net.sf.jasperreports.engine.util.text;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
+public class TextLayoutUtils
 {
-	/**
-	 *
-	 */
-	public PlotOrientationFieldHandler()
+
+	private static final TextLayoutAssessor ASSESSOR;
+
+	static
 	{
-		super();
-	}
-	
-	@Override
-	public Object convertUponGet(Object value)
-	{
-		return PlotOrientationSerializer.convert((PlotOrientation)value);
+		FontTextLayoutAssessor fontAssessor = new FontTextLayoutAssessor();
+		ASSESSOR = fontAssessor.available() ? fontAssessor : new LegacyTextLayoutAssessor();
 	}
 
-	@Override
-	public Object convertUponSet(Object value)
+	public static TextLayoutAssessor textLayoutAssessor()
 	{
-		return PlotOrientationDeserializer.convert((String) value);
-	}
-	
-	@Override
-	public Class<?> getFieldType()
-	{
-		return PlotOrientation.class;
+		return ASSESSOR;
 	}
 
-	@Override
-	public Object newInstance(Object parent) throws IllegalStateException
-	{
-		//-- Since it's marked as a string...just return null,
-		//-- it's not needed.
-		return null;
-	}
 }

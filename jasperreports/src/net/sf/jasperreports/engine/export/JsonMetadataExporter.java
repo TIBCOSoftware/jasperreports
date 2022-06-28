@@ -418,7 +418,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 					Scanner scanner = 
 						new Scanner(
 							getRepository().getInputStreamFromLocation(jsonSchemaResource), 
-							StandardCharsets.UTF_8
+							StandardCharsets.UTF_8.name()
 							)
 					)
 				{
