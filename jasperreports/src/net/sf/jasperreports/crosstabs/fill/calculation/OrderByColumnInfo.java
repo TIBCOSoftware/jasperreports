@@ -25,6 +25,9 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.type.NamedEnumConstantContextualDeserializer;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
@@ -33,6 +36,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 public class OrderByColumnInfo
 {
 
+	@JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
 	private SortOrderEnum order;
 	private int measureIndex;
 	private List<ColumnValueInfo> columnValues;
