@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="6.1.11"/>
-		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
+		<dependency org="com.beust" name="jcommander" rev="1.78" conf="test->*"/>
 		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.17.0" conf="compile->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.13.3" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.3" conf="compile,annotations->*"/>
@@ -23,7 +23,7 @@
 		<dependency org="com.fasterxml.woodstox" name="woodstox-core" rev="6.2.7" conf="test->*"/>
 		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="4.0.0"/>
 		<dependency org="com.google.zxing" name="core" rev="3.4.0"/>
-		<dependency org="com.lowagie" name="itext" rev="2.1.7.js10-SNAPSHOT"/>
+		<dependency org="com.lowagie" name="itext" rev="2.1.7.js10"/>
 		<dependency org="com.zaxxer" name="SparseBitSet" rev="1.2" conf="test->*"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.4"/>
 		<dependency org="commons-codec" name="commons-codec" rev="1.15" conf="test->*"/>
@@ -40,8 +40,8 @@
 		<dependency org="jaxen" name="jaxen" rev="1.1.6"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.20.0-SNAPSHOT" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.20.0-SNAPSHOT" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.20.0" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.20.0" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="net.tascalate" name="net.tascalate.asmx" rev="7.0.1" conf="javaflow->*"/>
 		<dependency org="net.tascalate" name="net.tascalate.asmx.tree" rev="7.0.1" conf="javaflow->*"/>
@@ -97,7 +97,7 @@
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
 		<dependency org="org.springframework" name="spring-beans" rev="5.3.20"/>
 		<dependency org="org.springframework" name="spring-core" rev="5.3.20"/>
-		<dependency org="org.testng" name="testng" rev="6.8.1" conf="test->*"/>
+		<dependency org="org.testng" name="testng" rev="7.4.0" conf="test->*"/>
 		<dependency org="xalan" name="xalan" rev="2.7.2"/>
 		<dependency org="xml-apis" name="xml-apis-ext" rev="1.3.04"/>
 		<dependency org="xalan" name="serializer" rev="2.7.2" conf="docs->*"/>
