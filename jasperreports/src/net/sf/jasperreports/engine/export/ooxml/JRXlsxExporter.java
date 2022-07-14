@@ -1857,16 +1857,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 	protected String getDefinedName(String name)
 	{
-		if (name != null)
-		{
-			String definedName = name.replaceAll("\\W", "");
-			if (!definedName.isEmpty() && Character.isDigit(definedName.charAt(0)))
-			{
-				definedName = "_" + definedName;
-			}
-			return definedName;
-		}
-		return null;
+		return sheetHelper.getDefinedName(name);
 	}
 	
 }

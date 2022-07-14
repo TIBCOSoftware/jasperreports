@@ -423,7 +423,7 @@ public class XlsxSheetHelper extends BaseHelper
 		try
 		{
 			if(isLocal){
-				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" location=\"" + (href == null ? null : href.replaceAll("\\W", "")) + "\"/>\n");
+				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" location=\"" + getDefinedName(href) + "\"/>\n");
 			} else {
 				hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" r:id=\"rIdLnk" + sheetRelsHelper.getHyperlink(href) + "\"/>\n");
 			}
@@ -439,4 +439,17 @@ public class XlsxSheetHelper extends BaseHelper
 		rowBreaks.add(rowIndex);
 	}
 	
+	public String getDefinedName(String name)
+	{
+		if (name != null)
+		{
+			String definedName = name.replaceAll("\\W", "");
+			if (!definedName.isEmpty() && Character.isDigit(definedName.charAt(0)))
+			{
+				definedName = "_" + definedName;
+			}
+			return definedName;
+		}
+		return null;
+	}
 }
