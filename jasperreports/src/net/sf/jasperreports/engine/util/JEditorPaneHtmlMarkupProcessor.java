@@ -79,6 +79,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	@Override
 	public String convert(String srcText)
 	{
+		if (!(srcText.indexOf('<') >= 0 || srcText.indexOf('&') >= 0))
+		{
+			return srcText;
+		}
+
 		JEditorPane editorPane = new JEditorPane("text/html", srcText);
 		editorPane.setEditable(false);
 
