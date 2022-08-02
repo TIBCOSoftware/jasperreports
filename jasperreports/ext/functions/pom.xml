@@ -1,9 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-functions</artifactId>
-	<version>develop-16-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Functions</name>
 	<description>JasperReports Functions</description>
@@ -40,13 +45,14 @@
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skipInstall>false</skipInstall>
+		<skipDeploy>false</skipDeploy>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>develop-74-SNAPSHOT</version>
+			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -69,23 +75,6 @@
 	</repositories>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doCheck>true</doCheck>
-					<doUpdate>false</doUpdate>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
