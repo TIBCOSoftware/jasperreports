@@ -125,7 +125,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>false</doCheck>
+					<doCheck>true</doCheck>
 					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
