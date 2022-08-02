@@ -5,7 +5,7 @@
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-parent</artifactId>
 		<version>${revision}</version>
-		<relativePath>../../pom.xml</relativePath>
+		<relativePath>../../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
@@ -13,49 +13,10 @@
 	<name>JasperReports Metadata</name>
 	<description>JasperReports Metadata</description>
 	<url>http://jasperreports.sourceforge.net</url>
-	<organization>
-		<name>TIBCO Software Inc.</name>
-		<url>https://www.jaspersoft.com/</url>
-	</organization>
-	<licenses>
-		<license>
-			<name>GNU Lesser General Public License</name>
-			<url>http://jasperreports.sourceforge.net/license.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<id>teodord</id>
-			<name>Teodor Danciu</name>
-			<email>teodord@users.sourceforge.net</email>
-			<url>http://sourceforge.net/users/teodord</url>
-			<organization>TIBCO Software Inc.</organization>
-			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+2</timezone>
-		</developer>
-		<developer>
-			<id>lucianc</id>
-			<name>Lucian Chirita</name>
-			<email>lucianc@users.sourceforge.net</email>
-			<url>http://sourceforge.net/users/lucianc</url>
-			<organization>TIBCO Software Inc.</organization>
-			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+2</timezone>
-		</developer>
-	</developers>
 	<scm>
-		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>develop-SNAPSHOT</tag>
-		<url>https://github.com/TIBCOSoftware/jasperreports</url>
+		<connection>${scmConnection}</connection>
+		<tag>${revision}</tag>
+		<url>${scmUrl}</url>
 	</scm>
 	<properties>
 		<skipInstall>false</skipInstall>
