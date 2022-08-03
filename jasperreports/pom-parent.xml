@@ -88,7 +88,7 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>master-SNAPSHOT</revision>
+		<revision>develop-75-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>
