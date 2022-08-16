@@ -26,11 +26,16 @@ package net.sf.jasperreports.engine.part;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPart;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
+import net.sf.jasperreports.engine.util.ElementalPropertiesHolder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -42,6 +47,7 @@ public class FillPart
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private PartReportFiller reportFiller;
 	
+	private JRPropertiesHolder printPartProperties;
 	private PartFillComponent fillComponent;
 	private String partName;
 
@@ -55,6 +61,11 @@ public class FillPart
 		PartComponent component = part.getComponent();
 		
 		JasperReportsContext jasperReportsContext = fillFactory.getReportFiller().getJasperReportsContext();
+		
+		printPartProperties = new ElementalPropertiesHolder();
+		JRPropertiesUtil.getInstance(jasperReportsContext).transferProperties(part, printPartProperties, 
+				PrintPart.PROPERTIES_TRANSFER_PREFIX);
+		
 		PartComponentsEnvironment partsEnv = PartComponentsEnvironment.getInstance(jasperReportsContext);
 		PartComponentManager componentManager = partsEnv.getManager(componentKey);
 		PartComponentFillFactory componentFactory = componentManager.getComponentFillFactory(jasperReportsContext);
@@ -110,6 +121,11 @@ public class FillPart
 		return partName;
 	}
 	
+	public JRPropertiesHolder getPrintPartProperties()
+	{
+		return printPartProperties;
+	}
+
 	protected class Context implements PartFillContext
 	{
 		@Override

@@ -54,31 +54,38 @@ public class PrintPartUnrollExporterInput implements ExporterInput
 			//SortedMap<Integer, PrintPart> parts = jasperPrint.getParts();
 			if (jasperPrint.hasParts())
 			{
+				int startPageIndex = configuration.getStartPageIndex() == null ? 0 : configuration.getStartPageIndex();
+				int endPageIndex = configuration.getEndPageIndex() == null ? jasperPrint.getPages().size() 
+						: (configuration.getEndPageIndex() + 1);
 				PrintParts parts = jasperPrint.getParts();
 				Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator();
-				int startPageIndex = 0;
-				Integer partPageIndex = null;
-				PrintPart part = null;
+				Map.Entry<Integer, PrintPart> part = it.next();
 				while (it.hasNext())
 				{
-					Map.Entry<Integer, PrintPart> entry = it.next();
-					partPageIndex = entry.getKey();
-					partItems.add(
-						new SimpleExporterInputItem(
-							new ReadOnlyPartJasperPrint(jasperPrint, part, startPageIndex, partPageIndex),
-							configuration
-							)
-						);
-					part = entry.getValue();
-					startPageIndex = partPageIndex;
+					Map.Entry<Integer, PrintPart> next = it.next();
+					if (Math.max(startPageIndex, part.getKey()) <= Math.min(endPageIndex, next.getKey()))
+					{
+						partItems.add(
+								new SimpleExporterInputItem(
+									new ReadOnlyPartJasperPrint(jasperPrint, part.getValue(), 
+											Math.max(startPageIndex, part.getKey()), Math.min(endPageIndex, next.getKey())),
+									configuration
+									)
+								);
+					}
+					part = next;
 				}
 				
-				partItems.add(
-					new SimpleExporterInputItem(
-						new ReadOnlyPartJasperPrint(jasperPrint, part ,startPageIndex, jasperPrint.getPages().size()),
-						configuration
-						)
-					);
+				if (Math.max(startPageIndex, part.getKey()) <= endPageIndex)
+				{
+					partItems.add(
+							new SimpleExporterInputItem(
+								new ReadOnlyPartJasperPrint(jasperPrint, part.getValue(), 
+										Math.max(startPageIndex, part.getKey()), endPageIndex),
+								configuration
+								)
+							);
+				}
 			}
 			else
 			{
