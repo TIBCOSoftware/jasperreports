@@ -68,17 +68,17 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
-			<version>2.1.7.js10</version>
+			<version>2.1.7.js11-SNAPSHOT</version>
  			<scope>compile</scope>
 			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcmail-jdk15on</artifactId>
+					<artifactId>bcmail-jdk18on</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
+					<artifactId>bcpkix-jdk18on</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
