@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -43,6 +44,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -51,9 +55,6 @@ import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -129,14 +130,11 @@ public final class JRLoader
 
 		Object obj = null;
 
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-
-		try
+		try (
+			InputStream is = new BufferedInputStream(new FileInputStream(file));
+			ObjectInputStream ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, is)
+			)
 		{
-			fis = new FileInputStream(file);
-			BufferedInputStream bufferedIn = new BufferedInputStream(fis);
-			ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, bufferedIn);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -154,30 +152,6 @@ public final class JRLoader
 					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_FILE,
 					new Object[]{file},
 					e);
-		}
-		finally
-		{
-			if (ois != null)
-			{
-				try
-				{
-					ois.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return obj;
@@ -200,13 +174,11 @@ public final class JRLoader
 	{
 		Object obj = null;
 
-		InputStream is = null;
-		ObjectInputStream ois = null;
-
-		try
+		try (
+			InputStream is = url.openStream();
+			ObjectInputStream ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, is)
+			)
 		{
-			is = url.openStream();
-			ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, is);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -224,30 +196,6 @@ public final class JRLoader
 					EXCEPTION_MESSAGE_KEY_CLASS_NOT_FOUND_FROM_URL,
 					new Object[]{url},
 					e);
-		}
-		finally
-		{
-			if (ois != null)
-			{
-				try
-				{
-					ois.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (is != null)
-			{
-				try
-				{
-					is.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
 		}
 
 		return obj;
@@ -356,22 +304,9 @@ public final class JRLoader
 	 */
 	public static byte[] loadBytes(File file) throws JRException
 	{
-		ByteArrayOutputStream baos = null;
-		FileInputStream fis = null;
-
 		try
 		{
-			fis = new FileInputStream(file);
-			baos = new ByteArrayOutputStream();
-
-			byte[] bytes = new byte[10000];
-			int ln = 0;
-			while ((ln = fis.read(bytes)) > 0)
-			{
-				baos.write(bytes, 0, ln);
-			}
-
-			baos.flush();
+			return Files.readAllBytes(file.toPath());
 		}
 		catch (IOException e)
 		{
@@ -381,32 +316,6 @@ public final class JRLoader
 					new Object[]{file},
 					e);
 		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return baos.toByteArray();
 	}
 
 
@@ -415,22 +324,9 @@ public final class JRLoader
 	 */
 	public static byte[] loadBytes(URL url) throws JRException
 	{
-		ByteArrayOutputStream baos = null;
-		InputStream is = null;
-
-		try
+		try (InputStream is = url.openStream())
 		{
-			is = url.openStream();
-			baos = new ByteArrayOutputStream();
-
-			byte[] bytes = new byte[10000];
-			int ln = 0;
-			while ((ln = is.read(bytes)) > 0)
-			{
-				baos.write(bytes, 0, ln);
-			}
-
-			baos.flush();
+			return readBytes(is);
 		}
 		catch (IOException e)
 		{
@@ -440,32 +336,6 @@ public final class JRLoader
 					new Object[]{url},
 					e);
 		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (is != null)
-			{
-				try
-				{
-					is.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return baos.toByteArray();
 	}
 
 
@@ -474,20 +344,9 @@ public final class JRLoader
 	 */
 	public static byte[] loadBytes(InputStream is) throws JRException
 	{
-		ByteArrayOutputStream baos = null;
-
 		try
 		{
-			baos = new ByteArrayOutputStream();
-
-			byte[] bytes = new byte[10000];
-			int ln = 0;
-			while ((ln = is.read(bytes)) > 0)
-			{
-				baos.write(bytes, 0, ln);
-			}
-
-			baos.flush();
+			return readBytes(is);
 		}
 		catch (IOException e)
 		{
@@ -497,48 +356,26 @@ public final class JRLoader
 					null,
 					e);
 		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return baos.toByteArray();
 	}
 
-	public static InputStream loadToMemoryInputStream(InputStream is) throws JRException
+
+	/**
+	 *
+	 */
+	public static byte[] readBytes(InputStream is) throws IOException
 	{
-		if (is instanceof ByteArrayInputStream)
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
 		{
-			return is;
-		}
-		
-		try
-		{
-			byte[] bytes = loadBytes(is);
-			return new ByteArrayInputStream(bytes);
-		}
-		finally
-		{
-			try
+			byte[] bytes = new byte[10000];
+			int ln = 0;
+			while ((ln = is.read(bytes)) > 0)
 			{
-				is.close();
+				baos.write(bytes, 0, ln);
 			}
-			catch (IOException e)
-			{
-				if (log.isWarnEnabled())
-				{
-					log.warn("Failed to close input stream " + is, e);
-				}
-			}
+
+			baos.flush();
+
+			return baos.toByteArray();
 		}
 	}
 
@@ -678,12 +515,12 @@ public final class JRLoader
 	public static List<URL> getResources(String resource)
 	{
 		//skip duplicated resources
-		Set<URL> resources = new LinkedHashSet<URL>();
+		Set<URL> resources = new LinkedHashSet<>();
 		collectResources(resource, JRLoader.class.getClassLoader(), 
 				resources);
 		collectResources(resource, Thread.currentThread().getContextClassLoader(), 
 				resources);
-		return new ArrayList<URL>(resources);
+		return new ArrayList<>(resources);
 	}
 
 
@@ -730,13 +567,12 @@ public final class JRLoader
 	public static List<ClassLoaderResource> getClassLoaderResources(
 			String resource)
 	{
-		Map<URL, ClassLoaderResource> resources = 
-			new LinkedHashMap<URL, ClassLoaderResource>();
+		Map<URL, ClassLoaderResource> resources = new LinkedHashMap<>();
 		collectResources(resource, JRLoader.class.getClassLoader(), resources);
 		//TODO check if the classloader is the same
 		collectResources(resource, Thread.currentThread()
 				.getContextClassLoader(), resources);
-		return new ArrayList<ClassLoaderResource>(resources.values());
+		return new ArrayList<>(resources.values());
 	}
 
 	protected static void collectResources(String resourceName,
@@ -751,7 +587,7 @@ public final class JRLoader
 		{
 			// creating a list of parent classloaders, with the highest in the
 			// hierarchy first
-			LinkedList<ClassLoader> classloaders = new LinkedList<ClassLoader>();
+			LinkedList<ClassLoader> classloaders = new LinkedList<>();
 			ClassLoader ancestorLoader = classLoader;
 			while (ancestorLoader != null)
 			{

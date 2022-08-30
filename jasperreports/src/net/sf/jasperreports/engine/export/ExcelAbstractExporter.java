@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
@@ -407,7 +408,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 *
 	 */
-	protected List<Object> loadedFonts = new ArrayList<Object>();
+	protected List<Object> loadedFonts = new ArrayList<>();
 
 	/**
 	 *
@@ -422,9 +423,9 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	protected int reportIndex;
 	protected int pageIndex;
 	protected PrintPageFormat pageFormat;
-	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<Integer, Boolean>();
+	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<>();
 	protected int sheetsBeforeCurrentReport;
-	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<Integer, Integer>();
+	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<>();
 	protected RenderersCache renderersCache;
 
 	/**
@@ -653,52 +654,62 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 
-	protected void mergeAndSetRowLevels(XlsRowLevelInfo levelInfo, SortedMap<String, Boolean> rowLevelMap,
-			int rowIndex) {
-		if (rowLevelMap != null) {
+	protected void mergeAndSetRowLevels(XlsRowLevelInfo levelInfo, SortedMap<String, Boolean> rowLevelMap, int rowIndex)
+	{
+		if (rowLevelMap != null)
+		{
 			SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
 
-			for (String level : rowLevelMap.keySet()) {
-				Boolean isEndMarker = rowLevelMap.get(level);
-
-				// check if this level group is already open
-				if (crtLevelMap.containsKey(level)) {
-					// the level group is already open
-
-					if (isEndMarker) {
-						// the level group needs to be closed, together with all its child level groups
-						setRowLevels(levelInfo, level);
-
-						// clean up current level group and nested level groups as they were closed
-						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();) {
-							if (level.compareTo(it.next()) <= 0) {
-								it.remove();
-							}
-						}
-					}
-				} else // if (!isEndMarker) // FIXMEXLS we should not add level if it is an end marker
+			for (Entry<String, Boolean> rowLevel : rowLevelMap.entrySet())
+			{
+				String level = rowLevel.getKey();
+				Boolean isEndMarker = rowLevel.getValue();
+				
+				//check if this level group is already open
+				if (crtLevelMap.containsKey(level))
 				{
-					// the level group is not yet open
-
-					// we check to see if this level is higher than existing levels
-					if (crtLevelMap.size() > 0 && level.compareTo(crtLevelMap.firstKey()) < 0) {
-						// the level is higher than existing levels, so it has to close them all
+					//the level group is already open
+					
+					if (isEndMarker)
+					{
+						//the level group needs to be closed, together with all its child level groups
 						setRowLevels(levelInfo, level);
 
-						// clean up nested level groups as they were closed; the current one is not yet
-						// among them
-						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();) {
-							if (level.compareTo(it.next()) < 0) {
+						//clean up current level group and nested level groups as they were closed 
+						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						{
+							if (level.compareTo(it.next()) <= 0)
+							{
 								it.remove();
 							}
 						}
 					}
+				}
+				else // if (!isEndMarker)  // FIXMEXLS we should not add level if it is an end marker
+				{
+					//the level group is not yet open
 
-					// create the current level group
+					//we check to see if this level is higher than existing levels
+					if (crtLevelMap.size() > 0 && level.compareTo(crtLevelMap.firstKey()) < 0)
+					{
+						//the level is higher than existing levels, so it has to close them all
+						setRowLevels(levelInfo, level);
+						
+						//clean up nested level groups as they were closed; the current one is not yet among them 
+						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						{
+							if (level.compareTo(it.next()) < 0)
+							{
+								it.remove();
+							}
+						}
+					}
+					
+					//create the current level group
 //					XlsRowLevelRange range = new XlsRowLevelRange();
 //					range.setStartIndex(rowIndex);
-					// range.setEndIndex(rowIndex);
-					// range.setName(groupName);
+					//range.setEndIndex(rowIndex);
+					//range.setName(groupName);
 					crtLevelMap.put(level, rowIndex);
 				}
 			}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -76,7 +76,7 @@ public class SimpleFontSetFamily implements FontSetFamily
 	{
 		if (includedScripts == null)
 		{
-			includedScripts = new ArrayList<String>(4);
+			includedScripts = new ArrayList<>(4);
 		}
 		
 		includedScripts.add(script);
@@ -97,7 +97,7 @@ public class SimpleFontSetFamily implements FontSetFamily
 	{
 		if (excludedScripts == null)
 		{
-			excludedScripts = new ArrayList<String>(4);
+			excludedScripts = new ArrayList<>(4);
 		}
 		
 		excludedScripts.add(script);
@@ -111,11 +111,11 @@ public class SimpleFontSetFamily implements FontSetFamily
 			SimpleFontSetFamily clone = (SimpleFontSetFamily) super.clone();
 			if (includedScripts != null)
 			{
-				clone.includedScripts = new ArrayList<String>(includedScripts);
+				clone.includedScripts = new ArrayList<>(includedScripts);
 			}
 			if (excludedScripts != null)
 			{
-				clone.excludedScripts = new ArrayList<String>(excludedScripts);
+				clone.excludedScripts = new ArrayList<>(excludedScripts);
 			}
 			return clone;
 		}

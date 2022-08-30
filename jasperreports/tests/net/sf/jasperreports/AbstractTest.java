@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -112,7 +113,7 @@ public abstract class AbstractTest
 	{
 		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
 		
-		HashMap<String, Object> params = new HashMap<String, Object>();
+		HashMap<String, Object> params = new HashMap<>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		params.put(TEST, this);
@@ -139,15 +140,15 @@ public abstract class AbstractTest
 				{
 					digestMatch = true;
 				}
-				else
-				{
-					//fallback to account for JDK differences
-					referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + ".2." + getExportFileExtension() + ".sha");
-					if (referenceExportDigest != null)
-					{
-						digestMatch = exportDigest.equals(referenceExportDigest);
-					}
-				}
+//				else
+//				{
+//					//fallback to account for JDK differences
+//					referenceExportDigest = getDigestFromFile(referenceFileNamePrefix + ".2." + getExportFileExtension() + ".sha");
+//					if (referenceExportDigest != null)
+//					{
+//						digestMatch = exportDigest.equals(referenceExportDigest);
+//					}
+//				}
 				
 				assert digestMatch;
 			}
@@ -252,21 +253,21 @@ public abstract class AbstractTest
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
-		try
+		try (
+			DigestOutputStream out = 
+				new DigestOutputStream(
+					new BufferedOutputStream(new FileOutputStream(outputFile)), 
+					digest
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
 			export(print, out);
-		}
-		finally
-		{
-			output.close();
 		}
 		
 		String digestSha = toDigestString(digest);
 		
 		File outputShaFile = new File(new File(testContext.getOutputDirectory()), referenceFileNamePrefix + "." + getExportFileExtension() + ".sha");
-		OutputStreamWriter shaWriter = new OutputStreamWriter(new FileOutputStream(outputShaFile), "UTF-8");
+		OutputStreamWriter shaWriter = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(outputShaFile)), "UTF-8");
 
 		try
 		{
@@ -287,20 +288,17 @@ public abstract class AbstractTest
 		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
-		OutputStreamWriter osw = null;
-		try
+		try (
+			OutputStreamWriter osw = 
+				new OutputStreamWriter(
+					new DigestOutputStream(
+						new BufferedOutputStream(new FileOutputStream(outputFile)), 
+						digest
+						)
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
-			//PrintStream ps = new PrintStream(out);
-			//t.printStackTrace(ps);
-			osw = new OutputStreamWriter(out, "UTF-8");
 			osw.write(String.valueOf(t.getMessage()));
-		}
-		finally
-		{
-			osw.close();
-			output.close();
 		}
 		
 		return toDigestString(digest);
@@ -328,6 +326,10 @@ public abstract class AbstractTest
 		else
 		{
 			File outputDir = new File(outputDirPath);
+			if (!outputDir.exists())
+			{
+				outputDir.mkdirs(); // for some reason, File.createTempFile method below does not create missing parent folders on Windows
+			}
 			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
 		outputFile.deleteOnExit();

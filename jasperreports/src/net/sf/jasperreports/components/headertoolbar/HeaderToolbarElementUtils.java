@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,7 +57,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.util.JacksonUtil;
 
 
 
@@ -82,7 +82,7 @@ public class HeaderToolbarElementUtils
 	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
 	private static final String CALENDAR_DATE_TIME_PATTERN_KEY = DEFAULT_CALENDAR_DATE_TIME_PATTERN_KEY + ".key";
 	
-	private static Map<String, SortOrderEnum> sortOrderMapping = new HashMap<String, SortOrderEnum>();
+	private static Map<String, SortOrderEnum> sortOrderMapping = new HashMap<>();
 	
 	static {
 		sortOrderMapping.put(HeaderToolbarElement.SORT_ORDER_ASC, SortOrderEnum.ASCENDING);
@@ -260,6 +260,7 @@ public class HeaderToolbarElementUtils
 				}
 				break;
 			}
+			default :
 		}
 		
 		filterData.setFilterPattern(filterPattern);
@@ -396,6 +397,7 @@ public class HeaderToolbarElementUtils
 				}
 				break;
 			}
+			default :
 		}
 		
 		cfd.setConditionPattern(conditionPattern);

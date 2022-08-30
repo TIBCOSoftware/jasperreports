@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,8 +46,8 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 	public JRXmlaResultAxis(String axisName)
 	{
 		this.axisName = axisName;
-		this.hierarchyList = new ArrayList<JRXmlaHierarchy>();
-		this.tuples = new ArrayList<JRXmlaMemberTuple>();
+		this.hierarchyList = new ArrayList<>();
+		this.tuples = new ArrayList<>();
 	}
 	
 	public String getAxisName()

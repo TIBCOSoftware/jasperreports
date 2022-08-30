@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
@@ -85,7 +84,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected List<JRPropertyExpression> propertyExpressions;
 	protected List<String> dynamicTransferProperties;
 	protected JRStyle providerStyle;
-	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
+	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<>();
 	protected List<StyleProvider> styleProviders;
 
 	/**
@@ -119,7 +118,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isToPrint = true;
 	private boolean isReprinted;
 	private boolean isAlreadyPrinted;
-	private Collection<JRFillElement> dependantElements = new ArrayList<JRFillElement>();
+	private Collection<JRFillElement> dependantElements = new ArrayList<>();
 	private int relativeY;
 	private int collapsedHeightAbove;
 	private int collapsedHeightBelow;
@@ -158,6 +157,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean shrinkable;
 
 	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap staticTransferProperties;
 	protected JRPropertiesMap dynamicProperties;
 	protected JRPropertiesMap mergedProperties;
 	
@@ -196,11 +196,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		height = element.getHeight();
 		
 		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
+		staticTransferProperties = findStaticTransferProperties();
 		mergedProperties = staticProperties;
 		
 		JRPropertyExpression[] elementPropertyExpressions = element.getPropertyExpressions();
-		propertyExpressions = elementPropertyExpressions == null ? new ArrayList<JRPropertyExpression>(0)
-				: new ArrayList<JRPropertyExpression>(Arrays.asList(elementPropertyExpressions));
+		propertyExpressions = elementPropertyExpressions == null ? new ArrayList<>(0)
+				: new ArrayList<>(Arrays.asList(elementPropertyExpressions));
 		
 		dynamicTransferProperties = findDynamicTransferProperties();
 		
@@ -238,12 +239,38 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		shrinkable = element.shrinkable;
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
+		staticTransferProperties = element.staticTransferProperties;
 		mergedProperties = staticProperties;
-		this.propertyExpressions = new ArrayList<JRPropertyExpression>(element.propertyExpressions);
+		this.propertyExpressions = new ArrayList<>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		// we need a style provider context for this element instance
 		initStyleProviders();
+	}
+	
+	private JRPropertiesMap findStaticTransferProperties()
+	{
+		if (staticProperties == null)
+		{
+			return null;
+		}
+		
+		String[] propertyNames = staticProperties.getPropertyNames();
+		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
+		JRPropertiesMap transferProperties = new JRPropertiesMap();
+		for (int i = 0; i < propertyNames.length; i++)
+		{
+			for (String prefix : prefixes)
+			{
+				String prop = propertyNames[i];
+				if (prop.startsWith(prefix))
+				{
+					transferProperties.setProperty(prop, staticProperties.getProperty(prop));
+					break;
+				}
+			}
+		}
+		return transferProperties.isEmpty() ? null : transferProperties;
 	}
 	
 	private List<String> findDynamicTransferProperties()
@@ -254,7 +281,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		}
 		
 		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
-		List<String> transferProperties = new ArrayList<String>(propertyExpressions.size());
+		List<String> transferProperties = new ArrayList<>(propertyExpressions.size());
 		for (JRPropertyExpression propertyExpression : propertyExpressions)
 		{
 			String propertyName = propertyExpression.getName();
@@ -728,7 +755,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				{
 					if (styleProviders == null)
 					{
-						styleProviders = new ArrayList<StyleProvider>();
+						styleProviders = new ArrayList<>();
 					}
 					styleProviders.add(styleProvider);
 				}
@@ -995,6 +1022,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				applied = stretchElementToHeight(getY() - getRelativeY() + getHeight() + containerStretch);
 				break;
 			}
+			default :
 		}
 		return applied;
 	}
@@ -1022,6 +1050,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 					applied = stretchElementToHeight(getY() - getRelativeY() + getHeight() + elementGroup.getStretchHeightDiff());
 					break;
 				}
+				default :
 			}
 		}
 		return applied;
@@ -1253,8 +1282,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 		DelayedEvaluations()
 		{
-			fields = new HashSet<String>();
-			variables = new HashSet<String>();
+			fields = new HashSet<>();
+			variables = new HashSet<>();
 		}
 	}
 
@@ -1262,7 +1291,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		if (getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
 		{
-			delayedEvaluationsMap = new HashMap<JREvaluationTime,DelayedEvaluations>();
+			delayedEvaluationsMap = new HashMap<>();
 			collectDelayedEvaluations();
 		}
 	}
@@ -1337,6 +1366,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 							delayedEvaluations.variables.add(chunk.getText());
 							break;
 						}
+						default:
 					}
 				}
 			}
@@ -1733,8 +1763,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void transferProperties(JRTemplateElement template)
 	{
-		filler.getPropertiesUtil().transferProperties(parent, template, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+		if (staticTransferProperties != null)
+		{
+			template.getPropertiesMap().copyOwnProperties(staticTransferProperties);
+		}
 	}
 	
 	protected void transferProperties(JRPrintElement element)

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,11 +28,13 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -64,6 +66,8 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	 */
 	protected JRPropertiesMap propertiesMap;
 
+	private JRPropertyExpression[] propertyExpressions;
+
 
 	/**
 	 *
@@ -86,6 +90,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 		valueClassName = scriptlet.getValueClassName();
 		
 		propertiesMap = scriptlet.getPropertiesMap().cloneProperties();
+		propertyExpressions = factory.getPropertyExpressions(scriptlet.getPropertyExpressions());
 	}
 		
 
@@ -171,6 +176,13 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 		return null;
 	}
 
+
+	@Override
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions;
+	}
+
 	
 	@Override
 	public Object clone() 
@@ -190,6 +202,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 		{
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
+		clone.propertyExpressions = JRCloneUtils.cloneArray(propertyExpressions);
 		
 		clone.eventSupport = null;
 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -165,17 +165,17 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	
 //	private JRFont defaultFont;
 
-	private List<JRFillElementDataset> elementDatasets = new ArrayList<JRFillElementDataset>();
-	private Map<String,List<JRFillElementDataset>> elementDatasetMap = new HashMap<String,List<JRFillElementDataset>>();
+	private List<JRFillElementDataset> elementDatasets = new ArrayList<>();
+	private Map<String,List<JRFillElementDataset>> elementDatasetMap = new HashMap<>();
 	
-	private LinkedList<List<JRFillDatasetRun>> trackedDatasetRunsStack = new LinkedList<List<JRFillDatasetRun>>();
+	private LinkedList<List<JRFillDatasetRun>> trackedDatasetRunsStack = new LinkedList<>();
 	
-	private Map<String,List<JRStyleSetter>> delayedStyleSettersByName = new HashMap<String,List<JRStyleSetter>>();
+	private Map<String,List<JRStyleSetter>> delayedStyleSettersByName = new HashMap<>();
 	
 	protected static class StylesList
 	{
-		private final List<JRStyle> styles = new ArrayList<JRStyle>();
-		private final Map<String,Integer> stylesIdx = new HashMap<String,Integer>();
+		private final List<JRStyle> styles = new ArrayList<>();
+		private final Map<String,Integer> stylesIdx = new HashMap<>();
 		
 		public boolean containsStyle(String name)
 		{
@@ -295,7 +295,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			List<JRStyleSetter> setters = delayedStyleSettersByName.get(styleName);
 			if (setters == null)
 			{
-				setters = new ArrayList<JRStyleSetter>();
+				setters = new ArrayList<>();
 				delayedStyleSettersByName.put(styleName, setters);
 			}
 			
@@ -1383,7 +1383,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		List<JRFillElementDataset> elementDatasetsList = elementDatasetMap.get(datasetName);
 		if (elementDatasetsList == null)
 		{
-			elementDatasetsList = new ArrayList<JRFillElementDataset>();
+			elementDatasetsList = new ArrayList<>();
 			elementDatasetMap.put(datasetName, elementDatasetsList);
 		}
 		return elementDatasetsList;
@@ -1396,7 +1396,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			log.debug("tracking dataset runs");
 		}
 
-		ArrayList<JRFillDatasetRun> trackedDatasets = new ArrayList<JRFillDatasetRun>(2);
+		ArrayList<JRFillDatasetRun> trackedDatasets = new ArrayList<>(2);
 		trackedDatasetRunsStack.push(trackedDatasets);
 	}
 	
@@ -1549,14 +1549,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	
 	public List<JRStyle> setStyles(List<JRStyle> styles)
 	{
-		originalStyleList = new HashSet<JRStyle>(styles);
+		originalStyleList = new HashSet<>(styles);
 		
 		//filtering requested styles
 		Set<JRStyle> requestedStyles = collectRequestedStyles(styles);
 		
 		//collect used styles
-		Map<JRStyle,Object> usedStylesMap = new LinkedMap<JRStyle,Object>();
-		Map<String,JRStyle> allStylesMap = new HashMap<String,JRStyle>();
+		Map<JRStyle,Object> usedStylesMap = new LinkedMap<>();
+		Map<String,JRStyle> allStylesMap = new HashMap<>();
 		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
 		{
 			JRStyle style = it.next();
@@ -1567,7 +1567,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			allStylesMap.put(style.getName(), style);
 		}
 		
-		List<JRStyle> includedStyles = new ArrayList<JRStyle>();
+		List<JRStyle> includedStyles = new ArrayList<>();
 		for (Iterator<JRStyle> it = usedStylesMap.keySet().iterator(); it.hasNext();)
 		{
 			JRStyle style = it.next();
@@ -1587,7 +1587,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 
 	protected Set<JRStyle> collectRequestedStyles(List<JRStyle> externalStyles)
 	{
-		Map<String,JRStyle> requestedStylesMap = new HashMap<String,JRStyle>();
+		Map<String,JRStyle> requestedStylesMap = new HashMap<>();
 		for (Iterator<JRStyle> it = externalStyles.iterator(); it.hasNext();)
 		{
 			JRStyle style = it.next();
@@ -1598,7 +1598,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		
-		return new HashSet<JRStyle>(requestedStylesMap.values());
+		return new HashSet<>(requestedStylesMap.values());
 	}
 
 	protected void collectUsedStyles(JRStyle style, Map<JRStyle,Object> usedStylesMap, Map<String,JRStyle> allStylesMap)

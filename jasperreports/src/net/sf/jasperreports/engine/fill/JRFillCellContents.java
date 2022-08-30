@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,7 +88,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private JRStyle initStyle;
 	private int prepareStretchHeight;
 	
-	private Map<String, String> printProperties = new HashMap<String, String>();
+	private Map<String, String> printProperties = new HashMap<>();
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, String cellType, 
 			JRFillCrosstabObjectFactory factory)
@@ -120,14 +120,14 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		this.originProvider = factory.getParentOriginProvider();
 		setElementOriginProvider(this.originProvider);
 		
-		transformedContentsCache = new ReferenceMap<StretchedContents,JRFillCellContents>();
-		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
+		transformedContentsCache = new ReferenceMap<>();
+		boxContentsCache = new HashMap<>();
 		clonePool = new JRClonePool(this, true, true);
 	}
 
 	private void initTemplatesMap()
 	{
-		templateFrames = new HashMap<JRStyle,JRTemplateFrame>();
+		templateFrames = new HashMap<>();
 	}
 
 	protected JRFillCellContents(JRFillCellContents cellContents, JRFillCloneFactory factory)
@@ -155,8 +155,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		this.originProvider = cellContents.originProvider;
 		
-		transformedContentsCache = new ReferenceMap<StretchedContents,JRFillCellContents>();
-		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
+		transformedContentsCache = new ReferenceMap<>();
+		boxContentsCache = new HashMap<>();
 		clonePool = new JRClonePool(this, true, true);
 		
 		verticalPositionType = cellContents.verticalPositionType;
@@ -309,6 +309,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			case STRETCH:
 				scaleX = ((double) newWidth) / width;
 				break;
+			default:
 		}
 		
 		double scaleY =  -1d;
@@ -324,6 +325,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			case STRETCH:
 				scaleY = ((double) newHeight) / height;
 				break;
+			default:
 		}
 		
 		transformElements(getElements(), scaleX, offsetX, scaleY, offsetY);

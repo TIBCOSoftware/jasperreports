@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -128,6 +129,22 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		parameters.put(JRParameter.REPORT_CONNECTION, connection);
 	}
 	
+	/**
+	 * Some custom JDBC data adapters might require to tweak at runtime
+	 * the URL information used to create the connection.
+	 * 
+	 * @return the custom (if needed) data adapter URL
+	 */
+	protected String getUrlForConnection() {
+		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
+		if(jdbcDataAdapter!=null) {
+			return jdbcDataAdapter.getUrl();
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public Connection getConnection() throws SQLException{
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
 		if (jdbcDataAdapter != null) 
@@ -149,8 +166,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				Properties	connectProps = new Properties();
 				Map<String, String> map = jdbcDataAdapter.getProperties();
 				if(map != null)
-					for(String key: map.keySet())
-						connectProps.setProperty(key, map.get(key));
+					for (Entry<String, String> entry : map.entrySet())
+						connectProps.setProperty(entry.getKey(), entry.getValue());
 				
 
 				String password = jdbcDataAdapter.getPassword();
@@ -161,18 +178,18 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
 				
-				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
+				connection = driver.connect(getUrlForConnection(), connectProps);
 				if(connection == null)
 				{
-					boolean urlValid = driver.acceptsURL(jdbcDataAdapter.getUrl());
+					boolean urlValid = driver.acceptsURL(getUrlForConnection());
 					if (!urlValid)
 					{
 						throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_INVALID_URL, 
-								new Object[] {jdbcDataAdapter.getUrl(), jdbcDataAdapter.getDriver()});
+								new Object[] {getUrlForConnection(), jdbcDataAdapter.getDriver()});
 					}
 					
 					throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_CONNECTION_NOT_CREATED, 
-							new Object[] {jdbcDataAdapter.getUrl()});
+							new Object[] {getUrlForConnection()});
 				}
 				
 				setupConnection(jdbcDataAdapter);

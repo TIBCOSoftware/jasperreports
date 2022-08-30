@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,8 +63,7 @@ public class FillReturnValues
 		
 		if (values != null && values.length > 0)
 		{
-			List<JRFillCommonReturnValue> returnValuesList = 
-					new ArrayList<JRFillCommonReturnValue>(values.length * 2);
+			List<JRFillCommonReturnValue> returnValuesList = new ArrayList<>(values.length * 2);
 			for (JRSubreportReturnValue returnValue : values)
 			{
 				JRFillVariableReturnValue fillReturnValue = factory.getSubreportReturnValue(returnValue);
@@ -82,8 +81,7 @@ public class FillReturnValues
 		
 		if (values != null && !values.isEmpty())
 		{
-			List<JRFillCommonReturnValue> returnValuesList = 
-					new ArrayList<JRFillCommonReturnValue>(values.size() * 2);
+			List<JRFillCommonReturnValue> returnValuesList = new ArrayList<>(values.size() * 2);
 			for (ReturnValue returnValue : values)
 			{
 				JRFillVariableReturnValue fillReturnValue = factory.getReturnValue(returnValue);
@@ -101,8 +99,7 @@ public class FillReturnValues
 		
 		if (values != null && values.length > 0)
 		{
-			List<JRFillCommonReturnValue> returnValuesList = 
-					new ArrayList<JRFillCommonReturnValue>(values.length * 2);
+			List<JRFillCommonReturnValue> returnValuesList = new ArrayList<>(values.length * 2);
 			for (ExpressionReturnValue returnValue : values)
 			{
 				JRFillExpressionReturnValue fillReturnValue = factory.getReturnValue(returnValue);

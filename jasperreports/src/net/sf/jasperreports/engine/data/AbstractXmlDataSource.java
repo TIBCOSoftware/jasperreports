@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -130,7 +130,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
 
-	private Map<String, String> fieldExpressions = new HashMap<String, String>();
+	private Map<String, String> fieldExpressions = new HashMap<>();
 
 
 	public abstract Node getCurrentNode();

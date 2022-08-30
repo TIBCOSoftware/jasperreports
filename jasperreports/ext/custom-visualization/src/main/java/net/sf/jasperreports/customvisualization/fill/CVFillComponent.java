@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -77,8 +77,8 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 
 	// Fill component elements
 	private List<CVFillItemProperty> itemProperties;
-	private List<CVFillItemData> itemDataList = new ArrayList<CVFillItemData>();
-	private List<List<Map<String, Object>>> datasetsData = new ArrayList<List<Map<String, Object>>>();
+	private List<CVFillItemData> itemDataList = new ArrayList<>();
+	private List<List<Map<String, Object>>> datasetsData = new ArrayList<>();
 	private Processor processor = null;
 	private JasperReportsContext context = null;
 
@@ -90,7 +90,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 	{
 
 		this.component = component;
-		this.itemProperties = new ArrayList<CVFillItemProperty>();
+		this.itemProperties = new ArrayList<>();
 
 		if (factory != null)
 		{
@@ -167,7 +167,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 
 					List<Map<String, Object>> newSet = itemData.getEvaluateItems(evaluation);
 
-					List<Map<String, Object>> reallyNewSet = new ArrayList<Map<String, Object>>();
+					List<Map<String, Object>> reallyNewSet = new ArrayList<>();
 
 					for (Map<String, Object> m : newSet)
 					{
@@ -283,13 +283,13 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 	{
 
 		// Build the processor...
-		Map<String, Object> configuration = new HashMap<String, Object>();
+		Map<String, Object> configuration = new HashMap<>();
 
 		// configuration.put(Processor.CONF_FILL_CONTEXT, this.fillContext);
 		configuration.put(Processor.CONF_PRINT_ELEMENT, element);
 		element.setParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE, this.component.getOnErrorType().getName());
 
-		List<List<Map<String, Object>>> savedDatasetsData = new ArrayList<List<Map<String, Object>>>();
+		List<List<Map<String, Object>>> savedDatasetsData = new ArrayList<>();
 
 		for (int i = 0; i < datasetsData.size(); ++i)
 		{

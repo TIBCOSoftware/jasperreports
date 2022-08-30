@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,15 +41,6 @@ public class SubreportReturnValueAdapter implements JRSubreportReturnValue
 		this.returnValue = returnValue;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getFromVariable()}.
-	 */
-	@Override
-	public String getSubreportVariable()
-	{
-		return getFromVariable();
-	}
-
 	@Override
 	public String getFromVariable()
 	{
@@ -60,15 +51,6 @@ public class SubreportReturnValueAdapter implements JRSubreportReturnValue
 	public String getToVariable()
 	{
 		return returnValue.getToVariable();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getCalculation()}.
-	 */
-	@Override
-	public CalculationEnum getCalculationValue()
-	{
-		return getCalculation();
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -184,6 +184,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                     return size < operand;
                 case LE:
                     return size <= operand;
+                default:
             }
         }
 
@@ -202,6 +203,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                     return valueNode.isNull() || valueNode.isMissingNode();
                 case NE:
                     return !(valueNode.isNull() || valueNode.isMissingNode());
+                default:
             }
         } else {
             // compare numbers with numbers
@@ -230,6 +232,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                         return opLeft.compareTo(opRight) < 0;
                     case LE:
                         return opLeft.compareTo(opRight) <= 0;
+                    default:
                 }
             }
             // compare strings with strings
@@ -241,6 +244,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                         return !valueNode.textValue().equals(valueDescriptor.getValue());
                     case CONTAINS:
                         return valueNode.textValue().contains(valueDescriptor.getValue());
+                    default:
                 }
             }
             // compare booleans with booleans
@@ -250,6 +254,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                         return valueNode.booleanValue() == Boolean.parseBoolean(valueDescriptor.getValue());
                     case NE:
                         return valueNode.booleanValue() != Boolean.parseBoolean(valueDescriptor.getValue());
+                    default:
                 }
             }
         }

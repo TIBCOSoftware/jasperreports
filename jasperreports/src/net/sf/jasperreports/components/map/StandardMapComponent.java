@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -90,9 +90,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapImageTypeEnum imageType;
 
 	private OnErrorTypeEnum onErrorType;
-	private List<ItemData> markerDataList = new ArrayList<ItemData>();
-	private List<ItemData> pathStyleList = new ArrayList<ItemData>();
-	private List<ItemData> pathDataList = new ArrayList<ItemData>();
+	private List<ItemData> markerDataList = new ArrayList<>();
+	private List<ItemData> pathStyleList = new ArrayList<>();
+	private List<ItemData> pathDataList = new ArrayList<>();
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -115,7 +115,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		List<ItemData> markerList = map.getMarkerDataList();
 		if(markerList != null && markerList.size() > 0)
 		{
-			this.markerDataList = new ArrayList<ItemData>();
+			this.markerDataList = new ArrayList<>();
 			for(ItemData markerData : markerList){
 				this.markerDataList.add(new StandardItemData(markerData, objectFactory));
 			}
@@ -124,7 +124,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		List<ItemData> styleList = map.getPathStyleList();
 		if(styleList != null && styleList.size() > 0)
 		{
-			this.pathStyleList = new ArrayList<ItemData>();
+			this.pathStyleList = new ArrayList<>();
 			for(ItemData pathStyle : styleList){
 				pathStyleList.add(new StandardItemData(pathStyle, objectFactory));
 			}
@@ -132,7 +132,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		List<ItemData> pathList = map.getPathDataList();
 		if(pathList != null && pathList.size() > 0)
 		{
-			this.pathDataList = new ArrayList<ItemData>();
+			this.pathDataList = new ArrayList<>();
 			for(ItemData pathData : pathList){
 				pathDataList.add(new StandardItemData(pathData, objectFactory));
 			}
@@ -371,7 +371,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 				if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0){
 					markerData = StandardMarkerDataset.getItemData(markerDataset);
 				} else {
-					this.markerDataList = new ArrayList<ItemData>();
+					this.markerDataList = new ArrayList<>();
 					this.markerDataList.add(StandardMarkerDataset.getItemData(markerDataset));
 				}
 			}
@@ -379,7 +379,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 			
 			if (markerData != null)
 			{
-				this.markerDataList = new ArrayList<ItemData>();
+				this.markerDataList = new ArrayList<>();
 				this.markerDataList.add(markerData);
 			}
 			markerData = null;

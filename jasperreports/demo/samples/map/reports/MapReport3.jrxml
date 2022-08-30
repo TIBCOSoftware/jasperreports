@@ -3,7 +3,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="MarkersDataset" uuid="5e673a55-11e8-4dfd-b416-ddeb7960fb37">
-		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>

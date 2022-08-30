@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -34,6 +34,7 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -56,7 +57,9 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.OdtReportConfiguration;
 
 
@@ -107,8 +110,8 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + name;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.rowStyles = rowStyles == null ? new HashMap<>() : rowStyles;
+		this.columnStyles = columnStyles == null ? new HashMap<>() : columnStyles;
 		this.tabColor = tabColor;
 	}
 	
@@ -153,8 +156,8 @@ public class TableBuilder
 		this.styleCache = styleCache;
 
 		this.tableName = "TBL_" + pageFormatIndex + "_" + pageIndex;
-		this.rowStyles = rowStyles == null ? new HashMap<Integer, String>() : rowStyles;
-		this.columnStyles = columnStyles == null ? new HashMap<Integer, String>() : columnStyles;
+		this.rowStyles = rowStyles == null ? new HashMap<>() : rowStyles;
+		this.columnStyles = columnStyles == null ? new HashMap<>() : columnStyles;
 		this.tabColor = tabColor;
 	}
 
@@ -426,6 +429,8 @@ public class TableBuilder
 	 */
 	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink, boolean isIgnoreTextFormatting)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		String text = styledText.getText();
 
 		int runLimit = 0;
@@ -434,13 +439,29 @@ public class TableBuilder
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			exportStyledTextRun(
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
-				locale,
-				startedHyperlink,
-				isIgnoreTextFormatting
-				);
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+
+			String runText = text.substring(iterator.getIndex(), runLimit);
+
+			context.next(attributes, runText);
+
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			if (runText.length() > 0)
+			{
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+				
+				exportStyledTextRun(
+					attributes, 
+					(bulletText == null ? "" : bulletText) + runText,
+					locale,
+					startedHyperlink,
+					isIgnoreTextFormatting
+					);
+			}
 
 			iterator.setIndex(runLimit);
 		}
@@ -451,8 +472,7 @@ public class TableBuilder
 	 *
 	 */
 	protected void exportStyledTextRun(
-			Map<AttributedCharacterIterator.Attribute, 
-			Object> attributes, 
+			Map<AttributedCharacterIterator.Attribute, Object> attributes, 
 			String text, 
 			Locale locale, 
 			boolean startedHyperlink,

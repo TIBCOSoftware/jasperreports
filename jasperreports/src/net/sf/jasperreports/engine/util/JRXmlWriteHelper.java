@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -85,7 +85,7 @@ public class JRXmlWriteHelper
 		StackElement(String name, XmlNamespace namespace)
 		{
 			this.name = name;
-			this.atts = new ArrayList<Attribute>();
+			this.atts = new ArrayList<>();
 			this.hasChildren = false;
 			this.namespace = namespace;
 			this.qName = getQualifiedName(this.name, this.namespace);
@@ -107,10 +107,10 @@ public class JRXmlWriteHelper
 	{
 		this.writer = writer;
 		
-		indents = new ArrayList<char[]>();
+		indents = new ArrayList<>();
 		
 		indent = 0;
-		elementStack = new ArrayList<StackElement>();
+		elementStack = new ArrayList<>();
 		lastElement = null;
 		
 		clearBuffer();

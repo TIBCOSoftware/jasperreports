@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -125,7 +125,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	public abstract class BaseExporterContext implements JRExporterContext
 	{
-		private Map<String, Object> values = new HashMap<String, Object>();
+		private Map<String, Object> values = new HashMap<>();
 
 		/**
 		 * @deprecated Replaced by {@link #getExporterRef()}.
@@ -226,7 +226,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 *
 	 */
 	@SuppressWarnings("deprecation")
-	protected Map<JRExporterParameter,Object> parameters = new HashMap<JRExporterParameter,Object>();
+	protected Map<JRExporterParameter,Object> parameters = new HashMap<>();
 
 	/**
 	 *
@@ -249,15 +249,15 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	private LinkedList<int[]> elementOffsetStack = new LinkedList<int[]>();
+	private LinkedList<int[]> elementOffsetStack = new LinkedList<>();
 	private int elementOffsetX;
 	private int elementOffsetY;
 
 	/**
 	 *
 	 */
-	protected Map<String, DateFormat> dateFormatCache = new HashMap<String, DateFormat>();
-	protected Map<String, NumberFormat> numberFormatCache = new HashMap<String, NumberFormat>();
+	protected Map<String, DateFormat> dateFormatCache = new HashMap<>();
+	protected Map<String, NumberFormat> numberFormatCache = new HashMap<>();
 
 	/*
 	 * cached text locale, JRDataUtils.getLocale(String) is rather slow.
@@ -270,7 +270,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * cache of text value class to avoid calling JRClassLoader.loadClassForRealName() each time.
 	 * note that we're assuming single threaded exporting.
 	 */
-	protected Map<String, Class<?>> textValueClasses = new HashMap<String, Class<?>>();
+	protected Map<String, Class<?>> textValueClasses = new HashMap<>();
 	
 	/**
 	 *
@@ -324,10 +324,10 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		useOldApi = null;
 
 		@SuppressWarnings("deprecation")
-		Map<JRExporterParameter,Object> dep = new HashMap<JRExporterParameter,Object>();
+		Map<JRExporterParameter,Object> dep = new HashMap<>();
 		parameters = dep;
 		
-		elementOffsetStack = new LinkedList<int[]>();
+		elementOffsetStack = new LinkedList<>();
 		exporterInput = null;
 		exporterOutput = null;
 		exporterConfiguration = null;
@@ -646,13 +646,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			}
 			else
 			{
-				PropertiesDefaultsConfigurationFactory<RC> defaultsFactory = new PropertiesDefaultsConfigurationFactory<RC>(jasperReportsContext);
+				PropertiesDefaultsConfigurationFactory<RC> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
 				RC defaultsConfiguration = defaultsFactory.getConfiguration(getItemConfigurationInterface());
 				
-				PropertiesNoDefaultsConfigurationFactory<RC> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<RC>(jasperReportsContext);
+				PropertiesNoDefaultsConfigurationFactory<RC> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
 				RC noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getItemConfigurationInterface(), getCurrentJasperPrint());
 
-				CompositeExporterConfigurationFactory<RC> compositeFactory = new CompositeExporterConfigurationFactory<RC>(jasperReportsContext, getItemConfigurationInterface());
+				CompositeExporterConfigurationFactory<RC> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getItemConfigurationInterface());
 
 				RC tmpItemConfiguration = compositeFactory.getConfiguration(crtItemConfiguration, noDefaultsConfiguration);
 				
@@ -688,13 +688,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			}
 			else
 			{
-				PropertiesDefaultsConfigurationFactory<C> defaultsFactory = new PropertiesDefaultsConfigurationFactory<C>(jasperReportsContext);
+				PropertiesDefaultsConfigurationFactory<C> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
 				C defaultsConfiguration = defaultsFactory.getConfiguration(getConfigurationInterface());
 
-				PropertiesNoDefaultsConfigurationFactory<C> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<C>(jasperReportsContext);
+				PropertiesNoDefaultsConfigurationFactory<C> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
 				C noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getConfigurationInterface(), getCurrentJasperPrint());
 
-				CompositeExporterConfigurationFactory<C> compositeFactory = new CompositeExporterConfigurationFactory<C>(jasperReportsContext, getConfigurationInterface());
+				CompositeExporterConfigurationFactory<C> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getConfigurationInterface());
 
 				C tmpItemConfiguration = compositeFactory.getConfiguration(exporterConfiguration, noDefaultsConfiguration);
 				
@@ -970,7 +970,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		}
 		
 		Locale locale = JRDataUtils.getLocale(localeCode);
-		lastTextLocale = new Pair<String, Locale>(localeCode, locale);
+		lastTextLocale = new Pair<>(localeCode, locale);
 		return locale;
 	}
 
@@ -1020,14 +1020,9 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 					textValue = getTextValueString(text, textStr);
 				} 
 			}
-			catch (ParseException e)
+			catch (ParseException | ClassNotFoundException e)
 			{
-				//log.warn("Error parsing text value", e);
-				textValue = getTextValueString(text, textStr);
-			}
-			catch (ClassNotFoundException e)
-			{
-				//log.warn("Error loading text value class", e);
+				//log.warn("Error loading text value", e);
 				textValue = getTextValueString(text, textStr);
 			}			
 		}

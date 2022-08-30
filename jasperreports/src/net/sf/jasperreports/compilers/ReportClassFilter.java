@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -85,7 +85,7 @@ public class ReportClassFilter implements ClassLoaderFilter
 	private boolean filterEnabled;
 	private List<ReportClassWhitelist> whitelists;
 	
-	private Map<String, Boolean> visibilityCache = new ConcurrentHashMap<String, Boolean>();
+	private Map<String, Boolean> visibilityCache = new ConcurrentHashMap<>();
 
 	public ReportClassFilter(JasperReportsContext jasperReportsContext)
 	{

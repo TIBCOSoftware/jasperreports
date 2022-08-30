@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -61,7 +61,7 @@ public class FunctionsInfo
 	private final Locale locale;
 	private final MessageUtil messageUtil;
 	
-	private final Map<String, FunctionCategoryBean> categories = new HashMap<String, FunctionCategoryBean>();
+	private final Map<String, FunctionCategoryBean> categories = new HashMap<>();
 	
 	/**
 	 * 
@@ -138,7 +138,7 @@ public class FunctionsInfo
 		Set<String> categoryIds = null;
 		if(categories != null) 
 		{
-			categoryIds = new HashSet<String>();
+			categoryIds = new HashSet<>();
 			for(Class<?> categoryClass : categories.value()) 
 			{
 				String categoryId = addCategoryClass(categoryClass);

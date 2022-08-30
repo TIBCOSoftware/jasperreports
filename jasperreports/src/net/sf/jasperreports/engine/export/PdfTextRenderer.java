@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.PdfPhrase;
+import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.TextDirection;
 
 
@@ -73,6 +73,35 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 		
 		float advance = segment.layout.getVisibleAdvance();//getAdvance();
 		
+		if (bulletChunk != null)
+		{
+			PdfPhrase phrase = pdfProducer.createPhrase();
+			pdfExporter.getPhrase(bulletChunk, bulletText, text, phrase);
+
+			phrase.go(
+				- htmlListIndent - 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					+ lineHeight
+					- drawPosY,
+				- 10 + x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+				pdfExporter.getCurrentPageFormat().getPageHeight()
+					- y
+					- topPadding
+					- verticalAlignOffset
+					//- text.getLeadingOffset()
+					-400//+ lineHeight//FIXMETAB
+					- drawPosY,
+				lineHeight,
+				0,
+				PdfTextAlignment.RIGHT,
+				TextDirection.LTR
+				);
+		}
+
 		PdfPhrase phrase = pdfProducer.createPhrase();
 		pdfExporter.getPhrase(segment.as, segment.text, text, phrase);
 		

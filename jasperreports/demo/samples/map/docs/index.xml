@@ -556,7 +556,7 @@ attribute settings. The satellite map also contains a set of 5 markers with defa
 skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
 <pre><![CDATA[
 <subDataset name="MarkersDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
@@ -603,7 +603,7 @@ The 3rd map is a terrain sample loaded from the <code>reports/MapReport3.jrxml</
 component configuration (and the subdataset):
 <pre><![CDATA[
 <subDataset name="MarkersDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
@@ -665,7 +665,7 @@ a green polygonal contour and two of them are also connected with a blue line.
 Two additional subdatasets were added in order to generate path styles and path data.See the configuration below:
 <pre><![CDATA[
 <subDataset name="MarkersDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
@@ -679,7 +679,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   </filterExpression>
 </subDataset>
 <subDataset name="PathStyleDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
@@ -693,7 +693,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <filterExpression><![CDATA[$F{name} != null && $F{name}.length() != 0]] ></filterExpression>
 </subDataset>
 <subDataset name="PathLocationDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
@@ -800,7 +800,7 @@ a marker icon will open an info window with related information about the marker
 property is a HTML fragment with escaped open and end tags.
 <pre><![CDATA[
 <subDataset name="MarkersDataset">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+  <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>

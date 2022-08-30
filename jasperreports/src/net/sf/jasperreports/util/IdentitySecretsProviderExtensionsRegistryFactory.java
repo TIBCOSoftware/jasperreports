@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -51,7 +51,7 @@ public class IdentitySecretsProviderExtensionsRegistryFactory implements Extensi
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		List<PropertySuffix> categoryProperties = JRPropertiesUtil.getProperties(properties, IDENTITY_SECTRETS_PROVIDER_CATEGORY_PROPERTY_PREFIX);
-		Set<String> categories = new HashSet<String>();
+		Set<String> categories = new HashSet<>();
 		for (Iterator<PropertySuffix> it = categoryProperties.iterator(); it.hasNext();) {
 			PropertySuffix categoryProp = it.next();
 			categories.add(categoryProp.getValue());

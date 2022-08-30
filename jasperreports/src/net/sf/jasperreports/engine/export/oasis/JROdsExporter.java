@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,12 +78,15 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.ImageUtil.Insets;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -142,8 +145,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	protected StringBuilder namedExpressions;
 
-	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
-	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
+	protected Map<Integer, String> rowStyles = new HashMap<>();
+	protected Map<Integer, String> columnStyles = new HashMap<>();
 
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException, IOException
@@ -542,6 +545,13 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+			if (renderer instanceof DataRenderable)
+			{
+				byte[] imageData = ((DataRenderable)renderer).getData(jasperReportsContext);
+				exifOrientation = ImageUtil.getExifOrientation(imageData);
+			}
+
 			int imageWidth = availableImageWidth;
 			int imageHeight = availableImageHeight;
 
@@ -559,7 +569,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			{
 				case FILL_FRAME :
 				{
-					switch (imageElement.getRotation())
+					switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 					{
 						case LEFT:
 							imageWidth = availableImageHeight;
@@ -607,7 +617,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 						normalHeight = dimension.getHeight();
 					}
 
-					switch (imageElement.getRotation())
+					switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 					{
 						case LEFT:
 							if (dimension == null)
@@ -794,6 +804,12 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 							break;
 					}
 									
+					Insets exifCrop = ImageUtil.getExifCrop(imageElement, exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+					cropLeft = exifCrop.left;
+					cropRight = exifCrop.right;
+					cropTop = exifCrop.top;
+					cropBottom = exifCrop.bottom;
+
 					break;
 				}
 				case RETAIN_SHAPE :
@@ -817,7 +833,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 					double ratioX = 1f;
 					double ratioY = 1f;
 
-					switch (imageElement.getRotation())
+					switch (ImageUtil.getRotation(imageElement.getRotation(), exifOrientation))
 					{
 						case LEFT:
 							if (dimension == null)
@@ -891,6 +907,12 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 							angle = 0;
 							break;
 					}
+					
+					Insets exifCrop = ImageUtil.getExifCrop(imageElement, exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+					cropLeft = exifCrop.left;
+					cropRight = exifCrop.right;
+					cropTop = exifCrop.top;
+					cropBottom = exifCrop.bottom;
 				}
 			}
 

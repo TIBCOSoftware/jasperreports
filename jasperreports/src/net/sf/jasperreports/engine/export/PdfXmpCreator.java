@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,12 +28,12 @@ import java.io.ByteArrayOutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.adobe.xmp.XMPConst;
-import com.adobe.xmp.XMPException;
-import com.adobe.xmp.XMPMeta;
-import com.adobe.xmp.XMPMetaFactory;
-import com.adobe.xmp.options.PropertyOptions;
-import com.adobe.xmp.options.SerializeOptions;
+import com.adobe.internal.xmp.XMPConst;
+import com.adobe.internal.xmp.XMPException;
+import com.adobe.internal.xmp.XMPMeta;
+import com.adobe.internal.xmp.XMPMetaFactory;
+import com.adobe.internal.xmp.options.PropertyOptions;
+import com.adobe.internal.xmp.options.SerializeOptions;
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
@@ -52,6 +52,7 @@ public class PdfXmpCreator
 
 	private static final Log log = LogFactory.getLog(PdfXmpCreator.class);
 	
+	private static final String XMP_LIBARY_CLASS_NAME = "com.adobe.internal.xmp.XMPMetaFactory";
 	private static final boolean XMP_LIBRARY;
 
 	static
@@ -63,7 +64,7 @@ public class PdfXmpCreator
 	{
 		try
 		{
-			Class.forName("com.adobe.xmp.XMPMetaFactory");
+			Class.forName(XMP_LIBARY_CLASS_NAME);
 			return true;
 		} catch (ClassNotFoundException e)
 		{

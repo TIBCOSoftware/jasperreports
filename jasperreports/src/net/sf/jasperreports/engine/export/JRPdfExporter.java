@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,11 +52,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.ibm.icu.util.StringTokenizer;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -104,6 +104,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -112,6 +113,7 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -566,7 +568,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 *
 	 */
 	protected RenderersCache renderersCache;
-	protected Map<String,PdfImage> loadedImagesMap;
+	protected Map<String,Pair<PdfImage, ExifOrientationEnum>> loadedImagesMap;
 	protected PdfImage pxImage;
 
 	private BookmarkStack bookmarkStack;
@@ -724,7 +726,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		pdfProducer.initReport();
 
 		renderersCache = new RenderersCache(getJasperReportsContext());
-		loadedImagesMap = new HashMap<String,PdfImage>();
+		loadedImagesMap = new HashMap<>();
 	}
 
 	protected PdfProducerFactory getPdfProducerFactory()
@@ -1061,7 +1063,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected void writePageAnchor(int pageIndex) 
 	{
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 		PdfTextChunk chunk = pdfProducer.createChunk(" ", attributes, getLocale());
 		
@@ -1677,6 +1679,24 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				normalHeight = (int)dimension.getHeight();
 			}
 
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+			
+			DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
+			if (dataRenderable != null)
+			{
+				exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+			}
+			
+			if (
+				ExifOrientationEnum.LEFT == exifOrientation
+				|| ExifOrientationEnum.RIGHT == exifOrientation
+				)
+			{
+				int t = normalWidth;
+				normalWidth = normalHeight;
+				normalHeight = t;
+			}
+
 			int minWidth = Math.min(normalWidth, availableImageWidth);
 			int minHeight = Math.min(normalHeight, availableImageHeight);
 			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
@@ -1771,17 +1791,23 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		private InternalImageProcessorResult processImageFillFrame(String rendererId, DataRenderable renderer) throws JRException
 		{
-			PdfImage image = null;
+			Pair<PdfImage, ExifOrientationEnum> imagePair = null;
 			
 			if (printImage.isUsingCache() && loadedImagesMap.containsKey(rendererId))
 			{
-				image = loadedImagesMap.get(rendererId);
+				imagePair = loadedImagesMap.get(rendererId);
 			}
 			else
 			{
+				byte[] data = renderer.getData(jasperReportsContext);
+				
 				try
 				{
-					image = pdfProducer.createImage(renderer.getData(jasperReportsContext), true);
+					imagePair = 
+						new Pair<>(
+							pdfProducer.createImage(data, true), 
+							ImageUtil.getExifOrientation(data)
+							);
 				}
 				catch (Exception e)
 				{
@@ -1790,11 +1816,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 				if (printImage.isUsingCache())
 				{
-					loadedImagesMap.put(rendererId, image);
+					loadedImagesMap.put(rendererId, imagePair);
 				}
 			}
-
-			switch (printImage.getRotation())
+			
+			PdfImage image = imagePair.first();
+			
+			switch (ImageUtil.getRotation(printImage.getRotation(), imagePair.second()))
 			{
 				case LEFT :
 				{
@@ -1818,6 +1846,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				default :
 				{
 					image.scaleAbsolute(availableImageWidth, availableImageHeight);
+					image.setRotationDegrees(0);
 				}
 			}
 			
@@ -1834,17 +1863,22 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		private InternalImageProcessorResult processImageRetainShape(String rendererId, DataRenderable renderer) throws JRException
 		{
-			PdfImage image = null;
+			Pair<PdfImage, ExifOrientationEnum> imagePair = null;
 			
 			if (printImage.isUsingCache() && loadedImagesMap.containsKey(rendererId))
 			{
-				image = loadedImagesMap.get(rendererId);
+				imagePair = loadedImagesMap.get(rendererId);
 			}
 			else
 			{
+				byte[] data = renderer.getData(jasperReportsContext);
 				try
 				{
-					image = pdfProducer.createImage(renderer.getData(jasperReportsContext), true);
+					imagePair = 
+						new Pair<>(
+							pdfProducer.createImage(data, true),
+							ImageUtil.getExifOrientation(data)
+							);
 				}
 				catch (Exception e)
 				{
@@ -1853,50 +1887,83 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 				if (printImage.isUsingCache())
 				{
-					loadedImagesMap.put(rendererId, image);
+					loadedImagesMap.put(rendererId, imagePair);
 				}
 			}
 
+			float plainWidth = 0;
+			float plainHeight = 0;
 			int xoffset = 0;
 			int yoffset = 0;
 
-			image.setRotationDegrees(0); // reset in case the image is from cache
+			PdfImage image = imagePair.first();
 			
-			switch (printImage.getRotation())
+			image.setRotationDegrees(0); // reset angle here for images taken from cache, even if it gets set again later below, because it affects the way scaleToFit works
+			
+			switch (ImageUtil.getRotation(printImage.getRotation(), imagePair.second()))
 			{
 				case LEFT :
 				{
 					image.scaleToFit(availableImageHeight, availableImageWidth);
+					plainWidth = image.getPlainHeight();
+					plainHeight = image.getPlainWidth();
 					image.setRotationDegrees(90);
-					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - image.getPlainHeight()));
-					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - image.getPlainWidth()));
 					break;
 				}
 				case RIGHT :
 				{
 					image.scaleToFit(availableImageHeight, availableImageWidth);
+					plainWidth = image.getPlainHeight();
+					plainHeight = image.getPlainWidth();
 					image.setRotationDegrees(-90);
-					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - image.getPlainHeight()));
-					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - image.getPlainWidth()));
 					break;
 				}
 				case UPSIDE_DOWN :
 				{
 					image.scaleToFit(availableImageWidth, availableImageHeight);
+					plainWidth = image.getPlainWidth();
+					plainHeight = image.getPlainHeight();
 					image.setRotationDegrees(180);
-					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - image.getPlainWidth()));
-					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - image.getPlainHeight()));
 					break;
 				}
 				case NONE :
 				default :
 				{
 					image.scaleToFit(availableImageWidth, availableImageHeight);
-					xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
-					yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
+					plainWidth = image.getPlainWidth();
+					plainHeight = image.getPlainHeight();
+					image.setRotationDegrees(0);
 				}
 			}
 			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - plainWidth));
+					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - plainHeight));
+					break;
+				}
+				case RIGHT :
+				{
+					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - plainWidth));
+					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - plainHeight));
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - plainWidth));
+					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - plainHeight));
+					break;
+				}
+				case NONE :
+				default :
+				{
+					xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - plainWidth));
+					yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - plainHeight));
+				}
+			}
+
 			xoffset = (xoffset < 0 ? 0 : xoffset);
 			yoffset = (yoffset < 0 ? 0 : yoffset);
 			
@@ -2192,27 +2259,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				{
 					case REFERENCE :
 					{
-						if (link.getHyperlinkReference() != null)
-						{
-							switch(link.getHyperlinkTargetValue())
-							{
-								case BLANK :
-								{
-									chunk.setJavaScriptAction(
-											"if (app.viewerVersion < 7)"
-												+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
-												+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};"
-										);
-									break;
-								}
-								case SELF :
-								default :
-								{
-									chunk.setAnchor(link.getHyperlinkReference());
-									break;
-								}
-							}
-						}
+						JRHyperlinkProducer hyperlinkProducer = getHyperlinkProducer(link);
+						String referenceURL = hyperlinkProducer == null ? link.getHyperlinkReference() : hyperlinkProducer.getHyperlink(link);
+						setReferenceHyperlink(chunk, link, referenceURL);
 						break;
 					}
 					case LOCAL_ANCHOR :
@@ -2265,34 +2314,40 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						if (hyperlinkProducerFactory != null)
 						{
 							String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
-							if (hyperlink != null)
-							{
-								switch(link.getHyperlinkTargetValue())
-								{
-									case BLANK :
-									{
-										chunk.setJavaScriptAction(
-												"if (app.viewerVersion < 7)"
-													+ "{this.getURL(\"" + hyperlink + "\");}"
-													+ "else {app.launchURL(\"" + hyperlink + "\", true);};"
-											);
-										break;
-									}
-									case SELF :
-									default :
-									{
-										chunk.setAnchor(hyperlink);
-										break;
-									}
-								}
-							}
+							setReferenceHyperlink(chunk, link, hyperlink);
 						}
+						break;
 					}
 					case NONE :
 					default :
 					{
 						break;
 					}
+				}
+			}
+		}
+	}
+
+	protected void setReferenceHyperlink(PdfChunk chunk, JRPrintHyperlink link, String referenceURL)
+	{
+		if (referenceURL != null)
+		{
+			switch(link.getHyperlinkTargetValue())
+			{
+				case BLANK :
+				{
+					chunk.setJavaScriptAction(
+							"if (app.viewerVersion < 7)"
+								+ "{this.getURL(\"" + referenceURL + "\");}"
+								+ "else {app.launchURL(\"" + referenceURL + "\", true);};"
+						);
+					break;
+				}
+				case SELF :
+				default :
+				{
+					chunk.setAnchor(referenceURL);
+					break;
 				}
 			}
 		}
@@ -2568,7 +2623,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 		
 		AbstractPdfTextRenderer textRenderer = getTextRenderer(text, styledText);
-		textRenderer.initialize(this, pdfProducer, text, styledText, getOffsetX(), getOffsetY());
+		textRenderer.initialize(this, pdfProducer, tagHelper, text, styledText, getOffsetX(), getOffsetY());
 
 		double angle = 0;
 
@@ -2612,15 +2667,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfContent.resetFillColor();
 		}
 		
-		if (textRenderer.addActualText())
-		{
-			tagHelper.startText(styledText.getText(), text.getLinkType() != null);
-		}
-		else
-		{
-			tagHelper.startText(text.getLinkType() != null);
-		}
-
 		int forecolorAlpha = getSingleForecolorAlpha(styledText);
 		pdfContent.setFillColorAlpha(forecolorAlpha);
 		
@@ -2629,7 +2675,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			textRenderer.render();
 		}
-		tagHelper.endText();
 		
 		pdfContent.resetFillColor();
 
@@ -2770,7 +2815,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 //		pdfTextField.setExtraMargin(0, 0);
 		
-		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, text);
 		pdfTextField.setFont(attributes, getLocale());
 		pdfTextField.setFontSize(text.getFontsize());
@@ -2799,7 +2844,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
 			StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
-			List<String> choicesList = new ArrayList<String>();
+			List<String> choicesList = new ArrayList<>();
 			while (tkzer.hasMoreTokens())
 			{
 				choicesList.add(tkzer.nextToken());
@@ -3253,6 +3298,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(0, 2 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}
@@ -3270,6 +3316,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						pdfContent.setLineDash(4 * lineWidth, 4 * lineWidth, 0f);
 						break;
 					}
+					default :
 				}
 				break;
 			}
@@ -3356,7 +3403,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		BookmarkStack()
 		{
-			stack = new LinkedList<Bookmark>();
+			stack = new LinkedList<>();
 		}
 
 		void push(Bookmark bookmark)

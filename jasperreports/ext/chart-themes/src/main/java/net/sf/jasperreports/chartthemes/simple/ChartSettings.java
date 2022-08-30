@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,18 @@ import java.io.Serializable;
 
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeDeserializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.StrokeSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -38,6 +50,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonIgnoreProperties("eventSupport")
 public class ChartSettings implements JRChangeEventsSupport, Serializable
 {
 	/**
@@ -60,16 +73,43 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "background-paint")
 	private PaintProvider backgroundPaint;
+	
+	@JacksonXmlProperty(localName = "background-image")
 	private ImageProvider backgroundImage;
+	
+	@JacksonXmlProperty(localName = "background-image-alignment", isAttribute = true)
+	@JsonDeserialize(using = ImageAlignmentDeserializer.class)
+	@JsonSerialize(using = ImageAlignmentSerializer.class)
 	private Integer backgroundImageAlignment;
+	
+	@JacksonXmlProperty(localName = "background-image-alpha", isAttribute = true)
 	private Float backgroundImageAlpha;
+	
+	@JsonDeserialize(using = JRFontDeserializer.class)
+	@JsonSerialize(using = JRFontSerializer.class)
 	private JRFont font = new JRBaseFont();
+	
+	@JacksonXmlProperty(localName = "border-visible", isAttribute = true)
 	private Boolean borderVisible;
+	
+	@JacksonXmlProperty(localName = "border-paint")
 	private PaintProvider borderPaint;
+	
+	@JacksonXmlProperty(localName = "stroke")
+	@JsonDeserialize(using = StrokeDeserializer.class)
+	@JsonSerialize(using = StrokeSerializer.class)
 	private Stroke borderStroke;
+	
+	@JacksonXmlProperty(localName = "anti-alias", isAttribute = true)
 	private Boolean antiAlias;
+	
+	@JacksonXmlProperty(localName = "text-anti-alias", isAttribute = true)
 	private Boolean textAntiAlias;
+	
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets padding;
 	
 	/**

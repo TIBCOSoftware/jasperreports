@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.ProtectionDomain;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.CompiledClasses;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -268,6 +268,12 @@ public class JRClassLoader extends ClassLoader
 	public static Class<?> loadClassFromBytes(ClassLoaderFilter classLoaderFilter, 
 			String className, byte[] bytecodes)
 	{
+		return loadClassFromBytes(classLoaderFilter, className, CompiledClasses.forClass(className, bytecodes));
+	}
+	
+	public static Class<?> loadClassFromBytes(ClassLoaderFilter classLoaderFilter, 
+			String className, CompiledClasses compiledClasses)
+	{
 		Class<?> clazz = null;
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -276,8 +282,8 @@ public class JRClassLoader extends ClassLoader
 			try
 			{
 				clazz = 
-					(new JRClassLoader(classLoader, classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoader, classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 			catch(NoClassDefFoundError e)
 			{
@@ -292,14 +298,14 @@ public class JRClassLoader extends ClassLoader
 			if (classLoader == null)
 			{
 				clazz = 
-					(new JRClassLoader(classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 			else
 			{
 				clazz = 
-					(new JRClassLoader(classLoader, classLoaderFilter))
-						.loadClass(className, bytecodes);
+					(new CompiledClassesLoader(classLoader, classLoaderFilter, compiledClasses))
+						.loadCompiledClass(className);
 			}
 		}
 
@@ -312,50 +318,7 @@ public class JRClassLoader extends ClassLoader
 	 */
 	protected Class<?> loadClass(String className, File file) throws IOException
 	{
-		FileInputStream fis = null;
-		ByteArrayOutputStream baos = null;
-
-		byte[] bytecodes = new byte[10000];
-		int ln = 0;
-
-		try
-		{
-			fis = new FileInputStream(file);
-			baos = new ByteArrayOutputStream();
-
-			while ( (ln = fis.read(bytecodes)) > 0 )
-			{
-				baos.write(bytecodes, 0, ln);
-			}
-
-			baos.flush();
-		}
-		finally
-		{
-			if (baos != null)
-			{
-				try
-				{
-					baos.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
-
-		return loadClass(className, baos.toByteArray());
+		return loadClass(className, Files.readAllBytes(file.toPath()));
 	}
 
 	protected synchronized ProtectionDomain getProtectionDomain()
@@ -413,7 +376,7 @@ public class JRClassLoader extends ClassLoader
 			int gtPos = className.lastIndexOf('>');
 			if (gtPos > ltPos)
 			{
-				className = className.substring(0, ltPos) + className.substring(gtPos);
+				className = className.substring(0, ltPos) + className.substring(gtPos + 1);
 			}
 		}
 		

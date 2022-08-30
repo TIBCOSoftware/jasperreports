@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,7 +78,7 @@ public class JRValuesSerializationTest extends BaseSerializationTests
 	@Test
 	public void recordedValues()
 	{
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.EVALUATION_TIME_REPORT);
 		evaluationTimes.add(JREvaluationTime.getGroupEvaluationTime("g"));
 		
@@ -108,7 +108,7 @@ public class JRValuesSerializationTest extends BaseSerializationTests
 	@Test
 	public void recordedValuesNoFields()
 	{
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.EVALUATION_TIME_REPORT);
 		
 		JRRecordedValues values = new JRRecordedValues(evaluationTimes);
@@ -134,7 +134,7 @@ public class JRValuesSerializationTest extends BaseSerializationTests
 	@Test
 	public void recordedValuesNoVariables()
 	{
-		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
+		Set<JREvaluationTime> evaluationTimes = new HashSet<>();
 		evaluationTimes.add(JREvaluationTime.getBandEvaluationTime(-99));
 		
 		JRRecordedValues values = new JRRecordedValues(evaluationTimes);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,9 +25,6 @@ package net.sf.jasperreports.engine.data;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -36,7 +33,6 @@ import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 
@@ -133,22 +129,6 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 				new Object[]{valueClass.getName()});
 		}
 		return value;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link FormatUtils#getFormattedNumber(NumberFormat, String, Class)}
-	 */
-	protected Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class<?> valueClass) throws ParseException
-	{
-		return FormatUtils.getFormattedNumber(numberFormat, fieldValue, valueClass);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link FormatUtils#getFormattedDate(DateFormat, String, Class)}
-	 */
-	protected Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class<?> valueClass) throws ParseException 
-	{
-		return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
 	}
 
 	protected LocaleConvertUtilsBean getConvertBean() 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,11 +57,6 @@ public interface JRPen
 
 
 	/**
-	 * @deprecated Replaced by {@link #getPenContainer()}.
-	 */
-	public JRStyleContainer getStyleContainer();
-
-	/**
 	 *
 	 */
 	public JRPenContainer getPenContainer();
@@ -79,11 +74,6 @@ public interface JRPen
 	public Float getLineWidth();
 
 	public Float getOwnLineWidth();
-
-	/**
-	 * @deprecated Replaced by {@link #setLineWidth(Float)}.
-	 */
-	public void setLineWidth(float lineWidth);
 
 	/**
 	 * Sets the line width.

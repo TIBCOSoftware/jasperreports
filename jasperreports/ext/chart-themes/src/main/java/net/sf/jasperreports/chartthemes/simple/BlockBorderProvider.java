@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,6 +30,11 @@ import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.block.BlockFrame;
 import org.jfree.ui.RectangleInsets;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -37,13 +42,18 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("block-border")
+@JsonIgnoreProperties("eventSupport")
 public class BlockBorderProvider implements BlockFrameProvider, JRChangeEventsSupport
 {
 	
 	public static final String PROPERTY_INSETS = "insets";
 	public static final String PROPERTY_PAINT = "paint";
 
+	@JsonSerialize(using = RectangleInsetsSerializer.class)
+	@JsonIgnoreProperties("unitType")
 	private RectangleInsets insets;
+
 	private PaintProvider paint;
 	
 	public BlockBorderProvider()

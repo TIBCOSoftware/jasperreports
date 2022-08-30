@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -91,11 +92,17 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
+import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.ImageUtil.Insets;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -165,7 +172,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected String firstSheetName;
 	protected String currentSheetName;
 
-	protected Map<String, String> rendererToImagePathMap;
+	protected Map<String, Pair<String, ExifOrientationEnum>> rendererToImagePathMap;
 //	protected Map imageMaps;
 //	protected Map hyperlinksMap;
 
@@ -173,7 +180,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected boolean startPage;
 
 
-	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
+	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
 
 	private XlsxRunHelper runHelper;
@@ -302,21 +309,40 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText)
 	{
+		StyledTextWriteContext context = new StyledTextWriteContext();
+		
 		String text = styledText.getText();
 		
 		int runLimit = 0;
 		
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 		
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			runHelper.export(
-					style, iterator.getAttributes(), 
-					text.substring(iterator.getIndex(), runLimit),
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+
+			String runText = text.substring(iterator.getIndex(), runLimit);
+
+			context.next(attributes, runText);
+			
+			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			{
+				runText = runText.substring(1);
+			}
+
+			if (runText.length() > 0)
+			{
+				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+				
+				runHelper.export(
+					style, 
+					attributes, 
+					(bulletText == null ? "" : bulletText) + runText,
 					locale,
 					invalidCharReplacement,
 					isStyledText
 					);
+			}
 			
 			iterator.setIndex(runLimit);
 		}
@@ -958,7 +984,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 					case FILL_FRAME :
 					{
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								angle = -90;
@@ -988,7 +1014,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							normalHeight = dimension.getHeight();
 						}
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -996,38 +1022,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 									normalWidth = availableImageHeight;
 									normalHeight = availableImageWidth;
 								}
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = -90;
 								break;
 							case RIGHT:
@@ -1036,112 +1034,34 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 									normalWidth = availableImageHeight;
 									normalHeight = availableImageWidth;
 								}
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - normalWidth) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - normalHeight) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - normalHeight) / availableImageWidth;
 								angle = 90;
 								break;
 							case UPSIDE_DOWN:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 180;
 								break;
 							case NONE:
 							default:
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight) / availableImageHeight;
 								angle = 0;
 								break;
 						}
+
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
 
 						break;
 					}
@@ -1164,7 +1084,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						double imageWidth = availableImageWidth;
 						double imageHeight = availableImageHeight;
 
-						switch (image.getRotation())
+						switch (ImageUtil.getRotation(image.getRotation(), imageProcessorResult.exifOrientation))
 						{
 							case LEFT:
 								if (dimension == null)
@@ -1178,38 +1098,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 								ratioY = ratioX;
 								imageWidth = (int)(normalHeight * ratioX);
 								imageHeight = (int)(normalWidth * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
 								angle = -90;
 								break;
 							case RIGHT:
@@ -1224,38 +1116,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 								ratioY = ratioX;
 								imageWidth = (int)(normalHeight * ratioX);
 								imageHeight = (int)(normalWidth * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
 								angle = 90;
 								break;
 							case UPSIDE_DOWN:
@@ -1265,38 +1129,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 								ratioY = ratioX;
 								imageWidth = (int)(normalWidth * ratioX);
 								imageHeight = (int)(normalHeight * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
 								angle = 180;
 								break;
 							case NONE:
@@ -1307,41 +1143,19 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 								ratioY = ratioX;
 								imageWidth = (int)(normalWidth * ratioX);
 								imageHeight = (int)(normalHeight * ratioY);
-								switch (image.getHorizontalImageAlign())
-								{
-									case RIGHT :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
-										cropRight = 0;
-										break;
-									case CENTER :
-										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
-										cropRight = cropLeft;
-										break;
-									case LEFT :
-									default :
-										cropLeft = 0;
-										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
-										break;
-								}
-								switch (image.getVerticalImageAlign())
-								{
-									case TOP :
-										cropTop = 0;
-										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
-										break;
-									case MIDDLE :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
-										cropBottom = cropTop;
-										break;
-									case BOTTOM :
-									default :
-										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
-										cropBottom = 0;
-										break;
-								}
+								cropLeft = ImageUtil.getXAlignFactor(image) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropRight = (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - imageWidth) / availableImageWidth;
+								cropTop = ImageUtil.getYAlignFactor(image) * (availableImageHeight - imageHeight) / availableImageHeight;
+								cropBottom = (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - imageHeight) / availableImageHeight;
 								angle = 0;
 								break;
 						}
+						
+						Insets exifCrop = ImageUtil.getExifCrop(image, imageProcessorResult.exifOrientation, cropTop, cropLeft, cropBottom, cropRight);
+						cropLeft = exifCrop.left;
+						cropRight = exifCrop.right;
+						cropTop = exifCrop.top;
+						cropBottom = exifCrop.bottom;
 					}
 				}
 
@@ -1469,6 +1283,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			this.cell = cell;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			// at this point, we do not yet have the exifOrientation, but we do not need it because the available width and height
+			// are used only for non data renderers, which need to produce their data for the image and have nothing to do with exif metadata anyway
 			if (
 				imageElement.getRotation() == RotationEnum.LEFT
 				|| imageElement.getRotation() == RotationEnum.RIGHT
@@ -1499,6 +1315,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
+			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
 			
 			String imagePath = null;
 
@@ -1513,7 +1330,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					Pair<String, ExifOrientationEnum> imagePair = rendererToImagePathMap.get(renderer.getId());
+					imagePath = imagePair.first();
+					exifOrientation = imagePair.second();
 				}
 				else
 				{
@@ -1528,6 +1347,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
+					exifOrientation = ImageUtil.getExifOrientation(imageData);
 					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
 					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 
@@ -1546,12 +1366,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					if (imageRenderer == renderer)
 					{
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
+						rendererToImagePathMap.put(renderer.getId(), new Pair<>(imagePath, exifOrientation));
 					}
 				}
 //			}
 			
-			return new InternalImageProcessorResult(imagePath, dimension);
+			return new InternalImageProcessorResult(imagePath, dimension, exifOrientation);
 		}
 	}
 
@@ -1559,11 +1379,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		protected final String imagePath;
 		protected final Dimension2D dimension;
+		protected final ExifOrientationEnum exifOrientation;
 		
-		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension, ExifOrientationEnum exifOrientation)
 		{
 			this.imagePath = imagePath;
 			this.dimension = dimension;
+			this.exifOrientation = exifOrientation;
 		}
 	}
 
@@ -1851,11 +1673,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
-		rendererToImagePathMap = new HashMap<String,String>();
+		rendererToImagePathMap = new HashMap<>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 		definedNames = new StringBuilder();
-		sheetMapping = new HashMap<String, Integer>();
+		sheetMapping = new HashMap<>();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
@@ -2041,11 +1863,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 	protected String getDefinedName(String name)
 	{
-		if (name != null)
-		{
-			return name.replaceAll("\\W", "");
-		}
-		return null;
+		return sheetHelper.getDefinedName(name);
 	}
 	
 }

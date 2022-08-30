@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -171,7 +171,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			ctx.setDynamic(true);
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode rootNode = builder.build(ctx, document);
-			rootNodeRef = new SoftReference<GraphicsNode>(rootNode);
+			rootNodeRef = new SoftReference<>(rootNode);
 			
 			//copying the document size object because it has a reference to SVGSVGElementBridge,
 			//which prevents rootNodeRef from being cleared by the garbage collector

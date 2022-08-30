@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -81,12 +81,12 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected Map<String, JRSubreportParameter> parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
+	protected Map<String, JRSubreportParameter> parametersMap = new LinkedHashMap<>();
 	
 	/**
 	 * Values to be copied from the subreport into the master report.
 	 */
-	protected List<JRSubreportReturnValue> returnValues = new ArrayList<JRSubreportReturnValue>();
+	protected List<JRSubreportReturnValue> returnValues = new ArrayList<>();
 
 	/**
 	 *
@@ -359,7 +359,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		
 		if (parametersMap != null)
 		{
-			clone.parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
+			clone.parametersMap = new LinkedHashMap<>();
 			for(Iterator<String> it = parametersMap.keySet().iterator(); it.hasNext();)
 			{
 				String name = it.next();

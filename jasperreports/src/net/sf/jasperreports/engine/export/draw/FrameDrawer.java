@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -66,7 +66,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	 */
 	private ExporterFilter filter;
 	private Graphics2D grx;
-	private LinkedList<Offset> elementOffsetStack = new LinkedList<Offset>();
+	private LinkedList<Offset> elementOffsetStack = new LinkedList<>();
 	private Offset elementOffset;
 	private boolean isClip;
 	

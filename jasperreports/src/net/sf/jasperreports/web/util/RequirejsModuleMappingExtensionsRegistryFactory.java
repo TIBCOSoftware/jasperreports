@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,7 +53,7 @@ public class RequirejsModuleMappingExtensionsRegistryFactory implements Extensio
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> requirejsModuleProperties = JRPropertiesUtil.getProperties(properties, REQUIREJS_MAPPING_PROPERTY_PREFIX);
-		List<RequirejsModuleMapping> requirejsModules = new ArrayList<RequirejsModuleMapping>();
+		List<RequirejsModuleMapping> requirejsModules = new ArrayList<>();
 		for (Iterator<PropertySuffix> it = requirejsModuleProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix requirejsModuleProp = it.next();

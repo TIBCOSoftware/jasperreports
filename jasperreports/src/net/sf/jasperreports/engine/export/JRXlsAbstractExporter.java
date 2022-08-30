@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -455,8 +455,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		openWorkbook(os);
-		sheetNamesMap = new HashMap<String,Integer>();
-		definedNamesMap = new HashMap<NameScope, String>();
+		sheetNamesMap = new HashMap<>();
+		definedNamesMap = new HashMap<>();
 		pageFormat = null;
 		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();

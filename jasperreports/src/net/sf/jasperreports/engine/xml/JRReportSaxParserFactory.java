@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -80,7 +80,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 			)
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
 	
-	private final static ThreadLocal<ReferenceMap<Object, Object>> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap<Object, Object>>();
+	private final static ThreadLocal<ReferenceMap<Object, Object>> GRAMMAR_POOL_CACHE = new ThreadLocal<>();
 
 	public JRReportSaxParserFactory(JasperReportsContext jasperReportsContext)
 	{
@@ -96,7 +96,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	@Override
 	protected List<String> getSchemaLocations()
 	{
-		List<String> schemas = new ArrayList<String>();
+		List<String> schemas = new ArrayList<>();
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		

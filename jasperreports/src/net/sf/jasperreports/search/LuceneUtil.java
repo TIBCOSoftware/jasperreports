@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,28 +23,69 @@
  */
 package net.sf.jasperreports.search;
 
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.search.*;
-import org.apache.lucene.search.spans.*;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.PostingsEnum;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermStates;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.search.DocIdSetIterator;
+import org.apache.lucene.search.FuzzyQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MultiTermQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.ScoreMode;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
+import org.apache.lucene.search.spans.SpanNearQuery;
+import org.apache.lucene.search.spans.SpanOrQuery;
+import org.apache.lucene.search.spans.SpanQuery;
+import org.apache.lucene.search.spans.SpanTermQuery;
+import org.apache.lucene.search.spans.SpanWeight;
+import org.apache.lucene.search.spans.Spans;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.*;
-import java.util.Map.Entry;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintElementId;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -105,23 +146,23 @@ public class LuceneUtil {
 		TopDocs results = searcher.search(query, Integer.MAX_VALUE);
 		ScoreDoc[] hits = results.scoreDocs;
 
-		Map<Integer, List<Term>> hitTermsMap = new LinkedHashMap<Integer, List<Term>>();
+		Map<Integer, List<Term>> hitTermsMap = new LinkedHashMap<>();
 
 		for (int i = 0; i < hits.length; i++) {
 			getHitTerms(query, searcher, hits[i].doc, hitTermsMap);
 		}
 
-		Map<Term,TermContext> termContexts = new HashMap<Term,TermContext>();
+		Map<Term,TermStates> termStates = new HashMap<>();
 
 		// get the info for each matched term from the document's termVector
-		Map<Integer, List<HitTermInfo>> hitTermsInfoMap = new HashMap<Integer, List<HitTermInfo>>();
+		Map<Integer, List<HitTermInfo>> hitTermsInfoMap = new HashMap<>();
 		for (Entry<Integer, List<Term>> entry: hitTermsMap.entrySet()) {
 			List<Term> terms = entry.getValue();
 			Terms termVector = reader.getTermVector(entry.getKey(), CONTENT_FIELD);
 			PostingsEnum docsAndPositions;
 
 			for (Term term: terms) {
-				termContexts.put(term, TermContext.build(reader.getContext(), term));
+				termStates.put(term, TermStates.build(reader.getContext(), term, false));
 				TermsEnum iterator = termVector.iterator();
 
 				BytesRef termBytesRef = new BytesRef(term.text());
@@ -132,7 +173,7 @@ public class LuceneUtil {
 
 					for (int i = 0, freq = docsAndPositions.freq(); i < freq; ++i) {
 						if (hitTermsInfoMap.get(entry.getKey()) == null) {
-							hitTermsInfoMap.put(entry.getKey(), new ArrayList<HitTermInfo>());
+							hitTermsInfoMap.put(entry.getKey(), new ArrayList<>());
 						}
 						hitTermsInfoMap.get(entry.getKey()).add(new HitTermInfo(docsAndPositions.nextPosition(), docsAndPositions.startOffset(), docsAndPositions.endOffset(), termBytesRef.utf8ToString()));
 					}
@@ -145,7 +186,7 @@ public class LuceneUtil {
 		LuceneSpansInfo spansInfo = new LuceneSpansInfo(queryTerms.size());
 		for (LeafReaderContext context : reader.leaves())
 		{
-			SpanWeight spanWeight = rewrittenQuery.createWeight(searcher, false, 1);
+			SpanWeight spanWeight = rewrittenQuery.createWeight(searcher, ScoreMode.COMPLETE_NO_SCORES, 1);
 			Spans spans = spanWeight.getSpans(context, SpanWeight.Postings.POSITIONS);
 
 			if (spans != null) {
@@ -276,7 +317,7 @@ public class LuceneUtil {
 
 
 	protected SpanQuery buildQuery(List<String> queryTerms) {
-		List<SpanQuery> clauses = new ArrayList<SpanQuery>();
+		List<SpanQuery> clauses = new ArrayList<>();
 		for (int i = 0, ln = queryTerms.size(); i < ln; i++) {
 			String term = queryTerms.get(i);
 			if (isWholeWordsOnly) {
@@ -305,7 +346,7 @@ public class LuceneUtil {
 
 
 	protected List<String> getQueryTerms(String queryString) throws IOException {
-		List<String> queryTerms = new ArrayList<String>();
+		List<String> queryTerms = new ArrayList<>();
 		Analyzer analyzer = getConfiguredAnalyzer();
 		TokenStream tokenStream = analyzer.tokenStream(null, queryString);
 		CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
@@ -320,7 +361,7 @@ public class LuceneUtil {
 
 
 	protected String displayTokens(String text, String elementId) throws IOException {
-		Analyzer analyzer = new LuceneSimpleAnalyzer(isCaseSensitive, removeAccents);;
+		Analyzer analyzer = new LuceneSimpleAnalyzer(isCaseSensitive, removeAccents);
 		StringBuilder sb = new StringBuilder();
 		sb.append(elementId).append(": ").append(text).append(": ");
 
@@ -345,7 +386,7 @@ public class LuceneUtil {
 		if (query instanceof SpanTermQuery) {
 			if (searcher.explain(query, docId).isMatch() == true) {
 				if (!hitTerms.containsKey(docId)) {
-					hitTerms.put(docId, new ArrayList<Term>());
+					hitTerms.put(docId, new ArrayList<>());
 				}
 				hitTerms.get(docId).add(((SpanTermQuery) query).getTerm());
 			}
