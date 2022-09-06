@@ -81,6 +81,7 @@
 		<module>ext/chart-themes</module>
 		<module>ext/custom-visualization</module>
 		<module>ext/functions</module>
+		<module>ext/xalan</module>
 	</modules>
 	<scm>
 		<connection>${scmConnection}</connection>
