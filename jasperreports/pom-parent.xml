@@ -81,6 +81,7 @@
 		<module>ext/chart-themes</module>
 		<module>ext/custom-visualization</module>
 		<module>ext/functions</module>
+		<module>ext/xalan</module>
 	</modules>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -88,7 +89,7 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>develop-76-SNAPSHOT</revision>
+		<revision>develop-77-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>

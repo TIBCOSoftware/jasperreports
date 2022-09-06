@@ -5,7 +5,6 @@
 	<dependencies>
 		<dependency org="org.hsqldb" name="hsqldb" rev="2.6.1" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.6" conf="test->*"/>
-		<dependency org="xalan" name="serializer" rev="2.7.2" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 	</dependencies>
 </ivy-module>
