@@ -45,6 +45,63 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
+	/**
+	 * Built-in parameter holding the value of the <code>javax.xml.parsers.DocumentBuilderFactor</code> used to create
+	 * documents of type <code>org.w3c.dom.Document<code>
+	 */
+	public final static String PARAMETER_DOCUMENT_BUILDER_FACTORY = "DOCUMENT_BUILDER_FACTORY";
+	
+	/**
+	 * Parameter that holds the <code>java.util.Map&lt;String,String&gt;</code> with XML namespace information in the 
+	 * &lt;prefix, uri&gt; format
+	 */
+	public final static String PARAMETER_XML_NAMESPACE_MAP = "XML_NAMESPACE_MAP";
+
+	/**
+	 * Prefix for properties holding the namespace prefix and uri:
+	 * e.g. net.sf.jasperreports.xml.namespace.{prefix} = uri
+	 * <p>
+	 * This property has a lower priority than {@link #PARAMETER_XML_NAMESPACE_MAP}, which if it is specified it will cause
+	 * the prefixed properties not to be searched for.  
+	 * </p>
+	 */
+	@Property(
+			name="net.sf.jasperreports.xml.namespace.{arbitrary_prefix}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public final static String XML_NAMESPACE_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "xml.namespace.";
+	
+	/**
+	 * Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
+	 * <p>
+	 * This parameter is meaningful only when:
+	 * <ul>
+	 * <li>
+	 * the {@link #PARAMETER_XML_NAMESPACE_MAP} parameter is not provided or provided with a <code>null</code> value
+	 * </li>
+	 * <li>
+	 * there are no properties prefixed with {@link #XML_NAMESPACE_PREFIX};
+	 * </li>
+	 * <li>
+	 * the xpath query expression that is provided <b>contains</b> XML namespace prefixes
+	 * </li>
+	 * </ul>
+	 * </p>
+	 * It defaults to <code>false</code>
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
+	public final static String XML_DETECT_NAMESPACES = JRPropertiesUtil.PROPERTY_PREFIX + "xml.detect.namespaces";
+	
 	
 	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:XPATH";
 	

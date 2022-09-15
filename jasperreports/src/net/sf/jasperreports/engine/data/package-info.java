@@ -225,22 +225,22 @@
  * JasperReports property named {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory}. 
  * This property gives the name of a XPath executer factory class, which has to implement 
  * the {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterFactory JRXPathExecuterFactory}. 
- * JasperReports includes two built-in XPath executer implementations, one based on 
- * Apache Xalan (<a href="http://xml.apache.org/xalan-j">http://xml.apache.org/xalan-j/</a>) and the second on Jaxen 
- * (<a href="http://jaxen.codehaus.org">http://jaxen.codehaus.org</a>). The Xalan-based implementation is used by default 
- * for backward compatibility reasons.
+ * JasperReports has two XPath executer implementations, one based on 
+ * Apache Xalan (<a href="http://xml.apache.org/xalan-j">http://xml.apache.org/xalan-j/</a>), now moved into a separate jasperreports-xalan artifact,
+ * and the second based on Jaxen (<a href="http://www.cafeconleche.org/jaxen/">http://www.cafeconleche.org/jaxen/</a>), now used by default.
  * </p><p> 
- * In many cases, though, the Jaxen XPath executor provides better performance than an 
- * executor that uses Xalan. To switch to the Jaxen XPath executer, one needs to set the 
+ * In many cases, the Jaxen XPath executor provides better performance than the 
+ * executor that uses Xalan. But if backward compatibility is required, for switching to the Xalan XPath executer, one needs to set the 
  * {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property to 
- * {@link net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory JaxenXPathExecuterFactory}, which 
+ * {@link net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory XalanXPathExecuterFactory}, which 
  * is usually done by including the following line in the jasperreports.properties 
  * configuration file: 
  * <pre>
- * net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory
+ * net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory
  * </pre> 
- * To switch back to Xalan, one would comment or remove the property line, or explicitly set the property to 
- * {@link net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory XalanXPathExecuterFactory}. 
+ * and make sure the optional jasperreports-xalan-x.x.x.jar is in the classpath of the application.
+ * To switch back to Jaxen, one would comment or remove the property line, or explicitly set the property to 
+ * {@link net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory JaxenXPathExecuterFactory}. 
  * </p>
  * <h3>CSV Data Sources</h3>
  * Sometimes data that users need to fill the report with is found in plain text files, in a 
