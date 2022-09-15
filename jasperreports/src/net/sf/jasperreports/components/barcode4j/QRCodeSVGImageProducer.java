@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -75,7 +75,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		String message
 		)
 	{
-		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
+		Map<EncodeHintType,Object> hints = new HashMap<>();
 		
 		String encoding = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 				componentElement, QRCodeComponent.PROPERTY_QRCODE_CHARACTER_ENCODING, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
@@ -102,11 +102,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 			
 			provider = new SVGCanvasProvider(false, OrientationEnum.UP.getValue());
 		}
-		catch (WriterException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (BarcodeCanvasSetupException e)
+		catch (WriterException | BarcodeCanvasSetupException e)
 		{
 			throw new JRRuntimeException(e);
 		}

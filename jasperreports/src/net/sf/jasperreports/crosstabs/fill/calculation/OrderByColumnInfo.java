@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,6 +25,9 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.type.NamedEnumConstantContextualDeserializer;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
@@ -33,6 +36,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 public class OrderByColumnInfo
 {
 
+	@JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
 	private SortOrderEnum order;
 	private int measureIndex;
 	private List<ColumnValueInfo> columnValues;

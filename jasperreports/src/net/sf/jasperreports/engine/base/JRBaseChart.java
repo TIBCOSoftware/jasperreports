@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -254,6 +254,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 					case JRChartDataset.XY_DATASET:
 						dataset = factory.getXyDataset( (JRXyDataset)chart.getDataset() );
 						break;
+					default:
 				}
 				plot = factory.getBarPlot((JRBarPlot)chart.getPlot());
 				break;

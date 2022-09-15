@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -216,12 +216,12 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_20_0,
+			sinceVersion = PropertyConstants.VERSION_6_21_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_INCLUDE_ELEMENT_UUID = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "include.element.uuid";
 
-	
+
 	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
 	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
@@ -336,7 +336,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		value=PROPERTY_ACCESSIBLE,
 		booleanDefault=false
 		)
-	public Boolean isAccessibleHtml(); //FIXME this only worked in the ancient HTML exporter; if need to supported this again, look into history
+	public Boolean isAccessibleHtml();
 	
 	
 	/**

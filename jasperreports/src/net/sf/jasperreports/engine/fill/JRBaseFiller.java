@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -212,8 +212,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 *
 	 */
-	protected Map<String,Format> dateFormatCache = new HashMap<String,Format>();
-	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
+	protected Map<String,Format> dateFormatCache = new HashMap<>();
+	protected Map<String,Format> numberFormatCache = new HashMap<>();
 
 	protected GroupFooterElementRange groupFooterPositionElementRange;
 	// we need to keep detail element range separate from orphan group footer element range
@@ -350,7 +350,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		JRFillObjectFactory fillFactory = new JRFillObjectFactory(this);
 		
 		// needed when creating group bands
-		defaultStyleListeners = new ArrayList<DefaultStyleListener>();
+		defaultStyleListeners = new ArrayList<>();
 		
 		missingFillBand = new JRFillBand(this, null, fillFactory);
 		missingFillSection = new JRFillSection(this, null, fillFactory);
@@ -412,7 +412,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	private void initBands()
 	{
-		bands = new ArrayList<JRBand>(8 + (groups == null ? 0 : (2 * groups.length)));
+		bands = new ArrayList<>(8 + (groups == null ? 0 : (2 * groups.length)));
 		bands.add(title);
 		bands.add(summary);
 		bands.add(pageHeader);
@@ -557,7 +557,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap<String,Object>();
+			parameterValues = new HashMap<>();
 		}
 
 		if (log.isDebugEnabled())
@@ -815,8 +815,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		collectTemplates();
 		
-		List<JRStyle> externalStyles = new ArrayList<JRStyle>();
-		HashSet<String> loadedLocations = new HashSet<String>();
+		List<JRStyle> externalStyles = new ArrayList<>();
+		HashSet<String> loadedLocations = new HashSet<>();
 		for (ReportTemplateSource template : templates)
 		{
 			collectStyles(template, externalStyles, loadedLocations);
@@ -826,7 +826,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected void collectStyles(ReportTemplateSource template, List<JRStyle> externalStyles, Set<String> loadedLocations) throws JRException
 	{
-		HashSet<String> parentLocations = new HashSet<String>();
+		HashSet<String> parentLocations = new HashSet<>();
 		collectStyles(template, externalStyles, loadedLocations, parentLocations);
 	}
 	
@@ -1292,7 +1292,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		if (subfillers == null)
 		{
-			subfillers = new ConcurrentHashMap<Integer, JRBaseFiller>(16, 0.75f, 1);
+			subfillers = new ConcurrentHashMap<>(16, 0.75f, 1);
 		}
 
 		subfillers.put(subfiller.fillerId, subfiller);
@@ -1314,7 +1314,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	{
 		if (isReorderBandElements())
 		{
-			List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+			List<JRPrintElement> elements = new ArrayList<>();
 			for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
 			{
 				JRPrintElement element = it.next();

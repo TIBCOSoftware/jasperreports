@@ -732,7 +732,7 @@ Property specifying the
 <api href="net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
     </description>
     <api>net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
+    <default><code>net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
   </configProperty>
@@ -3587,7 +3587,7 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.csv.write.header">
     <description>
-Property that specifies whether the export header (the column names) should be written or not.
+Property that specifies whether the CSV metadata-based exporter should include a header (the column names) in the output.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#isWriteHeader--">isWriteHeader()</api> CSV metadata export configuration setting.
@@ -6933,11 +6933,11 @@ Property holding the value of the date format pattern to be used when parsing th
 Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
 This property is meaningful only when:
 <ul>
-<li>the <api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
+<li>the <api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
 parameter is not provided or provided with a <code>null</code> value
 </li>
 <li>there are no properties prefixed with 
-<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
 </li>
 <li>the xpath query expression that is provided <b>contains</b> XML namespace prefixes
 </li>

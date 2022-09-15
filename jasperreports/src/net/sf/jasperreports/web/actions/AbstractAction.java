@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -48,8 +50,6 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 /**
@@ -130,7 +130,7 @@ public abstract class AbstractAction implements Action, Serializable {
 			this.jasperReportsContext = jasperReportsContext;
 			this.locale = locale;
 			this.messageBundle = messageBundle;
-			this.errorMessages = new ArrayList<String>();
+			this.errorMessages = new ArrayList<>();
 		}
 		
 		public void add(String messageKey, Object... args) {
@@ -183,10 +183,21 @@ public abstract class AbstractAction implements Action, Serializable {
 	 */
 	public CommandTarget getCommandTarget(UUID uuid)
 	{
-		return getCommandTarget(uuid, JRDesignComponentElement.class);
+		return getCommandTarget(uuid, JRDesignComponentElement.class, true);
+	}
+
+	public CommandTarget getCommandTarget(UUID uuid, boolean markDirty)
+	{
+		return getCommandTarget(uuid, JRDesignComponentElement.class, markDirty);
 	}
 
 	public CommandTarget getCommandTarget(final UUID uuid, final Class<? extends JRDesignElement> elementType)
+	{
+		return getCommandTarget(uuid, elementType, true);
+	}
+
+	public CommandTarget getCommandTarget(final UUID uuid, final Class<? extends JRDesignElement> elementType,
+			final boolean markDirty)
 	{
 		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
 
@@ -197,7 +208,7 @@ public abstract class AbstractAction implements Action, Serializable {
 			final CommandTarget target = new CommandTarget();
 			target.setUri(uri);
 			
-			JasperDesign jasperDesign = cache.getJasperDesign(uri);
+			JasperDesign jasperDesign = cache.getJasperDesign(uri, false);
 			JRElementsVisitor.visitReport(jasperDesign, new UniformElementVisitor()
 			{
 				private boolean found = false;
@@ -223,6 +234,11 @@ public abstract class AbstractAction implements Action, Serializable {
 			
 			if (target.getIdentifiable() != null)
 			{
+				if (markDirty)
+				{
+					cache.getJasperDesign(target.getUri(), true);
+				}
+
 				return target;
 			}
 		}

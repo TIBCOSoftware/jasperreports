@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -112,8 +112,8 @@ public class PartReportFiller extends BaseReportFiller
 		}
 		else
 		{
-			groupParts = new ArrayList<GroupFillParts>(reportGroups.length);
-			groupPartsByName = new HashMap<String, GroupFillParts>();
+			groupParts = new ArrayList<>(reportGroups.length);
+			groupPartsByName = new HashMap<>();
 			for (JRGroup reportGroup : reportGroups)
 			{
 				GroupFillParts groupFillParts = new GroupFillParts(reportGroup, factory);
@@ -124,7 +124,7 @@ public class PartReportFiller extends BaseReportFiller
 		
 		initDatasets();
 		
-		reportEvaluatedParts = new ArrayList<DelayedPrintPart>();
+		reportEvaluatedParts = new ArrayList<>();
 		
 		if (parent == null)
 		{
@@ -161,7 +161,7 @@ public class PartReportFiller extends BaseReportFiller
 		//FIXMEBOOK copied from JRBaseFiller
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap<String,Object>();
+			parameterValues = new HashMap<>();
 		}
 
 		if (log.isDebugEnabled())

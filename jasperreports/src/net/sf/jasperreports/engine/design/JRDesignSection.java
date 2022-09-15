@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,8 +48,8 @@ public class JRDesignSection extends JRBaseSection
 	public static final String PROPERTY_BANDS = "bands";
 	public static final String PROPERTY_PARTS = "parts";
 	
-	protected List<JRBand> bandsList = new ArrayList<JRBand>();
-	protected List<JRPart> partsList = new ArrayList<JRPart>();
+	protected List<JRBand> bandsList = new ArrayList<>();
+	protected List<JRPart> partsList = new ArrayList<>();
 
 	private JROrigin origin;
 

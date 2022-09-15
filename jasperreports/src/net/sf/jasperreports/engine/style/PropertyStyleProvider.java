@@ -1,7 +1,7 @@
 package net.sf.jasperreports.engine.style;
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -478,8 +478,8 @@ public class PropertyStyleProvider implements StyleProvider
 		this.context = context;
 		this.stylePropertyExpressions = stylePropertyExpressions;
 		
-		List<String> fieldsList = new ArrayList<String>();
-		List<String> variablesList = new ArrayList<String>();
+		List<String> fieldsList = new ArrayList<>();
+		List<String> variablesList = new ArrayList<>();
 		
 		if (stylePropertyExpressions != null)
 		{
@@ -506,6 +506,7 @@ public class PropertyStyleProvider implements StyleProvider
 									variablesList.add(chunk.getText());
 									break;
 								}
+								default:
 							}
 						}
 					}

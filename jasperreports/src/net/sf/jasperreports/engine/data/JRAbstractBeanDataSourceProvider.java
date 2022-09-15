@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -92,7 +92,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
 		if(descriptors != null) 
 		{
-			ArrayList<JRField> fields = new ArrayList<JRField>(descriptors.length);
+			ArrayList<JRField> fields = new ArrayList<>(descriptors.length);
 			
 			for (int i = 0; i < descriptors.length; i++) {
 				PropertyDescriptor descriptor = descriptors[i];

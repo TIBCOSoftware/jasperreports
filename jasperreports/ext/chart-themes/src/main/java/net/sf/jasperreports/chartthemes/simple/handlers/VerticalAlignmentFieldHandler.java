@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,6 +29,7 @@ import org.jfree.ui.VerticalAlignment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 {
@@ -43,27 +44,13 @@ public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponGet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((VerticalAlignment)value).toString();
+		return VerticalAlignmentSerializer.convert((VerticalAlignment)value);
 	}
 
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			VerticalAlignment.TOP.toString().equals(value) 
-			? VerticalAlignment.TOP 
-			: VerticalAlignment.CENTER.toString().equals(value)
-			? VerticalAlignment.CENTER
-			: VerticalAlignment.BOTTOM.toString().equals(value)
-			? VerticalAlignment.BOTTOM : null;
+		return VerticalAlignmentDeserializer.convert((String) value);
 	}
 	
 	@Override

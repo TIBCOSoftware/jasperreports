@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	protected final float MAX_ZOOM = 10f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
-	protected List<JRSaveContributor> saveContributors = new ArrayList<JRSaveContributor>();
+	protected List<JRSaveContributor> saveContributors = new ArrayList<>();
 	protected File lastFolder;
 	protected JRSaveContributor lastSaveContributor;
 	protected DecimalFormat zoomDecimalFormat;
@@ -673,7 +673,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	 */
 	public void setSaveContributors(JRSaveContributor[] saveContributors)
 	{
-		this.saveContributors = new ArrayList<JRSaveContributor>();
+		this.saveContributors = new ArrayList<>();
 		if (saveContributors != null)
 		{
 			this.saveContributors.addAll(Arrays.asList(saveContributors));
@@ -799,6 +799,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		case JRViewerEvent.EVENT_REPORT_LOADED:
 			reportLoaded();
 			break;
+		default:
 		}
 	}
 }

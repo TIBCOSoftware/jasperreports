@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -58,6 +58,8 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.engine.util.StyledTextListInfo;
+import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -94,8 +96,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
-			new JRSingletonCache<MarkupProcessorFactory>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<String,MarkupProcessor>();
+			new JRSingletonCache<>(MarkupProcessorFactory.class);
+	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
 
 	/**
 	 *
@@ -117,7 +119,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String rawText;
 	private JRStyledText styledText;
 	private JRStyledText processedStyledText;
-	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
+	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<>();
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
@@ -153,7 +155,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		this.dynamicScaleFontStepLimit = hasDynamicProperty(PROPERTY_SCALE_FONT_STEP_LIMIT);
 		
-		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
+		this.fillStyleObjectsMap = new HashMap<>();
 	}
 	
 
@@ -345,14 +347,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				: paragraph;
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return this;
-	}
-
 	
 	/**
 	 *
@@ -363,7 +357,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		Map<Attribute,Object> styledTextAttributes = styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
-			styledTextAttributes = new HashMap<Attribute,Object>(); 
+			styledTextAttributes = new HashMap<>(); 
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			FontUtil.getInstance(filler.getJasperReportsContext()).getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
@@ -906,15 +900,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setBold(Boolean)}.
-	 */
-	@Override
-	public void setBold(boolean isBold)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
@@ -935,15 +920,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnItalic()
 	{
 		return providerStyle == null || providerStyle.isOwnItalic() == null ? ((JRFont)parent).isOwnItalic() : providerStyle.isOwnItalic();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
-	 */
-	@Override
-	public void setItalic(boolean isItalic)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -969,15 +945,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
-	 */
-	@Override
-	public void setUnderline(boolean isUnderline)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
@@ -997,15 +964,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnStrikeThrough()
 	{
 		return providerStyle == null || providerStyle.isOwnStrikeThrough() == null ? ((JRFont)parent).isOwnStrikeThrough() : providerStyle.isOwnStrikeThrough();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
-	 */
-	@Override
-	public void setStrikeThrough(boolean isStrikeThrough)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1084,15 +1042,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public Boolean isOwnPdfEmbedded()
 	{
 		return providerStyle == null || providerStyle.isOwnPdfEmbedded() == null ? ((JRFont)parent).isOwnPdfEmbedded() : providerStyle.isOwnPdfEmbedded();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
-	 */
-	@Override
-	public void setPdfEmbedded(boolean isPdfEmbedded)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1202,16 +1151,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 					);
 			}
 			
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				//rewrite as styled text
-				String styledText = filler.getStyledTextParser().write(
-						fullStyledText);
-				setPrintText(printText, styledText);
+				setPrintText(printText, fullText);
 			}
 			else
 			{
-				setPrintText(printText, fullText);
+				//rewrite as styled text
+				String styledText = filler.getStyledTextParser().write(fullStyledText);
+				setPrintText(printText, styledText);
 			}
 			
 			if (endIndex < fullText.length())
@@ -1221,20 +1169,57 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		else
 		{
-			String printedText;
-			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
-				printedText = filler.getStyledTextParser().write(
-						fullStyledText, 
-						startIndex, endIndex);
+				// relying on substring to return the same String object when whole substring
+				setPrintText(printText, fullText.substring(startIndex, endIndex));
 			}
 			else
 			{
-				// relying on substring to return the same String object when whole substring
-				printedText = fullText.substring(startIndex, endIndex);
+				if (startIndex > 0) // if this is an overflow
+				{
+					// preparing bulleted list cuts is a share responsibility between the TextMeasurer and the JRFillTextElement here;
+					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
+					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
+					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+					StyledTextListInfo[] cutListStack = null;
+
+					List<Run> runs = fullStyledText.getRuns();
+					for (int i = runs.size() - 1; i >= 0; i--)
+					{
+						Run run = runs.get(i);
+						if (run.startIndex <= startIndex && startIndex < run.endIndex)
+						{
+							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+							if (listStack != null)
+							{
+								cutListStack = listStack;
+							}
+
+							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
+							if (listItem != null)
+							{
+								listItem.setNoBullet(run.startIndex < startIndex);
+							}
+						}
+					}
+					
+					if (cutListStack != null && cutListStack.length > 0)
+					{
+						for (int i = cutListStack.length - 1; i > 0; i--)
+						{
+							StyledTextListInfo list = cutListStack[i];
+							if (!list.hasParentLi())
+							{
+								StyledTextListInfo parentList = cutListStack[i - 1];
+								parentList.setCutStart(parentList.getCutStart() + 1);
+							}
+						}
+					}
+				}
+				String styledText = filler.getStyledTextParser().write(fullStyledText, startIndex, endIndex);
+				setPrintText(printText, styledText);
 			}
-			
-			setPrintText(printText, printedText);
 		}
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());

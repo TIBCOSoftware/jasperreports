@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -124,10 +124,10 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		{
 			if (seriesNames == null)
 			{
-				seriesNames = new ArrayList<Comparable<?>>();
-				seriesMap = new HashMap<Comparable<?>, TimePeriodValues>();
-				labelsMap = new HashMap<Comparable<?>, Map<TimePeriod, String>>();
-				itemHyperlinks = new HashMap<Comparable<?>, Map<TimePeriod, JRPrintHyperlink>>();
+				seriesNames = new ArrayList<>();
+				seriesMap = new HashMap<>();
+				labelsMap = new HashMap<>();
+				itemHyperlinks = new HashMap<>();
 			}
 
 			for (int i = 0; i < timePeriodSeries.length; i++)
@@ -165,7 +165,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 					Map<TimePeriod, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap<TimePeriod, String>();
+						seriesLabels = new HashMap<>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -177,7 +177,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 					Map<TimePeriod, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<TimePeriod, JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					

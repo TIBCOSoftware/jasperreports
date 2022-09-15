@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -106,8 +106,7 @@ public class ChromePage
 		viewport.setScale(zoomFactor);
 		
 		Page page = devToolsService.getPage();
-		String screenshotString = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100,
-				viewport, true);
+		String screenshotString = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100, viewport, true, false);
 		try
 		{
 			byte[] imageData = Base64Util.decode(screenshotString);

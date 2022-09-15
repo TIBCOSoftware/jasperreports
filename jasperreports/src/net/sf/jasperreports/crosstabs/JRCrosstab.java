@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -336,11 +336,6 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @see #PROPERTY_IGNORE_WIDTH
 	 */
 	public void setIgnoreWidth(Boolean ignoreWidth);
-	
-	/**
-	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
-	 */
-	public void setIgnoreWidth(boolean ignoreWidth);
 	
 	/**
 	 * Returns the position of the crosstab within its element box.

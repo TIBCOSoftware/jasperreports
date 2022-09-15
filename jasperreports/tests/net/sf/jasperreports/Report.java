@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -168,7 +169,7 @@ public class Report
 	{
 		if (params == null)
 		{
-			params = new HashMap<String, Object>();
+			params = new HashMap<>();
 		}
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
@@ -214,15 +215,15 @@ public class Report
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
-		FileOutputStream output = new FileOutputStream(outputFile);
-		try
+		try (
+			DigestOutputStream out = 
+				new DigestOutputStream(
+					new BufferedOutputStream(new FileOutputStream(outputFile)), 
+					digest
+					)
+			)
 		{
-			DigestOutputStream out = new DigestOutputStream(output, digest);
 			xmlExport(print, out);
-		}
-		finally
-		{
-			output.close();
 		}
 		
 		return toDigestString(digest);
@@ -250,6 +251,10 @@ public class Report
 		else
 		{
 			File outputDir = new File(outputDirPath);
+			if (!outputDir.exists())
+			{
+				outputDir.mkdirs(); // for some reason, File.createTempFile method below does not create missing parent folders on Windows
+			}
 			outputFile = File.createTempFile("jr_tests_", ".jrpxml", outputDir);
 		}
 		outputFile.deleteOnExit();

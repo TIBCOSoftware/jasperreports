@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,20 +23,30 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.phantomjs.PhantomJS;
 import net.sf.jasperreports.phantomjs.ScriptManager;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.util.Base64Util;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -99,7 +109,7 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 		File htmlTempFile = File.createTempFile("cv_", ".html", scriptManager.getTempFolder());
 
 		try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes(StandardCharsets.UTF_8));
-			 OutputStream os = new FileOutputStream(htmlTempFile) ) {
+			 OutputStream os = new BufferedOutputStream(new FileOutputStream(htmlTempFile)) ) {
 
 			CVUtils.byteStreamCopy(is, os);
 		}

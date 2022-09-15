@@ -10,8 +10,8 @@
 	<property name="sample.report.name" value="ChartCustomizersReport" />
 	
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
-		<mkdir dir="./build/classes"/> 
-		<javac srcdir="../../../ext/chart-customizers/src/main/java" destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/chart-customizers/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>

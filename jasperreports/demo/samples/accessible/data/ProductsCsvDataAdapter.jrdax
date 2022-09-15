@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+	<name>Products CSV Data Adapter</name>
+	<fileName>data/products.csv</fileName>
+	<recordDelimiter>&#10;</recordDelimiter>
+	<useFirstRowAsHeader>false</useFirstRowAsHeader>
+	<queryExecuterMode>false</queryExecuterMode>
+	<datePattern>yyyy-MM-dd HH:mm:ss</datePattern>
+	<columnNames>Category</columnNames>
+	<columnNames>Type</columnNames>
+	<columnNames>Year</columnNames>
+	<columnNames>Quantity</columnNames>
+</csvDataAdapter>

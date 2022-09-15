@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -86,7 +86,7 @@ public final class FontUtil
 	{
 		@Override
 		protected Set<String> initialValue() {
-			return new HashSet<String>();
+			return new HashSet<>();
 		}
 	};
 	
@@ -292,25 +292,11 @@ public final class FontUtil
 	}
 
 
-	/**
-	 * Returns font information containing the font family, font face and font style, searching for names case insensitive.
-	 * 
-	 * @param name the font family or font face name
-	 * @param locale the locale
-	 * @return a font info object
-	 * @deprecated Replaced by {@link #getFontInfo(String, boolean, Locale)}.
-	 */
-	public FontInfo getFontInfoIgnoreCase(String name, Locale locale)
-	{
-		return getFontInfo(name, true, locale);
-	}
-
-
 	public FontSetInfo getFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
 	{
 		//FIXMEFONT do some cache
 		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
-		HashMap<String, FontFamily> fontFamilies = new HashMap<String, FontFamily>(allFontFamilies.size() * 4 / 3, .75f);
+		HashMap<String, FontFamily> fontFamilies = new HashMap<>(allFontFamilies.size() * 4 / 3, .75f);
 		for (FontFamily family : allFontFamilies)
 		{
 			if (family.getName() != null
@@ -320,7 +306,7 @@ public final class FontUtil
 			}
 		}
 		
-		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<String, FontSetFamilyInfo>();
+		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<>();
 		List<FontSet> allSets = jasperReportsContext.getExtensions(FontSet.class);
 		FontSet foundFontSet = null;
 		FontSetFamilyInfo primaryFamily = null;
@@ -370,7 +356,7 @@ public final class FontUtil
 		}
 		
 		//TODO lucianc handle sets with no families
-		List<FontSetFamilyInfo> familyInfoList = new ArrayList<FontSetFamilyInfo>(setFamilyInfos.values());
+		List<FontSetFamilyInfo> familyInfoList = new ArrayList<>(setFamilyInfos.values());
 		if (primaryFamily == null && !familyInfoList.isEmpty())
 		{
 			primaryFamily = familyInfoList.get(0);
@@ -405,7 +391,7 @@ public final class FontUtil
 	 */
 	public Collection<String> getFontFamilyNames()
 	{
-		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
+		TreeSet<String> familyNames = new TreeSet<>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
 		collectFontFamilyNames(familyNames);
 		return familyNames;
@@ -431,7 +417,7 @@ public final class FontUtil
 	 */
 	public Collection<String> getFontNames()
 	{
-		TreeSet<String> fontNames = new TreeSet<String>();//FIXMEFONT use collator for order?
+		TreeSet<String> fontNames = new TreeSet<>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
 		collectFontFamilyNames(fontNames);
 		collectFontSetNames(fontNames);
@@ -446,14 +432,6 @@ public final class FontUtil
 			FontSet fontSet = itf.next();
 			names.add(fontSet.getName());
 		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, float, Locale, boolean)}.
-	 */
-	public Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
-	{
-		return getAwtFontFromBundles(name, style, (float)size, locale, ignoreMissingFont);
 	}
 
 
@@ -472,7 +450,7 @@ public final class FontUtil
 	public Font getAwtFontFromBundles(boolean ignoreCase, String name, int style, float size, Locale locale, boolean ignoreMissingFont)
 	{
 		Font awtFont = null;
-		FontInfo fontInfo = ignoreCase ? getFontInfoIgnoreCase(name, locale) : getFontInfo(name, locale);
+		FontInfo fontInfo = ignoreCase ? getFontInfo(name, true, locale) : getFontInfo(name, locale);
 		
 		if (fontInfo != null)
 		{
@@ -575,7 +553,7 @@ public final class FontUtil
 	 */ //FIXMECONTEXT check how to make this cache effective again
 	public void resetThreadMissingFontsCache()
 	{
-		threadMissingFontsCache.set(new HashSet<String>());
+		threadMissingFontsCache.set(new HashSet<>());
 	}
 	
 	
@@ -632,13 +610,13 @@ public final class FontUtil
 		
 		if (awtFont == null)
 		{
-			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap<Attribute,Object>(), font));
+			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap<>(), font));
 		}
 		else
 		{
 			// add underline and strikethrough attributes since these are set at
 			// style/font level
-			Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
+			Map<Attribute, Object> attributes = new HashMap<>();
 			if (font.isUnderline())
 			{
 				attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
@@ -657,6 +635,27 @@ public final class FontUtil
 		return awtFont;
 	}
 	
+	public Font resolveDeserializedFont(Font font)
+	{
+		// We use the font.getName() method here because the name field in the java.awt.Font class is the only font name related information that gets serialized,
+		// along with the size and style. The font.getFontName() and font.getFamily() both return runtime calculated values, which are not accurate in case of AWT fonts
+		// created at runtime through font extensions (both seem to return 'Dialog').
+		// For AWT fonts created from font extensions using the Font.createFont(int, InputStream), the name field is set to the same value as the font.getFontName(),
+		// which is the recommended method to get the name of an AWT font.
+		String fontName = font.getName();
+		// We load an instance of an AWT font, even if the specified font name is not available (ignoreMissingFont=true),
+		// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
+		// and they are responsible for the drawing as well.
+		// Here we rely on the utility method ability to find a font by face name, not only family name. This is because font.getName() above returns an AWT font name,
+		// not a font family name.
+		Font newFont = getAwtFontFromBundles(fontName, font.getStyle(), font.getSize2D(), null, true);
+		if (newFont != null)
+		{
+			return newFont.deriveFont(font.getAttributes());
+		}
+
+		return font;
+	}
 	
 	private FontUtil()
 	{

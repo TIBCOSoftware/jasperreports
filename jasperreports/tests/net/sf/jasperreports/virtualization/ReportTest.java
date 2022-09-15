@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ public class ReportTest
 	@Test
 	public void virtualizedReport() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		HashMap<String, Object> params = new HashMap<String, Object>();
+		HashMap<String, Object> params = new HashMap<>();
 		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(3);
 		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 		

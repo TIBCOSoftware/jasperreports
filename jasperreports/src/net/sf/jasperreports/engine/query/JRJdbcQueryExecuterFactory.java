@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -204,7 +204,11 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 				java.util.Date.class.getName(), 
 				java.sql.Date.class.getName(), 
 				java.sql.Timestamp.class.getName(), 
-				java.sql.Time.class.getName() };
+				java.sql.Time.class.getName(),
+				java.time.LocalDate.class.getName(),
+				java.time.LocalDateTime.class.getName(),
+				java.time.LocalTime.class.getName()
+				};
 
 		Arrays.sort(queryParameterClassNames);
 	}

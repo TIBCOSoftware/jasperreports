@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -38,7 +38,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText, TextFormat
 {
 	/**
-	 * Specifies if the last line in a paragraph should be justified.
+	 * Specifies if the first line in a paragraph should be indented.
 	 */
 	@Property(
 		valueType = Boolean.class,

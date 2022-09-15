@@ -4,8 +4,8 @@
 	</info>
 	<dependencies>
 		<dependency org="org.apache.commons" name="commons-compress" rev="1.21" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi-ooxml-schemas" rev="4.1.1" conf="test->*"/>
-		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="3.0.2" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi-ooxml-lite" rev="5.2.2" conf="test->*"/>
+		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="5.0.2" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 	</dependencies>
 </ivy-module>

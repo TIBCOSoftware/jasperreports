@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -60,7 +60,7 @@ public class DatasetSortUtil
 	 */
 	public static JRSortField[] getAllSortFields(JRFillDataset dataset)
 	{
-		List<JRSortField> allSortFields = new ArrayList<JRSortField>();
+		List<JRSortField> allSortFields = new ArrayList<>();
 		
 		JRSortField[] staticSortFields = dataset.getSortFields();
 		if (staticSortFields != null)
@@ -141,8 +141,8 @@ public class DatasetSortUtil
 		DatasetSortInfo sortInfo = new DatasetSortInfo();
 		sortInfo.setOriginalDataSource(dataset.dataSource);
 
-		Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
-		Map<String, Integer> fieldIndexMap = new HashMap<String, Integer>();
+		Map<String, JRField> fieldsMap = new HashMap<>();
+		Map<String, Integer> fieldIndexMap = new HashMap<>();
 		JRField[] fields = dataset.getFields();
 		if (fields != null)
 		{
@@ -155,7 +155,7 @@ public class DatasetSortUtil
 			}
 		}
 
-		Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
+		Map<String, JRVariable> variablesMap = new HashMap<>();
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null)
 		{
@@ -311,7 +311,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	public List<SortedDataSource.SortRecord> sort() throws JRException
 	{
 		recordIndex = 0;
-		records = new ArrayList<SortedDataSource.SortRecord>();
+		records = new ArrayList<>();
 
 		try
 		{

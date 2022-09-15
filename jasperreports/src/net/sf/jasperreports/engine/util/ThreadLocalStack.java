@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,7 +37,7 @@ public class ThreadLocalStack
 	
 	public ThreadLocalStack()
 	{
-		threadStack = new ThreadLocal<LinkedList<Object>>();
+		threadStack = new ThreadLocal<>();
 	}
 	
 	public void push(Object o)
@@ -45,7 +45,7 @@ public class ThreadLocalStack
 		LinkedList<Object> stack = threadStack.get();
 		if (stack == null)
 		{
-			stack = new LinkedList<Object>();
+			stack = new LinkedList<>();
 			threadStack.set(stack);
 		}
 		stack.addFirst(o);

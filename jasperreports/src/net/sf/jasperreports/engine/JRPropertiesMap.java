@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -108,8 +108,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	private void init()
 	{
 		// start with small collections
-		propertiesMap = new HashMap<String, String>(4, 0.75f);
-		propertiesList = new ArrayList<String>(2);
+		propertiesMap = new HashMap<>(4, 0.75f);
+		propertiesList = new ArrayList<>(2);
 	}
 
 	
@@ -129,7 +129,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 			}
 			else
 			{
-				LinkedHashSet<String> namesSet = new LinkedHashSet<String>();
+				LinkedHashSet<String> namesSet = new LinkedHashSet<>();
 				collectPropertyNames(namesSet);
 				names = namesSet.toArray(new String[namesSet.size()]);
 			}
@@ -290,6 +290,21 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		return this.cloneProperties();
 	}
 	
+	/**
+	 * Copies properties from a different map into this object.
+	 * 
+	 * @param propertiesMap the map to copy properties from
+	 */
+	public void copyOwnProperties(JRPropertiesMap propertiesMap)
+	{
+		if (propertiesMap.propertiesList != null)
+		{
+			for (String prop : propertiesMap.propertiesList)
+			{
+				setProperty(prop, propertiesMap.getOwnProperty(prop));
+			}
+		}
+	}
 	
 	@Override
 	public String toString()
@@ -305,8 +320,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		if (propertiesList == null && propertiesMap != null)// an instance from an old version has been deserialized
 		{
 			//recreate the properties list and map
-			propertiesList = new ArrayList<String>(propertiesMap.keySet());
-			propertiesMap = new HashMap<String, String>(propertiesMap);
+			propertiesList = new ArrayList<>(propertiesMap.keySet());
+			propertiesMap = new HashMap<>(propertiesMap);
 		}
 	}
 	

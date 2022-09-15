@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -198,7 +198,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	{
 		List<JRPropertiesUtil.PropertySuffix> transferProperties = propertiesUtil.getProperties(
 				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
-		List<String> prefixes = new ArrayList<String>(transferProperties.size());
+		List<String> prefixes = new ArrayList<>(transferProperties.size());
 		for (JRPropertiesUtil.PropertySuffix property : transferProperties)
 		{
 			String transferPrefix = property.getValue();
@@ -214,7 +214,7 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	private void createDatasets() throws JRException
 	{
-		datasetMap = new HashMap<String,JRFillDataset>();
+		datasetMap = new HashMap<>();
 
 		JRDataset[] datasets = jasperReport.getDatasets();
 		if (datasets != null && datasets.length > 0)
@@ -406,7 +406,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap<String,Object>();
+			parameterValues = new HashMap<>();
 		}
 
 		setConnectionParameterValue(parameterValues, conn);
@@ -425,7 +425,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap<String,Object>();
+			parameterValues = new HashMap<>();
 		}
 
 		setDatasourceParameterValue(parameterValues, ds);

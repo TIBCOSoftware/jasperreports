@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,6 +53,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -129,6 +130,7 @@ import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
@@ -158,14 +160,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	public static String CURRENT_ROW_HEIGHT = "CURRENT_ROW_HEIGHT";
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<Color,HSSFColor>();
+	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<>();
 
 	protected final DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
 	
-	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
-	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
-	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
-	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<>();
 
 	protected HSSFWorkbook workbook;
 	protected HSSFSheet sheet;
@@ -289,9 +291,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						}
 					}
 				}
-			} catch (JRException e) {
-				throw new JRRuntimeException(e);
-			} catch (IOException e) {
+			} catch (JRException | IOException e) {
 				throw new JRRuntimeException(e);
 			} finally {
 				if (templateIs != null)	{
@@ -310,9 +310,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		firstPageNotSet = true;
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
-		columnWidths = new HashMap<String, Integer>();
-		columnWidthRatios = new HashMap<String, Float>();
-		formulaCellsMap = new HashMap<HSSFCell,String>();
+		columnWidths = new HashMap<>();
+		columnWidthRatios = new HashMap<>();
+		formulaCellsMap = new HashMap<>();
 	}
 
 	@Override
@@ -469,8 +469,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
-			for (Object anchorName : anchorNames.keySet()) {
-				HSSFName anchor = anchorNames.get(anchorName);
+			for (Entry<String, HSSFName> entry : anchorNames.entrySet()) {
+				String anchorName = entry.getKey();
+				HSSFName anchor = entry.getValue();
 				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 				
@@ -524,8 +525,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 			
 			int index = 0;
-			for (Integer linkPage : pageLinks.keySet()) {
-				List<Hyperlink> linkList = pageLinks.get(linkPage);
+			for (Entry<Integer, List<Hyperlink>> entry : pageLinks.entrySet()) {
+				Integer linkPage = entry.getKey();
+				List<Hyperlink> linkList = entry.getValue();
 				if(linkList != null && !linkList.isEmpty()) {
 					for(Hyperlink link : linkList) {
 						index = onePagePerSheetMap.get(linkPage-1)!= null 
@@ -1002,7 +1004,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								if(anchorLinks.containsKey(href)) {
 									(anchorLinks.get(href)).add(link);
 								} else {
-									List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+									List<Hyperlink> hrefList = new ArrayList<>();
 									hrefList.add(link);
 									anchorLinks.put(href, hrefList);
 								}
@@ -1018,7 +1020,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
 								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							} else {
-								List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+								List<Hyperlink> hrefList = new ArrayList<>();
 								hrefList.add(link);
 								pageLinks.put(sheetsBeforeCurrentReport + hrefPage, hrefList);
 							}
@@ -1124,16 +1126,21 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		cellValueMap.put(currentColumnName, cellSettings);
 	}
 
-	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale) {
+	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale) 
+	{
+		styledText = JRStyledTextUtil.getBulletedStyledText(styledText);
+		
 		String text = styledText.getText();
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length()) {
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length()) 
+		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
-			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null  
+			short runForecolor = 
+				attributes.get(TextAttribute.FOREGROUND) != null  
 				? getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() 
 				: forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
@@ -2420,13 +2427,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			hashCode = computeHash();
 		}
 	
+		@SuppressWarnings("deprecation")
 		protected int computeHash() {
 			int hash = mode.hashCode();
 			hash = 31*hash + backcolor;
 			hash = 31*hash + horizontalAlignment.hashCode();
 			hash = 31*hash + verticalAlignment.hashCode();
 			hash = 31*hash + rotation;
-			hash = 31*hash + (font == null ? 0 : font.getIndex());
+			hash = 31*hash + (font == null ? 0 : font.getIndexAsInt());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + lcDataFormat;
 			hash = 31*hash + (lcWrapText ? 0 : 1);
@@ -2454,6 +2462,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			return hashCode;
 		}
 	
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean equals(Object o) {
 			StyleInfo s = (StyleInfo) o;
@@ -2463,7 +2472,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					&& s.horizontalAlignment == horizontalAlignment
 					&& s.verticalAlignment == verticalAlignment
 					&& s.rotation == rotation
-					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
+					&& (s.font == null ? font == null : (font != null && s.font.getIndexAsInt() == font.getIndexAsInt()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
 					&& s.rotation == rotation && s.lcWrapText == lcWrapText 
 					&& s.lcCellLocked == lcCellLocked && s.lcCellHidden == lcCellHidden

@@ -1,4 +1,4 @@
-<project name="chartthemes" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="chartthemes" default="test" basedir=".">
 
 	<description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
@@ -10,15 +10,15 @@
 	<property name="sample.report.name" value="AllChartsReport" />
 
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
-		<mkdir dir="./build/classes"/> 
-		<javac srcdir="../../../ext/chart-themes/src/main/java" destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/chart-themes/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
-		<copy todir="./build/classes">
+		<copy todir="./build/ext">
 			<fileset dir="../../../ext/chart-themes/src/main/resources">
 				<include name="**/*.properties"/>
 				<include name="**/*.xml"/>
@@ -33,7 +33,7 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings." depends="prepare-compile-classpath">
+	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="themes"/>
 			<classpath refid="sample-classpath"/>

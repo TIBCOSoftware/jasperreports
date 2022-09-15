@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -72,9 +72,8 @@ public class JasperDesignCache implements Serializable
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private ReportCompiler reportCompiler;
-	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<String, JasperDesignReportResource>();
-	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = 
-			new ConcurrentHashMap<Pair<String, UUID>, List<JRStyle>>();
+	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<>();
+	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = new ConcurrentHashMap<>();
 	//private Map<UUID, String> cachedSubreportsMap = new HashMap<UUID, String>();
 
 	/**
@@ -135,10 +134,15 @@ public class JasperDesignCache implements Serializable
 	 */
 	public JasperDesign getJasperDesign(String uri)
 	{
+		return getJasperDesign(uri, true);
+	}
+
+	public JasperDesign getJasperDesign(String uri, boolean markDirty)
+	{
 		JasperDesignReportResource resource = getResource(uri);
 		if (resource != null)
 		{
-			ensureJasperDesign(resource);
+			ensureJasperDesign(resource, markDirty);
 			return resource.getJasperDesign();
 		}
 		return null;
@@ -221,7 +225,7 @@ public class JasperDesignCache implements Serializable
 		return resource;
 	}
 
-	protected void ensureJasperDesign(JasperDesignReportResource resource)
+	protected void ensureJasperDesign(JasperDesignReportResource resource, boolean markDirty)
 	{
 		JasperDesign jasperDesign = resource.getJasperDesign();
 		JasperReport jasperReport = resource.getReport();
@@ -243,7 +247,7 @@ public class JasperDesignCache implements Serializable
 					new JRXmlWriter(jasperReportsContext).write(jasperReport, baos, "UTF-8");
 					bais = new ByteArrayInputStream(baos.toByteArray());
 					jasperDesign = JRXmlLoader.load(bais);
-					resource.setJasperDesign(jasperDesign);
+					resource.setJasperDesign(jasperDesign, markDirty);
 				}
 				catch (JRException e)
 				{
@@ -264,7 +268,11 @@ public class JasperDesignCache implements Serializable
 					}
 				}
 			}
-		}		
+		}
+		else if (markDirty)
+		{
+			resource.setDesignDirty(true);
+		}
 	}
 
 	/**
@@ -287,7 +295,7 @@ public class JasperDesignCache implements Serializable
 			log.debug("Setting " + styles.size() + " styles for " + reportURI + " and " + id);
 		}
 
-		reportStyles.put(new Pair<String, UUID>(reportURI, id), styles);
+		reportStyles.put(new Pair<>(reportURI, id), styles);
 	}
 	
 	public String locateReport(JasperReport jasperReport)

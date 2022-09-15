@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -38,7 +38,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * {@link #PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property.
  * The class should have a public default constructor so that it can be instantiated via reflection.
  * <p/>
- * By default, {@link XalanXPathExecuter XPath executers} based on <a href="http://xml.apache.org/xalan-j/" target="_blank">Apache Xalan</a>
+ * By default, {@link JaxenXPathExecuter XPath executers} based on <a href="http://www.cafeconleche.org/jaxen/" target="_blank">Jaxen</a>
  * are used.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -52,14 +52,14 @@ public final class JRXPathExecuterUtils
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory",
+			defaultValue = "net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_2_0_0
 			)
 	public static final String PROPERTY_XPATH_EXECUTER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.executer.factory";
 	
 	private static final JRSingletonCache<JRXPathExecuterFactory> cache = 
-			new JRSingletonCache<JRXPathExecuterFactory>(JRXPathExecuterFactory.class);
+			new JRSingletonCache<>(JRXPathExecuterFactory.class);
 	
 	
 	/**

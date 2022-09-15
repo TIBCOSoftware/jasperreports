@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ public class JRStyledTextUtil
 	private final boolean ignoreMissingFonts;
 	
 	private final Map<Pair<String, Locale>, FamilyFonts> familyFonts = 
-			new ConcurrentHashMap<Pair<String, Locale>, FamilyFonts>();
+			new ConcurrentHashMap<>();
 	
 	/**
 	 *
@@ -190,7 +190,7 @@ public class JRStyledTextUtil
 			FamilyFonts families = getFamilyFonts(attributes, locale);
 			if (families.needsToResolveFonts(exporterKey))//TODO lucianc check for single family
 			{
-				newRuns = new ArrayList<Run>(runs.size() + 2);
+				newRuns = new ArrayList<>(runs.size() + 2);
 				matchFonts(text, 0, styledText.length(), attributes, families, newRuns);
 			}
 		}
@@ -210,7 +210,7 @@ public class JRStyledTextUtil
 			
 			if (needsFontMatching)
 			{
-				newRuns = new ArrayList<Run>(runs.size() + 2);
+				newRuns = new ArrayList<>(runs.size() + 2);
 				AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
 				int index = 0;
 				while (index < styledText.length())
@@ -338,7 +338,7 @@ public class JRStyledTextUtil
 		{
 			//using the primary font as fallback for characters that are not found in any fonts
 			//TODO lucianc enhance AdditionalEntryMap to support overwriting an entry
-			newAttributes = new HashMap<Attribute, Object>(attributes);
+			newAttributes = new HashMap<>(attributes);
 			String primaryFamilyName = familyFonts.fontSet.getPrimaryFamily().getFontFamily().getName();
 			newAttributes.put(TextAttribute.FAMILY, primaryFamilyName);
 		}
@@ -355,7 +355,7 @@ public class JRStyledTextUtil
 			int startIndex, int endIndex, FontInfo fontInfo)
 	{
 		//directly putting the FontInfo as an attribute
-		Map<Attribute, Object> newAttributes = new AdditionalEntryMap<Attribute, Object>(
+		Map<Attribute, Object> newAttributes = new AdditionalEntryMap<>(
 				attributes, JRTextAttribute.FONT_INFO, fontInfo);
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
@@ -369,7 +369,7 @@ public class JRStyledTextUtil
 	
 	protected FontMatch fontMatchRun(String text, int startIndex, int endIndex, List<Face> fonts)
 	{
-		LinkedList<Face> validFonts = new LinkedList<Face>(fonts);
+		LinkedList<Face> validFonts = new LinkedList<>(fonts);
 		Face lastValid = null;
 		int charIndex = startIndex;
 		int nextCharIndex = charIndex;
@@ -434,7 +434,7 @@ public class JRStyledTextUtil
 	
 	protected FamilyFonts getFamilyFonts(String name, Locale locale)
 	{
-		Pair<String, Locale> key = new Pair<String, Locale>(name, locale);
+		Pair<String, Locale> key = new Pair<>(name, locale);
 		FamilyFonts fonts = familyFonts.get(key);
 		if (fonts == null)
 		{
@@ -492,10 +492,10 @@ public class JRStyledTextUtil
 			}
 			
 			List<FontSetFamilyInfo> families = fontSet.getFamilies();
-			this.normalFonts = new ArrayList<Face>(families.size());
-			this.boldFonts = new ArrayList<Face>(families.size());
-			this.italicFonts = new ArrayList<Face>(families.size());
-			this.boldItalicFonts = new ArrayList<Face>(families.size());
+			this.normalFonts = new ArrayList<>(families.size());
+			this.boldFonts = new ArrayList<>(families.size());
+			this.italicFonts = new ArrayList<>(families.size());
+			this.boldItalicFonts = new ArrayList<>(families.size());
 			
 			for (FontSetFamilyInfo fontSetFamily : families)
 			{
@@ -598,6 +598,217 @@ public class JRStyledTextUtil
 		{
 			return family.includesCharacter(code)
 					&& fontInfo.getFontFace().getFont().canDisplay(code);			
+		}
+	}
+
+	public static String getIndentedBulletText(StyledTextWriteContext context)
+	{
+		String bulletIndent = null;
+
+		if (context.isListItemChange())
+		{
+			if (
+				!context.isFirstRun() 
+				&& !context.prevListItemEndedWithNewLine()
+				&& ((!context.listItemStartsWithNewLine() && context.isListItemStart())
+					|| context.isListItemEnd())// || context.isListStart() || context.isListEnd()))
+				)
+			{
+				bulletIndent = "\n";
+			}
+			if (context.getDepth() > 0)
+			{
+				bulletIndent = (bulletIndent == null ? "" : bulletIndent) + new String(new char[context.getDepth() * 4]).replace('\0', ' ');
+			}
+		}
+		
+		String bulletText = JRStyledTextUtil.getBulletText(context);
+
+		return bulletIndent == null ? null : (bulletIndent + (bulletText == null ? "" : (bulletText + " ")));
+	}
+
+	public static String getBulletText(StyledTextWriteContext context)
+	{
+		String bulletText = null;
+
+		if (
+			context.isListItemStart()
+			&& !context.getListItem().noBullet()
+			)
+		{
+			bulletText = getBulletText(context.getList(), context.getListItem());
+		}
+		
+		return bulletText;
+	}
+
+	public static String getBulletText(StyledTextListInfo list, StyledTextListItemInfo listItem)
+	{
+		String bulletText = null;
+		
+		if (list == null || !list.ordered())
+		{
+			bulletText = "\u2022"; 
+		}
+		else
+		{
+			int itemNumber = list.getStart() + listItem.getItemIndex();
+			if (list.getType() == null)
+			{
+				bulletText = String.valueOf(itemNumber);
+			}
+			else
+			{
+				switch (list.getType())
+				{
+					case "A":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, true);
+						break;
+					}
+					case "a":
+					{
+						bulletText = JRStringUtil.getLetterNumeral(itemNumber, false);
+						break;
+					}
+					case "I":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, true);
+						break;
+					}
+					case "i":
+					{
+						bulletText = JRStringUtil.getRomanNumeral(itemNumber, false);
+						break;
+					}
+					case "1":
+					default:
+					{
+						bulletText = String.valueOf(itemNumber);
+						break;
+					}
+				}
+			}
+			
+			bulletText += ".";
+		}
+		
+		return bulletText;
+	}
+
+	public static JRStyledText getBulletedText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
+
+				context.next(attributes, runText);
+
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+				{
+					runText = runText.substring(1);
+				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					sb.append((bulletText == null ? "" : bulletText) + runText);
+				}
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes());
+		}
+
+		return styledText;
+	}
+
+	public static JRStyledText getBulletedStyledText(JRStyledText styledText)
+	{
+		if (styledText != null)
+		{
+			StyledTextWriteContext context = new StyledTextWriteContext();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+			
+			String allText = styledText.getText();
+
+			int resizeOffset = 0;
+			int runLimit = 0;
+
+			while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+			{
+				Map<Attribute,Object> attributes = allParagraphs.getAttributes();
+
+				String runText = allText.substring(allParagraphs.getIndex(), runLimit);
+
+				context.next(attributes, runText);
+
+				int initRunTextLength = runText.length();
+				int initBufferSize = sb.length();
+				
+				if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+				{
+					runText = runText.substring(1);
+				}
+
+				if (runText.length() > 0)
+				{
+					String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
+					
+					if (bulletText != null)
+					{
+						sb.append(bulletText);
+					}
+					
+					sb.append(runText);
+				}
+
+				int resizeAmount = (sb.length() - initBufferSize) - initRunTextLength;
+				
+				resizeRuns(styledText.getRuns(), allParagraphs.getIndex() + resizeOffset, resizeAmount);
+				resizeOffset += resizeAmount;
+
+				allParagraphs.setIndex(runLimit);
+			}
+			
+			styledText = new JRStyledText(styledText.getLocale(), sb.toString(), styledText.getGlobalAttributes(), styledText.getRuns());
+		}
+
+		return styledText;
+	}
+
+	public static void resizeRuns(List<Run> runs, int startIndex, int count)
+	{
+		for (int j = 0; j < runs.size(); j++)
+		{
+			JRStyledText.Run run = runs.get(j);
+			if (startIndex < run.startIndex)
+			{
+				run.startIndex += count;
+			}
+			if (startIndex < run.endIndex)
+			{
+				run.endIndex += count;
+			}
 		}
 	}
 }

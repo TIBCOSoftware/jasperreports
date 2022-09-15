@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -72,12 +72,12 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	private Integer width;
 
 	private JRPropertiesMap propertiesMap;
-	private List<JRPropertyExpression> propertyExpressions = new ArrayList<JRPropertyExpression>();
+	private List<JRPropertyExpression> propertyExpressions = new ArrayList<>();
 
 	public StandardBaseColumn()
 	{
-		groupHeaders = new ArrayList<GroupCell>();
-		groupFooters = new ArrayList<GroupCell>();
+		groupHeaders = new ArrayList<>();
+		groupFooters = new ArrayList<>();
 	}
 
 	public StandardBaseColumn(BaseColumn column, ColumnFactory factory)
@@ -105,7 +105,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		JRPropertyExpression[] props = column.getPropertyExpressions();
 		if (props != null && props.length > 0)
 		{
-			propertyExpressions = new ArrayList<JRPropertyExpression>(props.length);
+			propertyExpressions = new ArrayList<>(props.length);
 			for (int i = 0; i < props.length; i++)
 			{
 				propertyExpressions.add(factory.getBaseObjectFactory().getPropertyExpression(props[i]));
@@ -523,7 +523,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		
 		if (propertyExpressions == null)
 		{
-			propertyExpressions = new ArrayList<JRPropertyExpression>();
+			propertyExpressions = new ArrayList<>();
 		}
 	}
 }

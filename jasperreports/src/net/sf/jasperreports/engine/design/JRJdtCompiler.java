@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -107,11 +107,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			is2ArgsConstr = true;
 			success = true;
 		}
-		catch (NoSuchMethodException e)
-		{
-			success = false;
-		}
-		catch (ClassNotFoundException ex)
+		catch (NoSuchMethodException | ClassNotFoundException ex)
 		{
 			success = false;
 		}
@@ -278,31 +274,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				{
 					log.error("Compilation error", exc);
 				}
-				catch (InvocationTargetException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (IllegalArgumentException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (InstantiationException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NAME_ENVIRONMENT_ANSWER_INSTANCE_ERROR,
-							(Object[])null,
-							e);
-				}
-				catch (IllegalAccessException e)
+				catch (InvocationTargetException | IllegalArgumentException | InstantiationException | IllegalAccessException e)
 				{
 					throw 
 						new JRRuntimeException(
@@ -399,7 +371,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 
 	protected Map<String,String> getJdtSettings()
 	{
-		final Map<String,String> settings = new HashMap<String,String>();
+		final Map<String,String> settings = new HashMap<>();
 		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
@@ -768,31 +740,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			try {
 				Method getErrorsMethod = result.getClass().getMethod("getErrors", (Class[])null);
 				return (IProblem[]) getErrorsMethod.invoke(result, (Object[])null);
-			} catch (SecurityException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
-						(Object[])null,
-						e);
-			} catch (NoSuchMethodException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_RESOLVING_ERROR,
-						(Object[])null,
-						e);
-			} catch (IllegalArgumentException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
-						(Object[])null,
-						e);
-			} catch (IllegalAccessException e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
-						(Object[])null,
-						e);
-			} catch (InvocationTargetException e) {
+			} catch (SecurityException | NoSuchMethodException | IllegalArgumentException 
+					| IllegalAccessException | InvocationTargetException e) {
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_METHOD_INVOKING_ERROR,
@@ -874,7 +823,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				if (missingMethods == null)
 				{
-					missingMethods = new HashSet<Method>();
+					missingMethods = new HashSet<>();
 				}
 				
 				missingMethods.add(missingMethod);
@@ -897,7 +846,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				if (resolvedMethods == null)
 				{
-					resolvedMethods = new HashSet<Method>();
+					resolvedMethods = new HashSet<>();
 				}
 				resolvedMethods.addAll(missingMethods);
 			}

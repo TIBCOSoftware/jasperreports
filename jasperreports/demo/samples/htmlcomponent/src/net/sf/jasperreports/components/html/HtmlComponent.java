@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -131,34 +131,6 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		this.scaleType = scaleType;
 		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, 
 				old, this.scaleType);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
-	 */
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlign() {
-		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
-	 */
-	public void setHorizontalAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlign) {
-		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlign));
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
-	 */
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlign() {
-		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}
-	 */
-	public void setVerticalAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlign) {
-		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlign));
 	}
 
 	/**

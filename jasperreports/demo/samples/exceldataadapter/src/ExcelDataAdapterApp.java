@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -83,11 +83,11 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsQeDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.xml");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.jrdax");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 
 		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxQeDataAdapter.xml");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxQeDataAdapter.jrdax");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 //		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
@@ -103,11 +103,11 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		
 		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.xml");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.jrdax");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 
 		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxDataAdapter.xml");
+		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxDataAdapter.jrdax");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));

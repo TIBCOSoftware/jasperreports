@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -112,7 +112,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	public static final String SUBREPORT_GENERATE_RECTANGLE_ALWAYS = "always";
 	
 	private static final JRSingletonCache<JRSubreportRunnerFactory> runnerFactoryCache = 
-			new JRSingletonCache<JRSubreportRunnerFactory>(JRSubreportRunnerFactory.class);
+			new JRSingletonCache<>(JRSubreportRunnerFactory.class);
 
 	/**
 	 *
@@ -184,8 +184,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		parameters = subreport.getParameters();
 		returnValues = new FillReturnValues(subreport.getReturnValues(), factory, filler);
 		
-		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();
-		checkedReports = new HashSet<JasperReport>();
+		loadedEvaluators = new HashMap<>();
+		checkedReports = new HashSet<>();
 		
 		this.defaultGenerateRectangle = filler.getPropertiesUtil().getProperty( 
 			PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getJasperReport()); // property expression does not work, 
@@ -201,7 +201,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		returnValues = new FillReturnValues(subreport.returnValues, factory);
 		returnValuesContext = subreport.returnValuesContext;//FIXMERETURN this was missing; really need it?
 		
-		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();// not sharing evaluators between clones
+		loadedEvaluators = new HashMap<>();// not sharing evaluators between clones
 		checkedReports = subreport.checkedReports;
 		
 		defaultGenerateRectangle = subreport.defaultGenerateRectangle;
@@ -722,7 +722,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			if (parameterValues == filler.getParameterValuesMap())
 			{
 				//create a clone of the map so that the master map is not altered
-				parameterValues = new HashMap<String, Object>(parameterValues);
+				parameterValues = new HashMap<>(parameterValues);
 			}
 			
 			//parameterValues.remove(JRParameter.REPORT_LOCALE);
@@ -762,7 +762,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap<String, Object>();
+			parameterValues = new HashMap<>();
 		}
 		
 		/*   */
@@ -1173,7 +1173,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 			while (parentFiller != null);
 			
-			List<JRValidationFault> brokenRules = new ArrayList<JRValidationFault>();
+			List<JRValidationFault> brokenRules = new ArrayList<>();
 			JRVerifier.verifyBandHeights(brokenRules, 
 					jasperReport, pageHeight, topMargin, bottomMargin);
 			

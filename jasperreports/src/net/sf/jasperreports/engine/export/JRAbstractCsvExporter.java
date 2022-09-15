@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,7 @@ import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -44,6 +45,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 import net.sf.jasperreports.export.CsvReportConfiguration;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -195,7 +197,14 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	@Override
 	public JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText(noneSelector);
+		JRStyledText styledText = textElement.getFullStyledText(noneSelector);
+		
+		if (styledText != null && !JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+		{
+			styledText = JRStyledTextUtil.getBulletedText(styledText);
+		}
+
+		return styledText;
 	}
 
 
@@ -238,7 +247,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			
 			str = sb.toString();
 			
-			if (escapeFormula && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >= 0)
+			if (escapeFormula && !str.isEmpty() && ESCAPE_FORMULA_CHARACTERS.indexOf(str.charAt(0)) >= 0)
 			{
 				str = " " + str;
 			}

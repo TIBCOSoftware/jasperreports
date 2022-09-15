@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -120,8 +120,8 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 			if (dataset == null)
 			{
 				dataset = new DefaultCategoryDataset();
-				labelsMap = new HashMap<Comparable<?>, Map<Comparable<?>, String>>();
-				itemHyperlinks = new HashMap<Comparable<?>, Map<Comparable<?>, JRPrintHyperlink>>();
+				labelsMap = new HashMap<>();
+				itemHyperlinks = new HashMap<>();
 			}
 			
 			for(int i = 0; i < categorySeries.length; i++)
@@ -149,7 +149,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 					Map<Comparable<?>, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap<Comparable<?>, String>();
+						seriesLabels = new HashMap<>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -161,7 +161,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 					Map<Comparable<?>, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap<Comparable<?>, JRPrintHyperlink>();
+						seriesLinks = new HashMap<>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					seriesLinks.put(crtCategorySeries.getCategory(), crtCategorySeries.getPrintItemHyperlink());
