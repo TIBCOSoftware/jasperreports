@@ -9,7 +9,7 @@
 		<![CDATA[select NON EMPTY {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
   NON EMPTY Crossjoin(
   	{[Store].[All Stores], [Store].[All Stores].[USA].[CA], [Store].[All Stores].[USA].[OR], [Store].[All Stores].[USA].[WA]},
-  	 Crossjoin({[Time.Weekly].[2012], [Time.Weekly].[2012].[1], [Time.Weekly].[2012].[2], [Time.Weekly].[2012].[3], [Time.Weekly].[2012].[4]},
+  	 Crossjoin({[Time.Weekly].[2018], [Time.Weekly].[2018].[1], [Time.Weekly].[2018].[2], [Time.Weekly].[2018].[3], [Time.Weekly].[2018].[4]},
   	 	 {[Customers].[All Customers], [Customers].[All Customers].[USA].[CA], [Customers].[All Customers].[USA].[OR], [Customers].[All Customers].[USA].[WA]}))
   	 	 ON ROWS
 from [Sales]]]>

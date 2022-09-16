@@ -7,7 +7,7 @@
 	<queryString language="mdx">
 		<![CDATA[select NON EMPTY {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
   NON EMPTY Crossjoin({[Store].[All Stores], [Store].[All Stores].[USA].[CA], [Store].[All Stores].[USA].[OR], [Store].[All Stores].[USA].[WA]},
-  				Crossjoin({[Time].[2012], [Time].[2012].[Q1], [Time].[2012].[Q2], [Time].[2012].[Q3], [Time].[2012].[Q4]},
+  				Crossjoin({[Time].[2018], [Time].[2018].[Q1], [Time].[2018].[Q2], [Time].[2018].[Q3], [Time].[2018].[Q4]},
   				{[Customers].[All Customers], [Customers].[All Customers].[USA].[CA], [Customers].[All Customers].[USA].[OR], [Customers].[All Customers].[USA].[WA]})) ON ROWS
 from [Sales]]]>
 	</queryString>
