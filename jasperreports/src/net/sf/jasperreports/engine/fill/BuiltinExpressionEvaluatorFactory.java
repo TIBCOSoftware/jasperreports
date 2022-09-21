@@ -21,15 +21,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.engine.fill;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
-import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
-import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 
 
 /**

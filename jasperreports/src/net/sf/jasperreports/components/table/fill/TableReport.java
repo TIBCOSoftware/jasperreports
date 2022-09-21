@@ -101,6 +101,8 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
+import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;

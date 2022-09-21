@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.components.subreport.fill;
 
 import java.sql.Connection;
 import java.util.Collection;
@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import net.sf.jasperreports.components.subreport.fill.ComponentFillerSubreportParent;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
@@ -38,6 +37,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
@@ -55,35 +55,42 @@ import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FillTableSubreport extends JRFillSubreport
+public class ComponentFillSubreport extends JRFillSubreport
 {
 
-	private final TableJasperReport tableReport;
+	private final JasperReport jasperReport;
 	private final BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory;
 
-	protected FillTableSubreport(FillContext fillContext, JRSubreport subreport,
-			JRFillObjectFactory factory, TableJasperReport tableReport, 
-			BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory)
+	protected ComponentFillSubreport(
+		FillContext fillContext, 
+		JRSubreport subreport,
+		JRFillObjectFactory factory, 
+		JasperReport jasperReport, 
+		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory
+		)
 	{
 		super(fillContext.getFiller(), subreport, factory);
 		
 		this.fillContainerContext = fillContext.getFillContainerContext();
-		this.tableReport = tableReport;
+		this.jasperReport = jasperReport;
 		this.builtinEvaluatorFactory = builtinEvaluatorFactory;
 	}
 
-	public FillTableSubreport(FillTableSubreport tableSubreport, JRFillCloneFactory factory)
+	public ComponentFillSubreport(
+		ComponentFillSubreport fillSubreport, 
+		JRFillCloneFactory factory
+		)
 	{
-		super(tableSubreport, factory);
+		super(fillSubreport, factory);
 		
-		this.fillContainerContext = tableSubreport.fillContainerContext;
-		this.tableReport = tableSubreport.tableReport;
-		this.builtinEvaluatorFactory = tableSubreport.builtinEvaluatorFactory;
+		this.fillContainerContext = fillSubreport.fillContainerContext;
+		this.jasperReport = fillSubreport.jasperReport;
+		this.builtinEvaluatorFactory = fillSubreport.builtinEvaluatorFactory;
 	}
 
-	public TableJasperReport getTableReport()
+	public JasperReport getJasperReport()
 	{
-		return tableReport;
+		return jasperReport;
 	}
 
 	@Override
@@ -95,7 +102,7 @@ public class FillTableSubreport extends JRFillSubreport
 	@Override
 	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
-		return SimpleJasperReportSource.from(tableReport,
+		return SimpleJasperReportSource.from(jasperReport,
 				filler.getReportSource().getReportLocation(),
 				filler.getRepositoryContext().getResourceContext());
 	}
@@ -108,7 +115,7 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 	
 	@Override
-	protected void evaluateSubreport(byte evaluation) throws JRException
+	public void evaluateSubreport(byte evaluation) throws JRException
 	{
 		// overriding this for package access
 		super.evaluateSubreport(evaluation);
@@ -138,7 +145,7 @@ public class FillTableSubreport extends JRFillSubreport
 		if (!parameterValues.containsKey(JRParameter.REPORT_CONNECTION)
 				&& getConnectionExpression() == null)
 		{
-			JRQuery query = tableReport.getQuery();
+			JRQuery query = jasperReport.getQuery();
 			if (query != null)
 			{
 				String language = query.getLanguage();
@@ -160,7 +167,7 @@ public class FillTableSubreport extends JRFillSubreport
 		// copy the main report's resource bundle if the subdataset has no
 		// resource bundle of its own
 		if (!parameterValues.containsKey(JRParameter.REPORT_RESOURCE_BUNDLE)
-				&& tableReport.getResourceBundle() == null)
+				&& jasperReport.getResourceBundle() == null)
 		{
 			ResourceBundle resourceBundle = (ResourceBundle) filler.getParameterValuesMap().get(
 					JRParameter.REPORT_RESOURCE_BUNDLE);
@@ -220,7 +227,7 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 
 	@Override
-	protected void cancelSubreportFill() throws JRException
+	public void cancelSubreportFill() throws JRException
 	{
 		// overriding this for package access
 		super.cancelSubreportFill();
@@ -230,7 +237,7 @@ public class FillTableSubreport extends JRFillSubreport
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		// not actually used, but implemented for safety
-		return new FillTableSubreport(this, factory);
+		return new ComponentFillSubreport(this, factory);
 	}
 
 	@Override
@@ -239,13 +246,6 @@ public class FillTableSubreport extends JRFillSubreport
 		filler.registerReportStyles(getUUID(), styles);
 	}
 	
-	@Override
-	protected String getReportName()
-	{
-		String tableName = tableReport.getBaseReport().getTableName();
-		return tableName == null ? super.getReportName() : tableName;
-	}
-
 	@Override
 	protected int getPrintContentsWidth()
 	{

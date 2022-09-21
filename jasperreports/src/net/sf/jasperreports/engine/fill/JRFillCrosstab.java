@@ -48,7 +48,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
-import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;

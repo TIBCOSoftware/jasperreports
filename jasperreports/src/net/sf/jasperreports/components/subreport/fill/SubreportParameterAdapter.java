@@ -21,26 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.components.subreport.fill;
 
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
-import net.sf.jasperreports.engine.fill.FillerSubreportParent;
-import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.JRDatasetParameter;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSubreportParameter;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FillerTableSubreportParent extends FillerSubreportParent
+public class SubreportParameterAdapter implements JRSubreportParameter
 {
-	public FillerTableSubreportParent(JRFillSubreport parentElement, DatasetExpressionEvaluator evaluator) 
+
+	private final JRDatasetParameter datasetParameter;
+	
+	public SubreportParameterAdapter(JRDatasetParameter datasetParameter)
 	{
-		super(parentElement, evaluator);
+		this.datasetParameter = datasetParameter;
 	}
 
 	@Override
-	public JRPropertiesHolder getParentProperties()
+	public JRExpression getExpression()
 	{
-		return getFiller().getMainDataset();
+		return datasetParameter.getExpression();
 	}
+
+	@Override
+	public String getName()
+	{
+		return datasetParameter.getName();
+	}
+	
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 }

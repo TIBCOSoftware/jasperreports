@@ -21,35 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.components.subreport.fill;
 
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillField;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
-import net.sf.jasperreports.engine.fill.JRFillVariable;
-import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.fill.FillerSubreportParent;
+import net.sf.jasperreports.engine.fill.JRFillSubreport;
 
 /**
- * 
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface BuiltinExpressionEvaluator
+public class ComponentFillerSubreportParent extends FillerSubreportParent
 {
+	public ComponentFillerSubreportParent(JRFillSubreport parentElement, DatasetExpressionEvaluator evaluator) 
+	{
+		super(parentElement, evaluator);
+	}
 
-	void init(Map<String, JRFillParameter> parametersMap, 
-			Map<String, JRFillField> fieldsMap, 
-			Map<String, JRFillVariable> variablesMap, 
-			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
-	
-	Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
-
-	Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
-
-	Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException; 
-
+	@Override
+	public JRPropertiesHolder getParentProperties()
+	{
+		return getFiller().getMainDataset();
+	}
 }
