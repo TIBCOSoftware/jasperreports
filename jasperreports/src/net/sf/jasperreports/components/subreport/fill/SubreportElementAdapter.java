@@ -54,7 +54,6 @@ public class SubreportElementAdapter extends ElementDecorator implements JRSubre
 		super(componentElement);
 		
 		this.datasetRun = datasetRun;
-System.out.println("AICI:" + datasetRun);		
 		if (datasetRun == null)
 		{
 			this.parameters = null;
@@ -76,7 +75,6 @@ System.out.println("AICI:" + datasetRun);
 					SubreportParameterAdapter subreportParameter = 
 						new SubreportParameterAdapter(datasetParameter);
 					this.parameters[i] = subreportParameter;
-System.out.println("ADD:" + subreportParameter.getName());
 				}
 			}
 			

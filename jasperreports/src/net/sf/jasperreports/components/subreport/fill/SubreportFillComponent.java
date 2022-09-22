@@ -290,7 +290,7 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		}
 	}
 
-	protected class ComponentFillSubreportFactory
+	public class ComponentFillSubreportFactory
 	{
 		private final JRSubreport subreport;
 		private final JasperReport jasperReport;
