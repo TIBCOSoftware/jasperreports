@@ -7397,6 +7397,7 @@ Property that determines whether design element UUIDs are included in the HTML e
 <br/>
 Its value is used as default for the
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isIncludeElementUUID()">HtmlReportConfiguration.isIncludeElementUUID()</api> HTML export configuration setting.
+It only applies to text elements with numeric values.
     </description>
   </configProperty>
 

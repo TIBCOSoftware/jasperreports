@@ -2111,7 +2111,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			sb.append(" class=\"" + JRStringUtil.encodeXmlAttribute(clazz) +"\"");
 		}
 
-		if (element != null && getCurrentItemConfiguration().isIncludeElementUUID())
+		if (element instanceof JRPrintText && ((JRPrintText) element).getValue() instanceof Number 
+				&& getCurrentItemConfiguration().isIncludeElementUUID())
 		{
 			sb.append(" data-eluuid=\"" + element.getUUID() + "\"");
 		}

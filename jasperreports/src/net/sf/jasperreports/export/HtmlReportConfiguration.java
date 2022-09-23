@@ -211,6 +211,8 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 
 	/**
 	 * Boolean property that provides a default for the {@link #isIncludeElementUUID()} flag.
+	 * 
+	 * It only applies to text elements with numeric values.
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
