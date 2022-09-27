@@ -26,6 +26,7 @@ package net.sf.jasperreports.repo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 import net.sf.jasperreports.engine.JRException;
@@ -85,8 +86,8 @@ public final class RepositoryUtil
 		{
 			return cachedServices;
 		}
-		
-		List<RepositoryService> services = context.getJasperReportsContext().getExtensions(RepositoryService.class);
+
+		List<RepositoryService> services = new CopyOnWriteArrayList<>(context.getJasperReportsContext().getExtensions(RepositoryService.class));
 		
 		// set if not already set
 		if (repositoryServices.compareAndSet(null, services))
