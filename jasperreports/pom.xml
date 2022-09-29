@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
-			<version>2.1.7.js11-SNAPSHOT</version>
+			<version>2.1.7.js11-2-SNAPSHOT</version>
  			<scope>compile</scope>
 			<optional>false</optional>
 			<exclusions>
