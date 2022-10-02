@@ -478,7 +478,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 	}
 
-	protected void setIgnorePagination(Map<String,Object> parameterValues)
+	public void setIgnorePagination(Map<String,Object> parameterValues)
 	{
 		boolean ignore;
 		if (parent == null)
@@ -687,7 +687,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		return parent != null;
 	}
 
-	protected boolean isMasterReport()
+	public boolean isMasterReport()
 	{
 		return parent == null;
 	}
