@@ -306,14 +306,14 @@ public class FillTable extends SubreportFillComponent
 	}
 
 	@Override
-	public JasperReport getJasperReport() throws JRException
+	public JasperReport getJasperReport(BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory) throws JRException
 	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JasperReport containingReport = containingReport(parentReport);
 		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
 				containingReport);
 		
-		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory = new BuiltinExpressionEvaluatorFactory();
+//		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory = new BuiltinExpressionEvaluatorFactory();
 		
 		String tableReportName = JRAbstractCompiler.getUnitName(containingReport, reportSubdataset);
 		

@@ -135,7 +135,7 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 	
 	public abstract void setFillSubreportFactory(ComponentFillSubreportFactory subreportFactory);
 
-	public abstract JasperReport getJasperReport() throws JRException;
+	public abstract JasperReport getJasperReport(BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory) throws JRException;
 
 	public abstract boolean isEmpty();
 
@@ -151,7 +151,7 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		return 
 			new ComponentFillSubreportFactory(
 				subreport, 
-				getJasperReport(),
+				getJasperReport(builtinEvaluatorFactory),
 				//compiledTableReport,
 				builtinEvaluatorFactory
 				);
