@@ -3,7 +3,6 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="com.github.jai-imageio" name="jai-imageio-core" rev="1.4.0" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.7" conf="test->*"/>
+		<dependency org="xalan" name="xalan" rev="2.7.2"/>
 	</dependencies>
 </ivy-module>

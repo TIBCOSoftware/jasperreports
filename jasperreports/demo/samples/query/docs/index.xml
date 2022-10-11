@@ -127,21 +127,18 @@ report user (example: A user may provide a start and end date for which they wan
     <br/>
     <br/>
     Using $P{} in the report query is for situations where the query is fixed at design time and you only wish to inject values into the <br/>
-    query before it is executed. The example does not illustrate this concept, however the $X{} explained shortly works with a similar concept.<br/>
-    When using $P{} you do something like the following:
+    query before it is executed.
 	<pre><![CDATA[
     <queryString>
-      <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField 
-      FROM Address 
-      WHERE $X{NOTIN, City, ExcludedCities} 
-      ORDER BY $P!{OrderClause}]] >
+      <![CDATA[SELECT Id, FirstName, LastName, Street, City 
+      FROM Address WHERE City = $P{CityParam}]] >
     </queryString>
 	]]></pre>
 	If we changed the query this way and turned on Debugging for the <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> in an application running this report, <br/>
 	we would get an output like this (the hosting application also collected the value for the parameter and supplied it to JasperReports <br/>
 	when it was time to Fill the report):
 	<pre><![CDATA[
-    2010-03-11 12:47:53,648 DEBUG JRJdbcQueryExecuter,http-8080-5:155 - SQL query string: Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE city = ?
+    2010-03-11 12:47:53,648 DEBUG JRJdbcQueryExecuter,http-8080-5:155 - SQL query string: Id, FirstName, LastName, Street, City FROM Address WHERE City = ?
     2010-03-11 12:47:53,660 DEBUG JRJdbcQueryExecuter,http-8080-5:252 - Parameter #1 (city of type java.lang.String): New York
      ]]></pre>
 	In this case the query as seen above and the parameter are passed to the database via the JDBC Driver (MySQL in this example) to be executed.<br/>
@@ -156,14 +153,12 @@ report user (example: A user may provide a start and end date for which they wan
 	<pre><![CDATA[
     <queryString>
       <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField 
-      FROM Address 
-      WHERE $X{NOTIN, City, ExcludedCities} 
-      ORDER BY $P!{OrderClause}]] >
+      FROM Address ORDER BY $P!{OrderClause}]] >
     </queryString>
 	]]></pre>
 	If we run the report in an application and collect values for the parameters (OrderBy was given the value 'LastName') we will see an output like this:
 	<pre><![CDATA[
-    2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE City NOT IN (?) ORDER BY LastName
+    2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address ORDER BY LastName
     2010-03-11 13:01:05,821 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #1 (ExcludedCities[0] of type java.lang.String): New York
      ]]></pre>
 	Here we can see the value of $P!{OrderClause} was added into the query directly by JasperReports. For this reason, when working with $P!{} you must ensure <br/>
@@ -184,10 +179,21 @@ report user (example: A user may provide a start and end date for which they wan
 	<br/>
 	Such complex query clauses are introduced into the query using the $X{} syntax. The general form of a 
 	<code>$X{}</code> clause is <code>$X{functionName, param1, param2,...}</code>. 
-	<br/>
+	<pre><![CDATA[
+    <queryString>
+      <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField 
+      FROM Address 
+      WHERE $X{NOTIN, City, ExcludedCities} 
+      ORDER BY $P!{OrderClause}]] >
+    </queryString>
+	]]></pre>
 	Similar to the <code>$P{}</code> explanation above, <code>$X{}</code> results in <code>?</code> being added to the query 
 	before submitting it to the DB. Also submitted are the values collected leaving it to the JDBC driver to add the values 
 	in and ensure the syntax of the query is correct. 
+	<pre><![CDATA[
+    2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE City NOT IN (?) ORDER BY LastName
+    2010-03-11 13:01:05,821 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #1 (ExcludedCities[0] of type java.lang.String): New York
+     ]]></pre>
 	<br/>
 	<br/>
 	<subtitle name="clause_functions">Built-in SQL Clause Functions</subtitle>
