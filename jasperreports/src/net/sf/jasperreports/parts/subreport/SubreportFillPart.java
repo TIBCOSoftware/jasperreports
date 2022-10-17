@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -279,6 +280,11 @@ public class SubreportFillPart extends BasePartFillComponent
 		return fillContext.getFillPart().getPartName();
 	}
 	
+	protected JRPropertiesHolder getPrintPartProperties()
+	{
+		return fillContext.getFillPart().getPrintPartProperties();
+	}
+	
 	protected class PartBandParent implements BandReportFillerParent
 	{
 		private final PartPrintOutput output;
@@ -361,7 +367,8 @@ public class SubreportFillPart extends BasePartFillComponent
 			if (pageAdded.getPageIndex() == 0)
 			{
 				//first page, adding the part info
-				SimplePrintPart printPart = SimplePrintPart.fromJasperPrint(pageAdded.getJasperPrint(), getPartName());
+				SimplePrintPart printPart = SimplePrintPart.fromJasperPrint(pageAdded.getJasperPrint(), 
+						getPartName(), getPrintPartProperties());
 				FillerPrintPart fillingPart = new FillerPrintPart(pageAdded.getFiller());//FIXMEBOOK strange
 				output.startPart(printPart, fillingPart);
 			}

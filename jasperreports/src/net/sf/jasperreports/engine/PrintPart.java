@@ -28,8 +28,12 @@ package net.sf.jasperreports.engine;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface PrintPart
+public interface PrintPart extends JRPropertiesHolder
 {
+	public static final String PROPERTIES_TRANSFER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "part.print.transfer.";
+	
+	public static final String ELEMENT_PROPERTY_PART_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.name";
+	
 	public String getName();
 	
 	public PrintPageFormat getPageFormat();

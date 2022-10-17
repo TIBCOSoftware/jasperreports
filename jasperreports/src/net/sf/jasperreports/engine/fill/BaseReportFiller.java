@@ -51,12 +51,16 @@ import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.SimplePrintPart;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.ElementalPropertiesHolder;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
@@ -752,6 +756,36 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 	}
 
+	protected void detectPart()
+	{
+		List<JRPrintPage> pages = jasperPrint.getPages();
+		if (pages != null && !pages.isEmpty())
+		{
+			JRPrintPage page = pages.get(pages.size() - 1);
+			UniformPrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
+			{
+				@Override
+				protected void visitElement(JRPrintElement element, Void arg)
+				{
+					if (element.hasProperties())
+					{
+						String partName = element.getPropertiesMap().getProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME);
+						if (partName != null)
+						{
+							ElementalPropertiesHolder partProperties = new ElementalPropertiesHolder();
+							propertiesUtil.transferProperties(element, partProperties, PrintPart.PROPERTIES_TRANSFER_PREFIX);
+							SimplePrintPart part = SimplePrintPart.fromJasperPrint(jasperPrint, partName, partProperties);
+							jasperPrint.addPart(pages.size() - 1, part);
+						}
+					}
+				}
+			};
+			for (JRPrintElement element : page.getElements())
+			{
+				element.accept(visitor, null);
+			}
+		}
+	}
 
 	/**
 	 * Cancels the fill process.
