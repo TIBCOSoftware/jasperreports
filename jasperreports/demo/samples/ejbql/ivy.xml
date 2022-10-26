@@ -4,7 +4,7 @@
 	</info>
 	<dependencies>
 		<dependency org="org.dom4j" name="dom4j" rev="2.1.3" conf="test->*"/>
-		<dependency org="org.hsqldb" name="hsqldb" rev="2.6.1" conf="test->*"/>
+		<dependency org="org.hsqldb" name="hsqldb" rev="2.7.1" conf="test->*"/>
 		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.3" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-slf4j-impl" rev="2.17.1" conf="test->*"/>
 		<dependency org="org.hibernate.common" name="hibernate-commons-annotations" rev="5.1.2.Final" conf="test->*"/>
