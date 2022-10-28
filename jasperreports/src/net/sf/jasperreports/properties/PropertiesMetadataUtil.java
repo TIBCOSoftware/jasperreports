@@ -108,6 +108,11 @@ public class PropertiesMetadataUtil
 		return new ArrayList<>(allProperties);
 	}
 	
+	public List<PropertyMetadata> getProperties(PropertyScope scope)
+	{
+		return allProperties().stream().filter(property -> property.getScopes().contains(scope)).collect(Collectors.toList());
+	}
+	
 	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
 	{
 		String qualification = queryExecuterQualification(queryLanguage);
@@ -275,17 +280,7 @@ public class PropertiesMetadataUtil
 	
 	public List<PropertyMetadata> getReportProperties(JRReport report)
 	{
-		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> reportProperties = new ArrayList<>();
-		for (PropertyMetadata propertyMetadata : allProperties)
-		{
-			List<PropertyScope> scopes = propertyMetadata.getScopes();
-			if (scopes != null && scopes.contains(PropertyScope.REPORT))
-			{
-				reportProperties.add(propertyMetadata);
-			}
-		}
-		return reportProperties;
+		return getProperties(PropertyScope.REPORT);
 	}
 	
 	protected String dataAdapterQualification(JRDataset dataset, DataAdapter dataAdapter)
