@@ -422,7 +422,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //		maxRowFreezeIndex = 0;
 //		maxColumnFreezeIndex = 0;
 
-		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
+		onePagePerSheetMap.put(sheetIndex, onePagePerSheet);
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
@@ -802,8 +802,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			VerticalAlignment verticalAlignment = getVerticalAlignment(textAlignHolder);
 			short rotation = getRotation(textAlignHolder);
 			
-			XlsReportConfiguration configuration = getCurrentItemConfiguration();
-
 			FillPatternType mode = backgroundMode;
 			short backcolor = whiteIndex;
 			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && textElement.getBackcolor() != null) {
@@ -866,7 +864,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			if (
 				formula != null
-				|| configuration.isDetectCellType()
+				|| detectCellType
 				) 
 			{
 				value = getTextValue(textElement, textStr);
@@ -886,7 +884,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			if (formula != null) {	
 				cellSettings.importValues(CellType.FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
-			} else if (configuration.isDetectCellType()) {
+			} else if (detectCellType) {
 				value.handle(new TextValueHandler() {
 					@Override
 					public void handle(StringTextValue textValue) {
@@ -958,7 +956,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 			}
 			
-			if(!configuration.isIgnoreAnchors()) {
+			if(!ignoreAnchors) {
 				String anchorName = textElement.getAnchorName();
 				if(anchorName != null) {
 					HSSFName aName = workbook.createName();
@@ -981,7 +979,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
 		if (ignoreHyperlink == null) {
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = defaultIgnoreHyperlink;
 		}
 
 		if (!ignoreHyperlink) {
@@ -997,7 +995,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						break;
 					}
 					case LOCAL_ANCHOR : {
-						if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
+						if(!ignoreAnchors) {
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null) {
 								link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
@@ -1014,7 +1012,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 					case LOCAL_PAGE :
 					{
-						Integer hrefPage = (getCurrentItemConfiguration().isOnePagePerSheet() ? hyperlink.getHyperlinkPage() : 0);
+						Integer hrefPage = (onePagePerSheet ? hyperlink.getHyperlinkPage() : 0);
 						if (hrefPage != null) {
 							link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
 							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
@@ -1208,8 +1206,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				
 				if (imageProcessorResult != null)//FIXMEXLS background for null images like the other exporters
 				{
-					XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
-					
 					FillPatternType mode = backgroundMode;
 					short backcolor = whiteIndex;
 					if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
@@ -1258,7 +1254,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								);
 						if (imageAnchorType == null)
 						{
-							imageAnchorType = configuration.getImageAnchorType();
+							imageAnchorType = defaultImageAnchorType;
 							if (imageAnchorType == null)
 							{
 								imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
