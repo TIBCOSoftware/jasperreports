@@ -61,7 +61,7 @@ public class OffsetElementsIterator implements Iterator<JRPrintElement>
 				element = subIterator.next();
 				// remove the element from the sublist.  this helps with virtualized subreport pages 
 				// by releasing the external data and allowing the master page to reuse the storage.
-				subIterator.remove();
+				subIterator.remove();//FIXME quadratic time
 				
 				// apply the offsets
 				setSubOffsets(element);

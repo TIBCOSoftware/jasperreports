@@ -56,7 +56,7 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		initStore(page);
 	}
 	
-	protected VirtualizableElementList(JRVirtualizationContext virtualizationContext, ElementStore store)
+	public VirtualizableElementList(JRVirtualizationContext virtualizationContext, ElementStore store)
 	{
 		this.virtualizationContext = virtualizationContext;
 		this.store = store;
@@ -177,6 +177,14 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	public void updatePage(JRVirtualPrintPage page)
 	{
 		store.updatePage(page);
+	}
+	
+	public ElementStore transferStore(JRVirtualizationContext context, JRVirtualPrintPage page)
+	{
+		ElementStore existingStore = store;
+		initStore(store.getPage());
+		existingStore.updateContext(context, page);
+		return existingStore;
 	}
 	
 	//FIXME implement faster bulk methods such as addAll

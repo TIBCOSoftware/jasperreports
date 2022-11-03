@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -70,6 +71,18 @@ public class ElementsBlockList implements ElementStore, Serializable
 			if (block != null)
 			{
 				block.updatePage(page);
+			}
+		}
+	}
+
+	@Override
+	public void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page)
+	{
+		for (ElementsBlock block : blocks)
+		{
+			if (block != null)
+			{
+				block.updateContext(context, page);
 			}
 		}
 	}

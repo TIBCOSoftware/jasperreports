@@ -106,6 +106,13 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		context.updateParent(newContext);
 	}
 
+	@Override
+	public void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page)
+	{
+		this.context = context;
+		this.page = page;
+	}
+
 	private void lockContext()
 	{
 		//FIXME locking the whole context is too much, ideally we'd have a lock for this object only

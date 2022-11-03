@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.base;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -45,4 +46,6 @@ public interface ElementStore extends VirtualizablePageElements
 	void dispose();
 
 	void updatePage(JRVirtualPrintPage page);
+	
+	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
 }
