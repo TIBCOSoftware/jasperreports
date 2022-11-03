@@ -66,7 +66,8 @@ public class XlsxStyleInfo
 		int formatIndex, 
 		int fontIndex, 
 		int borderIndex, 
-		JRExporterGridCell gridCell, 
+		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
@@ -80,8 +81,6 @@ public class XlsxStyleInfo
 		this.formatIndex = formatIndex;
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
 		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
-		
-		JRPrintElement element = gridCell.getElement();
 		
 		if (!isIgnoreTextFormatting)
 		{

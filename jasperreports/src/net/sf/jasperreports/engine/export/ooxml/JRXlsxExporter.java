@@ -654,7 +654,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 
@@ -875,7 +875,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, frame, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
@@ -936,7 +936,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, image, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 
 		Renderable renderer = image.getRenderer();
 
@@ -1430,7 +1430,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
+		cellHelper.exportHeader(gridCell, line, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1452,7 +1452,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, rectangle, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1492,13 +1492,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		final String convertedPattern = getConvertedPattern(text, pattern);
 				
 		cellHelper.exportHeader(
-			gridCell, rowIndex, colIndex, maxColumnIndex, textValue, 
+			gridCell, text, rowIndex, colIndex, maxColumnIndex, textValue, 
 			convertedPattern, 
 			getTextLocale(text), 
-			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
-			isCellHidden(gridCell.getElement()), 
-			isCellLocked(gridCell.getElement()),
-			isShrinkToFit(gridCell.getElement()), 
+			isWrapText(text) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(text)), 
+			isCellHidden(text), 
+			isCellLocked(text),
+			isShrinkToFit(text), 
 			isIgnoreTextFormatting(text),
 			text.getRotationValue(),
 			sheetInfo
@@ -1756,7 +1756,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		//ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(occupiedGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(occupiedGridCell, null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 

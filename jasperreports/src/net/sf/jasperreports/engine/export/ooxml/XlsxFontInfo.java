@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -48,10 +47,8 @@ public class XlsxFontInfo
 	/**
 	 *
 	 */
-	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName, boolean isFontSizeFixEnabled)
+	public XlsxFontInfo(JRPrintElement element, String fontName, boolean isFontSizeFixEnabled)
 	{
-		JRPrintElement element = gridCell.getElement();
-
 		if (element != null)
 		{
 			this.color = JRColorUtil.getColorHexa(element.getForecolor());

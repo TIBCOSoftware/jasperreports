@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -89,7 +90,8 @@ public class XlsxStyleHelper extends BaseHelper
 	 * 
 	 */
 	public int getCellStyle(
-		JRExporterGridCell gridCell, 
+		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		String pattern, 
 		Locale locale,
 		boolean isWrapText, 
@@ -105,9 +107,10 @@ public class XlsxStyleHelper extends BaseHelper
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
-				fontHelper.getFont(gridCell, locale) + 1,
+				fontHelper.getFont(element, locale) + 1,
 				borderHelper.getBorder(gridCell, sheetInfo, direction) + 1,
 				gridCell,
+				element,
 				isWrapText,
 				isHidden,
 				isLocked,
