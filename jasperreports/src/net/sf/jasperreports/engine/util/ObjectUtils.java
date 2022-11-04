@@ -350,6 +350,11 @@ public class ObjectUtils
 		return i1 == i2;
 	}
 	
+	public static boolean equals(float f1, float f2)
+	{
+		return Float.floatToIntBits(f1) == Float.floatToIntBits(f2);
+	}
+	
 	/**
 	 * Determines whether two property sets are identical.
 	 * 

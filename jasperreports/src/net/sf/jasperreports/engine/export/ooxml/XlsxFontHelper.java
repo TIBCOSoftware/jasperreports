@@ -40,7 +40,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  */
 public class XlsxFontHelper extends BaseHelper
 {
-	private Map<String,Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<XlsxFontInfo, Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private String exporterKey;
 
@@ -83,12 +83,12 @@ public class XlsxFontHelper extends BaseHelper
 
 		String fontName = exportFont(font, locale);
 		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, fontSizeFixEnabled);
-		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
+		Integer fontIndex = fontCache.get(xlsxFontInfo);
 		if (fontIndex == null)
 		{
 			fontIndex = fontCache.size();
 			export(xlsxFontInfo);
-			fontCache.put(xlsxFontInfo.getId(), fontIndex);
+			fontCache.put(xlsxFontInfo, fontIndex);
 		}
 		return fontIndex;
 	}
