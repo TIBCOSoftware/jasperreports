@@ -42,7 +42,8 @@ public class XlsxFontHelper extends BaseHelper
 	private Map<String,Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private String exporterKey;
-	private XlsReportConfiguration configuration;
+
+	private boolean fontSizeFixEnabled;
 
 	/**
 	 *
@@ -63,7 +64,7 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public void setConfiguration(XlsReportConfiguration configuration)
 	{
-		this.configuration = configuration;
+		fontSizeFixEnabled = configuration.isFontSizeFixEnabled();
 	}
 	
 	/**
@@ -79,7 +80,7 @@ public class XlsxFontHelper extends BaseHelper
 
 		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, exporterKey);
 		
-		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, configuration.isFontSizeFixEnabled());
+		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, fontSizeFixEnabled);
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
 		{
