@@ -31,6 +31,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -44,6 +45,8 @@ public class XlsxFontHelper extends BaseHelper
 	private String exporterKey;
 
 	private boolean fontSizeFixEnabled;
+
+	private Map<Pair<String, Locale>, String> exportFontCache = new HashMap<>();
 
 	/**
 	 *
@@ -78,8 +81,7 @@ public class XlsxFontHelper extends BaseHelper
 			return -1;			
 		}
 
-		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, exporterKey);
-		
+		String fontName = exportFont(font, locale);
 		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, fontSizeFixEnabled);
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
@@ -89,6 +91,19 @@ public class XlsxFontHelper extends BaseHelper
 			fontCache.put(xlsxFontInfo.getId(), fontIndex);
 		}
 		return fontIndex;
+	}
+
+	protected String exportFont(JRFont font, Locale locale)
+	{
+		String fontName = font.getFontName();
+		Pair<String, Locale> cacheKey = new Pair<>(fontName, locale);
+		String exportFont = exportFontCache.get(cacheKey);
+		if (exportFont == null)
+		{
+			exportFont = fontUtil.getExportFontFamily(fontName, locale, exporterKey);
+			exportFontCache.put(cacheKey, exportFont);
+		}
+		return exportFont;
 	}
 
 	/**
