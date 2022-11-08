@@ -66,6 +66,7 @@ public class XlsxSheetHelper extends BaseHelper
 	private final Integer fitWidth;
 	private final Integer fitHeight;
 	private final Boolean autoFitPageHeight;
+	private final boolean defaultAutoFitRow;
 
 	/**
 	 * 
@@ -84,6 +85,7 @@ public class XlsxSheetHelper extends BaseHelper
 		fitWidth = configuration.getFitWidth();
 		fitHeight = configuration.getFitHeight();
 		autoFitPageHeight = configuration.isAutoFitPageHeight();
+		defaultAutoFitRow = configuration.isAutoFitRow();
 	}
 
 	/**
@@ -382,7 +384,8 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		rowIndex++;
 		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+				? (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW)
+				: defaultAutoFitRow;
 		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
 		if (levelInfo.getLevelMap().size() > 0)
 		{

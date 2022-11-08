@@ -88,6 +88,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Integer printHeaderMargin;
 	private Integer printFooterMargin;
 	private PropertySuffix[] definedNames;
+	private Boolean isAutoFitRow;
 
 	
 	/**
@@ -867,5 +868,15 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	{
 		this.definedNames = definedNames;
 	}
+
+	@Override
+	public Boolean isAutoFitRow()
+	{
+		return isAutoFitRow;
+	}
 	
+	public void setAutoFitRow(Boolean isAutoFitRow)
+	{
+		this.isAutoFitRow = isAutoFitRow;
+	}
 }
