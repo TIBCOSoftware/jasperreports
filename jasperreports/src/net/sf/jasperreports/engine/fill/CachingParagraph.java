@@ -99,7 +99,12 @@ public class CachingParagraph implements JRParagraph
 		return base.clone(paragraphContainer);
 	}
 
-	
+	@Override
+	public void populateStyle()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	@Override
 	public LineSpacingEnum getLineSpacing()
 	{

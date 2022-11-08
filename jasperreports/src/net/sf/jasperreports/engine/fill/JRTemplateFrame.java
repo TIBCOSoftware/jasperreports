@@ -147,4 +147,15 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 		return templateIdentical(template)
 				&& ObjectUtils.identical(lineBox, template.lineBox);
 	}
+	
+	@Override
+	public void populateStyle()
+	{
+		super.populateStyle();
+		
+		if (lineBox != null)
+		{
+			lineBox.populateStyle();
+		}
+	}
 }

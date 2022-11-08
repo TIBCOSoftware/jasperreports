@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -227,6 +230,15 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  */
 public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder, JRIdentifiable
 {
+
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE = JRPropertiesUtil.PROPERTY_PREFIX + "element.template.populate.style";
 
 	/**
 	 * Returns the string value that uniquely identifies the element.

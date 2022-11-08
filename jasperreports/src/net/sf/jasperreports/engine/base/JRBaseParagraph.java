@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.jasperreports.engine.Deduplicable;
@@ -451,6 +452,25 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 				&& ObjectUtils.equals(spacingAfter, para.spacingAfter)
 				&& ObjectUtils.equals(tabStopWidth, para.tabStopWidth)
 				&& ObjectUtils.identical(tabStops, para.tabStops);
+	}
+
+	@Override
+	public void populateStyle()
+	{
+		lineSpacing = getLineSpacing();
+		lineSpacingSize = getLineSpacingSize();
+		firstLineIndent = getFirstLineIndent();
+		leftIndent = getLeftIndent();
+		rightIndent = getRightIndent();
+		spacingBefore = getSpacingBefore();
+		spacingAfter = getSpacingAfter();
+		tabStopWidth = getTabStopWidth();
+		
+		TabStop[] tabStopArray = getTabStops();
+		if (tabStopArray != null)
+		{
+			tabStops = new ArrayList<>(Arrays.asList(tabStopArray));
+		}
 	}
 
 }

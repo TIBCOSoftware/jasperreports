@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
@@ -161,6 +162,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRPropertiesMap dynamicProperties;
 	protected JRPropertiesMap mergedProperties;
 	
+	protected boolean hasDynamicPopulateTemplateStyle;
+	protected boolean defaultPopulateTemplateStyle;
+
 	/**
 	 *
 	 *
@@ -208,6 +212,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
+		
+		hasDynamicPopulateTemplateStyle = hasDynamicProperty(PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
+		defaultPopulateTemplateStyle = filler.getPropertiesUtil().getBooleanProperty( 
+				PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE, false,
+				parent, filler.getMainDataset());
 	}
 
 
@@ -883,6 +892,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			template = createElementTemplate();
 			transferProperties(template);
 			
+			if (toPopulateTemplateStyle())
+			{
+				template.populateStyle();
+			}
+			
 			// deduplicate to previously created identical objects
 			template = filler.fillContext.deduplicate(template);
 			
@@ -895,6 +909,21 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	protected abstract JRTemplateElement createElementTemplate();
+	
+	protected boolean toPopulateTemplateStyle()
+	{
+		boolean populate = defaultPopulateTemplateStyle;
+		if (hasDynamicPopulateTemplateStyle)
+		{
+			String populateProp = getDynamicProperties().getProperty(
+					PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
+			if (populateProp != null)
+			{
+				populate = JRPropertiesUtil.asBoolean(populateProp);
+			}
+		}
+		return populate;		
+	}
 	
 	/**
 	 *
