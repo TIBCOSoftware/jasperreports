@@ -244,6 +244,29 @@ public class JRStyledText implements Cloneable
 		return attributedString;
 	}
 
+	public void consumeText(StyledTextRunConsumer consumer)
+	{
+		if (globalAttributes != null && runs.size() == 1)
+		{
+			consumer.accept(0, length(), globalAttributes, getText());
+			return;
+		}
+		
+		AttributedCharacterIterator iterator = getAttributedString().getIterator();
+		int runLimit = 0;
+		int length = length();
+		while (runLimit < length && (runLimit = iterator.getRunLimit()) <= length)
+		{
+			int runStart = iterator.getIndex();
+			Map<Attribute,Object> attributes = iterator.getAttributes();
+
+			String runText = text.substring(runStart, runLimit);
+			consumer.accept(runStart, runLimit, attributes, runText);
+			
+			iterator.setIndex(runLimit);
+		}
+	}
+
 	/**
 	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
 	 */

@@ -31,8 +31,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -310,19 +308,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText)
 	{
 		StyledTextWriteContext context = new StyledTextWriteContext();
-		
-		String text = styledText.getText();
-		
-		int runLimit = 0;
-		
-		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-		
-		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+
+		styledText.consumeText((startIndex, endIndex, attributes, runText) ->
 		{
-			Map<Attribute,Object> attributes = iterator.getAttributes();
-
-			String runText = text.substring(iterator.getIndex(), runLimit);
-
 			context.next(attributes, runText);
 			
 			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
@@ -343,9 +331,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					isStyledText
 					);
 			}
-			
-			iterator.setIndex(runLimit);
-		}
+		});
 	}
 
 
