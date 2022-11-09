@@ -380,6 +380,14 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
+		setXProperties(xCutsProperties, element);
+		
+		if (!element.hasProperties())
+		{
+			//quick exit for performance
+			return;
+		}
+		
 		Cut cut = xCuts.getCut(col1);
 		
 		Boolean columnAutoFit = getColumnAutoFit(element);
@@ -401,9 +409,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
 		}
-
-		setXProperties(xCutsProperties, element);
-		
 	}
 	
 	@Override
