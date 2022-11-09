@@ -416,10 +416,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void populateStyle()
 	{
-		if (pen != null)
-		{
-			pen.populateStyle();
-		}
 		if (topPen != null)
 		{
 			topPen.populateStyle();
@@ -436,11 +432,15 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		{
 			rightPen.populateStyle();
 		}
-		padding = getPadding();
+		if (pen != null)
+		{
+			pen.populateStyle();
+		}
 		topPadding = getTopPadding();
 		leftPadding = getLeftPadding();
 		bottomPadding = getBottomPadding();
 		rightPadding = getRightPadding();
+		padding = getPadding();
 	}
 
 }
