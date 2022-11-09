@@ -163,7 +163,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRPropertiesMap mergedProperties;
 	
 	protected boolean hasDynamicPopulateTemplateStyle;
-	protected boolean defaultPopulateTemplateStyle;
+	protected Boolean defaultPopulateTemplateStyle;
 
 	/**
 	 *
@@ -214,9 +214,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		initStyleProviders();
 		
 		hasDynamicPopulateTemplateStyle = hasDynamicProperty(PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
-		defaultPopulateTemplateStyle = filler.getPropertiesUtil().getBooleanProperty( 
-				PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE, false,
-				parent, filler.getMainDataset());
 	}
 
 
@@ -255,6 +252,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		// we need a style provider context for this element instance
 		initStyleProviders();
+		
+		this.hasDynamicPopulateTemplateStyle = element.hasDynamicPopulateTemplateStyle;
+		this.defaultPopulateTemplateStyle = element.defaultPopulateTemplateStyle;
 	}
 	
 	private JRPropertiesMap findStaticTransferProperties()
@@ -912,6 +912,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected boolean toPopulateTemplateStyle()
 	{
+		if (defaultPopulateTemplateStyle == null)
+		{
+			defaultPopulateTemplateStyle = filler.getPropertiesUtil().getBooleanProperty( 
+					PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE, false,
+					parent, filler.getMainDataset());
+		}
+
 		boolean populate = defaultPopulateTemplateStyle;
 		if (hasDynamicPopulateTemplateStyle)
 		{
