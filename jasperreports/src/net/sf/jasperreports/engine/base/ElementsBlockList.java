@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -282,5 +283,22 @@ public class ElementsBlockList implements ElementStore, Serializable
 	public JRVirtualPrintPage getPage()
 	{
 		return blocks[0].getPage();
+	}
+
+	@Override
+	public void transferElements(Consumer<JRPrintElement> consumer)
+	{
+		for (int idx = 0; idx < blockCount; ++idx)
+		{
+			blocks[idx].transferElements(consumer);
+		}
+
+		//leaving only the first empty block
+		for (int idx = 1; idx < blockCount; ++idx)
+		{
+			blocks[idx] = null;
+		}
+		blockCount = 1;
+		size = 0;
 	}
 }

@@ -161,11 +161,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 			framesContext.cacheVirtualizableList(frameID, virtualizableList);
 		}
 		
-		for (OffsetElementsIterator it = new OffsetElementsIterator(elements); it.hasNext();)
-		{
-			JRPrintElement element = it.next();
-			frame.addElement(element);
-		}
+		OffsetElementsUtil.transfer(elements, frame::addElement);
 	}
 
 	@Override

@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.base;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -185,6 +186,13 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		initStore(store.getPage());
 		existingStore.updateContext(context, page);
 		return existingStore;
+	}
+
+	public void transferElements(Consumer<JRPrintElement> consumer)
+	{
+		store.transferElements(consumer);
+		//recreate store
+		initStore(store.getPage());
 	}
 	
 	//FIXME implement faster bulk methods such as addAll
