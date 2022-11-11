@@ -57,6 +57,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	private JRVirtualizationContext virtualizationContext;
 	private JRVirtualPrintPage page;
 	private int virtualizationPageElementSize;
+	private boolean virtualizedElements;
 	private int deepSize;
 
 	public VirtualizableFrame(JRTemplatePrintFrame frame, 
@@ -98,7 +99,14 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 			return;
 		}
 		
-		deepSize += VirtualizableElementCounter.count(elements);
+		if (elements instanceof VirtualizableElementList)
+		{
+			virtualizedElements = true;
+		}
+		else
+		{
+			deepSize += VirtualizableElementCounter.count(elements);
+		}
 		
 		OffsetElements offsetElements = new OffsetElements(elements, offsetX, offsetY);
 		this.elements.add(offsetElements);		
@@ -107,7 +115,8 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	public void fill()
 	{
 		PrintElementId frameID = PrintElementId.forElement(frame);
-		boolean virtualized = virtualizationPageElementSize > 0 && deepSize > virtualizationPageElementSize;
+		boolean virtualized = virtualizationPageElementSize > 0 
+				&& (virtualizedElements || deepSize > virtualizationPageElementSize);
 
 		if (elements.size() == 1 && elements.get(0) instanceof OffsetElements)
 		{

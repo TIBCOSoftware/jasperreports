@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.base.VirtualizableElementList;
 
 /**
  * Print element visitor that counts deep elements by recursively visiting
@@ -73,8 +72,7 @@ public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicIn
 	protected static int count(Collection<? extends JRPrintElement> elements, 
 			UniformPrintElementVisitor<AtomicInteger> counter)
 	{
-		if (elements == null || elements.isEmpty()
-				|| elements instanceof VirtualizableElementList)
+		if (elements == null || elements.isEmpty())
 		{
 			return 0;
 		}
