@@ -27,6 +27,7 @@ import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -44,8 +45,8 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	/**
 	 *
 	 */
-	private List<RepositoryService> localRepositoryServices;
-	protected DefaultRepositoryService localRepositoryService;
+	private AtomicReference<List<RepositoryService>> localRepositoryServicesRef = new AtomicReference<>();
+	protected volatile DefaultRepositoryService localRepositoryService;
 
 	/**
 	 *
@@ -82,11 +83,19 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	 */
 	protected DefaultRepositoryService getLocalRepositoryService()
 	{
-		if (localRepositoryService == null)
+		DefaultRepositoryService service = localRepositoryService;
+		if (service == null)
 		{
-			localRepositoryService = new DefaultRepositoryService(this);
+			synchronized (this)
+			{
+				service = localRepositoryService;
+				if (service == null)
+				{
+					service = localRepositoryService = new DefaultRepositoryService(this);
+				}
+			}
 		}
-		return localRepositoryService;
+		return service;
 	}
 
 	/**
@@ -113,37 +122,50 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 		getLocalRepositoryService().setFileResolver(fileResolver);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
+		DefaultRepositoryService localRepository = localRepositoryService;
 		if (
-			localRepositoryService != null
+			localRepository != null
 			&& RepositoryService.class.equals(extensionType)
 			)
 		{
 			// we cache repository service extensions from parent and replace the DefaultRepositoryService instance, if present among them 
+			List<RepositoryService> localRepositoryServices = localRepositoryServicesRef.get();
 			if (localRepositoryServices == null)
 			{
-				List<RepositoryService> repoServices = super.getExtensions(RepositoryService.class);
-				if (repoServices != null && repoServices.size() > 0)
+				localRepositoryServices = getRepositoryServices(localRepository);
+				if (!localRepositoryServicesRef.compareAndSet(null, localRepositoryServices))
 				{
-					localRepositoryServices = new ArrayList<>();
-					for (RepositoryService repoService : repoServices)
-					{
-						if (repoService instanceof DefaultRepositoryService)
-						{
-							localRepositoryServices.add(localRepositoryService);
-						}
-						else
-						{
-							localRepositoryServices.add(repoService);
-						}
-					}
+					localRepositoryServices = localRepositoryServicesRef.get();
 				}
 			}
-			return (List<T>)localRepositoryServices;
+			return (List<T>) localRepositoryServices;
 		}
 		return super.getExtensions(extensionType);
+	}
+
+	protected List<RepositoryService> getRepositoryServices(DefaultRepositoryService localRepository)
+	{
+		List<RepositoryService> localServices = new ArrayList<>();
+		List<RepositoryService> repoServices = super.getExtensions(RepositoryService.class);
+		if (repoServices != null && repoServices.size() > 0)
+		{
+			for (RepositoryService repoService : repoServices)
+			{
+				if (repoService instanceof DefaultRepositoryService)
+				{
+					localServices.add(localRepository);
+				}
+				else
+				{
+					localServices.add(repoService);
+				}
+			}
+		}
+		return localServices;//TODO unmodifiable?
 	}
 	
 }
