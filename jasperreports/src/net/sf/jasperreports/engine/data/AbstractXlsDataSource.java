@@ -33,6 +33,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -64,7 +65,8 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	@Property (
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
-			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME,
+					AbstractXlsDataAdapterService.SERVICE_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "xls.field.column.name";
@@ -75,7 +77,8 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	@Property (
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
-			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME,
+					AbstractXlsDataAdapterService.SERVICE_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Integer.class
 	)
