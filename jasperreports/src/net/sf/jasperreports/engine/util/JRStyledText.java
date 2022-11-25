@@ -94,7 +94,7 @@ public class JRStyledText implements Cloneable
 	private StringBuilder sbuffer;
 	private String text;
 	
-	private List<Run> runs = Collections.emptyList();
+	private List<Run> runs = new ArrayList<>();
 	private AttributedString attributedString;
 	private AttributedString awtAttributedString;
 	private Map<Attribute,Object> globalAttributes;
@@ -175,23 +175,7 @@ public class JRStyledText implements Cloneable
 	 */
 	public void addRun(Run run)
 	{
-		int currentSize = runs.size();
-		if (currentSize == 0)
-		{
-			runs = Collections.singletonList(run);
-		}
-		else
-		{
-			if (currentSize == 1 && !(runs instanceof ArrayList))
-			{
-				List<Run> newRuns = new ArrayList<>();
-				newRuns.add(runs.get(0));
-				runs = newRuns;
-			}
-
-			runs.add(run);
-		}
-
+        runs.add(run);
 		attributedString = null;
 		awtAttributedString = null;
 	}
@@ -437,27 +421,10 @@ public class JRStyledText implements Cloneable
 		{
 			JRStyledText clone = (JRStyledText) super.clone();
 			clone.globalAttributes = cloneAttributesMap(globalAttributes);
-			
-			int runsCount = runs.size();
-			if (runsCount == 0)
-			{
-				clone.runs = Collections.emptyList();
-			}
-			else if (runsCount == 1)
-			{
-				clone.runs = Collections.singletonList(runs.get(0).cloneRun());
-			}
-			else
-			{
-				clone.runs = new ArrayList<>(runsCount);
-				for (Iterator<Run> it = runs.iterator(); it.hasNext();)
-				{
-					Run run = it.next();
-					Run runClone = run.cloneRun();
-					clone.runs.add(runClone);
-				}
-			}
-			
+
+            clone.runs = new ArrayList<>();
+            runs.forEach(run -> clone.runs.add(run.cloneRun()));
+
 			return clone;
 		}
 		catch (CloneNotSupportedException e)

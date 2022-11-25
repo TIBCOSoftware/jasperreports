@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.util;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Stack;
 
@@ -102,8 +103,22 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		return srcText;
 	}
 	
-	
-	private void processElement(JRStyledText styledText, Element parentElement)
+	private void processElement(JRStyledText styledText, Element parentElement) {
+		StringBuilder stringBuilder = new StringBuilder();
+		List<Run> runs = new ArrayList<>();
+		processElementRecursive(stringBuilder, runs, parentElement);
+        int lastIndex = stringBuilder.length() - 1;
+        if (stringBuilder.charAt(lastIndex) == '\n') {
+            stringBuilder.deleteCharAt(lastIndex);
+            runs.get(runs.size() - 1).endIndex -= 1;
+            styledText.append(stringBuilder.toString());
+            for (Run run : runs) {
+                styledText.addRun(run);
+            }
+        }
+	}
+
+	private void processElementRecursive(StringBuilder stringBuilder, List<Run> runs, Element parentElement)
 	{
 		for (int i = 0; i < parentElement.getElementCount(); i++)
 		{
@@ -120,21 +135,21 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				if (htmlTag == Tag.BODY)
 				{
 					bodyOccurred = true;
-					processElement(styledText, element);
+					processElementRecursive(stringBuilder, runs, element);
 				}
 				else if (htmlTag == Tag.BR)
 				{
-					styledText.append("\n");
+					stringBuilder.append("\n");
 
-					int startIndex = styledText.length();
-					resizeRuns(styledText.getRuns(), startIndex, 1);
+					int startIndex = stringBuilder.length();
+					resizeRuns(runs, startIndex, 1);
 
-					processElement(styledText, element);
-					styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
+					processElementRecursive(stringBuilder, runs, element);
+					runs.add(new JRStyledText.Run(new HashMap<>(), startIndex, stringBuilder.length()));
 
-					if (startIndex < styledText.length()) {
-						styledText.append("\n");
-						resizeRuns(styledText.getRuns(), startIndex, 1);
+					if (startIndex < stringBuilder.length()) {
+						stringBuilder.append("\n");
+						resizeRuns(runs, startIndex, 1);
 					}
 				}
 				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
@@ -161,11 +176,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					styleAttrs.put(JRTextAttribute.HTML_LIST, htmlListStack.toArray(new StyledTextListInfo[htmlListStack.size()]));
 					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, StyledTextListItemInfo.NO_LIST_ITEM_FILLER);
 					
-					int startIndex = styledText.length();
+					int startIndex = stringBuilder.length();
 
-					processElement(styledText, element);
+					processElementRecursive(stringBuilder, runs, element);
 
-					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+					runs.add(new JRStyledText.Run(styleAttrs, startIndex, stringBuilder.length()));
 					
 					justClosedList = htmlListStack.pop();
 				}
@@ -195,11 +210,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					
 					styleAttrs.put(JRTextAttribute.HTML_LIST_ITEM, new StyledTextListItemInfo(htmlList.getItemCount() - 1));
 					
-					int startIndex = styledText.length();
+					int startIndex = stringBuilder.length();
 
-					processElement(styledText, element);
+					processElementRecursive(stringBuilder, runs, element);
 
-					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+					runs.add(new JRStyledText.Run(styleAttrs, startIndex, stringBuilder.length()));
 					
 					insideLi = false;
 					liStart = false;
@@ -228,17 +243,14 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						}
 					}
 					
-					if (
-						chunk != null
-						&& !"\n".equals(chunk) 
-						)
+					if (chunk != null)
 					{
 						liStart = false;
 						justClosedList = null;
 
-						int startIndex = styledText.length();
+						int startIndex = stringBuilder.length();
 
-						styledText.append(chunk);
+						stringBuilder.append(chunk);
 						
 						Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
 
@@ -256,16 +268,14 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 							}
 						}
 
-						styledText.addRun(
-							new JRStyledText.Run(styleAttributes, startIndex, styledText.length())
-							);
+						runs.add(new JRStyledText.Run(styleAttributes, startIndex, stringBuilder.length()));
 					}
 				}
 				else
 				{
 					if (bodyOccurred)
 					{
-						processElement(styledText, element);
+						processElementRecursive(stringBuilder, runs, element);
 					}
 				}
 			}
