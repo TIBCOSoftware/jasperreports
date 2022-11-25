@@ -107,15 +107,15 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		StringBuilder stringBuilder = new StringBuilder();
 		List<Run> runs = new ArrayList<>();
 		processElementRecursive(stringBuilder, runs, parentElement);
-        int lastIndex = stringBuilder.length() - 1;
-        if (stringBuilder.charAt(lastIndex) == '\n') {
-            stringBuilder.deleteCharAt(lastIndex);
-            runs.get(runs.size() - 1).endIndex -= 1;
-            styledText.append(stringBuilder.toString());
-            for (Run run : runs) {
-                styledText.addRun(run);
-            }
-        }
+		int lastIndex = stringBuilder.length() - 1;
+		if (stringBuilder.charAt(lastIndex) == '\n') {
+			stringBuilder.deleteCharAt(lastIndex);
+			runs.get(runs.size() - 1).endIndex -= 1;
+			styledText.append(stringBuilder.toString());
+			for (Run run : runs) {
+				styledText.addRun(run);
+			}
+		}
 	}
 
 	private void processElementRecursive(StringBuilder stringBuilder, List<Run> runs, Element parentElement)

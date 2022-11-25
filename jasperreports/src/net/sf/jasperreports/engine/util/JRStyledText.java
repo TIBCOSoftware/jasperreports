@@ -175,7 +175,7 @@ public class JRStyledText implements Cloneable
 	 */
 	public void addRun(Run run)
 	{
-        runs.add(run);
+		runs.add(run);
 		attributedString = null;
 		awtAttributedString = null;
 	}
@@ -422,8 +422,8 @@ public class JRStyledText implements Cloneable
 			JRStyledText clone = (JRStyledText) super.clone();
 			clone.globalAttributes = cloneAttributesMap(globalAttributes);
 
-            clone.runs = new ArrayList<>();
-            runs.forEach(run -> clone.runs.add(run.cloneRun()));
+			clone.runs = new ArrayList<>();
+			runs.forEach(run -> clone.runs.add(run.cloneRun()));
 
 			return clone;
 		}
