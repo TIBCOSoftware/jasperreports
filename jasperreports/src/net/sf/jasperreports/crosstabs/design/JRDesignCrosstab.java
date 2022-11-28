@@ -170,7 +170,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	private static final Object[] BUILT_IN_VARIABLES = new Object[] { 
 		JRCrosstab.VARIABLE_ROW_COUNT, Integer.class, 
-		JRCrosstab.VARIABLE_COLUMN_COUNT, Integer.class};
+		JRCrosstab.VARIABLE_IS_EVEN_ROW, Boolean.class, 
+		JRCrosstab.VARIABLE_COLUMN_COUNT, Integer.class,
+		JRCrosstab.VARIABLE_IS_EVEN_COLUMN, Boolean.class};
 
 	
 	/**
@@ -1153,7 +1155,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @see JRCrosstabGroup#getVariable()
 	 * @see JRCrosstabMeasure#getVariable()
 	 * @see JRCrosstab#VARIABLE_ROW_COUNT
+	 * @see JRCrosstab#VARIABLE_IS_EVEN_ROW
 	 * @see JRCrosstab#VARIABLE_COLUMN_COUNT
+	 * @see JRCrosstab#VARIABLE_IS_EVEN_COLUMN
 	 */
 	@Override
 	public JRVariable[] getVariables()
