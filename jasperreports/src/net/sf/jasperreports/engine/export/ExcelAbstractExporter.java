@@ -184,6 +184,29 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	public static final String PROPERTY_AUTO_FIT_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.row";
 	
 	/**
+	 * Flag property that indicates whether the height of the element should contribute to the current row height calculation.
+	 * The current row height is given by the tallest element on the row, unless row height auto fit is activated.
+	 * But in certain cases, the tallest element might span multiple rows and thus its bigger height should not be considered, especially
+	 * in case of metadata based exports.
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>true</code></li>
+	 * <li><code>false</code> - this is the default value.</li>
+	 * </ul>
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 6.20.1
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_20_1,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_IGNORE_ROW_HEIGHT = XLS_EXPORTER_PROPERTIES_PREFIX + "ignore.row.height";
+	
+	/**
 	 * Flag property that indicates whether Excel should autofit the current column width.
 	 * Allowed values are:
 	 * <ul>

@@ -1909,7 +1909,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			String currentData = (element instanceof JRPrintText && element.getPropertiesMap().containsProperty(PROPERTY_DATA))
 					? element.getPropertiesMap().getProperty(PROPERTY_DATA)
 					: null;
-			adjustRowHeight(element.getHeight(), ((JRXlsxExporterNature)nature).getRowAutoFit(element));
+			
+			Boolean ignoreRowHeight = ((JRXlsxExporterNature)nature).getIgnoreRowHeight(element);
+			adjustRowHeight(
+				Boolean.TRUE.equals(ignoreRowHeight) ? 0 : element.getHeight(), 
+				((JRXlsxExporterNature)nature).getRowAutoFit(element)
+				);
 			setColumnName(currentColumnName);
 			addElement(
 					element, 
@@ -2002,8 +2007,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		int columnsCount = columnNames == null ? 0 : columnNames.size();
 		exportHeaderRow(columnsCount, currentRow, repeatedValues);
 		
-		sheetHelper.exportRow((Integer) currentRow.get(CURRENT_ROW_HEIGHT),
-				(Boolean) currentRow.get(CURRENT_ROW_AUTOFIT), null);
+		Integer rowHeight = (Integer) currentRow.get(CURRENT_ROW_HEIGHT);
+		//rowHeight = rowHeight == null ? 0 : rowHeight;
+		Boolean rowAutoFit = (Boolean) currentRow.get(CURRENT_ROW_AUTOFIT);
+		//rowAutoFit = rowAutoFit == null ? false : rowAutoFit;
+		sheetHelper.exportRow(rowHeight, rowAutoFit, null);
 		for (int i = 0; i < columnNames.size(); i++) 
 		{
 			String columnName = columnNames.get(i);

@@ -173,6 +173,23 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	/**
 	 *
 	 */
+	public Boolean getIgnoreRowHeight(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_IGNORE_ROW_HEIGHT)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, ExcelAbstractExporter.PROPERTY_IGNORE_ROW_HEIGHT, false);
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
 	public Boolean getColumnAutoFit(JRPrintElement element)
 	{
 		if (
