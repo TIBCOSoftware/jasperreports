@@ -316,7 +316,7 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("XLS metadata creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata XLS creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -349,7 +349,7 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter1.exportReport();
 		
-		System.err.println("XLSX multiSheet metadata creation time : " + (System.currentTimeMillis() - start1));
+		System.err.println("Metadata multiSheet XLSX creation time : " + (System.currentTimeMillis() - start1));
 		
 		long start2 = System.currentTimeMillis();
 		XlsxMetadataExporter exporter2 = new XlsxMetadataExporter();
@@ -363,9 +363,9 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter2.exportReport();
 		
-		System.err.println("XLSX singleSheet metadata creation time : " + (System.currentTimeMillis() - start2));
+		System.err.println("Metadata singleSheet XLSX creation time : " + (System.currentTimeMillis() - start2));
 		
-		System.err.println("XLSX metadata creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata XLSX creation time : " + (System.currentTimeMillis() - start));
 		
 	}
 	
@@ -389,7 +389,7 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("JSON creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata JSON creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -435,7 +435,7 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter.exportReport();
 
-		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata CSV creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
