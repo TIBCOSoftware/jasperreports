@@ -89,7 +89,6 @@ import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.base.JRBaseTextElement;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
-import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
@@ -1804,7 +1803,7 @@ public class TableReport implements JRReport
 				footerElements[i].getUUID(), 
 				BandTypeEnum.GROUP_FOOTER + "-" + SUMMARY_GROUP_NAME);
 
-			((JRDesignElement)footerCloneElements[i]).setUUID(uuid);
+			((JRBaseElement)footerCloneElements[i]).setUUID(uuid);
 		}
 		
 		groupFooter.addElement(footerFrame);
