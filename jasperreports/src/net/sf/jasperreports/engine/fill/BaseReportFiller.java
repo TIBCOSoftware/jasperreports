@@ -758,6 +758,12 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected void detectPart()
 	{
+		//we have a flag for performance reasons
+		if (!fillContext.toDetectParts())
+		{
+			return;
+		}
+
 		List<JRPrintPage> pages = jasperPrint.getPages();
 		if (pages != null && !pages.isEmpty())
 		{

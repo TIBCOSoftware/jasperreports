@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
@@ -208,6 +209,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
+		lookForPartProperty();
 	}
 
 
@@ -297,6 +299,15 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return transferProperties;
 	}
 
+	private void lookForPartProperty()
+	{
+		boolean partProperty = (staticProperties != null && staticProperties.containsProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME))
+				|| propertyExpressions.stream().filter(prop -> PrintPart.ELEMENT_PROPERTY_PART_NAME.equals(prop.getName())).findAny().isPresent();
+		if (partProperty)
+		{
+			filler.getFillContext().setDetectParts(true);
+		}
+	}
 
 	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()

@@ -1363,6 +1363,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				log.debug("Fill " + fillerId + ": adding page " + (jasperPrint.getPages().size() + 1));
 			}
 
+			//TODO do these two in a single traversal
 			addLastPageBookmarks();
 			detectPart();
 			
