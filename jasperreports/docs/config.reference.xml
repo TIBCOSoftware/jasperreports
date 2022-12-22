@@ -2274,7 +2274,7 @@ When this property is set, the engine saves the original text in the <api href="
   
   <configProperty name="net.sf.jasperreports.print.transfer.{arbitrary_suffix}">
     <description>
-Properties having this prefix specify the properties to be transfered from report templates to print objects during the report filling.
+Properties having this prefix specify the properties to be transferred from report templates to print objects during the report filling.
     </description>
   </configProperty>
   

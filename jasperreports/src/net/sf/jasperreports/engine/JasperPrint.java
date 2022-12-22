@@ -69,7 +69,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	
 	/**
 	 * Prefix for JasperReports properties that specify properties to be
-	 * transfered from report templates to print objects.
+	 * transferred from report templates to print objects.
 	 * 
 	 * @see JRPropertiesUtil#transferProperties(JRPropertiesHolder, JRPropertiesHolder, String)
 	 */
