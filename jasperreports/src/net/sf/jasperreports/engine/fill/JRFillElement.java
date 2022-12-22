@@ -209,7 +209,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
-		lookForPartProperty();
+		lookForPartProperty(staticProperties);
 	}
 
 
@@ -299,11 +299,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return transferProperties;
 	}
 
-	private void lookForPartProperty()
+	private void lookForPartProperty(JRPropertiesMap properties)
 	{
-		boolean partProperty = (staticProperties != null && staticProperties.containsProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME))
-				|| propertyExpressions.stream().filter(prop -> PrintPart.ELEMENT_PROPERTY_PART_NAME.equals(prop.getName())).findAny().isPresent();
-		if (partProperty)
+		if (properties != null && properties.getProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME) != null)
 		{
 			filler.getFillContext().setDetectParts(true);
 		}
@@ -1813,6 +1811,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			
 			mergedProperties = dynamicProperties.cloneProperties();
 			mergedProperties.setBaseProperties(staticProperties);
+			
+			lookForPartProperty(dynamicProperties);
 		}
 	}
 	
