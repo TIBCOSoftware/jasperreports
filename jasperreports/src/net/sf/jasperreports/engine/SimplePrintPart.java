@@ -114,4 +114,17 @@ public class SimplePrintPart implements PrintPart, Serializable
 	{
 		return null;
 	}
+
+	public void update(String partName, JRPropertiesHolder partProperties)
+	{
+		if (partName != null)
+		{
+			name = partName;
+		}
+		
+		if (partProperties != null && partProperties.hasProperties())
+		{
+			getPropertiesMap().copyOwnProperties(partProperties.getPropertiesMap());
+		}
+	}
 }
