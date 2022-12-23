@@ -896,7 +896,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		super.ensureInput();
 
-		exporterInput = new PrintPartUnrollExporterInput(exporterInput);
+		exporterInput = new PrintPartUnrollExporterInput(exporterInput, getItemConfigurationInterface());
 
 		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}

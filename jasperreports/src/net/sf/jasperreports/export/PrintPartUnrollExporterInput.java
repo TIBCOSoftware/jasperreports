@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.export;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
@@ -38,54 +42,34 @@ import net.sf.jasperreports.engine.PrintParts;
  */
 public class PrintPartUnrollExporterInput implements ExporterInput
 {
+	private Class<? extends ReportExportConfiguration> itemConfigurationInterface;
 	private List<ExporterInputItem> partItems;
 	
 	/**
 	 * 
 	 */
-	public PrintPartUnrollExporterInput(ExporterInput exporterInput)
+	public PrintPartUnrollExporterInput(ExporterInput exporterInput, Class<? extends ReportExportConfiguration> itemConfigurationInterface)
 	{
+		this.itemConfigurationInterface = itemConfigurationInterface;
 		partItems = new ArrayList<>();
 		
 		for (ExporterInputItem item : exporterInput.getItems())
 		{
 			JasperPrint jasperPrint = item.getJasperPrint();
-			ReportExportConfiguration configuration = item.getConfiguration();
 			//SortedMap<Integer, PrintPart> parts = jasperPrint.getParts();
 			if (jasperPrint.hasParts())
 			{
-				int startPageIndex = configuration.getStartPageIndex() == null ? 0 : configuration.getStartPageIndex();
-				int endPageIndex = configuration.getEndPageIndex() == null ? jasperPrint.getPages().size() 
-						: (configuration.getEndPageIndex() + 1);
 				PrintParts parts = jasperPrint.getParts();
 				Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator();
 				Map.Entry<Integer, PrintPart> part = it.next();
 				while (it.hasNext())
 				{
 					Map.Entry<Integer, PrintPart> next = it.next();
-					if (Math.max(startPageIndex, part.getKey()) <= Math.min(endPageIndex, next.getKey()))
-					{
-						partItems.add(
-								new SimpleExporterInputItem(
-									new ReadOnlyPartJasperPrint(jasperPrint, part.getValue(), 
-											Math.max(startPageIndex, part.getKey()), Math.min(endPageIndex, next.getKey())),
-									configuration
-									)
-								);
-					}
+					addPartItem(item, part.getValue(), part.getKey(), next.getKey());
 					part = next;
 				}
 				
-				if (Math.max(startPageIndex, part.getKey()) <= endPageIndex)
-				{
-					partItems.add(
-							new SimpleExporterInputItem(
-								new ReadOnlyPartJasperPrint(jasperPrint, part.getValue(), 
-										Math.max(startPageIndex, part.getKey()), endPageIndex),
-								configuration
-								)
-							);
-				}
+				addPartItem(item, part.getValue(), part.getKey(), jasperPrint.getPages().size());
 			}
 			else
 			{
@@ -93,7 +77,66 @@ public class PrintPartUnrollExporterInput implements ExporterInput
 			}
 		}
 	}
-	
+
+	private void addPartItem(ExporterInputItem item, PrintPart part, int partStartIndex, int partEndIndex)
+	{
+		JasperPrint jasperPrint = item.getJasperPrint();
+		ReportExportConfiguration configuration = item.getConfiguration();
+		Integer configPageIndex = configuration.getPageIndex();
+		Integer configStartPageIndex = configPageIndex == null ? configuration.getStartPageIndex() : configPageIndex;
+		Integer configEndPageIndex = configPageIndex == null ? configuration.getEndPageIndex() : configPageIndex;
+
+		int itemStartIndex = configStartPageIndex == null ? partStartIndex : Math.max(configStartPageIndex, partStartIndex);
+		int itemEndIndex = configStartPageIndex == null ? partEndIndex: Math.min(configEndPageIndex + 1, partEndIndex);
+		if (itemStartIndex < itemEndIndex)
+		{
+			ReadOnlyPartJasperPrint itemJasperPrint = new ReadOnlyPartJasperPrint(jasperPrint, part, 
+					partStartIndex, partEndIndex);
+			
+			ReportExportConfiguration itemConfiguration;
+			if ((configStartPageIndex == null || configStartPageIndex == itemStartIndex - partStartIndex)
+					&& (configEndPageIndex == null || configEndPageIndex == itemEndIndex - partStartIndex - 1))
+			{
+				itemConfiguration = configuration;
+			}
+			else
+			{
+				itemConfiguration = overrideConfiguration(configuration, 
+						itemStartIndex - partStartIndex, itemEndIndex - partStartIndex - 1);
+			}
+			
+			partItems.add(new SimpleExporterInputItem(itemJasperPrint, itemConfiguration));
+		}
+	}
+
+	private ReportExportConfiguration overrideConfiguration(ReportExportConfiguration configuration, 
+			int startIndex, int endIndex)
+	{
+		return (ReportExportConfiguration) Proxy.newProxyInstance(
+				JRAbstractExporter.class.getClassLoader(),
+				new Class<?>[] {itemConfigurationInterface},
+				new InvocationHandler()
+				{
+					@Override
+					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+					{
+						if (method.getName().equals("getPageIndex"))
+						{
+							return null;
+						}
+						if (method.getName().equals("getStartPageIndex"))
+						{
+							return startIndex;
+						}
+						if (method.getName().equals("getEndPageIndex"))
+						{
+							return endIndex;
+						}
+						return method.invoke(configuration, args);
+					}
+				});
+	}
+
 	@Override
 	public List<ExporterInputItem> getItems()
 	{
