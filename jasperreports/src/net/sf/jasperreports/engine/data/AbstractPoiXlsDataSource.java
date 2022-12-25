@@ -394,7 +394,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE,
-						new Object[]{jrField.getName(), valueClass.getName()});
+						new Object[]{jrField.getName(), valueClass.getName(), recordIndex});
 			}
 		}
 		catch (Exception e) 
@@ -402,7 +402,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
-					new Object[]{jrField.getName(), valueClass.getName()}, 
+					new Object[]{jrField.getName(), valueClass.getName(), recordIndex}, 
 					e);
 		}
 	}
