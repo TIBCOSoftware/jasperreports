@@ -241,8 +241,15 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 				contentsWidth = fillSubreport.getPrintContentsWidth();
 			}
 		}
+		contentsWidth += lineBox.getLeftPadding() + lineBox.getRightPadding();
 		
-		printFrame.setWidth(contentsWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());
+		int elementWidth = fillContext.getComponentElement().getWidth();
+		if (contentsWidth < elementWidth)
+		{
+			contentsWidth = elementWidth; 
+		}
+		
+		printFrame.setWidth(contentsWidth);
 		
 		fillSubreport.subreportPageFilled();
 		
