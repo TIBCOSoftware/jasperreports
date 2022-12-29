@@ -208,6 +208,11 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		return uuid;
 	}
 
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+	}
+		
 	@Override
 	public String getKey()
 	{
