@@ -31,8 +31,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -310,19 +308,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText)
 	{
 		StyledTextWriteContext context = new StyledTextWriteContext();
-		
-		String text = styledText.getText();
-		
-		int runLimit = 0;
-		
-		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
-		
-		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+
+		styledText.consumeText((startIndex, endIndex, attributes, runText) ->
 		{
-			Map<Attribute,Object> attributes = iterator.getAttributes();
-
-			String runText = text.substring(iterator.getIndex(), runLimit);
-
 			context.next(attributes, runText);
 			
 			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
@@ -343,9 +331,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					isStyledText
 					);
 			}
-			
-			iterator.setIndex(runLimit);
-		}
+		});
 	}
 
 
@@ -536,12 +522,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		String href = null;
 
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, link);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = configuration.isIgnoreHyperlink();
+			ignoreHyperlink = defaultIgnoreHyperlink;
 		}
 		
 		//test for ignore hyperlinks done here
@@ -570,7 +554,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					}
 					case LOCAL_ANCHOR :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkAnchor() != null)		//test for ignore anchors done here
+						if (!ignoreAnchors && link.getHyperlinkAnchor() != null)		//test for ignore anchors done here
 						{
 							href = link.getHyperlinkAnchor();
 						}
@@ -578,9 +562,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					}
 					case LOCAL_PAGE :
 					{
-						if (!configuration.isIgnoreAnchors() && link.getHyperlinkPage() != null)		//test for ignore anchors done here
+						if (!ignoreAnchors && link.getHyperlinkPage() != null)		//test for ignore anchors done here
 						{
-							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (configuration.isOnePagePerSheet() ? link.getHyperlinkPage().toString() : "1");
+							href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (onePagePerSheet ? link.getHyperlinkPage().toString() : "1");
 						}
 						break;
 					}
@@ -639,7 +623,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected void insertPageAnchor(int colIndex, int rowIndex)
 	{
-		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
+		if(!ignoreAnchors && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (sheetIndex - sheetsBeforeCurrentReport);
 			String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
@@ -656,7 +640,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 
@@ -877,7 +861,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, frame, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
@@ -938,7 +922,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, image, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 
 		Renderable renderer = image.getRenderer();
 
@@ -1159,9 +1143,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					}
 				}
 
-				XlsReportConfiguration configuration = getCurrentItemConfiguration();
-				
-				if (!configuration.isIgnoreAnchors())
+				if (!ignoreAnchors)
 				{
 					insertPageAnchor(colIndex,rowIndex);
 					if (image.getAnchorName() != null)
@@ -1183,7 +1165,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						);
 				if (imageAnchorType == null)
 				{
-					imageAnchorType = configuration.getImageAnchorType();
+					imageAnchorType = defaultImageAnchorType;
 					if (imageAnchorType == null)
 					{
 						imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
@@ -1204,7 +1186,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					"</xdr:col><xdr:colOff>" +
 					LengthUtil.emu(-rightPadding) +
 					"</xdr:colOff><xdr:row>" +
-					(rowIndex + (configuration.isCollapseRowSpan() ? 1 : gridCell.getRowSpan())) +
+					(rowIndex + (collapseRowSpan ? 1 : gridCell.getRowSpan())) +
 					"</xdr:row><xdr:rowOff>" +
 					LengthUtil.emu(-bottomPadding) +
 					"</xdr:rowOff></xdr:to>\n");
@@ -1434,7 +1416,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
+		cellHelper.exportHeader(gridCell, line, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1456,7 +1438,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, rectangle, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1479,9 +1461,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		TextValue textValue = null;
 		String pattern = null;
 		
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		
-		if (configuration.isDetectCellType())
+		if (detectCellType)
 		{
 			textValue = getTextValue(text, textStr);
 			if (textValue instanceof NumberTextValue)
@@ -1498,13 +1478,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		final String convertedPattern = getConvertedPattern(text, pattern);
 				
 		cellHelper.exportHeader(
-			gridCell, rowIndex, colIndex, maxColumnIndex, textValue, 
+			gridCell, text, rowIndex, colIndex, maxColumnIndex, textValue, 
 			convertedPattern, 
 			getTextLocale(text), 
-			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
-			isCellHidden(gridCell.getElement()), 
-			isCellLocked(gridCell.getElement()),
-			isShrinkToFit(gridCell.getElement()), 
+			isWrapText(text) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(text)), 
+			isCellHidden(text), 
+			isCellLocked(text),
+			isShrinkToFit(text), 
 			isIgnoreTextFormatting(text),
 			text.getRotationValue(),
 			sheetInfo
@@ -1532,7 +1512,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //		writer.write(">");
 		
 //		tableHelper.getParagraphHelper().exportProps(text);
-		if(!configuration.isIgnoreAnchors())
+		if(!ignoreAnchors)
 		{
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)
@@ -1762,7 +1742,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		//ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(occupiedGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(occupiedGridCell, null, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 

@@ -257,4 +257,13 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 				&& ObjectUtils.equals(lineColor, pen.lineColor);
 	}
 
+
+	@Override
+	public void populateStyle()
+	{
+		lineWidth = getLineWidth();
+		lineStyleValue = getLineStyleValue();
+		lineColor = getLineColor();
+	}
+
 }

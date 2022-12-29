@@ -25,12 +25,14 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -70,6 +72,18 @@ public class ElementsBlockList implements ElementStore, Serializable
 			if (block != null)
 			{
 				block.updatePage(page);
+			}
+		}
+	}
+
+	@Override
+	public void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page)
+	{
+		for (ElementsBlock block : blocks)
+		{
+			if (block != null)
+			{
+				block.updateContext(context, page);
 			}
 		}
 	}
@@ -269,5 +283,22 @@ public class ElementsBlockList implements ElementStore, Serializable
 	public JRVirtualPrintPage getPage()
 	{
 		return blocks[0].getPage();
+	}
+
+	@Override
+	public void transferElements(Consumer<JRPrintElement> consumer)
+	{
+		for (int idx = 0; idx < blockCount; ++idx)
+		{
+			blocks[idx].transferElements(consumer);
+		}
+
+		//leaving only the first empty block
+		for (int idx = 1; idx < blockCount; ++idx)
+		{
+			blocks[idx] = null;
+		}
+		blockCount = 1;
+		size = 0;
 	}
 }

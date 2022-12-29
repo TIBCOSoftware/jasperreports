@@ -68,7 +68,8 @@ public interface JRLineBox extends JRPenContainer
 	 */
 	public JRLineBox clone(JRBoxContainer boxContainer);
 
-	
+	public void populateStyle();
+
 	/**
 	 * Gets the pen properties for the border.
 	 */

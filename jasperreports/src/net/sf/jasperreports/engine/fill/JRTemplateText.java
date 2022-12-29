@@ -848,4 +848,35 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 				&& ObjectUtils.equals(localeCode, template.localeCode)
 				&& ObjectUtils.equals(timeZoneId, template.timeZoneId);
 	}
+	
+	@Override
+	public void populateStyle()
+	{
+		super.populateStyle();
+		
+		fontName = getFontName();
+		isBold = isBold();
+		isItalic = isItalic();
+		isUnderline = isUnderline();
+		isStrikeThrough = isStrikeThrough();
+		fontsize = getFontsize();
+		pdfFontName = getPdfFontName();
+		pdfEncoding = getPdfEncoding();
+		isPdfEmbedded = isPdfEmbedded();
+
+		horizontalTextAlign = getHorizontalTextAlign();
+		verticalTextAlign = getVerticalTextAlign();
+		rotationValue = getRotationValue();
+		markup = getMarkup();
+		
+		if (paragraph != null)
+		{
+			paragraph.populateStyle();
+		}
+		
+		if (lineBox != null)
+		{
+			lineBox.populateStyle();
+		}
+	}
 }

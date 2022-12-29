@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.PrintElementId;
+import net.sf.jasperreports.engine.base.ElementStore;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualizableElementList;
 import net.sf.jasperreports.engine.util.VirtualizableElementCounter;
@@ -56,6 +57,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	private JRVirtualizationContext virtualizationContext;
 	private JRVirtualPrintPage page;
 	private int virtualizationPageElementSize;
+	private boolean virtualizedElements;
 	private int deepSize;
 
 	public VirtualizableFrame(JRTemplatePrintFrame frame, 
@@ -97,7 +99,14 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 			return;
 		}
 		
-		deepSize += VirtualizableElementCounter.count(elements);
+		if (elements instanceof VirtualizableElementList)
+		{
+			virtualizedElements = true;
+		}
+		else
+		{
+			deepSize += VirtualizableElementCounter.count(elements);
+		}
 		
 		OffsetElements offsetElements = new OffsetElements(elements, offsetX, offsetY);
 		this.elements.add(offsetElements);		
@@ -105,9 +114,41 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	
 	public void fill()
 	{
-		if (virtualizationPageElementSize > 0 && deepSize > virtualizationPageElementSize)
+		PrintElementId frameID = PrintElementId.forElement(frame);
+		boolean virtualized = virtualizationPageElementSize > 0 
+				&& (virtualizedElements || deepSize > virtualizationPageElementSize);
+
+		if (elements.size() == 1 && elements.get(0) instanceof OffsetElements)
 		{
-			PrintElementId frameID = PrintElementId.forElement(frame);
+			OffsetElements offsetElements = (OffsetElements) elements.get(0);
+			if (offsetElements.getOffsetX() == 0 && offsetElements.getOffsetY() == 0)
+			{
+				Collection<? extends JRPrintElement> elementsList = offsetElements.getElements();
+				if (elementsList instanceof VirtualizableElementList)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("transferring virtualized list for frame " + frame.getUUID() + " (" + frameID + ")");
+					}
+
+					VirtualizableElementList originalElements = (VirtualizableElementList) offsetElements.getElements();
+					JRVirtualizationContext framesContext = virtualizationContext.getFramesContext();
+					ElementStore elementStore = originalElements.transferStore(framesContext, page);
+					VirtualizableElementList virtualizableList = new VirtualizableElementList(framesContext, elementStore);
+					frame.setElementsList(virtualizableList);
+					framesContext.cacheVirtualizableList(frameID, virtualizableList);
+					return;
+				}
+				else if (!virtualized)
+				{
+					frame.setElementsList(new ArrayList<>(elementsList));
+					return;
+				}
+			}
+		}
+		
+		if (virtualized)
+		{
 			if (log.isDebugEnabled())
 			{
 				log.debug("creating virtualized list for frame " + frame.getUUID() + " (" + frameID + ")");
@@ -120,12 +161,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 			framesContext.cacheVirtualizableList(frameID, virtualizableList);
 		}
 		
-		//TODO lucian optimize case of a single subreport with zero offsets (e.g. a table)
-		for (OffsetElementsIterator it = new OffsetElementsIterator(elements); it.hasNext();)
-		{
-			JRPrintElement element = it.next();
-			frame.addElement(element);
-		}
+		OffsetElementsUtil.transfer(elements, frame::addElement);
 	}
 
 	@Override

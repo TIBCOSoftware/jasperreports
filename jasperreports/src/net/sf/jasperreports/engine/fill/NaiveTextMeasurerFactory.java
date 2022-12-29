@@ -21,35 +21,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
+package net.sf.jasperreports.engine.fill;
 
-import java.util.function.Consumer;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRTextMeasurerFactory;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+public class NaiveTextMeasurerFactory implements JRTextMeasurerFactory
 {
-	int size();
 
-	JRPrintElement get(int index);
+	@Override
+	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
+	{
+		return new NaiveTextMeasurer(text);
+	}
 
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
-	
-	void dispose();
-
-	void updatePage(JRVirtualPrintPage page);
-	
-	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
-
-	void transferElements(Consumer<JRPrintElement> consumer);
 }

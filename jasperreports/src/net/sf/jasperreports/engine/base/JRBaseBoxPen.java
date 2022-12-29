@@ -63,19 +63,46 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	@Override
 	public Float getLineWidth()
 	{
-		return getStyleResolver().getLineWidth(this, penContainer.getDefaultLineWidth());
+		if (lineWidth != null)
+		{
+			return lineWidth;
+		}
+		Float penLineWidth = lineBox.getPen().getOwnLineWidth();
+		if (penLineWidth != null) 
+		{
+			return penLineWidth;
+		}
+		return getStyleResolver().getParentLineWidth(this, penContainer.getDefaultLineWidth());
 	}
 
 	@Override
 	public LineStyleEnum getLineStyleValue()
 	{
-		return getStyleResolver().getLineStyleValue(this);
+		if (lineStyleValue != null)
+		{
+			return lineStyleValue;
+		}
+		LineStyleEnum penLineStyle = lineBox.getPen().getOwnLineStyleValue();
+		if (penLineStyle != null)
+		{
+			return penLineStyle;
+		}
+		return getStyleResolver().getParentLineStyleValue(this);
 	}
 
 	@Override
 	public Color getLineColor()
 	{
-		return getStyleResolver().getLineColor(this, penContainer.getDefaultLineColor());
+		if (lineColor != null)
+		{
+			return lineColor;
+		}
+		Color penLineColor = lineBox.getPen().getOwnLineColor();
+		if (penLineColor != null)
+		{
+			return penLineColor;
+		}
+		return getStyleResolver().getParentLineColor(this, penContainer.getDefaultLineColor());
 	}
 
 	@Override

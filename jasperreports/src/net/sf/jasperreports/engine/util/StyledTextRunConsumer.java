@@ -21,35 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
+package net.sf.jasperreports.engine.util;
 
-import java.util.function.Consumer;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Map;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+@FunctionalInterface
+public interface StyledTextRunConsumer
 {
-	int size();
 
-	JRPrintElement get(int index);
-
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
+	void accept(int startIndex, int endIndex, Map<Attribute, Object> attributes,
+			String runText);
 	
-	void dispose();
-
-	void updatePage(JRVirtualPrintPage page);
-	
-	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
-
-	void transferElements(Consumer<JRPrintElement> consumer);
 }

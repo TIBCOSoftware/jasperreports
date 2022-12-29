@@ -420,6 +420,11 @@ public class StyleResolver
 		{
 			return penLineWidth;
 		}
+		return getParentLineWidth(boxPen, defaultLineWidth);
+	}
+
+	public Float getParentLineWidth(JRBoxPen boxPen, Float defaultLineWidth)
+	{
 		JRStyle baseStyle = getBaseStyle(boxPen);
 		if (baseStyle != null)
 		{
@@ -469,6 +474,11 @@ public class StyleResolver
 		{
 			return penLineStyle;
 		}
+		return getParentLineStyleValue(boxPen);
+	}
+
+	public LineStyleEnum getParentLineStyleValue(JRBoxPen boxPen)
+	{
 		JRStyle baseStyle = getBaseStyle(boxPen);
 		if (baseStyle != null)
 		{
@@ -520,6 +530,11 @@ public class StyleResolver
 		{
 			return penLineColor;
 		}
+		return getParentLineColor(boxPen, defaultColor);
+	}
+
+	public Color getParentLineColor(JRBoxPen boxPen, Color defaultColor)
+	{
 		JRStyle baseStyle = getBaseStyle(boxPen);
 		if (baseStyle != null)
 		{
