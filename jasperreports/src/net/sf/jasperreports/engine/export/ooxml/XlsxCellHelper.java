@@ -88,6 +88,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 			JRExporterGridCell gridCell,
+			JRPrintElement element,
 			int rowIndex,
 			int colIndex, 
 			int maxColIndex,
@@ -96,6 +97,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex, 
 				colIndex, 
 				maxColIndex, 
@@ -116,6 +118,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 			JRExporterGridCell gridCell,
+			JRPrintElement element,
 			int rowIndex,
 			int colIndex, 
 			int maxColIndex, 
@@ -133,6 +136,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex,
 				colIndex, 
 				maxColIndex, 
@@ -155,6 +159,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		int rowIndex,
 		int colIndex, 
 		int maxColIndex,
@@ -164,6 +169,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex, 
 				colIndex, 
 				maxColIndex, 
@@ -185,6 +191,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		int rowIndex,
 		int colIndex, 
 		int maxColIndex, 
@@ -229,6 +236,7 @@ public class XlsxCellHelper extends BaseHelper
 			styleIndex = 
 				styleHelper.getCellStyle(
 					gridCell, 
+					element,
 					pattern, 
 					locale, 
 					isWrapText, 

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -41,10 +42,13 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  */
 public class XlsxFontHelper extends BaseHelper
 {
-	private Map<String,Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<XlsxFontInfo, Integer> fontCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private String exporterKey;
-	private XlsReportConfiguration configuration;
+
+	private boolean fontSizeFixEnabled;
+
+	private Map<Pair<String, Locale>, String> exportFontCache = new HashMap<>();
 
 	/**
 	 *
@@ -65,7 +69,7 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public void setConfiguration(XlsReportConfiguration configuration)
 	{
-		this.configuration = configuration;
+		fontSizeFixEnabled = configuration.isFontSizeFixEnabled();
 	}
 	
 	/**
@@ -95,20 +99,32 @@ public class XlsxFontHelper extends BaseHelper
 		{
 			return -1;			
 		}
-		
-		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, exporterKey);
-		
-		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, configuration.isFontSizeFixEnabled());
-		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
+
+		String fontName = exportFont(font, locale);
+		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(element, fontName, fontSizeFixEnabled);
+		Integer fontIndex = fontCache.get(xlsxFontInfo);
 		if (fontIndex == null)
 		{
 			fontIndex = fontCache.size();
 			export(xlsxFontInfo);
-			fontCache.put(xlsxFontInfo.getId(), fontIndex);
+			fontCache.put(xlsxFontInfo, fontIndex);
 		}
 		return fontIndex;
 	}
-	
+
+	protected String exportFont(JRFont font, Locale locale)
+	{
+		String fontName = font.getFontName();
+		Pair<String, Locale> cacheKey = new Pair<>(fontName, locale);
+		String exportFont = exportFontCache.get(cacheKey);
+		if (exportFont == null)
+		{
+			exportFont = fontUtil.getExportFontFamily(fontName, locale, exporterKey);
+			exportFontCache.put(cacheKey, exportFont);
+		}
+		return exportFont;
+	}
+
 	/**
 	 *
 	 */

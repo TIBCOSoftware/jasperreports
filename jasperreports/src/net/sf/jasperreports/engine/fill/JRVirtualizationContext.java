@@ -506,6 +506,15 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		}
 		
 		@Override
+		protected void visitFrameElements(List<JRPrintElement> elements, Void v)
+		{
+			if (!(elements instanceof VirtualizableElementList))
+			{
+				super.visitFrameElements(elements, v);
+			}
+		}
+		
+		@Override
 		protected void visitElement(JRPrintElement element, Void arg)
 		{
 			if (element instanceof JRTemplatePrintElement)

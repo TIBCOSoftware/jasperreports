@@ -21,35 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
+package net.sf.jasperreports.engine.util;
 
-import java.util.function.Consumer;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import java.text.Bidi;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+public class TextUtils
 {
-	int size();
 
-	JRPrintElement get(int index);
+	public static boolean isLeftToRight(char[] chars)
+	{
+		boolean leftToRight = true;
+		if (Bidi.requiresBidi(chars, 0, chars.length))
+		{
+			// determining the text direction
+			// using default LTR as there's no way to have other default in the text
+			Bidi bidi = new Bidi(chars, 0, null, 0, chars.length, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
+			leftToRight = bidi.baseIsLeftToRight();
+		}
+		return leftToRight;
+	}	
 
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
-	
-	void dispose();
-
-	void updatePage(JRVirtualPrintPage page);
-	
-	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
-
-	void transferElements(Consumer<JRPrintElement> consumer);
 }

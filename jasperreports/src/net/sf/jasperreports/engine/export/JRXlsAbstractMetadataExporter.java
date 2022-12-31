@@ -177,7 +177,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				if (configuration.isOnePagePerSheet())
+				if (onePagePerSheet)
 				{
 
 					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
@@ -244,7 +244,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 				exportEmptyReport();
 			}
 			
-			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
+			sheetsBeforeCurrentReport = onePagePerSheet ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 
 		closeWorkbook(os);
@@ -386,7 +386,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			return 1;
 		}
 		
-		return getCurrentItemConfiguration().isImageBorderFixEnabled() ? 1 : 0;
+		return imageBorderFixEnabled ? 1 : 0;
 	}
 
 	

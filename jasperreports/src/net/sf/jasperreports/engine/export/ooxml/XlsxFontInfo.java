@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -48,11 +48,6 @@ public class XlsxFontInfo
 	/**
 	 *
 	 */
-	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName, boolean isFontSizeFixEnabled)
-	{
-		this(gridCell.getElement(), fontName, isFontSizeFixEnabled);
-	}
-	
 	public XlsxFontInfo(JRPrintElement element, String fontName, boolean isFontSizeFixEnabled)
 	{
 		if (element != null)
@@ -72,13 +67,34 @@ public class XlsxFontInfo
 		}
 	}
 	
-	public String getId()
+	@Override
+	public int hashCode()
 	{
-		return 
-			fontName + "|" + fontSize
-			+ "|" + isBold + "|"+ isItalic 
-			+ "|" + isUnderline + "|"+ isStrikeThrough
-			+ "|" + color; 
+		int hash = 47 + ObjectUtils.hashCode(fontName);
+		hash = 29 * hash + Float.hashCode(fontSize);
+		hash = 29 * hash + Boolean.hashCode(isBold);
+		hash = 29 * hash + Boolean.hashCode(isItalic);
+		hash = 29 * hash + Boolean.hashCode(isUnderline);
+		hash = 29 * hash + Boolean.hashCode(isStrikeThrough);
+		hash = 29 * hash + ObjectUtils.hashCode(color);
+		return hash;
 	}
 	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof XlsxFontInfo))
+		{
+			return false;
+		}
+		
+		XlsxFontInfo info = (XlsxFontInfo) obj;
+		return ObjectUtils.equals(fontName, info.fontName)
+				&& ObjectUtils.equals(fontSize, info.fontSize)
+				&& isBold == info.isBold
+				&& isItalic == info.isItalic
+				&& isUnderline == info.isUnderline
+				&& isStrikeThrough == info.isStrikeThrough
+				&& ObjectUtils.equals(color, info.color);
+	}
 }

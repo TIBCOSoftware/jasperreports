@@ -1653,4 +1653,14 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			)
 	public PropertySuffix[] getDefinedNames();
 	
+	/**
+	 * 
+	 * @see JRXlsAbstractExporter#PROPERTY_AUTO_FIT_ROW
+	 */
+	@ExporterProperty(
+			value=JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW,
+			booleanDefault=false
+			)
+	public Boolean isAutoFitRow();
+	
 }

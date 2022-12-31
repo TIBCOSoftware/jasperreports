@@ -60,9 +60,14 @@ public class XlsxSheetHelper extends BaseHelper
 	 *
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
-	private final XlsReportConfiguration configuration;
 	
 	private List<Integer> rowBreaks = new ArrayList<>();
+
+	private final boolean collapseRowSpan;
+	private final Integer fitWidth;
+	private final Integer fitHeight;
+	private final Boolean autoFitPageHeight;
+	private final boolean defaultAutoFitRow;
 
 	/**
 	 * 
@@ -77,7 +82,11 @@ public class XlsxSheetHelper extends BaseHelper
 		super(jasperReportsContext, writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
-		this.configuration = configuration;
+		collapseRowSpan = configuration.isCollapseRowSpan();
+		fitWidth = configuration.getFitWidth();
+		fitHeight = configuration.getFitHeight();
+		autoFitPageHeight = configuration.isAutoFitPageHeight();
+		defaultAutoFitRow = configuration.isAutoFitRow();
 	}
 
 	/**
@@ -108,9 +117,9 @@ public class XlsxSheetHelper extends BaseHelper
 		if (
 			(scale < 10 || scale > 400)
 			&& (
-				configuration.getFitWidth() != null 
-				|| configuration.getFitHeight() != null
-				|| Boolean.TRUE == configuration.isAutoFitPageHeight()
+				fitWidth != null 
+				|| fitHeight != null
+				|| Boolean.TRUE == autoFitPageHeight //FIXME equals?
 				)
 			)
 		{
@@ -224,21 +233,18 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		else
 		{
-			Integer fitWidth = configuration.getFitWidth();
 			if (fitWidth != null && fitWidth !=  1)
 			{
 				write(" fitToWidth=\"" + fitWidth + "\"");
 			}
-			Integer fitHeight = configuration.getFitHeight();
-			fitHeight = 
-				fitHeight == null
-				? (Boolean.TRUE == configuration.isAutoFitPageHeight() 
+			Integer sheetFitHeight = fitHeight == null
+				? (Boolean.TRUE == autoFitPageHeight //FIXME equals?
 					? sheetPageCount
 					: null)
 				: fitHeight;
-			if (fitHeight != null && fitHeight != 1)
+			if (sheetFitHeight != null && sheetFitHeight != 1)
 			{
-				write(" fitToHeight=\"" + fitHeight + "\"");
+				write(" fitToHeight=\"" + sheetFitHeight + "\"");
 			}
 		}
 		
@@ -364,7 +370,8 @@ public class XlsxSheetHelper extends BaseHelper
 	public void exportRow(int rowHeight, Cut yCut, XlsRowLevelInfo levelInfo) 
 	{
 		boolean isAutoFit = yCut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+				? (Boolean)yCut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW)
+				: defaultAutoFitRow;
 		exportRow(rowHeight, isAutoFit, levelInfo);
 	}
 	
@@ -432,7 +439,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportMergedCells(int row, int col, int maxColumnIndex, int rowSpan, int colSpan) 
 	{
-		rowSpan = configuration.isCollapseRowSpan() ? 1 : rowSpan;
+		rowSpan = collapseRowSpan ? 1 : rowSpan;
 		
 		if (rowSpan > 1	|| colSpan > 1)
 		{

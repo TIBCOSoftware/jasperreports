@@ -21,35 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
+package net.sf.jasperreports.engine.fill;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.base.VirtualizableElementList;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+public class OffsetElementsUtil
 {
-	int size();
 
-	JRPrintElement get(int index);
+	public static void transfer(List<Object> elements, Consumer<JRPrintElement> consumer)
+	{
+		elements.stream().forEach(item ->
+		{
+			if (item instanceof JRPrintElement)
+			{
+				consumer.accept((JRPrintElement) item);
+			}
+			else
+			{
+				OffsetElements offsetElements = (OffsetElements) item;
+				Consumer<JRPrintElement> offsetElementConsumer = (element -> 
+				{
+					element.setX(offsetElements.getOffsetX() + element.getX());
+					element.setY(offsetElements.getOffsetY() + element.getY());
+				});
+				offsetElementConsumer = offsetElementConsumer.andThen(consumer);
+				
+				Collection<? extends JRPrintElement> subElements = offsetElements.getElements();
+				if (subElements instanceof VirtualizableElementList)
+				{
+					((VirtualizableElementList) subElements).transferElements(offsetElementConsumer);
+				}
+				else
+				{
+					subElements.stream().forEach(offsetElementConsumer);
+					subElements.clear();
+				}
+			}
+		});
+	}
 
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
-	
-	void dispose();
-
-	void updatePage(JRVirtualPrintPage page);
-	
-	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
-
-	void transferElements(Consumer<JRPrintElement> consumer);
 }

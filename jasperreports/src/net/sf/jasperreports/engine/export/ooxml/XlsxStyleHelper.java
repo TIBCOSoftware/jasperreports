@@ -56,7 +56,7 @@ public class XlsxStyleHelper extends BaseHelper
 	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
 	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
 	
-	private Map<String,Integer> styleCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<XlsxStyleInfo, Integer> styleCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private XlsxFormatHelper formatHelper;
 	private XlsxFontHelper fontHelper;
@@ -92,7 +92,8 @@ public class XlsxStyleHelper extends BaseHelper
 	 * 
 	 */
 	public int getCellStyle(
-		JRExporterGridCell gridCell, 
+		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		String pattern, 
 		Locale locale,
 		boolean isWrapText, 
@@ -108,9 +109,10 @@ public class XlsxStyleHelper extends BaseHelper
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
-				fontHelper.getFont(gridCell, locale) + 1,
+				fontHelper.getFont(element, locale) + 1,
 				borderHelper.getBorder(gridCell, sheetInfo, direction) + 1,
 				gridCell,
+				element,
 				isWrapText,
 				isHidden,
 				isLocked,
@@ -120,12 +122,12 @@ public class XlsxStyleHelper extends BaseHelper
 				sheetInfo,
 				direction
 				);
-		Integer styleIndex = styleCache.get(styleInfo.getId());
+		Integer styleIndex = styleCache.get(styleInfo);
 		if (styleIndex == null)
 		{
 			styleIndex = styleCache.size() + 1;
-			exportCellStyle(gridCell, styleInfo, styleIndex, sheetInfo);
-			styleCache.put(styleInfo.getId(), styleIndex);
+			exportCellStyle(styleInfo, styleIndex, sheetInfo);
+			styleCache.put(styleInfo, styleIndex);
 		}
 		return styleIndex;
 	}
@@ -161,12 +163,12 @@ public class XlsxStyleHelper extends BaseHelper
 						direction,
 						parentStyle
 						);
-		Integer styleIndex = styleCache.get(styleInfo.getId());
+		Integer styleIndex = styleCache.get(styleInfo);
 		if (styleIndex == null)
 		{
 			styleIndex = styleCache.size() + 1;
 			exportCellStyle(styleInfo, styleIndex, sheetInfo);
-			styleCache.put(styleInfo.getId(), styleIndex);
+			styleCache.put(styleInfo, styleIndex);
 		}
 		return styleIndex;
 	}
@@ -200,12 +202,12 @@ public class XlsxStyleHelper extends BaseHelper
 						sheetInfo,
 						direction
 						);
-		Integer styleIndex = styleCache.get(styleInfo.getId());
+		Integer styleIndex = styleCache.get(styleInfo);
 		if (styleIndex == null)
 		{
 			styleIndex = styleCache.size() + 1;
 			exportCellStyle(styleInfo, styleIndex, sheetInfo);
-			styleCache.put(styleInfo.getId(), styleIndex);
+			styleCache.put(styleInfo, styleIndex);
 		}
 		return styleIndex;
 	}
@@ -213,15 +215,6 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private void exportCellStyle(
-			JRExporterGridCell gridCell, 
-			XlsxStyleInfo styleInfo, 
-			Integer styleIndex, 
-			JRXlsAbstractExporter.SheetInfo sheetInfo)
-	{
-		exportCellStyle(styleInfo, styleIndex, sheetInfo);
-	}
-
 	private void exportCellStyle(
 			XlsxStyleInfo styleInfo, 
 			Integer styleIndex, 

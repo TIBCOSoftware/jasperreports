@@ -498,7 +498,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 //		maxRowFreezeIndex = 0;
 //		maxColumnFreezeIndex = 0;
 //		
-		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
+		onePagePerSheetMap.put(sheetIndex, onePagePerSheet);
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
@@ -900,15 +900,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		String formula = getFormula(textElement);
 		String textStr = styledText.getText();
-		
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
 		TextValue value = null;
 		String pattern = null;
 		
 		if (
 			formula != null
-			|| configuration.isDetectCellType()
+			|| detectCellType
 			)
 		{
 			value = getTextValue(textElement, textStr);
@@ -953,7 +951,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			}
 		}
 
-		if (configuration.isDetectCellType())
+		if (detectCellType)
 		{
 			value.handle(new TextValueHandler()
 			{
@@ -1046,7 +1044,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			endCreateCell(cellStyle);
 		}
 		
-		if(!configuration.isIgnoreAnchors())
+		if(!ignoreAnchors)
 		{
 			String anchorName = textElement.getAnchorName();
 			if(anchorName != null)
@@ -1117,8 +1115,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex, HSSFCellStyle cellStyle)
 	{
-		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
-		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();
+		int rowSpan = collapseRowSpan ? 1 : gridCell.getRowSpan();
 		if (gridCell.getColSpan() > 1 || rowSpan > 1)
 		{
 			sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + rowSpan - 1), 
@@ -1551,8 +1548,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				
 				if (imageProcessorResult != null)//FIXMEXLS background for null images like the other exporters
 				{
-					XlsReportConfiguration configuration = getCurrentItemConfiguration();
-
 					FillPatternType mode = backgroundMode;
 					short backcolor = whiteIndex;
 					if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
@@ -1612,7 +1607,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 							);
 					if (imageAnchorType == null)
 					{
-						imageAnchorType = configuration.getImageAnchorType();
+						imageAnchorType = defaultImageAnchorType;
 						if (imageAnchorType == null)
 						{
 							imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
@@ -2318,7 +2313,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	 */
 	protected double getRowRelativePosition(JRGridLayout layout, int row, int offset)
 	{
-		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
 		double rowRelPos = 0;
 		
 		//isCollapseRowSpan
@@ -2326,7 +2320,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		int rowIndex = 0;
 		while(cumulativeRowHeight < offset)
 		{
-			int rowHeight = isCollapseRowSpan ? layout.getMaxRowHeight(row + rowIndex) : layout.getRowHeight(row + rowIndex);
+			int rowHeight = collapseRowSpan ? layout.getMaxRowHeight(row + rowIndex) : layout.getRowHeight(row + rowIndex);
 			if (cumulativeRowHeight + rowHeight < offset)
 			{
 				rowIndex++;
@@ -2490,7 +2484,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		Boolean ignoreHyperlink = HyperlinkUtil.getIgnoreHyperlink(XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK, hyperlink);
 		if (ignoreHyperlink == null)
 		{
-			ignoreHyperlink = getCurrentItemConfiguration().isIgnoreHyperlink();
+			ignoreHyperlink = defaultIgnoreHyperlink;
 		}
 
 		//test for ignore hyperlinks done here
@@ -2514,7 +2508,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					case LOCAL_ANCHOR :
 					{
 						//test for ignore anchors done here
-						if(!getCurrentItemConfiguration().isIgnoreAnchors())
+						if(!ignoreAnchors)
 						{
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null)
@@ -2537,7 +2531,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					case LOCAL_PAGE :
 					{
-						Integer hrefPage = (getCurrentItemConfiguration().isOnePagePerSheet() ? hyperlink.getHyperlinkPage() : 0);
+						Integer hrefPage = (onePagePerSheet ? hyperlink.getHyperlinkPage() : 0);
 						if (hrefPage != null)
 						{
 							link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);

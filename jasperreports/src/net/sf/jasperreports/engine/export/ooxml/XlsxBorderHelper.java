@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.awt.Color;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +32,13 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.StyleUtil;
 
 
@@ -46,7 +47,7 @@ import net.sf.jasperreports.engine.util.StyleUtil;
  */
 public class XlsxBorderHelper extends BaseHelper
 {
-	private Map<String,Integer> borderCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<XlsxBorderInfo, Integer> borderCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	/**
 	 *
@@ -119,16 +120,16 @@ public class XlsxBorderHelper extends BaseHelper
 		}
 		
 		XlsxBorderInfo borderInfo = new XlsxBorderInfo(box, direction);
-		Integer borderIndex = borderCache.get(borderInfo.getId());
+		Integer borderIndex = borderCache.get(borderInfo);
 		if (borderIndex == null)
 		{
 			borderIndex = borderCache.size();
 			export(borderInfo);
-			borderCache.put(borderInfo.getId(), borderIndex);
+			borderCache.put(borderInfo, borderIndex);
 		}
 		return borderIndex;
 	}
-	
+
 	/**
 	 *
 	 */
@@ -164,11 +165,11 @@ public class XlsxBorderHelper extends BaseHelper
 				write(info.getDirection().equals(LineDirectionEnum.TOP_DOWN) ? " diagonalDown=\"1\"" : " diagonalUp=\"1\"");
 			}
 			write(">");
-			exportBorder(info, XlsxBorderInfo.LEFT_BORDER);
-			exportBorder(info, XlsxBorderInfo.RIGHT_BORDER);
-			exportBorder(info, XlsxBorderInfo.TOP_BORDER);
-			exportBorder(info, XlsxBorderInfo.BOTTOM_BORDER);
-			exportBorder(info, XlsxBorderInfo.DIAGONAL_BORDER);
+			exportBorder(XlsxBorderInfo.LEFT_BORDER, info.leftBorderStyle, info.leftBorderColor);
+			exportBorder(XlsxBorderInfo.RIGHT_BORDER, info.rightBorderStyle, info.rightBorderColor);
+			exportBorder(XlsxBorderInfo.TOP_BORDER, info.topBorderStyle, info.topBorderColor);
+			exportBorder(XlsxBorderInfo.BOTTOM_BORDER, info.bottomBorderStyle, info.bottomBorderColor);
+			exportBorder(XlsxBorderInfo.DIAGONAL_BORDER, info.diagonalBorderStyle, info.diagonalBorderColor);
 			write("</border>\n");
 		}
 //		
@@ -183,19 +184,19 @@ public class XlsxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportBorder(XlsxBorderInfo info, int side)
+	private void exportBorder(String borderName, XlsxBorderStyle style, Color color)
 	{
-		write("<" + XlsxBorderInfo.BORDER[side]);
-  		if (info.borderStyle[side] != null)
+		write("<" + borderName);
+  		if (style != null)
 		{
-  			write(" style=\"" + info.borderStyle[side] + "\"");
+  			write(" style=\"" + style.value() + "\"");
 		}
 		write(">");
-		if (info.borderColor[side] != null)	//FIXMEDOCX check this; use default color?
+		if (color != null)	//FIXMEDOCX check this; use default color?
 		{
-			write("<color rgb=\"" + info.borderColor[side] + "\"/>");
+			write("<color rgb=\"" + JRColorUtil.getColorHexa(color) + "\"/>");
 		}
-		write("</" + XlsxBorderInfo.BORDER[side] + ">");
+		write("</" + borderName + ">");
 	}
 	
 //	/**

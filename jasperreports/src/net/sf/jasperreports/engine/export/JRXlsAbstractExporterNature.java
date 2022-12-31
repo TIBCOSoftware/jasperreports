@@ -397,6 +397,14 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
+		setXProperties(xCutsProperties, element);
+		
+		if (!element.hasProperties())
+		{
+			//quick exit for performance
+			return;
+		}
+		
 		Cut cut = xCuts.getCut(col1);
 		
 		Boolean columnAutoFit = getColumnAutoFit(element);
@@ -418,9 +426,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			cut.setProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
 		}
-
-		setXProperties(xCutsProperties, element);
-		
 	}
 	
 	@Override
@@ -451,6 +456,14 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> yCutsProperties = yCuts.getPropertiesMap();
+		setYProperties(yCutsProperties, element);
+		
+		if (!element.hasProperties())
+		{
+			//quick exit for performance
+			return;
+		}
+		
 		Cut cut = yCuts.getCut(row1);
 		
 		Boolean rowAutoFit = getRowAutoFit(element);
@@ -596,8 +609,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		setHeaderFooter(getSheetFooterLeft(element), cut, PROPERTY_SHEET_FOOTER_LEFT);
 		setHeaderFooter(getSheetFooterCenter(element), cut, PROPERTY_SHEET_FOOTER_CENTER);
 		setHeaderFooter(getSheetFooterRight(element), cut, PROPERTY_SHEET_FOOTER_RIGHT);	
-		
-		setYProperties(yCutsProperties, element);
 	}
 	
 	@Override

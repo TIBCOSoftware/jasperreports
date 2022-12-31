@@ -484,7 +484,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				if (configuration.isOnePagePerSheet())
+				if (onePagePerSheet)
 				{
 					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
@@ -538,7 +538,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			{
 				exportEmptyReport();
 			}
-			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
+			sheetsBeforeCurrentReport = onePagePerSheet ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 		closeSheet();
 		closeWorkbook(os);
@@ -555,7 +555,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isRemoveEmptySpaceBetweenColumns = configuration.isRemoveEmptySpaceBetweenColumns();
-		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -615,7 +614,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			if (
 				yCut.isCutNotEmpty()
 				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
-				&& !isCollapseRowSpan)
+				&& !collapseRowSpan)
 				)
 			{
 				GridRow gridRow = grid.getRow(y);
@@ -627,7 +626,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				setRowHeight(
 					rowIndex,
-					isCollapseRowSpan
+					collapseRowSpan
 						?  layout.getMaxRowHeight(y)//FIXME consider putting these in cuts
 						: JRGridLayout.getRowHeight(gridRow),
 					yCuts.getCut(y),
@@ -844,7 +843,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
-		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		
 		sheetInfo.tabColor = configuration.getSheetTabColor();
 		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
@@ -880,7 +878,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			if (
 				yCut.isCutNotEmpty()
 				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
-				&& !isCollapseRowSpan)
+				&& !collapseRowSpan)
 				)
 			{
 				String sheetName = (String)yCut.getProperty(PROPERTY_SHEET_NAME);

@@ -99,6 +99,12 @@ public class CachingLineBox implements JRLineBox
 	}
 
 	@Override
+	public void populateStyle()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public JRBoxPen getPen()
 	{
 		return base.getPen();
