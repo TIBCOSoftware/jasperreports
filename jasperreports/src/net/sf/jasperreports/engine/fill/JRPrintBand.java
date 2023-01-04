@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
@@ -68,18 +68,18 @@ public class JRPrintBand implements JRPrintElementContainer, OffsetElementsConta
 		throw new UnsupportedOperationException();
 	}
 	
-	public Iterator<JRPrintElement> iterateElements()
+	public void consumeElement(Consumer<JRPrintElement> consumer)
 	{
 		// we only allow one iteration of the elements because we apply 
 		// the offsets during iteration
 		if (iterated)
 		{
 			// this should not happen
-			throw new IllegalStateException("Elements already iterated");
+			throw new IllegalStateException("Elements already consumed");
 		}
 		
 		iterated = true;
-		return new OffsetElementsIterator(elements);
+		OffsetElementsUtil.transfer(elements, consumer);
 	}
 	
 	@Override

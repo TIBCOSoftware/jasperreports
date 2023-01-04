@@ -21,35 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
-
-import java.util.function.Consumer;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+package net.sf.jasperreports.engine.export.ooxml;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+public enum XlsxBorderStyle
 {
-	int size();
+	DOUBLE("double"),
+	DOTTED("dotted"),
+	DASHED("dashed"),
+	MEDIUM_DASHED("mediumDashed"),
+	THICK("thick"),
+	MEDIUM("medium"),
+	THIN("thin"),
+	HAIR("hair");
 
-	JRPrintElement get(int index);
-
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
+	private final String value;
 	
-	void dispose();
-
-	void updatePage(JRVirtualPrintPage page);
+	XlsxBorderStyle(String value)
+	{
+		this.value = value;
+	}
 	
-	void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page);
-
-	void transferElements(Consumer<JRPrintElement> consumer);
+	public String value()
+	{
+		return value;
+	}
 }

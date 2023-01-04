@@ -65,8 +65,9 @@ public interface JRPen
 	 * 
 	 */
 	public JRPen clone(JRPenContainer penContainer);
-
 	
+	public void populateStyle();
+
 	/**
 	 * Gets the line width used for this pen.
 	 * @return line width

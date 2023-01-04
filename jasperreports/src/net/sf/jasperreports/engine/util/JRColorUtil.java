@@ -50,6 +50,14 @@ public final class JRColorUtil
 	 */
 	public static String getColorHexa(Color color)
 	{
+		if (color.equals(Color.WHITE))
+		{
+			return "FFFFFF";
+		}
+		if (color.equals(Color.BLACK))
+		{
+			return "000000";
+		}
 		String hexa = Integer.toHexString(color.getRGB() & COLOR_MASK).toUpperCase();
 		return ("000000" + hexa).substring(hexa.length());
 	}

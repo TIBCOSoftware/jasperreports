@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -53,7 +54,7 @@ public class XlsxStyleHelper extends BaseHelper
 	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
 	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
 	
-	private Map<String,Integer> styleCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<XlsxStyleInfo, Integer> styleCache = new HashMap<>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private XlsxFormatHelper formatHelper;
 	private XlsxFontHelper fontHelper;
@@ -89,7 +90,8 @@ public class XlsxStyleHelper extends BaseHelper
 	 * 
 	 */
 	public int getCellStyle(
-		JRExporterGridCell gridCell, 
+		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		String pattern, 
 		Locale locale,
 		boolean isWrapText, 
@@ -105,9 +107,10 @@ public class XlsxStyleHelper extends BaseHelper
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
-				fontHelper.getFont(gridCell, locale) + 1,
+				fontHelper.getFont(element, locale) + 1,
 				borderHelper.getBorder(gridCell, sheetInfo, direction) + 1,
 				gridCell,
+				element,
 				isWrapText,
 				isHidden,
 				isLocked,
@@ -117,12 +120,12 @@ public class XlsxStyleHelper extends BaseHelper
 				sheetInfo,
 				direction
 				);
-		Integer styleIndex = styleCache.get(styleInfo.getId());
+		Integer styleIndex = styleCache.get(styleInfo);
 		if (styleIndex == null)
 		{
 			styleIndex = styleCache.size() + 1;
 			exportCellStyle(gridCell, styleInfo, styleIndex, sheetInfo);
-			styleCache.put(styleInfo.getId(), styleIndex);
+			styleCache.put(styleInfo, styleIndex);
 		}
 		return styleIndex;
 	}

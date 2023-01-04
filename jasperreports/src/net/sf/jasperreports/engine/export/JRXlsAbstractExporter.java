@@ -68,6 +68,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
@@ -359,7 +360,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_5_1,
 			valueType = Boolean.class
 			)
@@ -583,6 +584,21 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected SheetInfo sheetInfo;
 	
 	protected Map<NameScope, String> definedNamesMap;
+	
+	protected Map<String, String> formatPatternsMap;
+	protected boolean onePagePerSheet;
+	protected boolean defaultShrinkToFit;
+	protected boolean defaultWrapText;
+	protected boolean defaultCellLocked;
+	protected boolean defaultCellHidden;
+	protected boolean defaultIgnoreTextFormatting;
+	protected boolean ignoreAnchors;
+	protected boolean defaultIgnoreHyperlink;
+	protected boolean detectCellType;
+	protected ImageAnchorTypeEnum defaultImageAnchorType;
+	protected boolean collapseRowSpan;
+	protected boolean defaultUseTimeZone;
+	protected boolean imageBorderFixEnabled;
 	
 	public static class SheetInfo
 	{
@@ -951,6 +967,22 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 
 		renderersCache = new RenderersCache(getJasperReportsContext());
+		
+		RC configuration = getCurrentItemConfiguration();
+		onePagePerSheet = configuration.isOnePagePerSheet();
+		formatPatternsMap = configuration.getFormatPatternsMap();
+		defaultShrinkToFit = configuration.isShrinkToFit();
+		defaultWrapText = configuration.isWrapText();
+		defaultCellLocked = configuration.isCellLocked();
+		defaultCellHidden = configuration.isCellHidden();
+		defaultIgnoreTextFormatting = configuration.isIgnoreTextFormatting();
+		ignoreAnchors = configuration.isIgnoreAnchors();
+		defaultIgnoreHyperlink = configuration.isIgnoreHyperlink();
+		detectCellType = configuration.isDetectCellType();
+		defaultImageAnchorType = configuration.getImageAnchorType();
+		collapseRowSpan = configuration.isCollapseRowSpan();
+		defaultUseTimeZone = configuration.isUseTimeZone();
+		imageBorderFixEnabled = configuration.isImageBorderFixEnabled();
 	}
 	
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
@@ -985,7 +1017,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				if (configuration.isOnePagePerSheet())
+				if (onePagePerSheet)
 				{
 					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
@@ -1039,7 +1071,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			{
 				exportEmptyReport();
 			}
-			sheetsBeforeCurrentReport = configuration.isOnePagePerSheet() ? sheetIndex : sheetsBeforeCurrentReport + 1;
+			sheetsBeforeCurrentReport = onePagePerSheet ? sheetIndex : sheetsBeforeCurrentReport + 1;
 		}
 		closeSheet();
 		closeWorkbook(os);
@@ -1056,7 +1088,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isRemoveEmptySpaceBetweenColumns = configuration.isRemoveEmptySpaceBetweenColumns();
-		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		
 		JRGridLayout layout =
 			new JRGridLayout(
@@ -1116,7 +1147,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			if (
 				yCut.isCutNotEmpty()
 				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
-				&& !isCollapseRowSpan)
+				&& !collapseRowSpan)
 				)
 			{
 				GridRow gridRow = grid.getRow(y);
@@ -1128,7 +1159,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				setRowHeight(
 					rowIndex,
-					isCollapseRowSpan
+					collapseRowSpan
 						?  layout.getMaxRowHeight(y)//FIXME consider putting these in cuts
 						: JRGridLayout.getRowHeight(gridRow),
 					yCuts.getCut(y),
@@ -1345,7 +1376,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		XlsReportConfiguration configuration = getCurrentItemConfiguration();
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
-		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
 		
 		sheetInfo.tabColor = configuration.getSheetTabColor();
 		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
@@ -1381,7 +1411,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			if (
 				yCut.isCutNotEmpty()
 				|| ((!isRemoveEmptySpaceBetweenRows || yCut.isCutSpanned())
-				&& !isCollapseRowSpan)
+				&& !collapseRowSpan)
 				)
 			{
 				String sheetName = (String)yCut.getProperty(PROPERTY_SHEET_NAME);
@@ -1917,7 +1947,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			return 1;
 		}
 		
-		return getCurrentItemConfiguration().isImageBorderFixEnabled() ? 1 : 0;
+		return imageBorderFixEnabled ? 1 : 0;
 	}
 
 	
@@ -2023,9 +2053,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WRAP_TEXT, getCurrentItemConfiguration().isWrapText());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WRAP_TEXT, defaultWrapText);
 		}
-		return getCurrentItemConfiguration().isWrapText();
+		return defaultWrapText;
 	}
 
 	/**
@@ -2041,9 +2071,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_LOCKED, getCurrentItemConfiguration().isCellLocked());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_LOCKED, defaultCellLocked);
 		}
-		return getCurrentItemConfiguration().isCellLocked();
+		return defaultCellLocked;
 	}
 
 	/**
@@ -2058,9 +2088,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT, getCurrentItemConfiguration().isShrinkToFit());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHRINK_TO_FIT, defaultShrinkToFit);
 		}
-		return getCurrentItemConfiguration().isShrinkToFit();
+		return defaultShrinkToFit;
 	}
 	
 	/**
@@ -2078,9 +2108,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			return getPropertiesUtil().getBooleanProperty(
 											element, 
 											XlsReportConfiguration.PROPERTY_IGNORE_TEXT_FORMATTING, 
-											getCurrentItemConfiguration().isIgnoreTextFormatting());
+											defaultIgnoreTextFormatting);
 		}
-		return getCurrentItemConfiguration().isIgnoreTextFormatting();
+		return defaultIgnoreTextFormatting;
 	}
 
 	/**
@@ -2181,9 +2211,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_HIDDEN, getCurrentItemConfiguration().isCellHidden());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_CELL_HIDDEN, defaultCellHidden);
 		}
-		return getCurrentItemConfiguration().isCellHidden();
+		return defaultCellHidden;
 	}
 
 	/**
@@ -2194,7 +2224,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		String convertedPattern = JRPropertiesUtil.getOwnProperty(text, PROPERTY_CELL_PATTERN);
 		if (convertedPattern == null || convertedPattern.trim().length() == 0)
 		{
-			Map<String, String> formatPatternsMap = getCurrentItemConfiguration().getFormatPatternsMap();
 			if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
 			{
 				return formatPatternsMap.get(pattern);
@@ -2243,9 +2272,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_USE_TIMEZONE, getCurrentItemConfiguration().isUseTimeZone());
+			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_USE_TIMEZONE, defaultUseTimeZone);
 		}
-		return getCurrentItemConfiguration().isUseTimeZone();
+		return defaultUseTimeZone;
 	}
 	
 	protected Date translateDateValue(JRPrintText text, Date value)

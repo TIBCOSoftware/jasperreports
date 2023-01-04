@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -66,7 +67,8 @@ public class XlsxStyleInfo
 		int formatIndex, 
 		int fontIndex, 
 		int borderIndex, 
-		JRExporterGridCell gridCell, 
+		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
@@ -80,8 +82,6 @@ public class XlsxStyleInfo
 		this.formatIndex = formatIndex;
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
 		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
-		
-		JRPrintElement element = gridCell.getElement();
 		
 		if (!isIgnoreTextFormatting)
 		{
@@ -254,11 +254,50 @@ public class XlsxStyleInfo
 		return XlsxParagraphHelper.getVerticalAlignment(vAlign);
 	}
 	
-	public String getId()
+	@Override
+	public int hashCode()
 	{
-		return 
-		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign 
-		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit + "|" + rotation + "|" + whitePageBackground 
-		+ "|" + ignoreCellBackground + "|" + ignoreCellBorder + "|" + direction;
+		int hash = 47 + formatIndex;
+		hash = 29 * hash + fontIndex;
+		hash = 29 * hash + borderIndex;
+		hash = 29 * hash + ObjectUtils.hashCode(backcolor);
+		hash = 29 * hash + ObjectUtils.hashCode(horizontalAlign);
+		hash = 29 * hash + ObjectUtils.hashCode(verticalAlign);
+		hash = 29 * hash + Boolean.hashCode(isWrapText);
+		hash = 29 * hash + Boolean.hashCode(isHidden);
+		hash = 29 * hash + Boolean.hashCode(isLocked);
+		hash = 29 * hash + Boolean.hashCode(isShrinkToFit);
+		hash = 29 * hash + rotation;
+		hash = 29 * hash + Boolean.hashCode(whitePageBackground);
+		hash = 29 * hash + Boolean.hashCode(ignoreCellBackground);
+		hash = 29 * hash + Boolean.hashCode(ignoreCellBorder);
+		hash = 29 * hash + ObjectUtils.hashCode(direction);
+		return hash;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof XlsxStyleInfo))
+		{
+			return false;
+		}
+		
+		XlsxStyleInfo info = (XlsxStyleInfo) obj;
+		return formatIndex == info.formatIndex
+				&& fontIndex == info.fontIndex
+				&& borderIndex == info.borderIndex
+				&& ObjectUtils.equals(backcolor, info.backcolor)
+				&& ObjectUtils.equals(horizontalAlign, info.horizontalAlign)
+				&& ObjectUtils.equals(verticalAlign, info.verticalAlign)
+				&& isWrapText == info.isWrapText
+				&& isHidden == info.isHidden
+				&& isLocked == info.isLocked
+				&& isShrinkToFit == info.isShrinkToFit
+				&& rotation == info.rotation
+				&& whitePageBackground == info.whitePageBackground
+				&& ignoreCellBackground == info.ignoreCellBackground
+				&& ignoreCellBorder == info.ignoreCellBorder
+				&& direction == info.direction;
 	}
 }

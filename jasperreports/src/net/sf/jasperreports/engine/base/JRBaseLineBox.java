@@ -412,4 +412,35 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 				&& ObjectUtils.equals(rightPadding, box.rightPadding);
 	}
 
+
+	@Override
+	public void populateStyle()
+	{
+		if (topPen != null)
+		{
+			topPen.populateStyle();
+		}
+		if (leftPen != null)
+		{
+			leftPen.populateStyle();
+		}
+		if (bottomPen != null)
+		{
+			bottomPen.populateStyle();
+		}
+		if (rightPen != null)
+		{
+			rightPen.populateStyle();
+		}
+		if (pen != null)
+		{
+			pen.populateStyle();
+		}
+		topPadding = getTopPadding();
+		leftPadding = getLeftPadding();
+		bottomPadding = getBottomPadding();
+		rightPadding = getRightPadding();
+		padding = getPadding();
+	}
+
 }
