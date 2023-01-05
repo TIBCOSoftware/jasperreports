@@ -1927,9 +1927,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 	protected void adjustRowHeight(int rowHeight, Boolean isAutofit) 
 	{
-		if(!currentRow.containsKey(CURRENT_ROW_AUTOFIT) || !Boolean.TRUE.equals(currentRow.get(CURRENT_ROW_AUTOFIT)))
+		if(isAutofit != null || !Boolean.TRUE.equals(currentRow.get(CURRENT_ROW_AUTOFIT)))
 		{
-			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit == null ? Boolean.FALSE : isAutofit);
+			currentRow.put(CURRENT_ROW_AUTOFIT, isAutofit);
 		} 
 		if(!currentRow.containsKey(CURRENT_ROW_HEIGHT) || (Integer)currentRow.get(CURRENT_ROW_HEIGHT) < rowHeight) 
 		{
@@ -2007,11 +2007,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		int columnsCount = columnNames == null ? 0 : columnNames.size();
 		exportHeaderRow(columnsCount, currentRow, repeatedValues);
 		
-		Integer rowHeight = (Integer) currentRow.get(CURRENT_ROW_HEIGHT);
-		//rowHeight = rowHeight == null ? 0 : rowHeight;
-		Boolean rowAutoFit = (Boolean) currentRow.get(CURRENT_ROW_AUTOFIT);
-		//rowAutoFit = rowAutoFit == null ? false : rowAutoFit;
-		sheetHelper.exportRow(rowHeight, rowAutoFit, null);
+		int rowHeight = currentRow.get(CURRENT_ROW_HEIGHT) == null ? 0 : (Integer)currentRow.get(CURRENT_ROW_HEIGHT);
+		boolean isAutofit = currentRow.get(CURRENT_ROW_AUTOFIT) == null ? Boolean.FALSE : (Boolean)currentRow.get(CURRENT_ROW_AUTOFIT);
+		sheetHelper.exportRow(rowHeight, isAutofit, null);
 		for (int i = 0; i < columnNames.size(); i++) 
 		{
 			String columnName = columnNames.get(i);
