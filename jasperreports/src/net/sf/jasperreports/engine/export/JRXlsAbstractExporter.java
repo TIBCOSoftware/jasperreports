@@ -1000,6 +1000,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0, /*defaultSheetName*/null);
+						pageExported = true;
 					}
 				}
 				else
@@ -1030,12 +1031,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());//FIXMEPART
+						pageExported = true;
 					}
 					//updateColumns(xCuts);
 				}
-				pageExported = true;
 			} 
-			else if (reportIndex == items.size() -1 && !pageExported)
+
+			if (reportIndex == items.size() -1 && !pageExported)
 			{
 				exportEmptyReport();
 			}
