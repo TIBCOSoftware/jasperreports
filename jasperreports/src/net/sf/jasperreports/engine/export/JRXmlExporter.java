@@ -625,6 +625,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_bottomMargin, pageFormat.getBottomMargin());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rightMargin, pageFormat.getRightMargin());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, pageFormat.getOrientation(), OrientationEnum.PORTRAIT);
+		
+		exportProperties(part);
 
 		xmlWriter.closeElement();
 	}
