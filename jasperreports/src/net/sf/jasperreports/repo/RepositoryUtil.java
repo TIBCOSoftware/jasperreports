@@ -23,16 +23,19 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.JRLoader;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -50,6 +53,8 @@ public final class RepositoryUtil
 	
 
 	private RepositoryContext context;
+  
+  private static final Log log = LogFactory.getLog(RepositoryUtil.class);
 
 
 	/**
@@ -147,6 +152,17 @@ public final class RepositoryUtil
 			for (RepositoryService service : services)
 			{
 				resource = service.getResource(context, location, resourceType);
+        if (resource==null)
+        {
+          try
+          {
+            resource = service.getResource(context, context.getResourceContext().getContextLocation() + File.separator + location, resourceType);
+          }
+          catch (Exception ex)
+          {
+            log.debug("Error with getting resource from resource context location", ex);
+          }
+        }
 				if (resource != null)
 				{
 					break;
