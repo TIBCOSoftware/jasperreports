@@ -43,10 +43,8 @@ public interface PrintPart extends JRPropertiesHolder
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0,
-			valueType = Boolean.class
+			sinceVersion = PropertyConstants.VERSION_6_21_0
 			)
 	public static final String ELEMENT_PROPERTY_PART_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.name";
 	
