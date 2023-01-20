@@ -15,7 +15,7 @@
 			<script type='module' class='jasperreports' src='https://maps.googleapis.com/maps/api/js&callback=initMap'></script>
 			<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 		#end
-		<script class='jasperreports' type='module'>
+		<script class='jasperreports' type='text/javascript'>
 		function initMap() {
 			if (typeof jasperreports === 'undefined') jasperreports = {};
 			if (typeof jasperreports.map === 'undefined') {
@@ -135,20 +135,22 @@
 					}
 				}
 			}
-			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
-						zoom: ${zoom},
-						center: new google.maps.LatLng(${latitude}, ${longitude}), 
-						mapTypeId: google.maps.MapTypeId.${mapType},
-						autocloseinfo: true
-					});
-			var markers = ${markerList};
-			jasperreports.map.placeMarkers(markers, map);
-			var paths = ${pathsList};
-			jasperreports.map.drawPaths(paths, map);			
+			(function () {
+				var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
+							zoom: ${zoom},
+							center: new google.maps.LatLng(${latitude}, ${longitude}), 
+							mapTypeId: google.maps.MapTypeId.${mapType},
+							autocloseinfo: true
+						});
+				var markers = ${markerList};
+				jasperreports.map.placeMarkers(markers, map);
+				var paths = ${pathsList};
+				jasperreports.map.drawPaths(paths, map);
+			}());	
 		}	
 		</script>
-	#end
-	<!--script class='jasperreports' type='text/javascript'>
+	#else
+	<script class='jasperreports' type='text/javascript'>
 		(function () {
 			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
 						zoom: ${zoom},
@@ -161,5 +163,6 @@
 			var paths = ${pathsList};
 			jasperreports.map.drawPaths(paths, map);
 		}());	
-	</script-->
+	</script>
+	#end
 #end
