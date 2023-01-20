@@ -110,8 +110,10 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 	@Override
 	public void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page)
 	{
+		JRVirtualizationContext oldContext = this.context;
 		this.context = context;
 		this.page = page;
+		oldContext.getVirtualizer().contextChanged(this, oldContext);
 	}
 
 	private void lockContext()

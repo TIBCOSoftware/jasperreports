@@ -29,6 +29,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 
 /**
  * @author John Bindel
@@ -81,6 +82,8 @@ public interface JRVirtualizer
 	 * Called when the virtual object should be paged-out.
 	 */
 	void virtualizeData(JRVirtualizable o);
+	
+	void contextChanged(JRVirtualizable<?> o, JRVirtualizationContext oldContext);
 	
 	/**
 	 * Called when we are done with the virtualizer and wish to

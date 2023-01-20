@@ -147,7 +147,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.verticalQuietZone);
 	}
 	
-	protected final void copyBarcodeComponentFields(GetField fields) throws IOException
+	protected final void copyBarcodeComponentFields(GetField fields) throws IOException, ClassNotFoundException
 	{
 		int orientation = fields.get("orientation", 0);
 		this.orientationValue = OrientationEnum.getByValue(orientation);
