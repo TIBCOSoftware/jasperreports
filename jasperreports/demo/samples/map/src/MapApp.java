@@ -89,7 +89,7 @@ public class MapApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/MapReport.jasper", null, new JREmptyDataSource(5));
+		JasperFillManager.fillReportToFile("build/reports/MapReport.jasper", null, new JREmptyDataSource(6));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
