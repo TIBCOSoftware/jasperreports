@@ -7389,4 +7389,18 @@ See the documentation of <code>java.sql.Connection</code> for details on the tra
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.export.pdf.legacy.target.blank.links -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.legacy.target.blank.links">
+    <description>
+Flag that enables legacy <code>hyperlinkTarget="Blank"</code> links in PDF.
+<br/>
+Before version 6.21.0, the PDF exporter created <code>hyperlinkTarget="Blank"</code> links using a JavaScript action
+that worked in Adobe Acrobat (and possibly other viewers), but not in the PDF viewers built into the Firefox and Chrome browsers.
+Starting from version 6.21.0, standard PDF links are created for elements with <code>hyperlinkTarget="Blank"</code>.
+This flag can be set to reinstate the pre 6.21.0 behaviour.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
