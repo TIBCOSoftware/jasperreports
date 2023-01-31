@@ -453,7 +453,13 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 
 		mainDataset.setParameterValues(parameterValues);
+
+		ignorePagination = (Boolean)parameterValues.get(JRParameter.IS_IGNORE_PAGINATION);
+
+		ignorePaginationSet(parameterValues);
+
 		mainDataset.evaluateFieldProperties();
+		
 		mainDataset.initDatasource();
 
 		this.scriptlet = mainDataset.delegateScriptlet;
@@ -509,9 +515,8 @@ public abstract class BaseReportFiller implements ReportFiller
 			}
 		}
 		
-		ignorePagination = ignore;
+		ignorePagination = ignore; // we can keep this here although most likely this field is not read until set again by ignorePaginationSet method
 		parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination);
-		ignorePaginationSet(parameterValues);
 	}
 	
 	protected Boolean getOwnIgnorePagination(Map<String,Object> parameterValues, boolean onlySetAttribute)
