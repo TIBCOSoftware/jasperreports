@@ -29,6 +29,7 @@ import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
 import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -178,6 +179,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			)
 	public static final String PROPERTY_EMBEDDED_SVG_USE_FONTS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embedded.svg.use.fonts";
 
+	public static final String PROPERTY_FORCE_HTML_EMBED_IMAGE = JRPropertiesUtil.PROPERTY_PREFIX + "force.html.embed.image";
 	
 	/**
 	 * Property that provides a default for the {@link #isConvertSvgToImage()} export configuration flag.
@@ -384,4 +386,14 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		booleanDefault=true
 		)
 	public Boolean isUseBackgroundImageToAlign();
+
+	
+	static void forceEmbedImage(JRPropertiesUtil properties, JRPropertiesHolder source, JRPropertiesHolder target)
+	{
+		if (properties.getBooleanProperty(source, PROPERTY_FORCE_HTML_EMBED_IMAGE, true))
+		{
+			target.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
+			target.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());		
+		}
+	}
 }
