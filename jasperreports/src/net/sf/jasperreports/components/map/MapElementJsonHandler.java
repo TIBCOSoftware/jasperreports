@@ -23,15 +23,13 @@
  */
 package net.sf.jasperreports.components.map;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
-import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -53,36 +51,7 @@ public class MapElementJsonHandler implements GenericElementJsonHandler
 		Map<String, Object> contextMap = new HashMap<>();
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 
-        Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
-        latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
-
-        Float longitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
-        longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
-
-        Integer zoom = (Integer)element.getParameterValue(MapComponent.PARAMETER_ZOOM);
-        zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
-
-        String mapType = (String)element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
-        mapType = (mapType == null ? MapComponent.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
-
-        contextMap.put("latitude", latitude);
-        contextMap.put("longitude", longitude);
-        contextMap.put("zoom", zoom);
-        contextMap.put("mapType", mapType);
-
-        List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
-        String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
-        contextMap.put("markerList", markers);
-
-        List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_PATHS);
-        String paths = pathList == null || pathList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(pathList);
-        contextMap.put("pathsList", paths);
-
-        String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
-        if(reqParams != null)
-        {
-            contextMap.put(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
-        }
+        MapUtils.prepareContextForVelocityTemplate(contextMap, context.getJasperReportsContext(), element);
 
 		return VelocityUtil.processTemplate(MAP_ELEMENT_JSON_TEMPLATE, contextMap);
 	}
