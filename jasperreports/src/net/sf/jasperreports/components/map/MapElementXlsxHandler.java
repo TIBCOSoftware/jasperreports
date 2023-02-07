@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -71,7 +72,9 @@ public class MapElementXlsxHandler implements GenericElementXlsxHandler
 	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext exporterContext, JRGenericPrintElement element) throws JRException
 	{
-		return MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element);
+		return DefaultMapElementImageProvider
+				.getInstance()
+				.getImage(exporterContext.getJasperReportsContext(), element);
 	}
 
 }

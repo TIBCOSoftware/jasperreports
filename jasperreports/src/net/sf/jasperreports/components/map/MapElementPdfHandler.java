@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
@@ -39,7 +41,7 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 	{
 		return INSTANCE;
 	}
-	
+
 	@Override
 	public void exportElement(
 		JRPdfExporterContext exporterContext,
@@ -49,7 +51,11 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 		try
 		{
 			JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporterRef();
-			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
+			JRPrintImage mapImage = DefaultMapElementImageProvider
+					.getInstance()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+
+			exporter.exportImage(mapImage);
 		}
 		catch (Exception e)
 		{

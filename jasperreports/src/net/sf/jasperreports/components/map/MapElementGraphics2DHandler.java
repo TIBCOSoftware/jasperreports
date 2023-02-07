@@ -25,7 +25,9 @@ package net.sf.jasperreports.components.map;
 
 import java.awt.Graphics2D;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
@@ -56,10 +58,13 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 		{
 			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
 			ImageDrawer imageDrawer = exporter.getDrawVisitor().getImageDrawer();
+			JRPrintImage mapImage = DefaultMapElementImageProvider
+					.getInstance()
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			
 			imageDrawer.draw(
 					grx,
-					MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
+					mapImage,
 					offset.getX(), 
 					offset.getY()
 					);
