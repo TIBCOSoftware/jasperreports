@@ -8,6 +8,7 @@
         "longitude": ${longitude},
         "zoom": ${zoom},
         "mapType": "${mapType}",
+        "useMarkerClustering": ${useMarkerClustering},
         "markerList": ${markerList},
         "pathsList": ${pathsList}
     }
