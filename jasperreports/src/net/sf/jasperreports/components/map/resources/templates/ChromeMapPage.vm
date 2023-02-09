@@ -18,11 +18,13 @@
 #else
     <script src='https://maps.googleapis.com/maps/api/js?callback=initMap' defer></script>
 #end
+#if(${useMarkerClustering})
     <script src='https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js' defer></script>
+#end
     <script>
         ${jasperreportsMapApiScript}
 
-        const deferredArr = [];
+        const deferredArr = [], useMarkerClustering = ${useMarkerClustering};
         const mapTilesReadyPromise = new Promise(function(resolve, reject) {
             deferredArr.push({ resolve, reject });
         });
@@ -40,7 +42,7 @@
                 gestureHandling: 'none'
             });
             var markers = ${markerList};
-            jasperreports.map.placeMarkers(markers, map, true);
+            jasperreports.map.placeMarkers(markers, map, true, useMarkerClustering);
             var paths = ${pathsList};
             jasperreports.map.drawPaths(paths, map, true);
 

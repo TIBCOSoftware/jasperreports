@@ -36,8 +36,7 @@ function initMap() {
                 }
                 return null;
             },
-            placeMarkers: function (markers, map, isForServerSideExport) {
-                var isForExport = isForServerSideExport != null;
+            placeMarkers: function (markers, map, isForExport, useMarkerClustering) {
                 if (markers) {
                     var j, markerArr = [];
                     for (var i = 0; i < markers.length; i++) {
@@ -74,11 +73,12 @@ function initMap() {
                         }
                         markerArr.push(marker);
                     }
-                    new markerClusterer.MarkerClusterer({ map: map, markers: markerArr });
+                    if (useMarkerClustering) {
+                        new markerClusterer.MarkerClusterer({map: map, markers: markerArr});
+                    }
                 }
             },
-            drawPaths: function (p, map, isForServerSideExport) {
-                var isForExport = isForServerSideExport != null;
+            drawPaths: function (p, map, isForExport) {
                 if (p) {
                     for (var k = 0; k < p.length; k++) {
                         var props = p[k], o = {}, l = [], isPoly = false;

@@ -55,10 +55,14 @@ public class MapUtils {
         String mapType = (String) element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
         mapType = (mapType == null ? MapComponent.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
+        Boolean markerClustering = (Boolean) element.getParameterValue(MapComponent.ATTRIBUTE_MARKER_CLUSTERING);
+        markerClustering = markerClustering != null ? markerClustering.booleanValue() : false;
+
         velocityContext.put("latitude", latitude);
         velocityContext.put("longitude", longitude);
         velocityContext.put("zoom", zoom);
         velocityContext.put("mapType", mapType);
+        velocityContext.put("useMarkerClustering", markerClustering);
 
         List<Map<String,Object>> markerList = (List<Map<String,Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
         String markers = markerList == null || markerList.isEmpty() ? "[]" : jacksonUtil.getJsonString(markerList);

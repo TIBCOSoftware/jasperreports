@@ -64,6 +64,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	public static final String PROPERTY_MARKER_CLUSTERING = "markerClustering";
 	public static final String PROPERTY_MARKER_DATA_LIST = "markerDataList";
 	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
 	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
@@ -90,6 +91,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapImageTypeEnum imageType;
 
 	private OnErrorTypeEnum onErrorType;
+	private Boolean markerClustering;
 	private List<ItemData> markerDataList = new ArrayList<>();
 	private List<ItemData> pathStyleList = new ArrayList<>();
 	private List<ItemData> pathDataList = new ArrayList<>();
@@ -112,6 +114,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
+		this.markerClustering = map.getMarkerClustering();
 		List<ItemData> markerList = map.getMarkerDataList();
 		if(markerList != null && markerList.size() > 0)
 		{
@@ -330,6 +333,16 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
+	@Override
+	public Boolean getMarkerClustering() {
+		return markerClustering;
+	}
+
+	public void setMarkerClustering(Boolean markerClustering) {
+		Object old = this.markerClustering;
+		this.markerClustering = markerClustering;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_CLUSTERING, old, this.markerClustering);
+	}
 
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.

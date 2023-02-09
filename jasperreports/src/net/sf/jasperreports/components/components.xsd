@@ -528,6 +528,7 @@
 				     </restriction>
 				    </simpleType>
 				   </attribute>
+				   <attribute name="markerClustering" type="boolean" use="optional" default="false"/>
 				</extension>
 			</complexContent>
 		</complexType>
