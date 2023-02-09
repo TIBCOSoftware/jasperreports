@@ -16,6 +16,9 @@
 	<script src='https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js' defer></script>
 	<script type="text/javascript">
 		${jasperreportsMapApiScript}
+	</script>
+	#end
+	<script type="text/javascript">
 		window.addEventListener('DOMContentLoaded', () => {
 			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
 				zoom: ${zoom},
@@ -24,25 +27,9 @@
 				autocloseinfo: true
 			});
 			var markers = ${markerList};
-			jasperreports.map.placeMarkers(markers, map);
+			jasperreports.map.placeMarkers(markers, map, false, ${useMarkerClustering});
 			var paths = ${pathsList};
-			jasperreports.map.drawPaths(paths, map);
+			jasperreports.map.drawPaths(paths, map, false);
 		});
 	</script>
-	#else
-	<script type="text/javascript">
-		window.addEventListener('DOMContentLoaded', () => {
-			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
-						zoom: ${zoom},
-						center: new google.maps.LatLng(${latitude}, ${longitude}), 
-						mapTypeId: google.maps.MapTypeId.${mapType},
-						autocloseinfo: true
-					});
-			var markers = ${markerList};
-			jasperreports.map.placeMarkers(markers, map);
-			var paths = ${pathsList};
-			jasperreports.map.drawPaths(paths, map);
-		});
-	</script>
-	#end
 #end

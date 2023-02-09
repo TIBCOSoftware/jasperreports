@@ -132,7 +132,7 @@ public class ChromeMapElementImageProvider extends AbstractMapElementImageProvid
             throw new JRRuntimeException("Failed to create map page in temp folder " + tempFolder, e);
         } finally {
             if (mapPageTempFile != null) {
-                boolean deleted = false;//mapPageTempFile.delete();
+                boolean deleted = mapPageTempFile.delete();
                 if (!deleted) {
                     if (log.isWarnEnabled()) {
                         log.warn("Failed to delete map temp page " + mapPageTempFile);
