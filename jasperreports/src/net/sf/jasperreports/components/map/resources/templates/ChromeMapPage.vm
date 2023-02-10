@@ -42,7 +42,12 @@
                 gestureHandling: 'none'
             });
             var markers = ${markerList};
-            jasperreports.map.placeMarkers(markers, map, true, useMarkerClustering);
+            var markerArr = jasperreports.map.placeMarkers(markers, map, true, false);
+
+            if (useMarkerClustering) {
+                new markerClusterer.MarkerClusterer({ map: map, markers: markerArr });
+            }
+
             var paths = ${pathsList};
             jasperreports.map.drawPaths(paths, map, true);
 

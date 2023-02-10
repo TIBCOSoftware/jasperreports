@@ -9,6 +9,7 @@
         "zoom": ${zoom},
         "mapType": "${mapType}",
         "useMarkerClustering": ${useMarkerClustering},
+        "useMarkerSpidering": ${useMarkerSpidering},
         "markerList": ${markerList},
         "pathsList": ${pathsList}
     }

@@ -14,20 +14,34 @@
 	<script src='https://maps.googleapis.com/maps/api/js?callback=initMap' defer></script>
 		#end
 	<script src='https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js' defer></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js' defer></script>
 	<script type="text/javascript">
 		${jasperreportsMapApiScript}
 	</script>
 	#end
 	<script type="text/javascript">
 		window.addEventListener('DOMContentLoaded', () => {
-			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
+			var useMarkerClustering = ${useMarkerClustering},
+				useMarkerSpidering = ${useMarkerSpidering},
+				map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
 				zoom: ${zoom},
 				center: new google.maps.LatLng(${latitude}, ${longitude}),
 				mapTypeId: google.maps.MapTypeId.${mapType},
 				autocloseinfo: true
 			});
 			var markers = ${markerList};
-			jasperreports.map.placeMarkers(markers, map, false, ${useMarkerClustering});
+			var markerArr = jasperreports.map.placeMarkers(markers, map, false, useMarkerSpidering);
+
+			if (useMarkerSpidering) {
+				var omsOptions = { markersWontMove: true, markersWontHide: true },
+					oms = new OverlappingMarkerSpiderfier(map, omsOptions);
+				markerArr.forEach(marker => oms.addMarker(marker));
+			}
+
+			if (useMarkerClustering) {
+				new markerClusterer.MarkerClusterer({ map: map, markers: markerArr });
+			}
+
 			var paths = ${pathsList};
 			jasperreports.map.drawPaths(paths, map, false);
 		});
