@@ -58,11 +58,15 @@ public class MapUtils {
         Boolean markerClustering = (Boolean) element.getParameterValue(MapComponent.ATTRIBUTE_MARKER_CLUSTERING);
         markerClustering = markerClustering != null ? markerClustering.booleanValue() : false;
 
+        Boolean markerSpidering = (Boolean) element.getParameterValue(MapComponent.ATTRIBUTE_MARKER_SPIDERING);
+        markerSpidering = markerSpidering != null ? markerSpidering.booleanValue() : false;
+
         velocityContext.put("latitude", latitude);
         velocityContext.put("longitude", longitude);
         velocityContext.put("zoom", zoom);
         velocityContext.put("mapType", mapType);
         velocityContext.put("useMarkerClustering", markerClustering);
+        velocityContext.put("useMarkerSpidering", markerSpidering);
 
         List<Map<String,Object>> markerList = (List<Map<String,Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
         String markers = markerList == null || markerList.isEmpty() ? "[]" : jacksonUtil.getJsonString(markerList);

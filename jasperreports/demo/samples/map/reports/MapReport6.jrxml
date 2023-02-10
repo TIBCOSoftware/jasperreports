@@ -29,11 +29,14 @@
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="0823119a-3904-4438-93be-ad33282c05cf"/>
-				<textFieldExpression><![CDATA["A satellite map sample. Five markers with default icons are placed on the map. Marker tooltips are enabled."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["A satellite map sample. Multiple markers with default icons are placed on the map. Marker tooltips are enabled. Marker clustering and spidering is also enabled."]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276"/>
-				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" mapType="roadmap" imageType="jpg" onErrorType="Blank" markerClustering="true">
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+					   xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+					   mapType="roadmap" imageType="jpg" onErrorType="Blank"
+					   markerClustering="true" markerSpidering="true">
 					<c:latitudeExpression><![CDATA[37.800056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
@@ -53,6 +56,9 @@
 							</c:itemProperty>
 							<c:itemProperty name="label">
 								<valueExpression><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="infowindow.content">
+								<valueExpression><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></valueExpression>
 							</c:itemProperty>
 						</c:item>
 					</c:markerData>

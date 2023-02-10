@@ -92,6 +92,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private MapImageTypeEnum imageType;
 	private OnErrorTypeEnum onErrorType;
 	private Boolean markerClustering;
+	private Boolean markerSpidering;
 	private String clientId;
 	private String signature;
 	private String key;
@@ -211,6 +212,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
 		markerClustering = mapComponent.getMarkerClustering();
+		markerSpidering = mapComponent.getMarkerSpidering();
 
 		if(markerDataList != null) {
 			markers = new ArrayList<>();
@@ -419,6 +421,10 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(markerClustering != null)
 		{
 			printElement.setParameterValue(MapComponent.ATTRIBUTE_MARKER_CLUSTERING, markerClustering);
+		}
+		if(markerSpidering != null)
+		{
+			printElement.setParameterValue(MapComponent.ATTRIBUTE_MARKER_SPIDERING, markerSpidering);
 		}
 		if(onErrorType != null)
 		{

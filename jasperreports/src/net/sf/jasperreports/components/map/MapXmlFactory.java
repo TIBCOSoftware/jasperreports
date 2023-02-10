@@ -47,6 +47,7 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_imageType = "imageType";
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";
 	public static final String ATTRIBUTE_markerClustering = "markerClustering";
+	public static final String ATTRIBUTE_markerSpidering = "markerSpidering";
 	public static final String ELEMENT_item = "item";
 	public static final String ELEMENT_markerData = "markerData";
 	public static final String ELEMENT_itemProperty = "itemProperty";
@@ -105,6 +106,10 @@ public class MapXmlFactory extends JRBaseFactory
 		Boolean markerClustering = Boolean.valueOf(atts.getValue(ATTRIBUTE_markerClustering));
 		if (markerClustering != null) {
 			map.setMarkerClustering(markerClustering);
+		}
+		Boolean markerSpidering = Boolean.valueOf(atts.getValue(ATTRIBUTE_markerSpidering));
+		if (markerSpidering != null) {
+			map.setMarkerSpidering(markerSpidering);
 		}
 
 		return map;

@@ -283,6 +283,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			if (markerClustering != null) {
 				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);
 			}
+			Boolean markerSpidering = map.getMarkerSpidering();
+			if (markerSpidering != null) {
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerSpidering, markerSpidering);
+			}
 		}
 		
 		writer.closeElement();

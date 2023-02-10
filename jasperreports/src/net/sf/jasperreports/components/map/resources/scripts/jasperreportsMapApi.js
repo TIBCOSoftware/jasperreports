@@ -36,16 +36,22 @@ function initMap() {
                 }
                 return null;
             },
-            placeMarkers: function (markers, map, isForExport, useMarkerClustering) {
+            placeMarkers: function (markers, map, isForExport, useMarkerSpidering) {
+                var markerArr = [];
                 if (markers) {
-                    var j, markerArr = [];
+                    var j;
                     for (var i = 0; i < markers.length; i++) {
                         var markerProps = markers[i];
                         var markerLatLng = new google.maps.LatLng(markerProps['latitude'], markerProps['longitude']);
                         var markerOptions = {
-                            position: markerLatLng,
-                            map: map
+                            position: markerLatLng
                         };
+
+                        // for spidering, do not link marker to map directly
+                        if (!useMarkerSpidering) {
+                            markerOptions.map = map;
+                        }
+
                         if (markerProps['icon.url'] && markerProps['icon.url'].length > 0) this.configureImage('icon', markerProps, markerOptions);
                         else if (markerProps['icon'] && markerProps['icon'].length > 0) markerOptions['icon'] = markerProps['icon'];
                         else if (markerProps['color'] && markerProps['color'].length > 0) {
@@ -61,7 +67,8 @@ function initMap() {
                         // when in export mode, do not add unnecessary listener
                         if (!isForExport) {
                             marker['info'] = this.createInfo(markerProps);
-                            google.maps.event.addListener(marker, 'click', function () {
+                            var clickEvent = useMarkerSpidering ? 'spider_click' : 'click';
+                            google.maps.event.addListener(marker, clickEvent, function () {
                                 if (map.autocloseinfo && infowindow) infowindow.close();
                                 if (this['info']) {
                                     infowindow = this['info'];
@@ -73,10 +80,8 @@ function initMap() {
                         }
                         markerArr.push(marker);
                     }
-                    if (useMarkerClustering) {
-                        new markerClusterer.MarkerClusterer({map: map, markers: markerArr});
-                    }
                 }
+                return markerArr;
             },
             drawPaths: function (p, map, isForExport) {
                 if (p) {
