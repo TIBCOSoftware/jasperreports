@@ -30,7 +30,6 @@ import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
-import java.text.Bidi;
 import java.text.BreakIterator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -50,8 +49,9 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
-import net.sf.jasperreports.engine.util.text.TextLayoutUtils;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.util.TextUtils;
+import net.sf.jasperreports.engine.util.text.TextLayoutUtils;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -428,15 +428,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 
 	protected boolean isLeftToRight(char[] chars)
 	{
-		boolean leftToRight = true;
-		if (Bidi.requiresBidi(chars, 0, chars.length))
-		{
-			// determining the text direction
-			// using default LTR as there's no way to have other default in the text
-			Bidi bidi = new Bidi(chars, 0, null, 0, chars.length, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
-			leftToRight = bidi.baseIsLeftToRight();
-		}
-		return leftToRight;
+		return TextUtils.isLeftToRight(chars);
 	}
 
 	protected boolean isParagraphMeasureExact(char[] chars)

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -104,6 +105,15 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		
 		JRVirtualizationContext newContext = page.getVirtualizationContext();
 		context.updateParent(newContext);
+	}
+
+	@Override
+	public void updateContext(JRVirtualizationContext context, JRVirtualPrintPage page)
+	{
+		JRVirtualizationContext oldContext = this.context;
+		this.context = context;
+		this.page = page;
+		oldContext.getVirtualizer().contextChanged(this, oldContext);
 	}
 
 	private void lockContext()
@@ -545,5 +555,26 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 	public JRVirtualPrintPage getPage()
 	{
 		return page;
+	}
+
+	@Override
+	public void transferElements(Consumer<JRPrintElement> consumer)
+	{
+		lockContext();
+		try
+		{
+			ensureDataAndTouch();
+			
+			elements.forEach(consumer);
+			
+			size = 0;
+			deepElementCount = 0;
+			// this helps with subreports by immediately releasing the external storage.
+			deregister();
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 }

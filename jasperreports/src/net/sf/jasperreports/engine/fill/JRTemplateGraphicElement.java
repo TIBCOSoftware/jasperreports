@@ -174,5 +174,16 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 				&& ObjectUtils.equals(fillValue, template.fillValue);
 	}
 	
-	
+	@Override
+	public void populateStyle()
+	{
+		super.populateStyle();
+		
+		if (linePen != null)
+		{
+			linePen.populateStyle();
+		}
+		
+		fillValue = getFillValue();
+	}
 }

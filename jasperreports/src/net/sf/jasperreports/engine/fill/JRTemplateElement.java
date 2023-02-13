@@ -342,4 +342,11 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 				&& ObjectUtils.equals(backcolor, template.backcolor)
 				&& ObjectUtils.equals(propertiesMap, template.propertiesMap);
 	}
+	
+	public void populateStyle()
+	{
+		modeValue = getModeValue();
+		forecolor = getForecolor();
+		backcolor = getBackcolor();
+	}
 }

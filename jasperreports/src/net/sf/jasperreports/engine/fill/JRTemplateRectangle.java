@@ -167,5 +167,12 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 				&& ObjectUtils.equals(radius, template.radius);
 	}
 
+	@Override
+	public void populateStyle()
+	{
+		super.populateStyle();
+		
+		radius = getRadius();
+	}
 
 }

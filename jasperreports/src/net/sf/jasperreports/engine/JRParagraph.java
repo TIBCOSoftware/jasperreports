@@ -150,6 +150,8 @@ public interface JRParagraph extends JRStyleContainer
 	 */
 	public JRParagraph clone(JRParagraphContainer paragraphContainer);
 
+	public void populateStyle();
+
 	/**
 	 * Gets the text line spacing.
 	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}

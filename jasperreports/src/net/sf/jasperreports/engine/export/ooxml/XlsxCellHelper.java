@@ -27,6 +27,7 @@ import java.io.Writer;
 import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ElementGridCell;
@@ -85,6 +86,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 			JRExporterGridCell gridCell,
+			JRPrintElement element,
 			int rowIndex,
 			int colIndex, 
 			int maxColIndex,
@@ -93,6 +95,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex, 
 				colIndex, 
 				maxColIndex, 
@@ -113,6 +116,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 			JRExporterGridCell gridCell,
+			JRPrintElement element,
 			int rowIndex,
 			int colIndex, 
 			int maxColIndex, 
@@ -130,6 +134,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex,
 				colIndex, 
 				maxColIndex, 
@@ -152,6 +157,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		int rowIndex,
 		int colIndex, 
 		int maxColIndex,
@@ -161,6 +167,7 @@ public class XlsxCellHelper extends BaseHelper
 	{
 		exportHeader(
 				gridCell,
+				element,
 				rowIndex, 
 				colIndex, 
 				maxColIndex, 
@@ -182,6 +189,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	public void exportHeader(
 		JRExporterGridCell gridCell,
+		JRPrintElement element,
 		int rowIndex,
 		int colIndex, 
 		int maxColIndex, 
@@ -226,6 +234,7 @@ public class XlsxCellHelper extends BaseHelper
 			styleIndex = 
 				styleHelper.getCellStyle(
 					gridCell, 
+					element,
 					pattern, 
 					locale, 
 					isWrapText, 
