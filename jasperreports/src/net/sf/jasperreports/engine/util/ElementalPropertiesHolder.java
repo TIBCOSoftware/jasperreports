@@ -40,6 +40,12 @@ public class ElementalPropertiesHolder implements JRPropertiesHolder
 		super();
 	}
 
+	public ElementalPropertiesHolder(JRPropertiesMap propertiesMap)
+	{
+		super();
+		this.propertiesMap = propertiesMap;
+	}
+
 	@Override
 	public boolean hasProperties()
 	{

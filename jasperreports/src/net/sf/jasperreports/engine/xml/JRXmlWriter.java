@@ -984,6 +984,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 
 			writeProperties(part);
+			if (isNewerVersionOrEqual(JRConstants.VERSION_6_21_0))
+			{
+				writePropertyExpressions(part.getPropertyExpressions());
+			}
 			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, part.getPrintWhenExpression(), false);
 			writeExpression(JRXmlConstants.ELEMENT_partNameExpression, part.getPartNameExpression(), false);
 			

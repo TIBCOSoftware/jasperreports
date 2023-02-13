@@ -51,7 +51,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 		
 		if (properties != null && properties.hasProperties())
 		{
-			printPart.getPropertiesMap().copyOwnProperties(properties.getPropertiesMap());
+			printPart.getPropertiesMap().copyProperties(properties.getPropertiesMap());
 		}
 		
 		SimplePrintPageFormat pageFormat = new SimplePrintPageFormat();
@@ -124,7 +124,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 		
 		if (partProperties != null && partProperties.hasProperties())
 		{
-			getPropertiesMap().copyOwnProperties(partProperties.getPropertiesMap());
+			getPropertiesMap().copyProperties(partProperties.getPropertiesMap());
 		}
 	}
 }
