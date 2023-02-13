@@ -82,9 +82,14 @@ public class PrintPartUnrollExporterInput implements ExporterInput
 	{
 		JasperPrint jasperPrint = item.getJasperPrint();
 		ReportExportConfiguration configuration = item.getConfiguration();
-		Integer configPageIndex = configuration.getPageIndex();
-		Integer configStartPageIndex = configPageIndex == null ? configuration.getStartPageIndex() : configPageIndex;
-		Integer configEndPageIndex = configPageIndex == null ? configuration.getEndPageIndex() : configPageIndex;
+		Integer configStartPageIndex = null;
+		Integer configEndPageIndex = null;
+		if (configuration != null)
+		{
+			Integer configPageIndex = configuration.getPageIndex();
+			configStartPageIndex = configPageIndex == null ? configuration.getStartPageIndex() : configPageIndex;
+			configEndPageIndex = configPageIndex == null ? configuration.getEndPageIndex() : configPageIndex;
+		}
 
 		int itemStartIndex = configStartPageIndex == null ? partStartIndex : Math.max(configStartPageIndex, partStartIndex);
 		int itemEndIndex = configStartPageIndex == null ? partEndIndex: Math.min(configEndPageIndex + 1, partEndIndex);
