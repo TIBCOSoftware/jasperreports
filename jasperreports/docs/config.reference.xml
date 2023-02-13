@@ -7409,4 +7409,14 @@ See the documentation of <code>java.sql.Connection</code> for details on the tra
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.print.part.visible -->
+  
+  <configProperty name="net.sf.jasperreports.print.part.visible">
+    <description>
+    Flag set at report/book part level to determine whether report viewers are to be display a tab for the part. 
+    The flag is set to <code>true</code> by default. 
+    </description>
+  </configProperty>
+  
+  
 </configReference>

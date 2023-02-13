@@ -40,7 +40,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.PartsUtil;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.renderers.RenderersCache;
 
@@ -313,6 +315,17 @@ public class JRViewerController
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
+	}
+	
+	public PrintParts getPrintParts()
+	{
+		if (jasperPrint == null)
+		{
+			return null;
+		}
+		
+		//TODO cache?
+		return PartsUtil.instance(jasperReportsContext).getVisibleParts(jasperPrint);
 	}
 
 	public int getPageCount()

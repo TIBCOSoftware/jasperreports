@@ -48,6 +48,15 @@ public interface PrintPart extends JRPropertiesHolder
 			)
 	public static final String ELEMENT_PROPERTY_PART_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.name";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,//TODO part?
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.PART},
+			sinceVersion = PropertyConstants.VERSION_6_21_0
+			)
+	public static final String PROPERTY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.visible";
+	
 	public String getName();
 	
 	public PrintPageFormat getPageFormat();

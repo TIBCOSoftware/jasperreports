@@ -59,6 +59,7 @@ public class PrintPartUnrollExporterInput implements ExporterInput
 			//SortedMap<Integer, PrintPart> parts = jasperPrint.getParts();
 			if (jasperPrint.hasParts())
 			{
+				//exporting each part to a separate sheet irrespective of the visibility flag
 				PrintParts parts = jasperPrint.getParts();
 				Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator();
 				Map.Entry<Integer, PrintPart> part = it.next();
