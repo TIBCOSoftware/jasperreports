@@ -1286,7 +1286,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return jasperPrint;
 	}
 
-	protected class PageRange
+	public class PageRange
 	{
 		private Integer startPageIndex;
 		private Integer endPageIndex;

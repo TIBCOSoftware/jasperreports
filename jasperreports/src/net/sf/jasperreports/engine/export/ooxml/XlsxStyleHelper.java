@@ -29,8 +29,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -124,24 +126,103 @@ public class XlsxStyleHelper extends BaseHelper
 		if (styleIndex == null)
 		{
 			styleIndex = styleCache.size() + 1;
-			exportCellStyle(gridCell, styleInfo, styleIndex, sheetInfo);
+			exportCellStyle(styleInfo, styleIndex, sheetInfo);
 			styleCache.put(styleInfo, styleIndex);
 		}
 		return styleIndex;
 	}
 
+	public int getCellStyle(
+			JRPrintElement element, 
+			String pattern, 
+			Locale locale,
+			boolean isWrapText, 
+			boolean isHidden, 
+			boolean isLocked,
+			boolean  isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction,
+			JRStyle parentStyle
+			)
+	{
+		XlsxStyleInfo styleInfo = 
+				new XlsxStyleInfo(
+						formatHelper.getFormat(pattern) + 1,
+						fontHelper.getFont(element, locale) + 1,
+						borderHelper.getBorder(element, sheetInfo, direction, parentStyle) + 1,
+						element,
+						isWrapText,
+						isHidden,
+						isLocked,
+						isShrinkToFit,
+						isIgnoreTextFormatting, 
+						getRotation(rotation),
+						sheetInfo,
+						direction,
+						parentStyle
+						);
+		Integer styleIndex = styleCache.get(styleInfo);
+		if (styleIndex == null)
+		{
+			styleIndex = styleCache.size() + 1;
+			exportCellStyle(styleInfo, styleIndex, sheetInfo);
+			styleCache.put(styleInfo, styleIndex);
+		}
+		return styleIndex;
+	}
+	
+	public int getCellStyle(
+			JRLineBox box, 
+			String pattern, 
+			Locale locale,
+			boolean isWrapText, 
+			boolean isHidden, 
+			boolean isLocked,
+			boolean  isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction,
+			JRStyle parentStyle
+			)
+	{
+		XlsxStyleInfo styleInfo = 
+				new XlsxStyleInfo(
+						formatHelper.getFormat(pattern) + 1,
+						fontHelper.getFont(box, locale) + 1,
+						borderHelper.getBorder(box, sheetInfo, direction, parentStyle) + 1,
+						isWrapText,
+						isHidden,
+						isLocked,
+						isShrinkToFit,
+						isIgnoreTextFormatting, 
+						getRotation(rotation),
+						sheetInfo,
+						direction
+						);
+		Integer styleIndex = styleCache.get(styleInfo);
+		if (styleIndex == null)
+		{
+			styleIndex = styleCache.size() + 1;
+			exportCellStyle(styleInfo, styleIndex, sheetInfo);
+			styleCache.put(styleInfo, styleIndex);
+		}
+		return styleIndex;
+	}
+	
 	/**
 	 * 
 	 */
 	private void exportCellStyle(
-			JRExporterGridCell gridCell, 
 			XlsxStyleInfo styleInfo, 
 			Integer styleIndex, 
 			JRXlsAbstractExporter.SheetInfo sheetInfo)
 	{
 		try
 		{
-			if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || styleInfo.backcolor == null)
+			if (sheetInfo != null && (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || styleInfo.backcolor == null))
 			{
 				if (Boolean.TRUE.equals(sheetInfo.whitePageBackground))
 				{

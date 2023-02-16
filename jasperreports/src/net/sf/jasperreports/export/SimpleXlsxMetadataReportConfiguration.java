@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,40 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Greg Hilton 
- */
-
-package net.sf.jasperreports.engine.export;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JasperReportsContext;
+package net.sf.jasperreports.export;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public class JRXlsMetadataExporterNature extends JRXlsExporterNature
+public class SimpleXlsxMetadataReportConfiguration extends AbstractXlsReportConfiguration implements XlsxMetadataReportConfiguration
 {
+	private Boolean isWriteHeader;
+	private String[] columnNames; 
+
+	@Override
+	public Boolean isWriteHeader()
+	{
+		return isWriteHeader;
+	}
 
 	/**
 	 * 
 	 */
-	public JRXlsMetadataExporterNature(
-		JasperReportsContext jasperReportsContext,
-		ExporterFilter filter, 
-		boolean isIgnoreGraphics, 
-		boolean isIgnorePageMargins
-		)
+	public void setWriteHeader(Boolean isWriteHeader)
 	{
-		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
+		this.isWriteHeader = isWriteHeader;
 	}
 
 	@Override
-	public boolean isToExport(JRPrintElement element)
+	public String[] getColumnNames()
 	{
-		return element.hasProperties() && element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
+		return columnNames;
 	}
+
+	/**
+	 * 
+	 */
+	public void setColumnNames(String[] columnNames)
+	{
+		this.columnNames = columnNames;
+	}
+	
 }
