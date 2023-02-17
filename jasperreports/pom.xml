@@ -151,9 +151,9 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
+			<groupId>org.apache.groovy</groupId>
 			<artifactId>groovy</artifactId>
-			<version>3.0.7</version>
+			<version>4.0.8</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -174,14 +174,14 @@
 		<dependency>
 			<groupId>net.tascalate.javaflow</groupId>
 			<artifactId>net.tascalate.javaflow.api</artifactId>
-			<version>2.6.0</version>
+			<version>2.7.3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.tascalate.javaflow</groupId>
 			<artifactId>net.tascalate.javaflow.tools.ant</artifactId>
-			<version>2.6.0</version>
+			<version>2.7.3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
