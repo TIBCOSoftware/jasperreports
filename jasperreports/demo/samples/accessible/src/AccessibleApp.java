@@ -312,7 +312,7 @@ public class AccessibleApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata XLS creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -335,7 +335,7 @@ public class AccessibleApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("JSON creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata JSON creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -381,7 +381,7 @@ public class AccessibleApp extends AbstractSampleApp
 		
 		exporter.exportReport();
 
-		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata CSV creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

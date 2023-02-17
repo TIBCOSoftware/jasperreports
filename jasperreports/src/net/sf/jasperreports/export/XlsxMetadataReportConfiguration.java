@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,40 +21,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+package net.sf.jasperreports.export;
 
-/*
- * Contributors:
- * Greg Hilton 
- */
-
-package net.sf.jasperreports.engine.export;
-
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
 
 
 /**
+ * Interface containing settings used by the XLSX metadata exporters.
+ *
+ * @see XlsxMetadataExporter
+ * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public class JRXlsMetadataExporterNature extends JRXlsExporterNature
+public interface XlsxMetadataReportConfiguration extends XlsMetadataReportConfiguration
 {
-
-	/**
-	 * 
-	 */
-	public JRXlsMetadataExporterNature(
-		JasperReportsContext jasperReportsContext,
-		ExporterFilter filter, 
-		boolean isIgnoreGraphics, 
-		boolean isIgnorePageMargins
-		)
-	{
-		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
-	}
-
-	@Override
-	public boolean isToExport(JRPrintElement element)
-	{
-		return element.hasProperties() && element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
-	}
+	
 }

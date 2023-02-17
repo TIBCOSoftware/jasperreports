@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
+import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
@@ -368,6 +369,18 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportRow(int rowHeight, Cut yCut, XlsRowLevelInfo levelInfo) 
 	{
+		boolean isAutoFit = yCut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				? (Boolean)yCut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW)
+				: defaultAutoFitRow;
+		exportRow(rowHeight, isAutoFit, levelInfo);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportRow(int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
+	{
 		if (rowIndex > 0)
 		{
 			write("</row>\n");
@@ -383,11 +396,37 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				? (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW)
-				: defaultAutoFitRow;
 		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
-		if (levelInfo.getLevelMap().size() > 0)
+		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
+		{
+			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
+		}
+		write(">\n");
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportRow(int index, int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
+	{
+		if (index > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
+			write("<sheetData>\n");
+		}
+		index++;
+		write("<row r=\"" + index + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
+		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
 		}

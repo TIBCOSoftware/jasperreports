@@ -306,6 +306,20 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
+	public void contextChanged(JRVirtualizable<?> o, JRVirtualizationContext oldContext)
+	{
+		synchronized (this)
+		{
+			Object oldContextLast = lastObjectMap.get(oldContext);
+			if (oldContextLast == o)
+			{
+				lastObjectMap.remove(oldContext);
+				lastObjectSet.remove(o);
+			}
+		}
+	}
+	
 	/**
 	 * Sets the read only mode for the virtualizer.
 	 * <p/>

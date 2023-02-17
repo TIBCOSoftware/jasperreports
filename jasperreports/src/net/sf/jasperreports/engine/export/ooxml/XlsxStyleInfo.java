@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
@@ -67,8 +68,6 @@ public class XlsxStyleInfo
 		int formatIndex, 
 		int fontIndex, 
 		int borderIndex, 
-		JRExporterGridCell gridCell,
-		JRPrintElement element,
 		boolean isWrapText,
 		boolean isHidden,
 		boolean isLocked,
@@ -82,6 +81,56 @@ public class XlsxStyleInfo
 		this.formatIndex = formatIndex;
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
 		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
+		this.isWrapText = isShrinkToFit ? false : isWrapText;
+		this.isHidden = isHidden;
+		this.isLocked = isLocked;
+		this.isShrinkToFit = isShrinkToFit;
+		this.rotation = rotation;
+		if(sheetInfo != null)
+		{
+			if(sheetInfo.whitePageBackground != null)
+			{
+				this.whitePageBackground = sheetInfo.whitePageBackground;
+			}
+			if(sheetInfo.ignoreCellBackground != null)
+			{
+				this.ignoreCellBackground = sheetInfo.ignoreCellBackground;
+			}
+			if(sheetInfo.ignoreCellBorder != null)
+			{
+				this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
+			}
+		}
+		this.direction = direction;
+	}
+	
+	public XlsxStyleInfo(
+			int formatIndex, 
+			int fontIndex, 
+			int borderIndex, 
+			JRPrintElement element, 
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			int rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction,
+			JRStyle parentStyle
+			)
+	{
+		this(formatIndex, 
+				fontIndex, 
+				borderIndex, 
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction);
 		
 		if (!isIgnoreTextFormatting)
 		{
@@ -89,37 +138,66 @@ public class XlsxStyleInfo
 			{
 				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 			}
-			else if (gridCell.getBackcolor() != null)
+			else if (parentStyle != null && parentStyle.getBackcolor() != null)
 			{
-				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
+				this.backcolor = JRColorUtil.getColorHexa(parentStyle.getBackcolor());
 			}
 		}
 		
-		JRTextAlignment align = element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
+		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
 		if (align != null)
 		{
 			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
 			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
 		}
+	}
+	
+	public XlsxStyleInfo(
+			int formatIndex, 
+			int fontIndex, 
+			int borderIndex, 
+			JRExporterGridCell gridCell, 
+			JRPrintElement element,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting,
+			int rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction
+			)
+	{
+		this(formatIndex, 
+				fontIndex, 
+				borderIndex, 
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction);
 		
-		this.isWrapText = isShrinkToFit ? false : isWrapText;
-		this.isHidden = isHidden;
-		this.isLocked = isLocked;
-		this.isShrinkToFit = isShrinkToFit;
-		this.rotation = rotation;
-		if(sheetInfo.whitePageBackground != null)
+		if (!isIgnoreTextFormatting)
 		{
-			this.whitePageBackground = sheetInfo.whitePageBackground;
+			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
+			}
+			else if (gridCell != null && gridCell.getBackcolor() != null)
+			{
+				this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
+			}
 		}
-		if(sheetInfo.ignoreCellBackground != null)
+		
+		JRTextAlignment align = element != null &&  element instanceof JRTextAlignment ? (JRTextAlignment)element : null;
+		if (align != null)
 		{
-			this.ignoreCellBackground = sheetInfo.ignoreCellBackground;
+			this.horizontalAlign = getHorizontalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
+			this.verticalAlign = getVerticalAlignment(align.getHorizontalTextAlign(), align.getVerticalTextAlign(), rotation);//FIXMEXLSX use common util
 		}
-		if(sheetInfo.ignoreCellBorder != null)
-		{
-			this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
-		}
-		this.direction = direction;
 	}
 	
 	protected String getHorizontalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)

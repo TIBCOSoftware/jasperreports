@@ -673,8 +673,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			row = sheet.createRow(rowIndex);
 		}
 
-		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		boolean isAutoFit = yCut.hasProperty(PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getProperty(PROPERTY_AUTO_FIT_ROW);
 		if (!isAutoFit)
 		{
 			row.setHeightInPoints(lastRowHeight);
