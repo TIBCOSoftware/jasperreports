@@ -12,6 +12,11 @@
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<copy todir="./reports">
+			<fileset dir="../../../tests/net/sf/jasperreports/markup/bulletedlist/repo">
+				<include name="**/*.jrxml"/>
+			</fileset>
+		</copy>
 		<ant dir="../" target="compile"/>
 	</target>
 
@@ -101,6 +106,9 @@
 
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
+		<delete>
+			<fileset dir="./reports" includes="**/*.jrxml"  excludes="**/MarkupReport.jrxml"/>
+		</delete>
 	</target>
 	
 	<target name="test" description="Runs the sample.">
