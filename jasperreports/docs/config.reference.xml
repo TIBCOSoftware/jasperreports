@@ -7406,4 +7406,14 @@ See the documentation of <code>java.sql.Connection</code> for details on the tra
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.force.html.embed.image -->
+  
+  <configProperty name="net.sf.jasperreports.force.html.embed.image">
+    <description>
+Flag that determines whether charts, barcodes and other visualization elements produce images that are embedded into HTML export output.
+The flag is set to <code>true</code> by default.
+    </description>
+  </configProperty>
+  
+  
 </configReference>

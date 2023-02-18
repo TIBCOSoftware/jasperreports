@@ -179,6 +179,13 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			)
 	public static final String PROPERTY_EMBEDDED_SVG_USE_FONTS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embedded.svg.use.fonts";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.CHART_ELEMENT, PropertyScope.COMPONENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FORCE_HTML_EMBED_IMAGE = JRPropertiesUtil.PROPERTY_PREFIX + "force.html.embed.image";
 	
 	/**
