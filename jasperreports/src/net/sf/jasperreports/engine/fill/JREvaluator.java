@@ -209,7 +209,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	public String msg(String pattern, Object arg0)
 	{
-		return getMessageFormat(pattern).format(new Object[] { arg0 }, new StringBuffer(), null).toString();
+		return MessageFormatWrapper.format(pattern, (Locale) locale.getValue(), new Object[] { arg0 });
 	}
 
 	/**
@@ -223,7 +223,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	public String msg(String pattern, Object arg0, Object arg1)
 	{
-		return getMessageFormat(pattern).format(new Object[] { arg0, arg1 }, new StringBuffer(), null).toString();
+		return MessageFormatWrapper.format(pattern, (Locale) locale.getValue(), new Object[] { arg0, arg1 });
 	}
 
 	
@@ -239,7 +239,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
 	{
-		return getMessageFormat(pattern).format(new Object[] { arg0, arg1, arg2 }, new StringBuffer(), null).toString();
+		return MessageFormatWrapper.format(pattern, (Locale) locale.getValue(), new Object[] { arg0, arg1, arg2 });
 	}
 
 	/**
@@ -252,7 +252,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	public String msg(String pattern, Object... args)
 	{
-		return getMessageFormat(pattern).format(args, new StringBuffer(), null).toString();
+		return MessageFormatWrapper.format(pattern, (Locale) locale.getValue(), args);
 	}
 
 	/**
@@ -508,17 +508,5 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @see JRFillVariable#getEstimatedValue()
 	 */
 	protected abstract Object evaluateEstimated(int id) throws Throwable; //NOSONAR
-
-
-	/**
-	 * 
-	 */
-	private MessageFormat getMessageFormat(String pattern)
-	{
-		MessageFormat messageFormat = new MessageFormat("");
-		messageFormat.setLocale((Locale)locale.getValue());
-		messageFormat.applyPattern(pattern);
-		return messageFormat;
-	}
 
 }
