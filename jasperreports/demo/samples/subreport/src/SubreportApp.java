@@ -258,7 +258,7 @@ public class SubreportApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("JSON creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata JSON creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

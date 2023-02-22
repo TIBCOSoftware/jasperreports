@@ -29,8 +29,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
@@ -73,9 +75,26 @@ public class XlsxFontHelper extends BaseHelper
 	/**
 	 *
 	 */
+	public int getFont(JRExporterGridCell gridCell, Locale locale)
+	{
+		if (gridCell == null)
+		{
+			return -1;			
+		}
+		return getFont(gridCell.getElement(), locale);
+	}
+
+	/**
+	 *
+	 */
+	public int getFont(JRLineBox box, Locale locale)
+	{
+		return -1;
+	}
+	
 	public int getFont(JRPrintElement element, Locale locale)
 	{
-		JRFont font = element instanceof JRFont ? (JRFont) element : null;
+		JRFont font = element instanceof JRFont ? (JRFont)element : null;
 		if (font == null)
 		{
 			return -1;			
