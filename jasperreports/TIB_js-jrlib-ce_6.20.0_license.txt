@@ -1,4 +1,4 @@
-﻿Copyright (c) 2022 TIBCO Software Inc.  All Rights Reserved.
+﻿Copyright (c) 2023 Cloud Software Group, Inc.  All Rights Reserved.
 
 GNU LESSER GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
@@ -3140,9 +3140,9 @@ limitations under the License.
 *
 iText, a free Java-PDF library 2.1.7
 
-TIBCO Software Inc. has made modifications to certain files of the Original Code of this component.  The Original Code is “iText, a free JAVA-PDF library”, by Initial Developer, Bruno Lowagie, and Co-Developer, Paulo Soares.
+Cloud Software Group, Inc. has made modifications to certain files of the Original Code of this component.  The Original Code is “iText, a free JAVA-PDF library”, by Initial Developer, Bruno Lowagie, and Co-Developer, Paulo Soares.
 
-This component and its modified and unmodified source code are licensed under the Mozilla Public License v1.1, a copy of which is included below.  You may obtain a copy of the applicable source code at http://jasperreports.sourceforge.net/maven2/com/lowagie/itext/ or by contacting TIBCO Software Inc.
+This component and its modified and unmodified source code are licensed under the Mozilla Public License v1.1, a copy of which is included below.  You may obtain a copy of the applicable source code at http://jasperreports.sourceforge.net/maven2/com/lowagie/itext/ or by contacting Cloud Software Group, Inc.
 
 
                           MOZILLA PUBLIC LICENSE
