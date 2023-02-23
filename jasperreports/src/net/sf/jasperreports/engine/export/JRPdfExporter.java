@@ -513,7 +513,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 		category = PropertyConstants.CATEGORY_EXPORT,
 		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT},
-		sinceVersion = PropertyConstants.VERSION_6_21_0,
+		sinceVersion = PropertyConstants.VERSION_6_20_1,
 		valueType = Boolean.class,
 		defaultValue = PropertyConstants.BOOLEAN_FALSE
 		)

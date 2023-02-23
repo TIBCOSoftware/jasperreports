@@ -235,7 +235,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			sinceVersion = PropertyConstants.VERSION_6_20_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE = JRPropertiesUtil.PROPERTY_PREFIX + "element.template.populate.style";
