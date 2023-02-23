@@ -124,7 +124,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 				- drawPosY,
 			lineHeight,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			0,
-			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (!segment.isLastLine || (isLastParagraph && justifyLastLine)) 
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (!segment.isLastLine || justifyLastLine) 
 				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL

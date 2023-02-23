@@ -112,7 +112,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textStart;
 	private int textEnd;
 	private boolean isCutParagraphOverflow;
-	private boolean isCutParagraphToContinueInOverflow;
+	private boolean isCutParagraph;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
 	private String oldRawText;
@@ -478,17 +478,17 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected boolean isCutParagraphToContinueInOverflow()
+	protected boolean isCutParagraph()
 	{
-		return isCutParagraphToContinueInOverflow;
+		return isCutParagraph;
 	}
 		
 	/**
 	 *
 	 */
-	protected void setCutParagraphToContinueInOverflow(boolean isCutParagraphToContinueInOverflow)
+	protected void setCutParagraph(boolean isCutParagraph)
 	{
-		this.isCutParagraphToContinueInOverflow = isCutParagraphToContinueInOverflow;
+		this.isCutParagraph = isCutParagraph;
 	}
 	
 	protected short[] getLineBreakOffsets()
@@ -615,7 +615,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		boolean isOverflow
 		) throws JRException
 	{
-		isCutParagraphOverflow = isCutParagraphToContinueInOverflow;
+		isCutParagraphOverflow = canOverflow() && isCutParagraph;
 		
 		return super.prepare(availableHeight, isOverflow);
 	}
@@ -783,7 +783,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
-		setCutParagraphToContinueInOverflow(canOverflow && measuredText.isParagraphCut());
+		setCutParagraph(measuredText.isParagraphCut());
 		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
@@ -1237,6 +1237,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			fullText != null
 			&& endIndex < fullText.length()
 			&& HorizontalTextAlignEnum.JUSTIFIED == getHorizontalTextAlign()
+			&& isCutParagraph
 			)
 		{
 			printText.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, Boolean.TRUE.toString());

@@ -59,6 +59,8 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	
 	private Document document;
 	private boolean bodyOccurred = false;
+	private boolean honourBlockElementNewLine = false;
+	private Stack<HTML.Tag> htmlTagStack;
 
 	private Stack<StyledTextListInfo> htmlListStack;
 	private boolean insideLi;
@@ -80,6 +82,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		{
 			JRStyledText styledText = new JRStyledText();
 			
+			htmlTagStack = new Stack<>();
 			htmlListStack = new Stack<>();
 
 			JEditorPane editorPane = new JEditorPane("text/html", srcText);
@@ -113,10 +116,37 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
-			if (object instanceof HTML.Tag) 
+			HTML.Tag htmlTag = object instanceof HTML.Tag ? (HTML.Tag) object : null;
+			
+			if (
+				bodyOccurred 
+				&& honourBlockElementNewLine 
+				&& htmlTag != Tag.UL
+				&& htmlTag != Tag.OL
+				&& htmlTag != Tag.LI
+				)
 			{
+				// since the newline introduced by a block element is always at the end of the block element,
+				// it means the block element could not have any nested child element after this newline,
+				// so it it is followed by either a sibling or a sibling of its parent or ancestor;
+				// it is before the processing of this next element that we honour the block element newline
+				// character, but only if the next element is not a list or list item element;
+				// this is because the text measurer and text renderer already treat list and list item styled
+				// text runs as paragraphs, so they start them on new lines;
+				// while the honourBlockElementNewLine flag takes care of skipping newlines introduced by the html
+				// parser at the end of the list or list item block elements, here we need to test again if the
+				// newline should be honoured because it might come from non list elements such as <p> or <div>
+				// and should be ignore if immediately follow by the current list or list item element
+				styledText.append("\n");
+				resizeRuns(styledText.getRuns(), styledText.length(), 1);
+			}
+
+			honourBlockElementNewLine = false;
+			
+			if (htmlTag != null) 
+			{
+				htmlTagStack.push(htmlTag);
 				
-				HTML.Tag htmlTag = (HTML.Tag) object;
 				if (htmlTag == Tag.BODY)
 				{
 					bodyOccurred = true;
@@ -132,6 +162,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					processElement(styledText, element);
 					styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
 
+					// a second newline is added in case the <br> tag was not empty, as it is usually used 
 					if (startIndex < styledText.length()) {
 						styledText.append("\n");
 						resizeRuns(styledText.getRuns(), startIndex, 1);
@@ -228,6 +259,34 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						}
 					}
 					
+					honourBlockElementNewLine = false;
+					
+					if ("\n".equals(chunk)) 
+					{
+						// chunk is a newline char only when the parser processes the end of a block element;
+						// inline elements do not have newline chars at the end and the html parser always ignores
+						// newline chars in text content
+
+						honourBlockElementNewLine = true;
+
+						HTML.Tag grandParentHtmlTag = htmlTagStack.size() >= 3 ? htmlTagStack.get(htmlTagStack.size() - 3) : null;
+						if (
+							grandParentHtmlTag == Tag.UL
+							|| grandParentHtmlTag == Tag.OL
+							|| grandParentHtmlTag == Tag.LI
+							)
+						{
+							// ignoring newline characters introduced by the html parser at the end of list or list item elements,
+							// because they are the only ones which cannot be skipped by the text measurer and text renderer;
+							// this is because the text measurer and the text renderer are responsible for skipping newline
+							// characters that are actually in the text content at the end of the <ul>, <ol> and <li> tags in styled text markup;
+							// if two newline characters would be found at the end of the <ul>, <ol> or <li> tag, with the second one being
+							// introduced by the html parser, then only one of them would get skipped during text measuring and rendering,
+							// which would not match html browser behavior, that is able to ignore <br> tags placed at the end of <ul>, <ol> and <li> tags
+							honourBlockElementNewLine = false;
+						}
+					}
+					
 					if (
 						chunk != null
 						&& !"\n".equals(chunk) 
@@ -268,6 +327,8 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						processElement(styledText, element);
 					}
 				}
+				
+				htmlTagStack.pop();
 			}
 		}
 	}
