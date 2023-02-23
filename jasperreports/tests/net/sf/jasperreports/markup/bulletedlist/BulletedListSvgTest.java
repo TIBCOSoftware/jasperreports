@@ -30,11 +30,11 @@ import net.sf.jasperreports.AbstractSvgTest;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class BulletedListTest extends AbstractSvgTest
+public class BulletedListSvgTest extends AbstractSvgTest
 {
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 17);
+		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 18);
 	}
 }
