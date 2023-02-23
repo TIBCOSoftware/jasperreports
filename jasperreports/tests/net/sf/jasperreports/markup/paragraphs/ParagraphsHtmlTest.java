@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,20 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.markup.bulletedlist;
+package net.sf.jasperreports.markup.paragraphs;
 
 import org.testng.annotations.DataProvider;
 
-import net.sf.jasperreports.AbstractSvgTest;
+import net.sf.jasperreports.AbstractHtmlTest;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class BulletedListTest extends AbstractSvgTest
+public class ParagraphsHtmlTest extends AbstractHtmlTest
 {
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 17);
+		return runReportArgs("net/sf/jasperreports/markup/paragraphs/repo", "ParagraphsReport", 1);
 	}
 }

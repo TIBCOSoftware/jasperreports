@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -180,7 +180,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 				+ bottomPadding,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			text.getLineSpacingFactor(),
-			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (isLastParagraph && justifyLastLine) 
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && justifyLastLine 
 				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
