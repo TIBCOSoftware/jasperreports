@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -57,6 +58,8 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 	protected UUID uuid;
 	private JRPropertiesMap propertiesMap;
 
+	private JRPropertyExpression[] propertyExpressions;
+
 	protected JRExpression printWhenExpression;
 	protected JRExpression partNameExpression;
 
@@ -75,6 +78,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		
 		this.uuid = part.getUUID();
 		this.propertiesMap = JRPropertiesMap.getPropertiesClone(part);
+		this.propertyExpressions = factory.getPropertyExpressions(part.getPropertyExpressions());
 		this.printWhenExpression = factory.getExpression(part.getPrintWhenExpression());
 		this.partNameExpression = factory.getExpression(part.getPartNameExpression());
 		this.evaluationTime = part.getEvaluationTime();
@@ -153,6 +157,12 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return null;
 	}
 
+	@Override
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	@Override
@@ -186,6 +196,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		clone.partNameExpression = JRCloneUtils.nullSafeClone(partNameExpression);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		clone.propertyExpressions = JRCloneUtils.cloneArray(propertyExpressions);
 		clone.uuid = null;
 		clone.eventSupport = null;
 		

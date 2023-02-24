@@ -226,6 +226,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		else
 		{
 			addLastPageBookmarks();
+			detectPart();
 		}
 		
 		if (bookmarkHelper != null)

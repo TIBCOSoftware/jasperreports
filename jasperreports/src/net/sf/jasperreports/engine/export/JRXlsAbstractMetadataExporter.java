@@ -204,6 +204,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 						
 						/*   */
 						exportPage(page);
+						pageExported = true;
 					}
 				}
 				else
@@ -234,12 +235,13 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						exportPage(page);
+						pageExported = true;
 					}
 					
 				}
-				pageExported = true;
 			}
-			else if(reportIndex == items.size() -1 && !pageExported)
+
+			if(reportIndex == items.size() -1 && !pageExported)
 			{
 				exportEmptyReport();
 			}

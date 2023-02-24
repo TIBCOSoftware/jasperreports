@@ -23,14 +23,24 @@
  */
 package net.sf.jasperreports.engine.part;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPart;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
+import net.sf.jasperreports.engine.util.ElementalPropertiesHolder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -42,6 +52,9 @@ public class FillPart
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private PartReportFiller reportFiller;
 	
+	private JRPropertiesHolder staticPartProperties;
+	private List<JRPropertyExpression> propertyExpressions;
+	private JRPropertiesHolder printPartProperties;
 	private PartFillComponent fillComponent;
 	private String partName;
 
@@ -55,6 +68,15 @@ public class FillPart
 		PartComponent component = part.getComponent();
 		
 		JasperReportsContext jasperReportsContext = fillFactory.getReportFiller().getJasperReportsContext();
+		
+		staticPartProperties = new ElementalPropertiesHolder();
+		JRPropertiesUtil.getInstance(jasperReportsContext).transferProperties(part, staticPartProperties, 
+				PrintPart.PROPERTIES_TRANSFER_PREFIX);
+		
+		JRPropertyExpression[] partPropertyExpressions = part.getPropertyExpressions();
+		propertyExpressions = partPropertyExpressions == null ? new ArrayList<>(0)
+			: new ArrayList<>(Arrays.asList(partPropertyExpressions));
+		
 		PartComponentsEnvironment partsEnv = PartComponentsEnvironment.getInstance(jasperReportsContext);
 		PartComponentManager componentManager = partsEnv.getManager(componentKey);
 		PartComponentFillFactory componentFactory = componentManager.getComponentFillFactory(jasperReportsContext);
@@ -72,6 +94,7 @@ public class FillPart
 			return;
 		}
 		
+		evaluateProperties(evaluation);
 		evaluatePartNameExpression(evaluation);
 		fillComponent.evaluate(evaluation);
 		fillComponent.fill(output);
@@ -92,6 +115,29 @@ public class FillPart
 		}
 		return result;
 	}
+	
+	protected void evaluateProperties(byte evaluation) throws JRException
+	{
+		JRPropertiesMap dynamicProperties = new JRPropertiesMap();
+		for (JRPropertyExpression prop : propertyExpressions)
+		{
+			String value = (String) expressionEvaluator.evaluate(prop.getValueExpression(), evaluation);
+			dynamicProperties.setProperty(prop.getName(), value);
+		}
+		
+		if (dynamicProperties.isEmpty())
+		{
+			printPartProperties = staticPartProperties;
+		}
+		else
+		{
+			JRPropertiesMap props = new JRPropertiesMap();
+			props.setBaseProperties(staticPartProperties.getPropertiesMap());
+			printPartProperties = new ElementalPropertiesHolder(props);
+			JRPropertiesUtil.getInstance(reportFiller.getJasperReportsContext()).transferProperties(
+					dynamicProperties, printPartProperties, PrintPart.PROPERTIES_TRANSFER_PREFIX);
+		}
+	}
 
 	protected void evaluatePartNameExpression(byte evaluation) throws JRException
 	{
@@ -110,6 +156,11 @@ public class FillPart
 		return partName;
 	}
 	
+	public JRPropertiesHolder getPrintPartProperties()
+	{
+		return printPartProperties;
+	}
+
 	protected class Context implements PartFillContext
 	{
 		@Override

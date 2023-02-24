@@ -467,6 +467,9 @@
 
  <element name="part">
   <complexType>
+   <sequence>
+    <element ref="jrp:property" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
    <attribute name="pageIndex" type="NMTOKEN" use="required"/>
    <attribute name="name" type="string" use="required"/>
    <attribute name="pageWidth" type="NMTOKEN" use="optional"/>
