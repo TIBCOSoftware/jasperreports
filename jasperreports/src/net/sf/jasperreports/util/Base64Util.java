@@ -30,6 +30,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Base64.Encoder;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * Utility class to decode Base64 encoded input stream to output stream 
  * or to Base64 encode input stream to output stream
@@ -70,7 +73,23 @@ public class Base64Util
 	 */
 	public static void encode(InputStream in, OutputStream out) throws IOException
 	{
-		OutputStream base64out = Base64.getMimeEncoder(DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR).wrap(out);
+		encode(in, out, true);
+	}
+	
+	/**
+	 * Encode an input stream and write processed data to an output stream
+	 * @param in the input stream to be encoded
+	 * @param out the output stream to write the encoded data
+	 * @param multiLineOutput specifies whether the output should be formatted into multiple rows using a line separator
+	 * @throws IOException
+	 */
+	public static void encode(InputStream in, OutputStream out, boolean multiLineOutput) throws IOException
+	{
+		Encoder encoder = 
+			multiLineOutput 
+			? Base64.getMimeEncoder(DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR)
+			: Base64.getMimeEncoder();
+		OutputStream base64out = encoder.wrap(out);
 	
 		copy(in, base64out);
 		
@@ -78,12 +97,24 @@ public class Base64Util
 		base64out.close();
 	}
 	
-	public static String encode(byte[] data) throws IOException
+	public static String encode(byte[] data, boolean multiLineOutput)
 	{
-		ByteArrayInputStream input = new ByteArrayInputStream(data);
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		encode(input, out);
-		return new String(out.toByteArray(), StandardCharsets.US_ASCII);
+		try
+		{
+			ByteArrayInputStream input = new ByteArrayInputStream(data);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			encode(input, out, multiLineOutput);
+			return new String(out.toByteArray(), StandardCharsets.US_ASCII);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	public static String encode(byte[] data)
+	{
+		return encode(data, true);
 	}
 	
 	/**

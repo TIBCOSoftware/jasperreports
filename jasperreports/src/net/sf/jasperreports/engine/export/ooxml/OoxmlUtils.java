@@ -23,13 +23,21 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.nio.charset.StandardCharsets;
+import java.security.DigestException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public final class OoxmlUtils {
+public final class OoxmlUtils 
+{
 
 	public static PaperSizeEnum getSuitablePaperSize(PrintPageFormat pageFormat)
 	{
@@ -52,4 +60,51 @@ public final class OoxmlUtils {
 		return PaperSizeEnum.UNDEFINED;
 	}
 	
+	public static byte[] sha512(String text, byte[] salt, int spinCount) 
+	{
+		MessageDigest digest = null;
+		try
+		{
+			digest = MessageDigest.getInstance("SHA-512");
+		}
+		catch (NoSuchAlgorithmException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		digest.update(salt);
+
+		byte[] hash = digest.digest(text.getBytes(StandardCharsets.UTF_16LE));
+		byte[] spin = new byte[4]; // int size
+		
+		try 
+		{
+			for (int i = 0; i < spinCount; i++)
+			{
+				spin[0] = (byte) ( ( i        ) & 0xFF );
+				spin[1] = (byte) ( ( i >>> 8  ) & 0xFF );
+				spin[2] = (byte) ( ( i >>> 16 ) & 0xFF );
+				spin[3] = (byte) ( ( i >>> 24 ) & 0xFF );
+				
+				digest.reset();
+				digest.update(hash);
+				digest.update(spin);
+				digest.digest(hash, 0, hash.length);
+			}
+		}
+		catch (DigestException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		return hash;
+	}
+	
+	public static byte[] getSalt() 
+	{
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return salt;
+    }
+
 }

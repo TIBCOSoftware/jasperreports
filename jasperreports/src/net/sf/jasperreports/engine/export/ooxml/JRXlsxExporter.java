@@ -785,6 +785,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
+			String password = configuration.getPassword();
 			
 			if(currentSheetFirstPageNumber != null && currentSheetFirstPageNumber > 0)
 			{
@@ -797,7 +798,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 			}
@@ -815,7 +817,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						documentFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 				}
@@ -830,7 +833,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						null,
 						firstPageNotSet,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 				}
 			}
