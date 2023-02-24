@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -83,14 +84,15 @@ public class MarkupApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
+		xlsMetadata();
 		csv();
+		csvMetadata();
 		odt();
 		ods();
 		docx();
 		xlsx();
+		xlsxMetadata();
 		pptx();
-		csvMetadata();
-		xlsMetadata();
 		jsonMetadata();
 	}
 	
@@ -423,6 +425,33 @@ public class MarkupApp extends AbstractSampleApp
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsxMetadata() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xlsx");
+		
+			XlsxMetadataExporter exporter = new XlsxMetadataExporter();
+		
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". XLSX creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
