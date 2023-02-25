@@ -975,8 +975,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
 		printImage.setBookmarkLevel(getBookmarkLevel());
-		printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
-		printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());
+		HtmlReportConfiguration.forceEmbedImage(filler.getPropertiesUtil(), this, printImage);
 
 		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		if (evaluationTime == EvaluationTimeEnum.NOW)

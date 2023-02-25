@@ -107,8 +107,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());
 		image.setHeight(element.getHeight());
-		image.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
-		image.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());
+		HtmlReportConfiguration.forceEmbedImage(fillContext.getFiller().getPropertiesUtil(), 
+				fillContext.getComponentElement(), image);
 		
 		if (isEvaluateNow())
 		{

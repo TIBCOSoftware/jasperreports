@@ -97,8 +97,8 @@ public class CVFillImage extends CVFillComponent {
         printImage.setHeight(componentElement.getHeight());
         printImage.setUUID(componentElement.getUUID());
 
-        printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
-        printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());
+		HtmlReportConfiguration.forceEmbedImage(fillContext.getFiller().getPropertiesUtil(), 
+				fillContext.getComponentElement(), printImage);
 
         return printImage;
     }
