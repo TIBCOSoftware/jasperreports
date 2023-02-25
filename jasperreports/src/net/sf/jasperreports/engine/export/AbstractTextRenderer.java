@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -77,7 +77,6 @@ public abstract class AbstractTextRenderer
 	protected float lineHeight;
 	protected boolean isMaxHeightReached;
 	protected boolean isFirstParagraph;
-	protected boolean isLastParagraph;
 	protected List<TabSegment> segments;
 	protected int segmentIndex;
 	protected boolean indentFirstLine;
@@ -333,7 +332,6 @@ public abstract class AbstractTextRenderer
 		drawPosX = 0;
 	
 		isMaxHeightReached = false;
-		isLastParagraph = false;
 		
 		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(text.getMarkup()));
 	}
@@ -365,6 +363,9 @@ public abstract class AbstractTextRenderer
 
 			prepareBullet(context, attributes);
 
+			int paragraphStart = 0;
+			boolean lastTokenWasNewline = false;
+
 			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
 			AttributedCharacterIterator runParagraphs = 
 				new AttributedString(
@@ -373,47 +374,49 @@ public abstract class AbstractTextRenderer
 						allParagraphs.getIndex() + runText.length()
 						).getIterator();
 			
-			int tokenPosition = 0;
-			int prevParagraphStart = 0;
-			String prevParagraphText = null;
-			
 			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
 			while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 			{
-				String token = tkzer.nextToken();
+				String paragraphText = tkzer.nextToken();
 
-				if ("\n".equals(token))
+				if ("\n".equals(paragraphText))
 				{
-					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					if (lastTokenWasNewline) // the previous newline becomes itself a paragraph when followed by another newline
 					{
-						renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
+						renderParagraph(
+							runParagraphs, 
+							paragraphStart - 1, 
+							null // null paragraphText is the way to render newlines
+							);
 					}
 
-					isFirstParagraph = false;
-					isLastParagraph = !tkzer.hasMoreTokens();
-					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-					prevParagraphText = null;
+					if (
+						paragraphStart == 0 // this newline is the first character in the first paragraph  
+						|| paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph
+						)
+					{
+						renderParagraph(
+							runParagraphs, 
+							paragraphStart, 
+							null // null paragraphText is the way to render newlines
+							);
+					}
+
+					lastTokenWasNewline = true;
 				}
 				else
 				{
-					prevParagraphStart = tokenPosition;
-					prevParagraphText = token;
+					renderParagraph(runParagraphs, paragraphStart, paragraphText);
+
+					lastTokenWasNewline = false;
 				}
 
-				tokenPosition += token.length();
+				paragraphStart += paragraphText.length();
+				isFirstParagraph = false;
 			}
 			
-			if (!isMaxHeightReached && prevParagraphStart < runText.length())
-			{
-				isLastParagraph = true;
-				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
-				{
-					renderParagraph(runParagraphs, prevParagraphStart, prevParagraphText);
-				}
-			}
-
 			allParagraphs.setIndex(runLimit);
 		}
 		
@@ -558,7 +561,7 @@ public abstract class AbstractTextRenderer
 		
 					if (
 						text.getHorizontalTextAlign() == HorizontalTextAlignEnum.JUSTIFIED
-						&& (lineMeasurer.getPosition() < paragraph.getEndIndex() || (isLastParagraph && justifyLastLine))
+						&& (lineMeasurer.getPosition() < paragraph.getEndIndex() || justifyLastLine)
 						)
 					{
 						layout = layout.getJustifiedLayout(availableWidth);

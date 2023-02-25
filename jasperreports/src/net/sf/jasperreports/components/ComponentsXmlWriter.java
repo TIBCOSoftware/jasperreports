@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -278,7 +278,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 
-		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_21_0)) {
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) {
 			Boolean markerClustering = map.getMarkerClustering();
 			if (markerClustering != null) {
 				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);

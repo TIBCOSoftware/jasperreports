@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,20 +31,26 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
+import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 
@@ -71,11 +77,16 @@ public class CrosstabApp extends AbstractSampleApp
 		pdf();
 		html();
 		rtf();
+		csv();
+		csvMetadata();
+		jsonMetadata();
 		xls();
+		xlsMetadata();
 		odt();
 		ods();
 		docx();
 		xlsx();
+		xlsxMetadata();
 		pptx();
 		xmlEmbed();
 		xml();
@@ -255,6 +266,36 @@ public class CrosstabApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void xlsMetadata() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xls");
+		
+			JRXlsMetadataExporter exporter = new JRXlsMetadataExporter();
+		
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+			SimpleXlsMetadataReportConfiguration configuration = new SimpleXlsMetadataReportConfiguration();
+			configuration.setOnePagePerSheet(true);
+			exporter.setConfiguration(configuration);
+		
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". Metadata XLS creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
 	public void csv() throws JRException
 	{
 		File[] files = getFiles(new File("build/reports"), "jrprint");
@@ -275,6 +316,60 @@ public class CrosstabApp extends AbstractSampleApp
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". CSV creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void csvMetadata() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.csv");
+		
+			JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
+		
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". Metadata CSV creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void jsonMetadata() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".json");
+		
+			JsonMetadataExporter exporter = new JsonMetadataExporter();
+		
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". Metadata JSON creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
@@ -389,6 +484,36 @@ public class CrosstabApp extends AbstractSampleApp
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". XLSX creation time : " + (System.currentTimeMillis() - start));
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsxMetadata() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xlsx");
+		
+			XlsxMetadataExporter exporter = new XlsxMetadataExporter();
+		
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+			SimpleXlsxMetadataReportConfiguration configuration = new SimpleXlsxMetadataReportConfiguration();
+			configuration.setOnePagePerSheet(true);
+			exporter.setConfiguration(configuration);
+		
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". Metadata XLSX creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	

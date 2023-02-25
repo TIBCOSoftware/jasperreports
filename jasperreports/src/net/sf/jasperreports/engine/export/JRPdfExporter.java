@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -510,6 +510,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		)
 	public static final String PDF_FIELD_COMBO_EDIT = PDF_EXPORTER_PROPERTIES_PREFIX + "field.combo.edit";
 	
+	@Property(
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT},
+		sinceVersion = PropertyConstants.VERSION_6_20_1,
+		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_FALSE
+		)
+	public static final String LEGACY_TARGET_BLANK_LINKS = PDF_EXPORTER_PROPERTIES_PREFIX + "legacy.target.blank.links";
+	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
@@ -581,6 +590,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private boolean awtIgnoreMissingFont;
 	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
+	private boolean legacyTargetBlankLinks;
 
 	private PdfVersionEnum minimalVersion;
 
@@ -717,6 +727,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
+		legacyTargetBlankLinks = propertiesUtil.getBooleanProperty(jasperPrint, LEGACY_TARGET_BLANK_LINKS, false);
 		
 		crtOddPageOffsetX = configuration.getOddPageOffsetX();
 		crtOddPageOffsetY = configuration.getOddPageOffsetY();
@@ -2336,12 +2347,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				case BLANK :
 				{
-					chunk.setJavaScriptAction(
-							"if (app.viewerVersion < 7)"
-								+ "{this.getURL(\"" + referenceURL + "\");}"
-								+ "else {app.launchURL(\"" + referenceURL + "\", true);};"
-						);
-					break;
+					if (legacyTargetBlankLinks)
+					{
+						chunk.setJavaScriptAction(
+								"if (app.viewerVersion < 7)"
+									+ "{this.getURL(\"" + referenceURL + "\");}"
+									+ "else {app.launchURL(\"" + referenceURL + "\", true);};"
+							);
+						break;
+					}
 				}
 				case SELF :
 				default :

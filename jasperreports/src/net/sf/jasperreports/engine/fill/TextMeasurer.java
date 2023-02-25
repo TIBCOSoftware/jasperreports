@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -577,10 +577,10 @@ public class TextMeasurer implements JRTextMeasurer
 
 		isFirstParagraph = true;
 
-		boolean rendered = true;
+		boolean verticalSpaceRemaining = true;
 		int runLimit = remainingTextStart;
 
-		while (rendered && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+		while (verticalSpaceRemaining && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
@@ -588,44 +588,58 @@ public class TextMeasurer implements JRTextMeasurer
 
 			prepareBullet(context);
 			
-			int tokenPosition = 0;
-			int prevParagraphStart = 0;
-			String prevParagraphText = null;
+			int paragraphStart = 0;
+			boolean lastTokenWasNewline = false;
 
 			String runText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
 			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
-			while(tkzer.hasMoreTokens() && rendered) 
+			while(tkzer.hasMoreTokens() && verticalSpaceRemaining) 
 			{
-				String token = tkzer.nextToken();
+				String paragraphText = tkzer.nextToken();
 
-				if ("\n".equals(token))
+				if ("\n".equals(paragraphText))
 				{
-					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					if (lastTokenWasNewline) // the previous newline becomes itself a paragraph when followed by another newline
 					{
-						rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+						verticalSpaceRemaining = 
+							renderParagraph(
+								lineWrapper, 
+								allParagraphs.getIndex() + paragraphStart - 1, 
+								null // null paragraphText is the way to render newlines
+								);
 					}
 
-					isFirstParagraph = false;
-					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-					prevParagraphText = null;
+					if (
+						paragraphStart == 0 // this newline is the first character in the first paragraph; when this is true, lastTokenWasNewline was for sure false above
+						|| paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
+						)
+					{
+						verticalSpaceRemaining = 
+							renderParagraph(
+								lineWrapper, 
+								allParagraphs.getIndex() + paragraphStart, 
+								null // null paragraphText is the way to render newlines
+								);
+					}
+					
+					lastTokenWasNewline = true;
 				}
 				else
 				{
-					prevParagraphStart = tokenPosition;
-					prevParagraphText = token;
+					verticalSpaceRemaining = 
+						renderParagraph(
+							lineWrapper, 
+							allParagraphs.getIndex() + paragraphStart, 
+							paragraphText
+							);
+					
+					lastTokenWasNewline = false;
 				}
 
-				tokenPosition += token.length();
-			}
-
-			if (rendered && prevParagraphStart < runText.length())
-			{
-				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
-				{
-					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
-				}
+				paragraphStart += paragraphText.length();
+				isFirstParagraph = false;
 			}
 
 			allParagraphs.setIndex(runLimit);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -145,6 +145,6 @@ public interface JRConstants
 	
 	public static final String VERSION_6_19_0 = "6.19.0";
 	
-	public static final String VERSION_6_21_0 = "6.21.0";
+	public static final String VERSION_6_20_1 = "6.20.1";
 
 }

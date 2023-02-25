@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
+import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
@@ -42,6 +43,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.util.Base64Util;
 
 
 /**
@@ -167,7 +169,8 @@ public class XlsxSheetHelper extends BaseHelper
 		Integer firstPageNumber,
 		boolean firstPageNotSet, 
 		Integer sheetPageCount,
-		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings
+		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings,
+		String password
 		)
 	{
 		if (rowIndex > 0)
@@ -186,6 +189,19 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		write("</sheetData>\n");
 		
+		if (password != null && password.trim().length() > 0)
+		{
+			byte[] salt = OoxmlUtils.getSalt();
+			int spinCount = 100;
+			byte[] passwordHash = OoxmlUtils.sha512(password, salt, spinCount);
+			
+			write("<sheetProtection algorithmName=\"SHA-512\" hashValue=\"");
+			write(Base64Util.encode(passwordHash, false));
+			write("\" saltValue=\"");
+			write(Base64Util.encode(salt, false));
+			write("\" spinCount=\"" + spinCount + "\" sheet=\"1\" objects=\"1\" scenarios=\"1\"/>\n");
+		}
+
 		if(autoFilter != null)
 		{
 			write("<autoFilter ref=\"" + autoFilter + "\"/>\n");
@@ -368,6 +384,18 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportRow(int rowHeight, Cut yCut, XlsRowLevelInfo levelInfo) 
 	{
+		boolean isAutoFit = yCut.hasProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				? (Boolean)yCut.getProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_ROW)
+				: defaultAutoFitRow;
+		exportRow(rowHeight, isAutoFit, levelInfo);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportRow(int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
+	{
 		if (rowIndex > 0)
 		{
 			write("</row>\n");
@@ -383,11 +411,37 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		boolean isAutoFit = yCut.hasProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
-				? (Boolean)yCut.getProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW)
-				: defaultAutoFitRow;
 		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
-		if (levelInfo.getLevelMap().size() > 0)
+		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
+		{
+			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
+		}
+		write(">\n");
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportRow(int index, int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
+	{
+		if (index > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
+			write("<sheetData>\n");
+		}
+		index++;
+		write("<row r=\"" + index + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
+		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
 		}

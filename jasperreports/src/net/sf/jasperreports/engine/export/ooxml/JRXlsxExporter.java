@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -785,6 +785,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
+			String password = configuration.getPassword();
 			
 			if(currentSheetFirstPageNumber != null && currentSheetFirstPageNumber > 0)
 			{
@@ -797,7 +798,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 			}
@@ -815,7 +817,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						documentFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 				}
@@ -830,7 +833,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						null,
 						firstPageNotSet,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 				}
 			}
@@ -1192,7 +1196,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					"</xdr:rowOff></xdr:to>\n");
 				
 				drawingHelper.write("<xdr:pic>\n");
-				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
+				String altText = image.getHyperlinkTooltip() == null ? "" : image.getHyperlinkTooltip();
+				if(!altText.isEmpty())
+				{
+					altText = " descr=\"" + altText +"\"";
+				}
+				
+				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\"" + altText + ">\n");
 
 				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)
@@ -1377,7 +1387,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
 		LineDirectionEnum direction = null;
-		float ratio = line.getWidth() / line.getHeight();
+		float ratio = line.getWidth() / (float)line.getHeight();
 		if (ratio > 1)
 		{
 			if(line.getHeight() > 1)

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -55,6 +55,6 @@ public class JRXlsMetadataExporterNature extends JRXlsExporterNature
 	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
-		return element.hasProperties() && element.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
+		return element.hasProperties() && element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
 	}
 }

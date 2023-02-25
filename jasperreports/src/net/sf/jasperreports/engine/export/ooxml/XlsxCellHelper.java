@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,8 +27,10 @@ import java.io.Writer;
 import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -224,7 +226,7 @@ public class XlsxCellHelper extends BaseHelper
 
 		Integer styleIndex = null;
 		
-		if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+		if (gridCell != null && gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 		{
 			styleIndex = ((ElementGridCell)((OccupiedGridCell)gridCell).getOccupier()).getStyleIndex();
 		}
@@ -247,7 +249,7 @@ public class XlsxCellHelper extends BaseHelper
 					direction
 					);
 			if (
-				gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
+				gridCell != null && gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
 				&& gridCell instanceof ElementGridCell
 				)
 			{
@@ -268,6 +270,132 @@ public class XlsxCellHelper extends BaseHelper
 		write(">");
 	}
 
+	public void exportHeader(
+			JRPrintElement element,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction,
+			JRStyle parentStyle
+			) 
+	{
+		try
+		{
+			if (textValue != null)
+			{
+				textValue.handle(textValueHandler);
+			}
+			else
+			{
+				textValueHandler.handle((StringTextValue)null);
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		Integer styleIndex = styleHelper.getCellStyle(
+							element, 
+							pattern, 
+							locale, 
+							isWrapText, 
+							isHidden, 
+							isLocked, 
+							isShrinkToFit, 
+							isIgnoreTextFormatting,
+							rotation,
+							sheetInfo,
+							direction,
+							parentStyle
+							);
+		
+		write("  <c r=\"" 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+				+ (rowIndex + 1) 
+				+ "\" s=\"" + styleIndex + "\""
+				);
+		String type = textValueHandler.getType();
+		if (type != null)
+		{
+			write(" t=\"" + type + "\"");
+		}
+		write(">");
+	}
+	
+	public void exportHeader(
+			JRLineBox box,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo,
+			LineDirectionEnum direction,
+			JRStyle parentStyle
+			) 
+	{
+		try
+		{
+			if (textValue != null)
+			{
+				textValue.handle(textValueHandler);
+			}
+			else
+			{
+				textValueHandler.handle((StringTextValue)null);
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		Integer styleIndex = styleHelper.getCellStyle(
+				box, 
+				pattern, 
+				locale, 
+				isWrapText, 
+				isHidden, 
+				isLocked, 
+				isShrinkToFit, 
+				isIgnoreTextFormatting,
+				rotation,
+				sheetInfo,
+				direction,
+				parentStyle
+				);
+		
+		write("  <c r=\"" 
+				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+				+ (rowIndex + 1) 
+				+ "\" s=\"" + styleIndex + "\""
+				);
+		String type = textValueHandler.getType();
+		if (type != null)
+		{
+			write(" t=\"" + type + "\"");
+		}
+		write(">");
+	}
+	
 	/**
 	 *
 	 */

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FirstJasper" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="b5f94ae6-fba6-4ec3-97dd-5108ffacbf96">
+	<property name="net.sf.jasperreports.export.xls.write.header" value="true"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" isBold="true" isItalic="false"/>
 	<style name="Sans_Italic" isBold="false" isItalic="true"/>
@@ -127,13 +128,17 @@
 		<groupHeader>
 			<band height="15">
 				<line>
-					<reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758"/>
+					<reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758">
+						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+						<property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
+					</reportElement>
 				</line>
 				<textField>
 					<reportElement style="Sans_Bold" x="10" y="2" width="150" height="11" uuid="9f8585df-e218-4084-baf2-6d190021be29">
 						<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCountry"/>
 						<property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
 						<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
+						<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
 						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
 						<property name="net.sf.jasperreports.export.json.path" value="ShipCountry"/>
 						<property name="net.sf.jasperreports.export.json.repeat.value" value="true"/>
@@ -194,7 +199,11 @@
 					<reportElement x="0" y="0" width="555" height="1" uuid="585f4d7d-90c0-4cea-83e7-c8487105cfe4"/>
 				</line>
 				<image scaleImage="Clip">
-					<reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2"/>
+					<reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2">
+						<property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+						<property name="net.sf.jasperreports.export.xls.column.name" value="JasperImage"/>
+						<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="200"/>
+					</reportElement>
 					<imageExpression><![CDATA["jasperreports.png"]]></imageExpression>
 					<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 				</image>
@@ -211,7 +220,7 @@
 				<textElement textAlignment="Right">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[(c)2001-2019 by teodord]]></text>
+				<text><![CDATA[(c)2001-2023 by teodord]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement x="255" y="55" width="100" height="40" uuid="62a6e8cf-c7b3-4831-a77c-a14c5bbec0ee"/>
@@ -278,6 +287,7 @@
 				<reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11" uuid="2bd58b27-e3b0-43f0-934c-aea454c77cc7">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
+					<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="50"/>
 					<property name="net.sf.jasperreports.export.json.path" value="Order"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
@@ -298,6 +308,7 @@
 				<reportElement x="155" y="0" width="25" height="11" uuid="dbbee54a-9b8f-4468-bd64-d22f8661d2cb">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
+					<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
 					<property name="net.sf.jasperreports.export.json.path" value="ShipRegion"/>
 					<propertyExpression name="net.sf.jasperreports.export.json.data"><![CDATA[$F{ShipRegion}]]></propertyExpression>
 				</reportElement>
@@ -307,6 +318,8 @@
 				<reportElement x="185" y="0" width="50" height="11" uuid="656d9081-18ce-487a-bcf6-566efe4f8421">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
+					<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="dd\/MM\/yyyy"/>
 					<property name="net.sf.jasperreports.export.json.path" value="OrderDate"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
@@ -315,6 +328,7 @@
 				<reportElement x="235" y="0" width="35" height="11" uuid="0f2c4477-9611-4576-8759-026ac56415ab">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
+					<property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
 					<property name="net.sf.jasperreports.export.json.path" value="Freight"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
