@@ -29,7 +29,7 @@
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement x="0" y="50" width="515" height="100" uuid="0823119a-3904-4438-93be-ad33282c05cf"/>
-				<textFieldExpression><![CDATA["A satellite map sample. Multiple markers with default icons are placed on the map. Marker tooltips are enabled. Marker clustering and spidering is also enabled."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["A satellite map sample. Multiple markers with default icons are placed on the map. Marker tooltips are enabled. Marker clustering and marker spidering are also enabled."]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement positionType="Float" x="0" y="150" width="515" height="326" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276"/>
