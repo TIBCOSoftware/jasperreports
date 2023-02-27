@@ -52,12 +52,13 @@ public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 	@Override
 	public void customize(JFreeChart jfc, JRChart jrc) 
 	{
-		if (jfc.getPlot() instanceof CategoryPlot)
+		Plot plot = jfc.getPlot();
+		if (plot instanceof CategoryPlot && ((CategoryPlot) plot).getDataset() != null)
 		{
 			Marker marker = createMarker(jrc);
 			if (marker != null)
 			{
-				addMarker(jfc.getPlot(), marker);
+				addMarker(plot, marker);
 			}
 		}
 	}

@@ -173,6 +173,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	@Override
 	public Dataset getCustomDataset()
 	{
+		//TODO create an empty dataset when there was no data?
 		return dataset;
 	}
 
