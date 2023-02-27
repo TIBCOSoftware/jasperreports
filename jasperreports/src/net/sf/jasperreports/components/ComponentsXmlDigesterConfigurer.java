@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.xml.DatasetRunReportContextRule;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -497,7 +498,12 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 			String setNextMethod)
 	{
 		digester.addObjectCreate(pattern, StandardRow.class);
-		digester.addSetProperties(pattern);
+		digester.addSetProperties(pattern,
+				//properties to be ignored by this rule
+				new String[]{"splitType"}, 
+				new String[0]);
+		digester.addRule(pattern, new XmlConstantPropertyRule(
+				"splitType", "splitType", SplitTypeEnum.values()));
 		digester.addSetNext(pattern, setNextMethod);
 		addExpressionRules(digester, pattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",

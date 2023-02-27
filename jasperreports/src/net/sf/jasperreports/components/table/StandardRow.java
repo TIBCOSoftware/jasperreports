@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -43,8 +44,10 @@ public class StandardRow implements Row, Serializable, JRChangeEventsSupport
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
+	public static final String PROPERTY_splitType = "splitType";
 	
 	private JRExpression printWhenExpression;
+	private SplitTypeEnum splitType;
 
 	public StandardRow()
 	{
@@ -70,6 +73,19 @@ public class StandardRow implements Row, Serializable, JRChangeEventsSupport
 				old, this.printWhenExpression);
 	}
 	
+	@Override
+	public SplitTypeEnum getSplitType()
+	{
+		return splitType;
+	}
+
+	public void setSplitType(SplitTypeEnum splitType)
+	{
+		SplitTypeEnum old = this.splitType;
+		this.splitType = splitType;
+		getEventSupport().firePropertyChange(PROPERTY_splitType, old, this.splitType);
+	}
+
 	@Override
 	public Object clone()
 	{

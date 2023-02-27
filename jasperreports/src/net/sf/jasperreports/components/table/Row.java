@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.table;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 /**
  * 
@@ -35,5 +36,7 @@ public interface Row extends JRCloneable
 {
 
 	JRExpression getPrintWhenExpression();
+
+	SplitTypeEnum getSplitType();
 
 }

@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -41,6 +42,7 @@ public class CompiledRow implements Row, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private JRExpression printWhenExpression;
+	private SplitTypeEnum splitType;
 
 	public CompiledRow()
 	{
@@ -50,12 +52,19 @@ public class CompiledRow implements Row, Serializable
 	public CompiledRow(Row row, JRBaseObjectFactory factory)
 	{
 		this.printWhenExpression = factory.getExpression(row.getPrintWhenExpression());
+		this.splitType = row.getSplitType();
 	}
 
 	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return printWhenExpression;
+	}
+
+	@Override
+	public SplitTypeEnum getSplitType()
+	{
+		return splitType;
 	}
 
 	@Override

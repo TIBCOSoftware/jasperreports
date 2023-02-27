@@ -629,6 +629,11 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 			writer.startElement(name);
 			
+			if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1))
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, row.getSplitType());
+			}
+
 			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 				JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 				row.getPrintWhenExpression(),

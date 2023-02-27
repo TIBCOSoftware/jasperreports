@@ -49,6 +49,7 @@ import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
+import net.sf.jasperreports.components.table.Row;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
@@ -834,8 +835,9 @@ public class TableReport implements JRReport
 	protected JRBand createDetailBand(List<FillColumn> fillColumns)
 	{
 		final JRDesignBand detailBand = new JRDesignBand();
-		detailBand.setSplitType(SplitTypeEnum.PREVENT);
-		detailBand.setPrintWhenExpression(table.getDetail() == null ? null : table.getDetail().getPrintWhenExpression());
+		final Row detailRow = table.getDetail();
+		detailBand.setSplitType(detailRow == null || detailRow.getSplitType() == null ? SplitTypeEnum.PREVENT : detailRow.getSplitType());
+		detailBand.setPrintWhenExpression(detailRow == null ? null : detailRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(detailBand, BandTypeEnum.DETAIL.getName());
 		int xOffset = 0;
@@ -1273,8 +1275,9 @@ public class TableReport implements JRReport
 	protected JRDesignBand createColumnHeader(List<FillColumn> fillColumns)
 	{
 		JRDesignBand columnHeader = new JRDesignBand();
-		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
-		columnHeader.setPrintWhenExpression(table.getColumnHeader() == null ? null : table.getColumnHeader().getPrintWhenExpression());
+		Row columnHeaderRow = table.getColumnHeader();
+		columnHeader.setSplitType(columnHeaderRow == null || columnHeaderRow.getSplitType() == null ? SplitTypeEnum.PREVENT : columnHeaderRow.getSplitType());
+		columnHeader.setPrintWhenExpression(columnHeaderRow == null ? null : columnHeaderRow.getPrintWhenExpression());
 
 		ReportBandInfo bandInfo = new ReportBandInfo(columnHeader, BandTypeEnum.COLUMN_HEADER.getName());
 		int xOffset = 0;
@@ -1327,8 +1330,9 @@ public class TableReport implements JRReport
 	protected JRDesignBand createPageFooter(List<FillColumn> fillColumns)
 	{
 		JRDesignBand pageFooter = new JRDesignBand();
-		pageFooter.setSplitType(SplitTypeEnum.PREVENT);
-		pageFooter.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
+		Row columnFooterRow = table.getColumnFooter();
+		pageFooter.setSplitType(columnFooterRow == null || columnFooterRow.getSplitType() == null ? SplitTypeEnum.PREVENT : columnFooterRow.getSplitType());
+		pageFooter.setPrintWhenExpression(columnFooterRow == null ? null : columnFooterRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(pageFooter, BandTypeEnum.PAGE_FOOTER.getName());
 		int xOffset = 0;
@@ -1413,8 +1417,9 @@ public class TableReport implements JRReport
 	protected JRDesignBand createTitle(List<FillColumn> fillColumns)
 	{
 		JRDesignBand title = new JRDesignBand();
-		title.setSplitType(SplitTypeEnum.PREVENT);
-		title.setPrintWhenExpression(table.getTableHeader() == null ? null : table.getTableHeader().getPrintWhenExpression());
+		Row tableHeaderRow = table.getTableHeader();
+		title.setSplitType(tableHeaderRow == null || tableHeaderRow.getSplitType() == null ? SplitTypeEnum.PREVENT : tableHeaderRow.getSplitType());
+		title.setPrintWhenExpression(tableHeaderRow == null ? null : tableHeaderRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(title, BandTypeEnum.TITLE.getName());
 		int xOffset = 0;
@@ -1466,8 +1471,9 @@ public class TableReport implements JRReport
 	protected JRDesignBand createSummary(List<FillColumn> fillColumns)
 	{
 		JRDesignBand summary = new JRDesignBand();
-		summary.setSplitType(SplitTypeEnum.PREVENT);
-		summary.setPrintWhenExpression(table.getTableFooter() == null ? null : table.getTableFooter().getPrintWhenExpression());
+		Row tableFooterRow = table.getTableFooter();
+		summary.setSplitType(tableFooterRow == null || tableFooterRow.getSplitType() == null ? SplitTypeEnum.PREVENT : tableFooterRow.getSplitType());
+		summary.setPrintWhenExpression(tableFooterRow == null ? null : tableFooterRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(summary, BandTypeEnum.SUMMARY.getName());
 		int xOffset = 0;
@@ -1525,8 +1531,9 @@ public class TableReport implements JRReport
 	protected JRBand createGroupHeader(String groupName, List<FillColumn> fillColumns)
 	{
 		JRDesignBand header = new JRDesignBand();
-		header.setSplitType(SplitTypeEnum.PREVENT);
-		header.setPrintWhenExpression(table.getGroupHeader(groupName) == null ? null : table.getGroupHeader(groupName).getPrintWhenExpression());
+		Row headerRow = table.getGroupHeader(groupName);
+		header.setSplitType(headerRow == null || headerRow.getSplitType() == null ? SplitTypeEnum.PREVENT : headerRow.getSplitType());
+		header.setPrintWhenExpression(headerRow == null ? null : headerRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(header, BandTypeEnum.GROUP_HEADER + "-" + groupName);
 		int xOffset = 0;
@@ -1584,8 +1591,9 @@ public class TableReport implements JRReport
 	protected JRBand createGroupFooter(String groupName, List<FillColumn> fillColumns)
 	{
 		JRDesignBand footer = new JRDesignBand();
-		footer.setSplitType(SplitTypeEnum.PREVENT);
-		footer.setPrintWhenExpression(table.getGroupFooter(groupName) == null ? null : table.getGroupFooter(groupName).getPrintWhenExpression());
+		Row footerRow = table.getGroupFooter(groupName);
+		footer.setSplitType(footerRow == null || footerRow.getSplitType() == null ? SplitTypeEnum.PREVENT : footerRow.getSplitType());
+		footer.setPrintWhenExpression(footerRow == null ? null : footerRow.getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(footer, BandTypeEnum.GROUP_FOOTER + "-" + groupName);
 		int xOffset = 0;
