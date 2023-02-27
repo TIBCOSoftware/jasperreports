@@ -23,19 +23,17 @@
  */
 package net.sf.jasperreports.components.map;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
-import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import org.apache.velocity.VelocityContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -60,11 +58,6 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		Map<String, Object> contextMap = new HashMap<>();
 
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
-
-        HtmlExporter htmlExporter = (HtmlExporter)context.getExporterRef();
-
-        contextMap.put("elementX", htmlExporter.toSizeUnit(element.getX()));
-        contextMap.put("elementY", htmlExporter.toSizeUnit(element.getY()));
         contextMap.put("elementWidth", element.getWidth());
         contextMap.put("elementHeight", element.getHeight());
 
@@ -77,36 +70,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
         if (reportContext == null)
         {
-            Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
-            latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
-
-            Float longitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
-            longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
-
-            Integer zoom = (Integer)element.getParameterValue(MapComponent.PARAMETER_ZOOM);
-            zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
-
-            String mapType = (String)element.getParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE);
-            mapType = (mapType == null ? MapComponent.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
-
-            contextMap.put("latitude", latitude);
-            contextMap.put("longitude", longitude);
-            contextMap.put("zoom", zoom);
-            contextMap.put("mapType", mapType);
-
-            List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
-            String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
-            contextMap.put("markerList", markers);
-
-            List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_PATHS);
-            String paths = pathList == null || pathList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(pathList);
-            contextMap.put("pathsList", paths);
-
-            String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
-            if(reqParams != null)
-            {
-                contextMap.put(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
-            }
+            contextMap.put("jasperreportsMapApiScript", VelocityUtil.processTemplate(MapUtils.MAP_API_SCRIPT, (VelocityContext) null));
+            MapUtils.prepareContextForVelocityTemplate(contextMap, context.getJasperReportsContext(), element);
 
             if (context.getValue(FIRST_ATTEMPT_PARAM) == null)
             {

@@ -132,6 +132,16 @@ public interface MapComponent extends Component, JRCloneable
 	 * </ul>
 	 */
 	public static final String ATTRIBUTE_IMAGE_TYPE = "imageType";
+
+	/**
+	 * boolean attribute that specifies whether to group markers into clusters or not; optional.
+	 */
+	public static final String ATTRIBUTE_MARKER_CLUSTERING = "markerClustering";
+
+	/**
+	 * boolean attribute that specifies whether to "spider-ify" overlapping markers or not; optional.
+	 */
+	public static final String ATTRIBUTE_MARKER_SPIDERING = "markerSpidering";
 	
 	// common item properties:
 	
@@ -693,6 +703,16 @@ public interface MapComponent extends Component, JRCloneable
 	 * @see net.sf.jasperreports.engine.type.OnErrorTypeEnum
 	 */
 	OnErrorTypeEnum getOnErrorType();
+
+	/**
+	 * @return the {@link #ATTRIBUTE_MARKER_CLUSTERING} attribute
+	 */
+	Boolean getMarkerClustering();
+
+	/**
+	 * @return the {@link #ATTRIBUTE_MARKER_SPIDERING} attribute
+	 */
+	Boolean getMarkerSpidering();
 	
 	/**
 	 * Returns a list of {@link ItemData ItemData} objects 

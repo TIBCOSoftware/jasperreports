@@ -277,6 +277,17 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				}
 			}
 		}
+
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) {
+			Boolean markerClustering = map.getMarkerClustering();
+			if (markerClustering != null) {
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);
+			}
+			Boolean markerSpidering = map.getMarkerSpidering();
+			if (markerSpidering != null) {
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerSpidering, markerSpidering);
+			}
+		}
 		
 		writer.closeElement();
 	}

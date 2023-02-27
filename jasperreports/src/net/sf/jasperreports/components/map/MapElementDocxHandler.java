@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -51,9 +53,13 @@ public class MapElementDocxHandler implements GenericElementDocxHandler
 		try
 		{
 			JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporterRef();
+			JRPrintImage mapImage = DefaultMapElementImageProvider
+					.getInstance()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+
 			exporter.exportImage(
-				exporterContext.getTableHelper(), 
-				MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
+				exporterContext.getTableHelper(),
+				mapImage,
 				gridCell
 				);
 		}
