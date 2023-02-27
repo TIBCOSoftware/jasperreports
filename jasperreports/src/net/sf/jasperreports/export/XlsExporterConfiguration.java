@@ -147,6 +147,18 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.application";
 	
 	/**
+	 * Property whose value is used as default for the {@link #getEncryptionPassword()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_1
+			)
+	public static final String PROPERTY_ENCRYPTION_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.encryption.password";
+
+	/**
 	 * Returns a boolean value specifying whether the standard color palette should be customized
 	 * so that the XLS result uses the original report colors.
 	 * <p/>
@@ -238,4 +250,11 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
 	public String getMetadataApplication();
+
+	/**
+	 * The encryption password needed to open the document, if it is encrypted.
+	 * @see #PROPERTY_ENCRYPTION_PASSWORD
+	 */
+	@ExporterProperty(PROPERTY_ENCRYPTION_PASSWORD)
+	public String getEncryptionPassword();
 }

@@ -35,6 +35,7 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	private String metadataKeywords;
 	private String metadataApplication;
 	private Boolean embedFonts;
+	private String encryptionPassword;
 	
 	@Override
 	public String getMetadataTitle()
@@ -118,5 +119,19 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	public void setEmbedFonts(Boolean embedFonts)
 	{
 		this.embedFonts = embedFonts;
+	}
+
+	@Override
+	public String getEncryptionPassword()
+	{
+		return encryptionPassword;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEncryptionPassword(String encryptionPassword)
+	{
+		this.encryptionPassword = encryptionPassword;
 	}
 }

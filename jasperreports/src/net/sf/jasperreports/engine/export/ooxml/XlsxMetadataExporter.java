@@ -806,7 +806,16 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			coreHelper.exportFooter();
 			coreHelper.close();
 
-			xlsxZip.zipEntries(os);
+			String password = getCurrentConfiguration().getEncryptionPassword();
+			if (password == null || password.trim().length() == 0)
+			{
+				xlsxZip.zipEntries(os);
+			}
+			else
+			{
+				// isolate POI encryption code into separate class to avoid POI dependency when not needed
+				OoxmlEncryptUtil.zipEntries(xlsxZip, os, password);
+			}
 
 			xlsxZip.dispose();			
 		}

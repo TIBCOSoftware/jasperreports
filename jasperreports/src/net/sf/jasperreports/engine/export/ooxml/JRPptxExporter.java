@@ -546,7 +546,16 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		coreHelper.exportFooter();
 		coreHelper.close();
 
-		pptxZip.zipEntries(os);
+		String password = getCurrentConfiguration().getEncryptionPassword();
+		if (password == null || password.trim().length() == 0)
+		{
+			pptxZip.zipEntries(os);
+		}
+		else
+		{
+			// isolate POI encryption code into separate class to avoid POI dependency when not needed
+			OoxmlEncryptUtil.zipEntries(pptxZip, os, password);
+		}
 
 		fontWriter.dispose();
 		

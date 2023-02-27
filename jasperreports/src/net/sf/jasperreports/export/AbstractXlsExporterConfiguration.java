@@ -37,6 +37,7 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataApplication;
+	private String encryptionPassword;
 	
 	
 	/**
@@ -162,5 +163,19 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 	public void setMetadataApplication(String metadataApplication)
 	{
 		this.metadataApplication = metadataApplication;
+	}
+
+	@Override
+	public String getEncryptionPassword()
+	{
+		return encryptionPassword;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEncryptionPassword(String encryptionPassword)
+	{
+		this.encryptionPassword = encryptionPassword;
 	}
 }

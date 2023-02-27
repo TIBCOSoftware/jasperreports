@@ -59,6 +59,7 @@ import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.common.usermodel.HyperlinkType;
+import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -560,7 +561,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 				}
 			}
+
+			String encryptionPassword = getCurrentConfiguration().getEncryptionPassword();
+			if (encryptionPassword == null || encryptionPassword.trim().length() == 0)
+			{
+				Biff8EncryptionKey.setCurrentUserPassword(null);
+			}
+			else
+			{
+				Biff8EncryptionKey.setCurrentUserPassword(encryptionPassword);
+			}
 			workbook.write(os);
+			Biff8EncryptionKey.setCurrentUserPassword(null);
+			
 		} catch (IOException e) {
 			throw 
 				new JRException(

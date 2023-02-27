@@ -25,6 +25,7 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -104,6 +105,18 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_EMBED_FONTS = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "embed.fonts";
 	
 	/**
+	 * Property whose value is used as default for the {@link #getEncryptionPassword()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_1
+			)
+	public static final String PROPERTY_ENCRYPTION_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.encryption.password";
+
+	/**
 	 * The Title of the DOCX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -142,4 +155,11 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 			booleanDefault=false
 			)
 	public Boolean isEmbedFonts();	
+
+	/**
+	 * The encryption password needed to open the document, if it is encrypted.
+	 * @see #PROPERTY_ENCRYPTION_PASSWORD
+	 */
+	@ExporterProperty(PROPERTY_ENCRYPTION_PASSWORD)
+	public String getEncryptionPassword();
 }

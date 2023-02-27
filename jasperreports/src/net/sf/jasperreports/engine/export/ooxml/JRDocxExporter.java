@@ -524,7 +524,16 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		docxFontTableRelsHelper.exportFooter();
 		docxFontTableRelsHelper.close();
 
-		docxZip.zipEntries(os);
+		String password = getCurrentConfiguration().getEncryptionPassword();
+		if (password == null || password.trim().length() == 0)
+		{
+			docxZip.zipEntries(os);
+		}
+		else
+		{
+			// isolate POI encryption code into separate class to avoid POI dependency when not needed
+			OoxmlEncryptUtil.zipEntries(docxZip, os, password);
+		}
 
 		docxZip.dispose();
 	}

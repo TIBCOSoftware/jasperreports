@@ -38,6 +38,7 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	private Integer slideMasterReport;
 	private Integer slideMasterPage;
 	private Boolean embedFonts;
+	private String encryptionPassword;
 	
 	@Override
 	public String getMetadataTitle()
@@ -163,5 +164,19 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	public void setEmbedFonts(Boolean embedFonts)
 	{
 		this.embedFonts = embedFonts;
+	}
+
+	@Override
+	public String getEncryptionPassword()
+	{
+		return encryptionPassword;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEncryptionPassword(String encryptionPassword)
+	{
+		this.encryptionPassword = encryptionPassword;
 	}
 }
