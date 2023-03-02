@@ -105,15 +105,6 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 		return this.datasetResetType;
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getDatasetResetType()}.
-	 */
-	@Override
-	public ResetTypeEnum getResetTypeValue()
-	{
-		return ResetTypeEnum.getByValue(datasetResetType.getValueByte());
-	}
-		
 	@Override
 	public IncrementTypeEnum getIncrementTypeValue()
 	{

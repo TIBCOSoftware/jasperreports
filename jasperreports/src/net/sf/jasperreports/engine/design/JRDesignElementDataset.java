@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 
@@ -96,18 +95,6 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 		Object old = this.datasetResetType;
 		this.datasetResetType = datasetResetTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET_RESET_TYPE, old, this.datasetResetType);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setResetType(DatasetResetTypeEnum)}.
-	 */
-	public void setResetType(ResetTypeEnum resetTypeValue)
-	{
-		Object old = datasetResetType == null ? null : ResetTypeEnum.getByValue(datasetResetType.getValueByte());
-		
-		setResetType(resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte()));
-
-		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, resetTypeValue);
 	}
 		
 	/**

@@ -1593,7 +1593,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementDataset(JRElementDataset dataset) throws IOException
 	{
-		writeElementDataset(dataset, ResetTypeEnum.REPORT, true);
+		writeElementDataset(dataset, DatasetResetTypeEnum.REPORT, true);
 	}
 
 	/**
@@ -1610,7 +1610,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementDataset(JRElementDataset dataset, boolean skipIfEmpty) throws IOException
 	{
-		writeElementDataset(dataset, ResetTypeEnum.REPORT, skipIfEmpty);
+		writeElementDataset(dataset, DatasetResetTypeEnum.REPORT, skipIfEmpty);
 	}
 	
 	
@@ -1628,7 +1628,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 * XML output
 	 */
 	
-	public void writeElementDataset(JRElementDataset dataset, ResetTypeEnum defaultResetType, 
+	public void writeElementDataset(JRElementDataset dataset, DatasetResetTypeEnum defaultResetType, 
 			boolean skipIfEmpty) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
@@ -1968,7 +1968,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.startElement(JRXmlConstants.ELEMENT_valueDataset, getNamespace());
 
 		// default reset type of value datasets is None
-		writeElementDataset(dataset, ResetTypeEnum.NONE, true);
+		writeElementDataset(dataset, DatasetResetTypeEnum.NONE, true);
 
 		writeExpression(JRXmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
 		writer.closeElement();

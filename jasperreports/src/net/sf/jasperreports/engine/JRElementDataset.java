@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 /**
  * Element datasets are used to represent the report data needed to generate a chart or crosstab.
@@ -36,11 +35,6 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  */
 public interface JRElementDataset extends JRCloneable, DatasetRunHolder
 {
-
-	/**
-	 * @deprecated Replaced by {@link #getDatasetResetType()}.
-	 */
-	public ResetTypeEnum getResetTypeValue();
 
 	/**
 	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
