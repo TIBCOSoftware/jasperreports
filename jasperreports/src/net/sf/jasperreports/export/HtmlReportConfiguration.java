@@ -28,6 +28,7 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
 import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -218,6 +219,21 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 
 
 	/**
+	 * Boolean property that provides a default for the {@link #isIncludeElementUUID()} flag.
+	 * 
+	 * It only applies to text elements with numeric values.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_INCLUDE_ELEMENT_UUID = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "include.element.uuid";
+
+
+	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
 	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
 	 * All the remaining empty space could be removed by setting this parameter to true.
@@ -393,6 +409,19 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		booleanDefault=true
 		)
 	public Boolean isUseBackgroundImageToAlign();
+
+	/**
+	 * Determines whether design element UUIDs are included
+	 * in the HTML output as <code>data-eluuid</code> attributes of <code>td</code> elements.
+	 *
+	 * @see #PROPERTY_INCLUDE_ELEMENT_UUID
+	 * @see JRElement#getUUID()
+	 */
+	@ExporterProperty(
+		value=PROPERTY_INCLUDE_ELEMENT_UUID,
+		booleanDefault=false
+		)
+	public Boolean isIncludeElementUUID();
 
 	
 	static void forceEmbedImage(JRPropertiesUtil properties, JRPropertiesHolder source, JRPropertiesHolder target)

@@ -63,6 +63,7 @@ import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRExpression;
@@ -71,6 +72,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
@@ -162,7 +164,10 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		String htmlFragment = null;
 		String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
 		ReportContext reportContext = context.getExporterRef().getReportContext();
-		if (reportContext != null && tableUUID != null)//FIXMEJIVE
+		//checking if interactivity is disabled at export time
+		boolean interactive = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getBooleanProperty(
+				TableReport.PROPERTY_INTERACTIVE_TABLE, true);
+		if (reportContext != null && tableUUID != null && interactive)//FIXMEJIVE
 		{
 			String columnUuid = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);

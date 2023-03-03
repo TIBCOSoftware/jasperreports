@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
+import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.util.JacksonUtil;
 
 /**
@@ -70,7 +71,9 @@ public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 	{
 		ReportContext reportContext = exporterContext.getExporterRef().getReportContext();
 		String jsonFragment = null;
-		if (reportContext != null)
+		boolean interactive = JRPropertiesUtil.getInstance(exporterContext.getJasperReportsContext()).getBooleanProperty(
+				JRFillCrosstab.PROPERTY_INTERACTIVE, true);
+		if (reportContext != null && interactive)
 		{
 			Map<String, Object> elementInfo = new LinkedHashMap<>();
 			
