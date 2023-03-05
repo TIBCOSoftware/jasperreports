@@ -119,6 +119,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 		}
 		
 		printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
+		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 
 		printElement.setWidth(element.getWidth());
