@@ -947,10 +947,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 			context.next(styledTextAttributes, runText);
 			
-			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
-			{
-				runText = runText.substring(1);
-			}
+			//if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			//{
+			//	runText = runText.substring(1);
+			//}
 
 			if (runText.length() > 0)
 			{

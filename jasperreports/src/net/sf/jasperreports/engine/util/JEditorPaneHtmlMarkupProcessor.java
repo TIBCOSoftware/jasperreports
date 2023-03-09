@@ -31,7 +31,6 @@ import java.util.Stack;
 
 import javax.swing.JEditorPane;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -59,8 +58,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	
 	private Document document;
 	private boolean bodyOccurred = false;
-	private boolean honourBlockElementNewLine = false;
-	private Stack<HTML.Tag> htmlTagStack;
+	private boolean isFirstContentTag = true;
+	private boolean breaksFlow = false;
+	private boolean suppressBreaksFlow = false;
+	private int rootEndOffset;
 
 	private Stack<StyledTextListInfo> htmlListStack;
 	private boolean insideLi;
@@ -82,7 +83,6 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		{
 			JRStyledText styledText = new JRStyledText();
 			
-			htmlTagStack = new Stack<>();
 			htmlListStack = new Stack<>();
 
 			JEditorPane editorPane = new JEditorPane("text/html", srcText);
@@ -90,10 +90,12 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 			document = editorPane.getDocument();
 			bodyOccurred = false;
+			isFirstContentTag = true;
 
 			Element root = document.getDefaultRootElement();
 			if (root != null)
 			{
+				rootEndOffset = root.getEndOffset();
 				processElement(styledText, root);
 			}
 
@@ -117,35 +119,18 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
 			HTML.Tag htmlTag = object instanceof HTML.Tag ? (HTML.Tag) object : null;
-			
-			if (
-				bodyOccurred 
-				&& honourBlockElementNewLine 
-				&& htmlTag != Tag.UL
-				&& htmlTag != Tag.OL
-				&& htmlTag != Tag.LI
-				)
-			{
-				// since the newline introduced by a block element is always at the end of the block element,
-				// it means the block element could not have any nested child element after this newline,
-				// so it it is followed by either a sibling or a sibling of its parent or ancestor;
-				// it is before the processing of this next element that we honour the block element newline
-				// character, but only if the next element is not a list or list item element;
-				// this is because the text measurer and text renderer already treat list and list item styled
-				// text runs as paragraphs, so they start them on new lines;
-				// while the honourBlockElementNewLine flag takes care of skipping newlines introduced by the html
-				// parser at the end of the list or list item block elements, here we need to test again if the
-				// newline should be honoured because it might come from non list elements such as <p> or <div>
-				// and should be ignore if immediately follow by the current list or list item element
-				styledText.append("\n");
-				resizeRuns(styledText.getRuns(), styledText.length(), 1);
-			}
 
-			honourBlockElementNewLine = false;
-			
 			if (htmlTag != null) 
 			{
-				htmlTagStack.push(htmlTag);
+				suppressBreaksFlow |= (htmlTag == Tag.UL || htmlTag == Tag.OL || htmlTag == Tag.LI);
+				// the breaksFlow is supposed to keep the aggregated flag for the nested tags
+				// that precede the current element, so in theory the current element should not be part of the
+				// update of the flag here;
+				// but since the breaksFLow flag is used only in BR and CONTENT tags, which are both leaf elements,
+				// then it is safe to simply exclude them from the aggregation based on the element.isLeaf() flag
+				// the IMPLIED tag is not a breaksFlow one for the HTML parser, but we want it to be a breaksFlow element,
+				// in our algorithm, so dealing with it here
+				breaksFlow |= (!element.isLeaf() && htmlTag.breaksFlow()) || htmlTag == Tag.IMPLIED; 
 				
 				if (htmlTag == Tag.BODY)
 				{
@@ -154,18 +139,33 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if (htmlTag == Tag.BR)
 				{
-					styledText.append("\n");
-
-					int startIndex = styledText.length();
-					resizeRuns(styledText.getRuns(), startIndex, 1);
-
-					processElement(styledText, element);
-					styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
-
-					// a second newline is added in case the <br> tag was not empty, as it is usually used 
-					if (startIndex < styledText.length()) {
+					if (
+						bodyOccurred && !isFirstContentTag && breaksFlow && !suppressBreaksFlow 
+						&& i == 0 // only for first BR element in parent
+						)
+					{
 						styledText.append("\n");
+						resizeRuns(styledText.getRuns(), styledText.length(), 1);
+					}
+
+					if (element.getEndOffset() != rootEndOffset - 1) // only if the BR element is not the very last element of the html snippet 
+					{
+						styledText.append("\n");
+						
+						int startIndex = styledText.length();
 						resizeRuns(styledText.getRuns(), startIndex, 1);
+	
+						processElement(styledText, element);
+						styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
+	
+						// a second newline is added in case the <br> tag was not empty, as it is usually used 
+						if (startIndex < styledText.length()) {
+							styledText.append("\n");
+							resizeRuns(styledText.getRuns(), startIndex, 1);
+						}
+						
+						breaksFlow = false;
+						suppressBreaksFlow = true;
 					}
 				}
 				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
@@ -244,7 +244,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						htmlListStack.pop();
 					}
 				}
-				else if (element instanceof LeafElement)
+				else if (htmlTag == Tag.CONTENT)
 				{
 					String chunk = null;
 					try
@@ -259,39 +259,21 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						}
 					}
 					
-					honourBlockElementNewLine = false;
-					
-					if ("\n".equals(chunk)) 
-					{
-						// chunk is a newline char only when the parser processes the end of a block element;
-						// inline elements do not have newline chars at the end and the html parser always ignores
-						// newline chars in text content
-
-						honourBlockElementNewLine = true;
-
-						HTML.Tag grandParentHtmlTag = htmlTagStack.size() >= 3 ? htmlTagStack.get(htmlTagStack.size() - 3) : null;
-						if (
-							grandParentHtmlTag == Tag.UL
-							|| grandParentHtmlTag == Tag.OL
-							|| grandParentHtmlTag == Tag.LI
-							)
-						{
-							// ignoring newline characters introduced by the html parser at the end of list or list item elements,
-							// because they are the only ones which cannot be skipped by the text measurer and text renderer;
-							// this is because the text measurer and the text renderer are responsible for skipping newline
-							// characters that are actually in the text content at the end of the <ul>, <ol> and <li> tags in styled text markup;
-							// if two newline characters would be found at the end of the <ul>, <ol> or <li> tag, with the second one being
-							// introduced by the html parser, then only one of them would get skipped during text measuring and rendering,
-							// which would not match html browser behavior, that is able to ignore <br> tags placed at the end of <ul>, <ol> and <li> tags
-							honourBlockElementNewLine = false;
-						}
-					}
-					
 					if (
 						chunk != null
 						&& !"\n".equals(chunk) 
 						)
 					{
+						if (bodyOccurred && !isFirstContentTag && breaksFlow && !suppressBreaksFlow)
+						{
+							styledText.append("\n");
+							resizeRuns(styledText.getRuns(), styledText.length(), 1);
+						}
+
+						isFirstContentTag = false;
+						breaksFlow = false;
+						suppressBreaksFlow = false;
+
 						liStart = false;
 						justClosedList = null;
 
@@ -328,7 +310,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					}
 				}
 				
-				htmlTagStack.pop();
+				suppressBreaksFlow |= (htmlTag == Tag.UL || htmlTag == Tag.OL || htmlTag == Tag.LI);
 			}
 		}
 	}

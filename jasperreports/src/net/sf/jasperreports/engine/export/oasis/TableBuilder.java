@@ -445,10 +445,10 @@ public class TableBuilder
 
 			context.next(attributes, runText);
 
-			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
-			{
-				runText = runText.substring(1);
-			}
+			//if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			//{
+			//	runText = runText.substring(1);
+			//}
 
 			if (runText.length() > 0)
 			{

@@ -1178,7 +1178,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				if (startIndex > 0) // if this is an overflow
 				{
-					// preparing bulleted list cuts is a share responsibility between the TextMeasurer and the JRFillTextElement here;
+					// preparing bulleted list cuts is a shared responsibility between the TextMeasurer and the JRFillTextElement here;
 					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
 					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
 					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
