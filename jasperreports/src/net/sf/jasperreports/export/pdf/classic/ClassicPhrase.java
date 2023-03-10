@@ -65,12 +65,12 @@ public class ClassicPhrase implements PdfPhrase
 		colText.setSimpleColumn(phrase, 
 				llx, lly, urx, ury, 
 				fixedLeading, 
-				ClassicPdfUtils.toITextAlignment(alignment));
+				ClassicPdfUtils.toPdfAlignment(alignment));
 		if (multipliedLeading != 0f)
 		{
 			colText.setLeading(fixedLeading, multipliedLeading);
 		}
-		colText.setRunDirection(toITextRunDirection(runDirection));
+		colText.setRunDirection(toPdfRunDirection(runDirection));
 		try
 		{
 			colText.go();
@@ -82,24 +82,24 @@ public class ClassicPhrase implements PdfPhrase
 		return colText.getYLine();
 	}
 	
-	protected static int toITextRunDirection(TextDirection direction)
+	protected static int toPdfRunDirection(TextDirection direction)
 	{
-		int iTextDirection;
+		int pdfDirection;
 		switch (direction)
 		{
 		case DEFAULT:
-			iTextDirection = PdfWriter.RUN_DIRECTION_DEFAULT;
+			pdfDirection = PdfWriter.RUN_DIRECTION_DEFAULT;
 			break;
 		case LTR:
-			iTextDirection = PdfWriter.RUN_DIRECTION_LTR;
+			pdfDirection = PdfWriter.RUN_DIRECTION_LTR;
 			break;
 		case RTL:
-			iTextDirection = PdfWriter.RUN_DIRECTION_RTL;
+			pdfDirection = PdfWriter.RUN_DIRECTION_RTL;
 			break;
 		default:
 			throw new JRRuntimeException("Unknown text direction " + direction);
 		}
-		return iTextDirection;
+		return pdfDirection;
 	}
 
 }

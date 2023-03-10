@@ -74,7 +74,7 @@ public abstract class ClassicPdfField implements PdfField
 	@Override
 	public void setAlignment(PdfTextAlignment alignment)
 	{
-		field.setAlignment(ClassicPdfUtils.toITextAlignment(alignment));
+		field.setAlignment(ClassicPdfUtils.toPdfAlignment(alignment));
 	}
 
 	@Override

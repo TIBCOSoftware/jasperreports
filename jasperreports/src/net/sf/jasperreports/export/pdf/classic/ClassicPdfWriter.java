@@ -162,7 +162,7 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 		{
 			if ((title != null || subject != null || keywords != null) && log.isWarnEnabled())
 			{
-				// iText 2.1.7 does not properly write localized properties and keywords
+				//TODO check whether OpenPDF properly writes localized properties and keywords
 				log.warn("XMP metadata might be non conforming, include the Adobe XMP library to correct");
 			}
 			

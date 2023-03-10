@@ -64,7 +64,7 @@ public class ClassicFontRecipient implements FontRecipient
 			float size, PdfFontStyle pdfFontStyle, Color forecolor)
 	{
 		Font font = FontFactory.getFont(pdfFontName, pdfEncoding, isPdfEmbedded, 
-				size, toITextFontStyle(pdfFontStyle), forecolor);
+				size, toPdfFontStyle(pdfFontStyle), forecolor);
 		// check if FontFactory didn't find the font
 		if (font != null && font.getBaseFont() == null && font.getFamily() == Font.UNDEFINED)
 		{
@@ -89,10 +89,10 @@ public class ClassicFontRecipient implements FontRecipient
 			throw new JRRuntimeException(e);
 		}
 
-		font = new Font(baseFont, size, toITextFontStyle(pdfFontStyle), forecolor);
+		font = new Font(baseFont, size, toPdfFontStyle(pdfFontStyle), forecolor);
 	}
 	
-	protected static int toITextFontStyle(PdfFontStyle pdfFontStyle)
+	protected static int toPdfFontStyle(PdfFontStyle pdfFontStyle)
 	{
 		return (pdfFontStyle.isBold() ? Font.BOLD : 0)
 				| (pdfFontStyle.isItalic() ? Font.ITALIC : 0)

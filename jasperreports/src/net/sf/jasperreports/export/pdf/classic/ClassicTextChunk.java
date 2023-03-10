@@ -58,7 +58,7 @@ public class ClassicTextChunk extends ClassicChunk implements PdfTextChunk
 	{
 		// using the same thickness as sun.font.Fond2D.
 		// the position is calculated in Fond2D based on the ascent, defaulting 
-		// to iText default position which depends on the font size
+		// to OpenPDF default position which depends on the font size
 		chunk.setUnderline(null, 0, 1f / 18, 0, 1f / 3, 0);
 	}
 
