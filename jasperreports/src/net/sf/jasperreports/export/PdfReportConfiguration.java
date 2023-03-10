@@ -238,11 +238,11 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	
 	/**
 	 * Flag that decides whether the PDF exporter should use a {@link com.lowagie.text.SplitCharacter SplitCharacter}
-	 * implementation which ensures that report texts are broken into lines by iText in the same manner as done by the
+	 * implementation which ensures that report texts are broken into lines by OpenPDF in the same manner as done by the
 	 * fill process.
 	 * <p>
-	 * The default line-breaking logic differs from AWT (which is used during the report fill) to iText (used by the PDF
-	 * exporter).  By setting this flag, the logic used by AWT is imposed to iText.  The drawback is that the PDF export
+	 * The default line-breaking logic differs from AWT (which is used during the report fill) to OpenPDF (used by the PDF
+	 * exporter).  By setting this flag, the logic used by AWT is imposed to OpenPDF.  The drawback is that the PDF export
 	 * performance would drop.  Because of this, the flag is not set by default.
 	 * <p>
 	 * This flag can be set system-wide using the

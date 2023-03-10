@@ -524,7 +524,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	/**
 	 * An integer value representing the PDF permissions for the generated document. The open permissions for the document
 	 * can be ALLOW_PRINTING, ALLOW_MODIFY_CONTENTS, ALLOW_COPY, ALLOW_MODIFY_ANNOTATIONS, ALLOW_FILL_IN, ALLOW_SCREENREADERS,
-	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of iText library). The
+	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of OpenPDF library). The
 	 * permissions can be combined by applying bitwise OR to them.
 	 */
 	@SuppressWarnings("deprecation")

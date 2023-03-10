@@ -167,7 +167,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * produced by the {@link net.sf.jasperreports.engine.export.JRGraphics2DExporter},
  * which is always the reference.
  * <p/>
- * The {@link net.sf.jasperreports.engine.export.JRPdfExporter} implementation uses iText, 
+ * The {@link net.sf.jasperreports.engine.export.JRPdfExporter} implementation uses OpenPDF, 
  * which is a specialized PDF-generating library. PDF is a binary document format that allows 
  * absolute positioning of the elements inside a page, so the existing PDF exporter does not 
  * have the limitations of a grid exporter.
@@ -193,7 +193,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * In some cases, there is no font file available to use with the pdfFontName attribute in
  * order to render bold and italic text exactly like the Graphics2D exporter renders it in
  * AWT. Those fonts might only have a normal style variant and no variants for bold and
- * italic. In such cases, the PDF exporter (the iText library, to be more precise) is able to
+ * italic. In such cases, the PDF exporter (the OpenPDF library, to be more precise) is able to
  * simulate those styles by applying transformations to the normal font glyphs. The 
  * {@link net.sf.jasperreports.engine.export.JRPdfExporter} internally acquires the needed PDF 
  * font based on the font extension mechanism (see the <code>getFont(Map, Locale, boolean)</code>
@@ -258,7 +258,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * {@link net.sf.jasperreports.export.PdfExporterConfiguration#getPdfJavaScript() getPdfJavaScript()} 
  * configuration setting, which retrieve the Acrobat JavaScript source code. 
  * Note that Acrobat JavaScript is a programming language based on JavaScript. More
- * details about this can be found in the iText documentation.
+ * details about this can be found in the OpenPDF documentation.
  * <h3>Metadata Information</h3>
  * PDF documents can store metadata information such as the author of the document, its
  * title, and keywords. JasperReports exposes this feature of PDF through special exporter
