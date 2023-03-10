@@ -62,7 +62,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_7_1
 			)
 	public static final String PROPERTY_MEASURE_EXACT = 
