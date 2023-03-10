@@ -39,30 +39,30 @@ public class ClassicPdfUtils
 	{
 	}
 	
-	public static int toITextAlignment(PdfTextAlignment alignment)
+	public static int toPdfAlignment(PdfTextAlignment alignment)
 	{
-		int iTextAlign;
+		int pdfAlign;
 		switch (alignment)
 		{
 		case LEFT:
-			iTextAlign = Element.ALIGN_LEFT;
+			pdfAlign = Element.ALIGN_LEFT;
 			break;
 		case RIGHT:
-			iTextAlign = Element.ALIGN_RIGHT;
+			pdfAlign = Element.ALIGN_RIGHT;
 			break;
 		case CENTER:
-			iTextAlign = Element.ALIGN_CENTER;
+			pdfAlign = Element.ALIGN_CENTER;
 			break;
 		case JUSTIFIED:
-			iTextAlign = Element.ALIGN_JUSTIFIED;
+			pdfAlign = Element.ALIGN_JUSTIFIED;
 			break;
 		case JUSTIFIED_ALL:
-			iTextAlign = Element.ALIGN_JUSTIFIED_ALL;
+			pdfAlign = Element.ALIGN_JUSTIFIED_ALL;
 			break;
 		default:
 			throw new JRRuntimeException("Unknown paragraph alignment " + alignment);
 		}
-		return iTextAlign;
+		return pdfAlign;
 	}
 
 }

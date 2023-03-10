@@ -4318,7 +4318,7 @@ Prefix of properties that specify font directories for the PDF exporter.
   
   <configProperty name="net.sf.jasperreports.export.pdf.force.linebreak.policy">
     <description>
-Property that specifies whether the PDF exporter should use a <a href="http://itext.ugent.be/library/api/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> 
+Property that specifies whether the PDF exporter should use a <a href="https://librepdf.github.io/OpenPDF/docs-1-3-17/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> 
 implementation to ensure that PDF text wrap behavior is the same as in AWT.
 <br/>
 Its value is used as default for the 
