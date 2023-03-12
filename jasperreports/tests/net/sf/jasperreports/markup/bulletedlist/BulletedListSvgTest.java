@@ -35,6 +35,6 @@ public class BulletedListSvgTest extends AbstractSvgTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 18);
+		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 19);
 	}
 }
