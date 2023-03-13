@@ -501,6 +501,12 @@
 			<version>1.26-jaspersoft-2</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<repositories>

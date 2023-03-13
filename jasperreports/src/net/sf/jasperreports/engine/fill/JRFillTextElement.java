@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
 import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -1181,8 +1180,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 					// preparing bulleted list cuts is a shared responsibility between the TextMeasurer and the JRFillTextElement here;
 					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
 					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
-					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
-					StyledTextListInfo[] cutListStack = null;
+					// decide if a bullet should be rendered
+//					StyledTextListInfo[] cutListStack = null; // was used to adjust cutStart by 1 below
 
 					List<Run> runs = fullStyledText.getRuns();
 					for (int i = runs.size() - 1; i >= 0; i--)
@@ -1190,11 +1189,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						Run run = runs.get(i);
 						if (run.startIndex <= startIndex && startIndex < run.endIndex)
 						{
-							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
-							if (listStack != null)
-							{
-								cutListStack = listStack;
-							}
+//							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+//							if (listStack != null)
+//							{
+//								cutListStack = listStack;
+//							}
 
 							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 							if (listItem != null)
@@ -1204,18 +1203,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						}
 					}
 					
-					if (cutListStack != null && cutListStack.length > 0)
-					{
-						for (int i = cutListStack.length - 1; i > 0; i--)
-						{
-							StyledTextListInfo list = cutListStack[i];
-							if (!list.hasParentLi())
-							{
-								StyledTextListInfo parentList = cutListStack[i - 1];
-								parentList.setCutStart(parentList.getCutStart() + 1);
-							}
-						}
-					}
+//					if (cutListStack != null && cutListStack.length > 0)
+//					{
+//						for (int i = cutListStack.length - 1; i > 0; i--)
+//						{
+//							StyledTextListInfo list = cutListStack[i];
+//							if (!list.hasParentLi())
+//							{
+//								StyledTextListInfo parentList = cutListStack[i - 1];
+//								parentList.setCutStart(parentList.getCutStart() + 1);
+//							}
+//						}
+//					}
 				}
 				String styledText = filler.getStyledTextParser().write(fullStyledText, startIndex, endIndex);
 				setPrintText(printText, styledText);

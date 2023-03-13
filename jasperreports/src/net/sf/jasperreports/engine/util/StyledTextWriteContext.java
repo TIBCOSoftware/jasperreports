@@ -196,12 +196,19 @@ public class StyledTextWriteContext
 				}
 			}
 
-			if (isListItemStart())
+			if (isListItemStart() || getListItem() == StyledTextListItemInfo.NO_LIST_ITEM_FILLER)
 			{
 				StyledTextListInfo list = getList();
-				if (getList() != null && getList().ordered())
+				if (list != null) // set proper item index also for non ordered lists, why not? && list.ordered())
 				{
-					list.setItemIndex(getListItem().getItemIndex());
+					if (getListItem() == StyledTextListItemInfo.NO_LIST_ITEM_FILLER)
+					{
+						list.setItemIndex(list.getItemIndex() + 1);
+					}
+					else
+					{
+						list.setItemIndex(getListItem().getItemIndex());
+					}
 				}
 			}
 		}
