@@ -19,7 +19,7 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<skipTests>true</skipTests>
+		<maven.test.skip>true</maven.test.skip>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
 	</properties>
