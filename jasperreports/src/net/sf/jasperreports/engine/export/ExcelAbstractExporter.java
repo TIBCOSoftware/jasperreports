@@ -591,7 +591,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void ensureInput() {
 		super.ensureInput();
 
-		exporterInput = new PrintPartUnrollExporterInput(exporterInput);
+		exporterInput = new PrintPartUnrollExporterInput(exporterInput, getItemConfigurationInterface());
 
 		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();// this is just for the sake of
 																		// getCurrentConfiguration() calls made prior to

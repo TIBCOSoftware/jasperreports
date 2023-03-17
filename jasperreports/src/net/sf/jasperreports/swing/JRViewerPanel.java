@@ -71,7 +71,6 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.PrintPart;
@@ -722,8 +721,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			Integer partIndex = pnlTabs.getSelectedIndex();
 			if (partIndex > 0)
 			{
-				JasperPrint jasperPrint = viewerContext.getJasperPrint();
-				PrintParts parts = jasperPrint == null ? null : jasperPrint.getParts();
+				PrintParts parts = viewerContext.getPrintParts();
 				
 				if (parts != null && parts.hasParts())
 				{
@@ -743,9 +741,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 			pageError = false;
 			
-			if (viewerContext.getJasperPrint().hasParts())
+			PrintParts parts = viewerContext.getPrintParts();
+			if (parts.hasParts())
 			{
-				PrintParts parts = viewerContext.getJasperPrint().getParts();
 				Integer pageIndex = viewerContext.getPageIndex();
 				Integer partIndex = parts.getPartIndex(pageIndex);
 				Integer tabIndex = partIndex - (parts.startsAtZero() ? 1 : 0);
@@ -768,8 +766,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		pnlTabs.removeAll();
 		removeAll();
 
-		JasperPrint jasperPrint =  viewerContext.getJasperPrint();
-		PrintParts parts = jasperPrint == null ? null : jasperPrint.getParts();
+		PrintParts parts = viewerContext.getPrintParts();
 		if (parts == null || !parts.hasParts())
 		{
 			add(scrollPane, java.awt.BorderLayout.CENTER);

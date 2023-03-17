@@ -7416,4 +7416,34 @@ The flag is set to <code>true</code> by default.
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.print.part.name -->
+  
+  <configProperty name="net.sf.jasperreports.print.part.name">
+    <description>
+    Element property that triggers the creation of a report part starting on the page on which the element appears.
+    The property value provides the name for the report part. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.part.print.transfer.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.part.print.transfer.{arbitrary_name}">
+    <description>
+    Prefix for properties that specify properties to be transferred from report templates to report parts during report filling.
+    By default properties starting with <code>net.sf.jasperreports.print.part</code> are transferred. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.print.part.visible -->
+  
+  <configProperty name="net.sf.jasperreports.print.part.visible">
+    <description>
+    Flag set at report/book part level to determine whether report viewers are to be display a tab for the part. 
+    The flag is set to <code>true</code> by default. 
+    </description>
+  </configProperty>
+  
+  
 </configReference>
