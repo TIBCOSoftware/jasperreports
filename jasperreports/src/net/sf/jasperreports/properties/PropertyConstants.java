@@ -256,4 +256,6 @@ public interface PropertyConstants
 	
 	String VERSION_6_20_1 = JRConstants.VERSION_6_20_1;
 	
+	String VERSION_6_20_2 = JRConstants.VERSION_6_20_2;
+	
 }

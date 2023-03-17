@@ -984,7 +984,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			}
 
 			writeProperties(part);
-			if (isNewerVersionOrEqual(JRConstants.VERSION_6_21_0))
+			if (isNewerVersionOrEqual(JRConstants.VERSION_6_20_2))
 			{
 				writePropertyExpressions(part.getPropertyExpressions());
 			}
