@@ -55,6 +55,6 @@ public class JRXlsMetadataExporterNature extends JRXlsExporterNature
 	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
-		return element.hasProperties() && element.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
+		return element.hasProperties() && element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);
 	}
 }

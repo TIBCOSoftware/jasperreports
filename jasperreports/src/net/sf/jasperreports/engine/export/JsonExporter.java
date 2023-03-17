@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.HyperlinkData;
+import net.sf.jasperreports.engine.util.PartsUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -363,7 +364,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 	protected void exportParts() throws IOException
 	{
-		PrintParts parts = jasperPrint.getParts();
+		PrintParts parts = PartsUtil.instance(jasperReportsContext).getVisibleParts(jasperPrint);
 
 		if (parts != null && parts.hasParts())
 		{
@@ -376,13 +377,24 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			}
 			
 			writer.write("\"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\": ");
-			writeParts(jasperPrint, writer);
+			writeParts(jasperPrint, parts, writer);
 		}
 	}
 
 	public static void writeParts(JasperPrint jasperPrint, Writer writer) throws IOException
 	{
-		PrintParts parts = jasperPrint.getParts();
+		writeParts(DefaultJasperReportsContext.getInstance(), jasperPrint, writer);
+	}
+
+	public static void writeParts(JasperReportsContext jasperReportsContext,
+			JasperPrint jasperPrint, Writer writer) throws IOException
+	{
+		PrintParts parts = PartsUtil.instance(jasperReportsContext).getVisibleParts(jasperPrint);
+		writeParts(jasperPrint, parts, writer);
+	}
+
+	public static void writeParts(JasperPrint jasperPrint, PrintParts parts, Writer writer) throws IOException
+	{
 		writer.write("{");
 
 		writer.write("\"id\": \"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\",");

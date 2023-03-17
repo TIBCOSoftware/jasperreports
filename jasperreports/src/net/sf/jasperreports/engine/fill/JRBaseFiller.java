@@ -45,6 +45,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.commons.javaflow.api.continuable;
@@ -1312,16 +1313,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected void fillBand(JRPrintBand band)
 	{
+		Consumer<JRPrintElement> offsetter = element ->
+		{
+			element.setX(element.getX() + offsetX);
+			element.setY(element.getY() + offsetY);
+		};
+		
 		if (isReorderBandElements())
 		{
 			List<JRPrintElement> elements = new ArrayList<>();
-			for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
-			{
-				JRPrintElement element = it.next();
-				element.setX(element.getX() + offsetX);
-				element.setY(element.getY() + offsetY);
-				elements.add(element);
-			}
+			band.consumeElement(offsetter.andThen(elements::add));
 			Collections.sort(elements, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
 			for (JRPrintElement element : elements)
 			{
@@ -1331,14 +1332,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 		else
 		{
-			for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
+			band.consumeElement(offsetter.andThen(element ->
 			{
-				JRPrintElement element = it.next();
-				element.setX(element.getX() + offsetX);
-				element.setY(element.getY() + offsetY);
 				printPage.addElement(element);
 				recordUsedWidth(element);
-			}
+			}));
 		}
 		
 		int contentsWidth = band.getContentsWidth();
@@ -1363,7 +1361,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				log.debug("Fill " + fillerId + ": adding page " + (jasperPrint.getPages().size() + 1));
 			}
 
+			//TODO do these two in a single traversal
 			addLastPageBookmarks();
+			detectPart();
 			
 			// notify that the previous page was generated
 			int pageCount = jasperPrint.getPages().size();

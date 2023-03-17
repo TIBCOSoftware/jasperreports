@@ -50,15 +50,7 @@ public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			PlotOrientation.HORIZONTAL.toString().equals(value) 
-			? PlotOrientation.HORIZONTAL 
-			: PlotOrientation.VERTICAL.toString().equals(value)
-			? PlotOrientation.VERTICAL : null;
+		return PlotOrientationDeserializer.convert((String) value);
 	}
 	
 	@Override

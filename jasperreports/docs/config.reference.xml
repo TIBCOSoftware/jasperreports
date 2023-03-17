@@ -732,7 +732,7 @@ Property specifying the
 <api href="net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
     </description>
     <api>net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
+    <default><code>net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
   </configProperty>
@@ -4968,7 +4968,7 @@ Its value is used as default for the
 Represents the name for the column that should appear in the metadata-based Excel export. It must be one of the column names stored in 
 <a href="#net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">net.sf.jasperreports.export.xls.column.names.{suffix}</a>, if provided.    
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME</api>
+    <api>net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_NAME</api>
   </configProperty>
   
   
@@ -4999,6 +4999,24 @@ will perform the pixel-to-character width mapping using this value instead of th
 <br/>
 If defined, this property will override the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> 
 value for the current column
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.column.width.metadata -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.column.width.metadata">
+    <description>
+Element-level property used to adjust the column width to values suitable for Excel metadata output, taking into account 
+that when column headers are included in the report, they come with no available width settings.
+<br/>
+Also, keep in mind that column widths are measured in Excel in Normal style default character width units. The pixel-to-character width 
+translation depends on the default normal style character width, so it cannot be always accurately fitted. In this case, 
+one can adjust the current column width by setting this property with an integer value measured in pixels. The JR engine 
+will perform the pixel-to-character width mapping using this value instead of the element's <code>width</code> attribute.
+<br/>
+If defined, this property will override both the <api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> 
+value for the current column and the the element's <code>width</code> attribute.
     </description>
   </configProperty>
   
@@ -5080,7 +5098,7 @@ This property is by default not set (<code>false</code>).
   <configProperty name="net.sf.jasperreports.export.xls.data">
     <description>
 Property that specifies the value to be placed in the cell associated with the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+<api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
 in the metadata-based Excel export. 
 <br/>
 When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
@@ -5873,7 +5891,6 @@ It is very useful especially when displaying each report's group on a separate s
 Custom element property specifying if a sheet will break after the row displaying that element. 
 It is very useful especially when displaying each report's group on a separate sheet is intended.             
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_AFTER_ROW</api>
   </configProperty>
   
   
@@ -5907,7 +5924,7 @@ on the current row.
   <configProperty name="net.sf.jasperreports.export.xls.repeat.value">
     <description>
 Property that specifies whether the value associated with 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+<api href="net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
 should be repeated or not when it is missing. This property is available for the metadata-based Excel export.    
     </description>
   </configProperty>
@@ -6933,11 +6950,11 @@ Property holding the value of the date format pattern to be used when parsing th
 Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
 This property is meaningful only when:
 <ul>
-<li>the <api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
+<li>the <api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
 parameter is not provided or provided with a <code>null</code> value
 </li>
 <li>there are no properties prefixed with 
-<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
 </li>
 <li>the xpath query expression that is provided <b>contains</b> XML namespace prefixes
 </li>
@@ -7385,6 +7402,46 @@ Possible values are:
   <li><code>SERIALIZABLE</code></li>
 </ul>
 See the documentation of <code>java.sql.Connection</code> for details on the transaction isolation types.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.force.html.embed.image -->
+  
+  <configProperty name="net.sf.jasperreports.force.html.embed.image">
+    <description>
+Flag that determines whether charts, barcodes and other visualization elements produce images that are embedded into HTML export output.
+The flag is set to <code>true</code> by default.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.print.part.name -->
+  
+  <configProperty name="net.sf.jasperreports.print.part.name">
+    <description>
+    Element property that triggers the creation of a report part starting on the page on which the element appears.
+    The property value provides the name for the report part. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.part.print.transfer.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.part.print.transfer.{arbitrary_name}">
+    <description>
+    Prefix for properties that specify properties to be transferred from report templates to report parts during report filling.
+    By default properties starting with <code>net.sf.jasperreports.print.part</code> are transferred. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.print.part.visible -->
+  
+  <configProperty name="net.sf.jasperreports.print.part.visible">
+    <description>
+    Flag set at report/book part level to determine whether report viewers are to be display a tab for the part. 
+    The flag is set to <code>true</code> by default. 
     </description>
   </configProperty>
   

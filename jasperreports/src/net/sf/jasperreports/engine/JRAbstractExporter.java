@@ -816,7 +816,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		Integer pageIndex = configuration.getPageIndex();
 		if (pageIndex != null)
 		{
-			if (pageIndex < 0 || pageIndex > lastPageIndex)
+			if (pageIndex < -1 || pageIndex > lastPageIndex)
 			{
 				throw 
 					new JRRuntimeException(
@@ -824,8 +824,17 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 						new Object[]{pageIndex, lastPageIndex}
 						);
 			}
-			startPageIndex = pageIndex;
-			endPageIndex = pageIndex;
+			if (pageIndex == -1)
+			{
+				//empty page range
+				startPageIndex = 0;
+				endPageIndex = -1;
+			}
+			else
+			{
+				startPageIndex = pageIndex;
+				endPageIndex = pageIndex;
+			}
 		}
 		
 		PageRange pageRange = null;
@@ -1286,7 +1295,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return jasperPrint;
 	}
 
-	protected class PageRange
+	public class PageRange
 	{
 		private Integer startPageIndex;
 		private Integer endPageIndex;

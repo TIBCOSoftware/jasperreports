@@ -50,17 +50,7 @@ public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 	@Override
 	public Object convertUponSet(Object value)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return 
-			VerticalAlignment.TOP.toString().equals(value) 
-			? VerticalAlignment.TOP 
-			: VerticalAlignment.CENTER.toString().equals(value)
-			? VerticalAlignment.CENTER
-			: VerticalAlignment.BOTTOM.toString().equals(value)
-			? VerticalAlignment.BOTTOM : null;
+		return VerticalAlignmentDeserializer.convert((String) value);
 	}
 	
 	@Override

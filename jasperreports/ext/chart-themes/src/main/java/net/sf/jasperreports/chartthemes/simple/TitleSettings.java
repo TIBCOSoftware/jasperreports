@@ -37,10 +37,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.JRFontSerializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.RectangleInsetsSerializer;
+import net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentDeserializer;
 import net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentSerializer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
@@ -94,10 +96,12 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 	private JRFont font = new JRBaseFont();
 
 	@JacksonXmlProperty(localName = "horizontal-alignment", isAttribute = true)
+	@JsonDeserialize(using = HorizontalAlignmentDeserializer.class)
 	@JsonSerialize(using = HorizontalAlignmentSerializer.class)
 	private HorizontalAlignment horizontalAlignment;
 
 	@JacksonXmlProperty(localName = "vertical-alignment", isAttribute = true)
+	@JsonDeserialize(using = VerticalAlignmentDeserializer.class)
 	@JsonSerialize(using = VerticalAlignmentSerializer.class)
 	private VerticalAlignment verticalAlignment;
 

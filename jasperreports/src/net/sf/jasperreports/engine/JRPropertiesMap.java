@@ -87,6 +87,11 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		
 		//this copies all properties from base to this instance
 		//FIXME in some cases we might want to keep the properties in base
+		copyFrom(propertiesMap);
+	}
+
+	private void copyFrom(JRPropertiesMap propertiesMap)
+	{
 		String[] propertyNames = propertiesMap.getPropertyNames();
 		if (propertyNames != null && propertyNames.length > 0)
 		{
@@ -290,6 +295,31 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		return this.cloneProperties();
 	}
 	
+	/**
+	 * Copies own properties of a different map into this object.
+	 * 
+	 * @param propertiesMap the map to copy properties from
+	 */
+	public void copyOwnProperties(JRPropertiesMap propertiesMap)
+	{
+		if (propertiesMap.propertiesList != null)
+		{
+			for (String prop : propertiesMap.propertiesList)
+			{
+				setProperty(prop, propertiesMap.getOwnProperty(prop));
+			}
+		}
+	}
+	
+	/**
+	 * Copies properties of a different map into this object.
+	 * 
+	 * @param propertiesMap the map to copy properties from
+	 */
+	public void copyProperties(JRPropertiesMap propertiesMap)
+	{
+		copyFrom(propertiesMap);
+	}
 	
 	@Override
 	public String toString()

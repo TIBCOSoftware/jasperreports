@@ -356,8 +356,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		) throws JRException
 	{
 		tableBuilder.exportText(text, gridCell, isShrinkToFit(text), isWrapText(text), isIgnoreTextFormatting(text));
-		XlsReportConfiguration configuration = getCurrentItemConfiguration();
-		if (!configuration.isIgnoreAnchors() && text.getAnchorName() != null)
+		if (!ignoreAnchors && text.getAnchorName() != null)
 		{
 			String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
 			int lastCol = Math.max(0, colIndex + gridCell.getColSpan() -1);
@@ -429,13 +428,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			
 			if (imageProcessorResult != null)
 			{
-				XlsReportConfiguration configuration = getCurrentItemConfiguration();
-				
-				boolean isOnePagePerSheet = configuration.isOnePagePerSheet();
-				
 //					tempBodyWriter.write("<text:p>");
 				documentBuilder.insertPageAnchor(tableBuilder);
-				if (!configuration.isIgnoreAnchors() && image.getAnchorName() != null)
+				if (!ignoreAnchors && image.getAnchorName() != null)
 				{
 					tableBuilder.exportAnchor(JRStringUtil.xmlEncode(image.getAnchorName()));
 					String cellAddress = "$&apos;" + tableBuilder.getTableName() + "&apos;." + getCellAddress(rowIndex, colIndex);
@@ -444,7 +439,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 					namedExpressions.append("<table:named-range table:name=\""+ image.getAnchorName() +"\" table:base-cell-address=\"" + cellAddress +"\" table:cell-range-address=\"" + cellAddress +":" + cellRangeAddress +"\"/>\n");
 				}
 
-				boolean startedHyperlink = tableBuilder.startHyperlink(image,false, isOnePagePerSheet);
+				boolean startedHyperlink = tableBuilder.startHyperlink(image,false, onePagePerSheet);
 
 				//String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan() - 1);
 				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan());
@@ -1302,7 +1297,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 			if (!ignoreHyperlink)
 			{
-				href = documentBuilder.getHyperlinkURL(textElement, getCurrentItemConfiguration().isOnePagePerSheet());
+				href = documentBuilder.getHyperlinkURL(textElement, onePagePerSheet);
 			}
 
 			if (href == null)

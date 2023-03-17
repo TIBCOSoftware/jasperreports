@@ -539,4 +539,20 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommo
 				&& ObjectUtils.equals(linkTarget, template.linkTarget)
 				&& ObjectUtils.identical(lineBox, template.lineBox);
 	}
+	
+	@Override
+	public void populateStyle()
+	{
+		super.populateStyle();
+		
+		scaleImageValue = getScaleImageValue();
+		rotation = getRotation();
+		horizontalImageAlign = getHorizontalImageAlign();
+		verticalImageAlign = getVerticalImageAlign();
+		
+		if (lineBox != null)
+		{
+			lineBox.populateStyle();
+		}
+	}
 }

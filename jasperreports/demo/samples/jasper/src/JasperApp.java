@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -57,6 +58,7 @@ import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
@@ -86,16 +88,18 @@ public class JasperApp extends AbstractSampleApp
 		xml();
 		html();
 		rtf();
-		xls();
 		csv();
 		csvMetadata();
-		xlsMetadata();
 		jsonMetadata();
 		odt();
 		ods();
 		docx();
-		xlsx();
 		pptx();
+		xls();
+		xlsMetadata();
+		xlsx();
+		xlsxMetadata();
+
 	}
 	
 	
@@ -312,7 +316,57 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata XLS creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsxMetadata() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/FirstJasper.jrprint");
+		
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+		File destFile1 = new File(sourceFile.getParent(), jasperPrint.getName() + ".multiSheet.metadata.xlsx");
+		File destFile2 = new File(sourceFile.getParent(), jasperPrint.getName() + ".singleSheet.metadata.xlsx");
+		
+		Map<String, String> dateFormats = new HashMap<String, String>();
+		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
+		
+		long start1 = System.currentTimeMillis();
+		XlsxMetadataExporter exporter1 = new XlsxMetadataExporter();
+		
+		exporter1.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter1.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile1));
+		SimpleXlsxMetadataReportConfiguration configuration1 = new SimpleXlsxMetadataReportConfiguration();
+		configuration1.setOnePagePerSheet(true);
+		configuration1.setDetectCellType(true);
+		configuration1.setFormatPatternsMap(dateFormats);
+		exporter1.setConfiguration(configuration1);
+		
+		exporter1.exportReport();
+		
+		System.err.println("Metadata multiSheet XLSX creation time : " + (System.currentTimeMillis() - start1));
+		
+		long start2 = System.currentTimeMillis();
+		XlsxMetadataExporter exporter2 = new XlsxMetadataExporter();
+		
+		exporter2.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter2.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile2));
+		SimpleXlsxMetadataReportConfiguration configuration2 = new SimpleXlsxMetadataReportConfiguration();
+		configuration2.setDetectCellType(true);
+		configuration2.setFormatPatternsMap(dateFormats);
+		exporter2.setConfiguration(configuration2);
+		
+		exporter2.exportReport();
+		
+		System.err.println("Metadata singleSheet XLSX creation time : " + (System.currentTimeMillis() - start2));
+		
+		System.err.println("Metadata XLSX creation time : " + (System.currentTimeMillis() - start));
+		
 	}
 	
 	
@@ -335,7 +389,7 @@ public class JasperApp extends AbstractSampleApp
 
 		exporter.exportReport();
 
-		System.err.println("JSON creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata JSON creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
@@ -381,7 +435,7 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter.exportReport();
 
-		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("Metadata CSV creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

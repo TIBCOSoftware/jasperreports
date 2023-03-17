@@ -2,6 +2,23 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.0 (2022-07-14)
+---------------------------------------------
+
+- enhancing scriptlet configuration using scriptlet level expression based custom properties;
+
+- added support for conditional styles in external style template files (*.jrtx);
+
+- various dependencies upgrades including: Spring 5.3.20, Jackson 2.13.3, 
+Chrome DevTools Java Client 4.0.0 and Apache Commons Codec 1.15;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+
 JasperReports 6.19.1 (2022-03-29)
 ---------------------------------------------
 

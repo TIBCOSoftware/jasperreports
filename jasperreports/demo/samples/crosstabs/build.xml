@@ -55,10 +55,22 @@
 		<ant dir="../" target="xls"/>
 	</target>
 
+	<target name="xlsMetadata" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xlsMetadata"/>
+	</target>
+
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
 		<ant dir="../" target="csv"/>
 	</target>
 
+	<target name="csvMetadata" description="Generates a CSV version of the report by converting the .jrprint file.">
+		<ant dir="../" target="csvMetadata"/>
+	</target>
+
+	<target name="jsonMetadata" description="Generates a JSON version of the report by converting the .jrprint file.">
+		<ant dir="../" target="jsonMetadata"/>
+	</target>
+		
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<ant dir="../" target="odt"/>
 	</target>
@@ -73,6 +85,10 @@
 
 	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xlsx"/>
+	</target>
+
+	<target name="xlsxMetadata" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsxMetadata"/>
 	</target>
 
 	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">

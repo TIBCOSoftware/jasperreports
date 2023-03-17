@@ -747,7 +747,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		ZoneRules rules = zone.getRules();
 		ZoneOffset offset = rules.getOffset(instant);
 		long localSecond = instant.getEpochSecond() + offset.getTotalSeconds();
-		long localEpochDay = Math.floorDiv(localSecond, 86400);//LocalDate.SECONDS_PER_DAY
+		long localEpochDay = Math.floorDiv(localSecond, 86400L);//LocalDate.SECONDS_PER_DAY
 		return LocalDate.ofEpochDay(localEpochDay);
 	}
 }

@@ -52,6 +52,7 @@ public class PdfXmpCreator
 
 	private static final Log log = LogFactory.getLog(PdfXmpCreator.class);
 	
+	private static final String XMP_LIBARY_CLASS_NAME = "com.adobe.internal.xmp.XMPMetaFactory";
 	private static final boolean XMP_LIBRARY;
 
 	static
@@ -63,7 +64,7 @@ public class PdfXmpCreator
 	{
 		try
 		{
-			Class.forName("com.adobe.xmp.XMPMetaFactory");
+			Class.forName(XMP_LIBARY_CLASS_NAME);
 			return true;
 		} catch (ClassNotFoundException e)
 		{

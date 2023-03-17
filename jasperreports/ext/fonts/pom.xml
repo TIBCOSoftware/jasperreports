@@ -1,46 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../../pom-parent.xml</relativePath>
+	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-fonts</artifactId>
-	<version>jrws-phase2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
 	<description>JasperReports Font Extension</description>
 	<url>http://jasperreports.sourceforge.net</url>
-	<organization>
-		<name>TIBCO Software Inc.</name>
-		<url>https://www.jaspersoft.com/</url>
-	</organization>
-	<licenses>
-		<license>
-			<name>GNU Lesser General Public License</name>
-			<url>http://jasperreports.sourceforge.net/license.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<id>teodord</id>
-			<name>Teodor Danciu</name>
-			<email>teodord@users.sourceforge.net</email>
-			<url>http://sourceforge.net/users/teodord</url>
-			<organization>TIBCO Software Inc.</organization>
-			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+2</timezone>
-		</developer>
-	</developers>
 	<scm>
-		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>master-SNAPSHOT</tag>
-		<url>https://github.com/TIBCOSoftware/jasperreports</url>
+		<connection>${scmConnection}</connection>
+		<tag>${revision}</tag>
+		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skipInstall>false</skipInstall>
+		<skipDeploy>false</skipDeploy>
+		<maven.source.skip>true</maven.source.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	<build>
 		<sourceDirectory>./</sourceDirectory>
@@ -60,23 +42,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doCheck>true</doCheck>
-					<doUpdate>false</doUpdate>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

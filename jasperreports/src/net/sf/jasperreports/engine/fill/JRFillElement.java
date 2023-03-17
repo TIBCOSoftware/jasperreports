@@ -50,10 +50,11 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
@@ -158,9 +159,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean shrinkable;
 
 	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap staticTransferProperties;
 	protected JRPropertiesMap dynamicProperties;
 	protected JRPropertiesMap mergedProperties;
 	
+	protected boolean hasDynamicPopulateTemplateStyle;
+	protected Boolean defaultPopulateTemplateStyle;
+
 	/**
 	 *
 	 *
@@ -196,6 +201,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		height = element.getHeight();
 		
 		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
+		staticTransferProperties = findStaticTransferProperties();
 		mergedProperties = staticProperties;
 		
 		JRPropertyExpression[] elementPropertyExpressions = element.getPropertyExpressions();
@@ -207,6 +213,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
+		lookForPartProperty(staticProperties);
+		
+		hasDynamicPopulateTemplateStyle = hasDynamicProperty(PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
 	}
 
 
@@ -238,12 +247,41 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		shrinkable = element.shrinkable;
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
+		staticTransferProperties = element.staticTransferProperties;
 		mergedProperties = staticProperties;
 		this.propertyExpressions = new ArrayList<>(element.propertyExpressions);
 		this.dynamicTransferProperties = element.dynamicTransferProperties;
 		
 		// we need a style provider context for this element instance
 		initStyleProviders();
+		
+		this.hasDynamicPopulateTemplateStyle = element.hasDynamicPopulateTemplateStyle;
+		this.defaultPopulateTemplateStyle = element.defaultPopulateTemplateStyle;
+	}
+	
+	private JRPropertiesMap findStaticTransferProperties()
+	{
+		if (staticProperties == null)
+		{
+			return null;
+		}
+		
+		String[] propertyNames = staticProperties.getPropertyNames();
+		List<String> prefixes = filler.getPrintTransferPropertyPrefixes();
+		JRPropertiesMap transferProperties = new JRPropertiesMap();
+		for (int i = 0; i < propertyNames.length; i++)
+		{
+			for (String prefix : prefixes)
+			{
+				String prop = propertyNames[i];
+				if (prop.startsWith(prefix))
+				{
+					transferProperties.setProperty(prop, staticProperties.getProperty(prop));
+					break;
+				}
+			}
+		}
+		return transferProperties.isEmpty() ? null : transferProperties;
 	}
 	
 	private List<String> findDynamicTransferProperties()
@@ -270,6 +308,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return transferProperties;
 	}
 
+	private void lookForPartProperty(JRPropertiesMap properties)
+	{
+		if (properties != null && properties.getProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME) != null)
+		{
+			filler.getFillContext().setDetectParts(true);
+		}
+	}
 
 	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
@@ -856,6 +901,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			template = createElementTemplate();
 			transferProperties(template);
 			
+			if (toPopulateTemplateStyle())
+			{
+				template.populateStyle();
+			}
+			
 			// deduplicate to previously created identical objects
 			template = filler.fillContext.deduplicate(template);
 			
@@ -868,6 +918,28 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	protected abstract JRTemplateElement createElementTemplate();
+	
+	protected boolean toPopulateTemplateStyle()
+	{
+		if (defaultPopulateTemplateStyle == null)
+		{
+			defaultPopulateTemplateStyle = filler.getPropertiesUtil().getBooleanProperty( 
+					PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE, false,
+					parent, filler.getMainDataset());
+		}
+
+		boolean populate = defaultPopulateTemplateStyle;
+		if (hasDynamicPopulateTemplateStyle)
+		{
+			String populateProp = getDynamicProperties().getProperty(
+					PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
+			if (populateProp != null)
+			{
+				populate = JRPropertiesUtil.asBoolean(populateProp);
+			}
+		}
+		return populate;		
+	}
 	
 	/**
 	 *
@@ -1736,8 +1808,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void transferProperties(JRTemplateElement template)
 	{
-		filler.getPropertiesUtil().transferProperties(parent, template, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+		if (staticTransferProperties != null)
+		{
+			template.getPropertiesMap().copyOwnProperties(staticTransferProperties);
+		}
 	}
 	
 	protected void transferProperties(JRPrintElement element)
@@ -1773,6 +1847,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			
 			mergedProperties = dynamicProperties.cloneProperties();
 			mergedProperties.setBaseProperties(staticProperties);
+			
+			lookForPartProperty(dynamicProperties);
 		}
 	}
 	

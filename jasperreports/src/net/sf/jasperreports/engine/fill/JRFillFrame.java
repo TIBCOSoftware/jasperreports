@@ -431,6 +431,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 				}
 			}
 			
+			if (toPopulateTemplateStyle())
+			{
+				boxTemplate.populateStyle();
+			}
+			
 			boxTemplate = filler.fillContext.deduplicate(boxTemplate);
 			templatesMap.put(style, boxTemplate);
 		}

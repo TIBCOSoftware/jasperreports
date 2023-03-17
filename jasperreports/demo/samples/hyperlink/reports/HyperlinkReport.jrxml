@@ -37,18 +37,18 @@
 					<hyperlinkPageExpression><![CDATA[2]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
-					<reportElement x="5" y="95" width="200" height="15" uuid="773ef7f6-735d-47f7-8b16-d8136c5da1d3"/>
+					<reportElement x="5" y="95" width="300" height="15" uuid="773ef7f6-735d-47f7-8b16-d8136c5da1d3"/>
 					<textFieldExpression><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 				</textField>
 				<image hAlign="Center" vAlign="Middle" hyperlinkType="Reference" hyperlinkTarget="Blank">
-					<reportElement x="230" y="90" width="200" height="30" uuid="82785a38-76be-4973-bea6-1614dbdaeec8"/>
+					<reportElement x="310" y="90" width="200" height="30" uuid="82785a38-76be-4973-bea6-1614dbdaeec8"/>
 					<imageExpression><![CDATA["google.gif"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 					<hyperlinkTooltipExpression><![CDATA["Searching for something?"]]></hyperlinkTooltipExpression>
 				</image>
 				<textField hyperlinkType="RemoteAnchor">
-					<reportElement x="5" y="125" width="350" height="15" uuid="a6fae2b6-f702-43e7-b0ad-896b1e1cf00f"/>
+					<reportElement x="5" y="125" width="400" height="15" uuid="a6fae2b6-f702-43e7-b0ad-896b1e1cf00f"/>
 					<textFieldExpression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]]></textFieldExpression>
 					<hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]]></hyperlinkReferenceExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>

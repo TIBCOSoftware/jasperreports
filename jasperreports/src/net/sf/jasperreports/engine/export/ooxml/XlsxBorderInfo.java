@@ -23,11 +23,12 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -38,16 +39,22 @@ public class XlsxBorderInfo
 	/**
 	 *
 	 */
-	protected static final String[] BORDER = new String[]{"top", "left", "bottom", "right", "diagonal"};
-	protected static final int TOP_BORDER = 0;
-	protected static final int LEFT_BORDER = 1;
-	protected static final int BOTTOM_BORDER = 2;
-	protected static final int RIGHT_BORDER = 3;
-	protected static final int DIAGONAL_BORDER = 4;
+	protected static final String TOP_BORDER = "top";
+	protected static final String LEFT_BORDER = "left";
+	protected static final String BOTTOM_BORDER = "bottom";
+	protected static final String RIGHT_BORDER = "right";
+	protected static final String DIAGONAL_BORDER = "diagonal";
 	
-	protected String[] borderColor = new String[5];
-	protected String[] borderStyle = new String[5];
-	protected String[] borderPadding = new String[5];
+	protected Color topBorderColor;
+	protected Color leftBorderColor;
+	protected Color bottomBorderColor;
+	protected Color rightBorderColor;
+	protected Color diagonalBorderColor;
+	protected XlsxBorderStyle topBorderStyle;
+	protected XlsxBorderStyle leftBorderStyle;
+	protected XlsxBorderStyle bottomBorderStyle;
+	protected XlsxBorderStyle rightBorderStyle;
+	protected XlsxBorderStyle diagonalBorderStyle;
 	protected LineDirectionEnum direction;
 
 	/**
@@ -55,14 +62,10 @@ public class XlsxBorderInfo
 	 */
 	public XlsxBorderInfo(JRLineBox box)
 	{
-		setBorder(box.getTopPen(), TOP_BORDER);
-		borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding()));
-		setBorder(box.getLeftPen(), LEFT_BORDER);
-		borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding()));
-		setBorder(box.getBottomPen(), BOTTOM_BORDER);
-		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding()));
-		setBorder(box.getRightPen(), RIGHT_BORDER);
-		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding()));
+		setTopBorder(box.getTopPen());
+		setLeftBorder(box.getLeftPen());
+		setBottomBorder(box.getBottomPen());
+		setRightBorder(box.getRightPen());
 	}
 	
 	/**
@@ -72,18 +75,14 @@ public class XlsxBorderInfo
 	{
 		if(direction != null)
 		{
-			setBorder(box.getPen(), DIAGONAL_BORDER);
+			setDiagonalBorder(box.getPen());
 		}
 		else
 		{
-			setBorder(box.getTopPen(), TOP_BORDER);
-			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding()));
-			setBorder(box.getLeftPen(), LEFT_BORDER);
-			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding()));
-			setBorder(box.getBottomPen(), BOTTOM_BORDER);
-			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding()));
-			setBorder(box.getRightPen(), RIGHT_BORDER);
-			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding()));
+			setTopBorder(box.getTopPen());
+			setLeftBorder(box.getLeftPen());
+			setBottomBorder(box.getBottomPen());
+			setRightBorder(box.getRightPen());
 		}
 		this.direction = direction;
 	}
@@ -93,38 +92,93 @@ public class XlsxBorderInfo
 	 */
 	public XlsxBorderInfo(JRPen pen)
 	{
-		setBorder(pen, TOP_BORDER);
-		setBorder(pen, LEFT_BORDER);
-		setBorder(pen, BOTTOM_BORDER);
-		setBorder(pen, RIGHT_BORDER);
+		setTopBorder(pen);
+		setLeftBorder(pen);
+		setBottomBorder(pen);
+		setRightBorder(pen);
 	}
 
-	/**
-	 *
-	 */
-	public String getId() 
+	@Override
+	public int hashCode()
 	{
-		return	
-			borderStyle[TOP_BORDER] + "|" + borderColor[TOP_BORDER] 
-			+ "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
-			+ "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
-			+ "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER]
-			+ "|" + borderStyle[DIAGONAL_BORDER] + "|" + borderColor[DIAGONAL_BORDER]
-			+ "|" + direction;
+		int hash = 47 + ObjectUtils.hashCode(topBorderStyle);
+		hash = 29 * hash + ObjectUtils.hashCode(topBorderColor);
+		hash = 29 * hash + ObjectUtils.hashCode(leftBorderStyle);
+		hash = 29 * hash + ObjectUtils.hashCode(leftBorderColor);
+		hash = 29 * hash + ObjectUtils.hashCode(bottomBorderStyle);
+		hash = 29 * hash + ObjectUtils.hashCode(bottomBorderColor);
+		hash = 29 * hash + ObjectUtils.hashCode(rightBorderStyle);
+		hash = 29 * hash + ObjectUtils.hashCode(rightBorderColor);
+		hash = 29 * hash + ObjectUtils.hashCode(diagonalBorderStyle);
+		hash = 29 * hash + ObjectUtils.hashCode(diagonalBorderColor);
+		hash = 29 * hash + ObjectUtils.hashCode(direction);
+		return hash;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof XlsxBorderInfo))
+		{
+			return false;
+		}
 
+		XlsxBorderInfo info = (XlsxBorderInfo) obj;
+		return topBorderStyle == info.topBorderStyle
+				&& ObjectUtils.equals(topBorderColor, info.topBorderColor)
+				&& leftBorderStyle == info.leftBorderStyle
+				&& ObjectUtils.equals(leftBorderColor, info.leftBorderColor)
+				&& bottomBorderStyle == info.bottomBorderStyle
+				&& ObjectUtils.equals(bottomBorderColor, info.bottomBorderColor)
+				&& rightBorderStyle == info.rightBorderStyle
+				&& ObjectUtils.equals(rightBorderColor, info.rightBorderColor)
+				&& diagonalBorderStyle == info.diagonalBorderStyle
+				&& ObjectUtils.equals(diagonalBorderColor, info.diagonalBorderColor)
+				&& direction == info.direction;				
+	}
+	
 	public LineDirectionEnum getDirection() 
 	{
 		return this.direction;
 	}
 
+	private void setTopBorder(JRPen pen)
+	{
+		topBorderStyle = borderStyle(pen);
+		topBorderColor = pen.getLineColor();
+	}
+
+	private void setLeftBorder(JRPen pen)
+	{
+		leftBorderStyle = borderStyle(pen);
+		leftBorderColor = pen.getLineColor();
+	}
+
+	private void setBottomBorder(JRPen pen)
+	{
+		bottomBorderStyle = borderStyle(pen);
+		bottomBorderColor = pen.getLineColor();
+	}
+
+	private void setRightBorder(JRPen pen)
+	{
+		rightBorderStyle = borderStyle(pen);
+		rightBorderColor = pen.getLineColor();
+	}
+
+	private void setDiagonalBorder(JRPen pen)
+	{
+		diagonalBorderStyle = borderStyle(pen);
+		diagonalBorderColor = pen.getLineColor();
+	}
+
 	/**
 	 *
 	 */
-	private void setBorder(JRPen pen, int side)
+	private static XlsxBorderStyle borderStyle(JRPen pen)
 	{
 		float width = pen.getLineWidth() == null ? 0 : pen.getLineWidth();
-		String style = null;
+		XlsxBorderStyle style = null;
 
 		if (width > 0f)
 		{
@@ -132,23 +186,23 @@ public class XlsxBorderInfo
 			{
 				case DOUBLE :
 				{
-					style = "double";
+					style = XlsxBorderStyle.DOUBLE;
 					break;
 				}
 				case DOTTED :
 				{
-					style = "dotted";
+					style = XlsxBorderStyle.DOTTED;
 					break;
 				}
 				case DASHED :
 				{
 					if (width >= 1f)
 					{
-						style = "mediumDashed";
+						style = XlsxBorderStyle.MEDIUM_DASHED;
 					}
 					else
 					{
-						style = "dashed";
+						style = XlsxBorderStyle.DASHED;
 					}
 					break;
 				}
@@ -157,27 +211,26 @@ public class XlsxBorderInfo
 				{
 					if (width >= 2f)
 					{
-						style = "thick";
+						style = XlsxBorderStyle.THICK;
 					}
 					else if (width >= 1f)
 					{
-						style = "medium";
+						style = XlsxBorderStyle.MEDIUM;
 					}
 					else if (width >= 0.5f)
 					{
-						style = "thin";
+						style = XlsxBorderStyle.THIN;
 					}
 					else
 					{
-						style = "hair";
+						style = XlsxBorderStyle.HAIR;
 					}
 					break;
 				}
 			}
 		}
 
-		borderStyle[side] = style;
-		borderColor[side] = JRColorUtil.getColorHexa(pen.getLineColor());
+		return style;
 	}
 
 }

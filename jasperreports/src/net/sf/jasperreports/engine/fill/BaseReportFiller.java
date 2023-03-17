@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.SimplePrintPart;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -752,6 +753,26 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 	}
 
+	protected void detectPart()
+	{
+		//we have a flag for performance reasons
+		if (!fillContext.toDetectParts())
+		{
+			return;
+		}
+
+		List<JRPrintPage> pages = jasperPrint.getPages();
+		if (pages != null && !pages.isEmpty())
+		{
+			JRPrintPage page = pages.get(pages.size() - 1);
+			PartPropertiesDetector detector = new PartPropertiesDetector(propertiesUtil, (partName, partProperties) ->
+			{
+				SimplePrintPart part = SimplePrintPart.fromJasperPrint(jasperPrint, partName, partProperties);
+				jasperPrint.addPart(pages.size() - 1, part);
+			});
+			detector.detect(page.getElements());
+		}
+	}
 
 	/**
 	 * Cancels the fill process.
