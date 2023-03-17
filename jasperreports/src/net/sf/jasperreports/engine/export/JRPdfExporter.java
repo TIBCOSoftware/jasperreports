@@ -981,6 +981,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 				setPageSize(null);
 				
+				boolean pageExported = false;
 				List<JRPrintPage> pages = jasperPrint.getPages();
 				if (pages != null && pages.size() > 0)
 				{
@@ -1031,11 +1032,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 						/*   */
 						exportPage(page);
+						pageExported = true;
 						
 						oldPageFormat = pageFormat;
 					}
 				}
-				else
+
+				if (!pageExported)
 				{
 					pdfProducer.newPage();
 					pdfContent.setLiteral("\n");

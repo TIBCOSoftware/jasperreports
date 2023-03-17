@@ -101,6 +101,8 @@ public class JRFillContext
 	private final AtomicInteger fillElementSeq = new AtomicInteger();
 	
 	private Map<String, Object> fillCaches = new HashMap<>();
+	
+	private boolean detectParts;
 
 	/**
 	 * @deprecated To be removed.
@@ -651,5 +653,15 @@ public class JRFillContext
 		{
 			designCache.setStyles(reportLocation, id, styles);
 		}
+	}
+
+	public boolean toDetectParts()
+	{
+		return detectParts;
+	}
+
+	public void setDetectParts(boolean detectParts)
+	{
+		this.detectParts = detectParts;
 	}
 }

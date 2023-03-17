@@ -23,13 +23,40 @@
  */
 package net.sf.jasperreports.engine;
 
-
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface PrintPart
+public interface PrintPart extends JRPropertiesHolder
 {
+	
+	@Property(
+			name = "net.sf.jasperreports.part.print.transfer.{arbitrary_name}",
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_21_0
+			)
+	public static final String PROPERTIES_TRANSFER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "part.print.transfer.";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_0
+			)
+	public static final String ELEMENT_PROPERTY_PART_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.name";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,//TODO part?
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.PART},
+			sinceVersion = PropertyConstants.VERSION_6_21_0
+			)
+	public static final String PROPERTY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.visible";
+	
 	public String getName();
 	
 	public PrintPageFormat getPageFormat();

@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
+import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.style.StyleProvider;
@@ -212,6 +213,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		factory.registerDelayedStyleSetter(this, parent);
 		
 		initStyleProviders();
+		lookForPartProperty(staticProperties);
 		
 		hasDynamicPopulateTemplateStyle = hasDynamicProperty(PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE);
 	}
@@ -306,6 +308,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return transferProperties;
 	}
 
+	private void lookForPartProperty(JRPropertiesMap properties)
+	{
+		if (properties != null && properties.getProperty(PrintPart.ELEMENT_PROPERTY_PART_NAME) != null)
+		{
+			filler.getFillContext().setDetectParts(true);
+		}
+	}
 
 	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
@@ -1838,6 +1847,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			
 			mergedProperties = dynamicProperties.cloneProperties();
 			mergedProperties.setBaseProperties(staticProperties);
+			
+			lookForPartProperty(dynamicProperties);
 		}
 	}
 	

@@ -33,7 +33,14 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
  */
 public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 {
-	
+
+
+	/**
+	 * Returns the list of dynamic/expression-based properties for this report part.
+	 * 
+	 * @return an array containing the expression-based properties of this report part
+	 */
+	public JRPropertyExpression[] getPropertyExpressions();
 
 	/**
 	 * Returns the boolean expression that specifies if the part will be displayed.

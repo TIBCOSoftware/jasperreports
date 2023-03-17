@@ -35,6 +35,12 @@ public class SimplePrintPart implements PrintPart, Serializable
 	
 	public static SimplePrintPart fromJasperPrint(JasperPrint partJasperPrint, String partName)
 	{
+		return fromJasperPrint(partJasperPrint, partName, null);
+	}
+	
+	public static SimplePrintPart fromJasperPrint(JasperPrint partJasperPrint, 
+			String partName, JRPropertiesHolder properties)
+	{
 		SimplePrintPart printPart = new SimplePrintPart();
 		
 		if (partName == null)
@@ -42,6 +48,11 @@ public class SimplePrintPart implements PrintPart, Serializable
 			partName = partJasperPrint.getName();
 		}
 		printPart.setName(partName);
+		
+		if (properties != null && properties.hasProperties())
+		{
+			printPart.getPropertiesMap().copyProperties(properties.getPropertiesMap());
+		}
 		
 		SimplePrintPageFormat pageFormat = new SimplePrintPageFormat();
 		pageFormat.setPageWidth(partJasperPrint.getPageWidth());
@@ -58,6 +69,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 
 	private String name;
 	private PrintPageFormat pageFormat;
+	private JRPropertiesMap propertiesMap;
 	
 	@Override
 	public String getName()
@@ -79,5 +91,40 @@ public class SimplePrintPart implements PrintPart, Serializable
 	public void setPageFormat(PrintPageFormat pageFormat)
 	{
 		this.pageFormat = pageFormat;
+	}
+
+	@Override
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	@Override
+	public synchronized JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	@Override
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+
+	public void update(String partName, JRPropertiesHolder partProperties)
+	{
+		if (partName != null)
+		{
+			name = partName;
+		}
+		
+		if (partProperties != null && partProperties.hasProperties())
+		{
+			getPropertiesMap().copyProperties(partProperties.getPropertiesMap());
+		}
 	}
 }

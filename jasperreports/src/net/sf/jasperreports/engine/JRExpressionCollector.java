@@ -837,6 +837,7 @@ public class JRExpressionCollector
 		{
 			addExpression(part.getPrintWhenExpression());
 			addExpression(part.getPartNameExpression());
+			collectPropertyExpressions(part.getPropertyExpressions());
 
 			ComponentKey componentKey = part.getComponentKey();
 			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);

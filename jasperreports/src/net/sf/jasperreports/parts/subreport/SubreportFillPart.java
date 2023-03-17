@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.SimplePrintPart;
 import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.fill.AbstractVariableReturnValueSourceContext;
 import net.sf.jasperreports.engine.fill.BandReportFillerParent;
@@ -65,6 +64,7 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRHorizontalFiller;
 import net.sf.jasperreports.engine.fill.JRVerticalFiller;
 import net.sf.jasperreports.engine.fill.JasperReportSource;
+import net.sf.jasperreports.engine.fill.PartPropertiesDetector;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
 import net.sf.jasperreports.engine.part.BasePartFillComponent;
 import net.sf.jasperreports.engine.part.FillingPrintPart;
@@ -279,6 +279,11 @@ public class SubreportFillPart extends BasePartFillComponent
 		return fillContext.getFillPart().getPartName();
 	}
 	
+	protected JRPropertiesHolder getPrintPartProperties()
+	{
+		return fillContext.getFillPart().getPrintPartProperties();
+	}
+	
 	protected class PartBandParent implements BandReportFillerParent
 	{
 		private final PartPrintOutput output;
@@ -358,12 +363,24 @@ public class SubreportFillPart extends BasePartFillComponent
 		@Override
 		public void addPage(FillerPageAddedEvent pageAdded) throws JRException
 		{
+			PrintPartCreator partCreator = new PrintPartCreator(pageAdded.getJasperPrint());
 			if (pageAdded.getPageIndex() == 0)
 			{
 				//first page, adding the part info
-				SimplePrintPart printPart = SimplePrintPart.fromJasperPrint(pageAdded.getJasperPrint(), getPartName());
+				partCreator.accept(getPartName(), getPrintPartProperties());
+			}
+			
+			if (fillContext.getFiller().getFillContext().toDetectParts())
+			{
+				PartPropertiesDetector detector = new PartPropertiesDetector(pageAdded.getFiller().getPropertiesUtil(), 
+						partCreator::accept);
+				detector.detect(pageAdded.getPage().getElements());
+			}
+			
+			if (partCreator.hasPart())
+			{
 				FillerPrintPart fillingPart = new FillerPrintPart(pageAdded.getFiller());//FIXMEBOOK strange
-				output.startPart(printPart, fillingPart);
+				output.startPart(partCreator.getPart(), fillingPart);
 			}
 			
 			output.addPage(pageAdded.getPage(), pageAdded.getDelayedActions());
