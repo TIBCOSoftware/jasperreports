@@ -50,6 +50,12 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_markerSpidering = "markerSpidering";
 	public static final String ELEMENT_item = "item";
 	public static final String ELEMENT_markerData = "markerData";
+	public static final String ELEMENT_legendItem = "legendItem";
+	public static final String ELEMENT_resetMapItem = "resetMapItem";
+	public static final String ELEMENT_seriesNameExpression = "seriesNameExpression";
+	public static final String ELEMENT_markerClusteringExpression = "markerClusteringExpression";
+	public static final String ELEMENT_markerSpideringExpression = "markerSpideringExpression";
+	public static final String ELEMENT_legendIconExpression = "legendIconExpression";
 	public static final String ELEMENT_itemProperty = "itemProperty";
 	public static final String ELEMENT_pathStyle = "pathStyle";
 	public static final String ELEMENT_pathData = "pathData";

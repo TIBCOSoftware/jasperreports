@@ -24,7 +24,7 @@
     <script>
         ${jasperreportsMapApiScript}
 
-        const deferredArr = [], useMarkerClustering = ${useMarkerClustering};
+        const deferredArr = [], globalUseMarkerClustering = ${useMarkerClustering};
         const mapTilesReadyPromise = new Promise(function(resolve, reject) {
             deferredArr.push({ resolve, reject });
         });
@@ -33,23 +33,42 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            var map = new google.maps.Map(document.getElementById('mapContainer'), {
-                zoom: ${zoom},
-                center: new google.maps.LatLng(${latitude}, ${longitude}),
-                mapTypeId: google.maps.MapTypeId.${mapType},
-                disableDefaultUI: true,
-                // keyboardShortcuts: false,
-                gestureHandling: 'none'
-            });
-            var markers = ${markerList};
-            var markerArr = jasperreports.map.placeMarkers(markers, map, true, false);
+            var isForExport = true,
+                mapCanvasId = "mapContainer",
+                defaultMarkerIcon = "${defaultMarkerIcon}",
+                map = new google.maps.Map(document.getElementById(mapCanvasId), {
+                    zoom: ${zoom},
+                    center: new google.maps.LatLng(${latitude}, ${longitude}),
+                    mapTypeId: google.maps.MapTypeId.${mapType},
+                    disableDefaultUI: true,
+                    // keyboardShortcuts: false,
+                    gestureHandling: 'none'
+                });
+            #*
+				markerList is {} or
+				{
+					"marker_series_0": {
+						"markerClustering": true,
+						"markerSpidering": true,
+						"markers": []
+					},
+					"marker_series_1": {}
+					...
+				}
+			*#
+            var markerSeries = ${markerList};
+            var markerSeriesConfigBySeriesName = jasperreports.map.placeSeriesMarkers(map, markerSeries, isForExport, false);
 
-            if (useMarkerClustering) {
-                new markerClusterer.MarkerClusterer({ map: map, markers: markerArr });
-            }
+            // enable marker clustering globally and/or per series
+            var markerClustersBySeriesName = jasperreports.map.enableClustering(map, markerSeriesConfigBySeriesName, globalUseMarkerClustering);
 
+            // draw marker legend
+            var legendProperties = ${legendProperties};
+            jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName, markerClustersBySeriesName, defaultMarkerIcon, isForExport);
+
+            // draw paths
             var paths = ${pathsList};
-            jasperreports.map.drawPaths(paths, map, true);
+            jasperreports.map.drawPaths(paths, map, false);
 
             /*
              * tilesloaded event ensures the map tiles have finished rendering
@@ -143,6 +162,9 @@
     #end
 '>
     <div id='mapContainer' style='width: 100%; height: 100%; overflow: auto'></div>
+    <div class="jr_map_legend_wrapper" style="display: none;">
+        <div id="mapContainer_legend" dragable="false" style="display: flex;justify-content:flex-start;font-family:Roboto,Arial,sans-serif;background-color:#fff;margin:10px;border-radius:2px;user-select:none;padding:0 10px 5px 10px;overflow:auto;"></div>
+    </div>
 </div>
 </body>
 </html>

@@ -24,8 +24,9 @@
 package net.sf.jasperreports.components.map.fill;
 
 import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.fill.FillItem;
+import net.sf.jasperreports.components.map.MarkerItemData;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -34,12 +35,16 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class FillPlaceItemData extends FillItemData
 {
+	public static final String PROPERTY_MARKER_CLUSTERING = "markerClustering";
+	public static final String PROPERTY_MARKER_SPIDERING = "markerSpidering";
+	public static final String PROPERTY_LEGEND_ICON = "legendIcon";
+
 	/**
 	 *
 	 */
 	public FillPlaceItemData(
 		FillContextProvider fillContextProvider,
-		ItemData itemData, 
+		MarkerItemData itemData,
 		JRFillObjectFactory factory
 		)// throws JRException
 	{
@@ -49,5 +54,22 @@ public class FillPlaceItemData extends FillItemData
 	@Override
 	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
 		return new FillPlaceItem(fillContextProvider, item, factory);
-	}	
+	}
+
+	public Object getEvaluateSeriesNameExpression(byte evaluation) throws JRException {
+		return fillContextProvider.getFillContext().evaluate(((MarkerItemData)itemData).getSeriesNameExpression(), evaluation);
+	}
+
+	public Object getEvaluateMarkerClusteringExpression(byte evaluation) throws JRException {
+		return fillContextProvider.getFillContext().evaluate(((MarkerItemData)itemData).getMarkerClusteringExpression(), evaluation);
+	}
+
+	public Object getEvaluateMarkerSpideringExpression(byte evaluation) throws JRException {
+		return fillContextProvider.getFillContext().evaluate(((MarkerItemData)itemData).getMarkerSpideringExpression(), evaluation);
+	}
+
+	public Object getEvaluateLegendIconExpression(byte evaluation) throws JRException {
+		return fillContextProvider.getFillContext().evaluate(((MarkerItemData)itemData).getLegendIconExpression(), evaluation);
+	}
+
 }

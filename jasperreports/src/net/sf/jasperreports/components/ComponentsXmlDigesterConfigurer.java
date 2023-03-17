@@ -56,6 +56,8 @@ import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
+import net.sf.jasperreports.components.map.MarkerItemData;
+import net.sf.jasperreports.components.map.MarkerItemDataXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignBaseCell;
@@ -345,22 +347,50 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.setRuleNamespaceURI(componentNamespace);
 		
 		String markerDataPattern = mapPattern + "/markerData";
-		digester.addFactoryCreate(markerDataPattern, ItemDataXmlFactory.class.getName());
-		digester.addSetNext(markerDataPattern, "addMarkerData", ItemData.class.getName());
+		digester.addFactoryCreate(markerDataPattern, MarkerItemDataXmlFactory.class.getName());
+		digester.addSetNext(markerDataPattern, "addMarkerData", MarkerItemData.class.getName());
 		
-		addItemRules(digester, markerDataPattern + "/item", jrNamespace);
+		addItemRules(digester, markerDataPattern + "/item", "addItem", jrNamespace);
 		
 		digester.setRuleNamespaceURI(jrNamespace);
 		digester.addFactoryCreate(markerDataPattern + "/dataset", ItemDatasetFactory.class.getName());
 		digester.addSetNext(markerDataPattern + "/dataset", "setDataset", JRElementDataset.class.getName());
 		
 		digester.setRuleNamespaceURI(componentNamespace);
-		
+
+		String markerSeriesNameExpressionPattern = markerDataPattern + "/seriesNameExpression";
+		digester.addFactoryCreate(markerSeriesNameExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(markerSeriesNameExpressionPattern, "setText", 0);
+		digester.addSetNext(markerSeriesNameExpressionPattern, "setSeriesNameExpression", JRExpression.class.getName());
+
+		String markeClusteringExpressionPattern = markerDataPattern + "/markerClusteringExpression";
+		digester.addFactoryCreate(markeClusteringExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(markeClusteringExpressionPattern, "setText", 0);
+		digester.addSetNext(markeClusteringExpressionPattern, "setMarkerClusteringExpression", JRExpression.class.getName());
+
+		String markerSpideringExpressionPattern = markerDataPattern + "/markerSpideringExpression";
+		digester.addFactoryCreate(markerSpideringExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(markerSpideringExpressionPattern, "setText", 0);
+		digester.addSetNext(markerSpideringExpressionPattern, "setMarkerSpideringExpression", JRExpression.class.getName());
+
+		String legendIconExpressionPattern = markerDataPattern + "/legendIconExpression";
+		digester.addFactoryCreate(legendIconExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(legendIconExpressionPattern, "setText", 0);
+		digester.addSetNext(legendIconExpressionPattern, "setLegendIconExpression", JRExpression.class.getName());
+
+		// legend rules
+		addItemRules(digester, mapPattern + "/legendItem", "setLegend", jrNamespace);
+		digester.setRuleNamespaceURI(componentNamespace);
+
+		// resetMap rules
+		addItemRules(digester, mapPattern + "/resetMapItem", "setResetMap", jrNamespace);
+		digester.setRuleNamespaceURI(componentNamespace);
+
 		String pathStylePattern = mapPattern + "/pathStyle";
 		digester.addFactoryCreate(pathStylePattern, ItemDataXmlFactory.class.getName());
 		digester.addSetNext(pathStylePattern, "addPathStyle", ItemData.class.getName());
 		
-		addItemRules(digester, pathStylePattern + "/item", jrNamespace);
+		addItemRules(digester, pathStylePattern + "/item", "addItem", jrNamespace);
 		
 		digester.setRuleNamespaceURI(jrNamespace);
 		digester.addFactoryCreate(pathStylePattern + "/dataset", ItemDatasetFactory.class.getName());
@@ -372,7 +402,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addFactoryCreate(pathDataPattern, ItemDataXmlFactory.class.getName());
 		digester.addSetNext(pathDataPattern, "addPathData", ItemData.class.getName());
 
-		addItemRules(digester, pathDataPattern + "/item", jrNamespace);
+		addItemRules(digester, pathDataPattern + "/item", "addItem", jrNamespace);
 
 		digester.setRuleNamespaceURI(jrNamespace);
 		digester.addFactoryCreate(pathDataPattern + "/dataset", ItemDatasetFactory.class.getName());
@@ -382,10 +412,10 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		
 	}
 
-	protected void addItemRules(Digester digester, String itemPattern, String namespace)
+	protected void addItemRules(Digester digester, String itemPattern, String methodName, String namespace)
 	{
 		digester.addFactoryCreate(itemPattern, ItemXmlFactory.class.getName());
-		digester.addSetNext(itemPattern, "addItem", Item.class.getName());
+		digester.addSetNext(itemPattern, methodName, Item.class.getName());
 
 		String locationItemPropertyPattern = itemPattern + "/itemProperty";
 		digester.addFactoryCreate(locationItemPropertyPattern, ItemPropertyXmlFactory.class.getName());

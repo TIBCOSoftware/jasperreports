@@ -27,8 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemCompiler;
 import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -60,10 +62,17 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getZoomExpression());
 		collector.addExpression(map.getLanguageExpression());
 
-		List<ItemData> markerDataList = map.getMarkerDataList();
-		if(markerDataList != null && markerDataList.size() > 0) {
-			for(ItemData markerData : markerDataList){
+		collectExpressions(map.getLegendItem(), collector);
+		collectExpressions(map.getResetMapItem(), collector);
+
+		List<MarkerItemData> markerItemDataList = map.getMarkerItemDataList();
+		if(markerItemDataList != null && markerItemDataList.size() > 0) {
+			for(MarkerItemData markerData : markerItemDataList){
 				ItemCompiler.collectExpressions(markerData, collector);
+				collector.addExpression(markerData.getSeriesNameExpression());
+				collector.addExpression(markerData.getMarkerClusteringExpression());
+				collector.addExpression(markerData.getMarkerSpideringExpression());
+				collector.addExpression(markerData.getLegendIconExpression());
 			}
 		}
 		List<ItemData> pathStyleList = map.getPathStyleList();
@@ -76,6 +85,21 @@ public class MapCompiler implements ComponentCompiler
 		if(pathDataList != null && pathDataList.size() > 0) {
 			for(ItemData pathData : pathDataList){
 				ItemCompiler.collectExpressions(pathData, collector);
+			}
+		}
+	}
+
+	protected void collectExpressions(Item item, JRExpressionCollector collector)
+	{
+		if (item != null)
+		{
+			List<ItemProperty> itemProperties = item.getProperties();
+			if(itemProperties != null)
+			{
+				for(ItemProperty property : itemProperties)
+				{
+					collector.addExpression(property.getValueExpression());
+				}
 			}
 		}
 	}
@@ -159,14 +183,14 @@ public class MapCompiler implements ComponentCompiler
 		}
 		
 		String[] reqNames = new String[]{MapComponent.ITEM_PROPERTY_latitude, MapComponent.ITEM_PROPERTY_longitude};
-		List<ItemData> markerDataList = map.getMarkerDataList();
-		if (markerDataList != null && markerDataList.size() > 0)
+		List<MarkerItemData> markerItemDataList = map.getMarkerItemDataList();
+		if (markerItemDataList != null && markerItemDataList.size() > 0)
 		{
-			for(ItemData markerData : markerDataList){
+			for(ItemData markerData : markerItemDataList){
 				ItemCompiler.verifyItemData(verifier, markerData, MapComponent.ELEMENT_MARKER_DATA, reqNames, addressMap);
 			}
 		}
-		
+
 		List<ItemData> pathStyleList = map.getPathStyleList();
 		if (pathStyleList != null && pathStyleList.size() > 0)
 		{

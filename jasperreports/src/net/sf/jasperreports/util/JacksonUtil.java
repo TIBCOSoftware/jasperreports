@@ -286,6 +286,24 @@ public class JacksonUtil
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	public String getIndentedJsonString(Object object)
+	{
+		ObjectMapper mapper = getObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		try
+		{
+			return mapper.writeValueAsString(object);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			mapper.disable(SerializationFeature.INDENT_OUTPUT);
+		}
+	}
 	
 	
 	/**
