@@ -278,7 +278,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 
-		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_21_0)) {
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) {
 			Boolean markerClustering = map.getMarkerClustering();
 			if (markerClustering != null) {
 				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);
