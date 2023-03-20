@@ -847,7 +847,7 @@ property is a HTML fragment with escaped open and end tags.
           <valueExpression>$F{iconheight}</valueExpression>
         </c:itemProperty>
         <c:itemProperty name="infowindow.content">
-          <valueExpression>"<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p>
+          <valueExpression>"<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p>
           	<p style='text-align:left;'>current latitude: <b>"+$F{latitude}+"</b><br/>current longitude: <b>"+$F{longitude}+"</b></p>"
           </valueExpression>
         </c:itemProperty>
