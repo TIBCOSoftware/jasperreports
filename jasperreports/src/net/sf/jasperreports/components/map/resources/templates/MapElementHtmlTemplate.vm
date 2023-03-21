@@ -5,7 +5,7 @@
 '>
 	<div id='${mapCanvasId}' style='width: 100%; height: 100%; overflow: auto'></div>
 	<div class="jr_map_legend_wrapper" style="display: none;">
-		<div id="${mapCanvasId}_legend" dragable="false" style="display: flex;justify-content:flex-start;font-family:Roboto,Arial,sans-serif;background-color:#fff;margin:10px;border-radius:2px;user-select:none;padding:0 10px 5px 10px;overflow:auto;"></div>
+		<div id="${mapCanvasId}_legend" dragable="false" style="display: flex;justify-content:flex-start;font-family:Roboto,Arial,sans-serif;background-color:#fff;margin:10px;border-radius:2px;user-select:none;padding:5px 10px 5px 10px;overflow:auto;"></div>
 	</div>
 </div>
 
