@@ -107,7 +107,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String reqParams;
 	private String defaultMarkerIcon;
 
-	private List<FillPlaceItemData> markerDataList;
+	private List<FillMarkerItemData> markerDataList;
 	private FillLegendItem legend;
 	private FillResetMapItem resetMap;
 	private List<FillItemData> pathStyleList;
@@ -142,7 +142,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(mapComponent.getMarkerDataList() != null){
 			markerDataList = new ArrayList<>();
 			for(MarkerItemData markerData : mapComponent.getMarkerItemDataList()) {
-				markerDataList.add(new FillPlaceItemData(this, markerData, factory));
+				markerDataList.add(new FillMarkerItemData(this, markerData, factory));
 			}
 		}
 		if(mapComponent.getPathStyleList() != null){
@@ -154,7 +154,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(mapComponent.getPathDataList() != null){
 			pathDataList = new ArrayList<>();
 			for(ItemData pathData : mapComponent.getPathDataList()) {
-				pathDataList.add(new FillPlaceItemData(this, (MarkerItemData) pathData, factory));
+				pathDataList.add(new FillPlaceItemData(this, pathData, factory));
 			}
 		}
 	}
@@ -246,23 +246,23 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			markerSeries = new LinkedHashMap<>();
 			int i = 0;
 			
-			for(FillPlaceItemData markerData : markerDataList) {
+			for(FillMarkerItemData markerData : markerDataList) {
 				List<Map<String,Object>> currentItemList = markerData.getEvaluateItems(evaluation);
 				if(currentItemList != null && !currentItemList.isEmpty()){
 					Map<String, Object> markerSingleSeriesConfiguration = new LinkedHashMap<>();
 					Object markerClustering = markerData.getEvaluateMarkerClusteringExpression(evaluation);
 					if (markerClustering != null) {
-						markerSingleSeriesConfiguration.put(FillPlaceItemData.PROPERTY_MARKER_CLUSTERING, markerClustering);
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_MARKER_CLUSTERING, markerClustering);
 					}
 
 					Object markerSpidering = markerData.getEvaluateMarkerSpideringExpression(evaluation);
 					if (markerSpidering != null) {
-						markerSingleSeriesConfiguration.put(FillPlaceItemData.PROPERTY_MARKER_SPIDERING, markerSpidering);
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_MARKER_SPIDERING, markerSpidering);
 					}
 
 					Object legendIcon = markerData.getEvaluateLegendIconExpression(evaluation);
 					if (legendIcon != null) {
-						markerSingleSeriesConfiguration.put(FillPlaceItemData.PROPERTY_LEGEND_ICON, legendIcon);
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_LEGEND_ICON, legendIcon);
 					}
 
 					List<Map<String, Object>> markerSeriesItems = new ArrayList<>();
