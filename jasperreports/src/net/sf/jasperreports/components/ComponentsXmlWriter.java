@@ -260,23 +260,25 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 
 			// write legendItem
 			Item legendItem = map.getLegendItem();
-			writer.startElement(MapXmlFactory.ELEMENT_legendItem, namespace);
-			List<ItemProperty> legendItemProperties = legendItem.getProperties();
-			for(ItemProperty property : legendItemProperties)
-			{
-				writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+			if (legendItem != null) {
+				writer.startElement(MapXmlFactory.ELEMENT_legendItem, namespace);
+				List<ItemProperty> legendItemProperties = legendItem.getProperties();
+				for (ItemProperty property : legendItemProperties) {
+					writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+				}
+				writer.closeElement();
 			}
-			writer.closeElement();
 
 			// write resetMapItem
 			Item resetMapItem = map.getResetMapItem();
-			writer.startElement(MapXmlFactory.ELEMENT_resetMapItem, namespace);
-			List<ItemProperty> resetMapItemProperties = resetMapItem.getProperties();
-			for(ItemProperty property : resetMapItemProperties)
-			{
-				writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+			if (resetMapItem != null) {
+				writer.startElement(MapXmlFactory.ELEMENT_resetMapItem, namespace);
+				List<ItemProperty> resetMapItemProperties = resetMapItem.getProperties();
+				for (ItemProperty property : resetMapItemProperties) {
+					writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+				}
+				writer.closeElement();
 			}
-			writer.closeElement();
 		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
 			List<ItemData> markerDataList = map.getMarkerDataList();
 			if(markerDataList !=null && markerDataList.size() > 0) {
