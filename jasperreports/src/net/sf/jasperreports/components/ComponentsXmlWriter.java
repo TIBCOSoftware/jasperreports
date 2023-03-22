@@ -251,13 +251,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 					map.getLanguageExpression());
 		}
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_2)) {
-			List<MarkerItemData> markerDataList = map.getMarkerItemDataList();
-			if(markerDataList !=null && markerDataList.size() > 0) {
-				for(MarkerItemData markerData : markerDataList) {
-					writeMarkerItemData(MapXmlFactory.ELEMENT_markerData, markerData, writer, reportWriter, namespace, componentElement);
-				}
-			}
-
 			// write legendItem
 			Item legendItem = map.getLegendItem();
 			if (legendItem != null) {
@@ -278,6 +271,14 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 					writeItemProperty(property, writer, reportWriter, namespace, componentElement);
 				}
 				writer.closeElement();
+			}
+
+			// write markerData
+			List<MarkerItemData> markerDataList = map.getMarkerItemDataList();
+			if(markerDataList !=null && markerDataList.size() > 0) {
+				for(MarkerItemData markerData : markerDataList) {
+					writeMarkerItemData(MapXmlFactory.ELEMENT_markerData, markerData, writer, reportWriter, namespace, componentElement);
+				}
 			}
 		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
 			List<ItemData> markerDataList = map.getMarkerDataList();
