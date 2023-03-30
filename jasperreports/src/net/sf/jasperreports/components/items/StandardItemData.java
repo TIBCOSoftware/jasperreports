@@ -79,7 +79,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 		return compiledItems;
 	}
 
-	private static List<ItemProperty> getCompiledProperties(List<ItemProperty> properties, JRBaseObjectFactory factory)
+	public static List<ItemProperty> getCompiledProperties(List<ItemProperty> properties, JRBaseObjectFactory factory)
 	{
 		if (properties == null)
 		{

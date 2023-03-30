@@ -31,6 +31,7 @@ import java.util.List;
 
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.StandardItem;
 import net.sf.jasperreports.components.items.StandardItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
@@ -125,8 +126,17 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.imageType = map.getImageType();
 		this.markerClustering = map.getMarkerClustering();
 		this.markerSpidering = map.getMarkerSpidering();
-		this.legend = map.getLegendItem();
-		this.resetMap = map.getResetMapItem();
+
+		Item legendItem = map.getLegendItem();
+		if (legendItem != null) {
+			this.legend = new StandardItem(StandardItemData.getCompiledProperties(legendItem.getProperties(), objectFactory));
+		}
+
+		Item resetMapItem = map.getResetMapItem();
+		if (resetMapItem != null) {
+			this.resetMap =new StandardItem(StandardItemData.getCompiledProperties(resetMapItem.getProperties(), objectFactory));
+		}
+
 		List<MarkerItemData> markerList = map.getMarkerItemDataList();
 		if(markerList != null && markerList.size() > 0)
 		{
