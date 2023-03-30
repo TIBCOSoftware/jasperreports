@@ -57,10 +57,8 @@
 						<c:itemProperty name="orientation" value="vertical"/>
 						<c:itemProperty name="legendMaxWidth" value="100px"/>
 						<c:itemProperty name="legendMaxWidth.fullscreen" value="180px"/>
-						<c:itemProperty name="seriesMaxWidth" value="120px"/>
-						<c:itemProperty name="seriesMaxWidth.fullscreen" value="300px"/>
-						<c:itemProperty name="seriesMaxHeight" value="70px"/>
-						<c:itemProperty name="seriesMaxHeight.fullscreen" value="150px"/>
+						<c:itemProperty name="legendMaxHeight" value="100px"/>
+						<c:itemProperty name="legendMaxHeight.fullscreen" value="150px"/>
 						<c:itemProperty name="useMarkerIcons" value="true"/>
 					</c:legendItem>
 					<c:resetMapItem>

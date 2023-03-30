@@ -584,32 +584,18 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String LEGEND_PROPERTY_legendMaxWidth_fullscreen = "legendMaxWidth.fullscreen";
 
 	/**
-	 * Legend item property with value of type {@link java.lang.String} that specifies the series wrapper maximum width in pixels when in non-fullscreen mode
-	 * <p/>
-	 * Defaults to "200px"
-	 */
-	public static final String LEGEND_PROPERTY_seriesMaxWidth = "seriesMaxWidth";
-
-	/**
-	 * Legend item property with value of type {@link java.lang.String} that specifies the series wrapper maximum width in pixels when in fullscreen mode
-	 * <p/>
-	 * Defaults to "300px"
-	 */
-	public static final String LEGEND_PROPERTY_seriesMaxWidth_fullscreen = "seriesMaxWidth.fullscreen";
-
-	/**
-	 * Legend item property with value of type {@link java.lang.String} that specifies the series wrapper maximum height in pixels when in non-fullscreen mode
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum height in pixels when in non-fullscreen mode
 	 * <p/>
 	 * Defaults to "150px"
 	 */
-	public static final String LEGEND_PROPERTY_seriesMaxHeight = "seriesMaxHeight";
+	public static final String LEGEND_PROPERTY_legendMaxHeight = "legendMaxHeight";
 
 	/**
-	 * Legend item property with value of type {@link java.lang.String} that specifies the series wrapper maximum height in pixels when in fullscreen mode
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum height in pixels when in fullscreen mode
 	 * <p/>
-	 * Defaults to "600px"
+	 * Defaults to "300px"
 	 */
-	public static final String LEGEND_PROPERTY_seriesMaxHeight_fullscreen = "seriesMaxHeight.fullscreen";
+	public static final String LEGEND_PROPERTY_legendMaxHeight_fullscreen = "legendMaxHeight.fullscreen";
 
 	/**
 	 * Legend item property with value of {@link java.lang.Boolean} or boolean {@link java.lang.String} that specifies if the legend series should use marker icons or not

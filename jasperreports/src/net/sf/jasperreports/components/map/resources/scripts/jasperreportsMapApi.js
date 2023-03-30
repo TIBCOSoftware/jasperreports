@@ -213,19 +213,21 @@ function initMap() {
                         legendOrientation = legendProperties["orientation"] || "vertical",
                         legendMaxWidth = legendProperties["legendMaxWidth"] || "100px",
                         legendMaxWidthFullscreen = legendProperties["legendMaxWidth.fullscreen"] || "150px",
-                        legendSeriesMaxWidth = legendProperties["seriesMaxWidth"] || "200px",
-                        legendSeriesMaxWidthFullscreen = legendProperties["seriesMaxWidth.fullscreen"] || "300px",
-                        legendSeriesMaxHeight = legendProperties["seriesMaxHeight"] || "150px",
-                        legendSeriesMaxHeightFullscreen = legendProperties["seriesMaxHeight.fullscreen"] || "600px",
+                        legendMaxHeight = legendProperties["legendMaxHeight"] || "150px",
+                        legendMaxHeightFullscreen = legendProperties["legendMaxHeight.fullscreen"] || "300px",
                         legendUseMarkerIcons = legendProperties["useMarkerIcons"] == null
                             ? true : this.getBooleanValue(legendProperties["useMarkerIcons"]);
 
 
                     var legendElement = document.getElementById(mapCanvasId + "_legend");
-                    var titleContainer = document.createElement("h3");
+                    var titleContainer = document.createElement("div");
+                    titleContainer.style.display = "flex";
+                    titleContainer.style.alignItems = "center";
 
-                    titleContainer.style.margin = "10px 0";
-                    titleContainer.insertAdjacentText("beforeend", legendLabel)
+                    var titleElement = document.createElement("h3");
+                    titleElement.insertAdjacentText("beforeend", legendLabel);
+
+                    titleContainer.insertAdjacentElement("beforeend", titleElement);
                     legendElement.insertAdjacentElement("beforeend", titleContainer);
 
                     function showHideGoogleMarkers(markerArr, action) {
@@ -284,6 +286,7 @@ function initMap() {
 
                         var divWrapper = document.createElement("div");
                         divWrapper.style.display = "flex";
+                        divWrapper.style.alignItems = "flex-start";
 
                         if (legendUseMarkerIcons) {
                             var legendMarkerIcon = markerSeriesConfigBySeriesName[seriesName].legendIcon;
@@ -321,24 +324,27 @@ function initMap() {
                         seriesMarkersWrapper.style.alignItems = "flex-start";
                     }
 
+                    if (legendPosition.indexOf("BOTTOM") !== -1) {
+                        legendElement.style.marginBottom = "24px";
+                    } else {
+                        legendElement.style.marginBottom = "10px";
+                    }
+
                     seriesMarkersWrapper.style.overflow = "auto";
                     legendElement.insertAdjacentElement("beforeend", seriesMarkersWrapper);
 
-                    // apply max width/height to legend and seriesMarkerWrapper
+                    // apply max width/height to legend
                     legendElement.style.maxWidth = legendMaxWidth;
-                    seriesMarkersWrapper.style.maxWidth = legendSeriesMaxWidth;
-                    seriesMarkersWrapper.style.maxHeight = legendSeriesMaxHeight;
+                    legendElement.style.maxHeight = legendMaxHeight;
 
                     !isForExport && google.maps.event.addListener(map, "bounds_changed", function () {
                         // detect fullscreen
                         if (map.getDiv().firstChild.clientHeight === window.innerHeight) { // fullscreen
                             legendElement.style.maxWidth = legendMaxWidthFullscreen;
-                            seriesMarkersWrapper.style.maxWidth = legendSeriesMaxWidthFullscreen;
-                            seriesMarkersWrapper.style.maxHeight = legendSeriesMaxHeightFullscreen;
+                            legendElement.style.maxHeight = legendMaxHeightFullscreen;
                         } else { // not fullscreen
                             legendElement.style.maxWidth = legendMaxWidth;
-                            seriesMarkersWrapper.style.maxWidth = legendSeriesMaxWidth;
-                            seriesMarkersWrapper.style.maxHeight = legendSeriesMaxHeight;
+                            legendElement.style.maxHeight = legendMaxHeight;
                         }
                     });
 

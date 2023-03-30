@@ -16,10 +16,8 @@ public class FillLegendItem extends FillResetMapItem {
             MapComponent.LEGEND_PROPERTY_orientation,
             MapComponent.LEGEND_PROPERTY_legendMaxWidth,
             MapComponent.LEGEND_PROPERTY_legendMaxWidth_fullscreen,
-            MapComponent.LEGEND_PROPERTY_seriesMaxWidth,
-            MapComponent.LEGEND_PROPERTY_seriesMaxWidth_fullscreen,
-            MapComponent.LEGEND_PROPERTY_seriesMaxHeight,
-            MapComponent.LEGEND_PROPERTY_seriesMaxHeight_fullscreen,
+            MapComponent.LEGEND_PROPERTY_legendMaxHeight,
+            MapComponent.LEGEND_PROPERTY_legendMaxHeight_fullscreen,
             MapComponent.LEGEND_PROPERTY_useMarkerIcons
         };
 
