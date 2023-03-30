@@ -64,7 +64,8 @@
 
             // draw marker legend
             var legendProperties = ${legendProperties};
-            jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName, markerClustersBySeriesName, defaultMarkerIcon, isForExport);
+            jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName,
+                    markerClustersBySeriesName, null, defaultMarkerIcon, isForExport);
 
             // draw paths
             var paths = ${pathsList};

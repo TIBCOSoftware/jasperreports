@@ -51,14 +51,15 @@
 			var markerSeriesConfigBySeriesName = jasperreports.map.placeSeriesMarkers(map, markerSeries, false, globalUseMarkerSpidering);
 
 			// enable marker spidering only for the configured series
-			jasperreports.map.enableSpidering(map, markerSeriesConfigBySeriesName);
+			var overlappingMarkerSpiderfier = jasperreports.map.enableSpidering(map, markerSeriesConfigBySeriesName);
 
 			// enable marker clustering globally and/or per series
 			var markerClustersBySeriesName = jasperreports.map.enableClustering(map, markerSeriesConfigBySeriesName, globalUseMarkerClustering);
 
 			// draw marker legend
 			var legendProperties = ${legendProperties};
-			jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName, markerClustersBySeriesName, defaultMarkerIcon, false);
+			jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName,
+					markerClustersBySeriesName, overlappingMarkerSpiderfier, defaultMarkerIcon, false);
 
 			// draw resetMap control
 			var resetMapProperties = ${resetMapProperties};

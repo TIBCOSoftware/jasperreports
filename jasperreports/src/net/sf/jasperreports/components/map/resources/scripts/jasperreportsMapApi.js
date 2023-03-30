@@ -154,8 +154,8 @@ function initMap() {
             },
             enableSpidering: function(map, markerSeriesConfigBySeriesName) {
                 var markerSeriesNames = this.getObjectKeys(markerSeriesConfigBySeriesName),
-                    i, ln, seriesName, markerSeriesConfig, oms = null;
-                for (i = 0, ln = markerSeriesNames.length; i < ln; i++) {
+                    i, j, seriesName, markerSeriesConfig, oms = null;
+                for (i = 0; i < markerSeriesNames.length; i++) {
                     seriesName = markerSeriesNames[i];
                     markerSeriesConfig = markerSeriesConfigBySeriesName[seriesName];
                     if (markerSeriesConfig.useMarkerSpidering) {
@@ -167,9 +167,13 @@ function initMap() {
                                 keepSpiderfied: true
                             });
                         }
-                        markerSeriesConfig.googleMarkers.forEach(marker => oms.addMarker(marker));
+                        for (j = 0; j < markerSeriesConfig.googleMarkers.length; j++) {
+                            oms.addMarker(markerSeriesConfig.googleMarkers[j]);
+                        }
                     }
                 }
+
+                return oms;
             },
             enableClustering: function(map, markerSeriesConfigBySeriesName, globalUseMarkerClustering) {
                 var markerSeriesNames = this.getObjectKeys(markerSeriesConfigBySeriesName),
@@ -205,8 +209,8 @@ function initMap() {
 
                 return markerClustersBySeriesName;
             },
-            drawLegend: function(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName,
-                                markerClustersBySeriesName, defaultMarkerIcon, isForExport) {
+            drawLegend: function(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName, markerClustersBySeriesName,
+                overlappingMarkerSpiderfier, defaultMarkerIcon, isForExport) {
                 if (this.getBooleanValue(legendProperties["enabled"])) {
                     var legendLabel = legendProperties["label"] || "Legend",
                         legendPosition = legendProperties["position"] || "RIGHT_CENTER",
@@ -255,9 +259,9 @@ function initMap() {
                         seriesToggleButton.style.verticalAlign = "top";
                         seriesToggleButton.style.cursor = "pointer";
 
-                        (function (nameOfSeries) {
+                        !isForExport && (function (nameOfSeries) {
                             seriesToggleButton.addEventListener("click", function (event) {
-                                var markerSeriesConfig = markerSeriesConfigBySeriesName[nameOfSeries];
+                                var i, markerSeriesConfig = markerSeriesConfigBySeriesName[nameOfSeries];
                                 if (markerSeriesConfig.action == null || markerSeriesConfig.action === "show") {
                                     markerSeriesConfig.action = "hide";
                                 } else {
@@ -273,6 +277,19 @@ function initMap() {
                                         markerClustersBySeriesName[nameOfSeries].removeMarkers(markerSeriesConfig.googleMarkers, false);
                                     } else {
                                         markerClustersBySeriesName[nameOfSeries].addMarkers(markerSeriesConfig.googleMarkers, false);
+                                    }
+                                }
+
+                                // if spidering is enabled for the series, add/remove the markers from spiderfier
+                                if (overlappingMarkerSpiderfier != null && markerSeriesConfig.useMarkerSpidering) {
+                                    if (markerSeriesConfig.action === "hide") {
+                                        for (i = 0; i < markerSeriesConfig.googleMarkers.length; i++) {
+                                            overlappingMarkerSpiderfier.forgetMarker(markerSeriesConfig.googleMarkers[i]);
+                                        }
+                                    } else {
+                                        for (i = 0; i < markerSeriesConfig.googleMarkers.length; i++) {
+                                            overlappingMarkerSpiderfier.trackMarker(markerSeriesConfig.googleMarkers[i]);
+                                        }
                                     }
                                 }
 
