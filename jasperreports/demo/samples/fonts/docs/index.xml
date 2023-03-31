@@ -45,8 +45,8 @@ The main font settings available in JasperReports are:
 <li><code>isItalic</code> - flag specifying if an <i>italic</i> font is required. It defaults to <code>false</code>.</li>
 <li><code>isUnderline</code> - flag specifying if the <u>underline</u> text decoration is required. It defaults to <code>false</code>.</li>
 <li><code>isStrikeThrough</code> - flag specifying if the <del>strikethrough</del> text decoration is required. It defaults to <code>false</code>.</li>
-<li><code>pdfFontName</code> - the name of an equivalent PDF font required by the iText library when exporting documents to PDF format.</li>
-<li><code>pdfEncoding</code> - the equivalent PDF character encoding, also required by the iText library.</li>
+<li><code>pdfFontName</code> - the name of an equivalent PDF font required by the OpenPDF library when exporting documents to PDF format.</li>
+<li><code>pdfEncoding</code> - the equivalent PDF character encoding, also required by the OpenPDF library.</li>
 <li><code>isPdfEmbedded</code> - flag that specifies whether the font should be embedded into the document itself. It defaults to <code>false</code>.</li>
 </ul>
 <b>Character Encoding</b>

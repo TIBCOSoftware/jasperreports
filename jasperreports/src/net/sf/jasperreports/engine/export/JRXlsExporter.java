@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -54,6 +54,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hpsf.SummaryInformation;
+import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -635,7 +636,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				}
 			}
 			
+			String encryptionPassword = getCurrentConfiguration().getEncryptionPassword();
+			if (encryptionPassword == null || encryptionPassword.trim().length() == 0)
+			{
+				Biff8EncryptionKey.setCurrentUserPassword(null);
+			}
+			else
+			{
+				Biff8EncryptionKey.setCurrentUserPassword(encryptionPassword);
+			}
 			workbook.write(os);
+			Biff8EncryptionKey.setCurrentUserPassword(null);
 		}
 		catch (IOException e)
 		{

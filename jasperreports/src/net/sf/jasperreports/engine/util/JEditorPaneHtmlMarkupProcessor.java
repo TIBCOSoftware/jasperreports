@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,7 +31,6 @@ import java.util.Stack;
 
 import javax.swing.JEditorPane;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -59,6 +58,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	
 	private Document document;
 	private boolean bodyOccurred = false;
+	private boolean isFirstContentTag = true;
+	private boolean breaksFlow = false;
+	private boolean suppressBreaksFlow = false;
+	private int rootEndOffset;
 
 	private Stack<StyledTextListInfo> htmlListStack;
 	private boolean insideLi;
@@ -87,10 +90,12 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 			document = editorPane.getDocument();
 			bodyOccurred = false;
+			isFirstContentTag = true;
 
 			Element root = document.getDefaultRootElement();
 			if (root != null)
 			{
+				rootEndOffset = root.getEndOffset();
 				processElement(styledText, root);
 			}
 
@@ -113,10 +118,20 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 
 			Object elementName = attrs.getAttribute(AbstractDocument.ElementNameAttribute);
 			Object object = (elementName != null) ? null : attrs.getAttribute(StyleConstants.NameAttribute);
-			if (object instanceof HTML.Tag) 
+			HTML.Tag htmlTag = object instanceof HTML.Tag ? (HTML.Tag) object : null;
+
+			if (htmlTag != null) 
 			{
+				suppressBreaksFlow |= (htmlTag == Tag.UL || htmlTag == Tag.OL || htmlTag == Tag.LI);
+				// the breaksFlow is supposed to keep the aggregated flag for the nested tags
+				// that precede the current element, so in theory the current element should not be part of the
+				// update of the flag here;
+				// but since the breaksFLow flag is used only in BR and CONTENT tags, which are both leaf elements,
+				// then it is safe to simply exclude them from the aggregation based on the element.isLeaf() flag
+				// the IMPLIED tag is not a breaksFlow one for the HTML parser, but we want it to be a breaksFlow element,
+				// in our algorithm, so dealing with it here
+				breaksFlow |= (!element.isLeaf() && htmlTag.breaksFlow()) || htmlTag == Tag.IMPLIED; 
 				
-				HTML.Tag htmlTag = (HTML.Tag) object;
 				if (htmlTag == Tag.BODY)
 				{
 					bodyOccurred = true;
@@ -124,17 +139,33 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if (htmlTag == Tag.BR)
 				{
-					styledText.append("\n");
-
-					int startIndex = styledText.length();
-					resizeRuns(styledText.getRuns(), startIndex, 1);
-
-					processElement(styledText, element);
-					styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
-
-					if (startIndex < styledText.length()) {
+					if (
+						bodyOccurred && !isFirstContentTag && breaksFlow && !suppressBreaksFlow 
+						&& i == 0 // only for first BR element in parent
+						)
+					{
 						styledText.append("\n");
+						resizeRuns(styledText.getRuns(), styledText.length(), 1);
+					}
+
+					if (element.getEndOffset() != rootEndOffset - 1) // only if the BR element is not the very last element of the html snippet 
+					{
+						styledText.append("\n");
+						
+						int startIndex = styledText.length();
 						resizeRuns(styledText.getRuns(), startIndex, 1);
+	
+						processElement(styledText, element);
+						styledText.addRun(new JRStyledText.Run(new HashMap<>(), startIndex, styledText.length()));
+	
+						// a second newline is added in case the <br> tag was not empty, as it is usually used 
+						if (startIndex < styledText.length()) {
+							styledText.append("\n");
+							resizeRuns(styledText.getRuns(), startIndex, 1);
+						}
+						
+						breaksFlow = false;
+						suppressBreaksFlow = true;
 					}
 				}
 				else if (htmlTag == Tag.OL || htmlTag == Tag.UL)
@@ -213,7 +244,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						htmlListStack.pop();
 					}
 				}
-				else if (element instanceof LeafElement)
+				else if (htmlTag == Tag.CONTENT)
 				{
 					String chunk = null;
 					try
@@ -233,6 +264,16 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						&& !"\n".equals(chunk) 
 						)
 					{
+						if (bodyOccurred && !isFirstContentTag && breaksFlow && !suppressBreaksFlow)
+						{
+							styledText.append("\n");
+							resizeRuns(styledText.getRuns(), styledText.length(), 1);
+						}
+
+						isFirstContentTag = false;
+						breaksFlow = false;
+						suppressBreaksFlow = false;
+
 						liStart = false;
 						justClosedList = null;
 
@@ -268,6 +309,8 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 						processElement(styledText, element);
 					}
 				}
+				
+				suppressBreaksFlow |= (htmlTag == Tag.UL || htmlTag == Tag.OL || htmlTag == Tag.LI);
 			}
 		}
 	}

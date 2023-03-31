@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -51,9 +53,13 @@ public class MapElementDocxHandler implements GenericElementDocxHandler
 		try
 		{
 			JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporterRef();
+			JRPrintImage mapImage = DefaultMapElementImageProvider
+					.getInstance()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+
 			exporter.exportImage(
-				exporterContext.getTableHelper(), 
-				MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
+				exporterContext.getTableHelper(),
+				mapImage,
 				gridCell
 				);
 		}

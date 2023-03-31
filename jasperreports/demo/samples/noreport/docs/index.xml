@@ -28,7 +28,7 @@ How to create final in-memory documents without using the report generation proc
 When generating reports, the main purpose is to create a pixel-perfect document, ready for
 viewing, printing, or exporting to other formats. These documents are stored in serializable 
 <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> objects, that can 
-be saved on the disk, or transfered over the network if needed. 
+be saved on the disk, or transferred over the network if needed. 
 <br/>
 Usually, one can obtain a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> 
 object by compiling and filling a report template, following the steps below:
