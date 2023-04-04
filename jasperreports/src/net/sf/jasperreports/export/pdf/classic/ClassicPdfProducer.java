@@ -125,6 +125,7 @@ public class ClassicPdfProducer implements PdfProducer
 						pageFormat.getPageHeight()
 					)
 				);
+		pdfDocument.setGlyphSubstitutionEnabled(false);//FIXME config property?
 			
 		imageTesterDocument =
 				new Document(
