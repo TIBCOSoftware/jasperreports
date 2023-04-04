@@ -89,7 +89,7 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>6.20.2-SNAPSHOT</revision>
+		<revision>bug-JRL-1823-inhibit-fop-ligatures-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>
