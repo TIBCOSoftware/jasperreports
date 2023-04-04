@@ -667,7 +667,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				allowRowResize = 
 					isFlexibleRowHeight 
 					&& (allowRowResize 
-						|| (gridCell.getElement() instanceof JRPrintText 
+						|| (gridCell.getElement() instanceof JRPrintText
+						    || gridCell.getElement() instanceof JRPrintFrame
 							|| (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL
 								&& ((OccupiedGridCell)gridCell).getOccupier().getElement() instanceof JRPrintText)
 							)
