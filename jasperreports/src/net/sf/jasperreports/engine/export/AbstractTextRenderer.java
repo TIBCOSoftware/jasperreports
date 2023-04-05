@@ -77,6 +77,7 @@ public abstract class AbstractTextRenderer
 	protected float lineHeight;
 	protected boolean isMaxHeightReached;
 	protected boolean isFirstParagraph;
+	protected boolean isLastParagraph;
 	protected List<TabSegment> segments;
 	protected int segmentIndex;
 	protected boolean indentFirstLine;
@@ -349,7 +350,7 @@ public abstract class AbstractTextRenderer
 		AttributedCharacterIterator allParagraphs = getAttributedString().getIterator(); 
 
 		isFirstParagraph = true;
-
+		isLastParagraph = false;
 		
 		int runLimit = 0;
 
@@ -380,6 +381,8 @@ public abstract class AbstractTextRenderer
 			while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 			{
 				String paragraphText = tkzer.nextToken();
+
+				isLastParagraph = !tkzer.hasMoreTokens();
 
 				if ("\n".equals(paragraphText))
 				{
@@ -561,7 +564,7 @@ public abstract class AbstractTextRenderer
 		
 					if (
 						text.getHorizontalTextAlign() == HorizontalTextAlignEnum.JUSTIFIED
-						&& (lineMeasurer.getPosition() < paragraph.getEndIndex() || justifyLastLine)
+						&& (lineMeasurer.getPosition() < paragraph.getEndIndex() || (isLastParagraph && justifyLastLine))
 						)
 					{
 						layout = layout.getJustifiedLayout(availableWidth);

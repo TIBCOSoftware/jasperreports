@@ -180,7 +180,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 				+ bottomPadding,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			text.getLineSpacingFactor(),
-			horizontalAlignment == PdfTextAlignment.JUSTIFIED && justifyLastLine 
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (isLastParagraph && justifyLastLine) 
 				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
