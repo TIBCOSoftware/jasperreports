@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -162,7 +162,7 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 		{
 			if ((title != null || subject != null || keywords != null) && log.isWarnEnabled())
 			{
-				// iText 2.1.7 does not properly write localized properties and keywords
+				//TODO check whether OpenPDF properly writes localized properties and keywords
 				log.warn("XMP metadata might be non conforming, include the Adobe XMP library to correct");
 			}
 			

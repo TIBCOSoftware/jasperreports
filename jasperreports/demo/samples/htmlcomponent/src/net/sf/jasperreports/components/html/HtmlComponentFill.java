@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -119,6 +119,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 		}
 		
 		printElement = new JRTemplateGenericPrintElement(template, printElementOriginator);
+		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 
 		printElement.setWidth(element.getWidth());

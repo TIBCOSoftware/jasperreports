@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -58,7 +58,7 @@ public class ClassicTextChunk extends ClassicChunk implements PdfTextChunk
 	{
 		// using the same thickness as sun.font.Fond2D.
 		// the position is calculated in Fond2D based on the ascent, defaulting 
-		// to iText default position which depends on the font size
+		// to OpenPDF default position which depends on the font size
 		chunk.setUnderline(null, 0, 1f / 18, 0, 1f / 3, 0);
 	}
 
