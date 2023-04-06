@@ -2,6 +2,19 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.2 (2023-04-xx)
+---------------------------------------------
+
+- report splitting;
+
+- various dependencies upgrades including: Spring 5.3.26 and TestNG 7.7.0; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.1 (2023-03-14)
 ---------------------------------------------
 
