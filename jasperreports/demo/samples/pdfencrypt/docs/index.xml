@@ -86,7 +86,7 @@ This exporter parameter accepts <code>java.lang.Integer</code> values
 representing the PDF permissions for the generated document. The open permissions for 
 the document can be <code>AllowPrinting</code>, <code>AllowModifyContents</code>, <code>AllowCopy</code>, 
 <code>AllowModifyAnnotations</code>, <code>AllowFillIn</code>, <code>AllowScreenReaders</code>, <code>AllowAssembly</code>, 
-and <code>AllowDegradedPrinting</code> (these are all in the <code>PdfWriter</code> class of the iText 
+and <code>AllowDegradedPrinting</code> (these are all in the <code>PdfWriter</code> class of the OpenPDF 
 library). Permissions can be combined by applying bitwise <code>OR</code> to them.</li>
 </ul>
 <b>Encrypted PDF Example</b>    

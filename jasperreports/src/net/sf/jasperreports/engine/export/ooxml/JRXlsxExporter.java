@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -313,10 +313,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			context.next(attributes, runText);
 			
-			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
-			{
-				runText = runText.substring(1);
-			}
+			//if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			//{
+			//	runText = runText.substring(1);
+			//}
 
 			if (runText.length() > 0)
 			{
@@ -700,7 +700,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			coreHelper.exportFooter();
 			coreHelper.close();
 
-			xlsxZip.zipEntries(os);
+			String password = getCurrentConfiguration().getEncryptionPassword();
+			if (password == null || password.trim().length() == 0)
+			{
+				xlsxZip.zipEntries(os);
+			}
+			else
+			{
+				// isolate POI encryption code into separate class to avoid POI dependency when not needed
+				OoxmlEncryptUtil.zipEntries(xlsxZip, os, password);
+			}
 
 			xlsxZip.dispose();
 			
@@ -785,6 +794,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
+			String password = configuration.getPassword();
 			
 			if(currentSheetFirstPageNumber != null && currentSheetFirstPageNumber > 0)
 			{
@@ -797,7 +807,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 			}
@@ -815,7 +826,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						documentFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 				}
@@ -830,7 +842,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						null,
 						firstPageNotSet,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 				}
 			}

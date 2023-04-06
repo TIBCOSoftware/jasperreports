@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -162,6 +162,18 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_EMBED_FONTS = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "embed.fonts";
 	
 	/**
+	 * Property whose value is used as default for the {@link #getEncryptionPassword()} export configuration setting.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_1
+			)
+	public static final String PROPERTY_ENCRYPTION_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.encryption.password";
+
+	/**
 	 * The Title of the PPTX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -234,4 +246,11 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			booleanDefault=false
 			)
 	public Boolean isEmbedFonts();
+
+	/**
+	 * The encryption password needed to open the document, if it is encrypted.
+	 * @see #PROPERTY_ENCRYPTION_PASSWORD
+	 */
+	@ExporterProperty(PROPERTY_ENCRYPTION_PASSWORD)
+	public String getEncryptionPassword();
 }

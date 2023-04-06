@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -524,7 +524,16 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		docxFontTableRelsHelper.exportFooter();
 		docxFontTableRelsHelper.close();
 
-		docxZip.zipEntries(os);
+		String password = getCurrentConfiguration().getEncryptionPassword();
+		if (password == null || password.trim().length() == 0)
+		{
+			docxZip.zipEntries(os);
+		}
+		else
+		{
+			// isolate POI encryption code into separate class to avoid POI dependency when not needed
+			OoxmlEncryptUtil.zipEntries(docxZip, os, password);
+		}
 
 		docxZip.dispose();
 	}
@@ -965,10 +974,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 			context.next(attributes, runText);
 
-			if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
-			{
-				runText = runText.substring(1);
-			}
+			//if (context.listItemStartsWithNewLine() && !context.isListItemStart() && (context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+			//{
+			//	runText = runText.substring(1);
+			//}
 
 			if (runText.length() > 0)
 			{

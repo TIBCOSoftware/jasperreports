@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ParagraphsReport.2" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
+	<style name="myDefault" isDefault="true" fontName="DejaVu Sans"/>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="cyan" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Line 1<div>Line 2</div><div>Line 3</div>"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="cyan" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["<p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<p>This word is <i>Italic</i></p><p>This word is <u>Underlined</u><li>Bullet</li></p>"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="cyan" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["<p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<br><p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<br><p>This word is <i>Italic</i></p><p>This word is <u>Underlined</u><li>Bullet</li></p>"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="cyan" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["<p><i>Italic</i></p><ol><p><u>Underlined</u><li>Bullet</li></p>"
++ "<p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<p>This word is <i>Italic</i></p><p>This word is <u>Underlined</u><li>Bullet</li></p></ol>"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="15">
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="cyan" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
+					<textElement markup="html" textAlignment="Left">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["<p><i>Italic</i></p><ol><p><u>Underlined</u><li>Bullet</li></p>"
++ "<br><p><i>Italic</i></p><p><u>Underlined</u><li>Bullet</li></p>"
++ "<br><p>This word is <i>Italic</i></p><p>This word is <u>Underlined</u><li>Bullet</li></p></ol>"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

@@ -67,7 +67,7 @@ AElFTkSuQmCC]]>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
 			<reportElement uuid="305465d6-603e-42fe-a154-fd213cd6a2e5" style="Sans_Italic" x="200" y="70" width="375" height="15" origin="6" srcId="23" printId="1"/>
 			<font size="12"/>
-			<textContent><![CDATA[(c)2001-2019 by teodord]]></textContent>
+			<textContent><![CDATA[(c)2001-2023 by teodord]]></textContent>
 		</text>
 		<text textAlignment="Justified" textHeight="27.9375" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
 			<reportElement uuid="23ed4c6d-1533-46c1-8f27-d40dd5aac212" x="275" y="85" width="100" height="40" origin="6" srcId="24" printId="1"/>

@@ -2,6 +2,36 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.1 (2023-03-14)
+---------------------------------------------
+
+- XLSX metadata exporter added to produce pure data output in the modern Excel file format 
+(similar to pre-existing XLS and CSV metadata exporters);
+
+- optimizations and improvements made in the XLSX exporter to allow skipping time consuming 
+text measuring routines during the report filling process and produce the output document 
+faster when the Excel format is the main (if not the only) export target;
+
+- support for file encryption in the XLS, XLSX, DOCX and PPTX exporters;
+
+- marker clustering and marker spidering features added to the Google Map component;
+
+- allow specifying the split type in table component rows;
+
+- replaced iText 2.1.7 with OpenPDF 1.3.30 for PDF export;
+
+- various dependencies upgrades including: Apache Lucene 8.11.2, Bouncy Castle 1.71, 
+Jaxen 1.2.0, Apache POI 5.2.2, Apache Batik 1.16, Jackson 2.14.1 and Groovy 4.0.8; 
+
+- the Apache Xalan dependency was taken out from the core library and moved into an optional 
+and deprecated extension module;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.0 (2022-07-14)
 ---------------------------------------------
 
@@ -13,7 +43,6 @@ JasperReports 6.20.0 (2022-07-14)
 Chrome DevTools Java Client 4.0.0 and Apache Commons Codec 1.15;
 
 - minor bug fixes and improvements;
-
 
 
 
