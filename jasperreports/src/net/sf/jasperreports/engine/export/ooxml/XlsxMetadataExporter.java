@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -806,7 +806,16 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			coreHelper.exportFooter();
 			coreHelper.close();
 
-			xlsxZip.zipEntries(os);
+			String password = getCurrentConfiguration().getEncryptionPassword();
+			if (password == null || password.trim().length() == 0)
+			{
+				xlsxZip.zipEntries(os);
+			}
+			else
+			{
+				// isolate POI encryption code into separate class to avoid POI dependency when not needed
+				OoxmlEncryptUtil.zipEntries(xlsxZip, os, password);
+			}
 
 			xlsxZip.dispose();			
 		}
@@ -897,6 +906,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			XlsxMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 			
 			boolean isIgnorePageMargins = configuration.isIgnorePageMargins();
+			String password = configuration.getPassword();
 			
 			if(currentSheetFirstPageNumber != null && currentSheetFirstPageNumber > 0)
 			{
@@ -909,7 +919,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						currentSheetFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 			}
@@ -927,7 +938,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						documentFirstPageNumber,
 						false,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 					firstPageNotSet = false;
 				}
@@ -942,7 +954,8 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						null,
 						firstPageNotSet,
 						pageIndex - sheetInfo.sheetFirstPageIndex,
-						sheetInfo.printSettings
+						sheetInfo.printSettings,
+						password
 						);
 				}
 			}

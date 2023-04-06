@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -138,7 +138,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if (mapComponent.getResetMapItem() != null) {
 			resetMap = new FillResetMapItem(this, mapComponent.getResetMapItem(), factory);
 		}
-		
+
 		if(mapComponent.getMarkerDataList() != null){
 			markerDataList = new ArrayList<>();
 			for(MarkerItemData markerData : mapComponent.getMarkerItemDataList()) {

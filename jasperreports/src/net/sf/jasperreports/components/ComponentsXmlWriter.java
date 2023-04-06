@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -689,6 +689,11 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 			writer.startElement(name);
 			
+			if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1))
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, row.getSplitType());
+			}
+
 			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 				JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 				row.getPrintWhenExpression(),

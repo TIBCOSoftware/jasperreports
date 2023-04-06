@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,13 +23,13 @@
  */
 package net.sf.jasperreports.ant;
 
-import org.apache.commons.javaflow.ant.AntRewriteTask;
+import org.apache.commons.javaflow.tools.ant.ContinuableClassesInstrumentationTask;
 import org.apache.tools.ant.BuildException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JavaflowRewriteTask extends AntRewriteTask
+public class JavaflowRewriteTask extends ContinuableClassesInstrumentationTask
 {
 
 	@Override

@@ -1,12 +1,12 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/engine/util/JRLoader</className>
-		<differenceType>7002</differenceType>
-		<method>*loadToMemoryInputStream(java.io.InputStream)</method>
+		<className>net/sf/jasperreports/engine/JRPart</className>
+		<differenceType>7012</differenceType>
+		<method>*getPropertyExpressions()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/util/JacksonUtil</className>
-		<differenceType>7002</differenceType>
-		<method>*getEscapedJsonString(java.lang.Object)</method>
+		<className>net/sf/jasperreports/export/PrintPartUnrollExporterInput</className>
+		<differenceType>7004</differenceType>
+		<method>*PrintPartUnrollExporterInput(net.sf.jasperreports.export.ExporterInput)</method>
 	</difference>
 </differences>

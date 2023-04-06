@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -788,7 +788,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * @see net.sf.jasperreports.engine.type.OnErrorTypeEnum
 	 */
 	OnErrorTypeEnum getOnErrorType();
-
+	
 	/**
 	 * @return the {@link #ATTRIBUTE_MARKER_CLUSTERING} attribute
 	 */
@@ -816,7 +816,7 @@ public interface MapComponent extends Component, JRCloneable
 	Item getLegendItem();
 
 	Item getResetMapItem();
-	
+
 	/**
 	 * Returns a list of {@link ItemData ItemData} objects 
 	 * representing collections of path styles for the map

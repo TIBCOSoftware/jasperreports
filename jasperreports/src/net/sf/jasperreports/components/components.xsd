@@ -809,6 +809,15 @@
 		<sequence>
 			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
 		</sequence>
+		<attribute name="splitType" use="optional">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="Stretch"/>
+					<enumeration value="Prevent"/>
+					<enumeration value="Immediate"/>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 	
 	<complexType name="TableGroupCell">
