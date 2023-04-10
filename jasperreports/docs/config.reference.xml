@@ -2309,7 +2309,33 @@ One can write an implementation of the <api href="net/sf/jasperreports/engine/ut
 A text measurer is responsible with computing text layout attributes (in the form of <api href="net/sf/jasperreports/engine/fill/JRMeasuredText.html">JRMeasuredText</api> instances) for report text elements.  The measurer is only used at report fill time, the exporters will use the computed text layout attributes. 
 Then one can define an alias of the text measurer factory implementation by declaring a property <code>named net.sf.jasperreports.text.measurer.factory.{alias}</code> which has the name of the factory class as value. 
 The <code>net.sf.jasperreports.text.measurer.factory</code> property is set to a defined alias or a full factory class name. 
-The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes. 
+The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes.
+<p>
+There are two builtin text measurer implementations: <code>default</code> and 
+<code>naive</code>.
+The <code>default</code> text measurer implementation performs text measuring, 
+stretching and truncation and is meant to be used when text layout is relevant,
+which would be most report executions.
+</p>
+<p>
+The <code>naive</code> text measurer implementation does not perform any text
+measuring, it blindly considers any text to fit in the element boundaries 
+without any stretching or truncation.
+It is therefore unsuitable for exporters that honour element dimensions, like 
+the PDF and HTML exporters and all other exporters that are meant to be close
+to the pixel perfect layout of reports.
+It should only be used for reports exported to data-centric outputs that do not
+rely on any actual text measurements, such as the CSV, JSON metadata and the 
+Excel exporters.
+</p>
+<p>
+For Excel exporters the <code>naive</code> text measurer should be accompanied 
+by <code>net.sf.jasperreports.export.xls.auto.fit.row=true</code> if cells in
+Excel are expected to grow vertically in order to fit their contents, otherwise
+texts that would have normally stretched would not be fully visible in Excel 
+(but the full text would still be present in the cell and accessible when the 
+cell is selected).
+</p>
     </description>
   </configProperty>
   
