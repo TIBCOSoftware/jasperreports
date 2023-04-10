@@ -7486,4 +7486,23 @@ The flag is set to <code>true</code> by default.
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.element.template.populate.style -->
+  
+  <configProperty name="net.sf.jasperreports.element.template.populate.style">
+    <description>
+Flag that determines whether report style attributes are to be populated in
+element print template objects during report execution.
+This results in a speed improvement of large report exporting for some export
+formats.
+<p>
+Setting the flag modifies the structure of the generated report with respect to
+style attributes and should not be used when <code>JasperPrint</code> objects 
+are meant to undergo postprocessing related to element styles.
+Enabling the property also results in altered XML exporter output and should not
+be used when original XML exporter output is required.
+</p>
+    </description>
+  </configProperty>
+  
+  
 </configReference>
