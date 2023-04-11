@@ -70,17 +70,7 @@
 			<artifactId>openpdf</artifactId>
 			<version>1.3.30.jaspersoft.2-SNAPSHOT</version>
  			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcmail-jdk18on</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk18on</artifactId>
-				</exclusion>
-			</exclusions>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.drewnoakes</groupId>
@@ -509,22 +499,6 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>jaspersoft-third-party</id>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
-		</repository>
-		<repository>
-			<id>jr-ce-snapshots</id>
-			<name>JasperReports CE Snapshots</name>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
-		</repository>
-		<repository>
-			<id>jr-ce-releases</id>
-			<name>JasperReports CE Releases</name>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
-		</repository>
-	</repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>tests</testSourceDirectory>

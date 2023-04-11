@@ -5,6 +5,6 @@
 	<dependencies>
 		<dependency org="org.apache.commons" name="commons-compress" rev="1.21" conf="test->*"/>
 		<dependency org="org.apache.poi" name="poi-ooxml-lite" rev="5.2.2" conf="test->*"/>
-		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="5.0.2" conf="test->*"/>
+		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="5.0.3" conf="test->*"/>
 	</dependencies>
 </ivy-module>
