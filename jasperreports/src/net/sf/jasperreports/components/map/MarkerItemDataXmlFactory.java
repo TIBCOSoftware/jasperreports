@@ -21,33 +21,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
+package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
-import net.sf.jasperreports.components.items.fill.FillItem;
-import net.sf.jasperreports.engine.component.FillContextProvider;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import org.xml.sax.Attributes;
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class FillPlaceItemData extends FillItemData
-{
-	/**
-	 *
-	 */
-	public FillPlaceItemData(
-		FillContextProvider fillContextProvider,
-		ItemData itemData,
-		JRFillObjectFactory factory
-		)// throws JRException
-	{
-		super(fillContextProvider, itemData, factory);
-	}
-	
-	@Override
-	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(fillContextProvider, item, factory);
-	}
+public class MarkerItemDataXmlFactory extends JRBaseFactory  {
+    @Override
+    public Object createObject(Attributes attributes) throws Exception {
+        return new MarkerStandardItemData();
+    }
 }
