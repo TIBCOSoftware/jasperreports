@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
@@ -53,7 +53,7 @@ public final class DigestUtils
 		try
 		{
 			MessageDigest digest = MessageDigest.getInstance("MD5");
-			byte[] digestBytes = digest.digest(text.getBytes("UTF-8"));
+			byte[] digestBytes = digest.digest(text.getBytes(StandardCharsets.UTF_8));
 			long low = (long) (digestBytes[0] &0xFF) << 56
 					| (long) (digestBytes[1] &0xFF) << 48
 					| (long) (digestBytes[2] &0xFF) << 40
@@ -79,11 +79,6 @@ public final class DigestUtils
 					EXCEPTION_MESSAGE_KEY_MD5_NOT_AVAILABLE,
 					(Object[])null,
 					e);
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			// should not happen
-			throw new JRRuntimeException(e);
 		}
 	}
 	

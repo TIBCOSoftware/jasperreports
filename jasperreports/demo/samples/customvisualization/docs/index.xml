@@ -226,7 +226,7 @@ In order to generate the RequireJS module, we create a <code>build.js</code> fil
 We list the files to combine in <code>paths</code>, in the form of<br/>
 <code>module: 'path_to_file'</code>
 In this example we have only one file called <code>basic.js</code>, the extension .js is omitted.<br/>
-The <code>wrap</code> option is used to be sure that this component will work properly in evnironments like TIBCO JR.io and TIBCO Jaspersoft Server interactive viewers.<br/>
+The <code>wrap</code> option is used to be sure that this component will work properly in evnironments like JasperReports IO and JasperReports Server interactive viewers.<br/>
 <br/>
 To generate the final component we can use different tools (i.e. Java or Node).<br/>
 To compile the file using Node, be sure node is installed, then in a command prompt/terminal window set the current folder to the folder in which you created your component (i.e.  <code>demo/samples/customvisualization/components/basic</code> within the JasperReports source project) then run the command:<br/>

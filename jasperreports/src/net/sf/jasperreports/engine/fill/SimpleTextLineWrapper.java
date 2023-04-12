@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -62,7 +62,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_7_1
 			)
 	public static final String PROPERTY_MEASURE_EXACT = 

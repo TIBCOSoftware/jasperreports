@@ -2274,7 +2274,7 @@ When this property is set, the engine saves the original text in the <api href="
   
   <configProperty name="net.sf.jasperreports.print.transfer.{arbitrary_suffix}">
     <description>
-Properties having this prefix specify the properties to be transfered from report templates to print objects during the report filling.
+Properties having this prefix specify the properties to be transferred from report templates to print objects during the report filling.
     </description>
   </configProperty>
   
@@ -2309,7 +2309,33 @@ One can write an implementation of the <api href="net/sf/jasperreports/engine/ut
 A text measurer is responsible with computing text layout attributes (in the form of <api href="net/sf/jasperreports/engine/fill/JRMeasuredText.html">JRMeasuredText</api> instances) for report text elements.  The measurer is only used at report fill time, the exporters will use the computed text layout attributes. 
 Then one can define an alias of the text measurer factory implementation by declaring a property <code>named net.sf.jasperreports.text.measurer.factory.{alias}</code> which has the name of the factory class as value. 
 The <code>net.sf.jasperreports.text.measurer.factory</code> property is set to a defined alias or a full factory class name. 
-The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes. 
+The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes.
+<p>
+There are two builtin text measurer implementations: <code>default</code> and 
+<code>naive</code>.
+The <code>default</code> text measurer implementation performs text measuring, 
+stretching and truncation and is meant to be used when text layout is relevant,
+which would be most report executions.
+</p>
+<p>
+The <code>naive</code> text measurer implementation does not perform any text
+measuring, it blindly considers any text to fit in the element boundaries 
+without any stretching or truncation.
+It is therefore unsuitable for exporters that honour element dimensions, like 
+the PDF and HTML exporters and all other exporters that are meant to be close
+to the pixel perfect layout of reports.
+It should only be used for reports exported to data-centric outputs that do not
+rely on any actual text measurements, such as the CSV, JSON metadata and the 
+Excel exporters.
+</p>
+<p>
+For Excel exporters the <code>naive</code> text measurer should be accompanied 
+by <code>net.sf.jasperreports.export.xls.auto.fit.row=true</code> if cells in
+Excel are expected to grow vertically in order to fit their contents, otherwise
+texts that would have normally stretched would not be fully visible in Excel 
+(but the full text would still be present in the cell and accessible when the 
+cell is selected).
+</p>
     </description>
   </configProperty>
   
@@ -4318,7 +4344,7 @@ Prefix of properties that specify font directories for the PDF exporter.
   
   <configProperty name="net.sf.jasperreports.export.pdf.force.linebreak.policy">
     <description>
-Property that specifies whether the PDF exporter should use a <a href="http://itext.ugent.be/library/api/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> 
+Property that specifies whether the PDF exporter should use a <a href="https://librepdf.github.io/OpenPDF/docs-1-3-17/com/lowagie/text/SplitCharacter.html">SplitCharacter</a> 
 implementation to ensure that PDF text wrap behavior is the same as in AWT.
 <br/>
 Its value is used as default for the 
@@ -7406,6 +7432,20 @@ See the documentation of <code>java.sql.Connection</code> for details on the tra
   </configProperty>
   
   
+  <!-- 	net.sf.jasperreports.export.pdf.legacy.target.blank.links -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.legacy.target.blank.links">
+    <description>
+Flag that enables legacy <code>hyperlinkTarget="Blank"</code> links in PDF.
+<br/>
+Before version 6.21.0, the PDF exporter created <code>hyperlinkTarget="Blank"</code> links using a JavaScript action
+that worked in Adobe Acrobat (and possibly other viewers), but not in the PDF viewers built into the Firefox and Chrome browsers.
+Starting from version 6.21.0, standard PDF links are created for elements with <code>hyperlinkTarget="Blank"</code>.
+This flag can be set to reinstate the pre 6.21.0 behaviour.
+    </description>
+  </configProperty>
+  
+  
   <!-- 	net.sf.jasperreports.force.html.embed.image -->
   
   <configProperty name="net.sf.jasperreports.force.html.embed.image">
@@ -7442,6 +7482,25 @@ The flag is set to <code>true</code> by default.
     <description>
     Flag set at report/book part level to determine whether report viewers are to be display a tab for the part. 
     The flag is set to <code>true</code> by default. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.element.template.populate.style -->
+  
+  <configProperty name="net.sf.jasperreports.element.template.populate.style">
+    <description>
+Flag that determines whether report style attributes are to be populated in
+element print template objects during report execution.
+This results in a speed improvement of large report exporting for some export
+formats.
+<p>
+Setting the flag modifies the structure of the generated report with respect to
+style attributes and should not be used when <code>JasperPrint</code> objects 
+are meant to undergo postprocessing related to element styles.
+Enabling the property also results in altered XML exporter output and should not
+be used when original XML exporter output is required.
+</p>
     </description>
   </configProperty>
   

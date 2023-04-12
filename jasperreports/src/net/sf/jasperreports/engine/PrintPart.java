@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,14 +37,14 @@ public interface PrintPart extends JRPropertiesHolder
 			name = "net.sf.jasperreports.part.print.transfer.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0
+			sinceVersion = PropertyConstants.VERSION_6_20_2
 			)
 	public static final String PROPERTIES_TRANSFER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "part.print.transfer.";
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0
+			sinceVersion = PropertyConstants.VERSION_6_20_2
 			)
 	public static final String ELEMENT_PROPERTY_PART_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.name";
 	
@@ -53,7 +53,7 @@ public interface PrintPart extends JRPropertiesHolder
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.PART},
-			sinceVersion = PropertyConstants.VERSION_6_21_0
+			sinceVersion = PropertyConstants.VERSION_6_20_2
 			)
 	public static final String PROPERTY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "print.part.visible";
 	
