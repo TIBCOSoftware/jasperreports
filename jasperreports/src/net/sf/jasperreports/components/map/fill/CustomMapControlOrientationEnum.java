@@ -23,31 +23,43 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.components.items.ItemData;
-import net.sf.jasperreports.components.items.fill.FillItem;
-import net.sf.jasperreports.engine.component.FillContextProvider;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class FillPlaceItemData extends FillItemData
-{
-	/**
-	 *
-	 */
-	public FillPlaceItemData(
-		FillContextProvider fillContextProvider,
-		ItemData itemData,
-		JRFillObjectFactory factory
-		)// throws JRException
-	{
-		super(fillContextProvider, itemData, factory);
-	}
-	
-	@Override
-	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(fillContextProvider, item, factory);
-	}
+public enum CustomMapControlOrientationEnum implements NamedEnum {
+
+    HORIZONTAL("horizontal"),
+
+    VERTICAL("vertical");
+
+    private final transient String name;
+
+    private CustomMapControlOrientationEnum(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    static CustomMapControlOrientationEnum getByName(String name)
+    {
+        return EnumUtil.getEnumByName(values(), name);
+    }
+
+    static String getAllNames() {
+        CustomMapControlOrientationEnum[] positionEnums = values();
+        List<String> names = new ArrayList<>();
+        for (CustomMapControlOrientationEnum positionEnum: positionEnums) {
+            names.add(positionEnum.getName());
+        }
+        return String.join(", ", names);
+    }
 }

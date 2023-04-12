@@ -123,8 +123,289 @@ function initMap() {
                     }
                 }
             },
+            placeSeriesMarkers: function(map, markerSeries, isForExport, globalUseMarkerSpidering) {
+                var markerSeriesNames = this.getObjectKeys(markerSeries),
+                    markerSeriesConfigBySeriesName = {}, i, ln, seriesName;
+
+                for (i = 0, ln = markerSeriesNames.length; i < ln; i++) {
+                    seriesName = markerSeriesNames[i];
+                    var seriesConfig = markerSeries[seriesName];
+                    var useMarkerSpidering = seriesConfig.markerSpidering != null ? seriesConfig.markerSpidering : globalUseMarkerSpidering;
+
+                    var useMarkerClustering = null;
+                    if (seriesConfig.markerClustering != null) {
+                        if (seriesConfig.markerClustering === true || seriesConfig.markerClustering === "true") {
+                            useMarkerClustering = true;
+                        }
+                        if (seriesConfig.markerClustering === false || seriesConfig.markerClustering === "false") {
+                            useMarkerClustering = false;
+                        }
+                    }
+
+                    markerSeriesConfigBySeriesName[seriesName] = {
+                        useMarkerSpidering: useMarkerSpidering,
+                        useMarkerClustering: useMarkerClustering,
+                        legendIcon: seriesConfig.legendIcon,
+                        googleMarkers: this.placeMarkers(seriesConfig.markers, map, isForExport, useMarkerSpidering)
+                    };
+                }
+
+                return markerSeriesConfigBySeriesName;
+            },
+            enableSpidering: function(map, markerSeriesConfigBySeriesName) {
+                var markerSeriesNames = this.getObjectKeys(markerSeriesConfigBySeriesName),
+                    i, j, seriesName, markerSeriesConfig, oms = null;
+                for (i = 0; i < markerSeriesNames.length; i++) {
+                    seriesName = markerSeriesNames[i];
+                    markerSeriesConfig = markerSeriesConfigBySeriesName[seriesName];
+                    if (markerSeriesConfig.useMarkerSpidering) {
+                        if (oms === null) {
+                            oms = new OverlappingMarkerSpiderfier(map, {
+                                markersWontMove: true,
+                                markersWontHide: true,
+                                basicFormatEvents: true,
+                                keepSpiderfied: true
+                            });
+                        }
+                        for (j = 0; j < markerSeriesConfig.googleMarkers.length; j++) {
+                            oms.addMarker(markerSeriesConfig.googleMarkers[j]);
+                        }
+                    }
+                }
+
+                return oms;
+            },
+            enableClustering: function(map, markerSeriesConfigBySeriesName, globalUseMarkerClustering) {
+                var markerSeriesNames = this.getObjectKeys(markerSeriesConfigBySeriesName),
+                    markerClustersBySeriesName = {},
+                    globalClusterMarkers = [],
+                    globalClusterSeries = [],
+                    i, ln, seriesName, markerSeriesConfig;
+                for (i = 0, ln = markerSeriesNames.length; i < ln; i++) {
+                    seriesName = markerSeriesNames[i];
+                    markerSeriesConfig = markerSeriesConfigBySeriesName[seriesName];
+
+                    if (markerSeriesConfig.useMarkerClustering === null && globalUseMarkerClustering) {
+                        this.extendArray(globalClusterMarkers, markerSeriesConfig.googleMarkers);
+                        globalClusterSeries.push(seriesName);
+                    } else if (markerSeriesConfig.useMarkerClustering) {
+                        markerClustersBySeriesName[seriesName] = new markerClusterer.MarkerClusterer({
+                            map: map,
+                            markers: markerSeriesConfig.googleMarkers
+                        });
+                    }
+                }
+
+                if (globalClusterMarkers.length) {
+                    var globalCluster = new markerClusterer.MarkerClusterer({
+                        map: map,
+                        markers: globalClusterMarkers
+                    });
+                    for (i = 0, ln = globalClusterSeries.length; i < ln; i++) {
+                        seriesName = globalClusterSeries[i];
+                        markerClustersBySeriesName[seriesName] = globalCluster;
+                    }
+                }
+
+                return markerClustersBySeriesName;
+            },
+            drawLegend: function(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName, markerClustersBySeriesName,
+                overlappingMarkerSpiderfier, defaultMarkerIcon, isForExport) {
+                if (this.getBooleanValue(legendProperties["enabled"])) {
+                    var legendLabel = legendProperties["label"] || "Legend",
+                        legendPosition = legendProperties["position"] || "RIGHT_CENTER",
+                        legendOrientation = legendProperties["orientation"] || "vertical",
+                        legendMaxWidth = legendProperties["legendMaxWidth"] || "100px",
+                        legendMaxWidthFullscreen = legendProperties["legendMaxWidth.fullscreen"] || "150px",
+                        legendMaxHeight = legendProperties["legendMaxHeight"] || "150px",
+                        legendMaxHeightFullscreen = legendProperties["legendMaxHeight.fullscreen"] || "300px",
+                        legendUseMarkerIcons = legendProperties["useMarkerIcons"] == null
+                            ? true : this.getBooleanValue(legendProperties["useMarkerIcons"]);
+
+
+                    var legendElement = document.getElementById(mapCanvasId + "_legend");
+                    var titleContainer = document.createElement("div");
+                    titleContainer.style.display = "flex";
+                    titleContainer.style.alignItems = "center";
+
+                    var titleElement = document.createElement("h3");
+                    titleElement.insertAdjacentText("beforeend", legendLabel);
+
+                    titleContainer.insertAdjacentElement("beforeend", titleElement);
+                    legendElement.insertAdjacentElement("beforeend", titleContainer);
+
+                    function showHideGoogleMarkers(markerArr, action) {
+                        var actionMap = action === "show" ? map : null;
+                        for (var i = 0; i < markerArr.length; i++) {
+                            markerArr[i].setMap(actionMap);
+                        }
+                    }
+
+                    var seriesToggleButton, i, ln, seriesName;
+                    var markerSeriesNames = this.getObjectKeys(markerSeriesConfigBySeriesName);
+
+                    var seriesMarkersWrapper = document.createElement("div");
+                    seriesMarkersWrapper.style.display = "flex";
+
+                    for (i = 0, ln = markerSeriesNames.length; i < ln; i++) {
+                        seriesName = markerSeriesNames[i];
+                        seriesToggleButton = document.createElement("button");
+                        seriesToggleButton.textContent = seriesName;
+                        seriesToggleButton.type = "button";
+                        seriesToggleButton.style.backgroundColor = "#fff";
+                        seriesToggleButton.style.border = "2px solid #fff";
+                        seriesToggleButton.style.fontFamily = "Roboto,Arial,sans-serif";
+                        seriesToggleButton.style.fontSize = "12px";
+                        seriesToggleButton.style.verticalAlign = "top";
+                        seriesToggleButton.style.cursor = "pointer";
+
+                        !isForExport && (function (nameOfSeries) {
+                            seriesToggleButton.addEventListener("click", function (event) {
+                                var i, markerSeriesConfig = markerSeriesConfigBySeriesName[nameOfSeries];
+                                if (markerSeriesConfig.action == null || markerSeriesConfig.action === "show") {
+                                    markerSeriesConfig.action = "hide";
+                                } else {
+                                    markerSeriesConfig.action = "show";
+                                }
+
+                                // show/hide google markers
+                                showHideGoogleMarkers(markerSeriesConfig.googleMarkers, markerSeriesConfig.action);
+
+                                // if there is a cluster for the series, add/remove the markers from cluster
+                                if (markerClustersBySeriesName[nameOfSeries]) {
+                                    if (markerSeriesConfig.action === "hide") {
+                                        markerClustersBySeriesName[nameOfSeries].removeMarkers(markerSeriesConfig.googleMarkers, false);
+                                    } else {
+                                        markerClustersBySeriesName[nameOfSeries].addMarkers(markerSeriesConfig.googleMarkers, false);
+                                    }
+                                }
+
+                                // if spidering is enabled for the series, add/remove the markers from spiderfier
+                                if (overlappingMarkerSpiderfier != null && markerSeriesConfig.useMarkerSpidering) {
+                                    if (markerSeriesConfig.action === "hide") {
+                                        for (i = 0; i < markerSeriesConfig.googleMarkers.length; i++) {
+                                            overlappingMarkerSpiderfier.forgetMarker(markerSeriesConfig.googleMarkers[i]);
+                                        }
+                                    } else {
+                                        for (i = 0; i < markerSeriesConfig.googleMarkers.length; i++) {
+                                            overlappingMarkerSpiderfier.trackMarker(markerSeriesConfig.googleMarkers[i]);
+                                        }
+                                    }
+                                }
+
+                                if (markerSeriesConfig.action === "hide") {
+                                    event.currentTarget.style.color = "#d8d8d8";
+                                } else {
+                                    event.currentTarget.style.color = "#000";
+                                }
+                            });
+                        }(seriesName));
+
+                        var divWrapper = document.createElement("div");
+                        divWrapper.style.display = "flex";
+                        divWrapper.style.alignItems = "flex-start";
+
+                        if (legendUseMarkerIcons) {
+                            var legendMarkerIcon = markerSeriesConfigBySeriesName[seriesName].legendIcon;
+                            if (!legendMarkerIcon) {
+                                legendMarkerIcon = markerSeriesConfigBySeriesName[seriesName].googleMarkers[0].getIcon();
+                            }
+                            if (!legendMarkerIcon) {
+                                legendMarkerIcon = defaultMarkerIcon;
+                            }
+
+                            if (legendMarkerIcon) {
+                                var markerImage = document.createElement("img");
+                                markerImage.src = legendMarkerIcon;
+                                markerImage.style.width = "16px";
+                                markerImage.style.marginBottom = "5px";
+
+                                divWrapper.insertAdjacentElement("beforeend", markerImage);
+                            }
+                        }
+
+                        divWrapper.insertAdjacentElement("beforeend", seriesToggleButton);
+
+                        seriesMarkersWrapper.insertAdjacentElement("beforeend", divWrapper);
+                    }
+
+                    if (legendOrientation === "horizontal") {
+                        titleContainer.style.marginRight = "20px";
+                        legendElement.style.flexDirection = "row";
+                        seriesMarkersWrapper.style.flexDirection = "row";
+                        seriesMarkersWrapper.style.alignItems = "center";
+                    } else {
+                        titleContainer.style.marginRight = "0";
+                        legendElement.style.flexDirection = "column";
+                        seriesMarkersWrapper.style.flexDirection = "column";
+                        seriesMarkersWrapper.style.alignItems = "flex-start";
+                    }
+
+                    if (legendPosition.indexOf("BOTTOM") !== -1) {
+                        legendElement.style.marginBottom = "24px";
+                    } else {
+                        legendElement.style.marginBottom = "10px";
+                    }
+
+                    seriesMarkersWrapper.style.overflow = "auto";
+                    legendElement.insertAdjacentElement("beforeend", seriesMarkersWrapper);
+
+                    // apply max width/height to legend
+                    legendElement.style.maxWidth = legendMaxWidth;
+                    legendElement.style.maxHeight = legendMaxHeight;
+
+                    !isForExport && google.maps.event.addListener(map, "bounds_changed", function () {
+                        // detect fullscreen
+                        if (map.getDiv().firstChild.clientHeight === window.innerHeight) { // fullscreen
+                            legendElement.style.maxWidth = legendMaxWidthFullscreen;
+                            legendElement.style.maxHeight = legendMaxHeightFullscreen;
+                        } else { // not fullscreen
+                            legendElement.style.maxWidth = legendMaxWidth;
+                            legendElement.style.maxHeight = legendMaxHeight;
+                        }
+                    });
+
+                    map.controls[google.maps.ControlPosition[legendPosition]].push(legendElement);
+                }
+            },
+            drawResetMap: function(resetMapProperties, map, latitude, longitude, zoom) {
+                if (this.getBooleanValue(resetMapProperties["enabled"])) {
+                    var resetMapButton = document.createElement("button");
+                    resetMapButton.textContent = resetMapProperties["label"] || "Reset map";
+                    resetMapButton.type = "button";
+                    resetMapButton.style.backgroundColor = "#fff";
+                    resetMapButton.style.border = "2px solid #fff";
+                    resetMapButton.style.fontFamily = "Roboto,Arial,sans-serif";
+                    resetMapButton.style.fontSize = "12px";
+                    resetMapButton.style.margin = "10px";
+                    resetMapButton.style.borderRadius = "2px";
+                    resetMapButton.style.cursor = "pointer";
+
+                    resetMapButton.addEventListener("click", function () {
+                        map.setCenter({lat: latitude, lng: longitude});
+                        map.setZoom(zoom);
+                    });
+
+                    var controlPosition = resetMapProperties["position"] || "RIGHT_TOP";
+                    map.controls[google.maps.ControlPosition[controlPosition]].push(resetMapButton);
+                }
+            },
             getBooleanValue: function (v) {
                 return (v === true || v === 'true');
+            },
+            extendArray: function(destArr, sourceArr) {
+                for (var i of sourceArr) {
+                    destArr.push(i);
+                }
+            },
+            getObjectKeys: function(object) {
+                var props = [];
+                for (var prop in object) {
+                    if (object.hasOwnProperty(prop)) {
+                        props.push(prop);
+                    }
+                }
+                return props;
             }
         }
     }

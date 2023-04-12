@@ -68,17 +68,28 @@ public class MapUtils {
         velocityContext.put("useMarkerClustering", markerClustering);
         velocityContext.put("useMarkerSpidering", markerSpidering);
 
-        List<Map<String,Object>> markerList = (List<Map<String,Object>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
-        String markers = markerList == null || markerList.isEmpty() ? "[]" : jacksonUtil.getJsonString(markerList);
+        Map<String, Object> legendPropertiesParam = (Map<String,Object>) element.getParameterValue(MapComponent.PARAMETER_LEGEND_PROPERTIES);
+        String legendProperties = legendPropertiesParam == null ? "{}" : jacksonUtil.getIndentedJsonString(legendPropertiesParam);
+        velocityContext.put("legendProperties", legendProperties);
+
+        Map<String, Object> resetMapPropertiesParam = (Map<String,Object>) element.getParameterValue(MapComponent.PARAMETER_RESET_MAP_PROPERTIES);
+        String resetMapProperties = resetMapPropertiesParam == null ? "{}" : jacksonUtil.getIndentedJsonString(resetMapPropertiesParam);
+        velocityContext.put("resetMapProperties", resetMapProperties);
+
+        Map<String, Object> markerSeries = (Map<String,Object>) element.getParameterValue(MapComponent.PARAMETER_MARKERS);
+        String markers = markerSeries == null || markerSeries.isEmpty() ? "{}" : jacksonUtil.getIndentedJsonString(markerSeries);
         velocityContext.put("markerList", markers);
 
         List<Map<String,Object>> pathList = (List<Map<String,Object>>) element.getParameterValue(MapComponent.PARAMETER_PATHS);
-        String paths = pathList == null || pathList.isEmpty() ? "[]" : jacksonUtil.getJsonString(pathList);
+        String paths = pathList == null || pathList.isEmpty() ? "[]" : jacksonUtil.getIndentedJsonString(pathList);
         velocityContext.put("pathsList", paths);
 
         String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
         if (reqParams != null) {
             velocityContext.put(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
         }
+
+        String defaultMarkerIcon = (String)element.getParameterValue(MapComponent.PARAMETER_DEFAULT_MARKER_ICON);
+        velocityContext.put(MapComponent.PARAMETER_DEFAULT_MARKER_ICON, defaultMarkerIcon != null ? defaultMarkerIcon: "");
     }
 }
