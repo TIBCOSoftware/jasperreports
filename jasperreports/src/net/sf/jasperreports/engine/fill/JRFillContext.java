@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.fill.events.FillEvents;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -114,6 +115,7 @@ public class JRFillContext
 	 */
 	private final boolean legacyBandEvaluationEnabled;
 
+	private FillEvents fillEvents;
 	
 	/**
 	 * Constructs a fill context.
@@ -151,6 +153,16 @@ public class JRFillContext
 	protected JRStyledTextUtil getStyledTextUtil()
 	{
 		return styledTextUtil;
+	}
+
+	public void init()
+	{
+		fillEvents = new FillEvents(this);
+	}
+
+	public FillEvents getFillEvents()
+	{
+		return fillEvents;
 	}
 
 	/**
