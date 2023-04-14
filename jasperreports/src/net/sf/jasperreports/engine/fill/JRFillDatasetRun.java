@@ -109,7 +109,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected JRFillDatasetRun(BaseReportFiller filler, JRDatasetRun datasetRun, 
 			JRFillDataset dataset)
 	{
-		this(filler, filler.getExpressionEvaluator(), datasetRun, dataset);
+		this(filler, dataset.calculator, datasetRun, dataset);
 	}
 
 	protected JRFillDatasetRun(BaseReportFiller filler, JRFillExpressionEvaluator expressionEvaluator, 
@@ -332,7 +332,10 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	protected void checkInterrupted()
 	{
-		filler.checkInterrupted();
+		if (filler != null)
+		{
+			filler.checkInterrupted();
+		}
 	}
 
 	

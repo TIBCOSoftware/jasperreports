@@ -89,7 +89,7 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>release-6.20.2-JRL-1104-markers-SNAPSHOT</revision>
+		<revision>release-6.20.2-jrws2-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>

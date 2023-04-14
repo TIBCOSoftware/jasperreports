@@ -222,7 +222,11 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 			Constructor<? extends AbstractXlsDataSource> constructor = dataSourceClass.getConstructor(constrParamTypes);
 			datasource = constructor.newInstance(constrParamValues);
 		}
-		catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException e)
+		catch (InvocationTargetException  e)
+		{
+			throw new JRException(e.getTargetException());
+		}
+		catch (IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException e)
 		{
 			throw new JRException(e);
 		}

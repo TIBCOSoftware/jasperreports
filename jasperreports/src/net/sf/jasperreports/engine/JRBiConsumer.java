@@ -21,30 +21,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.olap;
-
-import mondrian.olap.Result;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.olap.mondrian.JRMondrianResult;
-
+package net.sf.jasperreports.engine;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRMondrianDataSource extends JROlapDataSource
+@FunctionalInterface
+public interface JRBiConsumer<T, V>
 {
-	protected final Result result;
 
-	public JRMondrianDataSource(JRDataset dataset, Result result)
-	{
-		super(dataset, new JRMondrianResult(result));
+	void accept(T t, V v) throws Exception;
 
-		this.result = result;
-	}
-	
-	@Override
-	public JRMondrianResult getOlapResult()
-	{
-		return (JRMondrianResult) super.getOlapResult();
-	}
 }
