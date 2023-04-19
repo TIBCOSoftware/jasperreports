@@ -892,6 +892,16 @@ Property that specifies whether a legacy parser method should be used to parse t
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.accessibility.tag -->
+  
+  <configProperty name="net.sf.jasperreports.export.accessibility.tag">
+    <description>
+Property that specifies the type of accessible content introduced by the element.
+Possible values are described by the <api href="net/sf/jasperreports/export/type/AccessibilityTagEnum.html">AccessibilityTagEnum</api>.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xml.replace.invalid.chars -->
   
   <configProperty name="net.sf.jasperreports.export.xml.replace.invalid.chars">
@@ -2800,11 +2810,22 @@ Property that specifies the encrypted client signature for signed request URLs. 
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.components.sort.up.arrow.char -->
+  <!-- net.sf.jasperreports.components.map.signature -->
   
-  <configProperty name="net.sf.jasperreports.components.sort.up.arrow.char">
+  <configProperty name="net.sf.jasperreports.components.map.signature">
     <description>
-Property that specifies the character to be used on the column header when the tables's column is sorted ascending
+Property that specifies the encrypted client signature for signed request URLs. For complete information see the official <b>Authentication and Authorization</b> documentation for 
+<a href="https://developers.google.com/maps/documentation/business/image/auth">Maps Image APIs</a> and 
+<a href="https://developers.google.com/maps/documentation/business/webservices/auth">Web Services APIs</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.map.default.marker.icon -->
+  
+  <configProperty name="net.sf.jasperreports.components.map.default.marker.icon">
+    <description>
+Property that specifies the URL of the default marker icon for the Google map component.
     </description>
   </configProperty>
   
@@ -2813,7 +2834,7 @@ Property that specifies the character to be used on the column header when the t
   
   <configProperty name="net.sf.jasperreports.components.sort.down.arrow.char">
     <description>
-Property that specifies the character to be used on the column header when the tables's column is sorted descending
+Property that specifies the character to be used on the column header when the tables's column is sorted descending.
     </description>
   </configProperty>
   
@@ -2822,7 +2843,7 @@ Property that specifies the character to be used on the column header when the t
   
   <configProperty name="net.sf.jasperreports.components.filter.char">
     <description>
-Property that specifies the character to be used on the column header when the tables's column has a filtered applied
+Property that specifies the character to be used on the column header when the tables's column has a filtered applied.
     </description>
   </configProperty>
   
@@ -2831,14 +2852,14 @@ Property that specifies the character to be used on the column header when the t
   
   <configProperty name="net.sf.jasperreports.components.icon.font">
     <description>
-Global property that specifies the font to be used for the icons on the column header
+Global property that specifies the font to be used for the icons on the column header.
     </description>
   </configProperty>
   
   
   <!-- net.sf.jasperreports.components.table.generate.pdf.tags -->
   
-    <configProperty name="net.sf.jasperreports.components.table.generate.pdf.tags">
+  <configProperty name="net.sf.jasperreports.components.table.generate.pdf.tags">
     <description>
 Property that enables/disables the automatic addition of specific custom properties to table cell elements, 
 that would in turn trigger the creation of special document accessibility tags during PDF export.
@@ -2846,6 +2867,16 @@ that would in turn trigger the creation of special document accessibility tags d
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.components.table.accessible -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.accessible">
+    <description>
+Property that enables/disables the automatic addition of specific custom properties to the elements that make up the table and its cells.
+These properties would be then used to produce special document accessibility metadata during exports.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.components.table.interactive -->
   
     <configProperty name="net.sf.jasperreports.components.table.interactive">
@@ -3644,6 +3675,16 @@ and <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isIgnore
 configuration setting.
 <br/>
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.encryption.password -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.encryption.password">
+    <description>
+Property whose value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getEncryptionPassword--">getEncryptionPassword()</api> DOCX export configuration setting. 
     </description>
   </configProperty>
   
@@ -4810,6 +4851,16 @@ The result displayed in the field depends on the report locale.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pptx.encryption.password -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.encryption.password">
+    <description>
+Property whose value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getEncryptionPassword--">getEncryptionPassword()</api> PPTX export configuration setting. 
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">
@@ -4970,6 +5021,25 @@ Allowed values are:
 <ul>
 <li><code>true</code></li>
 <li><code>false</code></li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.ignore.row.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.row.height">
+    <description>
+Flag property that indicates whether the height of the element should contribute to the current row height calculation.
+The current row height is given by the tallest element on the row, unless row height auto fit is activated.
+<br/>
+But in certain cases, the tallest element might span multiple rows and thus its bigger height should not be considered, especially
+in case of metadata based exports.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code> - this is the default value.</li>
 </ul>
     </description>
   </configProperty>
@@ -5743,6 +5813,16 @@ Its value is used as default for the
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPassword--">getPassword()</api> Excel export configuration setting.
 <br/>
 This property is by default not set (<code>null</code>).                      
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.encryption.password -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.encryption.password">
+    <description>
+Property whose value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getEncryptionPassword--">getEncryptionPassword()</api> XLS/XLSX export configuration setting. 
     </description>
   </configProperty>
   

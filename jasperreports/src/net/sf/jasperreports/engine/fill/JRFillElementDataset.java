@@ -211,7 +211,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	 * The dataset is initialized before being used and after each time the
 	 * dataset gets reset.
 	 * 
-	 * @see #getResetTypeValue()
+	 * @see #getDatasetResetType()
 	 */
 	protected abstract void customInitialize();
 
