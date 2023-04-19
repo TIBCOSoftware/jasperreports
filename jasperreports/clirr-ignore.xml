@@ -9,4 +9,34 @@
 		<differenceType>7004</differenceType>
 		<method>*PrintPartUnrollExporterInput(net.sf.jasperreports.export.ExporterInput)</method>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/ComponentsXmlDigesterConfigurer</className>
+		<differenceType>7004</differenceType>
+		<method>*addItemRules(org.apache.commons.digester.Digester, java.lang.String, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/MapComponent</className>
+		<differenceType>7012</differenceType>
+		<method>*getLegendItem()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/MapComponent</className>
+		<differenceType>7012</differenceType>
+		<method>*getMarkerItemDataList()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/MapComponent</className>
+		<differenceType>7012</differenceType>
+		<method>*getResetMapItem()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRParameterDefaultValuesEvaluator$ObjectFactory</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/properties/PropertiesMetadataUtil</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
 </differences>
