@@ -378,7 +378,7 @@ in the current sheet. The <api href="net/sf/jasperreports/engine/export/JRCsvMet
 metadata information and to generate consistent columns of data, with or without column headers on their top. 
 <br/>
 Before starting the export work, the CSV metadata exporter looks for the presence of the column names by calling the 
-<api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames--">getColumnNames()</api> exporter configuration setting.
+<api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames()">getColumnNames()</api> exporter configuration setting.
 One can populate this setting either directly, using the APIs, or by collecting values from the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a> 
 properties at report level. If present, they provide a comma-separated list of column names, each one referencing a column that should be exported. For 
