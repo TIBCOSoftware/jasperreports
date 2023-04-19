@@ -24,7 +24,6 @@
 
 import java.io.File;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -85,7 +84,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/HtmlComponentReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/HtmlComponentReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	

@@ -310,8 +310,8 @@ ga('send', 'pageview');
 </xsl:template>
 
 
-<xsl:template match="p/text()">
-  <p><span class="text"><xsl:value-of select="." /></span></p>
+<xsl:template match="p">
+  <p><xsl:apply-templates/></p>
 </xsl:template>
 
 

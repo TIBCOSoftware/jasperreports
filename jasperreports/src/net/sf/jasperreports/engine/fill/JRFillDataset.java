@@ -116,7 +116,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 *
 	 */
-	private JasperReportsContext jasperReportsContext;
+	private RepositoryContext repositoryContext;
 	
 	private JRPropertiesUtil propertiesUtil;
 	
@@ -628,6 +628,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			// the only case when this filler is null is when called from JRParameterDefaultValuesEvaluator
 			// and that utility method already sets the report object in the map
 			parameterValues.put(JRParameter.JASPER_REPORT, filler.getJasperReport());
+
+			parameterValues.put(JRParameter.REPOSITORY_CONTEXT, filler.getRepositoryContext());
 		}
 		
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
@@ -1170,27 +1172,34 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 		}
 	}
-
+	
 	public void setJasperReportsContext(JasperReportsContext jasperReportsContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
-		if (jasperReportsContext != null)
+		setRepositoryContext(SimpleRepositoryContext.of(
+				jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext));
+	}
+
+	public void setRepositoryContext(RepositoryContext repositoryContext)
+	{
+		this.repositoryContext = repositoryContext;
+		if (repositoryContext.getJasperReportsContext() != null)
 		{
-			this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+			this.propertiesUtil = JRPropertiesUtil.getInstance(repositoryContext.getJasperReportsContext());
 		}
 	}
 	
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return filler == null
-				? (jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
+				? (repositoryContext == null || repositoryContext.getJasperReportsContext() == null 
+						? DefaultJasperReportsContext.getInstance() : repositoryContext.getJasperReportsContext())
 				: filler.getJasperReportsContext();
 	}
 	
 	public RepositoryContext getRepositoryContext()
 	{
 		return filler == null
-				? SimpleRepositoryContext.of(jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
+				? repositoryContext
 				: filler.getRepositoryContext();
 	}
 	
@@ -1261,20 +1270,27 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("Fill " + filler.fillerId + ": Creating " + query.getLanguage() + " query executer");
+				log.debug((filler == null ? "" : ("Fill " + filler.fillerId + ": ")) 
+						+ "Creating " + query.getLanguage() + " query executer");
 			}
 			
 			QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(getJasperReportsContext()).getExecuterFactory(query.getLanguage());
 			SimpleQueryExecutionContext queryExecutionContext = SimpleQueryExecutionContext.of(
 					getJasperReportsContext(), getRepositoryContext());
 			queryExecuter = queryExecuterFactory.createQueryExecuter(queryExecutionContext, this, parametersMap);
-			filler.fillContext.setRunningQueryExecuter(queryExecuter);
+			if (filler != null)
+			{
+				filler.fillContext.setRunningQueryExecuter(queryExecuter);
+			}
 			
 			return queryExecuter.createDatasource();
 		}
 		finally
 		{
-			filler.fillContext.clearRunningQueryExecuter();
+			if (filler != null)
+			{
+				filler.fillContext.clearRunningQueryExecuter();
+			}
 		}
 	}
 
@@ -1344,7 +1360,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("Fill " + filler.fillerId + ": closing query executer");
+				log.debug((filler == null ? "" : ("Fill " + filler.fillerId + ": ")) + "closing query executer");
 			}
 
 			queryExecuter.close();

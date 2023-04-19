@@ -664,14 +664,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					}
 				}
 				
-				allowRowResize = 
-					isFlexibleRowHeight 
-					&& (allowRowResize 
-						|| (gridCell.getElement() instanceof JRPrintText 
-							|| (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL
-								&& ((OccupiedGridCell)gridCell).getOccupier().getElement() instanceof JRPrintText)
-							)
-						);
+				if (isFlexibleRowHeight && !allowRowResize) // when flexible row height is required, once allowRowResize becomes true, will remain true
+				{
+					JRPrintElement cellElement = gridCell.getElement();
+					if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+					{
+						cellElement = ((OccupiedGridCell)gridCell).getOccupier().getElement();
+					}
+					allowRowResize = cellElement instanceof JRPrintText || cellElement instanceof JRPrintFrame;
+				}
 			}
 			tableHelper.setRowMaxTopPadding(maxTopPadding);
 

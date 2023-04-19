@@ -28,6 +28,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,6 +36,7 @@ import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import net.sf.jasperreports.components.map.MarkerItemData;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -79,7 +81,11 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	public static final String EXCEPTION_MESSAGE_KEY_NULL_OR_EMPTY_VALUES_NOT_ALLOWED = "components.map.null.or.empty.values.not.allowed";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ADDRESS_COORDINATES = "components.map.invalid.address.coordinates";
 	public static final String EXCEPTION_MESSAGE_KEY_ADDRESS_REQUEST_FAILED = "components.map.address.request.failed";
-	
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_POSITION_VALUE = "components.map.custom.control.position.invalid.value";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ORIENTATION_VALUE = "components.map.custom.control.orientation.invalid.value";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_LEGEND_PROPERTY_VALUE = "components.map.legend.invalid.value";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_LEGEND_SIZE_PROPERTY_VALUE = "components.map.legend.invalid.size.value";
+
 	private final MapComponent mapComponent;
 	
 	private Float latitude;
@@ -99,11 +105,16 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String googleVersion;
 	private String version;
 	private String reqParams;
+	private String defaultMarkerIcon;
 
-	private List<FillItemData> markerDataList;
+	private List<FillMarkerItemData> markerDataList;
+	private FillLegendItem legend;
+	private FillResetMapItem resetMap;
 	private List<FillItemData> pathStyleList;
 	private List<FillItemData> pathDataList;
-	private List<Map<String,Object>> markers;
+	private Map<String, Object> markerSeries;
+	private Map<String, Object> legendProperties;
+	private Map<String, Object> resetMapProperties;
 	private Map<String, Map<String,Object>> styles;
 	private List<Map<String,Object>> paths;
 	
@@ -119,11 +130,19 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		this.mapComponent = map;
 		this.factory = factory;
 		this.reqParams = getReqParams();
-		
+
+		if (mapComponent.getLegendItem() != null) {
+			legend = new FillLegendItem(this, mapComponent.getLegendItem(), factory);
+		}
+
+		if (mapComponent.getResetMapItem() != null) {
+			resetMap = new FillResetMapItem(this, mapComponent.getResetMapItem(), factory);
+		}
+
 		if(mapComponent.getMarkerDataList() != null){
 			markerDataList = new ArrayList<>();
-			for(ItemData markerData : mapComponent.getMarkerDataList()) {
-				markerDataList.add(new FillPlaceItemData(this, markerData, factory));
+			for(MarkerItemData markerData : mapComponent.getMarkerItemDataList()) {
+				markerDataList.add(new FillMarkerItemData(this, markerData, factory));
 			}
 		}
 		if(mapComponent.getPathStyleList() != null){
@@ -167,6 +186,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		clientId = util.getProperty(propertiesHolder, MapComponent.PROPERTY_CLIENT_ID);
 		signature = util.getProperty(propertiesHolder, MapComponent.PROPERTY_SIGNATURE);
 		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
+		defaultMarkerIcon = util.getProperty(propertiesHolder, MapComponent.PROPERTY_DEFAULT_MARKER_ICON);
 		googleVersion = util.getProperty(propertiesHolder, MapComponent.PROPERTY_GOOGLE_VERSION);
 		@SuppressWarnings("deprecation")
 		String depVersion = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
@@ -214,18 +234,53 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		markerClustering = mapComponent.getMarkerClustering();
 		markerSpidering = mapComponent.getMarkerSpidering();
 
+		if (legend != null) {
+			legendProperties = legend.getEvaluatedItemProperties(evaluation);
+		}
+
+		if (resetMap != null) {
+			resetMapProperties = resetMap.getEvaluatedItemProperties(evaluation);
+		}
+
 		if(markerDataList != null) {
-			markers = new ArrayList<>();
+			markerSeries = new LinkedHashMap<>();
+			int i = 0;
 			
-			for(FillItemData markerData : markerDataList) {
+			for(FillMarkerItemData markerData : markerDataList) {
 				List<Map<String,Object>> currentItemList = markerData.getEvaluateItems(evaluation);
 				if(currentItemList != null && !currentItemList.isEmpty()){
+					Map<String, Object> markerSingleSeriesConfiguration = new LinkedHashMap<>();
+					Object markerClustering = markerData.getEvaluateMarkerClusteringExpression(evaluation);
+					if (markerClustering != null) {
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_MARKER_CLUSTERING, markerClustering);
+					}
+
+					Object markerSpidering = markerData.getEvaluateMarkerSpideringExpression(evaluation);
+					if (markerSpidering != null) {
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_MARKER_SPIDERING, markerSpidering);
+					}
+
+					Object legendIcon = markerData.getEvaluateLegendIconExpression(evaluation);
+					if (legendIcon != null) {
+						markerSingleSeriesConfiguration.put(FillMarkerItemData.PROPERTY_LEGEND_ICON, legendIcon);
+					}
+
+					List<Map<String, Object>> markerSeriesItems = new ArrayList<>();
 					for(Map<String,Object> currentItem : currentItemList){
 						if(currentItem != null){
-							markers.add(currentItem);
+							markerSeriesItems.add(currentItem);
 						}
 					}
+					markerSingleSeriesConfiguration.put(MapComponent.PARAMETER_MARKERS, markerSeriesItems);
+
+					Object seriesName = markerData.getEvaluateSeriesNameExpression(evaluation);
+					if (seriesName != null) {
+						markerSeries.put(seriesName.toString(), markerSingleSeriesConfiguration);
+					} else {
+						markerSeries.put("marker_series_" + i, markerSingleSeriesConfiguration);
+					}
 				}
+				i++;
 			}
 		}
 		
@@ -406,6 +461,9 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(reqParams != null && reqParams.trim().length() > 0) {
 			printElement.setParameterValue(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
 		}
+		if (defaultMarkerIcon != null && defaultMarkerIcon.trim().length() > 0) {
+			printElement.setParameterValue(MapComponent.PARAMETER_DEFAULT_MARKER_ICON, defaultMarkerIcon);
+		}
 		if(mapType != null)
 		{
 			printElement.setParameterValue(MapComponent.ATTRIBUTE_MAP_TYPE, mapType.getName());
@@ -430,9 +488,15 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		{
 			printElement.setParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE, onErrorType.getName());
 		}
-		if(markers != null && !markers.isEmpty())
+		if(markerSeries != null && !markerSeries.isEmpty())
 		{
-			printElement.setParameterValue(MapComponent.PARAMETER_MARKERS, markers);
+			printElement.setParameterValue(MapComponent.PARAMETER_MARKERS, markerSeries);
+		}
+		if (legendProperties != null && !legendProperties.isEmpty()) {
+			printElement.setParameterValue(MapComponent.PARAMETER_LEGEND_PROPERTIES, legendProperties);
+		}
+		if (resetMapProperties != null && !resetMapProperties.isEmpty()) {
+			printElement.setParameterValue(MapComponent.PARAMETER_RESET_MAP_PROPERTIES, resetMapProperties);
 		}
 		if(paths != null && !paths.isEmpty())
 		{

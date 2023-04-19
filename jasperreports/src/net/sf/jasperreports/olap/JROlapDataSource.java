@@ -145,6 +145,11 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			init(dataset);
 		}
 	}
+	
+	public JROlapResult getOlapResult()
+	{
+		return olapResult;
+	}
 
 	@Override
 	public boolean next() throws JRException

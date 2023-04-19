@@ -155,6 +155,15 @@ public class JRResultSetDataSource implements JRDataSource
 		this(DefaultJasperReportsContext.getInstance(), resultSet);
 	}
 
+	/**
+	 * Access the result set that this data source is based on.
+	 * 
+	 * @return the result set used by this data source
+	 */
+	public ResultSet getResultSet()
+	{
+		return resultSet;
+	}
 
 	@Override
 	public boolean next() throws JRException

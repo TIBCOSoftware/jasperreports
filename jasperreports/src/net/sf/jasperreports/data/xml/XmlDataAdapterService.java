@@ -37,13 +37,16 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class XmlDataAdapterService extends AbstractDataAdapterService
+public class XmlDataAdapterService extends AbstractDataAdapterService implements Designated
 {
+	
+	public static final String SERVICE_DESIGNATION = "net.sf.jasperreports.data.adapter:XML";
 
 	/**
 	 * 
@@ -148,6 +151,12 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 		{
 			dataStream.dispose();
 		}
+	}
+
+	@Override
+	public String getDesignation()
+	{
+		return SERVICE_DESIGNATION;
 	}
 	
 }

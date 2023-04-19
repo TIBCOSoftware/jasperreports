@@ -2,6 +2,28 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.2 (2023-04-19)
+---------------------------------------------
+
+- added support for multiple marker series in the Google map component, with ability to show/hide 
+each series through an interactive legend and ability to bring the map to its initial visual state 
+using a custom reset button;
+
+- introducing expression backed custom properties at report part level to allow attaching metadata to 
+parts in multi-part documents, to be leveraged during report output post-processing by the parent application;
+
+- allowing the creation of multi-part documents from single part (section based) report templates 
+using a special custom property at report element level that triggers the creation of a separate part 
+for the current page when the property is met;
+
+- various dependencies upgrades including: Spring 5.3.26 and TestNG 7.7.0; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.1 (2023-03-14)
 ---------------------------------------------
 

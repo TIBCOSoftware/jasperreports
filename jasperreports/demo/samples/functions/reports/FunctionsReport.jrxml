@@ -557,7 +557,7 @@
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
 								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="110" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
-								<textFieldExpression><![CDATA[$F{returnType}.getName()]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{returnType}.getCanonicalName()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -643,7 +643,7 @@
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
-												<textFieldExpression><![CDATA[$F{type}.getName()]]></textFieldExpression>
+												<textFieldExpression><![CDATA[$F{type}.getCanonicalName()]]></textFieldExpression>
 											</textField>
 										</jr:detailCell>
 									</jr:column>

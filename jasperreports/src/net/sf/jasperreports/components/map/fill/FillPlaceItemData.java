@@ -39,7 +39,7 @@ public class FillPlaceItemData extends FillItemData
 	 */
 	public FillPlaceItemData(
 		FillContextProvider fillContextProvider,
-		ItemData itemData, 
+		ItemData itemData,
 		JRFillObjectFactory factory
 		)// throws JRException
 	{
@@ -49,5 +49,5 @@ public class FillPlaceItemData extends FillItemData
 	@Override
 	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
 		return new FillPlaceItem(fillContextProvider, item, factory);
-	}	
+	}
 }
