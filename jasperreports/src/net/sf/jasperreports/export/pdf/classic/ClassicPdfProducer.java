@@ -180,7 +180,7 @@ public class ClassicPdfProducer implements PdfProducer
 	@Override
 	public PdfContent createPdfContent()
 	{
-		pdfContent = new ClassicPdfContent(writer.getPdfWriter());
+		pdfContent = new ClassicPdfContent(writer.getPdfWriter(), context.getCMYKColorSpace());
 		return pdfContent;
 	}
 
@@ -373,7 +373,7 @@ public class ClassicPdfProducer implements PdfProducer
 	
 	public Font getFont(Map<Attribute,Object> attributes, Locale locale)
 	{
-		ClassicFontRecipient fontRecipient = new ClassicFontRecipient();
+		ClassicFontRecipient fontRecipient = new ClassicFontRecipient(context.getCMYKColorSpace());
 		context.setFont(attributes, locale, false, fontRecipient);
 		Font font = fontRecipient.getFont();
 		return font;

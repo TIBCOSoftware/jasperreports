@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export.pdf;
 
+import java.awt.color.ColorSpace;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Locale;
 import java.util.Map;
@@ -60,5 +61,7 @@ public interface PdfProducerContext
 			FontRecipient recipient);
 	
 	JRException handleDocumentException(Exception e);
+	
+	ColorSpace getCMYKColorSpace();
 
 }

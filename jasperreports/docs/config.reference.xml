@@ -2839,6 +2839,15 @@ Property that specifies the character to be used on the column header when the t
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.components.sort.up.arrow.char -->
+  
+  <configProperty name="net.sf.jasperreports.components.sort.up.arrow.char">
+    <description>
+Property that specifies the character to be used on the column header when the tables's column is sorted ascending.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.components.filter.char -->
   
   <configProperty name="net.sf.jasperreports.components.filter.char">
@@ -4668,6 +4677,26 @@ By default, this property is set to <code>none</code>.
     <description>
 Property whose value is used as default for the <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> 
 export configuration setting. It specifies the path to the ICC profile file for the PDF/A compliant documents.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdfa.embed.icc.profile -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdfa.embed.icc.profile">
+    <description>
+Property whose value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isEmbedIccProfile()">isEmbedIccProfile()</api> export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.use.cmyk.colors -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.use.cmyk.colors">
+    <description>
+Property whose value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isUseCMYKColors()">isUseCMYKColors()</api> export configuration setting.
     </description>
   </configProperty>
   

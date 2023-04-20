@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.export.pdf.classic;
 
+import java.awt.Color;
+import java.awt.color.ColorSpace;
+
 import com.lowagie.text.Element;
+import com.lowagie.text.pdf.CMYKColor;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.export.pdf.PdfTextAlignment;
@@ -65,4 +69,17 @@ public class ClassicPdfUtils
 		return pdfAlign;
 	}
 
+	public static Color convertColor(ColorSpace targetColorSpace, Color color)
+	{
+		if (color != null && targetColorSpace != null)
+		{
+//			ColorSpace rgbColorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+//			float[] ciexyzColor = rgbColorSpace.fromRGB(color.getColorComponents(null));
+//			float[] cmykColor = targetColorSpace.fromCIEXYZ(ciexyzColor);
+			float[] cmykColor = targetColorSpace.fromRGB(color.getRGBComponents(null));
+			color = new CMYKColor(cmykColor[0], cmykColor[1], cmykColor[2], cmykColor[3]);
+		}
+		
+		return color;
+	}
 }

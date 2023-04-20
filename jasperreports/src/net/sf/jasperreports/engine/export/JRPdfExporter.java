@@ -34,12 +34,15 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.color.ColorSpace;
+import java.awt.color.ICC_ColorSpace;
+import java.awt.color.ICC_Profile;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -152,7 +155,6 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.WrappingSvgDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -566,6 +568,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected PdfContent pdfContent;
 	
 	protected JRPdfExporterTagHelper tagHelper = new JRPdfExporterTagHelper(this);
+	protected ColorSpace cmykColorSpace;
 
 	protected int reportIndex;
 	protected PrintPageFormat pageFormat;
@@ -811,6 +814,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				return new JRException(EXCEPTION_MESSAGE_KEY_DOCUMENT_ERROR,
 					new Object[]{jasperPrint.getName()}, e);
 			}
+
+			@Override
+			public ColorSpace getCMYKColorSpace()
+			{
+				return cmykColorSpace;
+			}
 		};
 	}
 
@@ -943,17 +952,35 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			// END: PDF/A support
 			
 			document.open();
-			// BEGIN: PDF/A support
-			if (gotPdfa) {
+			
+			if (
+				configuration.isUseCMYKColors()
+				|| configuration.isEmbedIccProfile()
+				|| gotPdfa
+				)
+			{
 				String iccProfilePath = configuration.getIccProfilePath();
-				if (iccProfilePath != null) {
-					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(iccProfilePath);//FIXME use getRepository?
-					pdfWriter.setIccProfilePath(iccProfilePath, iccIs);
-				} else {
+				if (iccProfilePath != null && iccProfilePath.trim().length() > 0)
+				{
+					byte[] iccBytes = getRepository().getBytesFromLocation(iccProfilePath);
+					if (configuration.isUseCMYKColors())
+					{
+						ICC_Profile profile = ICC_Profile.getInstance(iccBytes);
+						cmykColorSpace = new ICC_ColorSpace(profile);
+					}
+
+					// BEGIN: PDF/A support
+					if (gotPdfa || configuration.isEmbedIccProfile()) 
+					{
+						pdfWriter.setIccProfilePath(iccProfilePath, new ByteArrayInputStream(iccBytes));
+					}
+					// END: PDF/A support
+				}
+				else
+				{
 					throw new JRPdfaIccProfileNotFoundException();
 				}
 			}
-			// END: PDF/A support
 			
 			String pdfJavaScript = configuration.getPdfJavaScript();
 			if(pdfJavaScript != null)

@@ -46,6 +46,8 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	private String tagLanguage;
 	private PdfaConformanceEnum pdfaConformance;
 	private String iccProfilePath;
+	private Boolean isEmbedIccProfile;
+	private Boolean isUseCMYKColors;
 	private Integer permissions;
 	private String allowedPermissionsHint;
 	private String deniedPermissionsHint;
@@ -244,6 +246,34 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setIccProfilePath(String iccProfilePath)
 	{
 		this.iccProfilePath = iccProfilePath;
+	}
+	
+	@Override
+	public Boolean isEmbedIccProfile()
+	{
+		return isEmbedIccProfile;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEmbedIccProfile(Boolean isEmbedIccProfile)
+	{
+		this.isEmbedIccProfile = isEmbedIccProfile;
+	}
+	
+	@Override
+	public Boolean isUseCMYKColors()
+	{
+		return isUseCMYKColors;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setUseCMYKColors(Boolean isUseCMYKColors)
+	{
+		this.isUseCMYKColors = isUseCMYKColors;
 	}
 	
 	@Override

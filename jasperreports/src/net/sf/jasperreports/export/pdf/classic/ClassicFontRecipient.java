@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export.pdf.classic;
 
 import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.io.IOException;
 
 import com.lowagie.text.DocumentException;
@@ -42,10 +43,12 @@ import net.sf.jasperreports.export.pdf.PdfFontStyle;
 public class ClassicFontRecipient implements FontRecipient
 {
 
+	private ColorSpace cmykColorSpace;
 	private Font font;
 
-	public ClassicFontRecipient()
+	public ClassicFontRecipient(ColorSpace cmykColorSpace)
 	{
+		this.cmykColorSpace = cmykColorSpace;
 	}
 	
 	@Override
@@ -64,7 +67,7 @@ public class ClassicFontRecipient implements FontRecipient
 			float size, PdfFontStyle pdfFontStyle, Color forecolor)
 	{
 		Font font = FontFactory.getFont(pdfFontName, pdfEncoding, isPdfEmbedded, 
-				size, toPdfFontStyle(pdfFontStyle), forecolor);
+				size, toPdfFontStyle(pdfFontStyle), ClassicPdfUtils.convertColor(cmykColorSpace, forecolor));
 		// check if FontFactory didn't find the font
 		if (font != null && font.getBaseFont() == null && font.getFamily() == Font.UNDEFINED)
 		{
@@ -89,7 +92,7 @@ public class ClassicFontRecipient implements FontRecipient
 			throw new JRRuntimeException(e);
 		}
 
-		font = new Font(baseFont, size, toPdfFontStyle(pdfFontStyle), forecolor);
+		font = new Font(baseFont, size, toPdfFontStyle(pdfFontStyle), ClassicPdfUtils.convertColor(cmykColorSpace, forecolor));
 	}
 	
 	protected static int toPdfFontStyle(PdfFontStyle pdfFontStyle)
