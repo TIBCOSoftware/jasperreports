@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
@@ -42,6 +43,8 @@ import net.sf.jasperreports.export.type.PdfVersionEnum;
  */
 public interface PdfProducerContext
 {
+	
+	JRPdfExporter getExporter();
 	
 	JasperReportsContext getJasperReportsContext();
 	

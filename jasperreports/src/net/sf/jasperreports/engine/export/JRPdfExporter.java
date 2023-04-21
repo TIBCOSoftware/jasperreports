@@ -761,6 +761,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		return new PdfProducerContext()
 		{			
 			@Override
+			public JRPdfExporter getExporter()
+			{
+				return JRPdfExporter.this;
+			}
+
+			@Override
 			public JasperReportsContext getJasperReportsContext()
 			{
 				return jasperReportsContext;
