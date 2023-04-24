@@ -23,28 +23,16 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import javax.swing.JEditorPane;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.AbstractDocument.LeafElement;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link RtfEditorKitMarkupProcessor}.
  */
-public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
+public class JEditorPaneRtfMarkupProcessor extends RtfEditorKitMarkupProcessor
 {
-	private static final Log log = LogFactory.getLog(JEditorPaneRtfMarkupProcessor.class);
-
 	private static JEditorPaneRtfMarkupProcessor instance;  
 	
 	/**
@@ -60,78 +48,10 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 	}
 	
 	@Override
-	public String convert(String srcText)
+	protected Document getDocument(String srcText)
 	{
 		JEditorPane editorPane = new JEditorPane("text/rtf", srcText);
 		editorPane.setEditable(false);
-
-		List<Element> elements = new ArrayList<>();
-
-		Document document = editorPane.getDocument();
-
-		Element root = document.getDefaultRootElement();
-		if (root != null)
-		{
-			addElements(elements, root);
-		}
-
-		String chunk = null;
-		Element element = null;
-		int startOffset = 0;
-		int endOffset = 0;
-		
-		JRStyledText styledText = new JRStyledText();
-		styledText.setGlobalAttributes(new HashMap<>());
-		for(int i = 0; i < elements.size(); i++)
-		{
-			if (chunk != null)
-			{
-				styledText.append(chunk);
-				styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset, endOffset));
-			}
-
-			chunk = null;
-			element = elements.get(i);
-			startOffset = element.getStartOffset();
-			endOffset = element.getEndOffset();
-
-			try
-			{
-				chunk = document.getText(startOffset, endOffset - startOffset);
-			}
-			catch(BadLocationException e)
-			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("Error converting markup.", e);
-				}
-			}
-
-		}
-
-		if (chunk != null && !"\n".equals(chunk))
-		{
-			styledText.append(chunk);
-			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset, endOffset));
-		}
-
-		return JRStyledTextParser.getInstance().write(styledText);
+		return editorPane.getDocument();
 	}
-	
-	/**
-	 * 
-	 */
-	protected void addElements(List<Element> elements, Element element) 
-	{
-		if(element instanceof LeafElement)
-		{
-			elements.add(element);
-		}
-		for(int i = 0; i < element.getElementCount(); i++)
-		{
-			Element child = element.getElement(i);
-			addElements(elements, child);
-		}
-	}
-	
 }
