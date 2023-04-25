@@ -573,14 +573,15 @@ public class TextMeasurer implements JRTextMeasurer
 
 		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
 
-		allParagraphs.setIndex(remainingTextStart);
-
 		isFirstParagraph = true;
 
 		boolean verticalSpaceRemaining = true;
-		int runLimit = remainingTextStart;
+		int runLimit = 0; //first value does not matter; will be assigned a proper value in the while statement below
 
-		while (verticalSpaceRemaining && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+		int runStart = remainingTextStart; 
+		allParagraphs.setIndex(runStart);
+		
+		while (verticalSpaceRemaining && runStart < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
@@ -591,7 +592,7 @@ public class TextMeasurer implements JRTextMeasurer
 			int paragraphStart = 0;
 			boolean lastTokenWasNewline = false;
 
-			String runText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
+			String runText = styledText.getText().substring(runStart, runLimit);
 			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
@@ -606,20 +607,20 @@ public class TextMeasurer implements JRTextMeasurer
 						verticalSpaceRemaining = 
 							renderParagraph(
 								lineWrapper, 
-								allParagraphs.getIndex() + paragraphStart - 1, 
+								runStart + paragraphStart - 1, 
 								null // null paragraphText is the way to render newlines
 								);
 					}
 
 					if (
 						paragraphStart == 0 // this newline is the first character in the first paragraph; when this is true, lastTokenWasNewline was for sure false above
-						|| allParagraphs.getIndex() + paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
+						|| runStart + paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
 						)
 					{
 						verticalSpaceRemaining = 
 							renderParagraph(
 								lineWrapper, 
-								allParagraphs.getIndex() + paragraphStart, 
+								runStart + paragraphStart, 
 								null // null paragraphText is the way to render newlines
 								);
 					}
@@ -631,7 +632,7 @@ public class TextMeasurer implements JRTextMeasurer
 					verticalSpaceRemaining = 
 						renderParagraph(
 							lineWrapper, 
-							allParagraphs.getIndex() + paragraphStart, 
+							runStart + paragraphStart, 
 							paragraphText
 							);
 					
@@ -642,7 +643,8 @@ public class TextMeasurer implements JRTextMeasurer
 				isFirstParagraph = false;
 			}
 
-			allParagraphs.setIndex(runLimit);
+			runStart = runLimit;
+			allParagraphs.setIndex(runStart);
 		}
 		
 		return measuredState;

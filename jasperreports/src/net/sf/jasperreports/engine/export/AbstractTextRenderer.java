@@ -352,9 +352,10 @@ public abstract class AbstractTextRenderer
 		isFirstParagraph = true;
 		isLastParagraph = false;
 		
-		int runLimit = 0;
+		int runLimit = 0; //first value does not matter; will be assigned a proper value in the while statement below
+		int runStart = 0; 
 
-		while (runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+		while (!isMaxHeightReached && runStart < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
@@ -367,14 +368,7 @@ public abstract class AbstractTextRenderer
 			int paragraphStart = 0;
 			boolean lastTokenWasNewline = false;
 
-			String runText = allText.substring(allParagraphs.getIndex(), runLimit);
-			AttributedCharacterIterator runParagraphs = 
-				new AttributedString(
-						allParagraphs, 
-						allParagraphs.getIndex(), 
-						allParagraphs.getIndex() + runText.length()
-						).getIterator();
-			
+			String runText = allText.substring(runStart, runLimit);
 			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
@@ -389,8 +383,8 @@ public abstract class AbstractTextRenderer
 					if (lastTokenWasNewline) // the previous newline becomes itself a paragraph when followed by another newline
 					{
 						renderParagraph(
-							runParagraphs, 
-							paragraphStart - 1, 
+							allParagraphs, 
+							runStart + paragraphStart - 1, 
 							null // null paragraphText is the way to render newlines
 							);
 					}
@@ -401,8 +395,8 @@ public abstract class AbstractTextRenderer
 						)
 					{
 						renderParagraph(
-							runParagraphs, 
-							paragraphStart, 
+							allParagraphs, 
+							runStart + paragraphStart, 
 							null // null paragraphText is the way to render newlines
 							);
 					}
@@ -411,7 +405,11 @@ public abstract class AbstractTextRenderer
 				}
 				else
 				{
-					renderParagraph(runParagraphs, paragraphStart, paragraphText);
+					renderParagraph(
+						allParagraphs, 
+						runStart + paragraphStart, 
+						paragraphText
+						);
 
 					lastTokenWasNewline = false;
 				}
@@ -420,7 +418,8 @@ public abstract class AbstractTextRenderer
 				isFirstParagraph = false;
 			}
 			
-			allParagraphs.setIndex(runLimit);
+			runStart = runLimit;
+			allParagraphs.setIndex(runStart);
 		}
 		
 		context.next(null);
