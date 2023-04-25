@@ -197,6 +197,10 @@ class BookmarkStack
 					if (level != JRAnchor.NO_BOOKMARK)
 					{
 						String anchorName = anchor.getAnchorName();
+						if (anchorName == null)
+						{
+							anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
+						}
 						BasePrintBookmark bookmark = addBookmark(level, anchorName, pageIndex, elementAddress + i);
 						
 						// we're keeping a map with bookmarks for elements with late evaluation
@@ -234,6 +238,10 @@ class BookmarkStack
 				else
 				{
 					String anchorName = anchor.getAnchorName();
+					if (anchorName == null)
+					{
+						anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
+					}
 					bookmark.setLabel(anchorName);
 				}
 			}

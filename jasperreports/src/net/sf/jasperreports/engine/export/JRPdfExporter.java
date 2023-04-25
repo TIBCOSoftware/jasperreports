@@ -3514,6 +3514,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected void setAnchor(PdfChunk chunk, JRPrintAnchor anchor, JRPrintElement element)
 	{
 		String anchorName = anchor.getAnchorName();
+		
+		if (anchorName == null)
+		{
+			anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
+		}
+		
 		if (anchorName != null)
 		{
 			chunk.setLocalDestination(anchorName);
@@ -3526,7 +3532,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				int y = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
 						? getOffsetY() + element.getY() 
 						: getOffsetX() + element.getX();
-				addBookmark(anchor.getBookmarkLevel(), anchor.getAnchorName(), x, y);
+				addBookmark(anchor.getBookmarkLevel(), anchorName, x, y);
 			}
 		}
 	}
