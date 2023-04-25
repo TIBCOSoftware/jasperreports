@@ -613,7 +613,7 @@ public class TextMeasurer implements JRTextMeasurer
 
 					if (
 						paragraphStart == 0 // this newline is the first character in the first paragraph; when this is true, lastTokenWasNewline was for sure false above
-						|| paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
+						|| allParagraphs.getIndex() + paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
 						)
 					{
 						verticalSpaceRemaining = 
