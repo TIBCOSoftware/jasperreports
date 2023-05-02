@@ -45,7 +45,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 {
 
 	private char[] chars;
-	private int start, end;
+	private int end;
 	private boolean[] boundary;
 	private int lastBoundary;
 	private final BreakIterator breakIter;
@@ -69,20 +69,19 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return false;
 		}
 
-		if (!(chars == cc && this.start == startIdx && this.end == endIdx))
+		if (!(chars == cc && this.end == endIdx))
 		{
 			chars = cc;
-			this.start = startIdx;
 			this.end = endIdx;
 
-			breakIter.setText(new ArrayCharIterator(cc, startIdx, endIdx));
+			breakIter.setText(new ArrayCharIterator(cc, 0, endIdx));
 
-			boundary = new boolean[endIdx - startIdx + 1];
+			boundary = new boolean[endIdx + 1];
 
 			lastBoundary = breakIter.first();
 			if (lastBoundary != BreakIterator.DONE)
 			{
-				boundary[lastBoundary - startIdx] = true;
+				boundary[lastBoundary] = true;
 			}
 		}
 
@@ -96,11 +95,11 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			}
 			else
 			{
-				boundary[lastBoundary - startIdx] = true;
+				boundary[lastBoundary] = true;
 			}
 		}
 
-		return boundary[current - startIdx]
+		return boundary[current]
 				|| currentChar(current - 1, cc, ck) <= ' ';
 	}
 
