@@ -2,6 +2,15 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.4 (2023-05-01)
+---------------------------------------------
+
+- make the OpenPDF dependency mandatory again in the pom.xml;
+
+
+
+
+
 JasperReports 6.20.3 (2023-04-20)
 ---------------------------------------------
 

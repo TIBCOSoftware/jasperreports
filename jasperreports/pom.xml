@@ -70,7 +70,17 @@
 			<artifactId>openpdf</artifactId>
 			<version>1.3.30.jaspersoft.2</version>
  			<scope>compile</scope>
-			<optional>true</optional>
+			<optional>false</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcmail-jdk18on</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcpkix-jdk18on</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.drewnoakes</groupId>
@@ -615,7 +625,7 @@
 				<artifactId>clirr-maven-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-					<comparisonVersion>6.20.2</comparisonVersion>
+					<comparisonVersion>6.20.3</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
