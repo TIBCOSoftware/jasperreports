@@ -51,18 +51,6 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 
 	
 	/**
-	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
-	 */
-	public AbstractPdfTextRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont
-		)
-	{
-		this(jasperReportsContext, ignoreMissingFont, true, false);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public AbstractPdfTextRenderer(

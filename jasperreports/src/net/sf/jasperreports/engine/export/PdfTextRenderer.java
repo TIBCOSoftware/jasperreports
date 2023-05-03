@@ -36,18 +36,6 @@ import net.sf.jasperreports.export.pdf.TextDirection;
 public class PdfTextRenderer extends AbstractPdfTextRenderer
 {
 	/**
-	 * @deprecated Replaced by {@link #PdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
-	 */
-	public PdfTextRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont
-		)
-	{
-		this(jasperReportsContext, ignoreMissingFont, true, false);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public PdfTextRenderer(

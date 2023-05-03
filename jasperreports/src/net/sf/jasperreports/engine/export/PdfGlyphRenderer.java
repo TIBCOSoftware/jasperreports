@@ -89,24 +89,6 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	private boolean addActualText;	
 	private PdfGlyphGraphics2D pdfGraphics2D;
 	
-	/**
-	 * @deprecated Replaced by {@link #PdfGlyphRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
-	 */
-	public PdfGlyphRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont, 
-		boolean addActualText
-		)
-	{
-		this(
-			jasperReportsContext, 
-			ignoreMissingFont, 
-			true,
-			false,
-			addActualText
-			);
-	}
-
 	public PdfGlyphRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont, 

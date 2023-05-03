@@ -102,25 +102,6 @@ public abstract class AbstractTextRenderer
 
 	
 	/**
-	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
-	 */
-	public AbstractTextRenderer(
-		JasperReportsContext jasperReportsContext,
-		boolean isMinimizePrinterJobSize,
-		boolean ignoreMissingFont
-		)
-	{
-		this(
-			jasperReportsContext,
-			isMinimizePrinterJobSize,
-			ignoreMissingFont,
-			true,
-			false
-			);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public AbstractTextRenderer(

@@ -44,18 +44,6 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	private float yLine = 0;
 	
 	/**
-	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
-	 */
-	public SimplePdfTextRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont
-		)
-	{
-		this(jasperReportsContext, ignoreMissingFont, true, false);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public SimplePdfTextRenderer(
