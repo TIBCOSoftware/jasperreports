@@ -96,7 +96,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
 			new JRSingletonCache<>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
 
 	/**
 	 *
@@ -1099,35 +1098,29 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	protected MarkupProcessor getMarkupProcessor(String markup)
 	{
-		MarkupProcessor markupProcessor = markupProcessors.get(markup);
 		
-		if (markupProcessor == null)
+		String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
+		if (factoryClass == null)
 		{
-			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
-			if (factoryClass == null)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
-						new Object[]{markup} 
-						);
-			}
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
+					new Object[]{markup} 
+					);
+		}
 
-			MarkupProcessorFactory factory = null;
-			try
-			{
-				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			
-			markupProcessor = factory.createMarkupProcessor();
-			markupProcessors.put(markup, markupProcessor);
+		MarkupProcessorFactory factory = null;
+		try
+		{
+			factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 		
-		return markupProcessor;
+		return factory.createMarkupProcessor();
+		
 	}
 
 	protected void setPrintText(JRPrintText printText)
