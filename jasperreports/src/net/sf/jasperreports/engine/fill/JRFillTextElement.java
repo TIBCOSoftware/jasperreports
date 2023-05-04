@@ -91,6 +91,16 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public static final String PROPERTY_SCALE_FONT_STEP_LIMIT = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "scale.font.step.limit";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_LEGACY_TEXT_MEASURING = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.text.measuring";
+
 	/**
 	 *
 	 */
@@ -750,9 +760,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		//elementStretchHeightDelta = 0;
 		if (getRotationValue().equals(RotationEnum.NONE))
 		{
-			//FIXME truncating to int here seems wrong as the text measurer compares 
-			// the exact text height against the available height
-			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
+			@SuppressWarnings("deprecation")
+			int intTextHeight =  (int) (filler.isLegacyTextMeasuring() ? getTextHeight() : Math.ceil(getTextHeight()));
+			int elementTextHeight = intTextHeight + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
 			if (
 				measuredText.getTextOffset() >= fullTextLength //text ended 
 				|| !canOverflow 

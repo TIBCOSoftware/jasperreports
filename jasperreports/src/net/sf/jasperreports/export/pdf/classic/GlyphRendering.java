@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.pdf.PdfProducerContext;
+import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 
 /**
@@ -121,6 +122,30 @@ public class GlyphRendering
 		} 
 	}
 	
+	public AbstractPdfTextRenderer getGlyphTextRenderer(PdfTextRendererContext context)
+	{
+		if (toUseGlyphRenderer(context.getPrintText())
+			&& PdfGlyphRenderer.supported()
+			&& canUseGlyphRendering(context.getPrintText(), context.getStyledText(), context.getTextLocale(), context.getAwtIgnoreMissingFont()))
+		{
+			PdfProducerContext producerContext = pdfProducer.getContext();
+			PdfGlyphRenderer textRenderer = 
+				new PdfGlyphRenderer(
+					producerContext.getJasperReportsContext(), 
+					context.getAwtIgnoreMissingFont(),
+					context.getIndentFirstLine(),
+					context.getJustifyLastLine(),
+					glyphRendererAddActualText
+					);
+			return textRenderer;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getGlyphTextRenderer(PdfTextRendererContext)}.
+	 */
 	public AbstractPdfTextRenderer getGlyphTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale, 
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine)

@@ -4,8 +4,6 @@
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.5.jrdax"/>
 	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<style name="Sans_Large" style="Sans_Normal" fontSize="10"/>
-	<style name="Sans_Bold" style="Sans_Normal" isBold="true"/>
 	<summary>
 		<band height="30">
 			<crosstab isRepeatColumnHeaders="false">
@@ -22,7 +20,7 @@
 								<pen lineWidth="1.0"/>
 							</box>
 							<textField>
-								<reportElement x="5" y="0" width="40" height="36" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0"/>
+								<reportElement x="5" y="0" width="40" height="37" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0"/>
 								<textFieldExpression><![CDATA["Outer"]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -53,7 +51,7 @@
 								<pen lineWidth="1.0"/>
 							</box>
 							<staticText>
-								<reportElement x="5" y="0" width="60" height="20" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc"/>
+								<reportElement x="5" y="0" width="60" height="21" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc"/>
 								<textElement verticalAlignment="Middle"/>
 								<text><![CDATA[Total]]></text>
 							</staticText>
@@ -88,13 +86,13 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell height="20" rowTotalGroup="Inner">
+				<crosstabCell height="21" rowTotalGroup="Inner">
 					<cellContents backcolor="#E0FFFF" mode="Opaque">
 						<box>
 							<pen lineWidth="1.0"/>
 						</box>
 						<textField pattern="#0.0">
-							<reportElement x="0" y="0" width="40" height="20" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6"/>
+							<reportElement x="0" y="0" width="40" height="21" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA["T"]]></textFieldExpression>
 						</textField>

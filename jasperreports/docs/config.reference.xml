@@ -2455,6 +2455,28 @@ Property that indicates whether the legacy band evaluation is enabled.
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.legacy.text.measuring -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.text.measuring">
+    <description>
+Property that indicates whether the legacy text measuring is enabled. 
+Legacy text measuring truncates text height to an integer value instead of rounding it up, which causes text to be cut in PDF export, in certain cases.
+    </description>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.export.pdf.legacy.text.measuring.fix -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.legacy.text.measuring.fix">
+    <description>
+This property controls the addition of 1 pixel to the PDF text rendering area to compensate for the fact that the legacy text measuring code was truncating 
+the text height causing the last line of text in PDF to not fit in certain cases, especially at small font sizes.
+This should be enabled only when the legacy text measuring is enabled with the <a href="#net.sf.jasperreports.legacy.text.measuring">net.sf.jasperreports.legacy.text.measuring</a> property, 
+otherwise the additional pixel in PDF text rendering is not needed since the newer text measuring code no longer truncates text height.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.evaluator.class.reference.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.evaluator.class.reference.fix.enabled">

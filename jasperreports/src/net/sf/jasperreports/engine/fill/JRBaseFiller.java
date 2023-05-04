@@ -211,6 +211,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	private boolean bandOverFlowAllowed;
 
 	/**
+	 * @deprecated To be removed.
+	 */
+	private boolean isLegacyTextMeasuring;
+
+	/**
 	 *
 	 */
 	protected Map<String,Format> dateFormatCache = new HashMap<>();
@@ -586,6 +591,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			setParameters(parameterValues);
 
 			setBookmarkHelper();
+			
+			isLegacyTextMeasuring = propertiesUtil.getBooleanProperty(mainDataset, 
+					JRFillTextElement.PROPERTY_LEGACY_TEXT_MEASURING, false);
 			
 			loadStyles();
 
@@ -1481,6 +1489,15 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected void setReorderBandElements(boolean isReorderBandElements)
 	{
 		this.isReorderBandElements = isReorderBandElements;
+	}
+
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	protected boolean isLegacyTextMeasuring()
+	{
+		return isLegacyTextMeasuring;
 	}
 
 

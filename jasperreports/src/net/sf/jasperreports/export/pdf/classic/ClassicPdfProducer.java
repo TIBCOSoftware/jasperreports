@@ -76,6 +76,7 @@ import net.sf.jasperreports.export.pdf.PdfRadioCheck;
 import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
+import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
@@ -252,6 +253,38 @@ public class ClassicPdfProducer implements PdfProducer
 		imageTesterDocument.close();
 	}
 
+	@Override
+	public AbstractPdfTextRenderer getTextRenderer(PdfTextRendererContext textContext)
+	{
+		AbstractPdfTextRenderer textRenderer = glyphRendering.getGlyphTextRenderer(textContext);
+		if (textRenderer == null)
+		{
+			if (textContext.getPrintText().getLeadingOffset() == 0)
+			{
+				// leading offset is non-zero only for multiline texts that have at least one tab character or some paragraph indent (first, left or right)
+				textRenderer = 
+					new PdfTextRenderer(
+						context.getJasperReportsContext(), 
+						textContext.getAwtIgnoreMissingFont(), 
+						textContext.getIndentFirstLine(),
+						textContext.getJustifyLastLine()
+						);//FIXMENOW make some reusable instances here and below
+			}
+			else
+			{
+				textRenderer = 
+					new SimplePdfTextRenderer(
+						context.getJasperReportsContext(), 
+						textContext
+						);//FIXMETAB optimize this
+			}
+		}
+		return textRenderer;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getTextRenderer(PdfTextRendererContext)}.
+	 */
 	@Override
 	public AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale,

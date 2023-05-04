@@ -139,6 +139,7 @@ import net.sf.jasperreports.export.pdf.PdfRadioCheck;
 import net.sf.jasperreports.export.pdf.PdfTextAlignment;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
+import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
 import net.sf.jasperreports.export.pdf.TextDirection;
 import net.sf.jasperreports.export.pdf.classic.ClassicPdfProducer;
 import net.sf.jasperreports.export.type.PdfPermissionsEnum;
@@ -521,6 +522,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		)
 	public static final String LEGACY_TARGET_BLANK_LINKS = PDF_EXPORTER_PROPERTIES_PREFIX + "legacy.target.blank.links";
 	
+	@Property(
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT},
+		sinceVersion = PropertyConstants.VERSION_6_20_5,
+		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_FALSE
+		)
+	public static final String LEGACY_TEXT_MEASURING_FIX = PDF_EXPORTER_PROPERTIES_PREFIX + "legacy.text.measuring.fix";
+	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
@@ -594,6 +604,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
 	private boolean legacyTargetBlankLinks;
+	/**
+	 * @deprecated To be removed.
+	 */
+	private boolean legacyTextMeasuringFix;
 
 	private PdfVersionEnum minimalVersion;
 
@@ -731,6 +745,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 		legacyTargetBlankLinks = propertiesUtil.getBooleanProperty(jasperPrint, LEGACY_TARGET_BLANK_LINKS, false);
+		legacyTextMeasuringFix = propertiesUtil.getBooleanProperty(jasperPrint, LEGACY_TEXT_MEASURING_FIX, false);
 		
 		crtOddPageOffsetX = configuration.getOddPageOffsetX();
 		crtOddPageOffsetY = configuration.getOddPageOffsetY();
@@ -825,6 +840,57 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			public ColorSpace getCMYKColorSpace()
 			{
 				return cmykColorSpace;
+			}
+		};
+	}
+	
+	protected PdfTextRendererContext createPdfTextRendererContext(final JRPrintText text, final JRStyledText styledText, final Locale textLocale)
+	{
+		return new PdfTextRendererContext() 
+		{
+			@Override
+			public Locale getTextLocale() 
+			{
+				return textLocale;
+			}
+			
+			@Override
+			public JRPrintText getPrintText() 
+			{
+				return text;
+			}
+			
+			@Override
+			public JRStyledText getStyledText() 
+			{
+				return styledText;
+			}
+			
+			/**
+			 * @deprecated To be removed.
+			 */
+			@Override
+			public boolean getLegacyTextMeasuringFix() 
+			{
+				return legacyTextMeasuringFix;
+			}
+			
+			@Override
+			public boolean getJustifyLastLine() 
+			{
+				return defaultJustifyLastLine;
+			}
+			
+			@Override
+			public boolean getIndentFirstLine() 
+			{
+				return defaultIndentFirstLine;
+			}
+			
+			@Override
+			public boolean getAwtIgnoreMissingFont() 
+			{
+				return awtIgnoreMissingFont;
 			}
 		};
 	}
@@ -3077,11 +3143,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	
 	protected AbstractPdfTextRenderer getTextRenderer(JRPrintText text, JRStyledText styledText)
 	{
-		Locale textLocale = getTextLocale(text);
-		AbstractPdfTextRenderer textRenderer = pdfProducer.getTextRenderer(
-				text, styledText, textLocale,
-				awtIgnoreMissingFont, defaultIndentFirstLine, defaultJustifyLastLine);
-		return textRenderer;
+		return 
+			pdfProducer.getTextRenderer(
+				createPdfTextRendererContext(text, styledText, getTextLocale(text))
+				);
 	}
 
 

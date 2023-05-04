@@ -69,6 +69,18 @@ public interface PdfProducer
 
 	void endPage();
 
+	default AbstractPdfTextRenderer getTextRenderer(PdfTextRendererContext context)
+	{
+		return 
+			getTextRenderer(
+				context.getPrintText(), context.getStyledText(), context.getTextLocale(), 
+				context.getAwtIgnoreMissingFont(), context.getIndentFirstLine(), context.getJustifyLastLine()
+				);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getTextRenderer(PdfTextRendererContext)}.
+	 */
 	AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale, 
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine);
