@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -52,7 +52,10 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.engine.util.MarkupProcessor;
+import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -70,6 +73,12 @@ public class JRFillContext
 {
 	private static final Log log = LogFactory.getLog(JRFillContext.class);
 	
+	public static final String EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY = "fill.text.element.missing.markup.processor.factory";
+	
+	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
+			new JRSingletonCache<>(MarkupProcessorFactory.class);
+	private final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
+
 	private final BaseReportFiller masterFiller;
 	
 	private Map<Object,Renderable> loadedImageRenderers;
@@ -133,12 +142,12 @@ public class JRFillContext
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 		
 		legacyElementStretchEnabled = 
-			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+			masterFiller.getPropertiesUtil().getBooleanProperty(
 				StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED
 				);
 		
 		legacyBandEvaluationEnabled = 
-			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+			masterFiller.getPropertiesUtil().getBooleanProperty(
 				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
 				);
 	}
@@ -479,6 +488,44 @@ public class JRFillContext
 	{
 		loadedTemplates.put(source, templateSource);
 	}
+	
+
+	/**
+	 * 
+	 */
+	protected MarkupProcessor getMarkupProcessor(String markup)
+	{
+		MarkupProcessor markupProcessor = markupProcessors.get(markup);
+		
+		if (markupProcessor == null)
+		{
+			String factoryClass = masterFiller.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
+			if (factoryClass == null)
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
+						new Object[]{markup} 
+						);
+			}
+
+			MarkupProcessorFactory factory = null;
+			try
+			{
+				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			
+			markupProcessor = factory.createMarkupProcessor();
+			markupProcessors.put(markup, markupProcessor);
+		}
+		
+		return markupProcessor;
+	}
+
 	
 	/**
 	 * Search for a duplicate of a given object in the fill context, and add the object

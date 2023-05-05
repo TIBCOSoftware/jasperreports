@@ -49,14 +49,11 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
-import net.sf.jasperreports.engine.util.MarkupProcessor;
-import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -68,7 +65,6 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
 	
-	public static final String EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY = "fill.text.element.missing.markup.processor.factory";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX = "fill.text.element.invalid.start.index";
 
 	@Property(
@@ -100,13 +96,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			)
 	public static final String PROPERTY_LEGACY_TEXT_MEASURING = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.text.measuring";
-
-	/**
-	 *
-	 */
-	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
-			new JRSingletonCache<>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
 
 	/**
 	 *
@@ -1100,44 +1089,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				&& !JRCommonText.MARKUP_STYLED_TEXT.equals(markup)
 				)
 			{
-				text = getMarkupProcessor(markup).convert(text);
+				text = filler.getFillContext().getMarkupProcessor(markup).convert(text);
 			}
 		}
 		
 		return text;
-	}
-
-	protected MarkupProcessor getMarkupProcessor(String markup)
-	{
-		MarkupProcessor markupProcessor = markupProcessors.get(markup);
-		
-		if (markupProcessor == null)
-		{
-			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
-			if (factoryClass == null)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
-						new Object[]{markup} 
-						);
-			}
-
-			MarkupProcessorFactory factory = null;
-			try
-			{
-				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			
-			markupProcessor = factory.createMarkupProcessor();
-			markupProcessors.put(markup, markupProcessor);
-		}
-		
-		return markupProcessor;
 	}
 
 	protected void setPrintText(JRPrintText printText)
