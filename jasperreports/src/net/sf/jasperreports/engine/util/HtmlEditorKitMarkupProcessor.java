@@ -88,12 +88,18 @@ public class HtmlEditorKitMarkupProcessor extends EditorKitMarkupProcessor
 		{
 			JRStyledText styledText = new JRStyledText();
 			
-			htmlListStack = new Stack<>();
-
 			document = getDocument(srcText);
 
 			bodyOccurred = false;
 			isFirstContentTag = true;
+			breaksFlow = false;
+			suppressBreaksFlow = false;
+			rootEndOffset = 0;
+
+			htmlListStack = new Stack<>();
+			insideLi = false;
+			liStart = false;
+			justClosedList = null;
 
 			Element root = document.getDefaultRootElement();
 			if (root != null)
