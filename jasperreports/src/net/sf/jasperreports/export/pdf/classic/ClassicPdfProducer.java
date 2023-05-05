@@ -28,10 +28,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -42,6 +47,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.FopGlyphProcessor;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfOutline;
@@ -50,9 +56,12 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.RadioCheckField;
 import com.lowagie.text.pdf.TextField;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
@@ -77,6 +86,7 @@ import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
 import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
@@ -85,6 +95,39 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
  */
 public class ClassicPdfProducer implements PdfProducer
 {
+	
+	private static final Log log = LogFactory.getLog(ClassicPdfProducer.class);
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.fop.glyph.substitution.enabled";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5
+			)
+	public static final String PROPERTY_DOCUMENT_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.document.language";
+	
+	private final static Method SET_GLYPH_SUBSTITUTION_ENABLED_METHOD;
+	static
+	{
+		Method setGlyphSubstitutionEnabledMethod = null;
+		try
+		{
+			setGlyphSubstitutionEnabledMethod = Document.class.getMethod("setGlyphSubstitutionEnabled", Boolean.TYPE);
+		}
+		catch (NoSuchMethodException | SecurityException e)
+		{
+			log.debug("Failed to detect com.lowagie.text.Document.setGlyphSubstitutionEnabled method: " + e);
+		}
+		SET_GLYPH_SUBSTITUTION_ENABLED_METHOD = setGlyphSubstitutionEnabledMethod;
+	}
 	
 	private PdfProducerContext context;
 	
@@ -126,7 +169,7 @@ public class ClassicPdfProducer implements PdfProducer
 						pageFormat.getPageHeight()
 					)
 				);
-		pdfDocument.setGlyphSubstitutionEnabled(false);//FIXME config property?
+		setDocumentProperties(pdfDocument);
 			
 		imageTesterDocument =
 				new Document(
@@ -138,6 +181,34 @@ public class ClassicPdfProducer implements PdfProducer
 		
 		document = new ClassicDocument(pdfDocument);
 		return document;
+	}
+
+	protected void setDocumentProperties(Document pdfDocument)
+	{
+		String documentLanguage = context.getProperties().getProperty(context.getCurrentJasperPrint(), PROPERTY_DOCUMENT_LANGUAGE);
+		if (documentLanguage != null)
+		{
+			pdfDocument.setDocumentLanguage(documentLanguage);
+		}
+		
+		boolean glyphSubstitutionEnabled = context.getProperties().getBooleanProperty(context.getCurrentJasperPrint(), 
+				PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED, false);
+		if (!glyphSubstitutionEnabled && FopGlyphProcessor.isFopSupported())
+		{
+			if (SET_GLYPH_SUBSTITUTION_ENABLED_METHOD == null)
+			{
+				throw new JRRuntimeException("FOP glyph substution is disabled but patched library not detected");
+			}
+
+			try
+			{
+				SET_GLYPH_SUBSTITUTION_ENABLED_METHOD.invoke(pdfDocument, false);
+			} 
+			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				throw new JRRuntimeException("Failed to invoke com.lowagie.text.Document.setGlyphSubstitutionEnabled", e);
+			}
+		}
 	}
 
 	@Override
