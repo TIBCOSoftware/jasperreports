@@ -858,7 +858,7 @@ Property that determines the maximum number of report expressions that will be i
     <description>
 Property that determines the optimization level to use when compiling expressions into Java bytecode.
 <br/>
-See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29">org.mozilla.javascript.Context.setOptimizationLevel</a>
     </description>
   </configProperty>
   
@@ -878,7 +878,7 @@ Property that determines the maximum size of a script that will be compiled into
     <description>
 Property that determines the optimization level to use when compiling expressions into Java bytecode.
 <br/>
-See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29">org.mozilla.javascript.Context.setOptimizationLevel</a>
     </description>
   </configProperty>
   
