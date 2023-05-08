@@ -2,6 +2,30 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.5 (2023-05-0x)
+---------------------------------------------
+
+- fix historical text measuring truncation by rounding up the AWT measured text height to the upper 
+integer value instead of truncating it to the lower integer value and thus causing the text elements 
+having dynamic height to be 1 pixel taller to avoid text being cut in PDF exports; 
+for minimum disruption in upgrades, the former text measuring behavior is still available through the 
+net.sf.jasperreports.legacy.text.measuring boolean configuration property that would need to be set to true;
+
+- performance improvements for the HTML and RTF text markup processors by replacing the JEditorPane based 
+implementations with faster EditorKit implementations and fixing some multi-threading issues;
+
+- support for CMYK color conversion for text and shapes in PDF export using ICC profiles 
+(excluding image color conversion);
+
+- support for unpatched versions of the OpenPDF library although this is not recommended for as long as 
+the following OpenPDF bug remains open: https://github.com/LibrePDF/OpenPDF/issues/676
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.4 (2023-05-01)
 ---------------------------------------------
 
