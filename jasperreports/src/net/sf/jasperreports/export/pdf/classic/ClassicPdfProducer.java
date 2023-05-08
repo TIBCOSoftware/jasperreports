@@ -98,6 +98,12 @@ public class ClassicPdfProducer implements PdfProducer
 	
 	private static final Log log = LogFactory.getLog(ClassicPdfProducer.class);
 	
+	/**
+	 * Flag that determines whether glyph substitution based on Apache FOP is enabled.
+	 * 
+	 * @see PatchedPdfLibraryUnavailableException
+	 * @see #PROPERTY_DOCUMENT_LANGUAGE
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
@@ -107,6 +113,12 @@ public class ClassicPdfProducer implements PdfProducer
 			)
 	public static final String PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.fop.glyph.substitution.enabled";
 	
+	/**
+	 * The language of PDF the document, used for glyph substitution when Apache FOP is present and the 
+	 * {@link #PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED} property is set. 
+	 * 
+	 * @see #PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED
+	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
@@ -197,7 +209,7 @@ public class ClassicPdfProducer implements PdfProducer
 		{
 			if (SET_GLYPH_SUBSTITUTION_ENABLED_METHOD == null)
 			{
-				throw new JRRuntimeException("FOP glyph substution is disabled but patched library not detected");
+				throw new PatchedPdfLibraryUnavailableException();
 			}
 
 			try
