@@ -7655,12 +7655,11 @@ See <a href="https://github.com/LibrePDF/OpenPDF/blob/0c9c4ca393b01444b7cb13bb1d
   <configProperty name="net.sf.jasperreports.export.pdf.classic.fop.glyph.substitution.enabled">
     <description>
 Flag that determines whether glyph substitution based on Apache FOP is enabled.
-The flag is set <code>false</code> by default, disabling glyph substitution.
+The flag is set to <code>false</code> by default, disabling glyph substitution.
 <p>
-When Apache FOP is present on the classpath glyph substitution can only be disabled
+When Apache FOP is present on the classpath, glyph substitution can only be disabled
 by using a patched version of OpenPDF (1.3.30.jaspersoft.x from 
-<a href="https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/">https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/</a>)
-is used.
+<a href="https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/">https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/</a>).
 The property needs to be explicitly set to <code>true</code> when using a standard/unpatched version of OpenPDF together with Apache FOP. 
 </p>
 <p>
