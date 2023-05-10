@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.20.5 (2023-05-0x)
+JasperReports 6.20.5 (2023-05-10)
 ---------------------------------------------
 
 - fix historical text measuring truncation by rounding up the AWT measured text height to the upper 
