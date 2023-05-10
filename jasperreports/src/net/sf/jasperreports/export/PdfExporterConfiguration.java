@@ -270,7 +270,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_20_3,
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_EMBED_ICC_PROFILE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.embed.icc.profile";
@@ -282,7 +282,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_20_3,
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_USE_CMYK_COLORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.use.cmyk.colors";
