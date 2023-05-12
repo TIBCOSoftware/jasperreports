@@ -71,18 +71,6 @@
 			<timezone>+2</timezone>
 		</developer>
 	</developers>
-	<modules>
-		<module>tools/metadata</module>
-		<module>tools/annotation-processors</module>
-		<module>ext/fonts</module>
-		<module>pom.xml</module>
-		<module>ext/castor</module>
-		<module>ext/chart-customizers</module>
-		<module>ext/chart-themes</module>
-		<module>ext/custom-visualization</module>
-		<module>ext/functions</module>
-		<module>ext/xalan</module>
-	</modules>
 	<scm>
 		<connection>${scmConnection}</connection>
 		<tag>${revision}</tag>
