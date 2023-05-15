@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export.pdf.classic;
 
 import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.io.IOException;
 
 import com.lowagie.text.DocumentException;
@@ -42,10 +43,12 @@ import net.sf.jasperreports.export.pdf.PdfFontStyle;
 public class ClassicFontRecipient implements FontRecipient
 {
 
+	private ColorSpace cmykColorSpace;
 	private Font font;
 
-	public ClassicFontRecipient()
+	public ClassicFontRecipient(ColorSpace cmykColorSpace)
 	{
+		this.cmykColorSpace = cmykColorSpace;
 	}
 	
 	@Override
@@ -64,7 +67,7 @@ public class ClassicFontRecipient implements FontRecipient
 			float size, PdfFontStyle pdfFontStyle, Color forecolor)
 	{
 		Font font = FontFactory.getFont(pdfFontName, pdfEncoding, isPdfEmbedded, 
-				size, toITextFontStyle(pdfFontStyle), forecolor);
+				size, toPdfFontStyle(pdfFontStyle), ClassicPdfUtils.convertColor(cmykColorSpace, forecolor));
 		// check if FontFactory didn't find the font
 		if (font != null && font.getBaseFont() == null && font.getFamily() == Font.UNDEFINED)
 		{
@@ -89,10 +92,10 @@ public class ClassicFontRecipient implements FontRecipient
 			throw new JRRuntimeException(e);
 		}
 
-		font = new Font(baseFont, size, toITextFontStyle(pdfFontStyle), forecolor);
+		font = new Font(baseFont, size, toPdfFontStyle(pdfFontStyle), ClassicPdfUtils.convertColor(cmykColorSpace, forecolor));
 	}
 	
-	protected static int toITextFontStyle(PdfFontStyle pdfFontStyle)
+	protected static int toPdfFontStyle(PdfFontStyle pdfFontStyle)
 	{
 		return (pdfFontStyle.isBold() ? Font.BOLD : 0)
 				| (pdfFontStyle.isItalic() ? Font.ITALIC : 0)

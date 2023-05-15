@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -264,6 +264,30 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
 
 	/**
+	 * Property whose value is used as default for the {@link #isEmbedIccProfile()} export configuration setting.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_EMBED_ICC_PROFILE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.embed.icc.profile";
+
+	/**
+	 * Property whose value is used as default for the {@link #isUseCMYKColors()} export configuration setting.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_USE_CMYK_COLORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.use.cmyk.colors";
+
+	/**
 	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
 	 */
 	@Property(
@@ -510,7 +534,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public PdfaConformanceEnum getPdfaConformance();
 	
 	/**
-	 * The path to the ICC profile file for the PDF/A compliant document.
+	 * The path to the ICC profile file needed for CMYK color conversion and/or the PDF/A compliance.
 	 * @see #PROPERTY_PDFA_ICC_PROFILE_PATH
 	 */
 	@SuppressWarnings("deprecation")
@@ -522,9 +546,31 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public String getIccProfilePath();
 	
 	/**
+	 * Specifies whether the ICC profile, which in this case must be provided by {@link #getIccProfilePath()}, 
+	 * is embedded into the PDF. PDFA compliance requires embedding the ICC profile, which inhibits this setting. 
+	 * @see #PROPERTY_USE_CMYK_COLORS
+	 */
+	@ExporterProperty(
+		value=PROPERTY_EMBED_ICC_PROFILE,
+		booleanDefault=false
+		)
+	public Boolean isEmbedIccProfile();
+	
+	/**
+	 * Specifies whether the ICC profile, which in this case must be provided by {@link #getIccProfilePath()}, 
+	 * is used to convert colors from RGB to CMYK color space.
+	 * @see #PROPERTY_USE_CMYK_COLORS
+	 */
+	@ExporterProperty(
+		value=PROPERTY_USE_CMYK_COLORS,
+		booleanDefault=false
+		)
+	public Boolean isUseCMYKColors();
+	
+	/**
 	 * An integer value representing the PDF permissions for the generated document. The open permissions for the document
 	 * can be ALLOW_PRINTING, ALLOW_MODIFY_CONTENTS, ALLOW_COPY, ALLOW_MODIFY_ANNOTATIONS, ALLOW_FILL_IN, ALLOW_SCREENREADERS,
-	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of iText library). The
+	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of OpenPDF library). The
 	 * permissions can be combined by applying bitwise OR to them.
 	 */
 	@SuppressWarnings("deprecation")

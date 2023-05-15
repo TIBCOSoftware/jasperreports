@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -35,6 +35,7 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	private String metadataKeywords;
 	private String metadataApplication;
 	private Boolean embedFonts;
+	private String encryptionPassword;
 	
 	@Override
 	public String getMetadataTitle()
@@ -118,5 +119,19 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	public void setEmbedFonts(Boolean embedFonts)
 	{
 		this.embedFonts = embedFonts;
+	}
+
+	@Override
+	public String getEncryptionPassword()
+	{
+		return encryptionPassword;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEncryptionPassword(String encryptionPassword)
+	{
+		this.encryptionPassword = encryptionPassword;
 	}
 }

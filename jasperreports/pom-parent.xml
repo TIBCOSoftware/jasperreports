@@ -9,7 +9,7 @@
 	<description>Free Java Reporting Library</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
-		<name>TIBCO Software Inc.</name>
+		<name>Cloud Software Group, Inc.</name>
 		<url>https://www.jaspersoft.com/</url>
 	</organization>
 	<licenses>
@@ -25,7 +25,7 @@
 			<name>Teodor Danciu</name>
 			<email>teodord@users.sourceforge.net</email>
 			<url>http://sourceforge.net/users/teodord</url>
-			<organization>TIBCO Software Inc.</organization>
+			<organization>Cloud Software Group, Inc.</organization>
 			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
 			<roles>
 				<role>architect</role>
@@ -38,7 +38,7 @@
 			<name>Lucian Chirita</name>
 			<email>lucianc@users.sourceforge.net</email>
 			<url>http://sourceforge.net/users/lucianc</url>
-			<organization>TIBCO Software Inc.</organization>
+			<organization>Cloud Software Group, Inc.</organization>
 			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
 			<roles>
 				<role>architect</role>
@@ -51,7 +51,7 @@
 			<name>Sanda Zaharia</name>
 			<email>shertage@users.sourceforge.net</email>
 			<url>http://sourceforge.net/users/shertage</url>
-			<organization>TIBCO Software Inc.</organization>
+			<organization>Cloud Software Group, Inc.</organization>
 			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
 			<roles>
 				<role>developer</role>
@@ -63,7 +63,7 @@
 			<name>Narcis Marcu</name>
 			<email>narcism@users.sourceforge.net</email>
 			<url>http://sourceforge.net/users/narcism</url>
-			<organization>TIBCO Software Inc.</organization>
+			<organization>Cloud Software Group, Inc.</organization>
 			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
 			<roles>
 				<role>developer</role>
@@ -71,25 +71,13 @@
 			<timezone>+2</timezone>
 		</developer>
 	</developers>
-	<modules>
-		<module>tools/metadata</module>
-		<module>tools/annotation-processors</module>
-		<module>ext/fonts</module>
-		<module>pom.xml</module>
-		<module>ext/castor</module>
-		<module>ext/chart-customizers</module>
-		<module>ext/chart-themes</module>
-		<module>ext/custom-visualization</module>
-		<module>ext/functions</module>
-		<module>ext/xalan</module>
-	</modules>
 	<scm>
 		<connection>${scmConnection}</connection>
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>develop-93-SNAPSHOT</revision>
+		<revision>develop-JS-69328-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -232,7 +232,7 @@
  * In many cases, the Jaxen XPath executor provides better performance than the 
  * executor that uses Xalan. But if backward compatibility is required, for switching to the Xalan XPath executer, one needs to set the 
  * {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property to 
- * {@link net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory XalanXPathExecuterFactory}, which 
+ * the net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory class, which 
  * is usually done by including the following line in the jasperreports.properties 
  * configuration file: 
  * <pre>

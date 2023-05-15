@@ -29,7 +29,6 @@
 
 	<target name="fill-javaflow" description="Fills the subreports using JavaFlow Continuations, not threads." depends="prepare-javaflow-classpath">
 		<java classname="${sample.app.name}" fork="true">
-			<sysproperty key="net.sf.jasperreports.properties" value="jasperreports-javaflow.properties"/>
 			<arg value="fill"/>
 			<classpath>
 				<pathelement location="build/classes"/>

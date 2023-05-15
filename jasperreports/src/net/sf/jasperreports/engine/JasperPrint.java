@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -69,7 +69,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	
 	/**
 	 * Prefix for JasperReports properties that specify properties to be
-	 * transfered from report templates to print objects.
+	 * transferred from report templates to print objects.
 	 * 
 	 * @see JRPropertiesUtil#transferProperties(JRPropertiesHolder, JRPropertiesHolder, String)
 	 */

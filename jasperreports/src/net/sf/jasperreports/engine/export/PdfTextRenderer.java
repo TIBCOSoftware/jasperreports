@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -35,18 +35,6 @@ import net.sf.jasperreports.export.pdf.TextDirection;
  */
 public class PdfTextRenderer extends AbstractPdfTextRenderer
 {
-	/**
-	 * @deprecated Replaced by {@link #PdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
-	 */
-	public PdfTextRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont
-		)
-	{
-		this(jasperReportsContext, ignoreMissingFont, true, false);
-	}
-	
-	
 	/**
 	 * 
 	 */
@@ -124,7 +112,7 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 				- drawPosY,
 			lineHeight,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			0,
-			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (!segment.isLastLine || (isLastParagraph && justifyLastLine)) 
+			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (!segment.isLastLine || justifyLastLine) 
 				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL

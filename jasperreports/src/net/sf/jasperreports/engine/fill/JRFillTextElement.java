@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,16 +49,12 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
-import net.sf.jasperreports.engine.util.MarkupProcessor;
-import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
-import net.sf.jasperreports.engine.util.StyledTextListInfo;
 import net.sf.jasperreports.engine.util.StyledTextListItemInfo;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -69,7 +65,6 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
 	
-	public static final String EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY = "fill.text.element.missing.markup.processor.factory";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX = "fill.text.element.invalid.start.index";
 
 	@Property(
@@ -92,12 +87,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public static final String PROPERTY_SCALE_FONT_STEP_LIMIT = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "scale.font.step.limit";
 
-	/**
-	 *
-	 */
-	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
-			new JRSingletonCache<>(MarkupProcessorFactory.class);
-	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<>();
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_LEGACY_TEXT_MEASURING = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.text.measuring";
 
 	/**
 	 *
@@ -112,7 +110,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textStart;
 	private int textEnd;
 	private boolean isCutParagraphOverflow;
-	private boolean isCutParagraphToContinueInOverflow;
+	private boolean isCutParagraph;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
 	private String oldRawText;
@@ -478,17 +476,17 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected boolean isCutParagraphToContinueInOverflow()
+	protected boolean isCutParagraph()
 	{
-		return isCutParagraphToContinueInOverflow;
+		return isCutParagraph;
 	}
 		
 	/**
 	 *
 	 */
-	protected void setCutParagraphToContinueInOverflow(boolean isCutParagraphToContinueInOverflow)
+	protected void setCutParagraph(boolean isCutParagraph)
 	{
-		this.isCutParagraphToContinueInOverflow = isCutParagraphToContinueInOverflow;
+		this.isCutParagraph = isCutParagraph;
 	}
 	
 	protected short[] getLineBreakOffsets()
@@ -615,7 +613,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		boolean isOverflow
 		) throws JRException
 	{
-		isCutParagraphOverflow = isCutParagraphToContinueInOverflow;
+		isCutParagraphOverflow = canOverflow() && isCutParagraph;
 		
 		return super.prepare(availableHeight, isOverflow);
 	}
@@ -751,9 +749,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		//elementStretchHeightDelta = 0;
 		if (getRotationValue().equals(RotationEnum.NONE))
 		{
-			//FIXME truncating to int here seems wrong as the text measurer compares 
-			// the exact text height against the available height
-			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
+			@SuppressWarnings("deprecation")
+			int intTextHeight =  (int) (filler.isLegacyTextMeasuring() ? getTextHeight() : Math.ceil(getTextHeight()));
+			int elementTextHeight = intTextHeight + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
 			if (
 				measuredText.getTextOffset() >= fullTextLength //text ended 
 				|| !canOverflow 
@@ -783,7 +781,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
-		setCutParagraphToContinueInOverflow(canOverflow && measuredText.isParagraphCut());
+		setCutParagraph(measuredText.isParagraphCut());
 		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
@@ -1091,44 +1089,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				&& !JRCommonText.MARKUP_STYLED_TEXT.equals(markup)
 				)
 			{
-				text = getMarkupProcessor(markup).convert(text);
+				text = filler.getFillContext().getMarkupProcessor(markup).convert(text);
 			}
 		}
 		
 		return text;
-	}
-
-	protected MarkupProcessor getMarkupProcessor(String markup)
-	{
-		MarkupProcessor markupProcessor = markupProcessors.get(markup);
-		
-		if (markupProcessor == null)
-		{
-			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
-			if (factoryClass == null)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY,  
-						new Object[]{markup} 
-						);
-			}
-
-			MarkupProcessorFactory factory = null;
-			try
-			{
-				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
-			}
-			catch (JRException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			
-			markupProcessor = factory.createMarkupProcessor();
-			markupProcessors.put(markup, markupProcessor);
-		}
-		
-		return markupProcessor;
 	}
 
 	protected void setPrintText(JRPrintText printText)
@@ -1178,11 +1143,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				if (startIndex > 0) // if this is an overflow
 				{
-					// preparing bulleted list cuts is a share responsibility between the TextMeasurer and the JRFillTextElement here;
+					// preparing bulleted list cuts is a shared responsibility between the TextMeasurer and the JRFillTextElement here;
 					// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
 					// while here in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
-					// decide if a bullet should be rendered and/or the cutStart adjusted by 1
-					StyledTextListInfo[] cutListStack = null;
+					// decide if a bullet should be rendered
+//					StyledTextListInfo[] cutListStack = null; // was used to adjust cutStart by 1 below
 
 					List<Run> runs = fullStyledText.getRuns();
 					for (int i = runs.size() - 1; i >= 0; i--)
@@ -1190,11 +1155,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						Run run = runs.get(i);
 						if (run.startIndex <= startIndex && startIndex < run.endIndex)
 						{
-							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
-							if (listStack != null)
-							{
-								cutListStack = listStack;
-							}
+//							StyledTextListInfo[] listStack = (StyledTextListInfo[])run.attributes.get(JRTextAttribute.HTML_LIST);
+//							if (listStack != null)
+//							{
+//								cutListStack = listStack;
+//							}
 
 							StyledTextListItemInfo listItem = (StyledTextListItemInfo)run.attributes.get(JRTextAttribute.HTML_LIST_ITEM);
 							if (listItem != null)
@@ -1204,18 +1169,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						}
 					}
 					
-					if (cutListStack != null && cutListStack.length > 0)
-					{
-						for (int i = cutListStack.length - 1; i > 0; i--)
-						{
-							StyledTextListInfo list = cutListStack[i];
-							if (!list.hasParentLi())
-							{
-								StyledTextListInfo parentList = cutListStack[i - 1];
-								parentList.setCutStart(parentList.getCutStart() + 1);
-							}
-						}
-					}
+//					if (cutListStack != null && cutListStack.length > 0)
+//					{
+//						for (int i = cutListStack.length - 1; i > 0; i--)
+//						{
+//							StyledTextListInfo list = cutListStack[i];
+//							if (!list.hasParentLi())
+//							{
+//								StyledTextListInfo parentList = cutListStack[i - 1];
+//								parentList.setCutStart(parentList.getCutStart() + 1);
+//							}
+//						}
+//					}
 				}
 				String styledText = filler.getStyledTextParser().write(fullStyledText, startIndex, endIndex);
 				setPrintText(printText, styledText);
@@ -1237,6 +1202,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			fullText != null
 			&& endIndex < fullText.length()
 			&& HorizontalTextAlignEnum.JUSTIFIED == getHorizontalTextAlign()
+			&& isCutParagraph
 			)
 		{
 			printText.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, Boolean.TRUE.toString());

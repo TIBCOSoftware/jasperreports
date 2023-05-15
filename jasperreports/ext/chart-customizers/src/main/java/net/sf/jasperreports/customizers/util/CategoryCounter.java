@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.customizers.util;
 
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.data.category.CategoryDataset;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -40,6 +41,7 @@ public class CategoryCounter implements ItemsCounter
 	@Override
 	public int getCount() 
 	{
-		return categoryPlot.getDataset().getRowCount();
+		CategoryDataset dataset = categoryPlot.getDataset();
+		return dataset == null ? 0 : dataset.getRowCount();
 	}
 }

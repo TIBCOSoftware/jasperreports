@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export.pdf;
 
+import java.awt.color.ColorSpace;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Locale;
 import java.util.Map;
@@ -31,6 +32,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
@@ -41,6 +43,8 @@ import net.sf.jasperreports.export.type.PdfVersionEnum;
  */
 public interface PdfProducerContext
 {
+	
+	JRPdfExporter getExporter();
 	
 	JasperReportsContext getJasperReportsContext();
 	
@@ -60,5 +64,7 @@ public interface PdfProducerContext
 			FontRecipient recipient);
 	
 	JRException handleDocumentException(Exception e);
+	
+	ColorSpace getCMYKColorSpace();
 
 }

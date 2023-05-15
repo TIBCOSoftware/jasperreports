@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-common</artifactId>
+		<version>${revision}</version>
+		<relativePath>./pom-common.xml</relativePath>
+	</parent>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports</artifactId>
+	<packaging>jar</packaging>
+	<name>JasperReports Library</name>
+	<description>Free Java Reporting Library</description>
+	<url>http://jasperreports.sourceforge.net</url>
+	<scm>
+		<connection>${scmConnection}</connection>
+		<tag>${revision}</tag>
+		<url>${scmUrl}</url>
+	</scm>
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+		<skipInstall>false</skipInstall>
+		<skipDeploy>false</skipDeploy>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+				<configuration>
+					<systemPropertyVariables>
+						<xmlOutputDir>${project.build.directory}/surefire</xmlOutputDir>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<quiet>true</quiet>
+					<doclint>none</doclint>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>clirr-maven-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<comparisonVersion>6.20.4</comparisonVersion>
+					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>7.4.0</version>
+				<configuration>
+					<suppressionFile>${basedir}/owasp-suppressions.xml</suppressionFile>
+				</configuration>
+			</plugin>			
+		</plugins>
+	</build>
+</project>

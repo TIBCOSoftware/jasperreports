@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -38,12 +38,15 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterService 
+public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterService implements Designated 
 {
+	
+	public static final String SERVICE_DESIGNATION = "net.sf.jasperreports.data.adapter:XLS";
 	
 	protected DataFileStream dataStream;
 	
@@ -242,4 +245,9 @@ public abstract class AbstractXlsDataAdapterService extends AbstractDataAdapterS
 		}
 	}
 	
+	@Override
+	public String getDesignation()
+	{
+		return SERVICE_DESIGNATION;
+	}
 }

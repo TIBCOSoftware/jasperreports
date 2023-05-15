@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,7 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataApplication;
+	private String encryptionPassword;
 	
 	
 	/**
@@ -162,5 +163,19 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 	public void setMetadataApplication(String metadataApplication)
 	{
 		this.metadataApplication = metadataApplication;
+	}
+
+	@Override
+	public String getEncryptionPassword()
+	{
+		return encryptionPassword;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEncryptionPassword(String encryptionPassword)
+	{
+		this.encryptionPassword = encryptionPassword;
 	}
 }

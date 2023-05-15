@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -39,7 +39,7 @@ public class FillPlaceItemData extends FillItemData
 	 */
 	public FillPlaceItemData(
 		FillContextProvider fillContextProvider,
-		ItemData itemData, 
+		ItemData itemData,
 		JRFillObjectFactory factory
 		)// throws JRException
 	{
@@ -49,5 +49,5 @@ public class FillPlaceItemData extends FillItemData
 	@Override
 	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
 		return new FillPlaceItem(fillContextProvider, item, factory);
-	}	
+	}
 }

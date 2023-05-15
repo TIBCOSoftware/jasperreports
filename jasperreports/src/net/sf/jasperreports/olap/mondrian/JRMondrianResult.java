@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -56,6 +56,11 @@ public class JRMondrianResult implements JROlapResult
 			AxisOrdinal ordinal = AxisOrdinal.StandardAxisOrdinal.forLogicalOrdinal(i);
 			axes[i] = new JRMondrianAxis(resultAxes[i], query.getMdxHierarchiesOnAxis(ordinal), factory);
 		}
+	}
+	
+	public Result getResult()
+	{
+		return result;
 	}
 
 	@Override

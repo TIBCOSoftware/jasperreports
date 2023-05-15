@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,10 +28,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -42,6 +47,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.FopGlyphProcessor;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfOutline;
@@ -50,9 +56,12 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.RadioCheckField;
 import com.lowagie.text.pdf.TextField;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.AbstractPdfTextRenderer;
@@ -76,6 +85,8 @@ import net.sf.jasperreports.export.pdf.PdfRadioCheck;
 import net.sf.jasperreports.export.pdf.PdfStructure;
 import net.sf.jasperreports.export.pdf.PdfTextChunk;
 import net.sf.jasperreports.export.pdf.PdfTextField;
+import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
@@ -84,6 +95,51 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
  */
 public class ClassicPdfProducer implements PdfProducer
 {
+	
+	private static final Log log = LogFactory.getLog(ClassicPdfProducer.class);
+	
+	/**
+	 * Flag that determines whether glyph substitution based on Apache FOP is enabled.
+	 * 
+	 * @see PatchedPdfLibraryUnavailableException
+	 * @see #PROPERTY_DOCUMENT_LANGUAGE
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.fop.glyph.substitution.enabled";
+	
+	/**
+	 * The language of PDF the document, used for glyph substitution when Apache FOP is present and the 
+	 * {@link #PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED} property is set. 
+	 * 
+	 * @see #PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_5
+			)
+	public static final String PROPERTY_DOCUMENT_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.document.language";
+	
+	private final static Method SET_GLYPH_SUBSTITUTION_ENABLED_METHOD;
+	static
+	{
+		Method setGlyphSubstitutionEnabledMethod = null;
+		try
+		{
+			setGlyphSubstitutionEnabledMethod = Document.class.getMethod("setGlyphSubstitutionEnabled", Boolean.TYPE);
+		}
+		catch (NoSuchMethodException | SecurityException e)
+		{
+			log.debug("Failed to detect com.lowagie.text.Document.setGlyphSubstitutionEnabled method: " + e);
+		}
+		SET_GLYPH_SUBSTITUTION_ENABLED_METHOD = setGlyphSubstitutionEnabledMethod;
+	}
 	
 	private PdfProducerContext context;
 	
@@ -125,6 +181,7 @@ public class ClassicPdfProducer implements PdfProducer
 						pageFormat.getPageHeight()
 					)
 				);
+		setDocumentProperties(pdfDocument);
 			
 		imageTesterDocument =
 				new Document(
@@ -136,6 +193,34 @@ public class ClassicPdfProducer implements PdfProducer
 		
 		document = new ClassicDocument(pdfDocument);
 		return document;
+	}
+
+	protected void setDocumentProperties(Document pdfDocument)
+	{
+		String documentLanguage = context.getProperties().getProperty(context.getCurrentJasperPrint(), PROPERTY_DOCUMENT_LANGUAGE);
+		if (documentLanguage != null)
+		{
+			pdfDocument.setDocumentLanguage(documentLanguage);
+		}
+		
+		boolean glyphSubstitutionEnabled = context.getProperties().getBooleanProperty(context.getCurrentJasperPrint(), 
+				PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED, false);
+		if (!glyphSubstitutionEnabled && FopGlyphProcessor.isFopSupported())
+		{
+			if (SET_GLYPH_SUBSTITUTION_ENABLED_METHOD == null)
+			{
+				throw new PatchedPdfLibraryUnavailableException();
+			}
+
+			try
+			{
+				SET_GLYPH_SUBSTITUTION_ENABLED_METHOD.invoke(pdfDocument, false);
+			} 
+			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				throw new JRRuntimeException("Failed to invoke com.lowagie.text.Document.setGlyphSubstitutionEnabled", e);
+			}
+		}
 	}
 
 	@Override
@@ -179,7 +264,7 @@ public class ClassicPdfProducer implements PdfProducer
 	@Override
 	public PdfContent createPdfContent()
 	{
-		pdfContent = new ClassicPdfContent(writer.getPdfWriter());
+		pdfContent = new ClassicPdfContent(writer.getPdfWriter(), context.getCMYKColorSpace());
 		return pdfContent;
 	}
 
@@ -251,6 +336,38 @@ public class ClassicPdfProducer implements PdfProducer
 		imageTesterDocument.close();
 	}
 
+	@Override
+	public AbstractPdfTextRenderer getTextRenderer(PdfTextRendererContext textContext)
+	{
+		AbstractPdfTextRenderer textRenderer = glyphRendering.getGlyphTextRenderer(textContext);
+		if (textRenderer == null)
+		{
+			if (textContext.getPrintText().getLeadingOffset() == 0)
+			{
+				// leading offset is non-zero only for multiline texts that have at least one tab character or some paragraph indent (first, left or right)
+				textRenderer = 
+					new PdfTextRenderer(
+						context.getJasperReportsContext(), 
+						textContext.getAwtIgnoreMissingFont(), 
+						textContext.getIndentFirstLine(),
+						textContext.getJustifyLastLine()
+						);//FIXMENOW make some reusable instances here and below
+			}
+			else
+			{
+				textRenderer = 
+					new SimplePdfTextRenderer(
+						context.getJasperReportsContext(), 
+						textContext
+						);//FIXMETAB optimize this
+			}
+		}
+		return textRenderer;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getTextRenderer(PdfTextRendererContext)}.
+	 */
 	@Override
 	public AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale,
@@ -372,7 +489,7 @@ public class ClassicPdfProducer implements PdfProducer
 	
 	public Font getFont(Map<Attribute,Object> attributes, Locale locale)
 	{
-		ClassicFontRecipient fontRecipient = new ClassicFontRecipient();
+		ClassicFontRecipient fontRecipient = new ClassicFontRecipient(context.getCMYKColorSpace());
 		context.setFont(attributes, locale, false, fontRecipient);
 		Font font = fontRecipient.getFont();
 		return font;

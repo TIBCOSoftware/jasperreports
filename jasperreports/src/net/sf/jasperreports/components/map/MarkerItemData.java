@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,20 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.markup.bulletedlist;
+package net.sf.jasperreports.components.map;
 
-import org.testng.annotations.DataProvider;
-
-import net.sf.jasperreports.AbstractSvgTest;
+import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class BulletedListTest extends AbstractSvgTest
-{
-	@DataProvider
-	public Object[][] testArgs()
-	{
-		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 17);
-	}
+public interface MarkerItemData extends ItemData {
+
+    /**
+     * Returns a {@link net.sf.jasperreports.engine.JRExpression JRExpression} representing
+     * the series name expression.
+     *
+     * @return the series name expression
+     */
+    JRExpression getSeriesNameExpression();
+
+    JRExpression getMarkerClusteringExpression();
+
+    JRExpression getMarkerSpideringExpression();
+
+    JRExpression getLegendIconExpression();
 }

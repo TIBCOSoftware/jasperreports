@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        /* hides all elements in the copyright bar */
+        .gm-style-cc {
+            display: none;
+        }
+
+        /* restores the copyright element */
+        .gmnoprint:nth-child(2) .gm-style-cc {
+            display: unset;
+        }
+    </style>
+#if(${reqParams})
+    <script src='https://maps.googleapis.com/maps/api/js?${reqParams}&callback=initMap' defer></script>
+#else
+    <script src='https://maps.googleapis.com/maps/api/js?callback=initMap' defer></script>
+#end
+#if(${useMarkerClustering})
+    <script src='https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js' defer></script>
+#end
+    <script>
+        ${jasperreportsMapApiScript}
+
+        const deferredArr = [], globalUseMarkerClustering = ${useMarkerClustering};
+        const mapTilesReadyPromise = new Promise(function(resolve, reject) {
+            deferredArr.push({ resolve, reject });
+        });
+        const mapCopyrightReadyPromise = new Promise(function(resolve, reject) {
+            deferredArr.push({ resolve, reject });
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var isForExport = true,
+                mapCanvasId = "mapContainer",
+                defaultMarkerIcon = "${defaultMarkerIcon}",
+                map = new google.maps.Map(document.getElementById(mapCanvasId), {
+                    zoom: ${zoom},
+                    center: new google.maps.LatLng(${latitude}, ${longitude}),
+                    mapTypeId: google.maps.MapTypeId.${mapType},
+                    disableDefaultUI: true,
+                    // keyboardShortcuts: false,
+                    gestureHandling: 'none'
+                });
+            #*
+				markerList is {} or
+				{
+					"marker_series_0": {
+						"markerClustering": true,
+						"markerSpidering": true,
+						"markers": []
+					},
+					"marker_series_1": {}
+					...
+				}
+			*#
+            var markerSeries = ${markerList};
+            var markerSeriesConfigBySeriesName = jasperreports.map.placeSeriesMarkers(map, markerSeries, isForExport, false);
+
+            // enable marker clustering globally and/or per series
+            var markerClustersBySeriesName = jasperreports.map.enableClustering(map, markerSeriesConfigBySeriesName, globalUseMarkerClustering);
+
+            // draw marker legend
+            var legendProperties = ${legendProperties};
+            jasperreports.map.drawLegend(legendProperties, map, mapCanvasId, markerSeriesConfigBySeriesName,
+                    markerClustersBySeriesName, null, defaultMarkerIcon, isForExport);
+
+            // draw paths
+            var paths = ${pathsList};
+            jasperreports.map.drawPaths(paths, map, false);
+
+            /*
+             * tilesloaded event ensures the map tiles have finished rendering
+             */
+            map.addListener("tilesloaded", function() {
+                console.log("maps tilesloaded event triggered");
+
+                // resolve mapTilesReadyPromise
+                deferredArr[0].resolve();
+
+                // start checking for copyright display
+                checkCopyrightRendered();
+            });
+        });
+
+        /*
+         * Scans for the presence of elements with class "gm-style-cc" that make up the copyright bar.
+         * Once these elements are present ont the page, we need to look for a span on the second element to know the
+         * copyright is displayed.
+        */
+        function checkCopyrightRendered() {
+            console.log("checkCopyrightRendered: waiting for 'gm-style-cc' elements to be rendered on page");
+            const checkInterval = window.setInterval(() => {
+            const copyrightElements = document.getElementsByClassName("gm-style-cc");
+                if (copyrightElements.length > 1 && copyrightElements[1].querySelector("span") !== null) {
+                    clearInterval(checkInterval);
+                    checkCopyrightFontLoaded(copyrightElements[1].querySelector("span"));
+                }
+            }, 50);
+        }
+
+        /*
+         * Google maps loads custom google webfonts such as Roboto to display copyright info, so we need to wait for it
+         * to be loaded before taking the screen capture
+        */
+        function checkCopyrightFontLoaded(copyrightElement) {
+            // the copyright element is usually the second in the list, inside a span element
+            const computedStyle = window.getComputedStyle(copyrightElement);
+            const fontSize = computedStyle.getPropertyValue("font-size");
+            const firstFontFromFamily = computedStyle.getPropertyValue("font-family").split(",")[0];
+            const fontFace = fontSize + " " + firstFontFromFamily;
+
+            console.log(`checkCopyrightFontLoaded: try waiting for fontFace "${fontFace}" to be loaded`);
+            const checkInterval = window.setInterval(() => {
+                let fontFaceLoaded = null
+                try {
+                    fontFaceLoaded = document.fonts.check(fontFace);
+                } catch(e) {
+                    console.log(`Something went wrong when checking for fontFace: ${fontFace}`);
+                    fontFaceLoaded = true;
+                }
+                if (fontFaceLoaded) {
+                    clearInterval(checkInterval);
+
+                    // resolve mapCopyrightReadyPromise
+                    deferredArr[1].resolve();
+                }
+            }, 50);
+        }
+
+        function renderResult() {
+            return new Promise(function(resolve, reject) {
+                // wait for map tiles and the copyright to be ready
+                Promise.all([mapTilesReadyPromise, mapCopyrightReadyPromise])
+                    .then(() => {
+                        const pageDimensions = getPageDimensions();
+                        resolve(pageDimensions);
+                    })
+                    .catch(err => reject(err));
+            });
+        }
+
+        function getPageDimensions() {
+            const body = document.getElementsByTagName('body')[0];
+
+            body.style.marginTop = '0px';
+            body.style.marginLeft = '0px';
+            const element = body.children[0];
+
+            return {
+                width: Number(element.offsetWidth),
+                height: Number(element.offsetHeight)
+            };
+        }
+    </script>
+</head>
+<body>
+<div style='width: ${elementWidth}px; height: ${elementHeight}px;
+    #if(${backgroundColor})
+        background-color: \#${backgroundColor};
+    #end
+'>
+    <div id='mapContainer' style='width: 100%; height: 100%; overflow: auto'></div>
+    <div class="jr_map_legend_wrapper" style="display: none;">
+        <div id="mapContainer_legend" dragable="false" style="display: flex;justify-content:flex-start;font-family:Roboto,Arial,sans-serif;background-color:#fff;margin:10px;border-radius:2px;user-select:none;padding:5px 10px 5px 10px;overflow:auto;"></div>
+    </div>
+</div>
+</body>
+</html>

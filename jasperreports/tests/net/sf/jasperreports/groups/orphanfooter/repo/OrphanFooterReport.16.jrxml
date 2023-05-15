@@ -106,10 +106,10 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="70">
+		<band height="62">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="0" width="515" height="70" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="62" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -126,7 +126,7 @@
 		<band height="1">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<line>
-				<reportElement x="0" y="0" width="515" height="1" forecolor="#FF0000" uuid="f5c07746-f4f0-443b-b7c8-6c77e5df961a">
+				<reportElement x="0" y="0" width="250" height="1" forecolor="#FF0000" uuid="f5c07746-f4f0-443b-b7c8-6c77e5df961a">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -213,7 +213,7 @@
 		<band height="1">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<line>
-				<reportElement x="0" y="0" width="515" height="1" forecolor="#FF0000" uuid="83aa25ec-d4e7-4ad4-9f43-a0d9bd6af69c">
+				<reportElement x="0" y="0" width="250" height="1" forecolor="#FF0000" uuid="83aa25ec-d4e7-4ad4-9f43-a0d9bd6af69c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

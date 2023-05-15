@@ -46,7 +46,7 @@ record in the data source.</li>
 <li>An XPath expression to select the field value for every field in the data set, 
 when iterating through records. The field’s XPath expression is provided by the 
 <a href="../../config.reference.html#net.sf.jasperreports.xpath.field.expression" target="_blank">net.sf.jasperreports.xpath.field.expression</a> 
-custom property at field level. The use of the <api href="net/sf/jasperreports/engine/JRField.html#getDescription--">JRField#getDescription()</api> field description 
+custom property at field level. The use of the <api href="net/sf/jasperreports/engine/JRField.html#getDescription()">JRField#getDescription()</api> field description 
 to specify the XPath expression 
 is still supported, but is now discouraged, the above mentioned custom property taking precedence 
 over the field description.</li>

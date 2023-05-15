@@ -28,18 +28,9 @@
 	</subDataset>
 	<parameter name="TableDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<title>
-		<band height="150">
-			<staticText>
-				<reportElement x="180" y="5" width="375" height="40" uuid="ce2a6b5f-8284-4bd5-82ad-8e8515d2afb6">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="22"/>
-				</textElement>
-				<text><![CDATA[Table Report]]></text>
-			</staticText>
+		<band height="121">
 			<componentElement>
-				<reportElement style="Table" x="0" y="50" width="555" height="100" uuid="c475c968-5a05-4331-8147-5fc24a48070b">
+				<reportElement style="Table" x="0" y="21" width="555" height="100" uuid="c475c968-5a05-4331-8147-5fc24a48070b">
 					<property name="net.sf.jasperreports.components.table.name" value="table"/>
 					<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
 				</reportElement>

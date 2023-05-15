@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -36,6 +36,7 @@ import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
+import net.sf.jasperreports.components.map.MarkerItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -53,12 +54,7 @@ import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.GroupRow;
 import net.sf.jasperreports.components.table.Row;
 import net.sf.jasperreports.components.table.TableComponent;
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRElementDataset;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -228,6 +224,17 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 		
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) {
+			Boolean markerClustering = map.getMarkerClustering();
+			if (markerClustering != null) {
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);
+			}
+			Boolean markerSpidering = map.getMarkerSpidering();
+			if (markerSpidering != null) {
+				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerSpidering, markerSpidering);
+			}
+		}
+		
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
@@ -243,7 +250,37 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writer.writeExpression("languageExpression", 
 					map.getLanguageExpression());
 		}
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_2)) {
+			// write legendItem
+			Item legendItem = map.getLegendItem();
+			if (legendItem != null) {
+				writer.startElement(MapXmlFactory.ELEMENT_legendItem, namespace);
+				List<ItemProperty> legendItemProperties = legendItem.getProperties();
+				for (ItemProperty property : legendItemProperties) {
+					writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+				}
+				writer.closeElement();
+			}
+
+			// write resetMapItem
+			Item resetMapItem = map.getResetMapItem();
+			if (resetMapItem != null) {
+				writer.startElement(MapXmlFactory.ELEMENT_resetMapItem, namespace);
+				List<ItemProperty> resetMapItemProperties = resetMapItem.getProperties();
+				for (ItemProperty property : resetMapItemProperties) {
+					writeItemProperty(property, writer, reportWriter, namespace, componentElement);
+				}
+				writer.closeElement();
+			}
+
+			// write markerData
+			List<MarkerItemData> markerDataList = map.getMarkerItemDataList();
+			if(markerDataList !=null && markerDataList.size() > 0) {
+				for(MarkerItemData markerData : markerDataList) {
+					writeMarkerItemData(MapXmlFactory.ELEMENT_markerData, markerData, writer, reportWriter, namespace, componentElement);
+				}
+			}
+		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
 			List<ItemData> markerDataList = map.getMarkerDataList();
 			if(markerDataList !=null && markerDataList.size() > 0) {
 				for(ItemData markerData : markerDataList) {
@@ -277,7 +314,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				}
 			}
 		}
-		
+
 		writer.closeElement();
 	}
 
@@ -286,6 +323,15 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		if (itemData != null)
 		{
 			writeItemDataContent(name, itemData, writer, reportWriter, namespace, componentElement);
+			writer.closeElement();
+		}
+	}
+
+	private void writeMarkerItemData(String name, MarkerItemData markerItemData, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		if (markerItemData != null)
+		{
+			writeMarkerItemDataContent(name, markerItemData, writer, reportWriter, namespace, componentElement);
 			writer.closeElement();
 		}
 	}
@@ -311,6 +357,31 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 					writeItem(item, writer, reportWriter, namespace, componentElement);
 				}
 			}
+		}
+	}
+
+	private void writeMarkerItemDataContent(String name, MarkerItemData markerItemData, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		writeItemDataContent(name, markerItemData, writer, reportWriter, namespace, componentElement);
+
+		JRExpression seriesNameExpression = markerItemData.getSeriesNameExpression();
+		if (seriesNameExpression != null) {
+			writeExpression(MapXmlFactory.ELEMENT_seriesNameExpression, namespace, markerItemData.getSeriesNameExpression(), false, componentElement, reportWriter);
+		}
+
+		JRExpression markerClusteringExpression = markerItemData.getMarkerClusteringExpression();
+		if (markerClusteringExpression != null) {
+			writeExpression(MapXmlFactory.ELEMENT_markerClusteringExpression, namespace, markerItemData.getMarkerClusteringExpression(), false, componentElement, reportWriter);
+		}
+
+		JRExpression markerSpideringExpression = markerItemData.getMarkerSpideringExpression();
+		if (markerSpideringExpression != null) {
+			writeExpression(MapXmlFactory.ELEMENT_markerSpideringExpression, namespace, markerItemData.getMarkerSpideringExpression(), false, componentElement, reportWriter);
+		}
+
+		JRExpression legendIconExpression = markerItemData.getLegendIconExpression();
+		if (legendIconExpression != null) {
+			writeExpression(MapXmlFactory.ELEMENT_legendIconExpression, namespace, markerItemData.getLegendIconExpression(), false, componentElement, reportWriter);
 		}
 	}
 	
@@ -618,6 +689,11 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 			writer.startElement(name);
 			
+			if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1))
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, row.getSplitType());
+			}
+
 			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 				JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 				row.getPrintWhenExpression(),
