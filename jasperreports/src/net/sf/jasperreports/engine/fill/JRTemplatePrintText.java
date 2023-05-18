@@ -75,7 +75,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	private String text = "";
+	private String text;
 	private Integer textTruncateIndex;
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
@@ -171,7 +171,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		String fullText = this.text;
 		if (textTruncateIndex == null && textTruncateSuffix != null)
 		{
-			fullText += textTruncateSuffix;
+			fullText = (fullText == null ? "" : fullText) + textTruncateSuffix;
 		}
 		return fullText;
 	}
