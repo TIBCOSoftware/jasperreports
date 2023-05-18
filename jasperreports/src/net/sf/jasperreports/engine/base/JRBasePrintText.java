@@ -68,7 +68,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 *
 	 */
-	protected String text = "";
+	protected String text;
 	protected Integer textTruncateIndex;
 	protected short[] lineBreakOffsets;
 	protected String textTruncateSuffix;
@@ -189,7 +189,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		String fullText = this.text;
 		if (textTruncateIndex == null && textTruncateSuffix != null)
 		{
-			fullText += textTruncateSuffix;
+			fullText = (fullText == null ? "" : fullText) + textTruncateSuffix;
 		}
 		return fullText;
 	}
