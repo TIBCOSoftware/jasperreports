@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,7 +29,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
+import net.sf.jasperreports.components.items.StandardItem;
 import net.sf.jasperreports.components.items.StandardItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
@@ -64,6 +66,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+	public static final String PROPERTY_MARKER_CLUSTERING = "markerClustering";
+	public static final String PROPERTY_MARKER_SPIDERING = "markerSpidering";
 	public static final String PROPERTY_MARKER_DATA_LIST = "markerDataList";
 	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
 	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
@@ -77,7 +81,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA_LIST}.
 	 */
 	public static final String PROPERTY_MARKER_DATA = "markerData";
-	
+	public static final String PROPERTY_LEGEND = "legend";
+	public static final String PROPERTY_RESET_MAP = "resetMap";
+
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
 	private JRExpression addressExpression;
@@ -90,10 +96,16 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapImageTypeEnum imageType;
 
 	private OnErrorTypeEnum onErrorType;
-	private List<ItemData> markerDataList = new ArrayList<>();
+	private Boolean markerClustering;
+	private Boolean markerSpidering;
+	private List<MarkerItemData> markerItemDataList = new ArrayList<>();
 	private List<ItemData> pathStyleList = new ArrayList<>();
 	private List<ItemData> pathDataList = new ArrayList<>();
-	
+
+	private Item legend;
+
+	private Item resetMap;
+
 	private transient JRPropertyChangeSupport eventSupport;
 
 	public StandardMapComponent()
@@ -112,12 +124,25 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
-		List<ItemData> markerList = map.getMarkerDataList();
+		this.markerClustering = map.getMarkerClustering();
+		this.markerSpidering = map.getMarkerSpidering();
+
+		Item legendItem = map.getLegendItem();
+		if (legendItem != null) {
+			this.legend = new StandardItem(StandardItemData.getCompiledProperties(legendItem.getProperties(), objectFactory));
+		}
+
+		Item resetMapItem = map.getResetMapItem();
+		if (resetMapItem != null) {
+			this.resetMap =new StandardItem(StandardItemData.getCompiledProperties(resetMapItem.getProperties(), objectFactory));
+		}
+
+		List<MarkerItemData> markerList = map.getMarkerItemDataList();
 		if(markerList != null && markerList.size() > 0)
 		{
-			this.markerDataList = new ArrayList<>();
-			for(ItemData markerData : markerList){
-				this.markerDataList.add(new StandardItemData(markerData, objectFactory));
+			this.markerItemDataList = new ArrayList<>();
+			for(MarkerItemData markerData : markerList){
+				this.markerItemDataList.add(new MarkerStandardItemData(markerData, objectFactory));
 			}
 		} 
 		this.onErrorType = map.getOnErrorType();
@@ -263,7 +288,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.addressExpression = JRCloneUtils.nullSafeClone(addressExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
-		clone.markerDataList = JRCloneUtils.cloneList(markerDataList);
+		clone.markerItemDataList = JRCloneUtils.cloneList(markerItemDataList);
 		clone.pathStyleList = JRCloneUtils.cloneList(pathStyleList);
 		clone.pathDataList = JRCloneUtils.cloneList(pathDataList);
 		clone.eventSupport = null;
@@ -308,7 +333,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 */
 	@Override
 	public ItemData getMarkerData() {
-		return !markerDataList.isEmpty() ? markerDataList.get(0) : null;
+		return !markerItemDataList.isEmpty() ? markerItemDataList.get(0) : null;
 	}
 
 	/**
@@ -330,6 +355,27 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
+	@Override
+	public Boolean getMarkerClustering() {
+		return markerClustering;
+	}
+
+	public void setMarkerClustering(Boolean markerClustering) {
+		Object old = this.markerClustering;
+		this.markerClustering = markerClustering;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_CLUSTERING, old, this.markerClustering);
+	}
+
+	@Override
+	public Boolean getMarkerSpidering() {
+		return markerSpidering;
+	}
+
+	public void setMarkerSpidering(Boolean markerSpidering) {
+		Object old = this.markerSpidering;
+		this.markerSpidering = markerSpidering;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_SPIDERING, old, this.markerSpidering);
+	}
 
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.
@@ -355,7 +401,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 */
 	private MarkerDataset markerDataset;
 	/**
-	 * @deprecated Replaced by {@link #markerDataList}.
+	 * @deprecated Replaced by {@link #markerItemDataList}.
 	 */
 	private ItemData markerData;
 	
@@ -371,16 +417,16 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 				if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0){
 					markerData = StandardMarkerDataset.getItemData(markerDataset);
 				} else {
-					this.markerDataList = new ArrayList<>();
-					this.markerDataList.add(StandardMarkerDataset.getItemData(markerDataset));
+					this.markerItemDataList = new ArrayList<>();
+					this.markerItemDataList.add((MarkerItemData) StandardMarkerDataset.getItemData(markerDataset));
 				}
 			}
 			markerDataset = null;
 			
 			if (markerData != null)
 			{
-				this.markerDataList = new ArrayList<>();
-				this.markerDataList.add(markerData);
+				this.markerItemDataList = new ArrayList<>();
+				this.markerItemDataList.add((MarkerItemData) markerData);
 			}
 			markerData = null;
 		}
@@ -430,52 +476,113 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		}
 		return pathStyle;
 	}
-	
+
+	/**
+	 * @deprecated Replaced by {@link #getMarkerItemDataList()}
+	 */
 	@Override
 	public List<ItemData> getMarkerDataList() {
-		return this.markerDataList;
+		List<ItemData> markerDataList = new ArrayList<>();
+		for (MarkerItemData markerItemData: markerItemDataList) {
+			markerDataList.add(markerItemData);
+		}
+		return markerDataList;
 	}
-	
+
+	@Override
+	public List<MarkerItemData> getMarkerItemDataList() {
+		return markerItemDataList;
+	}
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #addMarkerItemData(MarkerItemData)}.
 	 */
 	public void addMarkerData(ItemData markerData)
 	{
-		markerDataList.add(markerData);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerData, markerDataList.size() - 1);
+		addMarkerItemData((MarkerItemData) markerData);
 	}
-	
+
 	/**
 	 *
 	 */
+	public void addMarkerItemData(MarkerItemData markerItemData)
+	{
+		markerItemDataList.add(markerItemData);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerItemData, markerItemDataList.size() - 1);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #addMarkerItemData(int, MarkerItemData)}.
+	 */
 	public void addMarkerData(int index, ItemData markerData)
 	{
-		if(index >=0 && index < markerDataList.size())
-			markerDataList.add(index, markerData);
+		addMarkerItemData(index, (MarkerItemData)markerData);
+	}
+
+	public void addMarkerItemData(int index, MarkerItemData markerData)
+	{
+		if(index >=0 && index < markerItemDataList.size())
+			markerItemDataList.add(index, markerData);
 		else{
-			markerDataList.add(markerData);
-			index = markerDataList.size() - 1;
+			markerItemDataList.add(markerData);
+			index = markerItemDataList.size() - 1;
 		}
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerDataList, index);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_DATA_LIST, markerItemDataList, index);
 	}
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #removeMarkerItemData(MarkerItemData)}
 	 */
 	public ItemData removeMarkerData(ItemData markerData)
 	{
 		if (markerData != null)
 		{
-			int idx = markerDataList.indexOf(markerData);
+			int idx = markerItemDataList.indexOf(markerData);
 			if (idx >= 0)
 			{
-				markerDataList.remove(idx);
+				markerItemDataList.remove(idx);
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_DATA_LIST, markerData, idx);
 			}
 		}
 		return markerData;
 	}
-	
+
+	public MarkerItemData removeMarkerItemData(MarkerItemData markerItemData)
+	{
+		if (markerItemData != null)
+		{
+			int idx = markerItemDataList.indexOf(markerItemData);
+			if (idx >= 0)
+			{
+				markerItemDataList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_DATA_LIST, markerItemData, idx);
+			}
+		}
+		return markerItemData;
+	}
+
+	@Override
+	public Item getLegendItem() {
+		return legend;
+	}
+
+	public void setLegend(Item legend) {
+		Object old = this.legend;
+		this.legend = legend;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND, old, this.legend);
+	}
+
+	@Override
+	public Item getResetMapItem() {
+		return resetMap;
+	}
+
+	public void setResetMap(Item resetMap) {
+		Object old = this.resetMap;
+		this.resetMap = resetMap;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_MAP, old, this.resetMap);
+	}
+
 	@Override
 	public List<ItemData> getPathDataList() {
 		return this.pathDataList;

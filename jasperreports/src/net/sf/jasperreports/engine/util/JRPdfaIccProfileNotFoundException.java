@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,7 +31,7 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
 /**
  * Exception raised when an ICC profile is not available to the JVM. 
  * <p/>
- * The ICC profiles are defined by the International Color Consortium. They are a means by which iText ensures color
+ * The ICC profiles are defined by the International Color Consortium. They are a means by which OpenPDF ensures color
  * management in a device-independent manner and they need to be embedded for PDF/A-1 compliance.
  * <p/>
  * Here are some sources of freely available and high quality ICC profiles:

@@ -136,7 +136,7 @@ The Barcode4J library supports the following symbologies:
 </ul>
 </li>
 </ul>
-<b>Note: </b>The <code>QRCode</code> 2D-symbology being not yet supported in Barcode4J, its related component implementation in JasperReports is based on the iText library.
+<b>Note: </b>The <code>QRCode</code> 2D-symbology being not yet supported in Barcode4J, its related component implementation in JasperReports is based on the ZXing library.
 <br/>
 <br/>
 Multiple output formats are also supported:
@@ -211,7 +211,7 @@ include the AI in the check digit calculation (used for USPS). Multiple field pa
 <b>The QRCode component</b>
 <br/>
 <br/>
-This barcode component depends on iText library. It shares some common features with the other barcode components:
+This barcode component depends on ZXing library. It shares some common features with the other barcode components:
 <ul>
 <li>Common expressions: 
 <ul>

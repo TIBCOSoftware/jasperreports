@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -89,7 +89,7 @@ public class MapApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/MapReport.jasper", null, new JREmptyDataSource(5));
+		JasperFillManager.fillReportToFile("build/reports/MapReport.jasper", null, new JREmptyDataSource(7));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	

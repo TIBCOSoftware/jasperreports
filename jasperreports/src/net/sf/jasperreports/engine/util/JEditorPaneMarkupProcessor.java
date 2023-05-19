@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,19 +23,11 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.font.TextAttribute;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link EditorKitMarkupProcessor}.
  */
-public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
+public abstract class JEditorPaneMarkupProcessor extends EditorKitMarkupProcessor
 {
 
 	/**
@@ -62,97 +54,4 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 		}
 	}
 
-	/**
-	 * 
-	 */
-	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
-	{
-		Map<Attribute,Object> attrMap = new HashMap<>();
-		if (attrSet.isDefined(StyleConstants.FontFamily))
-		{
-			attrMap.put(
-				TextAttribute.FAMILY,
-				StyleConstants.getFontFamily(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Bold))
-		{
-			attrMap.put(
-				TextAttribute.WEIGHT,
-				StyleConstants.isBold(attrSet) ? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Italic))
-		{
-			attrMap.put(
-				TextAttribute.POSTURE,
-				StyleConstants.isItalic(attrSet) ? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Underline))
-		{
-			attrMap.put(
-				TextAttribute.UNDERLINE,
-				StyleConstants.isUnderline(attrSet) ? TextAttribute.UNDERLINE_ON : null
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.StrikeThrough))
-		{
-			attrMap.put(
-				TextAttribute.STRIKETHROUGH,
-				StyleConstants.isStrikeThrough(attrSet) ? TextAttribute.STRIKETHROUGH_ON : null
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.FontSize))
-		{
-			attrMap.put(
-				TextAttribute.SIZE,
-				StyleConstants.getFontSize(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Foreground))
-		{
-			attrMap.put(
-				TextAttribute.FOREGROUND,
-				StyleConstants.getForeground(attrSet)
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Background))
-		{
-			attrMap.put(
-				TextAttribute.BACKGROUND,
-				StyleConstants.getBackground(attrSet)
-				);
-		}
-		
-		//FIXME: why StyleConstants.isSuperscript(attrSet) does return false
-		if (attrSet.isDefined(StyleConstants.Superscript) && !StyleConstants.isSubscript(attrSet))
-		{
-			attrMap.put(
-				TextAttribute.SUPERSCRIPT,
-				TextAttribute.SUPERSCRIPT_SUPER
-				);
-		}
-					
-		if (attrSet.isDefined(StyleConstants.Subscript) && StyleConstants.isSubscript(attrSet))
-		{
-			attrMap.put(
-				TextAttribute.SUPERSCRIPT,
-				TextAttribute.SUPERSCRIPT_SUB
-				);
-		}
-					
-		return attrMap;
-	}
-
-	@Override
-	public abstract String convert(String srcText);
-	
 }

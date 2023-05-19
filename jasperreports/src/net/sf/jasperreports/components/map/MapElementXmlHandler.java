@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.imageprovider.DefaultMapElementImageProvider;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.GenericElementXmlHandler;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterContext;
@@ -48,7 +50,11 @@ public class MapElementXmlHandler implements GenericElementXmlHandler
 		try
 		{
 			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporterRef();
-			exporter.exportImage(MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element));
+			JRPrintImage mapImage = DefaultMapElementImageProvider
+					.getInstance()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+
+			exporter.exportImage(mapImage);
 		}
 		catch (Exception e)
 		{

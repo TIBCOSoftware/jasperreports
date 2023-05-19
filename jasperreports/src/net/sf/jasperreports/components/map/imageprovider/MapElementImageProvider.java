@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,44 +21,62 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.map.imageprovider;
+
+import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.util.RendererUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.base.JRBasePrintImage;
-import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
-import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
-import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.util.RendererUtil;
-
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public class MapElementImageProvider
+public class MapElementImageProvider extends AbstractMapElementImageProvider
 {
+	private static final Log log = LogFactory.getLog(MapElementImageProvider.class);
+
 	/**
 	 * The character count limit for a static map URL request
 	 */
 	public static Integer MAX_URL_LENGTH = 8192;
-	
-	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
+
+	@Override
+	protected Renderable createRenderable(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
 	{
-		
+		Renderable cachedRenderable = (Renderable)element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
+
+		if (cachedRenderable == null)
+		{
+			OnErrorTypeEnum onErrorType =
+					element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE) == null
+							? MapComponent.DEFAULT_ON_ERROR_TYPE
+							: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
+
+			String imageLocation = getImageLocation(element);
+
+			cachedRenderable = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
+			element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cachedRenderable);
+		}
+
+		return cachedRenderable;
+	}
+	protected String getImageLocation(JRGenericPrintElement element) {
 		Float latitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_latitude);
 		latitude = latitude == null ? MapComponent.DEFAULT_LATITUDE : latitude;
 
 		Float longitude = (Float)element.getParameterValue(MapComponent.ITEM_PROPERTY_longitude);
 		longitude = longitude == null ? MapComponent.DEFAULT_LONGITUDE : longitude;
-		
+
 		Integer zoom = (Integer)element.getParameterValue(MapComponent.PARAMETER_ZOOM);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 
@@ -67,7 +85,7 @@ public class MapElementImageProvider
 		String mapFormat = (String)element.getParameterValue(MapComponent.ATTRIBUTE_IMAGE_TYPE);
 		String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
 		String markers ="";
-		
+
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
 		if(markerList != null && !markerList.isEmpty())
 		{
@@ -97,7 +115,7 @@ public class MapElementImageProvider
 				}
 			}
 		}
-		
+
 		List<Map<String,Object>> pathList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_PATHS);
 		String currentPaths = "";
 		if(pathList != null && !pathList.isEmpty())
@@ -168,46 +186,15 @@ public class MapElementImageProvider
 		String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
 
 		//a static map url is limited to 2048 characters
-		imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH 
-				? markers + currentPaths + params 
+		imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH
+				? markers + currentPaths + params
 				: imageLocation.length() + markers.length() + params.length() < MAX_URL_LENGTH ? markers + params : params;
-		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 
-		printImage.setUUID(element.getUUID());
-		printImage.setX(element.getX());
-		printImage.setY(element.getY());
-		printImage.setWidth(element.getWidth());
-		printImage.setHeight(element.getHeight());
-		printImage.setStyle(element.getStyle());
-		printImage.setMode(element.getModeValue());
-		printImage.setBackcolor(element.getBackcolor());
-		printImage.setForecolor(element.getForecolor());
-		
-		//FIXMEMAP there are no scale image and alignment attributes defined for the map element
-		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
-		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
-		printImage.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
-		
-		OnErrorTypeEnum onErrorType = 
-			element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE) == null 
-			? MapComponent.DEFAULT_ON_ERROR_TYPE  
-			: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
-		printImage.setOnErrorType(onErrorType);
-		
-		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
-
-		if (cacheRenderer == null)
-		{
-			cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
-			if (cacheRenderer != null)
-			{
-				element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cacheRenderer);
-			}
+		if (log.isTraceEnabled()) {
+			log.trace("Produced map imageLocation: " + imageLocation);
 		}
 
-		printImage.setRenderer(cacheRenderer);
-		
-		return printImage;
+		return imageLocation;
 	}
-	
+
 }

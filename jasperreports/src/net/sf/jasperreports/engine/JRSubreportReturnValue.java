@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine;
 /**
  * A value copied from a subreport into a variable of the master report.
  * <p/>
- * The <code>subreportVariable</code> attribute (see {@link #getSubreportVariable()}) specifies the name 
+ * The <code>subreportVariable</code> attribute (see {@link #getFromVariable()}) specifies the name 
  * of the subreport variable whose value is to be returned. At fill time, the name is checked to 
  * ensure it is an existing variable name of the report specified by the subreport expression.
  * <p/>
@@ -39,7 +39,7 @@ package net.sf.jasperreports.engine;
  * A value returned from a subreport can simply be copied into the target master report
  * variable, or it can be subject to a certain type of calculation made on the variable. The
  * type of the operation performed with the returned value is specified by the calculation
- * attribute (see {@link #getCalculationValue()}), which works like the homonym attribute 
+ * attribute (see {@link #getCalculation()}), which works like the homonym attribute 
  * of the <code>&lt;variable&gt;</code> element. The default value is <code>Nothing</code>, 
  * which means that the value returned from the subreport will be simply copied into the 
  * master report variable.

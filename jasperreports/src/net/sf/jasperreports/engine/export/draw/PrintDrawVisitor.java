@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -66,26 +66,6 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private TextDrawer textDrawer;
 	private FrameDrawer frameDrawer;
 
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean, boolean, boolean)}.
-	 */
-	public PrintDrawVisitor(
-		JasperReportsContext jasperReportsContext,
-		RenderersCache renderersCache,
-		boolean minimizePrinterJobSize,
-		boolean ignoreMissingFont
-		)
-	{
-		this(
-			jasperReportsContext,
-			renderersCache,
-			minimizePrinterJobSize,
-			ignoreMissingFont,
-			true,
-			false
-			);
-	}
-	
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
 		RenderersCache renderersCache,
@@ -112,26 +92,6 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		
 		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
 		frameDrawer = new FrameDrawer(jasperReportsContext, null, this);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, RenderersCache, boolean, boolean, boolean, boolean)}.
-	 */
-	public PrintDrawVisitor(
-		JRGraphics2DExporterContext exporterContext, 
-		RenderersCache renderersCache,
-		boolean minimizePrinterJobSize,
-		boolean ignoreMissingFont
-		)
-	{
-		this(
-			exporterContext, 
-			renderersCache,
-			minimizePrinterJobSize,
-			ignoreMissingFont,
-			true,
-			false
-			);
 	}
 	
 	/**

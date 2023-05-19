@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export.pdf.classic;
 
 import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 
 import com.lowagie.text.pdf.PdfContentByte;
@@ -43,6 +44,7 @@ public class ClassicPdfContent implements PdfContent
 	
 	private PdfWriter pdfWriter;
 	private PdfContentByte pdfContentByte;
+	private ColorSpace cmykColorSpace;
 	
 	private PdfGState[] fillAlphaStates = new PdfGState[256];
 	private boolean fillAlphaSet = false;
@@ -50,10 +52,11 @@ public class ClassicPdfContent implements PdfContent
 	private PdfGState[] strokeAlphaStates = new PdfGState[256];
 	private boolean strokeAlphaSet = false;
 
-	public ClassicPdfContent(PdfWriter pdfWriter)
+	public ClassicPdfContent(PdfWriter pdfWriter, ColorSpace cmykColorSpace)
 	{
 		this.pdfWriter = pdfWriter;
 		this.pdfContentByte = pdfWriter.getDirectContent();
+		this.cmykColorSpace = cmykColorSpace;
 	}
 
 	public PdfContentByte getPdfContentByte()
@@ -70,10 +73,9 @@ public class ClassicPdfContent implements PdfContent
 	public void setFillColor(Color color)
 	{
 		setFillColorAlpha(color.getAlpha());
-		pdfContentByte.setRGBColorFill(
-				color.getRed(),
-				color.getGreen(),
-				color.getBlue());		
+		pdfContentByte.setColorFill(
+			ClassicPdfUtils.convertColor(cmykColorSpace, color)
+			);
 	}
 
 	@Override
@@ -118,10 +120,9 @@ public class ClassicPdfContent implements PdfContent
 			strokeAlphaSet = true;
 		}
 		
-		pdfContentByte.setRGBColorStroke(
-				color.getRed(),
-				color.getGreen(),
-				color.getBlue());		
+		pdfContentByte.setColorStroke(
+			ClassicPdfUtils.convertColor(cmykColorSpace, color)
+			);		
 	}
 	
 	@Override

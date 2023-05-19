@@ -8,7 +8,12 @@
         "longitude": ${longitude},
         "zoom": ${zoom},
         "mapType": "${mapType}",
+        "useMarkerClustering": ${useMarkerClustering},
+        "useMarkerSpidering": ${useMarkerSpidering},
+        "defaultMarkerIcon": "${defaultMarkerIcon}",
         "markerList": ${markerList},
-        "pathsList": ${pathsList}
+        "pathsList": ${pathsList},
+        "legendProperties": ${legendProperties},
+        "resetMapProperties": ${resetMapProperties}
     }
 }

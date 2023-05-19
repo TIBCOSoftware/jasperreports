@@ -31,12 +31,8 @@
 		<ant dir="../" target="print"/>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file using the iText version 2.1.7.">
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pdf"/>
-	</target>
-
-	<target name="itext" description="Generates a PDF version of the report by converting the .jrprint file using an iText version later than 5.0.">
-		<ant dir="../" target="itext"/>
 	</target>
 
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">

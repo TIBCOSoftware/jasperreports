@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -155,6 +155,15 @@ public class JRResultSetDataSource implements JRDataSource
 		this(DefaultJasperReportsContext.getInstance(), resultSet);
 	}
 
+	/**
+	 * Access the result set that this data source is based on.
+	 * 
+	 * @return the result set used by this data source
+	 */
+	public ResultSet getResultSet()
+	{
+		return resultSet;
+	}
 
 	@Override
 	public boolean next() throws JRException

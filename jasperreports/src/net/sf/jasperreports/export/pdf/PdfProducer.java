@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -69,6 +69,18 @@ public interface PdfProducer
 
 	void endPage();
 
+	default AbstractPdfTextRenderer getTextRenderer(PdfTextRendererContext context)
+	{
+		return 
+			getTextRenderer(
+				context.getPrintText(), context.getStyledText(), context.getTextLocale(), 
+				context.getAwtIgnoreMissingFont(), context.getIndentFirstLine(), context.getJustifyLastLine()
+				);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getTextRenderer(PdfTextRendererContext)}.
+	 */
 	AbstractPdfTextRenderer getTextRenderer(
 			JRPrintText text, JRStyledText styledText, Locale textLocale, 
 			boolean awtIgnoreMissingFont, boolean defaultIndentFirstLine, boolean defaultJustifyLastLine);

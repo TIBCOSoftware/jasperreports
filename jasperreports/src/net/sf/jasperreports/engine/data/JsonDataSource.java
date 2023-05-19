@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.data.json.JsonDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -72,7 +73,8 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	@Property (
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
-			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME,
+					JsonDataAdapterService.JSON_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "json.field.expression";
@@ -154,6 +156,16 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	public JsonDataSource(String location, String selectExpression) throws JRException 
 	{
 		this(DefaultJasperReportsContext.getInstance(), location, selectExpression);
+	}
+
+	/**
+	 * Access the JDON tree that this data source is based on.
+	 * 
+	 * @return the JSON tree used by this data source
+	 */
+	public JsonNode getRootNode()
+	{
+		return jsonTree;
 	}
 	
 	/*

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -197,6 +197,10 @@ class BookmarkStack
 					if (level != JRAnchor.NO_BOOKMARK)
 					{
 						String anchorName = anchor.getAnchorName();
+						if (anchorName == null)
+						{
+							anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
+						}
 						BasePrintBookmark bookmark = addBookmark(level, anchorName, pageIndex, elementAddress + i);
 						
 						// we're keeping a map with bookmarks for elements with late evaluation
@@ -234,6 +238,10 @@ class BookmarkStack
 				else
 				{
 					String anchorName = anchor.getAnchorName();
+					if (anchorName == null)
+					{
+						anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
+					}
 					bookmark.setLabel(anchorName);
 				}
 			}

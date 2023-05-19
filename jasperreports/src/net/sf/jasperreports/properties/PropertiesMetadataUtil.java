@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -108,6 +110,11 @@ public class PropertiesMetadataUtil
 		return new ArrayList<>(allProperties);
 	}
 	
+	public List<PropertyMetadata> getProperties(PropertyScope scope)
+	{
+		return allProperties().stream().filter(primaryScopePredicate(scope)).collect(Collectors.toList());
+	}
+	
 	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
 	{
 		String qualification = queryExecuterQualification(queryLanguage);
@@ -131,15 +138,30 @@ public class PropertiesMetadataUtil
 		return queryExecuterName;
 	}
 
-	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope, String qualificationName)
+	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope, String... qualifications)
 	{
-		return qualifiedProperties(primaryScope, qualificationName).collect(Collectors.toList());
+		return qualifiedProperties(primaryScope, qualifications).collect(Collectors.toList());
 	}
 
-	protected Stream<PropertyMetadata> qualifiedProperties(PropertyScope primaryScope, String qualificationName)
+	protected Stream<PropertyMetadata> qualifiedProperties(PropertyScope primaryScope, String... qualifications)
 	{
-		return allProperties().stream().filter(property -> property.getScopes().contains(primaryScope)
-				&& property.getScopeQualifications().contains(qualificationName));
+		return allProperties().stream().filter(scopeQualificationsPredicate(primaryScope, qualifications));
+	}
+
+	protected Predicate<PropertyMetadata> primaryScopePredicate(PropertyScope scope)
+	{
+		return property -> property.getScopes().contains(scope);
+	}
+
+	protected Predicate<PropertyMetadata> scopeQualificationsPredicate(PropertyScope scope, String... qualifications)
+	{
+		Set<String> qualificationSet = Stream.of(qualifications).filter(v -> v != null).collect(Collectors.toSet());
+		return primaryScopePredicate(scope).and(property -> 
+		{
+			List<String> propertyQualifications = property.getScopeQualifications();
+			return propertyQualifications == null || propertyQualifications.isEmpty()
+					|| !Collections.disjoint(propertyQualifications, qualificationSet);
+		});
 	}
 	
 	public List<PropertyMetadata> getParameterProperties(DataAdapter dataAdapter)
@@ -275,63 +297,47 @@ public class PropertiesMetadataUtil
 	
 	public List<PropertyMetadata> getReportProperties(JRReport report)
 	{
-		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> reportProperties = new ArrayList<>();
-		for (PropertyMetadata propertyMetadata : allProperties)
-		{
-			List<PropertyScope> scopes = propertyMetadata.getScopes();
-			if (scopes != null && scopes.contains(PropertyScope.REPORT))
-			{
-				reportProperties.add(propertyMetadata);
-			}
-		}
-		return reportProperties;
+		return getProperties(PropertyScope.REPORT);
+	}
+
+	protected String datasetQueryQualification(JRDataset dataset) throws JRException
+	{
+		String queryLanguage = dataset.getQuery() == null ? null : dataset.getQuery().getLanguage();
+		String queryQualification = queryLanguage == null ? null : queryExecuterQualification(queryLanguage);
+		return queryQualification;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected String dataAdapterQualification(JRDataset dataset, DataAdapter dataAdapter)
 	{
 		ParameterContributorContext contributorContext = new ParameterContributorContext(context,
 				dataset, Collections.<String, Object>emptyMap());
 		DataAdapterServiceUtil serviceUtil = DataAdapterServiceUtil.getInstance(contributorContext);
 		DataAdapterService service = serviceUtil.getService(dataAdapter);
-		return service instanceof Designated ? ((Designated) service).getDesignation() : null;
+		if (service instanceof Designated)
+		{
+			return ((Designated) service).getDesignation();
+		}
+		if (service instanceof Designator<?>)
+		{
+			return ((Designator<DataAdapter>) service).getName(dataAdapter);
+		}
+		return null;
 	}
 	
 	public List<PropertyMetadata> getDatasetProperties(JRDataset dataset, DataAdapter dataAdapter) throws JRException
 	{
-		String queryLanguage = dataset.getQuery() == null ? null : dataset.getQuery().getLanguage();
-		String queryQualification = queryLanguage == null ? null : queryExecuterQualification(queryLanguage);
-		
+		String queryQualification = datasetQueryQualification(dataset);
 		String dataAdapterQualification = dataAdapter == null ? null : dataAdapterQualification(dataset, dataAdapter);
 		String dataFileQualification = dataAdapter == null ? null : dataFileQualification(dataAdapter);
-		
-		Collection<PropertyMetadata> allProperties = allProperties();
-		List<PropertyMetadata> reportProperties = new ArrayList<>();
-		for (PropertyMetadata propertyMetadata : allProperties)
-		{
-			List<PropertyScope> scopes = propertyMetadata.getScopes();
-			if (scopes != null && scopes.contains(PropertyScope.DATASET))
-			{
-				boolean matches;
-				List<String> qualifications = propertyMetadata.getScopeQualifications();
-				if (qualifications == null || qualifications.isEmpty())
-				{
-					matches = true;
-				}
-				else
-				{
-					matches = queryQualification != null && qualifications.contains(queryQualification)
-							|| dataAdapterQualification != null && qualifications.contains(dataAdapterQualification)
-							|| dataFileQualification != null && qualifications.contains(dataFileQualification);
-				}
-				
-				if (matches)
-				{
-					reportProperties.add(propertyMetadata);
-				}
-			}
-		}
-		return reportProperties;
+		return filterQualifiedProperties(PropertyScope.DATASET, queryQualification, dataAdapterQualification, dataFileQualification);
+	}
+	
+	public List<PropertyMetadata> getFieldProperties(JRDataset dataset, DataAdapter dataAdapter) throws JRException
+	{
+		String queryQualification = datasetQueryQualification(dataset);
+		String dataAdapterQualification = dataAdapter == null ? null : dataAdapterQualification(dataset, dataAdapter);
+		return filterQualifiedProperties(PropertyScope.FIELD, queryQualification, dataAdapterQualification);
 	}
 	
 	public List<PropertyMetadata> getContainerProperties(JRElementGroup container)

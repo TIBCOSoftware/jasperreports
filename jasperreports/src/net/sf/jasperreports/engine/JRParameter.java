@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 
 /**
@@ -312,6 +313,13 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * for filtering dataset rows.
 	 */
 	public static final String FILTER = "FILTER";
+
+	/**
+	 *  The name under which the current repository context is published in the parameters map.
+	 *  
+	 *  @see RepositoryContext
+	 */
+	public static final String REPOSITORY_CONTEXT = "REPOSITORY_CONTEXT";
 
 	/**
 	 *
