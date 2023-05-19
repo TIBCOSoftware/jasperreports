@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -109,7 +109,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected JRFillDatasetRun(BaseReportFiller filler, JRDatasetRun datasetRun, 
 			JRFillDataset dataset)
 	{
-		this(filler, filler.getExpressionEvaluator(), datasetRun, dataset);
+		this(filler, dataset.calculator, datasetRun, dataset);
 	}
 
 	protected JRFillDatasetRun(BaseReportFiller filler, JRFillExpressionEvaluator expressionEvaluator, 
@@ -332,7 +332,10 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	protected void checkInterrupted()
 	{
-		filler.checkInterrupted();
+		if (filler != null)
+		{
+			filler.checkInterrupted();
+		}
 	}
 
 	

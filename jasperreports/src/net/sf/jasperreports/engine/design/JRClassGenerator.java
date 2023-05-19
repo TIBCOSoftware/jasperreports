@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -798,7 +798,7 @@ public class JRClassGenerator
 			}
 			else if (Modifier.isStatic(method.getModifiers()))
 			{
-				importBuilder.append("\nimport static " + methodClass.getName() + "." + method.getName() + ";");
+				importBuilder.append("\nimport static " + methodClass.getCanonicalName() + "." + method.getName() + ";");
 			}
 		}
 
@@ -834,11 +834,11 @@ public class JRClassGenerator
 			if (j == paramTypes.length - 1 && paramType.isArray() && method.isVarArgs())
 			{
 				// use varargs
-				methodSignature.append(paramType.getComponentType().getName()).append("... ");
+				methodSignature.append(paramType.getComponentType().getCanonicalName()).append("... ");
 			}
 			else
 			{
-				methodSignature.append(paramType.getName());//FIXME use paramType.getCanonicalName() for arrays 
+				methodSignature.append(paramType.getCanonicalName());
 			}
 			
 			methodSignature.append(" arg" + j);
@@ -847,9 +847,9 @@ public class JRClassGenerator
 		methodBuilder.append("    /**\n");
 		methodBuilder.append("     *\n"); 
 		methodBuilder.append("     */\n");
-		methodBuilder.append("    public " + method.getReturnType().getName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
+		methodBuilder.append("    public " + method.getReturnType().getCanonicalName() + " " + method.getName() + "(" + methodSignature.toString() + ")" + "\n");
 		methodBuilder.append("    {\n");
-		methodBuilder.append("        return getFunctionSupport(" + method.getDeclaringClass().getName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
+		methodBuilder.append("        return getFunctionSupport(" + method.getDeclaringClass().getCanonicalName() + ".class)." + method.getName() + "(" + methodCall + ");\n");
 		methodBuilder.append("    }\n");
 		methodBuilder.append("\n");
 		methodBuilder.append("\n");

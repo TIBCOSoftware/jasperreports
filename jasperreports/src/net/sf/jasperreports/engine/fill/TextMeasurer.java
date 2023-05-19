@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -196,7 +196,7 @@ public class TextMeasurer implements JRTextMeasurer
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0,
 			valueType = Boolean.class
 			)
@@ -565,22 +565,23 @@ public class TextMeasurer implements JRTextMeasurer
 			lineWrapper.start(styledText);
 		}
 		
-		// preparing bulleted list cuts is a share responsibility between the TextMeasurer here and the JRFillTextElement;
+		// preparing bulleted list cuts is a shared responsibility between the TextMeasurer here and the JRFillTextElement;
 		// the TextMeasurer has the ability to count how many items have been rendered from each nested list so far and sets their itemIndex and cutStart,
 		// while in the JRFillTextElement we are able to see where does the actual cut go, either cutting through items or in between them and thus
-		// decide if a bullet should be rendered and/or the cutStart adjusted by 1
+		// decide if a bullet should be rendered
 		StyledTextWriteContext context = new StyledTextWriteContext(true);
 
 		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
 
-		allParagraphs.setIndex(remainingTextStart);
-
 		isFirstParagraph = true;
 
-		boolean rendered = true;
-		int runLimit = remainingTextStart;
+		boolean verticalSpaceRemaining = true;
+		int runLimit = 0; //first value does not matter; will be assigned a proper value in the while statement below
 
-		while (rendered && runLimit < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
+		int runStart = remainingTextStart; 
+		allParagraphs.setIndex(runStart);
+		
+		while (verticalSpaceRemaining && runStart < allParagraphs.getEndIndex() && (runLimit = allParagraphs.getRunLimit(JRTextAttribute.HTML_LIST_ATTRIBUTES)) <= allParagraphs.getEndIndex())
 		{
 			Map<Attribute,Object> attributes = allParagraphs.getAttributes();
 
@@ -588,47 +589,62 @@ public class TextMeasurer implements JRTextMeasurer
 
 			prepareBullet(context);
 			
-			int tokenPosition = 0;
-			int prevParagraphStart = 0;
-			String prevParagraphText = null;
+			int paragraphStart = 0;
+			boolean lastTokenWasNewline = false;
 
-			String runText = styledText.getText().substring(allParagraphs.getIndex(), runLimit);
+			String runText = styledText.getText().substring(runStart, runLimit);
 			StringTokenizer tkzer = new StringTokenizer(runText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
-			while(tkzer.hasMoreTokens() && rendered) 
+			while(tkzer.hasMoreTokens() && verticalSpaceRemaining) 
 			{
-				String token = tkzer.nextToken();
+				String paragraphText = tkzer.nextToken();
 
-				if ("\n".equals(token))
+				if ("\n".equals(paragraphText))
 				{
-					if (tokenPosition > 0 || context.isListItemStart() || !(context.isListItemEnd() || context.isListStart() || context.isListEnd()))
+					if (lastTokenWasNewline) // the previous newline becomes itself a paragraph when followed by another newline
 					{
-						rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
+						verticalSpaceRemaining = 
+							renderParagraph(
+								lineWrapper, 
+								runStart + paragraphStart - 1, 
+								null // null paragraphText is the way to render newlines
+								);
 					}
 
-					isFirstParagraph = false;
-					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-					prevParagraphText = null;
+					if (
+						paragraphStart == 0 // this newline is the first character in the first paragraph; when this is true, lastTokenWasNewline was for sure false above
+						|| runStart + paragraphStart == allParagraphs.getEndIndex() - 1 // this newline is the last character in the last paragraph; when both this and the lastTokenWasNewline was true above, two newlines are rendered
+						)
+					{
+						verticalSpaceRemaining = 
+							renderParagraph(
+								lineWrapper, 
+								runStart + paragraphStart, 
+								null // null paragraphText is the way to render newlines
+								);
+					}
+					
+					lastTokenWasNewline = true;
 				}
 				else
 				{
-					prevParagraphStart = tokenPosition;
-					prevParagraphText = token;
+					verticalSpaceRemaining = 
+						renderParagraph(
+							lineWrapper, 
+							runStart + paragraphStart, 
+							paragraphText
+							);
+					
+					lastTokenWasNewline = false;
 				}
 
-				tokenPosition += token.length();
+				paragraphStart += paragraphText.length();
+				isFirstParagraph = false;
 			}
 
-			if (rendered && prevParagraphStart < runText.length())
-			{
-				if (prevParagraphText != null || runLimit == allParagraphs.getEndIndex())
-				{
-					rendered = renderParagraph(lineWrapper, allParagraphs.getIndex() + prevParagraphStart, prevParagraphText);
-				}
-			}
-
-			allParagraphs.setIndex(runLimit);
+			runStart = runLimit;
+			allParagraphs.setIndex(runStart);
 		}
 		
 		return measuredState;

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,8 +46,16 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_mapScale = "mapScale";
 	public static final String ATTRIBUTE_imageType = "imageType";
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";
+	public static final String ATTRIBUTE_markerClustering = "markerClustering";
+	public static final String ATTRIBUTE_markerSpidering = "markerSpidering";
 	public static final String ELEMENT_item = "item";
 	public static final String ELEMENT_markerData = "markerData";
+	public static final String ELEMENT_legendItem = "legendItem";
+	public static final String ELEMENT_resetMapItem = "resetMapItem";
+	public static final String ELEMENT_seriesNameExpression = "seriesNameExpression";
+	public static final String ELEMENT_markerClusteringExpression = "markerClusteringExpression";
+	public static final String ELEMENT_markerSpideringExpression = "markerSpideringExpression";
+	public static final String ELEMENT_legendIconExpression = "legendIconExpression";
 	public static final String ELEMENT_itemProperty = "itemProperty";
 	public static final String ELEMENT_pathStyle = "pathStyle";
 	public static final String ELEMENT_pathData = "pathData";
@@ -100,6 +108,14 @@ public class MapXmlFactory extends JRBaseFactory
 		if(onErrorType != null)
 		{
 			map.setOnErrorType(onErrorType);
+		}
+		Boolean markerClustering = Boolean.valueOf(atts.getValue(ATTRIBUTE_markerClustering));
+		if (markerClustering != null) {
+			map.setMarkerClustering(markerClustering);
+		}
+		Boolean markerSpidering = Boolean.valueOf(atts.getValue(ATTRIBUTE_markerSpidering));
+		if (markerSpidering != null) {
+			map.setMarkerSpidering(markerSpidering);
 		}
 
 		return map;

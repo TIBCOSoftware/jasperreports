@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.pdf.PdfPhrase;
 import net.sf.jasperreports.export.pdf.PdfProducer;
 import net.sf.jasperreports.export.pdf.PdfTextAlignment;
+import net.sf.jasperreports.export.pdf.PdfTextRendererContext;
 import net.sf.jasperreports.export.pdf.TextDirection;
 
 
@@ -42,21 +43,32 @@ import net.sf.jasperreports.export.pdf.TextDirection;
 public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 {
 	private float yLine = 0;
-	
 	/**
-	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
+	 * @deprecated To be removed.
 	 */
-	public SimplePdfTextRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont
-		)
-	{
-		this(jasperReportsContext, ignoreMissingFont, true, false);
-	}
-	
+	protected boolean legacyTextMeasuringFix;
 	
 	/**
 	 * 
+	 */
+	public SimplePdfTextRenderer(
+		JasperReportsContext jasperReportsContext, 
+		PdfTextRendererContext context
+		)
+	{
+		super(
+			jasperReportsContext, 
+			context.getAwtIgnoreMissingFont(),
+			context.getIndentFirstLine(),
+			context.getJustifyLastLine()
+			);
+		
+		this.legacyTextMeasuringFix = context.getLegacyTextMeasuringFix();
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, PdfTextRendererContext)}.
 	 */
 	public SimplePdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
@@ -177,7 +189,8 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			pdfExporter.getCurrentPageFormat().getPageHeight()
 				- y
 				- height
-				+ bottomPadding,
+				+ bottomPadding
+				- (legacyTextMeasuringFix ? 1 : 0),
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			text.getLineSpacingFactor(),
 			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (isLastParagraph && justifyLastLine) 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.data.DataFileStream;
 import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
@@ -37,12 +38,17 @@ import net.sf.jasperreports.engine.data.JRAbstractTextDataSource;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.data.JsonQLDataSource;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.Designator;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
  */
-public class JsonDataAdapterService extends AbstractDataAdapterService 
+public class JsonDataAdapterService extends AbstractDataAdapterService implements Designator<DataAdapter>
 {
+	
+	public static final String JSON_DESIGNATION = "net.sf.jasperreports.data.adapter:JSON";
+	
+	public static final String JSONQL_DESIGNATION = "net.sf.jasperreports.data.adapter:JSONQL";
 	
 	private DataFileStream dataStream;
 	
@@ -143,5 +149,22 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 		}
 		
 		super.dispose();
+	}
+
+	@Override
+	public String getName(DataAdapter dataAdapter)
+	{
+		if (dataAdapter instanceof JsonDataAdapter)
+		{
+			switch (((JsonDataAdapter) dataAdapter).getLanguage())
+			{
+			case JSONQL:
+				return JSONQL_DESIGNATION;
+			case JSON:
+			default:
+				return JSON_DESIGNATION;
+			}
+		}
+		return null;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -75,7 +75,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 *
 	 */
-	private String text = "";
+	private String text;
 	private Integer textTruncateIndex;
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
@@ -171,7 +171,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		String fullText = this.text;
 		if (textTruncateIndex == null && textTruncateSuffix != null)
 		{
-			fullText += textTruncateSuffix;
+			fullText = (fullText == null ? "" : fullText) + textTruncateSuffix;
 		}
 		return fullText;
 	}

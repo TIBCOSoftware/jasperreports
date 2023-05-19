@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,13 +53,14 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 {
 	private static final Log log = LogFactory.getLog(PdfGlyphRenderer.class);
 	
-	private static final boolean PATCHED_ITEXT;
+	private static final boolean PATCHED_LIBRARY;
 	static
 	{
-		PATCHED_ITEXT = determinePatchedItext();
+		//TODO not actually needed with OpenPDF
+		PATCHED_LIBRARY = determinePatchedLibrary();
 	}
 
-	private static boolean determinePatchedItext()
+	private static boolean determinePatchedLibrary()
 	{
 		try
 		{
@@ -68,7 +69,7 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 		} 
 		catch (NoSuchMethodException e) 
 		{
-			log.warn("Unpatched iText found, cannot use glyph rendering");
+			log.warn("Unpatched PDF library found, cannot use glyph rendering");
 			return false;
 		} 
 		catch (SecurityException e) 
@@ -79,33 +80,15 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	
 	public static boolean supported()
 	{
-		return PATCHED_ITEXT;
+		return PATCHED_LIBRARY;
 	}
 
-	private ClassicPdfProducer itextPdfProducer;
+	private ClassicPdfProducer classicPdfProducer;
 	private PdfContentByte pdfContentByte;
 	
 	private boolean addActualText;	
 	private PdfGlyphGraphics2D pdfGraphics2D;
 	
-	/**
-	 * @deprecated Replaced by {@link #PdfGlyphRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
-	 */
-	public PdfGlyphRenderer(
-		JasperReportsContext jasperReportsContext, 
-		boolean ignoreMissingFont, 
-		boolean addActualText
-		)
-	{
-		this(
-			jasperReportsContext, 
-			ignoreMissingFont, 
-			true,
-			false,
-			addActualText
-			);
-	}
-
 	public PdfGlyphRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont, 
@@ -140,17 +123,17 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 		}
 		super.initialize(pdfExporter, pdfProducer, tagHelper, text, styledText, offsetX, offsetY);
 		
-		itextPdfProducer = (ClassicPdfProducer) pdfProducer;
-		pdfContentByte = itextPdfProducer.getPdfContentByte();
+		classicPdfProducer = (ClassicPdfProducer) pdfProducer;
+		pdfContentByte = classicPdfProducer.getPdfContentByte();
 	}
 
 	@Override
 	public void render()
 	{
 		Locale locale = pdfExporter.getTextLocale(text);
-		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, itextPdfProducer, locale);
+		pdfGraphics2D = new PdfGlyphGraphics2D(pdfContentByte, pdfExporter, classicPdfProducer, locale);
 
-		boolean addText = addActualText && !itextPdfProducer.getContext().isTagged();
+		boolean addText = addActualText && !classicPdfProducer.getContext().isTagged();
 		if (addText)
 		{
 			PdfDictionary markedContentProps = new PdfDictionary();

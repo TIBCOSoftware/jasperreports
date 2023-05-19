@@ -134,7 +134,7 @@ The first image in the report is loaded from the <a href="http://jasperreports.s
 <br/>
 &#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="150" height="40"/&gt;
 <br/>
-&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]&gt;&lt;/imageExpression&gt;
+&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]&gt;&lt;/imageExpression&gt;
 <br/>
 &#160;&#160;&lt;/image&gt;
 </code>

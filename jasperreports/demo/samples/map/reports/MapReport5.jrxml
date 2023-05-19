@@ -64,7 +64,7 @@
 								<valueExpression><![CDATA[$F{iconheight}]]></valueExpression>
 							</c:itemProperty>
 							<c:itemProperty name="infowindow.content">
-								<valueExpression><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></valueExpression>
+								<valueExpression><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></valueExpression>
 							</c:itemProperty>
 						</c:item>
 					</c:markerData>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -235,7 +235,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			sinceVersion = PropertyConstants.VERSION_6_20_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE = JRPropertiesUtil.PROPERTY_PREFIX + "element.template.populate.style";

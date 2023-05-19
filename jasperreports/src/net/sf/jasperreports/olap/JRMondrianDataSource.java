@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,5 +40,11 @@ public class JRMondrianDataSource extends JROlapDataSource
 		super(dataset, new JRMondrianResult(result));
 
 		this.result = result;
+	}
+	
+	@Override
+	public JRMondrianResult getOlapResult()
+	{
+		return (JRMondrianResult) super.getOlapResult();
 	}
 }

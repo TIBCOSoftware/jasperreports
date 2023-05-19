@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,12 +52,13 @@ public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 	@Override
 	public void customize(JFreeChart jfc, JRChart jrc) 
 	{
-		if (jfc.getPlot() instanceof CategoryPlot)
+		Plot plot = jfc.getPlot();
+		if (plot instanceof CategoryPlot && ((CategoryPlot) plot).getDataset() != null)
 		{
 			Marker marker = createMarker(jrc);
 			if (marker != null)
 			{
-				addMarker(jfc.getPlot(), marker);
+				addMarker(plot, marker);
 			}
 		}
 	}

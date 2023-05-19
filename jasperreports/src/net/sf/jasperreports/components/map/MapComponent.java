@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,6 +27,7 @@ import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
@@ -85,6 +86,13 @@ public interface MapComponent extends Component, JRCloneable
 			)
 	public static final String PROPERTY_GOOGLE_VERSION = PROPERTY_PREFIX + "google.version";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_MAP,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_1
+	)
+	public static final String PROPERTY_DEFAULT_MARKER_ICON = PROPERTY_PREFIX + "default.marker.icon";
+
 	// map attributes:
 	
 	/**
@@ -132,7 +140,17 @@ public interface MapComponent extends Component, JRCloneable
 	 * </ul>
 	 */
 	public static final String ATTRIBUTE_IMAGE_TYPE = "imageType";
-	
+
+	/**
+	 * boolean attribute that specifies whether to group markers into clusters or not; optional.
+	 */
+	public static final String ATTRIBUTE_MARKER_CLUSTERING = "markerClustering";
+
+	/**
+	 * boolean attribute that specifies whether to "spider-ify" overlapping markers or not; optional.
+	 */
+	public static final String ATTRIBUTE_MARKER_SPIDERING = "markerSpidering";
+
 	// common item properties:
 	
 	/**
@@ -514,10 +532,83 @@ public interface MapComponent extends Component, JRCloneable
 	 * Flag that specifies if the path is geodesic; optional. 
 	 */
 	public static final String ITEM_PROPERTY_STYLE_geodesic = "geodesic";
-	
+
+	// legend and resetMap control properties
+	/**
+	 * Legend or resetMap item property with value of {@link java.lang.Boolean} or boolean {@link java.lang.String} that specifies if the legend or the resetMap is enabled
+	 * <p/>
+	 * Configurable individually for each legend or resetMap item
+	 * <br/>
+	 * Defaults to <code>false</code> or <code>"false"</code>
+	 */
+	public static final String LEGEND_OR_RESET_MAP_PROPERTY_enabled = "enabled";
+
+	/**
+	 * Legend or resetMap item property with value of type {@link net.sf.jasperreports.components.map.fill.CustomMapControlPositionEnum CustomMapControlPositionEnum}
+	 * <p/>
+	 * For {@link #ELEMENT_LEGEND_ITEM legendItem} it defaults to {@link net.sf.jasperreports.components.map.fill.CustomMapControlPositionEnum#RIGHT_CENTER CustomMapControlPositionEnum.RIGHT_CENTER}
+	 * <br/>
+	 * For {@link #ELEMENT_RESET_MAP_ITEM resetMapItem} it defaults to {@link net.sf.jasperreports.components.map.fill.CustomMapControlPositionEnum#RIGHT_TOP CustomMapControlPositionEnum.RIGHT_TOP}
+	 */
+	public static final String LEGEND_OR_RESET_MAP_PROPERTY_position = "position";
+
+	/**
+	 * Legend or resetMap item property with value of type {@link java.lang.String} that specifies the label
+	 * <p/>
+	 * For {@link #ELEMENT_LEGEND_ITEM} it defaults to "Legend"
+	 * <br/>
+	 * For {@link #ELEMENT_RESET_MAP_ITEM} it defaults to "Reset map"
+	 */
+	public static final String LEGEND_OR_RESET_MAP_PROPERTY_label = "label";
+
+	// legend properties
+	/**
+	 * Legend item property with value of type {@link net.sf.jasperreports.components.map.fill.CustomMapControlOrientationEnum CustomMapControlOrientationEnum}
+	 * <p/>
+	 * Defaults to {@link net.sf.jasperreports.components.map.fill.CustomMapControlOrientationEnum#VERTICAL VERTICAL}
+	 */
+	public static final String LEGEND_PROPERTY_orientation = "orientation";
+
+	/**
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum width in pixels when in non-fullscreen mode
+	 * <p/>
+	 * Defaults to "100px"
+	 */
+	public static final String LEGEND_PROPERTY_legendMaxWidth = "legendMaxWidth";
+
+	/**
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum width in pixels when in fullscreen mode
+	 * <p/>
+	 * Defaults to "150px"
+	 */
+	public static final String LEGEND_PROPERTY_legendMaxWidth_fullscreen = "legendMaxWidth.fullscreen";
+
+	/**
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum height in pixels when in non-fullscreen mode
+	 * <p/>
+	 * Defaults to "150px"
+	 */
+	public static final String LEGEND_PROPERTY_legendMaxHeight = "legendMaxHeight";
+
+	/**
+	 * Legend item property with value of type {@link java.lang.String} that specifies the legend maximum height in pixels when in fullscreen mode
+	 * <p/>
+	 * Defaults to "300px"
+	 */
+	public static final String LEGEND_PROPERTY_legendMaxHeight_fullscreen = "legendMaxHeight.fullscreen";
+
+	/**
+	 * Legend item property with value of {@link java.lang.Boolean} or boolean {@link java.lang.String} that specifies if the legend series should use marker icons or not
+	 * <p/>
+	 * Defaults to <code>true</code> or <code>"true"</code>
+	 */
+	public static final String LEGEND_PROPERTY_useMarkerIcons = "useMarkerIcons";
+
 	// map elements
 	
 	public static final String ELEMENT_MARKER_DATA = "markerData";
+	public static final String ELEMENT_LEGEND_ITEM = "legendItem";
+	public static final String ELEMENT_RESET_MAP_ITEM = "resetMapItem";
 	public static final String ELEMENT_PATH_STYLE = "pathStyle";
 	public static final String ELEMENT_PATH_DATA = "pathData";
 	
@@ -543,7 +634,9 @@ public interface MapComponent extends Component, JRCloneable
 	 * The name of the parameter that provides the list of marker objects for the map.
 	 */
 	public static final String PARAMETER_MARKERS = "markers";
-	
+	public static final String PARAMETER_LEGEND_PROPERTIES = "legendProperties";
+	public static final String PARAMETER_RESET_MAP_PROPERTIES = "resetMapProperties";
+
 	/**
 	 * The name of the parameter that provides the map language.
 	 */
@@ -573,6 +666,8 @@ public interface MapComponent extends Component, JRCloneable
 	 * The name of the parameter that provides the path locations.
 	 */
 	public static final String PARAMETER_PATH_LOCATIONS = "locations";
+
+	public static final String PARAMETER_DEFAULT_MARKER_ICON = "defaultMarkerIcon";
 
 	// map defaults:
 	
@@ -695,14 +790,33 @@ public interface MapComponent extends Component, JRCloneable
 	OnErrorTypeEnum getOnErrorType();
 	
 	/**
-	 * Returns a list of {@link ItemData ItemData} objects 
+	 * @return the {@link #ATTRIBUTE_MARKER_CLUSTERING} attribute
+	 */
+	Boolean getMarkerClustering();
+
+	/**
+	 * @return the {@link #ATTRIBUTE_MARKER_SPIDERING} attribute
+	 */
+	Boolean getMarkerSpidering();
+
+	/**
+	 * Returns a list of {@link MarkerItemData MarkerItemData} objects
 	 * representing collections of markers on the map
-	 * 
+	 *
 	 * @return a list of marker data
 	 * @see ItemData
 	 */
+	List<MarkerItemData> getMarkerItemDataList();
+
+	/**
+	 * @deprecated Replaced by {@link #getMarkerItemDataList()}.
+	 */
 	List<ItemData> getMarkerDataList();
-	
+
+	Item getLegendItem();
+
+	Item getResetMapItem();
+
 	/**
 	 * Returns a list of {@link ItemData ItemData} objects 
 	 * representing collections of path styles for the map

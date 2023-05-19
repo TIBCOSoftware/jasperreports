@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.ooxml.XlsxMetadataExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -57,6 +58,7 @@ import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
@@ -87,14 +89,15 @@ public class AccessibleApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
+		xlsMetadata();
 		csv();
 		csvMetadata();
-		xlsMetadata();
 		jsonMetadata();
 		odt();
 		ods();
 		docx();
 		xlsx();
+		xlsxMetadata();
 		pptx();
 	}
 	
@@ -481,6 +484,37 @@ public class AccessibleApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void xlsxMetadata() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xlsx");
+
+		Map<String, String> dateFormats = new HashMap<String, String>();
+		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
+
+		XlsxMetadataExporter exporter = new XlsxMetadataExporter();
+
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		SimpleXlsxMetadataReportConfiguration configuration = new SimpleXlsxMetadataReportConfiguration();
+		configuration.setOnePagePerSheet(true);
+		configuration.setDetectCellType(true);
+		configuration.setFormatPatternsMap(dateFormats);
+		exporter.setConfiguration(configuration);
+
+		exporter.exportReport();
+
+		System.err.println("Metadata XLSX creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

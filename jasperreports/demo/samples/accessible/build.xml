@@ -91,6 +91,10 @@
 		<ant dir="../" target="xlsx"/>
 	</target>
 
+	<target name="xlsxMetadata" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsxMetadata"/>
+	</target>
+	
 	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pptx"/>
 	</target>

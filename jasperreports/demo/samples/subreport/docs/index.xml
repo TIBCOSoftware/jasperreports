@@ -226,9 +226,8 @@ The JasperReports property: net.sf.jasperreports.subreport.runner.factory can be
 	<li>net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory</li>
 </ul>
 By default net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory is used, however if net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory<br/>
-is set, then a Javaflow approach will be used to fill the reports rather than threads. If this option is choosen, then the Jakarta Commons Javaflow jar must be<br/>
+is set, then a Javaflow approach will be used to fill the reports rather than threads. If this option is chosen, then the Jakarta Commons Javaflow jar must be<br/>
 included in the application classpath. This jar can be found in the lib directory of the JasperReport reports project distribution package.<br/>
-The jasperreports-javaflow.properties file illustrates how this property could be set in a actual implementation.<br/>
 Other alternatives for processing different queries in the same report are usage of the <a href="../list/index.html">List</a> element and <a href="../charts/index.html">Sub Datasets</a>.
     </content>
   </feature>
@@ -287,7 +286,7 @@ and where should they be placed within the JSON tree object. The <api href="net/
 is designed to handle such kind of metadata information and to generate consistent data structures. 
 <br/>
 Before starting its export work, the JSON metadata exporter looks for the presence of an existing JSON schema by calling the 
-<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource--">getJsonSchemaResource()</api> exporter configuration setting.
+<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource()">getJsonSchemaResource()</api> exporter configuration setting.
 This can be configured either directly, using the APIs, or by reading the value from the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> report 
 property. If present, this setting provides the path to a JSON schema file that will be used to generate the JSON structure at export time. Nodes in a given schema may provide:

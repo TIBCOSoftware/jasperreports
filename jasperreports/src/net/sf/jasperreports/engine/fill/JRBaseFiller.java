@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -209,6 +209,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected Map<Integer, JRBaseFiller> subfillers;
 
 	private boolean bandOverFlowAllowed;
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	private boolean isLegacyTextMeasuring;
 
 	/**
 	 *
@@ -586,6 +591,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			setParameters(parameterValues);
 
 			setBookmarkHelper();
+			
+			isLegacyTextMeasuring = propertiesUtil.getBooleanProperty(mainDataset, 
+					JRFillTextElement.PROPERTY_LEGACY_TEXT_MEASURING, false);
 			
 			loadStyles();
 
@@ -1481,6 +1489,15 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected void setReorderBandElements(boolean isReorderBandElements)
 	{
 		this.isReorderBandElements = isReorderBandElements;
+	}
+
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	protected boolean isLegacyTextMeasuring()
+	{
+		return isLegacyTextMeasuring;
 	}
 
 

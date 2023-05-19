@@ -10,8 +10,8 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-xalan</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Xalan Data Source</name>
-	<description>JasperReports Xalan Data Source</description>
+	<name>JasperReports Xalan Data Source (Deprecated)</name>
+	<description>JasperReports Xalan Data Source (Deprecated)</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -38,22 +38,6 @@
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>jaspersoft-third-party</id>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
-		</repository>
-		<repository>
-			<id>jr-ce-snapshots</id>
-			<name>JasperReports CE Snapshots</name>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
-		</repository>
-		<repository>
-			<id>jr-ce-releases</id>
-			<name>JasperReports CE Releases</name>
-			<url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
-		</repository>
-	</repositories>
 	<build>
 		<resources>
 			<resource>
