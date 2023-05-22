@@ -476,11 +476,6 @@ public class TableReport implements JRReport
 		this.noData = createNoData(table.getNoData());
 	}
 	
-	public String getTableName()
-	{
-		return tableName;
-	}
-	
 	protected class ReportBandInfo
 	{
 		final JRDesignBand band;
@@ -2118,7 +2113,7 @@ public class TableReport implements JRReport
 	@Override
 	public String getName()
 	{
-		return mainDataset.getName();
+		return tableName == null ? mainDataset.getName() : tableName;
 	}
 
 	@Override
