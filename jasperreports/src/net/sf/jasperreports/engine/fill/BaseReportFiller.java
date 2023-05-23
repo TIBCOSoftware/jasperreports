@@ -464,6 +464,7 @@ public abstract class BaseReportFiller implements ReportFiller
 			fillContext.setMasterFormatFactory(getFormatFactory());
 			fillContext.setMasterLocale(getLocale());
 			fillContext.setMasterTimeZone(getTimeZone());
+			fillContext.init();
 		}
 	}
 	
