@@ -104,7 +104,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		for (int i = 0; i < units.length; i++)
 		{
 			byte[] sourceBytes = units[i].getSourceCode().getBytes(StandardCharsets.UTF_8);
-			unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
+			unit.addSource("calculator_" + units[i].getCompileName(), new ByteArrayInputStream(sourceBytes));
 		}
 		
 		try 

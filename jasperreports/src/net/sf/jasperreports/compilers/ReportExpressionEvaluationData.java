@@ -36,9 +36,20 @@ public class ReportExpressionEvaluationData implements Serializable
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private String compileName;
 	private Serializable compileData;
 	
 	private Map<Integer, DirectExpressionEvaluation> directEvaluations;
+
+	public String getCompileName()
+	{
+		return compileName;
+	}
+
+	public void setCompileName(String compileName)
+	{
+		this.compileName = compileName;
+	}
 
 	public Serializable getCompileData()
 	{

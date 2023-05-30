@@ -202,7 +202,7 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 		int scriptIndex = 0;
 		for (String scriptSource : scripts)
 		{
-			String scriptClassName = unit.getName() + "_" + scriptIndex;
+			String scriptClassName = unit.getCompileName() + "_" + scriptIndex;
 			
 			if (log.isTraceEnabled())
 			{
@@ -212,7 +212,7 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 			
 			ClassCompiler compiler = new ClassCompiler(compilerEnv);
 			// this should not fail since we've already separately compiled the default expression
-			Object[] compilationResult = compiler.compileToClassFiles(scriptSource, unit.getName(), 0, scriptClassName);
+			Object[] compilationResult = compiler.compileToClassFiles(scriptSource, unit.getCompileName(), 0, scriptClassName);
 			if (compilationResult.length != 2)
 			{
 				throw 

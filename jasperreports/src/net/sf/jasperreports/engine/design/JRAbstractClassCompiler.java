@@ -57,7 +57,7 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 		File[] classFiles = new File[units.length];
 		for (int i = 0; i < classFiles.length; i++)
 		{
-			classFiles[i] = new File(tempDirFile, units[i].getName() + ".class");
+			classFiles[i] = new File(tempDirFile, units[i].getCompileName() + ".class");
 		}
 		
 		try
