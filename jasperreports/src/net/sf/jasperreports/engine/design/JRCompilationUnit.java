@@ -41,6 +41,7 @@ public class JRCompilationUnit
 	/**
 	 * The name of the unit.
 	 */
+	//no longer used, see getCompileName
 	private final String name;
 	
 	/**
@@ -108,6 +109,10 @@ public class JRCompilationUnit
 		return name;
 	}
 
+	public String getCompileName()
+	{
+		return compileTask == null ? null : compileTask.getCompileName();
+	}
 	
 	/**
 	 * Returns the source code generated for the unit.
