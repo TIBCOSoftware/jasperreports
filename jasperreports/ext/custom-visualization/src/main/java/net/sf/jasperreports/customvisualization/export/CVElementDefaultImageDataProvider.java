@@ -42,8 +42,6 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 		return INSTANCE;
 	}
 
-	private CVElementImageDataProvider cvElementPhantomJSImageProvider = new CVElementPhantomJSImageDataProvider();
-	private JRPhantomCVElementImageDataProvider jrPhantomCVElementImageDataProvider = new JRPhantomCVElementImageDataProvider();
 	private ChromeCVElementImageDataProvider chromeCVElementImageDataProvider = new ChromeCVElementImageDataProvider();
 
 	@Override
@@ -56,22 +54,6 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 			return chromeCVElementImageDataProvider.getImageData(repositoryContext, element);
 		}
 		
-		if (jrPhantomCVElementImageDataProvider.isEnabled()) {
-			if (log.isDebugEnabled()) {
-				log.debug("Using JR PhantomJS to produce custom visualization image data!");
-			}
-
-			return jrPhantomCVElementImageDataProvider.getImageData(repositoryContext, element);
-		}
-
-		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
-		if (phantomjsExecutablePath != null) {
-			if (log.isDebugEnabled()) {
-				log.debug("Using CVC PhantomJS to produce custom visualization image data!");
-			}
-			return cvElementPhantomJSImageProvider.getImageData(repositoryContext, element);
-		}
-
-		throw new JRRuntimeException("Chrome and/or PhantomJS not properly configured for server side rendering");
+		throw new JRRuntimeException("Chrome not properly configured for server side rendering");
 	}
 }
