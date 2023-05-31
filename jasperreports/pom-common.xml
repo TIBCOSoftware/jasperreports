@@ -214,6 +214,16 @@
 			<version>1.3</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
+			<!-- 
+			this exclusion is here because the activation 1.0.2 artifact seems to be faulty on public Maven repos;
+			see JAR file is missing here: https://repo.maven.apache.org/maven2/javax/activation/activation/1.0.2/
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>
