@@ -185,6 +185,15 @@
 			<version>3.1.1.12687</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<!-- 
+			this exclusion is here because xerces would interfere with the tests
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
