@@ -318,6 +318,35 @@ public class HtmlEditorKitMarkupProcessor extends EditorKitMarkupProcessor
 							);
 					}
 				}
+				else if (htmlTag == Tag.P && element.getElementCount() == 1) // for clarity, deal with empty <p></p> tags separately, instead of adding more logic to the Tag.CONTENT processing above
+				{
+					Element pChildElement = element.getElement(0);
+					AttributeSet pChildAttrs = pChildElement.getAttributes();
+					Object pChildElementName = pChildAttrs.getAttribute(AbstractDocument.ElementNameAttribute);
+					Object pChildObject = (pChildElementName != null) ? null : pChildAttrs.getAttribute(StyleConstants.NameAttribute);
+					HTML.Tag pChildHtmlTag = object instanceof HTML.Tag ? (HTML.Tag) pChildObject : null;
+					if (pChildHtmlTag == Tag.CONTENT)
+					{
+						String chunk = null;
+						try
+						{
+							chunk = document.getText(pChildElement.getStartOffset(), pChildElement.getEndOffset() - pChildElement.getStartOffset());
+						}
+						catch (BadLocationException e)
+						{
+							if (log.isDebugEnabled())
+							{
+								log.debug("Error converting markup.", e);
+							}
+						}
+						
+						if ("\n".equals(chunk))
+						{
+							styledText.append("\n");
+							resizeRuns(styledText.getRuns(), styledText.length(), 1);
+						}
+					}
+				}
 				else
 				{
 					if (bodyOccurred)
