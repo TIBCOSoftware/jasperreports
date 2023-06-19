@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.map.imageprovider;
 
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -86,7 +88,7 @@ public class MapElementImageProvider extends AbstractMapElementImageProvider
 		String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
 		String markers ="";
 
-		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
+		List<Map<String,Object>> markerList = getMarkersAsFlatList(element);
 		if(markerList != null && !markerList.isEmpty())
 		{
 			String currentMarkers = "";
@@ -197,4 +199,9 @@ public class MapElementImageProvider extends AbstractMapElementImageProvider
 		return imageLocation;
 	}
 
+	private List<Map<String,Object>> getMarkersAsFlatList(JRGenericPrintElement element) {
+		return ((LinkedHashMap<String, LinkedHashMap<String, List<Map<String,Object>>>>) element.getParameterValue(MapComponent.PARAMETER_MARKERS))
+				.entrySet().stream().flatMap(series -> series.getValue().entrySet().stream().flatMap(entries -> entries.getValue().stream()))
+				.collect(Collectors.toList());
+	}
 }
