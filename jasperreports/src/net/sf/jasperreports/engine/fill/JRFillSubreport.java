@@ -1197,7 +1197,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation)
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

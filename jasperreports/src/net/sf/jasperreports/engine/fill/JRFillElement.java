@@ -1177,7 +1177,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * @param element the element
 	 * @param evaluation the evaluation type
 	 */
-	protected abstract void resolveElement (JRPrintElement element, byte evaluation) throws JRException;
+	protected abstract void resolveElement(JRPrintElement element, byte evaluation) throws JRException;
 	
 	protected void performDelayedEvaluation(JRPrintElement element, byte evaluation) 
 			throws JRException
@@ -1302,7 +1302,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * @param evaluation the evaluation type
 	 * @param evaluationTime the current evaluation time
 	 */
-	protected void resolveElement (JRPrintElement element, byte evaluation, JREvaluationTime evaluationTime) throws JRException
+	protected void resolveElement(JRPrintElement element, byte evaluation, JREvaluationTime evaluationTime) throws JRException
 	{
 		EvaluationTimeEnum evaluationTimeType = getEvaluationTimeValue();
 		switch (evaluationTimeType)

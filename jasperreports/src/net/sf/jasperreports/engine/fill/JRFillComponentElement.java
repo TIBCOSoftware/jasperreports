@@ -206,7 +206,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	}
 
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation, 
+	protected void resolveElement(JRPrintElement element, byte evaluation, 
 			JREvaluationTime evaluationTime) throws JRException
 	{
 		performDelayedEvaluation(element, evaluation);

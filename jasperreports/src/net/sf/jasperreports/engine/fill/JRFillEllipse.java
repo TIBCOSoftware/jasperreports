@@ -117,7 +117,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation)
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
