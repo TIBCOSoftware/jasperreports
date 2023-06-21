@@ -420,6 +420,7 @@ public final class JRXmlConstants
 	 * JRStyleFactory associated constants
 	 */
 	public static final String ELEMENT_style = "style";
+	public static final String ELEMENT_styleExpression = "styleExpression";
 
 	public static final String ATTRIBUTE_isDefault = "isDefault";
 	public static final String ATTRIBUTE_mode = "mode";

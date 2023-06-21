@@ -32,6 +32,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -202,7 +203,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				int classIdx;
 				for (classIdx = 0; classIdx < units.length; ++classIdx)
 				{
-					if (className.equals(units[classIdx].getName()))
+					if (className.equals(units[classIdx].getCompileName()))
 					{
 						break;
 					}
@@ -483,7 +484,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		
 		File sourceFile = compilationUnit.getSourceFile();
 		File saveSourceDir = sourceFile == null ? null : sourceFile.getParentFile();
-		sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
+		sourceFile = getSourceFile(saveSourceDir, compilationUnit.getCompileName(), sourceCode);
 
 		JRCompilationUnit newUnit = new JRCompilationUnit(unitName);
 		newUnit.setDirectEvaluations(compilationUnit.getDirectEvaluations());
@@ -544,7 +545,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			int classIdx;
 			for (classIdx = 0; classIdx < units.length; ++classIdx)
 			{
-				if (className.equals(units[classIdx].getName()))
+				if (className.equals(units[classIdx].getCompileName()))
 				{
 					break;
 				}
@@ -709,7 +710,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 					unitResults[i].resolveMissingMethods();
 				}
 				
-				compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getName());
+				compilationUnits[i] = new CompilationUnit(units[i].getSourceCode(), units[i].getCompileName());
 			}
 			
 			reset();
@@ -823,7 +824,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			{
 				if (missingMethods == null)
 				{
-					missingMethods = new HashSet<>();
+					missingMethods = new LinkedHashSet<>();
 				}
 				
 				missingMethods.add(missingMethod);

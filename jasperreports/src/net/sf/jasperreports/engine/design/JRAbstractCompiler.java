@@ -27,9 +27,12 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import net.sf.jasperreports.compilers.CompositeDirectExpressionEvaluators;
 import net.sf.jasperreports.compilers.DirectEvaluator;
@@ -51,6 +54,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
@@ -73,9 +77,6 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	public static final String EXCEPTION_MESSAGE_KEY_LANGUAGE_NOT_SUPPORTED = "compilers.language.not.supported";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_EXPRESSIONS_COMPILE_ERROR = "compilers.report.expressions.compile.error";
 	public static final String EXCEPTION_MESSAGE_KEY_TEMP_DIR_NOT_FOUND = "compilers.temp.dir.not.found";
-	
-	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
-	private static final Random random = new Random();
 	
 	protected final JasperReportsContext jasperReportsContext;
 	private final boolean needsSourceFiles;
@@ -290,6 +291,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	protected ReportExpressionEvaluationData createCompileData(JRCompilationUnit unit)
 	{
 		ReportExpressionEvaluationData data = new ReportExpressionEvaluationData();
+		data.setCompileName(unit.getCompileName());
 		data.setCompileData(unit.getCompileData());
 		data.setDirectEvaluations(unit.getDirectEvaluations());
 		return data;
@@ -298,7 +300,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	private static String createNameSuffix()
 	{
-		return "_" + System.currentTimeMillis() + "_" + random.nextInt(NAME_SUFFIX_RANDOM_MAX);
+		//no longer used, we now generate a hash suffix for each compiled unit
+		return "";
 	}
 
 
@@ -329,14 +332,15 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		
 		ReportSourceCompilation<JRParameter> sourceCompilation = new ReportSourceCompilation<>(
 				jasperReportsContext, jasperDesign, expressions, 
-				dataset.getParametersMap(), dataset.getFieldsMap(), 
+				listToMap(dataset.getParametersList(), JRParameter::getName), 
+				listToMap(dataset.getFieldsList(), JRField::getName), 
 				dataset.getVariablesMap(), dataset.getVariables());
 		if (sourceCompilation.hasSource())
 		{
 			JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, unitName,
 					datasetCollector, sourceCompilation, false);
 			JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);			
-			File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
+			File sourceFile = getSourceFile(saveSourceDir, sourceTask.getCompileName(), sourceCode);
 			
 			compilationUnit.setSource(sourceCode, sourceFile, sourceTask);
 		}
@@ -355,19 +359,30 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		
 		ReportSourceCompilation<JRCrosstabParameter> sourceCompilation = new ReportSourceCompilation<>(
 				jasperReportsContext, jasperDesign, expressions, 
-				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables());
+				listToMap(crosstab.getParametersList(), JRCrosstabParameter::getName), 
+				null, crosstab.getVariablesMap(), crosstab.getVariables());
 		if (sourceCompilation.hasSource())
 		{
 			JRSourceCompileTask sourceTask = new JRSourceCompileTask(jasperDesign, unitName, 
 					crosstabCollector, sourceCompilation, true);
 			JRCompilationSourceCode sourceCode = generateSourceCode(sourceTask);			
-			File sourceFile = getSourceFile(saveSourceDir, unitName, sourceCode);
+			File sourceFile = getSourceFile(saveSourceDir, sourceTask.getCompileName(), sourceCode);
 
 			compilationUnit.setSource(sourceCode, sourceFile, sourceTask);
 		}
 		return compilationUnit;
 	}
 
+	private static <T> Map<String, T> listToMap(List<T> list, Function<T, String> key)
+	{
+		if (list == null)
+		{
+			return null;
+		}
+		
+		return list.stream().collect(Collectors.toMap(key, Function.identity(), 
+				(a, b) -> b, LinkedHashMap::new));
+	}
 
 	protected File getSourceFile(File saveSourceDir, String unitName, JRCompilationSourceCode sourceCode)
 	{
@@ -436,7 +451,12 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			}
 			else
 			{
-				evaluator = loadEvaluator(evaluatorCompileData, unitName);
+				String compileName = evaluationData.getCompileName();
+				if (compileName == null)//report compiled with version older than 6.21
+				{
+					compileName = unitName;
+				}
+				evaluator = loadEvaluator(evaluatorCompileData, compileName);
 			}
 			
 			baseDirectEvaluators = new StandardExpressionEvaluators(

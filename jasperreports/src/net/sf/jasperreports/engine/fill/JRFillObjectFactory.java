@@ -202,7 +202,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 	
 	private Set<JRStyle> originalStyleList;
-	private StylesList stylesMap = new StylesList();
+	protected StylesList stylesMap = new StylesList();
 
 
 	/**

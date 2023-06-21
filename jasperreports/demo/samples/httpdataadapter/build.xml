@@ -16,9 +16,13 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<antcall target="jetty.run"/>
-		<ant dir="../" target="fill"/>
-		<antcall target="jetty.stop"/>
+		<parallel>
+			<antcall target="jetty.run"/>
+			<sequential>
+				<ant dir="../" target="fill"/>
+				<antcall target="jetty.stop"/>
+			</sequential>
+		</parallel>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
@@ -61,33 +65,47 @@
 		<ant dir="../" target="clean-sample"/>
 	</target>
 	
-	<target name="prepare-jetty-classpath">
+	<target name="prepare-jetty" description="Copies the Jetty distro into the build directory">
 		<ivy:configure file="../../../ivysettings.xml" override="true"/>
-		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/> 
-		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
-	</target>
-
-	<target name="jetty.run" depends="prepare-jetty-classpath">
-		<mkdir dir="${basedir}/build/webapp"/>
-		<copy todir="${basedir}/build/webapp">
-			<fileset dir="${basedir}/web"/>
+		<!-- using a separate <resolve> task to resolve the ivy file prior to retrieving the artifacts with the <retrieve> task was the only way 
+		to have multiple retrieve operations; otherwise a second <retrieve> task brings the same thing as the first one retrieved -->
+		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/>
+		<ivy:retrieve pattern="./build/[artifact]-[revision].[ext]"/>
+		<move todir="build">
+			<fileset dir="build">
+				<include name="jetty-home-*.zip"/>
+			</fileset>
+			<mapper type="glob" from="*" to="jetty-home.zip"/>
+		</move>
+		<unzip src="./build/jetty-home.zip" dest="./build">
+			<mapper type="regexp" from="^(jetty-home-[^/]*)/(.*)$$" to="jetty/\2"/>
+		</unzip>
+		<copy todir="./build/jetty-base">
+			<fileset dir="./jetty-base"/>
 		</copy>
-		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
-		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
-			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
-		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
-			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
-		<jetty.run daemon="true" stopPort="9999" stopKey="9999">
-			<webApp war="${basedir}/build/webapp" contextPath="/"/>
-			<connectors>
-				<connector port="8080"/>
-			</connectors>
-		</jetty.run>
 	</target>
 
-	<target name="jetty.stop" depends="prepare-jetty-classpath">
-		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
-		<jetty.stop stopPort="9999" stopKey="9999" stopWait="10"/>
+	<target name="prepare-webapp" description="Copies the required JAR files from the project's /lib directory" depends="javac">
+		<copy todir="./build/jetty-base/webapps/ROOT/">
+			<fileset dir="./web"/>
+		</copy>
+	</target>
+
+	<target name="jetty.run" depends="prepare-jetty, prepare-webapp">
+		<java jar="./build/jetty/start.jar" fork="true">
+			<arg value="jetty.base=./build/jetty-base"/>
+			<arg value="stop.port=9999"/>
+			<arg value="stop.key=st0p_J3Tty"/>
+		</java>
+	</target>
+
+	<target name="jetty.stop">
+		<java jar="./build/jetty/start.jar" fork="true">
+			<arg value="jetty.base=./build/jetty-base"/>
+			<arg value="stop.port=9999"/>
+			<arg value="stop.key=st0p_J3Tty"/>
+			<arg value="--stop"/>
+		</java>
 	</target>
 
 	<target name="test" description="Runs the sample.">

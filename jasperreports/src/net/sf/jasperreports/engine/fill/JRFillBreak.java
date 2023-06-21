@@ -143,7 +143,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation)
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

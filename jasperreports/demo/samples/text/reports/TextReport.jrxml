@@ -2,9 +2,6 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TextReport" pageWidth="798" pageHeight="1000" whenNoDataType="AllSectionsNoDetail" columnWidth="714" leftMargin="42" rightMargin="42" topMargin="70" bottomMargin="70" uuid="f120a079-4f45-450c-8e21-7ac5a96f3c9a">
 	<property name="net.sf.jasperreports.export.text.character.width" value="7.238"/>
 	<property name="net.sf.jasperreports.export.text.character.height" value="13.948"/>
-	<import value="net.sf.jasperreports.engine.*"/>
-	<import value="java.util.*"/>
-	<import value="net.sf.jasperreports.engine.data.*"/>
 	<style name="FixSizeFontStyle" isDefault="true" fontName="DejaVu Sans Mono" fontSize="12"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="FilterClause" class="java.lang.String"/>

@@ -139,7 +139,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation)
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
