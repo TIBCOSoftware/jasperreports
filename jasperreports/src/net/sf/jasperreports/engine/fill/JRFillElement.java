@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.PrintPart;
@@ -834,7 +835,15 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			if (styleName != null)
 			{
 				exprStyle = getFiller().factory.stylesMap.getStyle(styleName);
-				if (exprStyle != null)
+				if (exprStyle == null)
+				{
+					throw 
+						new JRRuntimeException(
+							JRFillObjectFactory.EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND,  
+							new Object[]{styleName} 
+							);
+				}
+				else
 				{
 					conditionalStylesContainer.collectConditionalStyle(exprStyle);
 					conditionalStylesContainer.evaluateConditionalStyle(exprStyle, evaluation);
