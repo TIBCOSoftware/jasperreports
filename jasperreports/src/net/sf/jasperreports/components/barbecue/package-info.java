@@ -73,4 +73,5 @@
 * scale type from the <code>RetainShape</code> attribute and its size from the <code>size</code> defined 
 * for the barcode element in the report. 
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.barbecue;

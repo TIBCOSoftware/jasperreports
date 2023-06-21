@@ -24,4 +24,5 @@
 /**
  * Contains classes for the Crosstab element interactivity.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs.interactive;

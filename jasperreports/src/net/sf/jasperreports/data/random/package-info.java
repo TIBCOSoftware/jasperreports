@@ -25,4 +25,5 @@
  * Contains classes for empty data adapters.
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.random;

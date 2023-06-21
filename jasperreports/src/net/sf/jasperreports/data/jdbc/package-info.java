@@ -24,4 +24,5 @@
 /**
  * Contains classes for JDBC data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.jdbc;

@@ -24,4 +24,5 @@
 /**
  * Provides support for built-in JasperReports servlets.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.j2ee.servlets;

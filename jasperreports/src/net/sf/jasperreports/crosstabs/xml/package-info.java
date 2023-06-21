@@ -24,4 +24,5 @@
 /**
  * Contains classes for loading Crosstab related tags from report templates XML files.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs.xml;

@@ -24,4 +24,5 @@
 /**
  * Provides support for OLAP field mapping.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.olap.mapping;

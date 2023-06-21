@@ -24,5 +24,6 @@
 /**
  * Contains <code>enum</code> types used when exporting reports to various output formats.  
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.type;
 

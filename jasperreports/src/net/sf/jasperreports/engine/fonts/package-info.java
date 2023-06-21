@@ -194,4 +194,5 @@
  * 
  * @see net.sf.jasperreports.engine.util.JRFontNotFoundException
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.fonts;
