@@ -806,44 +806,59 @@ public class JRVerifier
 			for(Iterator<JRExpression> it = expressions.iterator(); it.hasNext();)
 			{
 				JRExpression expression = it.next();
-				JRExpressionChunk[] chunks = expression.getChunks();
-				if (chunks != null && chunks.length > 0)
+				verifyExpression(expression, parametersMap, fieldsMap, variablesMap, brokenRules);
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static void verifyExpression(
+			JRExpression expression, 
+			Map<String, ? extends JRParameter> parametersMap, 
+			Map<String, JRField> fieldsMap, 
+			Map<String, JRVariable> variablesMap,
+			Collection<JRValidationFault> brokenRules
+			)
+	{
+		JRExpressionChunk[] chunks = expression.getChunks();
+		if (chunks != null && chunks.length > 0)
+		{
+			for(int j = 0; j < chunks.length; j++)
+			{
+				JRExpressionChunk expressionChunk = chunks[j];
+				switch (expressionChunk.getType())
 				{
-					for(int j = 0; j < chunks.length; j++)
+					case JRExpressionChunk.TYPE_VARIABLE :
 					{
-						JRExpressionChunk expressionChunk = chunks[j];
-						switch (expressionChunk.getType())
+						if ( !variablesMap.containsKey(expressionChunk.getText()) )
 						{
-							case JRExpressionChunk.TYPE_VARIABLE :
-							{
-								if ( !variablesMap.containsKey(expressionChunk.getText()) )
-								{
-									addBrokenRule("Variable not found : " + expressionChunk.getText(), expression);
-								}
-								break;
-							}
-							case JRExpressionChunk.TYPE_FIELD :
-							{
-								if ( !fieldsMap.containsKey(expressionChunk.getText()) )
-								{
-									addBrokenRule("Field not found : " + expressionChunk.getText(), expression);
-								}
-								break;
-							}
-							case JRExpressionChunk.TYPE_PARAMETER :
-							{
-								if ( !parametersMap.containsKey(expressionChunk.getText()) )
-								{
-									addBrokenRule("Parameter not found : " + expressionChunk.getText(), expression);
-								}
-								break;
-							}
-							case JRExpressionChunk.TYPE_RESOURCE :
-							case JRExpressionChunk.TYPE_TEXT :
-							default :
-							{
-							}
+							addBrokenRule(brokenRules, "Variable not found : " + expressionChunk.getText(), expression);
 						}
+						break;
+					}
+					case JRExpressionChunk.TYPE_FIELD :
+					{
+						if ( !fieldsMap.containsKey(expressionChunk.getText()) )
+						{
+							addBrokenRule(brokenRules, "Field not found : " + expressionChunk.getText(), expression);
+						}
+						break;
+					}
+					case JRExpressionChunk.TYPE_PARAMETER :
+					{
+						if ( !parametersMap.containsKey(expressionChunk.getText()) )
+						{
+							addBrokenRule(brokenRules, "Parameter not found : " + expressionChunk.getText(), expression);
+						}
+						break;
+					}
+					case JRExpressionChunk.TYPE_RESOURCE :
+					case JRExpressionChunk.TYPE_TEXT :
+					default :
+					{
 					}
 				}
 			}

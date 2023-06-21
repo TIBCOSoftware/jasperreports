@@ -109,6 +109,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected final JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
+	protected JRExpression styleExpression;
 
 	private JRPropertiesMap propertiesMap;
 
@@ -138,6 +139,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 
 		parentStyle = factory.getStyle(element.getStyle());
 		parentStyleNameReference = element.getStyleNameReference();
+		styleExpression = factory.getExpression(element.getStyleExpression());
 
 		uuid = element.getUUID();
 		key = element.getKey();
@@ -433,6 +435,12 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		return parentStyleNameReference;
 	}
 	
+	@Override
+	public JRExpression getStyleExpression()
+	{
+		return this.styleExpression;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	@Override

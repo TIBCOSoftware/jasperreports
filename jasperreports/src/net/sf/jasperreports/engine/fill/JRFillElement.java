@@ -149,7 +149,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected FillContainerContext fillContainerContext;
 	
 	protected JRStyle initStyle;
-	
+	protected JRStyle exprStyle;
 	protected JRStyle currentStyle;
 	
 	/**
@@ -514,6 +514,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	@Override
+	public JRExpression getStyleExpression()
+	{
+		return parent.getStyleExpression();
+	}
+
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return parent.getPrintWhenExpression();
@@ -819,6 +825,28 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		byte evaluation
 		) throws JRException
 	{
+		exprStyle = null;
+		
+		JRExpression styleExpression = getStyleExpression();
+		if (styleExpression != null)
+		{
+			String styleName = (String)evaluateExpression(styleExpression, evaluation);
+			if (styleName != null)
+			{
+				exprStyle = getFiller().factory.stylesMap.getStyle(styleName);
+				if (exprStyle != null)
+				{
+					conditionalStylesContainer.collectConditionalStyle(exprStyle);
+					conditionalStylesContainer.evaluateConditionalStyle(exprStyle, evaluation);
+				}
+			}
+		}
+
+		if (exprStyle != null && isEvaluateNow())
+		{
+			initStyle = exprStyle;
+		}
+		
 		providerStyle = null;
 
 		if (styleProviders != null && styleProviders.size() > 0)
@@ -1182,11 +1210,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void performDelayedEvaluation(JRPrintElement element, byte evaluation) 
 			throws JRException
 	{
+		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
+		
 		boolean updateTemplate = false;
 
 		JRStyle printStyle = element.getStyle();
-		if (isDelayedStyleEvaluation())
+		if (isDelayedStyleEvaluation() || exprStyle != null)
 		{
+			if (exprStyle != null)
+			{
+				initStyle = exprStyle;
+			}
+			
 			JRStyle elementStyle = initStyle;
 			if (elementStyle == null)
 			{

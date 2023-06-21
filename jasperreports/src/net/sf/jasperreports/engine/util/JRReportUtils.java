@@ -25,20 +25,24 @@ package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 
 /**
- * 
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public final class JRReportUtils
 {
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_SUBDATASET_NOT_FOUND = "util.report.subdataset.not.found";
 	
-	public static JRDataset findSubdataset(JRDatasetRun datasetRun, 
-			JasperReport report)
+	public static JRDataset findSubdataset(JRDatasetRun datasetRun, JRReport report)
+	{
+		return findSubdataset(datasetRun.getDatasetName(), report);
+	}
+
+
+	public static JRDataset findSubdataset(String datasetName, JRReport report)
 	{
 		JRDataset[] datasets = report.getDatasets();
 		JRDataset reportDataset = null;
@@ -46,8 +50,7 @@ public final class JRReportUtils
 		{
 			for (int i = 0; i < datasets.length; i++)
 			{
-				if (datasetRun.getDatasetName().equals(
-						datasets[i].getName()))
+				if (datasetName.equals(datasets[i].getName()))
 				{
 					reportDataset = datasets[i];
 					break;
@@ -60,12 +63,21 @@ public final class JRReportUtils
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_REPORT_SUBDATASET_NOT_FOUND,
-					new Object[]{datasetRun.getDatasetName(), report.getName()});
+					new Object[]{datasetName, report.getName()});
 		}
 		return reportDataset;
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #findSubdataset(JRDatasetRun, JRReport)}.
+	 */
+	public static JRDataset findSubdataset(JRDatasetRun datasetRun, JasperReport report)
+	{
+		return findSubdataset(datasetRun, (JRReport)report);
+	}
+
+	
 	private JRReportUtils()
 	{
 	}

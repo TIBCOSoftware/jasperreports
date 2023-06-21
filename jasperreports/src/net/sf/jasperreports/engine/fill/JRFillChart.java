@@ -98,7 +98,6 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -114,7 +113,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.NamedChartCustomizer;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseChart;
+import net.sf.jasperreports.engine.fill.JRFillChart.FillChartContext;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -784,8 +785,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 
-			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
+			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW) //FIXME should use isEvaluateNow() ?
 			{
+				evaluateProperties(evaluation);
+				evaluateStyle(evaluation);
+				
 				evaluateRenderer(evaluation);
 			}
 		}
@@ -820,9 +824,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected JFreeChart evaluateChart(byte evaluation) throws JRException
 	{
-		evaluateProperties(evaluation);
 		evaluateDatasetRun(evaluation);
-		evaluateStyle(evaluation);
 
 		// needs to be lazy loaded here because in the JRFillChart constructor above, the parent properties could return null,
 		// as the filler main dataset is not yet set, if the current band is a group band

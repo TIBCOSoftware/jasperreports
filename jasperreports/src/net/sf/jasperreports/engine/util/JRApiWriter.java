@@ -944,6 +944,7 @@ public class JRApiWriter
 			writeProperties( element, elementName + ".getPropertiesMap()");
 			writePropertyExpressions( element.getPropertyExpressions(), elementName);
 			writeExpression( element.getPrintWhenExpression(), elementName, "PrintWhenExpression");
+			writeExpression( element.getStyleExpression(), elementName, "StyleExpression");
 			flush();
 		}
 	}
