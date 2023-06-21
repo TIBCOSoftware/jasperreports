@@ -21,33 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.view;
 
-import java.util.List;
+package net.sf.jasperreports.view.save;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ServiceLoader;
-import java.util.ServiceLoader.Provider;
 
-import aQute.bnd.annotation.spi.ServiceConsumer;
+import aQute.bnd.annotation.spi.ServiceProvider;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.JRSaveContributorFactory;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @author stefan Bischof
  */
-@ServiceConsumer(JRSaveContributorFactory.class)
-public class SaveContributorUtils {
+@ServiceProvider(JRSaveContributorFactory.class)
+public class JRCsvSaveContributorFactory implements JRSaveContributorFactory {
 
-	private SaveContributorUtils() {}
-	
-	public static List<JRSaveContributor> createBuiltinContributors(JasperReportsContext context, Locale locale,
-			ResourceBundle resourceBundle) {
-		return ServiceLoader.load(JRSaveContributorFactory.class)
-				.stream()
-				.map(Provider<JRSaveContributorFactory>::get)
-				.map(factory -> factory.create(context, locale, resourceBundle))
-				.toList();
+	@Override
+	public JRSaveContributor create(JasperReportsContext jasperReportsContext, Locale locale,
+			ResourceBundle resBundle) {
+		return new JRCsvSaveContributor(jasperReportsContext,locale, resBundle);
 	}
 
 }

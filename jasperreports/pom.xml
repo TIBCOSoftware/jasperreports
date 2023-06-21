@@ -24,6 +24,7 @@
 		<skipDeploy>false</skipDeploy>
 	</properties>
 	<build>
+		<testSourceDirectory>${project.basedir}/tests</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

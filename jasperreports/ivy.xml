@@ -12,6 +12,7 @@
 	</configurations>
 	<dependencies>
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
+		<dependency org="biz.aQute.bnd" name="biz.aQute.bnd.annotation" rev="6.4.1"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="6.1.11"/>
 		<dependency org="com.beust" name="jcommander" rev="1.78" conf="test->*"/>
 		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.18.0" conf="compile->*"/>
