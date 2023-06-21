@@ -838,7 +838,7 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRStyle style, boolean skipFaulty)
 	{
-		if (style != null && (skipFaulty || collectedStyles.add(style)))
+		if (style != null && collectedStyles.add(style))
 		{
 			JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
 

@@ -846,13 +846,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				else
 				{
 					conditionalStylesContainer.collectConditionalStyle(exprStyle);
-					conditionalStylesContainer.evaluateConditionalStyle(exprStyle, evaluation);
 				}
 			}
 		}
 
 		if (exprStyle != null && isEvaluateNow())
 		{
+			conditionalStylesContainer.evaluateConditionalStyle(exprStyle, evaluation);
 			initStyle = exprStyle;
 		}
 		
