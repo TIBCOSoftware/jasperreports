@@ -24,4 +24,5 @@
 /**
  * Provides interfaces and base classes for the built-in JasperReports component functionality.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.component;

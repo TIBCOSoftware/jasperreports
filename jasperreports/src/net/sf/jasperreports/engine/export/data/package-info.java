@@ -24,4 +24,5 @@
 /**
  * Contains classes for handling data types at export time. 
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.data;

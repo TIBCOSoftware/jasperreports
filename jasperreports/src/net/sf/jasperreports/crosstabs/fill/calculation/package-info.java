@@ -24,4 +24,5 @@
 /**
  * Contains classes to be used in crosstab calculations at report filling time.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs.fill.calculation;

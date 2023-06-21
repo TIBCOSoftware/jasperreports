@@ -135,4 +135,5 @@
 * </ul>
 * 
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.ant;

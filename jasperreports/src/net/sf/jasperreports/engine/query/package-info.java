@@ -431,5 +431,6 @@
  * @see net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory
  * @see net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.query;
 

@@ -320,4 +320,5 @@
  * empty space.
  * </p>
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs;

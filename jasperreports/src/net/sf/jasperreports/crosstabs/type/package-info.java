@@ -24,4 +24,5 @@
 /**
  * Contains <code>enum</code> types used by the Crosstab element.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs.type;

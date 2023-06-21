@@ -25,5 +25,6 @@
  * Provides utility classes for exporting reports to Office Open XML Format, such as 
  * DOCX, XLSX and PPTX.  
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.ooxml;
 

@@ -180,6 +180,42 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>6.4.0</version>
+				<executions>
+					<execution>
+						<id>bnd-process</id>
+						<goals>
+							<goal>bnd-process</goal>
+						</goals>
+						<configuration><bnd><![CDATA[ 
+						Built-By: ${project.organization.name}
+						Specification-Title: ${project.name}
+						Specification-Version: ${project.version}
+						Specification-Vendor: ${project.organization.name}
+						Implementation-Title: net.sf.jasperreports.engine
+						Implementation-Version: ${project.version}-${buildNumber}
+						Implementation-Vendor: ${project.organization.name}
+						Bundle-Name: ${project.name}
+						Bundle-Version: ${project.version}
+						Bundle-Vendor: ${project.organization.name}
+						Bundle-ClassPath: .
+						]]></bnd></configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>
+							${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

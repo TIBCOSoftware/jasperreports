@@ -24,4 +24,5 @@
 /**
  * Provides support for Mondrian result and hierarchy.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.olap.mondrian;
