@@ -120,7 +120,7 @@ public final class JasperPrintManager
 	{
 		//artf1936
 		boolean checkAvailablePrinters = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_CHECK_AVAILABLE_PRINTERS, true);
-		if (checkAvailablePrinters && !(unixSunJDK || JRPrintServiceExporter.checkAvailablePrinters())) 
+		if (checkAvailablePrinters && !JRPrintServiceExporter.checkAvailablePrinters()) 
 		{
 			throw 
 				new JRException(
@@ -462,21 +462,4 @@ public final class JasperPrintManager
 			sinceVersion = PropertyConstants.VERSION_3_7_3
 			)
 	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRPropertiesUtil.PROPERTY_PREFIX + "awt.check.available.printers";
-
-	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */
-	protected static final boolean unixSunJDK;
-	static
-	{
-		boolean found = false;
-		try
-		{
-			Class.forName("sun.print.UnixPrintServiceLookup");
-			found = true;
-		}
-		catch (ClassNotFoundException e)
-		{
-			found = false;
-		}
-		unixSunJDK = found;
-	}
 }
