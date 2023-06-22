@@ -334,8 +334,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.UP);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.UP);
 		
 	}
 	
@@ -352,8 +351,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.DOWN);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.DOWN);
 	}
 	
 	// ===================== ROUND_CEILING function ===================== //
@@ -370,8 +368,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.CEILING);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.CEILING);
 	}
 	
 	// ===================== ROUND_FLOOR function ===================== //
@@ -388,8 +385,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.FLOOR);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.FLOOR);
 	}
 	
 	// ===================== ROUND_HALF_UP function ===================== //
@@ -406,8 +402,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.HALF_UP);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.HALF_UP);
 	}
 	
 	// ===================== ROUND_HALF_EVEN function ===================== //
@@ -425,8 +420,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.HALF_EVEN);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.HALF_EVEN);
 	}
 	
 	// ===================== ROUND_HALF_DOWN function ===================== //
@@ -443,8 +437,7 @@ public final class MathFunctions
 			logNullArgument();
 			return null;
 		}
-		BigDecimal bd = new BigDecimal(number.doubleValue());
-		return bd.setScale(scale, RoundingMode.HALF_DOWN);
+		return new BigDecimal(number.doubleValue()).setScale(scale, RoundingMode.HALF_DOWN);
 	}
 	
 	/*
