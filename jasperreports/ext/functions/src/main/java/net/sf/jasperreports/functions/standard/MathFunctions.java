@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.functions.standard;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -316,6 +319,132 @@ public final class MathFunctions
 			return null;
 		}
 		return Math.ceil(number.doubleValue());
+	}
+	
+	// ===================== ROUND_UP function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded away from zero. It always increments the digit prior to a non-zero discarded fraction.
+	 */
+	@Function("ROUND_UP")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_UP(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.UP);
+		
+	}
+	
+	// ===================== ROUND_DOWN function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards zero. It never increments the digit prior to a discarded fraction
+	 */
+	@Function("ROUND_DOWN")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_DOWN(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.DOWN);
+	}
+	
+	// ===================== ROUND_CEILING function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards positive infinity. For positive values behaves as the {@link ROUND_UP} function, 
+	 * for negative values behaves as the {@link ROUND_DOWN} function.
+	 */
+	@Function("ROUND_CEILING")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_CEILING(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.CEILING);
+	}
+	
+	// ===================== ROUND_FLOOR function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards negative infinity. For positive values behaves as the {@link ROUND_DOWN} function, 
+	 * for negative values behaves as the {@link ROUND_UP} function.
+	 */
+	@Function("ROUND_FLOOR")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_FLOOR(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.FLOOR);
+	}
+	
+	// ===================== ROUND_HALF_UP function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded up. 
+	 * Behaves as the {@link ROUND_UP} function if the discarded fraction is ≥ 0.5; otherwise, behaves as the {@link ROUND_DOWN} function.
+	 */
+	@Function("ROUND_HALF_UP")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_HALF_UP(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.HALF_UP);
+	}
+	
+	// ===================== ROUND_HALF_EVEN function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded towards the even neighbor. 
+	 * Behaves as the {@link ROUND_HALF_UP} function if the digit to the left of the discarded fraction is odd; otherwise, behaves as the {@link ROUND_HALF_DOWN} function. 
+	 * This rounding mode statistically minimizes cumulative error when it is repeatedly applied over a sequence of calculations.
+	 */
+	@Function("ROUND_HALF_EVEN")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static BigDecimal ROUND_HALF_EVEN(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.HALF_EVEN);
+	}
+	
+	// ===================== ROUND_HALF_DOWN function ===================== //
+	/**
+	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded down. 
+	 * Behaves as the {@link ROUND_UP} function if the discarded fraction is > 0.5; otherwise, behaves as the {@link ROUND_DOWN} function.
+	 */
+	@Function("ROUND_HALF_DOWN")
+	@FunctionParameters({
+		@FunctionParameter("number"),
+		@FunctionParameter("scale")})
+	public static java.math.BigDecimal ROUND_HALF_DOWN(Number number, int scale){
+		if(number == null) {
+			logNullArgument();
+			return null;
+		}
+		BigDecimal bd = new BigDecimal(number.doubleValue());
+		return bd.setScale(scale, RoundingMode.HALF_DOWN);
 	}
 	
 	/*

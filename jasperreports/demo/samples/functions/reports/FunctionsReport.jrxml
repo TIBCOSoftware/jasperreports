@@ -168,6 +168,18 @@
 						<reportElement x="500" y="130" width="332" height="20" uuid="49da0889-2114-41a9-baab-052bb3dba5f0" mode="Opaque" backcolor="#EDF4B0"/>
 						<textFieldExpression><![CDATA[MAX(4,6,2,3,9,4,1,7,3,8)]]></textFieldExpression>
 					</textField>
+					<staticText>
+						<reportElement x="0" y="150" width="250" height="20" uuid="5333c0c8-deab-4ad0-91ab-c0f0aa3fddf3" mode="Opaque" backcolor="#EDF4B0"/>
+						<text><![CDATA[123.4567 rounded up to 2 digits after the decimal point]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="250" y="150" width="250" height="20" uuid="14e90f54-c516-4efb-a44a-0aed56d040bd" mode="Opaque" backcolor="#EDF4B0"/>
+						<text><![CDATA[ROUND_UP(123.4567, 2)]]></text>
+					</staticText>
+					<textField>
+						<reportElement x="500" y="150" width="332" height="20" uuid="49da0889-2114-41a9-ba53-052bb3dba5f0" mode="Opaque" backcolor="#EDF4B0"/>
+						<textFieldExpression><![CDATA[ROUND_UP(123.4567, 2)]]></textFieldExpression>
+					</textField>
 				</frame>
 			</band>
 			<band height="201">
