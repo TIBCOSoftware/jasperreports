@@ -84,7 +84,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			try
 			{
 				imageData = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(JRImageLoader.PIXEL_IMAGE_RESOURCE);
-				imageMimeType = ImageTypeEnum.GIF.getMimeType();
+				imageMimeType = ImageTypeEnum.PNG.getMimeType();
 			}
 			catch (JRException e)
 			{
