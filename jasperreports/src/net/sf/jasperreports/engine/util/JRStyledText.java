@@ -165,9 +165,24 @@ public class JRStyledText implements Cloneable
 	public void append(String text)
 	{
 		ensureBuffer();
+		int previousLength = sbuffer.length();
 		sbuffer.append(text);
 		attributedString = null;
 		awtAttributedString = null;
+		
+		if (globalAttributes != null && !"".equals(text))
+		{
+			//updating the range of the global attributes run
+			for (Run run : runs)
+			{
+				if (run.startIndex == 0 && run.endIndex == previousLength
+						//testing for attributes map identity
+						&& run.attributes == globalAttributes)
+				{
+					run.endIndex = length();
+				}
+			}
+		}
 	}
 
 	/**
