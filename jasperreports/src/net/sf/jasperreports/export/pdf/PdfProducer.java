@@ -89,12 +89,19 @@ public interface PdfProducer
 
 	PdfImage createImage(BufferedImage bi, int angle) throws IOException;
 
-	void drawImage(JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
+	void drawImage(
+			JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
 			double templateWidth, double templateHeight,
 			int translateX, int translateY, double angle, 
 			double renderWidth, double renderHeight, 
-			float ratioX, float ratioY, float x, float y)
-			throws JRException, IOException;
+			float ratioX, float ratioY, float x, float y
+			) throws JRException, IOException;
+	
+	PdfImage clipImage(
+			PdfImage image, 
+			int clipWidth, int clipHeight, 
+			int translateX, int translateY
+			) throws JRException;
 	
 	PdfTextChunk createChunk(String text, Map<Attribute, Object> attributes, Locale locale);
 

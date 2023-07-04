@@ -487,6 +487,23 @@ public class ClassicPdfProducer implements PdfProducer
 		getPdfWriter().releaseTemplate(template);
 	}
 	
+	@Override
+	public PdfImage clipImage(PdfImage image, int clipWidth, int clipHeight, int translateX, int translateY) throws JRException
+	{
+		Image img = ((ClassicImage)image).getImage();
+
+		PdfContentByte pdfContentByte = getPdfContentByte();
+		PdfTemplate template = pdfContentByte.createTemplate(img.getWidth(), img.getHeight());
+		template.newPath();
+		template.rectangle(- translateX, img.getHeight() - clipHeight + translateY, clipWidth, clipHeight);
+		template.clip();
+		template.newPath();
+		img.setAbsolutePosition(0, 0);
+		template.addImage(img);
+		
+		return new ClassicImage(Image.getInstance(template));
+	}
+	
 	public Font getFont(Map<Attribute,Object> attributes, Locale locale)
 	{
 		ClassicFontRecipient fontRecipient = new ClassicFontRecipient(context.getCMYKColorSpace());

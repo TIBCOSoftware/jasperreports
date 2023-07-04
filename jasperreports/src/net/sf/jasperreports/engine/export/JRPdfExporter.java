@@ -33,14 +33,12 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
 import java.awt.color.ICC_Profile;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -153,7 +151,6 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.WrappingSvgDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
@@ -1741,9 +1738,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					{
 						case CLIP :
 						{
-							imageProcessorResult = 
-								processImageClip(
-									new WrappingImageDataToGraphics2DRenderer((DataRenderable)renderer)
+							imageProcessorResult = processImageClip(renderer.getId(), (DataRenderable)renderer
 									);
 							break;
 						}
@@ -1776,80 +1771,84 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			return imageProcessorResult;
 		}
 		
-		
-		private InternalImageProcessorResult processImageClip(Graphics2DRenderable renderer) throws JRException, IOException
+		private InternalImageProcessorResult processImageClip(String rendererId, DataRenderable renderer) throws JRException
 		{
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
-
-			Dimension2D dimension = 
-				renderer instanceof DimensionRenderable 
-				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
-				: null;
-			if (dimension != null)
-			{
-				normalWidth = (int)dimension.getWidth();
-				normalHeight = (int)dimension.getHeight();
-			}
-
-			ExifOrientationEnum exifOrientation = ExifOrientationEnum.NORMAL;
+			Pair<PdfImage, ExifOrientationEnum> imagePair = null;
 			
-			DataRenderable dataRenderable = renderer instanceof DataRenderable ? (DataRenderable)renderer : null;
-			if (dataRenderable != null)
+			if (printImage.isUsingCache() && loadedImagesMap.containsKey(rendererId))
 			{
-				exifOrientation = ImageUtil.getExifOrientation(dataRenderable.getData(getJasperReportsContext()));
+				imagePair = loadedImagesMap.get(rendererId);
+			}
+			else
+			{
+				byte[] data = renderer.getData(jasperReportsContext);
+				
+				try
+				{
+					imagePair = 
+						new Pair<>(
+							pdfProducer.createImage(data, true), 
+							ImageUtil.getExifOrientation(data)
+							);
+				}
+				catch (Exception e)
+				{
+					throw new JRException(e);
+				}
+
+				if (printImage.isUsingCache())
+				{
+					loadedImagesMap.put(rendererId, imagePair);
+				}
 			}
 			
-			if (
-				ExifOrientationEnum.LEFT == exifOrientation
-				|| ExifOrientationEnum.RIGHT == exifOrientation
-				)
-			{
-				int t = normalWidth;
-				normalWidth = normalHeight;
-				normalHeight = t;
-			}
+			PdfImage image = imagePair.first();
 
-			int minWidth = Math.min(normalWidth, availableImageWidth);
-			int minHeight = Math.min(normalHeight, availableImageHeight);
-			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			image.scalePercent(100f); // reset scaling here for images taken from cache, because it affects the plain size used for clipping
+			
+			int plainWidth = (int)image.getPlainWidth();
+			int plainHeight = (int)image.getPlainHeight();
+
+			int clipWidth = Math.min(plainWidth, availableImageWidth);
+			int clipHeight = Math.min(plainHeight, availableImageHeight);
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - plainWidth));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - plainHeight));
 			int translateX = xoffset;
 			int translateY = yoffset;
 			int angle = 0;
 			
-			switch (printImage.getRotation())
+			switch (ImageUtil.getRotation(printImage.getRotation(), imagePair.second()))
 			{
 				case LEFT :
 				{
-					minWidth = Math.min(normalWidth, availableImageHeight);
-					minHeight = Math.min(normalHeight, availableImageWidth);
-					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
-					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - normalWidth));
-					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
+					clipWidth = Math.min(plainWidth, availableImageHeight);
+					clipHeight = Math.min(plainHeight, availableImageWidth);
+					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - plainHeight));
+					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - plainWidth));
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - plainWidth));
 					translateY = xoffset;
 					angle = 90;
 					break;
 				}
 				case RIGHT :
 				{
-					minWidth = Math.min(normalWidth, availableImageHeight);
-					minHeight = Math.min(normalHeight, availableImageWidth);
-					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - normalHeight));
-					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
-					translateX = yoffset;
-					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
+					clipWidth = Math.min(plainWidth, availableImageHeight);
+					clipHeight = Math.min(plainHeight, availableImageWidth);
+					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - plainHeight));
+					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - plainWidth));
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - plainWidth));
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - plainHeight));
 					angle = -90;
 					break;
 				}
 				case UPSIDE_DOWN :
 				{
-					minWidth = Math.min(normalWidth, availableImageWidth);
-					minHeight = Math.min(normalHeight, availableImageHeight);
-					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - normalWidth));
-					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - normalHeight));
-					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					clipWidth = Math.min(plainWidth, availableImageWidth);
+					clipHeight = Math.min(plainHeight, availableImageHeight);
+					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - plainWidth));
+					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - plainHeight));
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - plainWidth));
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - plainHeight));
 					angle = 180;
 					break;
 				}
@@ -1859,46 +1858,22 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				}
 			}
 
-			BufferedImage bi =
-				new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
+			translateX = translateX > 0 ? 0 : translateX;
+			translateY = translateY > 0 ? 0 : translateY;
 
-			Graphics2D g = bi.createGraphics();
-			try
-			{
-				if (printImage.getModeValue() == ModeEnum.OPAQUE)
-				{
-					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, minWidth, minHeight);
-				}
-				renderer.render(
-					jasperReportsContext,
-					g,
-					new java.awt.Rectangle(
-						translateX > 0 ? 0 : translateX,
-						translateY > 0 ? 0 : translateY,
-						normalWidth,
-						normalHeight
-						)
-					);
-			}
-			finally
-			{
-				g.dispose();
-			}
+			image = pdfProducer.clipImage(image, clipWidth, clipHeight, translateX, translateY);
 
-			//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
+			image.scaleAbsolute(plainWidth, plainHeight);
+			image.setRotationDegrees(angle);
 
-			//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-			PdfImage image = pdfProducer.createImage(bi, angle);
 			PdfChunk chunk = pdfProducer.createChunk(image);
-
 			return 
 				new InternalImageProcessorResult(
 					chunk, 
 					image.getScaledWidth(), 
 					image.getScaledHeight(),
-					xoffset < 0 ? 0 : xoffset,
-					yoffset < 0 ? 0 : yoffset
+					xoffset,
+					yoffset
 					);
 		}
 
