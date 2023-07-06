@@ -6697,6 +6697,15 @@ A boolean property that determines whether the HTML exporter should flush the ou
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.bookmarks.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.bookmarks.enabled">
+    <description>
+Property that determines if the bookmarks are to be created or not in the resulting PDF document.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels">

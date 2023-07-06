@@ -594,6 +594,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private int crtEvenPageOffsetX;
 	private int crtEvenPageOffsetY;
 	
+	private boolean bookmarksEnabled;
+
 	private boolean awtIgnoreMissingFont;
 	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
@@ -724,6 +726,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		crtOddPageOffsetY = configuration.getOddPageOffsetY();
 		crtEvenPageOffsetX = configuration.getEvenPageOffsetX();
 		crtEvenPageOffsetY = configuration.getEvenPageOffsetY();
+		
+		bookmarksEnabled = configuration.isBookmarksEnabled();
 		
 		pdfProducer.initReport();
 
@@ -3291,6 +3295,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected void addBookmark(int level, String title, int x, int y)
 	{
+		if (!bookmarksEnabled)
+		{
+			return;
+		}
+		
 		Bookmark parent = bookmarkStack.peek();
 		// searching for parent
 		while(parent.level >= level)

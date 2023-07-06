@@ -55,6 +55,26 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_FORCE_SVG_SHAPES = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
 
 	/**
+	 * Property that provides a default for the {@link #isBookmarksEnabled()} export configuration flag.
+	 * 
+	 * <p>
+	 * The property can be set globally and at report level.
+	 * By default, the property is set to <code>true</code>.
+	 * </p>
+	 * 
+	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevel()
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_20_6,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_BOOKMARKS_ENABLED = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.bookmarks.enabled";
+
+	/**
 	 * Property that provides a default for the {@link #isCollapseMissingBookmarkLevels()} export configuration flag.
 	 * 
 	 * <p>
@@ -194,6 +214,18 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isForceSvgShapes();
+	
+	/**
+	 * Flag that determines if the bookmarks are to be created or not in the resulting PDF document.
+	 * 
+	 * </p>
+	 * @see #PROPERTY_BOOKMARKS_ENABLED
+	 */
+	@ExporterProperty(
+		value=PROPERTY_BOOKMARKS_ENABLED,
+		booleanDefault=true
+		)
+	public Boolean isBookmarksEnabled();
 	
 	/**
 	 * Flag that determines if missing bookmark levels are collapsed, or if 

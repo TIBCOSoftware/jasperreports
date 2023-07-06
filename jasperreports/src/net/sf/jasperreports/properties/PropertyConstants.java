@@ -258,4 +258,6 @@ public interface PropertyConstants
 	
 	String VERSION_6_20_5 = "6.20.5";
 	
+	String VERSION_6_20_6 = "6.20.6";
+	
 }
