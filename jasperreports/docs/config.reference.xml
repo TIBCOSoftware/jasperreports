@@ -2111,6 +2111,16 @@ This works in conjunction with the <code>textAdjust</code> property of text elem
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.cut.text.max.height -->
+  
+  <configProperty name="net.sf.jasperreports.cut.text.max.heightt">
+    <description>
+Property used to specify the maximum height the text field element can stretch to before the text content gets cut. 
+This works in conjunction with the <code>textAdjust</code> property of text elements which needs to be set to <code>CutText</code> value.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.default.first.line.indent -->
   
   <configProperty name="net.sf.jasperreports.default.first.line.indent">

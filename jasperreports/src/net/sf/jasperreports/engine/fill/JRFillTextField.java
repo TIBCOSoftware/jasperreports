@@ -809,7 +809,21 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// the text field is not allowed to stretch downwards in order to
 							// display all its content
 
-							chopTextElement(0);
+							int cutTextMaxHeight = cutTextMaxHeight();
+							if (cutTextMaxHeight == 0)
+							{
+								chopTextElement(0);
+							}
+							else
+							{
+								chopTextElement(
+									Math.max(
+										Math.min(cutTextMaxHeight, availableHeight - getRelativeY() - getHeight()),
+										getHeight()
+										)
+									- getHeight()
+									);
+							}
 						}
 					}
 					else

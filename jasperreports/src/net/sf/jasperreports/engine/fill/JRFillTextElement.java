@@ -89,6 +89,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_20_6,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_CUT_TEXT_MAX_HEIGHT = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "cut.text.max.height";
+
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_6_20_5,
@@ -134,6 +143,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private boolean dynamicKeepFullText;
 	private Float defaultScaleFontStepLimit;
 	private boolean dynamicScaleFontStepLimit;
+	private Integer defaultCutTextMaxHeight;
+	private boolean dynamicCutTextMaxHeight;
 
 	/**
 	 *
@@ -170,6 +181,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicKeepFullText = textElement.dynamicKeepFullText;
 		this.defaultScaleFontStepLimit = textElement.defaultScaleFontStepLimit;
 		this.dynamicScaleFontStepLimit = textElement.dynamicScaleFontStepLimit;
+		this.defaultCutTextMaxHeight = textElement.defaultCutTextMaxHeight;
+		this.dynamicCutTextMaxHeight = textElement.dynamicCutTextMaxHeight;
 
 		this.fillStyleObjectsMap = textElement.fillStyleObjectsMap;
 	}
@@ -1253,6 +1266,33 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 		}
 		return scaleFontStepLimit;
+	}
+	
+	protected int cutTextMaxHeight()
+	{
+		if (defaultCutTextMaxHeight == null)
+		{
+			String cutTextMaxHeightProp = getParent().getPropertiesMap().getProperty(PROPERTY_CUT_TEXT_MAX_HEIGHT);
+			if (cutTextMaxHeightProp == null)
+			{
+				defaultCutTextMaxHeight = 0;
+			}
+			else
+			{
+				defaultCutTextMaxHeight = JRPropertiesUtil.asInteger(cutTextMaxHeightProp);
+			}
+		}
+		
+		int cutTextMaxHeight = defaultCutTextMaxHeight;
+		if (dynamicCutTextMaxHeight)
+		{
+			String cutTextMaxHeightProp = getDynamicProperties().getProperty(PROPERTY_CUT_TEXT_MAX_HEIGHT);
+			if (cutTextMaxHeightProp != null)
+			{
+				cutTextMaxHeight = JRPropertiesUtil.asInteger(cutTextMaxHeightProp);
+			}
+		}
+		return cutTextMaxHeight;
 	}
 	
 	protected void setPrintText(JRPrintText printText, String text)
