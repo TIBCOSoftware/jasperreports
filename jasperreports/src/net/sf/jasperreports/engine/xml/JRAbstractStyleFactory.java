@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
@@ -55,7 +56,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 	@Override
 	public Object createObject(Attributes atts)
 	{
-		JRDesignStyle style = new JRDesignStyle();
+		JRDesignStyle style = new JRDesignStyle(getDefaultStyleProvider());
 
 		// get style name
 		style.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
@@ -77,7 +78,15 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 		return style;
 	}
-	
+
+	/**
+	 *
+	 */
+	protected JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return null;
+	}
+
 	/**
 	 *
 	 */

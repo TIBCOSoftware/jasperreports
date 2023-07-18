@@ -368,6 +368,12 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	public JRElementGroup getElementGroup();
 
 	/**
+	 * Gets the expression that is evaluated in order to obtain the runtime style name to be used for the element.
+	 * When used, this expression takes precedence over the {@link #getStyle()} or {@link #getStyleNameReference()}.
+	 */
+	public JRExpression getStyleExpression();
+
+	/**
 	 *
 	 */
 	public void collectExpressions(JRExpressionCollector collector);

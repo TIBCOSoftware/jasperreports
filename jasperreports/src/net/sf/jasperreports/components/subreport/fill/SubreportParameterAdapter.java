@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.components.subreport.fill;
 
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRExpression;
@@ -33,12 +33,12 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class TableSubreportParameter implements JRSubreportParameter
+public class SubreportParameterAdapter implements JRSubreportParameter
 {
 
 	private final JRDatasetParameter datasetParameter;
 	
-	public TableSubreportParameter(JRDatasetParameter datasetParameter)
+	public SubreportParameterAdapter(JRDatasetParameter datasetParameter)
 	{
 		this.datasetParameter = datasetParameter;
 	}

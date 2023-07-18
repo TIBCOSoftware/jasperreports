@@ -48,7 +48,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
-import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
@@ -1378,7 +1377,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		private boolean printColumnHeaders;
 		
 		private JRFillVariable rowCountVar;
+		private JRFillVariable evenRowVar;
 		private JRFillVariable colCountVar;
+		private JRFillVariable evenColVar;
 
 		protected CrosstabFiller()
 		{
@@ -1387,7 +1388,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			printRows = new ArrayList<>();
 			
 			rowCountVar = variablesMap.get(JRCrosstab.VARIABLE_ROW_COUNT);
+			evenRowVar = variablesMap.get(JRCrosstab.VARIABLE_IS_EVEN_ROW);
 			colCountVar = variablesMap.get(JRCrosstab.VARIABLE_COLUMN_COUNT);
+			evenColVar = variablesMap.get(JRCrosstab.VARIABLE_IS_EVEN_COLUMN);
 		}
 		
 		protected void initCrosstab()
@@ -1925,20 +1928,25 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			if (rowIdx == -1)
 			{
 				rowCountVar.setValue(null);
+				evenRowVar.setValue(null);
 			}
 			else
 			{
 				rowCountVar.setValue(rowCount[rowIdx]);
+				evenRowVar.setValue(rowCount[rowIdx] % 2 == 0);
 			}
 			
 			if (colIdx == -1)
 			{
 				colCountVar.setValue(null);
+				evenColVar.setValue(null);
 			}
 			else
 			{
 				colCountVar.setValue(columnCount[colIdx]);
+				evenColVar.setValue(columnCount[colIdx] % 2 == 0);
 			}
+			
 		}
 
 		private List<JRPrintElement> fillTitleCell(int availableHeight) throws JRException

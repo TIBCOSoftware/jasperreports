@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.components.subreport.fill;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -42,48 +42,55 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class TableSubreport extends ElementDecorator implements JRSubreport
+public class SubreportElementAdapter extends ElementDecorator implements JRSubreport
 {
 	
 	private final JRDatasetRun datasetRun;
 	private final JRSubreportParameter[] parameters;
 	private final JRSubreportReturnValue[] returnValues;
 
-	public TableSubreport(JRDatasetRun datasetRun, JRComponentElement componentElement)
+	public SubreportElementAdapter(JRDatasetRun datasetRun, JRComponentElement componentElement)
 	{
 		super(componentElement);
 		
 		this.datasetRun = datasetRun;
-		
-		JRDatasetParameter[] datasetParameters = datasetRun.getParameters();
-		if (datasetParameters == null)
+		if (datasetRun == null)
 		{
 			this.parameters = null;
+			this.returnValues = null;
 		}
 		else
 		{
-			this.parameters = new JRSubreportParameter[datasetParameters.length];
-			for (int i = 0; i < datasetParameters.length; i++)
+			JRDatasetParameter[] datasetParameters = datasetRun.getParameters();
+			if (datasetParameters == null)
 			{
-				JRDatasetParameter datasetParameter = datasetParameters[i];
-				TableSubreportParameter subreportParameter = 
-					new TableSubreportParameter(datasetParameter);
-				this.parameters[i] = subreportParameter;
+				this.parameters = null;
 			}
-		}
-		
-		List<ReturnValue> datasetReturnValues = datasetRun.getReturnValues();
-		if (datasetReturnValues == null || datasetReturnValues.isEmpty())
-		{
-			returnValues = null;
-		}
-		else
-		{
-			returnValues = new JRSubreportReturnValue[datasetReturnValues.size()];
-			for (ListIterator<ReturnValue> it = datasetReturnValues.listIterator(); it.hasNext();)
+			else
 			{
-				ReturnValue returnValue = it.next();
-				returnValues[it.previousIndex()] = new SubreportReturnValueAdapter(returnValue);
+				this.parameters = new JRSubreportParameter[datasetParameters.length];
+				for (int i = 0; i < datasetParameters.length; i++)
+				{
+					JRDatasetParameter datasetParameter = datasetParameters[i];
+					SubreportParameterAdapter subreportParameter = 
+						new SubreportParameterAdapter(datasetParameter);
+					this.parameters[i] = subreportParameter;
+				}
+			}
+			
+			List<ReturnValue> datasetReturnValues = datasetRun.getReturnValues();
+			if (datasetReturnValues == null || datasetReturnValues.isEmpty())
+			{
+				returnValues = null;
+			}
+			else
+			{
+				returnValues = new JRSubreportReturnValue[datasetReturnValues.size()];
+				for (ListIterator<ReturnValue> it = datasetReturnValues.listIterator(); it.hasNext();)
+				{
+					ReturnValue returnValue = it.next();
+					returnValues[it.previousIndex()] = new SubreportReturnValueAdapter(returnValue);
+				}
 			}
 		}
 	}
@@ -91,13 +98,13 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	@Override
 	public JRExpression getConnectionExpression()
 	{
-		return datasetRun.getConnectionExpression();
+		return datasetRun == null ? null : datasetRun.getConnectionExpression();
 	}
 
 	@Override
 	public JRExpression getDataSourceExpression()
 	{
-		return datasetRun.getDataSourceExpression();
+		return datasetRun == null ? null : datasetRun.getDataSourceExpression();
 	}
 
 	@Override
@@ -116,7 +123,7 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	@Override
 	public JRExpression getParametersMapExpression()
 	{
-		return datasetRun.getParametersMapExpression();
+		return datasetRun == null ? null : datasetRun.getParametersMapExpression();
 	}
 
 	@Override

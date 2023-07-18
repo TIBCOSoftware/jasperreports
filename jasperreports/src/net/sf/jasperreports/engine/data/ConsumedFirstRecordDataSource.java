@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,26 +21,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table.fill;
+package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
-import net.sf.jasperreports.engine.fill.FillerSubreportParent;
-import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FillerTableSubreportParent extends FillerSubreportParent
+public class ConsumedFirstRecordDataSource implements JRDataSource 
 {
-	public FillerTableSubreportParent(JRFillSubreport parentElement, DatasetExpressionEvaluator evaluator) 
+	private final JRDataSource dataSource;
+	private boolean first;
+	
+	public ConsumedFirstRecordDataSource(JRDataSource dataSource) 
 	{
-		super(parentElement, evaluator);
+		this.dataSource = dataSource;
+		this.first = true;
+	}
+	
+	@Override
+	public boolean next() throws JRException 
+	{
+		if (first) 
+		{
+			first = false;
+			return true;
+		}
+		
+		return dataSource.next();
 	}
 
 	@Override
-	public JRPropertiesHolder getParentProperties()
+	public Object getFieldValue(JRField field) throws JRException 
 	{
-		return getFiller().getMainDataset();
+		return dataSource.getFieldValue(field);
 	}
 }

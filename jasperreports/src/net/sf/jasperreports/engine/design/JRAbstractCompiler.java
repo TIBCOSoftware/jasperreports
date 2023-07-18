@@ -119,7 +119,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		String className;
 		if (dataset.isMainDataset())
 		{
-			className = report.getName();
+			className = dataset.getName();
 		}
 		else
 		{

@@ -354,6 +354,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			evaluateProperties(evaluation);
+			evaluateStyle(evaluation);
+
 			evaluateSubreport(evaluation);
 		}
 	}
@@ -500,9 +503,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		byte evaluation
 		) throws JRException
 	{
-		evaluateProperties(evaluation);
-		evaluateStyle(evaluation);
-
 		jasperReportSource = evaluateReportSource(evaluation);
 		
 		if (jasperReportSource != null)

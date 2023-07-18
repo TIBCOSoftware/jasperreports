@@ -21,43 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.types.date;
+package net.sf.jasperreports.engine.fill;
 
-import java.io.Serializable;
-import java.util.TimeZone;
+import java.util.Map;
 
-import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
- * <p>Basic implementation of {@link DateRange}.
- * Provides generic methods for all implementation</p>
- *
- * @author Sergey Prilukin
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class AbstractDateRange implements DateRange, Serializable 
+public interface BuiltinExpressionEvaluator
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected String expression;
-	protected TimeZone timeZone;
+	void init(Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap, 
+			Map<String, JRFillVariable> variablesMap, 
+			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
+	
+	Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
 
-	protected AbstractDateRange() {
-	}
+	Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
 
-	protected AbstractDateRange(String expression, TimeZone timeZone) {
-		this.expression = expression;
-		this.timeZone = timeZone;
-	}
+	Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException; 
 
-	protected void validateExpression(String expression) throws InvalidDateRangeExpressionException {
-		if (expression == null) {
-			throw new IllegalArgumentException("Expression can't be null.");
-		}
-	}
-
-	@Override
-	public String toString() 
-	{
-		return expression;
-	}
 }
