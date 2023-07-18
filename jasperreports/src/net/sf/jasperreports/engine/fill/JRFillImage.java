@@ -433,6 +433,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 			if (isEvaluateNow())
 			{
+				evaluateProperties(evaluation);
+				evaluateStyle(evaluation);
+				
 				hasOverflowed = false;
 				evaluateImage(evaluation);
 			}
@@ -447,9 +450,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		byte evaluation
 		) throws JRException
 	{
-		evaluateProperties(evaluation);
-		evaluateStyle(evaluation);
-		
 		JRExpression expression = this.getExpression();
 
 		Renderable newRenderer = null;

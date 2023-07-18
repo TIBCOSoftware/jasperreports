@@ -413,6 +413,11 @@ public final class JRXmlDigesterFactory
 		digester.addCallMethod("*/reportElement/printWhenExpression", "setText", 0);
 
 		/*   */
+		digester.addFactoryCreate("*/reportElement/styleExpression", depStringExprFactoryClass.getName());
+		digester.addSetNext("*/reportElement/styleExpression", "setStyleExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/reportElement/styleExpression", "setText", 0);
+
+		/*   */
 		digester.addFactoryCreate("*/graphicElement", JRGraphicElementFactory.class.getName());
 
 		/*   */

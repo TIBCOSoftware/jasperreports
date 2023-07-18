@@ -244,7 +244,8 @@ public class TextMeasurer implements JRTextMeasurer
 		protected int lines;
 		protected float fontSizeSum;
 		protected float firstLineMaxFontSize;
-		protected int paragraphStartLine;
+		//protected int paragraphStartLine;
+		protected int spacingBefore;
 		protected float textWidth;
 		protected float textHeight;
 		protected float firstLineLeading;
@@ -290,7 +291,7 @@ public class TextMeasurer implements JRTextMeasurer
 		{
 			if (isMeasured && lines > 0 && fontSizeSum > 0)
 			{
-				return textHeight / fontSizeSum;
+				return (textHeight - spacingBefore) / fontSizeSum;
 			}
 			return 0;
 		}
@@ -696,7 +697,7 @@ public class TextMeasurer implements JRTextMeasurer
 		TabStop[] nextTabStopHolder = new TabStop[]{null};
 		boolean[] requireNextWordHolder = new boolean[]{false};
 		
-		measuredState.paragraphStartLine = measuredState.lines;
+		//measuredState.paragraphStartLine = measuredState.lines;
 		measuredState.textOffset = paragraphStart;
 		
 		boolean rendered = true;
@@ -1039,6 +1040,7 @@ public class TextMeasurer implements JRTextMeasurer
 			prevMeasuredState = measuredState.cloneState();
 			
 			measuredState.isLeftToRight = isLeftToRight;//run direction is per layout; but this is the best we can do for now
+			measuredState.spacingBefore = jrParagraph.getSpacingBefore();
 			measuredState.textWidth = Math.max(measuredState.textWidth, (crtSegment == null ? 0 : (crtSegment.rightX - leftPadding)));//FIXMENOW is RTL text actually working here?
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;

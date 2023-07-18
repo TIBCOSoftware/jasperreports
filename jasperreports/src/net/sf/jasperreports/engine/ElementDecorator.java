@@ -300,6 +300,12 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
+	public JRExpression getStyleExpression()
+	{
+		return element.getStyleExpression();
+	}
+
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return element.getParentProperties();

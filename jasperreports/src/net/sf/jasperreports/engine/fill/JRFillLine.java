@@ -131,7 +131,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 	@Override
-	protected void resolveElement (JRPrintElement element, byte evaluation)
+	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}

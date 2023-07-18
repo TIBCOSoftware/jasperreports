@@ -85,6 +85,7 @@ public class IconLabelComponentUtil
 		componentElement.setWidth(textElement.getWidth());
 		componentElement.setStyle(textElement.getStyle());
 		componentElement.setStyleNameReference(textElement.getStyleNameReference());
+		componentElement.setStyleExpression(textElement.getStyleExpression());
 		componentElement.setMode(parentElement.getOwnModeValue());
 		componentElement.setForecolor(parentElement.getOwnForecolor());
 		componentElement.setBackcolor(parentElement.getOwnBackcolor());
@@ -167,6 +168,7 @@ public class IconLabelComponentUtil
 //						- headerTextElement.getLineBox().getTopPadding() - headerTextElement.getLineBox().getBottomPadding()));
 		labelTextField.setStyle(textElement.getStyle());
 		labelTextField.setStyleNameReference(textElement.getStyleNameReference());
+		labelTextField.setStyleExpression(textElement.getStyleExpression());
 		labelTextField.setMode(parentElement.getOwnModeValue());
 		labelTextField.setFontSize(parentElement.getOwnFontsize());
 		labelTextField.setFontName(parentElement.getOwnFontName());
@@ -248,6 +250,7 @@ public class IconLabelComponentUtil
 		iconTextField.setHeight(1);
 		iconTextField.setStyle(textElement.getStyle());
 		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
+		iconTextField.setStyleExpression(textElement.getStyleExpression());
 		iconTextField.setMode(parentElement.getOwnModeValue());
 		iconTextField.setFontName(JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(TableReport.PROPERTY_ICON_FONT));
 		iconTextField.setFontSize(parentElement.getOwnFontsize());

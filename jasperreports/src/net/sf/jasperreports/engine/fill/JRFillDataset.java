@@ -1597,7 +1597,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 * @param value the value
 	 * @throws JRException
 	 */
-	protected void setParameter(String parameterName, Object value) throws JRException
+	public void setParameter(String parameterName, Object value) throws JRException
 	{
 		JRFillParameter parameter = parametersMap.get(parameterName);
 		if (parameter != null)

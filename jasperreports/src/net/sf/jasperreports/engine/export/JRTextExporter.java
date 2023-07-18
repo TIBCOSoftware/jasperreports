@@ -431,10 +431,14 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	 */
 	protected void exportText(JRPrintText element)
 	{
-		int colSpan = getWidthInChars(element.getWidth());
-		int rowSpan = getHeightInChars(element.getHeight());
-		int col = getWidthInChars(element.getX() + getOffsetX());
-		int row = getHeightInChars(element.getY() + getOffsetY());
+		int topPadding = element.getLineBox().getTopPadding();
+		int leftPadding = element.getLineBox().getLeftPadding();
+		int rightPadding = element.getLineBox().getRightPadding();
+		int bottomPadding = element.getLineBox().getBottomPadding();
+		int colSpan = getWidthInChars(element.getWidth() - leftPadding - rightPadding);
+		int rowSpan = getHeightInChars(element.getHeight() - topPadding - bottomPadding);
+		int col = getWidthInChars(element.getX() + getOffsetX() + leftPadding);
+		int row = getHeightInChars(element.getY() + getOffsetY() + topPadding);
 		
 		if (col + colSpan > pageWidthInChars) 
 		{

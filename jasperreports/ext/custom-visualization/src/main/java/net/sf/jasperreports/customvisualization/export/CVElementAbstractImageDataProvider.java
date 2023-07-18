@@ -45,7 +45,7 @@ import net.sf.jasperreports.web.util.VelocityUtil;
 public abstract class CVElementAbstractImageDataProvider implements CVElementImageDataProvider
 {
 	private static final Log log = LogFactory.getLog(CVElementAbstractImageDataProvider.class);
-	private static final String PHANTOMJS_COMPONENT_TEMPLATE = "net/sf/jasperreports/customvisualization/templates/phantomjs_component.vm";
+	private static final String COMPONENT_PAGE_TEMPLATE = "net/sf/jasperreports/customvisualization/templates/component.page.vm";
 
 	public String getHtmlPage(
 			JasperReportsContext jrContext,
@@ -96,6 +96,6 @@ public abstract class CVElementAbstractImageDataProvider implements CVElementIma
 		velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
 		velocityContext.put("cssUri", cssUri);
 
-		return VelocityUtil.processTemplate(PHANTOMJS_COMPONENT_TEMPLATE, velocityContext);
+		return VelocityUtil.processTemplate(COMPONENT_PAGE_TEMPLATE, velocityContext);
 	}
 }

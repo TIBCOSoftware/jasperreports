@@ -39,6 +39,8 @@ public final class DigestUtils
 
 	private static final DigestUtils INSTANCE = new DigestUtils();
 	
+	private static final char[] HEX_CHARS = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+	
 	public static DigestUtils instance()
 	{
 		return INSTANCE;
@@ -71,6 +73,31 @@ public final class DigestUtils
 					| (long) (digestBytes[14] &0xFF) << 8
 					| (long) (digestBytes[15] &0xFF) << 0;
 			return new MD5Digest(low, high);
+		}
+		catch (NoSuchAlgorithmException e)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MD5_NOT_AVAILABLE,
+					(Object[])null,
+					e);
+		}
+	}
+	
+	public String sha256(String text)
+	{
+		try
+		{
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] digestBytes = digest.digest(text.getBytes(StandardCharsets.UTF_8));
+			
+			char[] digestChars = new char[digestBytes.length * 2];
+			for (int i = 0; i < digestBytes.length; i++)
+			{
+				digestChars[2*i] = HEX_CHARS[(digestBytes[i] & 0xf0) >>> 4];
+				digestChars[2*i + 1] = HEX_CHARS[digestBytes[i] & 0xf];
+			}
+			return new String(digestChars);
 		}
 		catch (NoSuchAlgorithmException e)
 		{

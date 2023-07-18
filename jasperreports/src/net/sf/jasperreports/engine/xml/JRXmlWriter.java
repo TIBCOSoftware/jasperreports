@@ -1098,6 +1098,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeProperties(element);
 		writePropertyExpressions(element.getPropertyExpressions());
 		writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_20_6))
+		{
+			writeExpression(JRXmlConstants.ELEMENT_styleExpression, element.getStyleExpression(), false);
+		}
 		writer.closeElement();
 	}
 

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.DigestUtils;
 
 /**
  * Expression evaluator source code generation information.
@@ -52,6 +53,7 @@ public class JRSourceCompileTask
 	private List<JRExpression> expressions;
 	private boolean onlyDefaultEvaluation;
 	
+	private String compileName;
 	
 	protected JRSourceCompileTask(
 			JasperDesign jasperDesign, 
@@ -74,6 +76,8 @@ public class JRSourceCompileTask
 		this.variables = variables;
 		this.expressions = expressions;
 		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
+		
+		this.compileName = computeCompileName();
 	}
 	
 	public JRSourceCompileTask(
@@ -130,6 +134,59 @@ public class JRSourceCompileTask
 				true);
 	}
 
+	private String computeCompileName()
+	{
+		StringBuilder sourceText = new StringBuilder();
+		if (parametersMap != null)
+		{
+			for (JRParameter parameter : parametersMap.values())
+			{
+				sourceText.append("p;");
+				sourceText.append(parameter.getName());
+				sourceText.append(";");
+				sourceText.append(parameter.getValueClassName());
+				sourceText.append(";");
+			}
+		}
+		if (fieldsMap != null)
+		{
+			for (JRField field : fieldsMap.values())
+			{
+				sourceText.append("f;");
+				sourceText.append(field.getName());
+				sourceText.append(";");
+				sourceText.append(field.getValueClassName());
+				sourceText.append(";");
+			}
+		}
+		if (variables != null)
+		{
+			for (JRVariable variable : variables)
+			{
+				sourceText.append("v;");
+				sourceText.append(variable.getName());
+				sourceText.append(";");
+				sourceText.append(variable.getValueClassName());
+				sourceText.append(";");
+			}
+		}
+		if (expressions != null)
+		{
+			for (JRExpression expression : expressions)
+			{
+				sourceText.append("e;");
+				sourceText.append(expressionCollector.getExpressionId(expression));
+				sourceText.append(";");
+				sourceText.append(expression.getText());
+				sourceText.append(";");
+			}
+		}
+		sourceText.append("onlyDefaultEvaluation;");
+		sourceText.append(onlyDefaultEvaluation);
+		
+		String hash = DigestUtils.instance().sha256(sourceText.toString());
+		return unitName + "_" + hash;
+	}
 
 	public List<JRExpression> getExpressions()
 	{
@@ -172,6 +229,10 @@ public class JRSourceCompileTask
 		return unitName;
 	}
 
+	public String getCompileName()
+	{
+		return compileName;
+	}
 
 	public JRVariable[] getVariables()
 	{

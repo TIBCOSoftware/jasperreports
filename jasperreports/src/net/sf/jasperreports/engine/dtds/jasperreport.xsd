@@ -2127,6 +2127,7 @@
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:styleExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="uuid" type="string" use="optional">
 	<annotation>
@@ -2347,6 +2348,14 @@
  <element name="printWhenExpression">
   <annotation>
    <documentation>Definition of a Boolean expression that will determine if the element or the band should be printed or not.</documentation>
+  </annotation>
+  <complexType mixed="true">
+  </complexType>
+ </element>
+
+ <element name="styleExpression">
+  <annotation>
+   <documentation>Expression providing the name of a style definition to be used for the element at runtime.</documentation>
   </annotation>
   <complexType mixed="true">
   </complexType>

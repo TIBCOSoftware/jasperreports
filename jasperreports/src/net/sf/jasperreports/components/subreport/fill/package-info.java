@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,23 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.phantomjs;
-
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRRuntimeException;
-
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * Contains fill time implementations for subreport component related interfaces.
  */
-public class RequestTimeoutException extends JRRuntimeException
-{
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String EXCEPTION_MESSAGE_KEY_REQUEST_TIMED_OUT = "phantomjs.request.timed.out";
-
-	public RequestTimeoutException(Throwable t)
-	{
-		super(EXCEPTION_MESSAGE_KEY_REQUEST_TIMED_OUT, (Object[]) null, t);
-	}
-	
-}
+package net.sf.jasperreports.components.subreport.fill;

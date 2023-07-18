@@ -54,10 +54,20 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	public static final String VARIABLE_ROW_COUNT = "ROW_COUNT";
 	
 	/**
+	 * Name of the built-in row variable to indicate alternate odd/even rows.
+	 */
+	public static final String VARIABLE_IS_EVEN_ROW = "IS_EVEN_ROW";
+	
+	/**
 	 * Name of the built-in column count variable.
 	 */
 	public static final String VARIABLE_COLUMN_COUNT = "COLUMN_COUNT";
 
+	/**
+	 * Name of the built-in column variable to indicate alternate odd/even columns.
+	 */
+	public static final String VARIABLE_IS_EVEN_COLUMN = "IS_EVEN_COLUMN";
+	
 	/**
 	 * A property that provides a default value for the ignore width crosstab flag.
 	 * 
@@ -280,7 +290,9 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @see JRCrosstabGroup#getVariable()
 	 * @see JRCrosstabMeasure#getVariable()
 	 * @see #VARIABLE_ROW_COUNT
+	 * @see #VARIABLE_IS_EVEN_ROW
 	 * @see #VARIABLE_COLUMN_COUNT
+	 * @see #VARIABLE_IS_EVEN_COLUMN
 	 */
 	public JRVariable[] getVariables();
 	

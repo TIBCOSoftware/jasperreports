@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -36,6 +37,13 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
  */
 public class JRPrintStyleFactory extends JRAbstractStyleFactory
 {
+
+	@Override
+	protected JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
+		return jasperPrint.getDefaultStyleProvider();
+	}
 
 	@Override
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
