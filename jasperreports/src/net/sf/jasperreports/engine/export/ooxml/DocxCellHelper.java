@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.awt.Color;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -65,14 +66,6 @@ public class DocxCellHelper extends BaseHelper
 		super(jasperReportsContext, writer);
 		
 		borderHelper = new DocxBorderHelper(jasperReportsContext, writer);
-	}
-		
-	/**
-	 * 
-	 */
-	public DocxBorderHelper getBorderHelper() 
-	{
-		return borderHelper;
 	}
 
 	/**
@@ -114,7 +107,11 @@ public class DocxCellHelper extends BaseHelper
 	{
 		exportBackcolor(ModeEnum.OPAQUE, gridCell.getCellBackcolor());
 		
-		borderHelper.export(gridCell.getBox());
+		borderHelper.exportBorder(gridCell.getBox());
+		if (element instanceof JRBoxContainer)
+		{
+			borderHelper.exportPadding(((JRBoxContainer)element).getLineBox());
+		}
 
 //		if (element instanceof JRCommonGraphicElement)
 //			borderHelper.export(((JRCommonGraphicElement)element).getLinePen());
@@ -153,7 +150,7 @@ public class DocxCellHelper extends BaseHelper
 	{
 		exportBackcolor(ModeEnum.OPAQUE, gridCell.getCellBackcolor());
 		
-		borderHelper.export(gridCell.getBox());
+		borderHelper.exportBorder(gridCell.getBox());
 	}
 
 	
