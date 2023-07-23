@@ -47,7 +47,6 @@ public class DocxBorderInfo
 	protected Color[] borderColor = new Color[4];
 	protected String[] borderWidth = new String[4];
 	protected String[] borderStyle = new String[4];
-	protected String[] borderPadding = new String[4];
 
 	/**
 	 *
@@ -55,13 +54,9 @@ public class DocxBorderInfo
 	public DocxBorderInfo(JRLineBox box)
 	{
 		setBorder(box.getTopPen(), TOP_BORDER);
-		borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding()));
 		setBorder(box.getLeftPen(), LEFT_BORDER);
-		borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding()));
 		setBorder(box.getBottomPen(), BOTTOM_BORDER);
-		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding()));
 		setBorder(box.getRightPen(), RIGHT_BORDER);
-		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding()));
 	}
 	
 	/**

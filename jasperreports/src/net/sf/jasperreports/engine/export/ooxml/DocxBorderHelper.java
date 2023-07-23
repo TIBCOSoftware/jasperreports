@@ -26,8 +26,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -48,29 +48,18 @@ public class DocxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRLineBox box)
+	public void exportBorder(JRLineBox box)
 	{
 		if (box != null)
 		{
-			export(new DocxBorderInfo(box));
+			exportBorder(new DocxBorderInfo(box));
 		}
 	}
 
 	/**
 	 *
 	 */
-	public void export(JRPen pen)
-	{
-		if (pen != null)
-		{
-			export(new DocxBorderInfo(pen));
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void export(DocxBorderInfo info)
+	private void exportBorder(DocxBorderInfo info)
 	{
 		if(info.hasBorder())
 		{
@@ -81,12 +70,18 @@ public class DocxBorderHelper extends BaseHelper
 			exportBorder(info, DocxBorderInfo.RIGHT_BORDER);
 			write("      </w:tcBorders>\n");
 		}
-		
+	}
+
+	/**
+	 *
+	 */
+	public void exportPadding(JRLineBox box)
+	{
 		write("      <w:tcMar>\n");
-		exportPadding(info, DocxBorderInfo.TOP_BORDER);
-		exportPadding(info, DocxBorderInfo.LEFT_BORDER);
-		exportPadding(info, DocxBorderInfo.BOTTOM_BORDER);
-		exportPadding(info, DocxBorderInfo.RIGHT_BORDER);
+		exportPadding(box.getTopPadding(), DocxBorderInfo.TOP_BORDER);
+		exportPadding(box.getLeftPadding(), DocxBorderInfo.LEFT_BORDER);
+		exportPadding(box.getBottomPadding(), DocxBorderInfo.BOTTOM_BORDER);
+		exportPadding(box.getRightPadding(), DocxBorderInfo.RIGHT_BORDER);
 		write("      </w:tcMar>\n");
 	}
 
@@ -109,11 +104,11 @@ public class DocxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPadding(DocxBorderInfo info, int side)
+	private void exportPadding(Integer padding, int side)
 	{
-		if (info.borderPadding[side] != null)
+		if (padding != null)
 		{
-			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
+			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + LengthUtil.twip(padding) + "\" w:type=\"dxa\" />\n");
 		}
 	}
 
