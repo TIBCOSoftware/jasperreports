@@ -62,8 +62,6 @@ public interface PropertyConstants
 	
 	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
 	
-	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
-	
 	String CATEGORY_CHROME = PREFIX_CATEGORY + "chrome";
 	
 	String CATEGORY_DATA_CACHE = PREFIX_CATEGORY + "data.cache";
@@ -260,6 +258,8 @@ public interface PropertyConstants
 	
 	String VERSION_6_20_5 = "6.20.5";
 	
-	String VERSION_6_21_0 = JRConstants.VERSION_6_21_0;
+	String VERSION_6_20_6 = JRConstants.VERSION_6_20_6;
+	
+	String VERSION_6_21_0 = "6.21.0";
 	
 }

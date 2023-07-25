@@ -101,6 +101,8 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
+import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
@@ -472,11 +474,6 @@ public class TableReport implements JRReport
 		}
 		
 		this.noData = createNoData(table.getNoData());
-	}
-	
-	public String getTableName()
-	{
-		return tableName;
 	}
 	
 	protected class ReportBandInfo
@@ -2116,7 +2113,7 @@ public class TableReport implements JRReport
 	@Override
 	public String getName()
 	{
-		return mainDataset.getName();
+		return tableName == null ? mainDataset.getName() : tableName;
 	}
 
 	@Override

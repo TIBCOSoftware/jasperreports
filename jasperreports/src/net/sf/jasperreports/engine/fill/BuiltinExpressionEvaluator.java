@@ -21,27 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.phantomjs;
+package net.sf.jasperreports.engine.fill;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
+ * 
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PhantomJSServletContextListener implements ServletContextListener
+public interface BuiltinExpressionEvaluator
 {
 
-	@Override
-	public void contextInitialized(ServletContextEvent arg0)
-	{
-		//NOP
-	}
+	void init(Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap, 
+			Map<String, JRFillVariable> variablesMap, 
+			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
+	
+	Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
 
-	@Override
-	public void contextDestroyed(ServletContextEvent arg0)
-	{
-		PhantomJS.disposePhantom();
-	}
+	Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException;
+
+	Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException; 
 
 }

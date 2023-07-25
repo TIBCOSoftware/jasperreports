@@ -90,10 +90,14 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRValidationFault;
+import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
+import net.sf.jasperreports.engine.util.JRReportUtils;
 
 
 /**
@@ -133,6 +137,9 @@ public class JRExpressionCollector
 		return collector;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static List<JRExpression> collectExpressions(JasperReportsContext jasperReportsContext, JRReport report, JRCrosstab crosstab)
 	{
 		return collector(jasperReportsContext, report, crosstab).getExpressions(crosstab);
@@ -146,7 +153,140 @@ public class JRExpressionCollector
 	
 	private LinkedList<Object> contextStack;
 	private Map<JRExpression, Object> expressionContextMap;
+	
+	protected static interface ExpressionVerifier
+	{
+		public Map getParametersMap();
+		
+		public Map getFieldsMap();
+		
+		public Map getVariablesMap();
+	}
+	
+	protected static class DatasetExpressionVerifier implements ExpressionVerifier
+	{
+		private final Map parametersMap;
+		private final Map fieldsMap;
+		private final Map variablesMap;
+		
+		public DatasetExpressionVerifier(JRDataset dataset)
+		{
+			if (dataset instanceof JRDesignDataset)
+			{
+				parametersMap = ((JRDesignDataset)dataset).getParametersMap();
+				fieldsMap = ((JRDesignDataset)dataset).getFieldsMap();
+				variablesMap = ((JRDesignDataset)dataset).getVariablesMap();
+			}
+			else
+			{
+				parametersMap = new HashMap<>();
+				if (dataset.getParameters() != null)
+				{
+					for (JRParameter parameter : dataset.getParameters())
+					{
+						parametersMap.put(parameter.getName(), parameter);
+					}
+				}
 
+				fieldsMap = new HashMap<>();
+				if (dataset.getFields() != null)
+				{
+					for (JRField field : dataset.getFields())
+					{
+						fieldsMap.put(field.getName(), field);
+					}
+				}
+
+				variablesMap = new HashMap<>();
+				if (dataset.getVariables() != null)
+				{
+					for (JRVariable variable : dataset.getVariables())
+					{
+						variablesMap.put(variable.getName(), variable);
+					}
+				}
+			}
+		}
+		
+		@Override
+		public Map getParametersMap() 
+		{
+			return parametersMap;
+		}
+		
+		@Override
+		public Map getFieldsMap() 
+		{
+			return fieldsMap;
+		}
+		
+		@Override
+		public Map getVariablesMap() 
+		{
+			return variablesMap;
+		}
+	}
+
+	
+	protected static class CrosstabExpressionVerifier implements ExpressionVerifier
+	{
+		private final Map parametersMap;
+		private final Map fieldsMap;
+		private final Map variablesMap;
+		
+		public CrosstabExpressionVerifier(JRCrosstab crosstab)
+		{
+			if (crosstab instanceof JRDesignCrosstab)
+			{
+				parametersMap = ((JRDesignCrosstab)crosstab).getParametersMap();
+				fieldsMap = new HashMap<>();
+				variablesMap = ((JRDesignCrosstab)crosstab).getVariablesMap();
+			}
+			else
+			{
+				parametersMap = new HashMap<>();
+				if (crosstab.getParameters() != null)
+				{
+					for (JRCrosstabParameter parameter : crosstab.getParameters())
+					{
+						parametersMap.put(parameter.getName(), parameter);
+					}
+				}
+
+				fieldsMap = new HashMap<>();
+
+				variablesMap = new HashMap<>();
+				if (crosstab.getVariables() != null)
+				{
+					for (JRVariable variable : crosstab.getVariables())
+					{
+						variablesMap.put(variable.getName(), variable);
+					}
+				}
+			}
+		}
+		
+		@Override
+		public Map getParametersMap() 
+		{
+			return parametersMap;
+		}
+		
+		@Override
+		public Map getFieldsMap() 
+		{
+			return fieldsMap;
+		}
+		
+		@Override
+		public Map getVariablesMap() 
+		{
+			return variablesMap;
+		}
+	}
+
+	private final ExpressionVerifier expressionVerifier;
+	
 	protected static class GeneratedIds
 	{
 		private final TreeMap<Integer, JRExpression> ids = new TreeMap<>();
@@ -219,9 +359,15 @@ public class JRExpressionCollector
 
 	protected JRExpressionCollector(JasperReportsContext jasperReportsContext, JRExpressionCollector parent, JRReport report)
 	{
+		this(jasperReportsContext, parent, report, new DatasetExpressionVerifier(report.getMainDataset()));
+	}
+
+	protected JRExpressionCollector(JasperReportsContext jasperReportsContext, JRExpressionCollector parent, JRReport report, ExpressionVerifier expressionVerifier)
+	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.parent = parent;
 		this.report = report;
+		this.expressionVerifier = expressionVerifier;
 
 		if (parent == null)
 		{
@@ -459,7 +605,7 @@ public class JRExpressionCollector
 			collector = datasetCollectors.get(datasetName);
 			if (collector == null)
 			{
-				collector = new JRExpressionCollector(jasperReportsContext, this, report);
+				collector = new JRExpressionCollector(jasperReportsContext, this, report, new DatasetExpressionVerifier(JRReportUtils.findSubdataset(datasetName, report)));
 				datasetCollectors.put(datasetName, collector);
 				
 				if (log.isTraceEnabled())
@@ -518,7 +664,7 @@ public class JRExpressionCollector
 			collector = crosstabCollectors.get(crosstab);
 			if (collector == null)
 			{
-				collector = new JRExpressionCollector(jasperReportsContext, this, report);
+				collector = new JRExpressionCollector(jasperReportsContext, this, report, new CrosstabExpressionVerifier(crosstab));
 				crosstabCollectors.put(crosstab, collector);
 			}
 		}
@@ -681,6 +827,17 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRStyle style)
 	{
+		collect(style, false);
+	}
+
+
+	/**
+	 * Collects expressions used in a style definition.
+	 * 
+	 * @param style the style to collect expressions from
+	 */
+	public void collect(JRStyle style, boolean skipFaulty)
+	{
 		if (style != null && collectedStyles.add(style))
 		{
 			JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
@@ -689,11 +846,17 @@ public class JRExpressionCollector
 			{
 				for (int i = 0; i < conditionalStyles.length; i++)
 				{
-					addExpression(conditionalStyles[i].getConditionExpression());
+					JRExpression conditionExpression = conditionalStyles[i].getConditionExpression();
+					Collection<JRValidationFault> brokenRules = new ArrayList<>();
+					JRVerifier.verifyExpression(conditionExpression, expressionVerifier.getParametersMap(), expressionVerifier.getFieldsMap(), expressionVerifier.getVariablesMap(), brokenRules);
+					if (brokenRules.size() == 0 || !skipFaulty)
+					{
+						addExpression(conditionExpression);
+					}
 				}
 			}
 
-			collect(style.getStyle());
+			collect(style.getStyle(), skipFaulty);
 		}
 	}
 
@@ -768,6 +931,20 @@ public class JRExpressionCollector
 			{
 				JRScriptlet scriptlet = scriptlets[i];
 				collectPropertyExpressions(scriptlet.getPropertyExpressions());
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void collect(JRStyle[] styles, boolean skipFaulty)
+	{
+		if (styles != null && styles.length > 0)
+		{
+			for (JRStyle style : styles)
+			{
+				collect(style, skipFaulty);
 			}
 		}
 	}
@@ -853,6 +1030,7 @@ public class JRExpressionCollector
 	{
 		collect(element.getStyle());
 		addExpression(element.getPrintWhenExpression());
+		addExpression(element.getStyleExpression());
 		collectPropertyExpressions(element.getPropertyExpressions());
 	}
 
@@ -1430,6 +1608,7 @@ public class JRExpressionCollector
 		JRExpressionCollector crosstabCollector = getCollector(crosstab);
 
 		crosstabCollector.collect(report.getDefaultStyle());
+		crosstabCollector.collect(report.getStyles(), true);
 
 		addExpression(crosstab.getParametersMapExpression());
 
@@ -1552,6 +1731,8 @@ public class JRExpressionCollector
 	public Collection<JRExpression> collect(JRDataset dataset)
 	{
 		JRExpressionCollector collector = getCollector(dataset);
+
+		collector.collect(report.getStyles(), true);
 		collector.collectPropertyExpressions(dataset.getPropertyExpressions());
 		collector.collect(dataset.getParameters());
 		collector.collect(dataset.getFields());

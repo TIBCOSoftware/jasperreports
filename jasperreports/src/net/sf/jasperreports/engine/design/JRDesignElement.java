@@ -72,6 +72,8 @@ public abstract class JRDesignElement extends JRBaseElement
 	
 	public static final String PROPERTY_PARENT_STYLE_NAME_REFERENCE = "parentStyleNameReference";
 	
+	public static final String PROPERTY_STYLE_EXPRESSION = "styleExpression";
+	
 	public static final String PROPERTY_Y = "y";
 	
 	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
@@ -177,6 +179,16 @@ public abstract class JRDesignElement extends JRBaseElement
 		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE_NAME_REFERENCE, old, this.parentStyleNameReference);
 	}
 
+	/**
+	 * Sets the style expression. This expression must always return a <tt>String</tt> value representing the name of the style.
+	 */
+	public void setStyleExpression(JRExpression expression)
+	{
+		Object old = this.styleExpression;
+		this.styleExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE_EXPRESSION, old, this.styleExpression);
+	}
+	
 	private void readObject(ObjectInputStream stream)
 		throws IOException, ClassNotFoundException
 	{

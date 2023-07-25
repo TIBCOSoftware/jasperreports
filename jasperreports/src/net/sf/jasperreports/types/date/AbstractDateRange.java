@@ -54,4 +54,10 @@ public abstract class AbstractDateRange implements DateRange, Serializable
 			throw new IllegalArgumentException("Expression can't be null.");
 		}
 	}
+
+	@Override
+	public String toString() 
+	{
+		return expression;
+	}
 }

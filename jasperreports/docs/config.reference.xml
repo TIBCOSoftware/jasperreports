@@ -64,10 +64,6 @@
     <name>Chrome</name>
   </category>
   
-  <category key="net.sf.jasperreports.metadata.property.category:phantomjs">
-    <name>PhantomJS</name>
-  </category>
-  
   <category key="net.sf.jasperreports.metadata.property.category:web.util">
     <name>Web Util</name>
   </category>
@@ -6963,112 +6959,6 @@ In the latter case the report time zone (as in <api href="net/sf/jasperreports/e
     <description>
 Property specifying the mapping for the dataset field in case an OLAP data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.executable.path -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.executable.path">
-    <description>
-Property specifying the path to the PhantomJS binary/executable file.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.expiration.count -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.expiration.count">
-    <description>
-Property specifying the number of jobs after PhantomJS will expire. Default value is 1000.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.expiration.time -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.expiration.time">
-    <description>
-Property specifying the PhantomJS expiration time (in milliseconds). Default value is 1200000 (20 minutes).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.idle.ping.interval -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.idle.ping.interval">
-    <description>
-Property specifying the PhantomJS process idle ping interval (in milliseconds). Default value is 40000 (40 seconds).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.idle.timeout -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.idle.timeout">
-    <description>
-Property specifying the PhantomJS process idle timeout (in milliseconds). Default value is 300000 (5 minutes).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.max.process.count -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
-    <description>
-Property specifying the maximum number of processes in the PhantomJS pool. Default value is 8.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.options.{arbitrary_suffix} -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}">
-    <description>
-Property prefix used to identify a set of properties that store command options for the PhantomJS start command. For instance:
-<br/>
-<ul>
-<li><code>net.sf.jasperreports.phantomjs.options.1=--load-images=true</code></li>
-<li><code>net.sf.jasperreports.phantomjs.options.2=--output-encoding=utf8</code></li>
-</ul>
-These properties are by default not set.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.pool.borrow.timeout -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.pool.borrow.timeout">
-    <description>
-Property specifying the PhantomJS pool process borrow timeout (in milliseconds). Default value is 120000 (2 minutes). 
-If no process is available after this time an exception will be thrown.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.request.timeout -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.request.timeout">
-    <description>
-Property specifying the PhantomJS request timeout (in milliseconds). Default value is 60000 (1 minute).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.start.timeout -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.start.timeout">
-    <description>
-Property specifying the PhantomJS process start timeout (in milliseconds). Default value is 10000 (10 seconds).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.phantomjs.tempdir.path -->
-  
-  <configProperty name="net.sf.jasperreports.phantomjs.tempdir.path">
-    <description>
-Property specifying the path to the directory of temporary files.
     </description>
   </configProperty>
   

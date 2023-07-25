@@ -538,6 +538,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 			if (isEvaluateNow())
 			{
+				evaluateProperties(evaluation);
+				evaluateStyle(evaluation);
+				
 				evaluateText(evaluation);
 			}
 		}
@@ -551,12 +554,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		byte evaluation
 		) throws JRException
 	{
-		evaluateProperties(evaluation);
-		
 		value = evaluateExpression(getExpression(), evaluation);
 		determineOwnTimeZone();
-		
-		evaluateStyle(evaluation);
 		
 		String strValue = null;
 
