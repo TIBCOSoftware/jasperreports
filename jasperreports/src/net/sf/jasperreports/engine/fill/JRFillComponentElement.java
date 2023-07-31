@@ -107,6 +107,9 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			evaluateProperties(evaluation);
+			evaluateStyle(evaluation);
+			
 			fillComponent.evaluate(evaluation);
 		}
 		
