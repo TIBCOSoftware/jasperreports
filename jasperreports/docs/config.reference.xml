@@ -704,6 +704,15 @@ String property specifying value of the time zone id to be used when parsing the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.xlsx.data.source.class -->
+  
+  <configProperty name="net.sf.jasperreports.xlsx.data.source.class">
+    <description>
+Property that specifies the name of class implementing the Excel data source to be used for reading XLSX format files.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xml.source -->
   
   <configProperty name="net.sf.jasperreports.xml.source">

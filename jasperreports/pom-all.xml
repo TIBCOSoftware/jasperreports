@@ -23,6 +23,7 @@
 		<module>ext/chart-customizers</module>
 		<module>ext/chart-themes</module>
 		<module>ext/custom-visualization</module>
+		<module>ext/fastexcel</module>
 		<module>ext/functions</module>
 		<module>ext/xalan</module>
 	</modules>

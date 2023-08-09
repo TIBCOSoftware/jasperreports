@@ -23,21 +23,22 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.jasperreports.data.excel.ExcelFormatEnum;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.repo.RepositoryContext;
-import net.sf.jasperreports.repo.SimpleRepositoryContext;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import net.sf.jasperreports.data.excel.ExcelFormatEnum;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.ExcelQueryExecuter;
+import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -174,6 +175,13 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 		Workbook workbook = null;
 		
 		format = format == null ? ExcelFormatEnum.AUTODETECT : format;
+		
+		if (format == ExcelFormatEnum.AUTODETECT)
+		{
+			Pair<InputStream, ExcelFormatEnum> sniffResult = ExcelQueryExecuter.sniffExcelFormat(inputStream);
+			inputStream = sniffResult.first();
+			format = sniffResult.second();
+		}
 
 		switch (format) 
 		{
@@ -185,21 +193,7 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 				break;
 			case AUTODETECT:
 			default:
-				BufferedInputStream bis = new BufferedInputStream(inputStream);
-				bis.mark(4);
-				int test1 = bis.read();
-				int test2 = bis.read();
-				int test3 = bis.read();
-				int test4 = bis.read();
-				bis.reset();
-				if(test1 == 'P' && test2 == 'K' && test3 == 0x03 && test4 == 0x04) 
-				{
-					workbook = new XSSFWorkbook(bis);
-				} 
-				else 
-				{
-					workbook = new HSSFWorkbook(bis);
-				}
+				// should never get here
 		}
 		
 		return workbook;
