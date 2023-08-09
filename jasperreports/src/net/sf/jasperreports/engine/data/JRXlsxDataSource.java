@@ -69,6 +69,16 @@ public class JRXlsxDataSource extends AbstractPoiXlsDataSource
 
 
 	/**
+	 * Creates a data source instance from an XLSX data input stream.
+	 * @param inputStream an input stream containing XLSX data
+	 */
+	public JRXlsxDataSource(InputStream inputStream, boolean closeInputStream) throws JRException, IOException
+	{
+		super(inputStream, closeInputStream);
+	}
+
+
+	/**
 	 * Creates a data source instance from an XLSX file.
 	 * @param file a file containing XLSX data
 	 */
