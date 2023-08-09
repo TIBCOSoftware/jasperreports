@@ -102,7 +102,9 @@ public class FastExcelDataSourceApp extends AbstractSampleApp
 		states.add("Trial");
 		parameters.put("IncludedStates", states);
 
-		JasperFillManager.fillReportToFile("build/reports/FastExcelDataSourceReport.jasper", parameters, getDataSource());
+		FastExcelDataSource dataSource = getDataSource();
+		JasperFillManager.fillReportToFile("build/reports/FastExcelDataSourceReport.jasper", parameters, dataSource);
+		dataSource.close();
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 

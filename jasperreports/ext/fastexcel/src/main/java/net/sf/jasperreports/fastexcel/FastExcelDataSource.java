@@ -477,6 +477,11 @@ public class FastExcelDataSource extends AbstractXlsDataSource
 			{
 				inputStream.close();
 			}
+
+			if (closeWorkbook && workbook != null)
+			{
+				workbook.close();
+			}
 		}
 		catch(IOException e)
 		{
