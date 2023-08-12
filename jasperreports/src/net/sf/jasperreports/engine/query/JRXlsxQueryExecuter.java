@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.data.JRXlsxDataSource;
  * XLS query executer implementation.
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelQueryExecuter}.
  */
 public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter 
 {

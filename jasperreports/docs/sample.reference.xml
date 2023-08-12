@@ -98,7 +98,7 @@
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer" complete="false"/>
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
       <feature name="exceldataadapter" sample="exceldataadapter" title="Excel Data Adapter"/>
-      <feature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
+      <feature name="exceldatasource" sample="exceldatasource" title="Excel Data Source"/>
       <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
       <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
       <feature name="jsondatasource" sample="jsondatasource" title="JSON Data Source"/>

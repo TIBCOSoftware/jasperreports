@@ -28,13 +28,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 /**
@@ -45,6 +45,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * names or set a flag to read the column names from the first row of the XLSX file.
  *
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelDataSource}.
  */
 public class JRXlsxDataSource extends AbstractPoiXlsDataSource
 {

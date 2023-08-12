@@ -1,9 +1,11 @@
-<project name="xlsxdatasource" default="test" basedir=".">
+<project name="exceldatasource" default="test" basedir=".">
 
-	<description>Shows how the XLSX data source implementation could be used to fill reports.</description>
+	<description>Shows how the Excel data source implementation could be used to fill reports.</description>
 
-	<property name="sample.dir" value="xlsxdatasource"/>
-	<property name="sample.base.name" value="XlsxDataSource" />
+	<import file="../build-sample-classpath.xml"/>
+
+	<property name="sample.dir" value="exceldatasource"/>
+	<property name="sample.base.name" value="ExcelDataSource" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
@@ -15,8 +17,18 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<ant dir="../" target="fill"/>
+	<target name="fill1" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="fill1"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
+
+	<target name="fill2" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="fill2"/>
+			<classpath refid="sample-classpath"/>
+		</java>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
@@ -105,7 +117,7 @@
 	
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" XLSX Data Source Sample"/>
+		<echo message=" Excel Data Source Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />

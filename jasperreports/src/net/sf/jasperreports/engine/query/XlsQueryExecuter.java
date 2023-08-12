@@ -28,6 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -35,14 +39,11 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.XlsDataSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Workbook;
-
 /**
  * XLS query executer implementation.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelQueryExecuter}.
  */
 public class XlsQueryExecuter extends AbstractXlsQueryExecuter {
 	
