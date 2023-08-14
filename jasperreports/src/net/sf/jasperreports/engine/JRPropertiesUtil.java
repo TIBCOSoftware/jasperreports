@@ -847,7 +847,7 @@ public final class JRPropertiesUtil
 	
 	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)
 	{
-		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
+		return propertiesHolder != null && propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
 	}
 	
 	/**
