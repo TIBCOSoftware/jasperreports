@@ -457,7 +457,14 @@ public class FastExcelDataSource extends AbstractXlsDataSource
 				Cell cell = row.getCell(columnIndex);
 				if (cell != null)
 				{
-					newColumnNames.put(cell.toString(), columnIndex);
+					if (cell.getType() == CellType.STRING)
+					{
+						newColumnNames.put(cell.asString(), columnIndex);
+					}
+					else
+					{
+						newColumnNames.put(cell.getText(), columnIndex);
+					}
 				}
 			}
 			columnNames = newColumnNames;
