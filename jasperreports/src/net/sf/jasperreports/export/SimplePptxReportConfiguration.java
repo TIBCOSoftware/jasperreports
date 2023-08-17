@@ -31,6 +31,7 @@ public class SimplePptxReportConfiguration extends SimpleReportExportConfigurati
 {
 	private Boolean isIgnoreHyperlink;
 	private String hideSlideMasterPages;
+	private Boolean isRenderTables;
 
 	
 	/**
@@ -66,5 +67,19 @@ public class SimplePptxReportConfiguration extends SimpleReportExportConfigurati
 	public void setHideSlideMasterPages(String hideSlideMasterPages)
 	{
 		this.hideSlideMasterPages = hideSlideMasterPages;
+	}
+	
+	@Override
+	public Boolean isRenderTables()
+	{
+		return isRenderTables;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setRenderTables(Boolean isRenderTables)
+	{
+		this.isRenderTables = isRenderTables;
 	}
 }

@@ -33,6 +33,7 @@ import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +55,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -64,13 +66,21 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.Grid;
+import net.sf.jasperreports.engine.export.GridRow;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.ooxml.type.PptxFieldTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
@@ -90,11 +100,13 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
+import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
+import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
@@ -134,6 +146,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */
 	public static final String PPTX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "pptx";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE = "export.pptx.column.count.out.of.range";
 	
 	public static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
@@ -223,8 +237,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected int pageIndex;
 	protected List<Integer> frameIndexStack;
 	protected int elementIndex;
-	protected boolean startPage;
 	protected String invalidCharReplacement;
+
+	protected boolean defaultRenderTables;
 
 	/**
 	 * used for counting the total number of sheets
@@ -343,6 +358,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
 
+		PptxReportConfiguration configuration = getCurrentItemConfiguration();
+		defaultRenderTables = configuration.isRenderTables();
+		
 		renderersCache = new RenderersCache(getJasperReportsContext());
 	}
 
@@ -1272,16 +1290,18 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				
 			InternalImageProcessorResult imageProcessorResult = null;
 			
+			JRPrintElementIndex imageIndex = getElementIndex();
+
 			try
 			{
-				imageProcessorResult = imageProcessor.process(renderer);
+				imageProcessorResult = imageProcessor.process(renderer, imageIndex);
 			}
 			catch (Exception e)
 			{
 				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
-					imageProcessorResult = imageProcessor.process(onErrorRenderer);
+					imageProcessorResult = imageProcessor.process(onErrorRenderer, imageIndex);
 				}
 			}
 			
@@ -1613,7 +1633,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 		}
 		
-		private InternalImageProcessorResult process(Renderable renderer) throws JRException
+		private InternalImageProcessorResult process(Renderable renderer, JRPrintElementIndex imageIndex) throws JRException
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
@@ -1649,7 +1669,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				}
 				else
 				{
-					JRPrintElementIndex imageIndex = getElementIndex();
+//					JRPrintElementIndex imageIndex = getElementIndex();
 
 					DataRenderable imageRenderer = 
 							getRendererUtil().getImageDataRenderable(
@@ -1723,6 +1743,18 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
+	protected JRPrintElementIndex getElementIndex(JRExporterGridCell gridCell)
+	{
+		JRPrintElementIndex imageIndex =
+			new JRPrintElementIndex(
+					reportIndex,
+					pageIndex,
+					gridCell.getElementAddress()
+					);
+		return imageIndex;
+	}
+
+	
 	/*
 	 *
 	 *
@@ -1822,59 +1854,765 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	public void exportFrame(JRPrintFrame frame) throws JRException
 	{
-		slideHelper.write("<p:sp>\n");
-		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(frame) + "\" name=\"Frame\"/>\n");
-		slideHelper.write("    <p:cNvSpPr>\n");
-		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
-		slideHelper.write("    </p:cNvSpPr>\n");
-		slideHelper.write("    <p:nvPr/>\n");
-		slideHelper.write("  </p:nvSpPr>\n");
-		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(frame.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(frame.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(frame.getWidth()) + "\" cy=\"" + LengthUtil.emu(frame.getHeight()) + "\"/>\n");
-		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-		if (frame.getModeValue() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
+		boolean isRenderTable = isRenderTables(frame);
+		if (isRenderTable)
 		{
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
+			String accessibilityTagProp = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
+			AccessibilityTagEnum accessibilityTag = AccessibilityTagEnum.getByName(accessibilityTagProp);
+			isRenderTable = AccessibilityTagEnum.TABLE == accessibilityTag || AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag;
 		}
 		
-		exportPen(frame.getLineBox());
-
-		slideHelper.write("  </p:spPr>\n");
-		slideHelper.write("  <p:txBody>\n");
-		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
-		slideHelper.write("    <a:lstStyle/>\n");
-		slideHelper.write("    <a:p>\n");
-		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
-		slideHelper.write("    </a:p>\n");
-		slideHelper.write("  </p:txBody>\n");
-		slideHelper.write("</p:sp>\n");
-
-		setFrameElementsOffset(frame, false);
-
-		frameIndexStack.add(elementIndex);
-
-		List<JRPrintElement> elements = frame.getElements();
-		if (elements != null && elements.size() > 0)
+		if (isRenderTable)
 		{
-			for (int i = 0; i < elements.size(); i++)
-			{
-				JRPrintElement element = elements.get(i);
+			slideHelper.write("<p:graphicFrame>\n");
+			slideHelper.write("  <p:nvGraphicFramePr>\n");
+			slideHelper.write("    <p:cNvPr id=\"1\" name=\"some\"/>\n");
+			slideHelper.write("    <p:cNvGraphicFramePr/>\n");
+			slideHelper.write("    <p:nvPr/>\n");
+			slideHelper.write("  </p:nvGraphicFramePr>\n");
+			slideHelper.write("  <p:xfrm>\n");
+			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(frame.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(frame.getY() + getOffsetY()) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(frame.getWidth()) + "\" cy=\"" + LengthUtil.emu(frame.getHeight()) + "\"/>\n");
+			slideHelper.write("  </p:xfrm>\n");
+			slideHelper.write("  <a:graphic>\n");
+			slideHelper.write("    <a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/table\">\n");
+			
+			JRPptxExporterNature nature =
+				new JRPptxExporterNature(
+					jasperReportsContext, 
+					filter
+					);
 
-				elementIndex = i;
-				
-				if (filter == null || filter.isToExport(element))
+			JRGridLayout gridLayout =
+				new JRGridLayout(
+					nature,
+					Collections.singletonList(frame),
+					frame.getWidth(),
+					frame.getHeight(),
+					- frame.getX(), 
+					- frame.getY(), 
+					null //address
+					);
+
+			exportGrid(gridLayout);
+			
+			slideHelper.write("    </a:graphicData>\n");
+			slideHelper.write("  </a:graphic>\n");
+			slideHelper.write("</p:graphicFrame>\n");
+		}
+		else
+		{
+			slideHelper.write("<p:sp>\n");
+			slideHelper.write("  <p:nvSpPr>\n");
+			slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(frame) + "\" name=\"Frame\"/>\n");
+			slideHelper.write("    <p:cNvSpPr>\n");
+			slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+			slideHelper.write("    </p:cNvSpPr>\n");
+			slideHelper.write("    <p:nvPr/>\n");
+			slideHelper.write("  </p:nvSpPr>\n");
+			slideHelper.write("  <p:spPr>\n");
+			slideHelper.write("    <a:xfrm>\n");
+			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(frame.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(frame.getY() + getOffsetY()) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(frame.getWidth()) + "\" cy=\"" + LengthUtil.emu(frame.getHeight()) + "\"/>\n");
+			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+			if (frame.getModeValue() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
+			{
+				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
+			}
+			
+			exportPen(frame.getLineBox());
+	
+			slideHelper.write("  </p:spPr>\n");
+			slideHelper.write("  <p:txBody>\n");
+			slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+			slideHelper.write("    <a:lstStyle/>\n");
+			slideHelper.write("    <a:p>\n");
+			slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+			slideHelper.write("    </a:p>\n");
+			slideHelper.write("  </p:txBody>\n");
+			slideHelper.write("</p:sp>\n");
+	
+			setFrameElementsOffset(frame, false);
+	
+			frameIndexStack.add(elementIndex);
+	
+			List<JRPrintElement> elements = frame.getElements();
+			if (elements != null && elements.size() > 0)
+			{
+				for (int i = 0; i < elements.size(); i++)
 				{
-					exportElement(element);
+					JRPrintElement element = elements.get(i);
+	
+					elementIndex = i;
+					
+					if (filter == null || filter.isToExport(element))
+					{
+						exportElement(element);
+					}
+				}
+			}
+	
+			frameIndexStack.remove(frameIndexStack.size() - 1);
+			
+			restoreElementOffsets();
+		}
+	}
+
+
+	/**
+	 * Since in PPTX we only have deep grids, this is called only for empty frames.
+	 */
+	protected void exportFrame(
+		PptxTableHelper tableHelper,
+		JRPrintFrame frame, 
+		JRExporterGridCell gridCell,
+		JRExporterGridCell topGridCell,
+		JRExporterGridCell leftGridCell,
+		JRExporterGridCell rightGridCell,
+		JRExporterGridCell bottomGridCell
+		) throws JRException
+	{
+		tableHelper.getCellHelper().exportHeader(gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		slideHelper.write("  <a:tcPr>\n");
+		tableHelper.getCellHelper().getBorderHelper().exportBorder(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+		tableHelper.getCellHelper().exportBackcolor(gridCell);
+		slideHelper.write("  </a:tcPr>\n");
+		tableHelper.getCellHelper().exportFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportGrid(JRGridLayout gridLayout) throws JRException
+	{
+		CutsInfo xCuts = gridLayout.getXCuts();
+		Grid grid = gridLayout.getGrid();
+		PptxTableHelper tableHelper = null;
+
+		int rowCount = grid.getRowCount();
+		if (rowCount > 0 && grid.getColumnCount() > 75)
+		{
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE,  
+					new Object[]{grid.getColumnCount()} 
+					);
+		}
+		
+		tableHelper = 
+				new PptxTableHelper(
+					jasperReportsContext,
+					slideHelper.writer, 
+					xCuts
+					);
+
+		tableHelper.exportHeader();
+		
+		GridRow prevGridRow = null; // use prev/crt/next row combination to avoid calling getRow() too much as it creates GridRow object every time
+		GridRow crtGridRow = rowCount > 0 ? grid.getRow(0) : null;
+		GridRow nextGridRow = null;
+		
+		for(int row = 0; row < rowCount; row++)
+		{
+			nextGridRow = row + 1 < rowCount ? grid.getRow(row + 1) : null;
+
+			int emptyCellColSpan = 0;
+			//int emptyCellWidth = 0;
+
+			int rowHeight = gridLayout.getRowHeight(row);
+
+			tableHelper.exportRowHeader(rowHeight);
+
+			int rowSize = crtGridRow.size();
+			for(int col = 0; col < rowSize; col++)
+			{
+				JRExporterGridCell gridCell = crtGridRow.get(col);
+				JRExporterGridCell topGridCell = prevGridRow == null ? null : prevGridRow.get(col);
+				JRExporterGridCell bottomGridCell = nextGridRow == null ? null : nextGridRow.get(col);
+				JRExporterGridCell leftGridCell = col - 1 >= 0 ? crtGridRow.get(col - 1) : null;
+				JRExporterGridCell rightGridCell = col + 1 < rowSize ? crtGridRow.get(col + 1) : null;
+				
+				setBox4Cell(rightGridCell);
+				setBox4Cell(bottomGridCell);
+
+				rightGridCell = col + 1 < rowSize ? crtGridRow.get(col + 1) : null;
+				
+				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+				{
+					if (emptyCellColSpan > 0)
+					{
+						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
+						emptyCellColSpan = 0;
+						//emptyCellWidth = 0;
+					}
+
+					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
+					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
+					tableHelper.exportOccupiedCells(elementGridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					// col += elementGridCell.getColSpan() - 1; // uncomment this line if occupied cells need to be rendered one by one and not all together as a col span
+				}
+				else if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+				{
+					if (emptyCellColSpan > 0)
+					{
+						//writeEmptyCell(tableHelper, gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
+						emptyCellColSpan = 0;
+						//emptyCellWidth = 0;
+					}
+
+					JRPrintElement element = gridCell.getElement();
+
+					if (element instanceof JRPrintLine)
+					{
+						exportLine(tableHelper, (JRPrintLine)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+					else if (element instanceof JRPrintRectangle)
+					{
+						exportRectangle(tableHelper, (JRPrintGraphicElement)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+					else if (element instanceof JRPrintEllipse)
+					{
+						exportRectangle(tableHelper, (JRPrintGraphicElement)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+					else if (element instanceof JRPrintImage)
+					{
+						exportImage(tableHelper, (JRPrintImage)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+					else if (element instanceof JRPrintText)
+					{
+						exportText(tableHelper, (JRPrintText)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+					else if (element instanceof JRPrintFrame)
+					{
+						exportFrame(tableHelper, (JRPrintFrame)element, gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+					}
+//					else if (element instanceof JRGenericPrintElement)
+//					{
+//						exportGenericElement((JRGenericPrintElement)element);
+//					}
+
+					//col += gridCell.getColSpan() - 1;
+				}
+				else
+				{
+					emptyCellColSpan++;
+					//emptyCellWidth += gridCell.getWidth();
+					tableHelper.exportEmptyCell(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+				}
+			}
+
+//			if (emptyCellColSpan > 0)
+//			{
+//				//writeEmptyCell(tableHelper, null, emptyCellColSpan, emptyCellWidth, rowHeight);
+//			}
+
+			tableHelper.exportRowFooter();
+			
+			prevGridRow = crtGridRow;
+			crtGridRow = nextGridRow;
+		}
+
+		tableHelper.exportFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportLine(
+		PptxTableHelper tableHelper, 
+		JRPrintLine line, 
+		JRExporterGridCell gridCell,
+		JRExporterGridCell topGridCell,
+		JRExporterGridCell leftGridCell,
+		JRExporterGridCell rightGridCell,
+		JRExporterGridCell bottomGridCell
+		)
+	{
+		if (gridCell.getBox() == null)
+		{
+			setBox4Line(line, gridCell);
+		}
+		
+		tableHelper.getCellHelper().exportHeader(gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		slideHelper.write("  <a:tcPr marL=\"0\" marR=\"0\" marT=\"0\" marB=\"0\">\n");
+		tableHelper.getCellHelper().getBorderHelper().exportBorder(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+		tableHelper.getCellHelper().exportBackcolor(gridCell);
+		slideHelper.write("  </a:tcPr>\n");
+		tableHelper.getCellHelper().exportFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void setBox4Line(
+		JRPrintLine line, 
+		JRExporterGridCell gridCell
+		)
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportRectangle(
+		PptxTableHelper tableHelper, 
+		JRPrintGraphicElement rectangle, 
+		JRExporterGridCell gridCell,
+		JRExporterGridCell topGridCell,
+		JRExporterGridCell leftGridCell,
+		JRExporterGridCell rightGridCell,
+		JRExporterGridCell bottomGridCell
+		)
+	{
+		if (gridCell.getBox() == null)
+		{
+			setBox4Rectangle(rectangle, gridCell);
+		}
+		
+		tableHelper.getCellHelper().exportHeader(gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		slideHelper.write("  <a:tcPr marL=\"0\" marR=\"0\" marT=\"0\" marB=\"0\">\n");
+		tableHelper.getCellHelper().getBorderHelper().exportBorder(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+		tableHelper.getCellHelper().exportBackcolor(gridCell);
+		slideHelper.write("  </a:tcPr>\n");
+		tableHelper.getCellHelper().exportFooter();
+	}
+
+
+	/**
+	 *
+	 */
+	protected void setBox4Rectangle(
+		JRPrintGraphicElement rectangle, 
+		JRExporterGridCell gridCell
+		)
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+	}
+
+
+	/**
+	 *
+	 */
+	protected void setBox4Cell(
+		JRExporterGridCell gridCell
+		)
+	{
+		if (gridCell != null && gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+		{
+			JRPrintElement element = gridCell.getElement();
+			if (element instanceof JRPrintGraphicElement)
+			{
+				if (element instanceof JRPrintLine)
+				{
+					setBox4Line((JRPrintLine)element, gridCell);
+				}
+				else if (!(element instanceof JRPrintImage))
+				{
+					setBox4Rectangle((JRPrintGraphicElement)element, gridCell);
 				}
 			}
 		}
+	}
 
-		frameIndexStack.remove(frameIndexStack.size() - 1);
+
+	/**
+	 *
+	 */
+	public void exportImage(
+		PptxTableHelper tableHelper, 
+		JRPrintImage image, 
+		JRExporterGridCell gridCell,
+		JRExporterGridCell topGridCell,
+		JRExporterGridCell leftGridCell,
+		JRExporterGridCell rightGridCell,
+		JRExporterGridCell bottomGridCell
+		) throws JRException
+	{
+		int leftPadding = image.getLineBox().getLeftPadding();
+		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
+		int rightPadding = image.getLineBox().getRightPadding();
+		int bottomPadding = image.getLineBox().getBottomPadding();
 		
-		restoreElementOffsets();
+		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
+		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
+
+		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
+		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+
+		Renderable renderer = image.getRenderer();
+
+		if (
+			renderer != null
+			&& availableImageWidth > 0 
+			&& availableImageHeight > 0
+			)
+		{
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					image, 
+					availableImageWidth,
+					availableImageHeight
+					);
+				
+			InternalImageProcessorResult imageProcessorResult = null;
+			
+			JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+
+			try
+			{
+				imageProcessorResult = imageProcessor.process(renderer, imageIndex);
+			}
+			catch (Exception e)
+			{
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
+				{
+					imageProcessorResult = imageProcessor.process(onErrorRenderer, imageIndex);
+				}
+			}
+			
+			if (imageProcessorResult != null)//FIXMEPPTX render background for null images, like other exporters do 
+			{
+				double cropTop = 0;
+				double cropLeft = 0;
+				double cropBottom = 0;
+				double cropRight = 0;
+				
+				// Known limitations: 
+				// - there is no way to rotate an image inside a pptx table, so we don't deal with rotation at all here;
+				// - padding does not work well on all sides of a clipped image inside a pptx table; it only works on the alignment sides 
+				// - there is no way to set both an image as background and also a solid color as background in a pptx table cell, so image cells will always have white background
+				
+				switch (image.getScaleImageValue())
+				{
+					case FILL_FRAME :
+					{
+						cropLeft = (float)leftPadding  / image.getWidth();
+						cropRight = (float)rightPadding / image.getWidth();
+						cropTop = (float)topPadding / image.getHeight();
+						cropBottom = (float)bottomPadding / image.getHeight();
+
+						break;
+					}
+					case CLIP :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
+
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+						cropLeft = (leftPadding + ImageUtil.getXAlignFactor(image) * (availableImageWidth - normalWidth)) / image.getWidth();
+						cropRight = (rightPadding + (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - normalWidth)) / image.getWidth();
+						cropTop = (topPadding + ImageUtil.getYAlignFactor(image) * (availableImageHeight - normalHeight)) / image.getHeight();
+						cropBottom = (bottomPadding + (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - normalHeight)) / image.getHeight();
+
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
+
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+						double ratioX = availableImageWidth / normalWidth;
+						double ratioY = availableImageHeight / normalHeight;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						double imageWidth = (int)(normalWidth * ratioX);
+						double imageHeight = (int)(normalHeight * ratioY);
+						cropLeft = (leftPadding + ImageUtil.getXAlignFactor(image) * (availableImageWidth - imageWidth)) / image.getWidth();
+						cropRight = (rightPadding + (1f - ImageUtil.getXAlignFactor(image)) * (availableImageWidth - imageWidth)) / image.getWidth();
+						cropTop = (topPadding + ImageUtil.getYAlignFactor(image) * (availableImageHeight - imageHeight)) / image.getHeight();
+						cropBottom = (bottomPadding + (1f - ImageUtil.getYAlignFactor(image)) * (availableImageHeight - imageHeight)) / image.getHeight();
+					}
+				}
+
+
+//				insertPageAnchor();
+//				if (image.getAnchorName() != null)
+//				{
+//					tempBodyWriter.write("<text:bookmark text:name=\"");
+//					tempBodyWriter.write(image.getAnchorName());
+//					tempBodyWriter.write("\"/>");
+//				}
+
+
+//				boolean startedHyperlink = startHyperlink(image,false);
+
+				slideRelsHelper.exportImage(imageProcessorResult.imagePath);
+
+				tableHelper.getCellHelper().exportHeader(gridCell);
+				tableHelper.getParagraphHelper().exportEmptyParagraph();
+
+//				String href = getHyperlinkURL(image);
+//				if (href != null)
+//				{
+//					slideHelper.exportHyperlink(href);
+//				}
+				
+				slideHelper.write("  <a:tcPr>\n");
+				tableHelper.getCellHelper().getBorderHelper().exportBorder(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+				slideHelper.write("<a:blipFill>\n");
+				slideHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
+//				slideHelper.write("<a:srcRect/>");
+				slideHelper.write("<a:stretch><a:fillRect");
+				slideHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				slideHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				slideHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				slideHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
+				slideHelper.write("/></a:stretch>\n");
+				slideHelper.write("</a:blipFill>\n");
+				
+				slideHelper.write("  </a:tcPr>\n");
+				tableHelper.getCellHelper().exportFooter();
+
+//				if(startedHyperlink)
+//				{
+//					endHyperlink(false);
+//				}
+			}
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	public void exportText(
+		PptxTableHelper tableHelper, 
+		JRPrintText text, 
+		JRExporterGridCell gridCell,
+		JRExporterGridCell topGridCell,
+		JRExporterGridCell leftGridCell,
+		JRExporterGridCell rightGridCell,
+		JRExporterGridCell bottomGridCell
+		)
+	{
+		tableHelper.getCellHelper().exportHeader(gridCell);
+
+		JRStyledText styledText = getStyledText(text);
+
+		int textLength = 0;
+
+		if (styledText != null)
+		{
+			textLength = styledText.length();
+		}
+
+		String rotation = null;
+		
+		switch (text.getRotationValue())
+		{
+			case LEFT:
+			{
+				rotation = "vert270";
+				break;
+			}
+			case RIGHT:
+			{
+				rotation = "vert";
+				break;
+			}
+			case UPSIDE_DOWN:
+			{
+				rotation = null; // cannot rotate text upside down in a pptx table cell
+				break;
+			}
+			case NONE:
+			default:
+			{
+				rotation = null;
+				break;
+			}
+		}
+		
+//		if (styleBuffer.length() > 0)
+//		{
+//			writer.write(" style=\"");
+//			writer.write(styleBuffer.toString());
+//			writer.write("\"");
+//		}
+//
+//		writer.write(">");
+		slideHelper.write("  <a:txBody>\n");
+		slideHelper.write("    <a:bodyPr/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+
+//		if (styleBuffer.length() > 0)
+//		{
+//			writer.write(" style=\"");
+//			writer.write(styleBuffer.toString());
+//			writer.write("\"");
+//		}
+//
+//		writer.write(">");
+		slideHelper.write("    <a:p>\n");
+
+		slideHelper.write("<a:pPr");
+		slideHelper.write(" algn=\"");
+		switch (text.getHorizontalTextAlign())
+		{
+			case LEFT:
+				slideHelper.write("l");
+				break;
+			case CENTER:
+				slideHelper.write("ctr");
+				break;
+			case RIGHT:
+				slideHelper.write("r");
+				break;
+			case JUSTIFIED:
+				slideHelper.write("just");
+				break;
+			default:
+				slideHelper.write("l");
+				break;
+		}
+		slideHelper.write("\">\n");
+		slideHelper.write("<a:lnSpc><a:spcPct");
+		slideHelper.write(" val=\"");
+		switch (text.getParagraph().getLineSpacing())
+		{
+			case DOUBLE:
+				slideHelper.write("200");
+				break;
+			case ONE_AND_HALF:
+				slideHelper.write("150");
+				break;
+			case SINGLE:
+			default:
+				slideHelper.write("100");
+				break;
+		}
+		slideHelper.write("%\"/></a:lnSpc>\n");
+		runHelper.exportProps(text, getTextLocale(text));
+		slideHelper.write("</a:pPr>\n");
+		
+//		insertPageAnchor();
+//		if (text.getAnchorName() != null)
+//		{
+//			tempBodyWriter.write("<text:bookmark text:name=\"");
+//			tempBodyWriter.write(text.getAnchorName());
+//			tempBodyWriter.write("\"/>");
+//		}
+
+//		boolean startedHyperlink = startHyperlink(text, true);
+
+		if (textLength > 0)
+		{
+			PptxFieldTypeEnum fieldTypeEnum = PptxFieldTypeEnum.getByName(JRPropertiesUtil.getOwnProperty(text, PROPERTY_FIELD_TYPE));
+			String uuid = null;
+			String fieldType = null;
+			if (fieldTypeEnum != null)
+			{
+				uuid = text.getUUID().toString().toUpperCase();
+				fieldType = fieldTypeEnum.getName();
+			}
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text), fieldType, uuid);
+		}
+
+//		if (startedHyperlink)
+//		{
+//			endHyperlink(true);
+//		}
+
+		slideHelper.write("    </a:p>\n");
+//		docHelper.write("     </w:p>\n");
+//		docHelper.flush();
+
+		slideHelper.write("  </a:txBody>\n");
+
+		slideHelper.write("  <a:tcPr marL=\"" +
+				LengthUtil.emu(text.getLineBox().getLeftPadding()) +
+				"\" marT=\"" +
+				LengthUtil.emu(text.getLineBox().getTopPadding()) +
+				"\" marR=\"" +
+				LengthUtil.emu(text.getLineBox().getRightPadding()) +
+				"\" marB=\"" +
+				LengthUtil.emu(text.getLineBox().getBottomPadding()) +
+				"\" anchor=\"");
+		switch (text.getVerticalTextAlign())
+		{
+			case BOTTOM:
+				slideHelper.write("b");
+				break;
+			case MIDDLE:
+				slideHelper.write("ctr");
+				break;
+			case TOP:
+			case JUSTIFIED:
+			default:
+				slideHelper.write("t");
+				break;
+		}
+		slideHelper.write("\"");
+		if (rotation != null)
+		{
+			slideHelper.write(" vert=\"" + rotation + "\"");
+		}
+		slideHelper.write(">\n");
+		
+		tableHelper.getCellHelper().getBorderHelper().exportBorder(gridCell, topGridCell, leftGridCell, rightGridCell, bottomGridCell);
+		tableHelper.getCellHelper().exportBackcolor(gridCell);
+		
+		slideHelper.write("  </a:tcPr>\n");
+
+		tableHelper.getCellHelper().exportFooter();
 	}
 
 
@@ -2133,6 +2871,22 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			pen.setLineStyle(box.getPen().getLineStyleValue());
 		}
 		return pen;
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isRenderTables(JRPrintFrame frame) {
+
+		if (frame.hasProperties()
+				&& frame.getPropertiesMap().containsProperty(PptxReportConfiguration.PROPERTY_RENDER_TABLES)) {
+			// we make this test to avoid reaching the global default value of the property
+			// directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(frame, PptxReportConfiguration.PROPERTY_RENDER_TABLES,
+					defaultRenderTables);
+		}
+		return defaultRenderTables;
 	}
 }
 

@@ -4927,6 +4927,18 @@ Property whose value is used as default for the
   </configProperty>
   
   
+  
+  <!-- net.sf.jasperreports.export.pptx.render.tables -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.render.tables">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isRenderTables()">isRenderTables()</api> export configuration setting.
+<br/>
+Its default value is <code>false</code>.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">

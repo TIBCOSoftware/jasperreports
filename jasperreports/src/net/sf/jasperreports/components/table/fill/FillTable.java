@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
@@ -402,6 +403,11 @@ public class FillTable extends SubreportFillComponent
 			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
 			printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
 		}
+		
+		fillContext.getFiller().getPropertiesUtil().transferProperties(
+			fillContext.getComponentElement(), 
+			printFrame, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
+			);
 
 		return printFrame;
 	}

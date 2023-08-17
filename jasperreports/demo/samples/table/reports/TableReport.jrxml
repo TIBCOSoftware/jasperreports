@@ -47,7 +47,9 @@
 				<text><![CDATA[Table Report]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement style="Table" x="0" y="50" width="555" height="100" uuid="c475c968-5a05-4331-8147-5fc24a48070b"/>
+				<reportElement style="Table" x="0" y="50" width="555" height="100" uuid="c475c968-5a05-4331-8147-5fc24a48070b">
+					<property name="net.sf.jasperreports.export.pptx.render.tables" value="true"/>
+				</reportElement>
 				<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="TableData" uuid="6770b532-f93b-49b2-a105-2ae35d01ec87">
 						<dataSourceExpression><![CDATA[$P{TableDataSource}]]></dataSourceExpression>

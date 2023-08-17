@@ -65,6 +65,22 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_HIDE_SLIDE_MASTER_PAGES = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "hide.slide.master.pages";
 
 	/**
+	 * This property serves as default value for the {@link #isRenderTables()} export configuration setting.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.FRAME},
+			sinceVersion = PropertyConstants.VERSION_6_20_2,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_RENDER_TABLES = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "render.tables";
+
+	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
 	 */
 	@ExporterProperty(
@@ -83,4 +99,17 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(PROPERTY_HIDE_SLIDE_MASTER_PAGES)
 	public String getHideSlideMasterPages();
+
+	/**
+	 * Indicates whether table component elements are to be exported as tables.
+	 * <p>
+	 * If set to <code>true</code>, the content of a table component is rendered using DrawingML table markup.
+	 * </p>
+	 * @see #PROPERTY_RENDER_TABLES
+	 */
+	@ExporterProperty(
+		value=PROPERTY_RENDER_TABLES, 
+		booleanDefault=false
+		)
+	public Boolean isRenderTables();
 }
