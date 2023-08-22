@@ -371,7 +371,7 @@ public class FastExcelDataSourceApp extends AbstractSampleApp
 			ds = new FastExcelDataSource("data/MultisheetXlsxDataSource.data.xlsx");
 //			ds.setUseFirstRowAsHeader(true);
 			ds.setColumnNames(columnNames, columnIndexes);
-//			ds.setSheetSelection("XlsxDataSource3");
+//			ds.setSheetSelection("Data Sheet 3");
 		}
 		catch (IOException e)
 		{

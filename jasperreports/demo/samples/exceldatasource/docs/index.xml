@@ -74,7 +74,7 @@ that column names are set independently, as shown in the
       ds.setColumnNames(columnNames, columnIndexes);
       
       //uncomment the below line to see how sheet selection works
-      //ds.setSheetSelection("xlsdatasource2");
+      //ds.setSheetSelection("Data Sheet 2");
     }
     catch (IOException e)
     {
