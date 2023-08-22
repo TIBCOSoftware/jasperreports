@@ -23,34 +23,35 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.zip.InflaterInputStream;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DeflateStreamCompression implements StreamCompression
+public class DeflaterLevelOutputStream extends DeflaterOutputStream
 {
 
-	private int deflaterLevel;
-	
-	public DeflateStreamCompression(int deflaterLevel)
+	public DeflaterLevelOutputStream(OutputStream out, int deflaterLevel)
 	{
-		this.deflaterLevel = deflaterLevel;
+		super(out, new Deflater(deflaterLevel));
 	}
 
 	@Override
-	public OutputStream compressedOutput(OutputStream stream)
+	public void close() throws IOException
 	{
-		return new DeflaterLevelOutputStream(stream, deflaterLevel);
-	}
-
-	@Override
-	public InputStream uncompressedInput(InputStream stream)
-	{
-		InflaterInputStream inflaterStream = new InflaterInputStream(stream);
-		return inflaterStream;
+		try
+		{
+			super.close();
+		}
+		finally
+		{
+			//would be nice to set usesDefaultDeflater but it has package access
+			def.end();
+		}
 	}
 
 }
