@@ -21,60 +21,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.xls;
+package net.sf.jasperreports.fastexcel;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.InputStream;
 
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
-import net.sf.jasperreports.engine.data.ExcelDataSource;
-import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
+import net.sf.jasperreports.engine.data.XlsxDataSourceFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class XlsDataAdapterService extends AbstractXlsDataAdapterService 
+public class FastExcelDataSourceFactory implements XlsxDataSourceFactory 
 {
-	
-	/**
-	 * 
-	 */
-	public XlsDataAdapterService(ParameterContributorContext paramContribContext, XlsDataAdapter xlsDataAdapter)
-	{
-		super(paramContribContext, xlsDataAdapter);
-	}
-	
 	@Override
-	public void contributeParameters(Map<String, Object> parameters) throws JRException
+	public AbstractXlsDataSource getDataSource(InputStream inputStream, boolean closeInputStream) throws JRException, IOException
 	{
-		super.contributeParameters(parameters);
-
-		XlsDataAdapter xlsDataAdapter = getXlsDataAdapter();
-		if (xlsDataAdapter != null)
-		{
-			if (xlsDataAdapter.isQueryExecuterMode())
-			{	
-				parameters.put(ExcelQueryExecuterFactory.XLS_FORMAT, ExcelFormatEnum.XLS);//add this just for the sake of ExcelQueryExecuter, which is called when queryMode=true
-			}
-		}
+		return new FastExcelDataSource(inputStream, closeInputStream);
 	}
-
-	@Override
-	protected AbstractXlsDataSource getXlsDataSource() throws JRException
-	{
-		AbstractXlsDataSource dataSource = null;
-		try
-		{
-			dataSource = new ExcelDataSource(dataStream, ExcelFormatEnum.XLS);
-		}
-		catch (IOException e)
-		{
-			throw new JRException(e);
-		}
-		return dataSource;
-	}
-	
 }

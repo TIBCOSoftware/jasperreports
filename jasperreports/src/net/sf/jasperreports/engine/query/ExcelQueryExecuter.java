@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
+import net.sf.jasperreports.engine.data.XlsxDataSourceFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -62,20 +63,20 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 	private static final Log log = LogFactory.getLog(ExcelQueryExecuter.class);
 
 	/**
-	 * A property that specifies the name of class implementing the Excel data source to be used for XLSX format files.
+	 * A property that specifies the name of class implementing the Excel data source factory interface to be used for reading XLSX format files.
+	 * See the {@link XlsxDataSourceFactory} interface.
 	 */
 	@Property(
 		category = PropertyConstants.CATEGORY_DATA_SOURCE,
 		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.DATASET},
 		sinceVersion = PropertyConstants.VERSION_6_20_6
 		)
-	public static final String PROPERTY_XLSX_DATA_SOURCE_CLASS = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.data.source.class";
+	public static final String PROPERTY_XLSX_DATA_SOURCE_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.data.source.factory";
 
-	private static final String XLS_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.XlsDataSource";
-	private static final String XLSX_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.JRXlsxDataSource";
-	private static final String FASTEXCEL_DATA_SOURCE_CLASS = "net.sf.jasperreports.fastexcel.FastExcelDataSource";
-	private static final String XLS_WORKBOOK_CLASS = "org.apache.poi.hssf.usermodel.HSSFWorkbook";
-	private static final String XLSX_WORKBOOK_CLASS = "org.apache.poi.xssf.usermodel.XSSFWorkbook";
+	public static final String EXCEL_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.ExcelDataSource";
+	public static final String FASTEXCEL_DATA_SOURCE_CLASS = "net.sf.jasperreports.fastexcel.FastExcelDataSource";
+	private static final String POI_XLS_WORKBOOK_CLASS = "org.apache.poi.hssf.usermodel.HSSFWorkbook";
+	private static final String POI_XLSX_WORKBOOK_CLASS = "org.apache.poi.xssf.usermodel.XSSFWorkbook";
 	private static final String FASTEXCEL_WORKBOOK_CLASS = "org.dhatim.fastexcel.reader.ReadableWorkbook";
 	
 	
@@ -109,9 +110,7 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
-		String dataSourceClassName = null;
-		Class<?>[] constrParamTypes = null;
-		Object[] constrParamValues = null;
+		AbstractXlsDataSource dataSource = null;
 
 		@SuppressWarnings("deprecation")
 		Object workbook = getParameterValue(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK, true);
@@ -121,22 +120,27 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 		}
 		if (workbook != null) 
 		{
+			String dataSourceClassName = null;
 			String workbookClassName = workbook.getClass().getName();
-			if (XLS_WORKBOOK_CLASS.equals(workbookClassName))
+			if (POI_XLS_WORKBOOK_CLASS.equals(workbookClassName))
 			{
-				dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+				dataSourceClassName = EXCEL_DATA_SOURCE_CLASS;
 			}
-			else if (XLSX_WORKBOOK_CLASS.equals(workbookClassName))
+			else if (POI_XLSX_WORKBOOK_CLASS.equals(workbookClassName))
 			{
-				dataSourceClassName = XLSX_DATA_SOURCE_CLASS;
+				dataSourceClassName = EXCEL_DATA_SOURCE_CLASS;
 			}
 			else if (FASTEXCEL_WORKBOOK_CLASS.equals(workbookClassName))
 			{
 				dataSourceClassName = FASTEXCEL_DATA_SOURCE_CLASS;
 			}
 
-			constrParamTypes = new Class<?>[]{workbook.getClass()};
-			constrParamValues = new Object[]{workbook};
+			dataSource = 
+				createDataSource(
+					dataSourceClassName, 
+					new Class<?>[]{workbook.getClass()},
+					new Object[]{workbook}
+					);
 		}
 		else 
 		{
@@ -222,24 +226,49 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 				{
 					case XLS :
 					{
-						dataSourceClassName = XLS_DATA_SOURCE_CLASS;
+						dataSource =
+							createDataSource(
+								EXCEL_DATA_SOURCE_CLASS,
+								new Class<?>[]{InputStream.class, boolean.class, ExcelFormatEnum.class},
+								new Object[]{xlsInputStream, closeInputStream, format}
+								);
 						break;
 					}
 					case XLSX :
 					{
-						dataSourceClassName = getPropertiesUtil().getProperty(PROPERTY_XLSX_DATA_SOURCE_CLASS, dataset);
-						if (dataSourceClassName == null)
+						String dataSourceFactoryClassName = getPropertiesUtil().getProperty(PROPERTY_XLSX_DATA_SOURCE_FACTORY, dataset);
+						if (dataSourceFactoryClassName == null)
 						{
 							try
 							{
 								JRClassLoader.loadClassForName(FASTEXCEL_DATA_SOURCE_CLASS);
-								dataSourceClassName = FASTEXCEL_DATA_SOURCE_CLASS;
+								dataSource =
+									createDataSource(
+										FASTEXCEL_DATA_SOURCE_CLASS,
+										new Class<?>[]{InputStream.class, boolean.class},
+										new Object[]{xlsInputStream, closeInputStream}
+										);
 							}
 							catch (ClassNotFoundException e)
 							{
-								dataSourceClassName = XLSX_DATA_SOURCE_CLASS;
+								dataSource =
+									createDataSource(
+										EXCEL_DATA_SOURCE_CLASS,
+										new Class<?>[]{InputStream.class, boolean.class, ExcelFormatEnum.class},
+										new Object[]{xlsInputStream, closeInputStream, format}
+										);
 							}
 						}
+						else
+						{
+							dataSource =
+								createDataSource(
+									dataSourceFactoryClassName,
+									xlsInputStream,
+									closeInputStream
+									);
+						}
+						
 						break;
 					}
 					case AUTODETECT :
@@ -248,38 +277,32 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 						// should never get here
 					}
 				}
-
-				constrParamTypes = new Class<?>[]{InputStream.class, boolean.class};
-				constrParamValues = new Object[]{xlsInputStream, closeInputStream};
 			}
 		}
 		
-		AbstractXlsDataSource datasource = null;
-		
-		if (dataSourceClassName != null) 
+		if (dataSource != null) 
 		{
-			datasource = createDatasource(dataSourceClassName, constrParamTypes, constrParamValues);
-			initDatasource(datasource);
+			initDatasource(dataSource);
 		}
 		
-		return datasource;
+		return dataSource;
 	}
 	
 
-	private AbstractXlsDataSource createDatasource(
+	public static AbstractXlsDataSource createDataSource(
 		String dataSourceClassName, 
 		Class<?>[] constrParamTypes,
 		Object[] constrParamValues
 		) throws JRException 
 	{
-		AbstractXlsDataSource datasource = null;
+		AbstractXlsDataSource dataSource = null;
 		
 		try
 		{
 			@SuppressWarnings("unchecked")
 			Class<? extends AbstractXlsDataSource> dataSourceClass = (Class<? extends AbstractXlsDataSource>) JRClassLoader.loadClassForName(dataSourceClassName);
 			Constructor<? extends AbstractXlsDataSource> constructor = dataSourceClass.getConstructor(constrParamTypes);
-			datasource = constructor.newInstance(constrParamValues);
+			dataSource = constructor.newInstance(constrParamValues);
 		}
 		catch (InvocationTargetException  e)
 		{
@@ -290,7 +313,35 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 			throw new JRException(e);
 		}
 		
-		return datasource;
+		return dataSource;
+	}
+	
+
+	public static AbstractXlsDataSource createDataSource(
+		String dataSourceFactoryClassName, 
+		InputStream inputStream,
+		boolean closeInputStream
+		) throws JRException 
+	{
+		AbstractXlsDataSource dataSource = null;
+		
+		try
+		{
+			@SuppressWarnings("unchecked")
+			Class<? extends XlsxDataSourceFactory> dataSourceFactoryClass = (Class<? extends XlsxDataSourceFactory>) JRClassLoader.loadClassForName(dataSourceFactoryClassName);
+			XlsxDataSourceFactory dataSourceFactory = dataSourceFactoryClass.getDeclaredConstructor().newInstance();
+			dataSource = dataSourceFactory.getDataSource(inputStream, closeInputStream);
+		}
+		catch (InvocationTargetException  e)
+		{
+			throw new JRException(e.getTargetException());
+		}
+		catch (IOException | IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException e)
+		{
+			throw new JRException(e);
+		}
+		
+		return dataSource;
 	}
 	
 

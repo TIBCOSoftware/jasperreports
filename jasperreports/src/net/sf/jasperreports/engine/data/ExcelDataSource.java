@@ -66,6 +66,26 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 	
 	
 	/**
+	 * Creates a data source instance from an Excel workbook with the XLS format.
+	 * @param workbook the workbook
+	 */
+	public ExcelDataSource(HSSFWorkbook workbook)
+	{
+		super(workbook);
+	}
+	
+	
+	/**
+	 * Creates a data source instance from an Excel workbook with the XLSX format.
+	 * @param workbook the workbook
+	 */
+	public ExcelDataSource(XSSFWorkbook workbook)
+	{
+		super(workbook);
+	}
+	
+	
+	/**
 	 * Creates a data source instance from an XLSX or XLS data input stream with the default autodetect Excel format.
 	 * @param is an input stream containing XLSX or XLS data
 	 */
@@ -83,6 +103,19 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 	public ExcelDataSource(InputStream is, ExcelFormatEnum format) throws JRException, IOException
 	{
 		super(is);
+		
+		this.format = format;
+	}
+	
+	
+	/**
+	 * Creates a data source instance from an XLSX or XLS data input stream.
+	 * @param is an input stream containing XLSX or XLS data
+	 * @param format the Excel format 
+	 */
+	public ExcelDataSource(InputStream is, boolean closeInputStream, ExcelFormatEnum format) throws JRException, IOException
+	{
+		super(is, closeInputStream);
 		
 		this.format = format;
 	}
