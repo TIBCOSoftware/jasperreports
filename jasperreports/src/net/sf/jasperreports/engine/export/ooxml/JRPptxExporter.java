@@ -90,7 +90,6 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
@@ -448,10 +447,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			&& slideMasterReportIndex < items.size()
 			)
 		{
-			if (Thread.interrupted())
-			{
-				throw new ExportInterruptedException();
-			}
+			checkInterrupted();
 
 			ExporterInputItem item = items.get(slideMasterReportIndex);
 			
@@ -499,10 +495,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				
 				for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					JRPrintPage page = pages.get(pageIndex);
 
@@ -577,6 +570,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			for (int i = 0; i < elements.size(); i++)
 			{
+				checkInterrupted();
 				JRPrintElement element = elements.get(i);
 				
 				elementIndex = i;
@@ -612,6 +606,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			for (int i = 0; i < elements.size(); i++)
 			{
+				checkInterrupted();
 				JRPrintElement element = elements.get(i);
 				
 				elementIndex = i;
@@ -1861,6 +1856,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			for (int i = 0; i < elements.size(); i++)
 			{
+				checkInterrupted();
 				JRPrintElement element = elements.get(i);
 
 				elementIndex = i;

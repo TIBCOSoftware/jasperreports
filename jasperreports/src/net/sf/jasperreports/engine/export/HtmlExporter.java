@@ -119,7 +119,6 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.AccessibilityUtil;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -385,10 +384,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					page = pages.get(pageIndex);
 

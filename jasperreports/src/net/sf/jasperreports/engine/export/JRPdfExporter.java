@@ -117,7 +117,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
@@ -1107,10 +1106,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 					for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.interrupted())
-						{
-							throw new ExportInterruptedException();
-						}
+						checkInterrupted();
 
 						JRPrintPage page = pages.get(pageIndex);
 
@@ -1256,6 +1252,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
+				checkInterrupted();
+				
 				JRPrintElement element = it.next();
 
 				if (filter == null || filter.isToExport(element))
