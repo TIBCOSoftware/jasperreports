@@ -84,7 +84,7 @@ public class ExcelDataAdapterService extends AbstractXlsDataAdapterService
 		
 		InputStream inputStream = dataStream;
 		ExcelFormatEnum format = excelDataAdapter.getFormat();
-		if (format == ExcelFormatEnum.AUTODETECT)
+		if (format == null || format == ExcelFormatEnum.AUTODETECT)
 		{
 			Pair<InputStream, ExcelFormatEnum> sniffResult = ExcelQueryExecuter.sniffExcelFormat(inputStream);
 			inputStream = sniffResult.first();
