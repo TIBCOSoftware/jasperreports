@@ -70,22 +70,22 @@
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="5.2.2"/>
 		<dependency org="org.apache.poi" name="poi" rev="5.2.2"/>
 		<dependency org="org.apache.velocity" name="velocity-engine-core" rev="2.3"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.16"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.16" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.16" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.16" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.16" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.16" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.17"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.17" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.17" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.17" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.17" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.17" conf="test->*"/>
 		<dependency org="org.apache.groovy" name="groovy" rev="4.0.8" />
 		<dependency org="org.codehaus.woodstox" name="stax2-api" rev="4.2.1" conf="test->*"/>
 		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
