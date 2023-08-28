@@ -15,4 +15,4 @@ Bundle-ClassPath: .
 Export-Package: net.sf.jasperreports.engine.data,
  net.sf.jasperreports.engine.query,
  net.sf.jasperreports.engine.xml.util
- DynamicImport-Package: *
+DynamicImport-Package: *
