@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sf.jasperreports</groupId>
+  <artifactId>jasperreports</artifactId>
+  <version>master-SNAPSHOT</version>
+  <name>JasperReports Library</name>
+  <description>Free Java Reporting Library</description>
+  <url>http://jasperreports.sourceforge.net</url>
+  <organization>
+    <name>Cloud Software Group, Inc.</name>
+    <url>https://www.jaspersoft.com/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://jasperreports.sourceforge.net/license.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>teodord</id>
+      <name>Teodor Danciu</name>
+      <email>teodord@users.sourceforge.net</email>
+      <url>http://sourceforge.net/users/teodord</url>
+      <organization>Cloud Software Group, Inc.</organization>
+      <organizationUrl>http://www.jaspersoft.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <id>lucianc</id>
+      <name>Lucian Chirita</name>
+      <email>lucianc@users.sourceforge.net</email>
+      <url>http://sourceforge.net/users/lucianc</url>
+      <organization>Cloud Software Group, Inc.</organization>
+      <organizationUrl>http://www.jaspersoft.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <id>shertage</id>
+      <name>Sanda Zaharia</name>
+      <email>shertage@users.sourceforge.net</email>
+      <url>http://sourceforge.net/users/shertage</url>
+      <organization>Cloud Software Group, Inc.</organization>
+      <organizationUrl>http://www.jaspersoft.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <id>narcism</id>
+      <name>Narcis Marcu</name>
+      <email>narcism@users.sourceforge.net</email>
+      <url>http://sourceforge.net/users/narcism</url>
+      <organization>Cloud Software Group, Inc.</organization>
+      <organizationUrl>http://www.jaspersoft.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+    <tag>master-SNAPSHOT</tag>
+    <url>https://github.com/TIBCOSoftware/jasperreports</url>
+  </scm>
+</project>
