@@ -239,7 +239,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected int elementIndex;
 	protected String invalidCharReplacement;
 
-	protected boolean defaultRenderTables;
+	protected boolean defaultFrameAsTable;
 
 	/**
 	 * used for counting the total number of sheets
@@ -359,7 +359,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 
 		PptxReportConfiguration configuration = getCurrentItemConfiguration();
-		defaultRenderTables = configuration.isRenderTables();
+		defaultFrameAsTable = configuration.isFrameAsTable();
 		
 		renderersCache = new RenderersCache(getJasperReportsContext());
 	}
@@ -1854,15 +1854,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	public void exportFrame(JRPrintFrame frame) throws JRException
 	{
-		boolean isRenderTable = isRenderTables(frame);
-		if (isRenderTable)
+		boolean isFrameAsTable = isFrameAsTable(frame);
+		if (isFrameAsTable)
 		{
 			String accessibilityTagProp = JRPropertiesUtil.getOwnProperty(frame, AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG);
 			AccessibilityTagEnum accessibilityTag = AccessibilityTagEnum.getByName(accessibilityTagProp);
-			isRenderTable = AccessibilityTagEnum.TABLE == accessibilityTag || AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag;
+			isFrameAsTable = AccessibilityTagEnum.TABLE == accessibilityTag || AccessibilityTagEnum.TABLE_LAYOUT == accessibilityTag;
 		}
 		
-		if (isRenderTable)
+		if (isFrameAsTable)
 		{
 			slideHelper.write("<p:graphicFrame>\n");
 			slideHelper.write("  <p:nvGraphicFramePr>\n");
@@ -2876,17 +2876,17 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 * 
 	 */
-	protected boolean isRenderTables(JRPrintFrame frame) {
+	protected boolean isFrameAsTable(JRPrintFrame frame) {
 
 		if (frame.hasProperties()
-				&& frame.getPropertiesMap().containsProperty(PptxReportConfiguration.PROPERTY_RENDER_TABLES)) {
+				&& frame.getPropertiesMap().containsProperty(PptxReportConfiguration.PROPERTY_FRAME_AS_TABLE)) {
 			// we make this test to avoid reaching the global default value of the property
 			// directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(frame, PptxReportConfiguration.PROPERTY_RENDER_TABLES,
-					defaultRenderTables);
+			return getPropertiesUtil().getBooleanProperty(frame, PptxReportConfiguration.PROPERTY_FRAME_AS_TABLE,
+					defaultFrameAsTable);
 		}
-		return defaultRenderTables;
+		return defaultFrameAsTable;
 	}
 }
 

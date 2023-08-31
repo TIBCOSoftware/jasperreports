@@ -4929,11 +4929,11 @@ Property whose value is used as default for the
   
   
   
-  <!-- net.sf.jasperreports.export.pptx.render.tables -->
+  <!-- net.sf.jasperreports.export.pptx.frame.as.table -->
   
-  <configProperty name="net.sf.jasperreports.export.pptx.render.tables">
+  <configProperty name="net.sf.jasperreports.export.pptx.frame.as.table">
     <description>
-This property serves as default value for the <api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isRenderTables()">isRenderTables()</api> export configuration setting.
+This property serves as default value for the <api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isFrameAsTable()">isFrameAsTable()</api> export configuration setting.
 <br/>
 Its default value is <code>false</code>.
     </description>
