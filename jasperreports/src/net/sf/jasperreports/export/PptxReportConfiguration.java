@@ -74,7 +74,7 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.FRAME},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TABLE, PropertyScope.FRAME},
 			sinceVersion = PropertyConstants.VERSION_6_20_2,
 			valueType = Boolean.class
 			)
