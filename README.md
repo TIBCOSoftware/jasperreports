@@ -28,6 +28,12 @@ optimized to share, secure, and centrally manage your Jaspersoft reports and ana
 <br/>
 <br/>
 
+**JasperReports Web Studio** - *web-based version of the desktop Jaspersoft® Studio*
+
+[JasperReports Web Studio](https://www.jaspersoft.com/products/jasperreports-web-studio) is a new web visual designer that 
+creates and edits report templates for the *JasperReports® Library* reporting engine and the whole *Jaspersoft®* family of 
+products that use the open-source library to produce dynamic content and rich data visualizations.
+
 **JasperReports IO** - *reporting and data visualization in a world of cloud, microservices, and DevOps*
 
 [JasperReports IO](https://community.jaspersoft.com/project/jasperreports-io) is a RESTful reporting and data 
