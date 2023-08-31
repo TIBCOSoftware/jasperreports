@@ -398,7 +398,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else
 				{
-					objValue = resultSet.getObject(columnIndex);
+					objValue = resultSet.getObject(columnIndex, clazz);
 				}
 			}
 			catch (Exception e)
