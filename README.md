@@ -33,6 +33,8 @@ optimized to share, secure, and centrally manage your Jaspersoft reports and ana
 [JasperReports Web Studio](https://www.jaspersoft.com/products/jasperreports-web-studio) is a new web visual designer that 
 creates and edits report templates for the *JasperReports® Library* reporting engine and the whole *Jaspersoft®* family of 
 products that use the open-source library to produce dynamic content and rich data visualizations.
+<br/>
+<br/>
 
 **JasperReports IO** - *reporting and data visualization in a world of cloud, microservices, and DevOps*
 
