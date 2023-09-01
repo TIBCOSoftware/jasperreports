@@ -2123,7 +2123,7 @@ This works in conjunction with the <code>textAdjust</code> property of text elem
   
   <!-- net.sf.jasperreports.cut.text.max.height -->
   
-  <configProperty name="net.sf.jasperreports.cut.text.max.heightt">
+  <configProperty name="net.sf.jasperreports.cut.text.max.height">
     <description>
 Property used to specify the maximum height the text field element can stretch to before the text content gets cut. 
 This works in conjunction with the <code>textAdjust</code> property of text elements which needs to be set to <code>CutText</code> value.
