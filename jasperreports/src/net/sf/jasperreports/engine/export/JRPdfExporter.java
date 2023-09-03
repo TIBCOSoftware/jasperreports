@@ -969,7 +969,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			String creator = configuration.getMetadataCreator();
 			if( creator == null )
 			{
-				creator = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+				creator = "JasperReports Library version " + getClass().getClassLoader().getDefinedPackage("net.sf.jasperreports.engine").getImplementationVersion();
 			}
 			document.addCreator(creator);
 			

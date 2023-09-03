@@ -281,6 +281,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				}
 			}
 		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
+			@SuppressWarnings("deprecation")
 			List<ItemData> markerDataList = map.getMarkerDataList();
 			if(markerDataList !=null && markerDataList.size() > 0) {
 				for(ItemData markerData : markerDataList) {

@@ -355,7 +355,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		String application = configuration.getMetadataApplication();
 		if( application == null )
 		{
-			application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+			application = "JasperReports Library version " + getClass().getClassLoader().getDefinedPackage("net.sf.jasperreports.engine").getImplementationVersion();
 		}
 		summaryInformation.setApplicationName(application);
 		

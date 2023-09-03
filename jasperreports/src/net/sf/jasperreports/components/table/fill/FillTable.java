@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -311,8 +312,7 @@ public class FillTable extends SubreportFillComponent
 	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JasperReport containingReport = containingReport(parentReport);
-		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
-				containingReport);
+		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), (JRReport)containingReport);
 		
 //		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory = new BuiltinExpressionEvaluatorFactory();
 		

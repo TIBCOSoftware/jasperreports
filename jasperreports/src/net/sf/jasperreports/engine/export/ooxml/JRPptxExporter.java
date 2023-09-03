@@ -405,7 +405,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		String application = configuration.getMetadataApplication();
 		if( application == null )
 		{
-			application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+			application = "JasperReports Library version " + getClass().getClassLoader().getDefinedPackage("net.sf.jasperreports.engine").getImplementationVersion();
 		}
 		appHelper.exportProperty(PropsAppHelper.PROPERTY_APPLICATION, application);
 

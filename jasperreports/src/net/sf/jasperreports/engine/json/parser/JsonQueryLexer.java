@@ -74,9 +74,9 @@ public JsonQueryLexer(LexerSharedInputState state) {
 	caseSensitiveLiterals = true;
 	setCaseSensitive(true);
 	literals = new Hashtable();
-	literals.put(new ANTLRHashString("null", this), new Integer(48));
-	literals.put(new ANTLRHashString("true", this), new Integer(49));
-	literals.put(new ANTLRHashString("false", this), new Integer(50));
+	literals.put(new ANTLRHashString("null", this), Integer.valueOf(48));
+	literals.put(new ANTLRHashString("true", this), Integer.valueOf(49));
+	literals.put(new ANTLRHashString("false", this), Integer.valueOf(50));
 }
 
 public Token nextToken() throws TokenStreamException {
