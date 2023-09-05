@@ -15,66 +15,8 @@
 <html>
 <head>
 <title>JasperReports <xsl:value-of select="$version"/> - Report Parts Schema Reference</title>
+<link rel="stylesheet" href="resources/stylesheet.css"/>
 <style type="text/css">
-.title {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 28px;
-	font-weight: normal;
-}
-
-.toc {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.name {
-	font-family: Courier New, Courier, serif;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.label {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	font-style: italic;
-}
-
-.description {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.value {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.element {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.attribute {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #000000;
-}
-
-.copy {
-	font-decoration: none;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 8pt;
-	font-style: normal;
-	color: #000000;
-}
-
 </style>
 </head>
 <body bgcolor="#FFFFFF">

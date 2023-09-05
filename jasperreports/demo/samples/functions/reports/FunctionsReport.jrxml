@@ -25,7 +25,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<property name="net.sf.jasperreports.export.html.exclude.origin.band.1" value="pageFooter"/>
+	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="BaseStyle" isDefault="true" fontSize="9"/>
 	<style name="Title" style="BaseStyle" isBold="true" fontSize="11">
@@ -680,20 +680,4 @@
 			</componentElement>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="20">
-			<frame>
-				<reportElement x="0" y="0" width="832" height="20" uuid="abf542e8-9ea6-4459-a995-38f9617bb40a"/>
-				<textField>
-					<reportElement x="315" y="0" width="95" height="20" uuid="22d634e8-c83f-4e03-bd84-0ce11827a919"/>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-				</textField>
-				<textField evaluationTime="Report">
-					<reportElement x="410" y="0" width="40" height="20" uuid="925057b9-4145-4800-a8bb-a78627f39a05"/>
-					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-				</textField>
-			</frame>
-		</band>
-	</pageFooter>
 </jasperReport>
