@@ -16,16 +16,9 @@
 	bottomMargin="15" 
 	isIgnorePagination="true"
 	uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
+	<property name="net.sf.jasperreports.export.html.header" value=""/>
+	<property name="net.sf.jasperreports.export.html.footer" value=""/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="BaseStyle" isDefault="true" fontSize="9"/>
 	<style name="Title" style="BaseStyle" isBold="true" fontSize="11">
@@ -511,7 +504,7 @@
 		<band height="42">
 			<staticText>
 				<reportElement style="Title" x="0" y="0" width="832" height="30" uuid="0baa5bef-ec42-46d4-818e-5395372bf50a"/>
-				<text><![CDATA[Functions Sample - Built-in Functions in JasperReports Library]]></text>
+				<text><![CDATA[Built-in Functions in JasperReports Library]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -146,6 +146,7 @@
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
 		<delete dir="./target"/>
+		<ant dir="./demo/samples" target="clean"/>
 	</target>
 
 	<target name="javadoc" description="Compiles the library API documentation.">
@@ -278,11 +279,19 @@
 				<include name="**/*.png"/>
 			</fileset>
 		</copy>
-		<ant dir="./demo/samples/functions" target="test"/>
-		<copy todir="./dist/docs/sample.reference/functions" file="./demo/samples/functions/build/reports/FunctionsReport.html"/>
 	</target>
 	
-	<target name="docs" depends="preparedocs, javadoc, schemaref, partschemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
+	<target name="functionref" description="Generates the Function Reference." depends="compile">
+		<ant dir="./demo/samples/functions" target="test"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<xslt basedir="docs" in="docs/function.reference.xml" destdir="dist/docs" style="docs/function.reference.xsl" out="./dist/docs/function.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
+			<param name="version" expression="${version}"/>
+			<classpath refid="project-classpath"/>
+		</xslt>
+	</target>
+	
+	<target name="docs" depends="preparedocs, javadoc, schemaref, partschemaref, componentschemaref, configref, sampleref, functionref" description="Generates all documentation."/>
 
 	<target name="retrievelibs" description="Retrieve dependencies with Apache Ivy">
 		<ivy:retrieve conf="compile, javaflow, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>

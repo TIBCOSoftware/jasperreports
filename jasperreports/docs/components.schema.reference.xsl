@@ -42,7 +42,7 @@ ga('send', 'pageview');
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">sample.reference/functions/FunctionsReport.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>

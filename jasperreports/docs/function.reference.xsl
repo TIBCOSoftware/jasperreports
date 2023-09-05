@@ -13,7 +13,7 @@
 <xsl:template match="/">
 <html>
 <head>
-<title>JasperReports <xsl:value-of select="$version"/> - Sample Reference</title>
+<title>JasperReports <xsl:value-of select="$version"/> - Functions Reference</title>
 <link rel="stylesheet" href="resources/stylesheet.css"/>
 <style type="text/css">
 </style>
@@ -54,7 +54,7 @@ ga('send', 'pageview');
   </tr>
   <tr valign="middle">
     <td nowrap="true">
-<span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>
+<span class="title">JasperReports - Function Reference (version <xsl:value-of select="$version"/>)</span>
     </td>
     <td align="right">
 <img src="resources/jasperreports.svg" border="0"/>
@@ -69,27 +69,7 @@ ga('send', 'pageview');
 
 <br/>
 
-<span class="description">This document lists all the major features of the JasperReports library, as shown in the samples shipped with the project's source code package.</span>
-
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td style="width: 20px;"><br/></td>
-    <td><br/></td>
-  </tr>
-  <xsl:for-each select="sampleReference/category">
-  <!-- FIXME this is useless here; check the others
-  <xsl:for-each select="content/feature">
-    <xsl:sort select="@ref"/>
-  </xsl:for-each>
-  -->
-  <tr>
-    <td colspan="2">
-      <span class="label"><br/><a><xsl:attribute name="name"><xsl:value-of select="translate(name,' /','')"/></xsl:attribute><xsl:value-of select="name"/></a></span>
-    </td>
-  </tr>
-  <xsl:apply-templates select="content"/>
-  </xsl:for-each>
-</table>
+<xsl:copy-of select="document('../demo/samples/functions/build/reports/FunctionsReport.html')"/>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
