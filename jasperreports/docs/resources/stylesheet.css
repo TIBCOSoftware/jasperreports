@@ -1,31 +1,31 @@
 .title {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 28px;
+	font-size: 24pt;
 	font-weight: normal;
 }
 
 .toc {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 }
 
 .name {
 	font-family: Courier New, Courier, serif;
-	font-size: 16px;
+	font-size: 14pt;
 	font-weight: bold;
 }
 
 .category {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px;
+	font-size: 14pt;
 	font-weight: bold;
 	font-style: italic;
 }
 
 .label {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: bold;
 	font-style: italic;
 	padding-right:8px;
@@ -33,25 +33,25 @@
 
 .description {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 }
 
 .value {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 }
 
 .element {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 }
 
 .attribute {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: bold;
 	text-decoration: none;
 	color: #000000;
@@ -59,14 +59,14 @@
 
 .complete {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 	color: #000000;
 }
 
 .incomplete {
 	font-family: Courier New, Courier, serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-weight: normal;
 	color: #999999;
 }
@@ -74,20 +74,21 @@
 .copy {
 	font-decoration: none;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 8pt;
+	font-size: 10pt;
 	font-style: normal;
 	color: #000000;
 }
 
 .note {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 12pt;
 	font-style: italic;
 	color: #990000;
 }
 
 .text {
-	font-size: 12px;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
 }
 
 .indent {
@@ -100,7 +101,7 @@
 
 .code {
   	font-family: Courier New, Courier, serif;
-	font-size: 13px;
+	font-size: 12pt;
 }
 
 .subtitle {
@@ -115,7 +116,7 @@
 table.doctable {
     border-collapse: collapse;
     font-family: Arial, Verdana, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 12pt;
     font-weight: normal;
     margin: 10px 0;
     text-align: left;
@@ -140,10 +141,6 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
 
 .red {
     color: red;
-}
-
-.large {
-    font-size: 20px;
 }
 
 .maxWidth170 {
