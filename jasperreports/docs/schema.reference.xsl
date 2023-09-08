@@ -119,7 +119,7 @@ ga('send', 'pageview');
     </xsl:choose>
     </span>
     <br/>
-    <xsl:if test="position() mod 60 = 0">
+    <xsl:if test="position() mod 50 = 0">
 	  <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
 	</xsl:if>
   </xsl:for-each>
@@ -129,6 +129,13 @@ ga('send', 'pageview');
 
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td><br/></td>
+  </tr>
   <tr>
     <td colspan="5">
       <span class="category"><br/>1. Named Enumeration Types</span>
@@ -149,8 +156,7 @@ ga('send', 'pageview');
     <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
   </tr>
   <tr>
-    <td style="width: 20px;"></td>
-    <td style="width: 20px;"></td>
+    <td colspan="2"/>
     <td colspan="3"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
   <tr valign="top">
@@ -159,8 +165,7 @@ ga('send', 'pageview');
     <td colspan="3"/>
   </tr>
   <tr valign="top">
-  	<td style="width: 20px;"/>
-  	<td style="width: 20px;"/>
+  	<td colspan="2"/>
     <td colspan="3"><table width="100%" cellspacing="0" cellpadding="0" border="0">
     <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
     </table>
@@ -180,22 +185,22 @@ ga('send', 'pageview');
     <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><hr size="1"/></td>
   </tr>
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
   </tr>
   <xsl:if test="@abstract">
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><span class="description"> - abstract type</span></td>
   </tr>
   </xsl:if>
   <xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation != ''">
   <tr>
-    <td></td>
+    <td style="width: 20px;"></td>
     <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
   </xsl:if>

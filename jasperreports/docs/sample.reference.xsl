@@ -120,7 +120,7 @@ ga('send', 'pageview');
       		<span class="incomplete"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">incomplete</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
          </xsl:when>
          <xsl:otherwise>
-      		<span class="complete"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">complete</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+      		<span class="complete"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
          </xsl:otherwise>
        </xsl:choose>
     </td>
