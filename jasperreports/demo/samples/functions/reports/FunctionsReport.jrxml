@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-06-16T12:26:05 -->
-<jasperReport 
-	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="FunctionsReport" 
-	pageWidth="842" 
-	pageHeight="595" 
-	orientation="Landscape" 
-	columnWidth="832" 
-	leftMargin="5" 
-	rightMargin="5" 
-	topMargin="20" 
-	bottomMargin="15" 
-	isIgnorePagination="true"
-	uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
+<!-- Created with Jaspersoft Studio version 8.3.0.qualifier using JasperReports Library version master-SNAPSHOT-6240dbeb427ad7d6de19c3bcb2b0b29517460057  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FunctionsReport" pageWidth="1600" pageHeight="595" orientation="Landscape" columnWidth="1590" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="15" isIgnorePagination="true" uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
 	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
 	<property name="net.sf.jasperreports.export.html.header" value=""/>
 	<property name="net.sf.jasperreports.export.html.footer" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	<style name="BaseStyle" isDefault="true" fontSize="9"/>
-	<style name="Title" style="BaseStyle" isBold="true" fontSize="11">
-		<box>
-			<topPen lineWidth="1.0"/>
-		</box>
-	</style>
+	<style name="BaseStyle" isDefault="true" fontSize="14"/>
+	<style name="Title" style="BaseStyle" fontSize="16" isBold="true"/>
 	<style name="TableHeader" style="BaseStyle" mode="Opaque" forecolor="#000000" backcolor="#BFBFBF" vTextAlign="Middle" vImageAlign="Middle" isBold="true"/>
 	<style name="TableFrame" style="BaseStyle" vTextAlign="Middle">
 		<box>
@@ -38,7 +28,7 @@
 			<style mode="Opaque" backcolor="#EDF4B0"/>
 		</conditionalStyle>
 	</style>
-	<style name="CategoryHeader" style="BaseStyle" mode="Opaque" forecolor="#FFFFFF" backcolor="#4D4D4D" isBold="true" vTextAlign="Middle" />
+	<style name="CategoryHeader" style="BaseStyle" mode="Opaque" forecolor="#FFFFFF" backcolor="#4D4D4D" vTextAlign="Middle" isBold="true"/>
 	<subDataset name="FunctionsDataset" uuid="a70c1c3f-7098-4b5c-976b-3d2576085fb9">
 		<queryString>
 			<![CDATA[]]>
@@ -102,15 +92,15 @@
 						<textFieldExpression><![CDATA[ISEVEN(ABS(-245))]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="50" width="250" height="20" uuid="a2cce51c-c54e-48e0-84f4-fe29b866a1c6" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="a2cce51c-c54e-48e0-84f4-fe29b866a1c6"/>
 						<text><![CDATA[14.4 * 22.56 * 10 * 34]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="50" width="250" height="20" uuid="9afbe70a-de6d-469e-ba15-bd042e269f41" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="9afbe70a-de6d-469e-ba15-bd042e269f41"/>
 						<text><![CDATA[PRODUCT(14.4, 22.56, 10, 34)]]></text>
 					</staticText>
 					<textField pattern="#,##0.00">
-						<reportElement x="500" y="50" width="332" height="20" uuid="d92d9e92-2324-48e4-aa4d-5a3079c66019" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="50" width="332" height="20" backcolor="#EDF4B0" uuid="d92d9e92-2324-48e4-aa4d-5a3079c66019"/>
 						<textFieldExpression><![CDATA[PRODUCT(14.4,22.56,10,34)]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -126,15 +116,15 @@
 						<textFieldExpression><![CDATA[1000*RAND()]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="90" width="250" height="20" uuid="de994bd8-af00-4213-834a-be01663a608a" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="de994bd8-af00-4213-834a-be01663a608a"/>
 						<text><![CDATA[Factorial of 5]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="90" width="250" height="20" uuid="2d4060b2-23eb-498e-9d8c-54a438d32a16" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="2d4060b2-23eb-498e-9d8c-54a438d32a16"/>
 						<text><![CDATA[FACT(5)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="90" width="332" height="20" uuid="2670338e-1f5e-4e2f-b3ab-90d417d9bce7" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="90" width="332" height="20" backcolor="#EDF4B0" uuid="2670338e-1f5e-4e2f-b3ab-90d417d9bce7"/>
 						<textFieldExpression><![CDATA[FACT(5)]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -150,27 +140,27 @@
 						<textFieldExpression><![CDATA[SQRT(6.25)]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="130" width="250" height="20" uuid="5333c0c8-de11-4ad0-91ab-c0f0aa3fddf3" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="5333c0c8-de11-4ad0-91ab-c0f0aa3fddf3"/>
 						<text><![CDATA[Max value in [4,6,2,3,9,4,1,7,3,8]]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="130" width="250" height="20" uuid="14e90f54-c516-407b-a44a-0aed56d040bd" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="14e90f54-c516-407b-a44a-0aed56d040bd"/>
 						<text><![CDATA[MAX(4, 6, 2, 3, 9, 4, 1, 7, 3, 8)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="130" width="332" height="20" uuid="49da0889-2114-41a9-baab-052bb3dba5f0" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="130" width="332" height="20" backcolor="#EDF4B0" uuid="49da0889-2114-41a9-baab-052bb3dba5f0"/>
 						<textFieldExpression><![CDATA[MAX(4,6,2,3,9,4,1,7,3,8)]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="150" width="250" height="20" uuid="5333c0c8-deab-4ad0-91ab-c0f0aa3fddf3" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="150" width="250" height="20" backcolor="#EDF4B0" uuid="5333c0c8-deab-4ad0-91ab-c0f0aa3fddf3"/>
 						<text><![CDATA[123.4567 rounded up to 2 digits after the decimal point]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="150" width="250" height="20" uuid="14e90f54-c516-4efb-a44a-0aed56d040bd" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="150" width="250" height="20" backcolor="#EDF4B0" uuid="14e90f54-c516-4efb-a44a-0aed56d040bd"/>
 						<text><![CDATA[ROUND_UP(123.4567, 2)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="150" width="332" height="20" uuid="49da0889-2114-41a9-ba53-052bb3dba5f0" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="150" width="332" height="20" backcolor="#EDF4B0" uuid="49da0889-2114-41a9-ba53-052bb3dba5f0"/>
 						<textFieldExpression><![CDATA[ROUND_UP(123.4567, 2)]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -206,15 +196,15 @@
 						<textFieldExpression><![CDATA[DATEFORMAT(NOW(), "EEEE, MMM d, yyyy")]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="50" width="250" height="20" uuid="d81472b0-9979-4871-bc3c-e8a96486f578" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="d81472b0-9979-4871-bc3c-e8a96486f578"/>
 						<text><![CDATA[Current year]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="50" width="250" height="20" uuid="b9d602cd-1120-4805-bcd8-791d4122e895" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="b9d602cd-1120-4805-bcd8-791d4122e895"/>
 						<text><![CDATA[YEAR(TODAY())]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="50" width="332" height="20" uuid="c4b0e013-89e7-46e3-8515-49cc19e1f3cd" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="50" width="332" height="20" backcolor="#EDF4B0" uuid="c4b0e013-89e7-46e3-8515-49cc19e1f3cd"/>
 						<textFieldExpression><![CDATA[YEAR(TODAY())]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -230,15 +220,15 @@
 						<textFieldExpression><![CDATA[DATEFORMAT(EDATE(TODAY(),4), "MM/dd/yyyy")]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="90" width="250" height="20" uuid="2ce4f09c-3784-4a3a-b56a-fa10a0a5155b" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="2ce4f09c-3784-4a3a-b56a-fa10a0a5155b"/>
 						<text><![CDATA[Five years ago]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="90" width="250" height="20" uuid="7b8ce6b6-cad8-446b-a380-9e6941c53070" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="7b8ce6b6-cad8-446b-a380-9e6941c53070"/>
 						<text><![CDATA[DATEFORMAT(EDATE(TODAY(), -60), "MMMM d, yyyy")]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="90" width="332" height="20" uuid="cf15042b-09b9-4f69-aaa4-64e1e1445c90" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="90" width="332" height="20" backcolor="#EDF4B0" uuid="cf15042b-09b9-4f69-aaa4-64e1e1445c90"/>
 						<textFieldExpression><![CDATA[DATEFORMAT(EDATE(TODAY(),-60), "MMMM d, yyyy")]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -254,15 +244,15 @@
 						<textFieldExpression><![CDATA[WEEKNUM(TODAY())]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="130" width="250" height="20" uuid="84cbc86f-4729-4857-a300-b357a9fed528" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="84cbc86f-4729-4857-a300-b357a9fed528"/>
 						<text><![CDATA[Next working day]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="130" width="250" height="20" uuid="6546f0e5-6bac-485a-b195-4b44c663f82e" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="6546f0e5-6bac-485a-b195-4b44c663f82e"/>
 						<text><![CDATA[DATEFORMAT(WORKDAY(TODAY(),1), "EEE, MMM dd")]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="130" width="332" height="20" uuid="41547733-290e-41cc-9a90-f31ce4ba2792" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="130" width="332" height="20" backcolor="#EDF4B0" uuid="41547733-290e-41cc-9a90-f31ce4ba2792"/>
 						<textFieldExpression><![CDATA[DATEFORMAT(WORKDAY(TODAY(),1), "EEE, MMM dd")]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -278,15 +268,15 @@
 						<textFieldExpression><![CDATA[YEARS(DATE(2000,1,1), NOW())]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="170" width="250" height="20" uuid="cb62f5f7-4a16-41a7-b539-17ffac12b102" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="170" width="250" height="20" backcolor="#EDF4B0" uuid="cb62f5f7-4a16-41a7-b539-17ffac12b102"/>
 						<text><![CDATA[Current time]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="170" width="250" height="20" uuid="3392e1de-9cd0-416a-9a88-1ab9ef0736f1" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="170" width="250" height="20" backcolor="#EDF4B0" uuid="3392e1de-9cd0-416a-9a88-1ab9ef0736f1"/>
 						<text><![CDATA[DATEFORMAT(TODAY(), "hh:mm:ss a")]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="170" width="332" height="20" uuid="b9fc5523-365d-46c7-8e52-b15b7dae20e6" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="170" width="332" height="20" backcolor="#EDF4B0" uuid="b9fc5523-365d-46c7-8e52-b15b7dae20e6"/>
 						<textFieldExpression><![CDATA[DATEFORMAT(TODAY(), "hh:mm:ss a")]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -322,15 +312,15 @@
 						<textFieldExpression><![CDATA[CONCATENATE("Hello"," ","World")]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="50" width="250" height="20" uuid="2450df7e-9d9c-4c3d-8c47-3d34d059b6d3" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="2450df7e-9d9c-4c3d-8c47-3d34d059b6d3"/>
 						<text><![CDATA[Case sensitive search for "ll' in "Hello"]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="50" width="250" height="20" uuid="2798c14a-ead7-4a3d-9831-3dd9479cce95" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="2798c14a-ead7-4a3d-9831-3dd9479cce95"/>
 						<text><![CDATA["Found on position " + (FIND("Hello", "ll") + 1)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="50" width="332" height="20" uuid="40c6773f-7240-4057-a252-0277ef97ab99" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="50" width="332" height="20" backcolor="#EDF4B0" uuid="40c6773f-7240-4057-a252-0277ef97ab99"/>
 						<textFieldExpression><![CDATA["Found on position " + (FIND("Hello","ll") + 1)]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -346,15 +336,15 @@
 						<textFieldExpression><![CDATA["Found on position " + (SEARCH("LL", "all") + 1)]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="90" width="250" height="20" uuid="03e8e878-b925-4dd1-9ff5-bdf3edbe2c45" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="03e8e878-b925-4dd1-9ff5-bdf3edbe2c45"/>
 						<text><![CDATA[Lower case for "Hello WORLD"]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="90" width="250" height="20" uuid="59856fa9-d508-4d2c-94d0-eefe59a50087" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="59856fa9-d508-4d2c-94d0-eefe59a50087"/>
 						<text><![CDATA[LOWER("Hello WORLD")]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="90" width="332" height="20" uuid="1325ec10-0cd5-4812-9099-037fef24ef10" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="90" width="332" height="20" backcolor="#EDF4B0" uuid="1325ec10-0cd5-4812-9099-037fef24ef10"/>
 						<textFieldExpression><![CDATA[LOWER("Hello WORLD")]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -370,15 +360,15 @@
 						<textFieldExpression><![CDATA[PROPER("Capitalize each word")]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="130" width="250" height="20" uuid="006e6918-cbb0-4fa9-ac5b-c3f85851ddbc" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="006e6918-cbb0-4fa9-ac5b-c3f85851ddbc"/>
 						<text><![CDATA[Replicates "Hello " three times]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="130" width="250" height="20" uuid="08b92a5d-0f0e-4c31-818f-b62a543cea8e" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="130" width="250" height="20" backcolor="#EDF4B0" uuid="08b92a5d-0f0e-4c31-818f-b62a543cea8e"/>
 						<text><![CDATA[REPT("Hello ", 3)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="130" width="332" height="20" uuid="4837c798-b5ba-41ad-a759-0cd7d8069b95" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="130" width="332" height="20" backcolor="#EDF4B0" uuid="4837c798-b5ba-41ad-a759-0cd7d8069b95"/>
 						<textFieldExpression><![CDATA[REPT("Hello ", 3)]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -394,15 +384,15 @@
 						<textFieldExpression><![CDATA[SUBSTITUTE("Hello World", "o", "0")]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="170" width="250" height="20" uuid="e2aee566-4e5c-47c4-a08d-8baf739f8c89" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="170" width="250" height="20" backcolor="#EDF4B0" uuid="e2aee566-4e5c-47c4-a08d-8baf739f8c89"/>
 						<text><![CDATA[Extract "orl" from "Hello World"]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="170" width="250" height="20" uuid="97fed377-d995-4998-be33-426c019f4110" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="170" width="250" height="20" backcolor="#EDF4B0" uuid="97fed377-d995-4998-be33-426c019f4110"/>
 						<text><![CDATA[MID("Hello World", 8, 3)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="170" width="332" height="20" uuid="42ac2009-9f16-4051-b1d2-7c9bd2c289df" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="170" width="332" height="20" backcolor="#EDF4B0" uuid="42ac2009-9f16-4051-b1d2-7c9bd2c289df"/>
 						<textFieldExpression><![CDATA[MID("Hello World", 8, 3)]]></textFieldExpression>
 					</textField>
 				</frame>
@@ -438,15 +428,15 @@
 						<textFieldExpression><![CDATA[TRUE()]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="50" width="250" height="20" uuid="7afc6689-f1ba-4769-a9b3-5b9082e34e69" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="7afc6689-f1ba-4769-a9b3-5b9082e34e69"/>
 						<text><![CDATA[This is false.]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="50" width="250" height="20" uuid="88c8a872-8b13-47a1-8fa8-ac1ad7725646" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="50" width="250" height="20" backcolor="#EDF4B0" uuid="88c8a872-8b13-47a1-8fa8-ac1ad7725646"/>
 						<text><![CDATA[FALSE()]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="50" width="332" height="20" uuid="95dec667-034a-42a9-8281-d418b74830a1" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="50" width="332" height="20" backcolor="#EDF4B0" uuid="95dec667-034a-42a9-8281-d418b74830a1"/>
 						<textFieldExpression><![CDATA[FALSE()]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -462,15 +452,15 @@
 						<textFieldExpression><![CDATA[AND(3 < 5, 3 > 7)]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="0" y="90" width="250" height="20" uuid="d0d75743-8cdc-4b7f-b0c5-4c55dd29eb35" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="0" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="d0d75743-8cdc-4b7f-b0c5-4c55dd29eb35"/>
 						<text><![CDATA[3 < 5 OR 3 > 7]]></text>
 					</staticText>
 					<staticText>
-						<reportElement x="250" y="90" width="250" height="20" uuid="9a48e0c4-afd9-4cfa-96c6-658d4e548d1a" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="250" y="90" width="250" height="20" backcolor="#EDF4B0" uuid="9a48e0c4-afd9-4cfa-96c6-658d4e548d1a"/>
 						<text><![CDATA[OR(3 < 5, 3 > 7)]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="500" y="90" width="332" height="20" uuid="fcf0518b-8183-494c-bba8-96b65ea547cd" mode="Opaque" backcolor="#EDF4B0"/>
+						<reportElement mode="Opaque" x="500" y="90" width="332" height="20" backcolor="#EDF4B0" uuid="fcf0518b-8183-494c-bba8-96b65ea547cd"/>
 						<textFieldExpression><![CDATA[OR(3 < 5, 3 > 7)]]></textFieldExpression>
 					</textField>
 					<staticText>
@@ -494,7 +484,7 @@
 		<groupHeader>
 			<band height="30">
 				<textField evaluationTime="Group" evaluationGroup="categoryGroup">
-					<reportElement style="CategoryHeader" mode="Opaque" x="0" y="0" width="832" height="20" uuid="130f4ba4-83fe-4731-87dc-6a77f582638a"/>
+					<reportElement style="CategoryHeader" mode="Opaque" x="0" y="0" width="1581" height="20" uuid="130f4ba4-83fe-4731-87dc-6a77f582638a"/>
 					<textFieldExpression><![CDATA[$F{name} + " - " + $F{description}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -503,7 +493,7 @@
 	<title>
 		<band height="42">
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="832" height="30" uuid="0baa5bef-ec42-46d4-818e-5395372bf50a"/>
+				<reportElement style="Title" x="0" y="0" width="1581" height="30" uuid="0baa5bef-ec42-46d4-818e-5395372bf50a"/>
 				<text><![CDATA[Built-in Functions in JasperReports Library]]></text>
 			</staticText>
 		</band>
@@ -511,15 +501,18 @@
 	<detail>
 		<band height="50">
 			<componentElement>
-				<reportElement style="TableFrame" x="1" y="0" width="832" height="40" uuid="87f34396-4604-4cc9-808f-4f9bb9a990f3"/>
+				<reportElement style="TableFrame" x="1" y="0" width="1580" height="40" uuid="87f34396-4604-4cc9-808f-4f9bb9a990f3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="FunctionsDataset" uuid="7bc7efe3-fef9-4200-a2cb-ad98783eeeaa">
 						<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{functions})]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="80" uuid="53074a98-2c72-4c69-a8f6-622fc577220d">
+					<jr:column width="160" uuid="53074a98-2c72-4c69-a8f6-622fc577220d">
 						<jr:columnHeader height="40">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement style="TableHeader" x="0" y="0" width="80" height="40" uuid="a52858e0-e047-4551-8573-bffbac634fba">
+								<reportElement style="TableHeader" x="0" y="0" width="160" height="40" uuid="a52858e0-e047-4551-8573-bffbac634fba">
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 								</reportElement>
 								<text><![CDATA[Name]]></text>
@@ -527,17 +520,18 @@
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10">
+								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="160" height="20" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10">
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 								</reportElement>
 								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="220" uuid="bedece81-a4e8-49fb-a09a-590e9bb1737c">
+					<jr:column width="440" uuid="bedece81-a4e8-49fb-a09a-590e9bb1737c">
 						<jr:columnHeader height="40">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement style="TableHeader" x="0" y="0" width="220" height="40" uuid="7f0dd818-cd40-4c84-8fe6-e3d969e596ee">
+								<reportElement style="TableHeader" x="0" y="0" width="440" height="40" uuid="7f0dd818-cd40-4c84-8fe6-e3d969e596ee">
 									<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 									<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -547,29 +541,35 @@
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="220" height="20" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027"/>
+								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="440" height="20" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027"/>
 								<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="110" uuid="d191a807-22ce-4db1-85c4-91336756181b">
+					<jr:column width="220" uuid="d191a807-22ce-4db1-85c4-91336756181b">
 						<jr:columnHeader height="40">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement style="TableHeader" x="0" y="0" width="110" height="40" uuid="30e56046-598b-4a36-bd05-29ddd39cdb37"/>
+								<reportElement style="TableHeader" x="0" y="0" width="220" height="40" uuid="30e56046-598b-4a36-bd05-29ddd39cdb37"/>
 								<text><![CDATA[Return Type]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="110" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
+								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="220" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
 								<textFieldExpression><![CDATA[$F{returnType}.getCanonicalName()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="422" uuid="a525b006-84dd-44c0-a6f1-d4a7f956709a">
+					<jr:column width="760" uuid="a525b006-84dd-44c0-a6f1-d4a7f956709a">
 						<jr:columnHeader height="40">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement style="TableHeader" x="0" y="0" width="422" height="20" uuid="79a08f00-9b22-4bf6-ae13-1fac6daa0627"/>
+								<reportElement style="TableHeader" x="0" y="0" width="760" height="20" uuid="79a08f00-9b22-4bf6-ae13-1fac6daa0627">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
 								<box>
 									<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
 									<bottomPen lineWidth="0.5" lineColor="#E0E0E0"/>
@@ -578,29 +578,42 @@
 								<text><![CDATA[Parameters]]></text>
 							</staticText>
 							<staticText>
-								<reportElement style="TableHeader" x="0" y="20" width="100" height="20" uuid="f1d8fbed-1623-420b-8e67-445e66871e49"/>
+								<reportElement style="TableHeader" x="0" y="20" width="170" height="20" uuid="f1d8fbed-1623-420b-8e67-445e66871e49">
+									<property name="com.jaspersoft.studio.unit.y" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
 								<box>
 									<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
 								</box>
 								<text><![CDATA[Name]]></text>
 							</staticText>
 							<staticText>
-								<reportElement style="TableHeader" x="100" y="20" width="200" height="20" uuid="f1d8fbed-1623-420b-8e67-445e66871e49">
+								<reportElement style="TableHeader" x="170" y="20" width="380" height="20" uuid="f1d8fbed-1623-420b-8e67-445e66871e49">
 									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="com.jaspersoft.studio.unit.y" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 								</reportElement>
 								<text><![CDATA[Description]]></text>
 							</staticText>
 							<staticText>
-								<reportElement style="TableHeader" positionType="FixRelativeToBottom" x="300" y="20" width="80" height="20" uuid="69448285-192e-42ad-9655-6d5c18567dca">
+								<reportElement style="TableHeader" positionType="FixRelativeToBottom" x="550" y="20" width="140" height="20" uuid="69448285-192e-42ad-9655-6d5c18567dca">
 									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.y" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 								</reportElement>
 								<text><![CDATA[Type]]></text>
 							</staticText>
 							<staticText>
-								<reportElement style="TableHeader" x="380" y="20" width="42" height="20" uuid="5be7cdf3-1691-4698-9ab5-1f7278a6f43e">
+								<reportElement style="TableHeader" x="690" y="20" width="70" height="20" uuid="5be7cdf3-1691-4698-9ab5-1f7278a6f43e">
 									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="com.jaspersoft.studio.unit.y" value="px"/>
+									<property name="com.jaspersoft.studio.unit.x" value="px"/>
 									<property name="com.jaspersoft.studio.unit.width" value="px"/>
 								</reportElement>
 								<text><![CDATA[Required]]></text>
@@ -608,16 +621,17 @@
 						</jr:columnHeader>
 						<jr:detailCell style="TableDetail" height="20">
 							<componentElement>
-								<reportElement style="TableDetail" x="0" y="0" width="422" height="20" uuid="a0a3ea02-3100-400e-abdd-66126f5dba33"/>
+								<reportElement style="TableDetail" x="0" y="0" width="760" height="20" uuid="a0a3ea02-3100-400e-abdd-66126f5dba33"/>
 								<jr:table whenNoDataType="AllSectionsNoDetail">
 									<datasetRun subDataset="ParametersDataset" uuid="41ee18de-2daa-44c0-a977-33fc4107c919">
 										<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{parameters})]]></dataSourceExpression>
 									</datasetRun>
-									<jr:column width="100" uuid="8ab5b1bb-7101-45c8-b81b-29111ddf25ab">
+									<jr:column width="170" uuid="8ab5b1bb-7101-45c8-b81b-29111ddf25ab">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
+											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="20" uuid="0de3f34f-364c-4119-b40e-e99c340024a2">
+												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="170" height="20" uuid="0de3f34f-364c-4119-b40e-e99c340024a2">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
@@ -628,11 +642,12 @@
 											</textField>
 										</jr:detailCell>
 									</jr:column>
-									<jr:column width="200" uuid="9ea1ab31-d4e3-45ea-bf8a-db8aadea8a00">
+									<jr:column width="380" uuid="9ea1ab31-d4e3-45ea-bf8a-db8aadea8a00">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
+											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement x="0" y="0" width="200" height="20" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d">
+												<reportElement x="0" y="0" width="380" height="20" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
@@ -640,11 +655,12 @@
 											</textField>
 										</jr:detailCell>
 									</jr:column>
-									<jr:column width="80" uuid="d8bb3e16-e8d1-4b6d-b0c1-6158e99e9959">
+									<jr:column width="140" uuid="d8bb3e16-e8d1-4b6d-b0c1-6158e99e9959">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
+											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="02159a17-4380-483d-a7ad-317e13bf5b98">
+												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="140" height="20" uuid="02159a17-4380-483d-a7ad-317e13bf5b98">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
@@ -652,11 +668,12 @@
 											</textField>
 										</jr:detailCell>
 									</jr:column>
-									<jr:column width="42" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955">
+									<jr:column width="70" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955">
 										<property name="local_mesure_unitheight" value="pixel"/>
 										<jr:detailCell height="20">
+											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="42" height="20" uuid="40690340-8dac-4372-885f-08649c29a803">
+												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="70" height="20" uuid="40690340-8dac-4372-885f-08649c29a803">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
