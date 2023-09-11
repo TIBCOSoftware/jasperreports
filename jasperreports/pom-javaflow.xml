@@ -20,8 +20,6 @@
 	</scm>
 	<properties>
 		<maven.test.skip>true</maven.test.skip>
-		<maven.source.skip>true</maven.source.skip>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
 	</properties>
@@ -116,6 +114,15 @@
 					<file>${project.build.directory}/classes-javaflow/default.jasperreports.properties</file>
 					<token>net.sf.jasperreports.subreport.runner.factory\=[\w\.]*</token>
 					<value>net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory</value>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<quiet>true</quiet>
+					<doclint>none</doclint>
 				</configuration>
 			</plugin>
 		</plugins>
