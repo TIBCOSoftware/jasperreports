@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.20.6 (2023-09-0x)
+JasperReports 6.20.6 (2023-09-12)
 ---------------------------------------------
 
 - optional style expression added to report elements in addition to their existing static style 
