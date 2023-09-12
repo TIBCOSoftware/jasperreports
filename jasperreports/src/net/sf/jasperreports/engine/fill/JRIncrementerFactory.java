@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,6 +35,6 @@ public interface JRIncrementerFactory
 	/**
 	 *
 	 */
-	public JRIncrementer getIncrementer(byte calculation);
+	public JRIncrementer getIncrementer(CalculationEnum calculation);
 
 }

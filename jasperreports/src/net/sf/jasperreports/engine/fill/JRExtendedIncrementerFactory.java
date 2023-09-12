@@ -34,10 +34,5 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  */
 public interface JRExtendedIncrementerFactory extends JRIncrementerFactory
 {
-	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
-	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation);
-
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation);
 }

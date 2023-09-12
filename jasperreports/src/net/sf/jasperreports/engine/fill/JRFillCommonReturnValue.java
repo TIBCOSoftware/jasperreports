@@ -135,7 +135,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 				}
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculation().getValue());
+			incrementer = incrementerFactory.getIncrementer(getCalculation());
 		}
 		
 		return incrementer;

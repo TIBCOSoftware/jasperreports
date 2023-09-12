@@ -81,7 +81,6 @@ import net.sf.jasperreports.engine.query.SimpleQueryExecutionContext;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
-import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -435,10 +434,34 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
 		helper.setResetType(ResetTypeEnum.REPORT);
 
-		if (variable.getIncrementTypeValue() != IncrementTypeEnum.NONE)
+		switch (variable.getIncrementTypeValue())
 		{
-			helper.setResetType(ResetTypeEnum.getByValue(variable.getIncrementTypeValue().getValue()));
+			case REPORT :
+			{
+				helper.setResetType(ResetTypeEnum.REPORT);
+				break;
+			}
+			case PAGE :
+			{
+				helper.setResetType(ResetTypeEnum.PAGE);
+				break;
+			}
+			case COLUMN :
+			{
+				helper.setResetType(ResetTypeEnum.COLUMN);
+				break;
+			}
+			case GROUP :
+			{
+				helper.setResetType(ResetTypeEnum.GROUP);
+				break;
+			}
+			case NONE :
+			default :
+			{
+			}
 		}
+
 		helper.setResetGroup(variable.getIncrementGroup());
 		helper.setCalculation(CalculationEnum.NOTHING);
 		helper.setSystemDefined(true);

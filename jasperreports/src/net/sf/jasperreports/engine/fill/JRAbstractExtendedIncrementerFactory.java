@@ -33,28 +33,11 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 public abstract class JRAbstractExtendedIncrementerFactory implements JRExtendedIncrementerFactory
 {
 	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
-	 */
-	@Override
-	public JRIncrementer getIncrementer(byte calculation)
-	{
-		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
-	}
-
-	/**
 	 * This implementation simply calls {@link JRExtendedIncrementerFactory#getExtendedIncrementer(CalculationEnum) getExtendedIncrementer}.
 	 */
+	@Override
 	public JRIncrementer getIncrementer(CalculationEnum calculation)
 	{
 		return getExtendedIncrementer(calculation);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
-	 */
-	@Override
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
-	{
-		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
 	}
 }

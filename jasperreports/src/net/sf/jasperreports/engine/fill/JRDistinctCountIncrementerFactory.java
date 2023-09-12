@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
@@ -60,7 +61,7 @@ public class JRDistinctCountIncrementerFactory implements JRIncrementerFactory
 
 
 	@Override
-	public JRIncrementer getIncrementer(byte calculation)
+	public JRIncrementer getIncrementer(CalculationEnum calculation)
 	{
 		return new JRDistinctCountIncrementer();
 	}

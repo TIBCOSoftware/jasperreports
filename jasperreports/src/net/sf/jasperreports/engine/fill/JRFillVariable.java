@@ -301,7 +301,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 				incrementerFactory = JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculationValue().getValue());
+			incrementer = incrementerFactory.getIncrementer(getCalculationValue());
 		}
 		
 		return incrementer;

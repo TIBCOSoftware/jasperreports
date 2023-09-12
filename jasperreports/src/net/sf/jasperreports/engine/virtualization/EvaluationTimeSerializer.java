@@ -59,9 +59,8 @@ public class EvaluationTimeSerializer implements ObjectSerializer<JREvaluationTi
 	{
 		//FIXME we should have keep these in memory and only write an ID/index
 		EvaluationTimeEnum type = value.getType();
-		@SuppressWarnings("deprecation")
-		byte byteType = type.getValue(); 
-		out.writeByte(byteType);
+		int ordinal = type.ordinal(); 
+		out.writeByte(ordinal);
 		if (type == EvaluationTimeEnum.BAND)
 		{
 			out.writeInt(value.getBandId());
@@ -75,9 +74,8 @@ public class EvaluationTimeSerializer implements ObjectSerializer<JREvaluationTi
 	@Override
 	public JREvaluationTime read(VirtualizationInput in) throws IOException
 	{
-		byte byteType = in.readByte();
-		@SuppressWarnings("deprecation")
-		EvaluationTimeEnum type = EvaluationTimeEnum.getByValue(byteType);
+		int ordinal = in.readInt();
+		EvaluationTimeEnum type = EvaluationTimeEnum.values()[ordinal];
 		JREvaluationTime value;
 		switch (type)
 		{
