@@ -24,66 +24,46 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum MeterShapeEnum implements JREnum
+public enum MeterShapeEnum implements NamedEnum
 {
 	/**
 	 * The portion of the circle described by the Meter that is not occupied by the
 	 * Meter is drawn as a chord.  (A straight line connects the ends.)
 	 */
-	CHORD((byte)0, "chord"),
+	CHORD("chord"),
 	
 	/**
 	 * The portion of the circle described by the Meter that is not occupied by the
 	 * Meter is drawn as a circle.
 	 */
-	CIRCLE((byte)1, "circle"),
+	CIRCLE("circle"),
 	
 	/**
 	 * The portion of the circle described by the Meter that is not occupied by the
 	 * Meter is not drawn.
 	 */
-	PIE((byte)2, "pie"),
+	PIE("pie"),
 	
 	/**
 	 * The portion of the circle described by the Meter that is not occupied by the
 	 * Meter is drawn as a circle, and handled with specific dial objects.
 	 */
-	DIAL((byte)3, "dial");
+	DIAL("dial");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private MeterShapeEnum(byte value, String name)
+	private MeterShapeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -98,21 +78,5 @@ public enum MeterShapeEnum implements JREnum
 	public static MeterShapeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static MeterShapeEnum getByValue(Byte value)
-	{
-		return (MeterShapeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static MeterShapeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

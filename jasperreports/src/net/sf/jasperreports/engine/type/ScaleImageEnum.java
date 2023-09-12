@@ -30,26 +30,26 @@ import net.sf.jasperreports.renderers.DimensionRenderable;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum ScaleImageEnum implements JREnum
+public enum ScaleImageEnum implements NamedEnum
 {
 	/**
 	 * A constant value specifying that if the actual image is larger than the image element size, it will be cut off so
 	 * that it keeps its original resolution, and only the region that fits the specified size will be displayed.
 	 */
-	CLIP((byte)1, "Clip"),
+	CLIP("Clip"),
 
 	/**
 	 * A constant value specifying that if the dimensions of the actual image do not fit those specified for the
 	 * image element that displays it, the image can be forced to obey them and stretch itself so that it fits
 	 * in the designated output area.
 	 */
-	FILL_FRAME((byte)2, "FillFrame"),
+	FILL_FRAME("FillFrame"),
 	
 	/**
 	 * A constant value specifying that if the actual image does not fit into the image element, it can be adapted
 	 * to those dimensions without needing to change its original proportions.
 	 */
-	RETAIN_SHAPE((byte)3, "RetainShape"),
+	RETAIN_SHAPE("RetainShape"),
 	
 	/**
 	 * A scale image type that instructs the engine to stretch the image height
@@ -73,7 +73,7 @@ public enum ScaleImageEnum implements JREnum
 	 * 
 	 * @see #REAL_SIZE
 	 */
-	REAL_HEIGHT((byte)4, "RealHeight"),
+	REAL_HEIGHT("RealHeight"),
 	
 	/**
 	 * A scale image type that stretches the images height in the same way as 
@@ -83,36 +83,16 @@ public enum ScaleImageEnum implements JREnum
 	 * This can be useful when, for instance, a border has to be drawn around
 	 * the image, respecting its actual size.
 	 */
-	REAL_SIZE((byte)5, "RealSize");
+	REAL_SIZE("RealSize");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private ScaleImageEnum(byte value, String name)
+	private ScaleImageEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -127,21 +107,5 @@ public enum ScaleImageEnum implements JREnum
 	public static ScaleImageEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleImageEnum getByValue(Byte value)
-	{
-		return (ScaleImageEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleImageEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

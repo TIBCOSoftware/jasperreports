@@ -27,44 +27,24 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum FillEnum implements JREnum
+public enum FillEnum implements NamedEnum
 {
 	/**
 	 * Constant useful for specifying that the inside of an element should be drawn using the background color. It
 	 * is ignored if the element draw mode is transparent.
 	 */
-	SOLID((byte)1, "Solid");
+	SOLID("Solid");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private FillEnum(byte value, String name)
+	private FillEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -77,21 +57,5 @@ public enum FillEnum implements JREnum
 	public static FillEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static FillEnum getByValue(Byte value)
-	{
-		return (FillEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static FillEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

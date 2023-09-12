@@ -27,26 +27,26 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum CalculationEnum implements JREnum
+public enum CalculationEnum implements NamedEnum
 {
 	/**
 	 * The value is calculated by simply evaluating the variable expression.
 	 */
-	NOTHING((byte)0, "Nothing"),
+	NOTHING("Nothing"),
 	
 	/**
 	 * The value is calculated by counting the non-null values of the variable expression with every iteration in the data source.
 	 * The count variable must be numeric, but the variable expression needs not, since its value is not important.
 	 * On the other hand, the initial value expression must be numeric since it will be the count variable initial value.
 	 */
-	COUNT((byte)1, "Count"),
+	COUNT("Count"),
 	
 	/**
 	 * The value is calculated by summing up the values returned by the variable's expression. Both the main expression and initial
 	 * expression must have numeric type.
 	 *
 	 */
-	SUM((byte)2, "Sum"),
+	SUM("Sum"),
 	
 	/**
 	 * The value is obtained by calculating the average for the series of values obtained by evaluating the variable's
@@ -57,19 +57,19 @@ public enum CalculationEnum implements JREnum
 	 * name from the corresponding average variable suffixed with "_SUM" sequence. This helper variable can be used
 	 * in other report expressions just like any normal variable.
 	 */
-	AVERAGE((byte)3, "Average"),
+	AVERAGE("Average"),
 	
 	/**
 	 * The value of the variable represents the lowest in the series of values obtained by evaluating the variable's
 	 * expression for each data source record.
 	 */
-	LOWEST((byte)4, "Lowest"),
+	LOWEST("Lowest"),
 	
 	/**
 	 * The value of the variable represents the highest in the series of values obtained by evaluating the variable's
 	 * expression for each data source record.
 	 */
-	HIGHEST((byte)5, "Highest"),
+	HIGHEST("Highest"),
 	
 	/**
 	 * The value is obtained by calculating the standard deviation for the series of values returned by evaluating the
@@ -83,61 +83,43 @@ public enum CalculationEnum implements JREnum
 	 * For variables that calculate the standard deviation, there is always a helper variable present, that first
 	 * calculates the variance for the series of values and it has the "_VARIANCE" suffix added to its name.
 	 */
-	STANDARD_DEVIATION((byte)6, "StandardDeviation"),
+	STANDARD_DEVIATION("StandardDeviation"),
 	
 	/**
 	 * The value is obtained by calculating the variance for the series of values returned by evaluating the
 	 * variable's expression.
 	 */
-	VARIANCE((byte)7, "Variance"),
+	VARIANCE("Variance"),
 	
 	/**
 	 * The value is not calculated by JasperReports. The user must calculate the value of the variable, almost
 	 * certainly using the scriptlets functionality. For this type of calculation, the only thing the engine does is
 	 * to conserve the value users have calculated, from one iteration in the data source to the next.
 	 */
-	SYSTEM((byte)8, "System"),
+	SYSTEM("System"),
 	
 	/**
 	 * The variable keeps the first value and does not increment it on subsequent iterations.
 	 */
-	FIRST((byte)9, "First"),
+	FIRST("First"),
 	
 	/**
 	 * The value is calculated by counting the distinct non-null values of the variable expression with every iteration in the data source.
 	 * The count variable must be numeric, but the variable expression needs not, since its value is not important.
 	 * On the other hand, the initial value expression must be numeric since it will be the count variable initial value.
 	 */
-	DISTINCT_COUNT((byte)10, "DistinctCount");
+	DISTINCT_COUNT("DistinctCount");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private CalculationEnum(byte value, String name)
+	private CalculationEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	@Override
-	@SuppressWarnings("deprecation")
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -150,21 +132,5 @@ public enum CalculationEnum implements JREnum
 	public static CalculationEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CalculationEnum getByValue(Byte value)
-	{
-		return (CalculationEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CalculationEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

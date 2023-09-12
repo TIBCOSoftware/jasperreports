@@ -27,56 +27,36 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum WhenNoDataTypeEnum implements JREnum
+public enum WhenNoDataTypeEnum implements NamedEnum
 {
 	/**
 	 * Specifies that in case of empty datasources, there will be an empty report.
 	 */
-	NO_PAGES((byte)1, "NoPages"),
+	NO_PAGES("NoPages"),
 
 	/**
 	 * Specifies that in case of empty datasources, there will be a report with just one blank page.
 	 */
-	BLANK_PAGE((byte)2, "BlankPage"),
+	BLANK_PAGE("BlankPage"),
 
 	/**
 	 * Specifies that in case of empty datasources, all sections except detail will displayed.
 	 */
-	ALL_SECTIONS_NO_DETAIL((byte)3, "AllSectionsNoDetail"),
+	ALL_SECTIONS_NO_DETAIL("AllSectionsNoDetail"),
 
 	/**
 	 * Specifies that in case of empty datasources, the NoData section will be displayed.
 	 */
-	NO_DATA_SECTION((byte)4, "NoDataSection");
+	NO_DATA_SECTION("NoDataSection");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private WhenNoDataTypeEnum(byte value, String name)
+	private WhenNoDataTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -91,21 +71,5 @@ public enum WhenNoDataTypeEnum implements JREnum
 	public static WhenNoDataTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static WhenNoDataTypeEnum getByValue(Byte value)
-	{
-		return (WhenNoDataTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static WhenNoDataTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

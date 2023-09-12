@@ -27,56 +27,36 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum WhenResourceMissingTypeEnum implements JREnum
+public enum WhenResourceMissingTypeEnum implements NamedEnum
 {
 	/**
 	 * Return NULL when a resource is missing.
 	 */
-	NULL((byte)1, "Null"),
+	NULL("Null"),
 
 	/**
 	 * Return empty string when a resource is missing.
 	 */
-	EMPTY((byte)2, "Empty"),
+	EMPTY("Empty"),
 
 	/**
 	 * Return the key when a resource is missing.
 	 */
-	KEY((byte)3, "Key"),
+	KEY("Key"),
 
 	/**
 	 * Throw an exception when a resource is missing.
 	 */
-	ERROR((byte)4, "Error");
+	ERROR("Error");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private WhenResourceMissingTypeEnum(byte value, String name)
+	private WhenResourceMissingTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -91,21 +71,5 @@ public enum WhenResourceMissingTypeEnum implements JREnum
 	public static WhenResourceMissingTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static WhenResourceMissingTypeEnum getByValue(Byte value)
-	{
-		return (WhenResourceMissingTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static WhenResourceMissingTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

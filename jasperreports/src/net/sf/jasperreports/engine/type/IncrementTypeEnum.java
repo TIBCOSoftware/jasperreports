@@ -29,59 +29,41 @@ import net.sf.jasperreports.engine.JRVariable;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum IncrementTypeEnum implements JREnum
+public enum IncrementTypeEnum implements NamedEnum
 {
 	/**
 	 * The variable never gets incremented during the report-filling process.
 	 */
-	REPORT((byte)1, "Report"),
+	REPORT("Report"),
 	
 	/**
 	 * The variable is incremented with each new page.
 	 */
-	PAGE((byte)2, "Page"),
+	PAGE("Page"),
 	
 	/**
 	 * The variable is incremented with each new column.
 	 */
-	COLUMN((byte)3, "Column"),
+	COLUMN("Column"),
 	
 	/**
 	 * The variable is incremented every time the group specified by the {@link JRVariable#getIncrementGroup()} method breaks.
 	 */
-	GROUP((byte)4, "Group"),
+	GROUP("Group"),
 	
 	/**
 	 * The variable is incremented with every record during the iteration through the data source.
 	 */
-	NONE((byte)5, "None");
+	NONE("None");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private IncrementTypeEnum(byte value, String name)
+	private IncrementTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	@Override
-	@SuppressWarnings("deprecation")
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -96,21 +78,5 @@ public enum IncrementTypeEnum implements JREnum
 	public static IncrementTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static IncrementTypeEnum getByValue(Byte value)
-	{
-		return (IncrementTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static IncrementTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

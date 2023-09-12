@@ -29,37 +29,37 @@ import net.sf.jasperreports.engine.JRHyperlink;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum HyperlinkTypeEnum implements JREnum
+public enum HyperlinkTypeEnum implements NamedEnum
 {
 	/**
 	 * Not set hyperlink type.
 	 */
-	NULL((byte)0, "Null"),
+	NULL("Null"),
 	
 	/**
 	 * Constant useful for specifying that the element does not contain a hyperlink. This is the default value
 	 * for a hyperlink type.
 	 */
-	NONE((byte)1, "None"),
+	NONE("None"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to an external resource specified by the
 	 * hyperlink reference expression.
 	 * @see JRHyperlink#getHyperlinkReferenceExpression()
 	 */
-	REFERENCE((byte)2, "Reference"),
+	REFERENCE("Reference"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a local anchor, specified by the hyperlink
 	 * anchor expression.
 	 * @see JRHyperlink#getHyperlinkAnchorExpression()
 	 */
-	LOCAL_ANCHOR((byte)3, "LocalAnchor"),
+	LOCAL_ANCHOR("LocalAnchor"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a 1 based page index within the current document.
 	 */
-	LOCAL_PAGE((byte)4, "LocalPage"),
+	LOCAL_PAGE("LocalPage"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a remote anchor (specified by the hyperlink
@@ -67,51 +67,31 @@ public enum HyperlinkTypeEnum implements JREnum
 	 * @see JRHyperlink#getHyperlinkAnchorExpression()
 	 * @see JRHyperlink#getHyperlinkReferenceExpression()
 	 */
-	REMOTE_ANCHOR((byte)5, "RemoteAnchor"),
+	REMOTE_ANCHOR("RemoteAnchor"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink points to a 1 based page index within an external document
 	 * (specified by the hyperlink reference expression).
 	 */
-	REMOTE_PAGE((byte)6, "RemotePage"),
+	REMOTE_PAGE("RemotePage"),
 	
 	/**
 	 * Custom hyperlink type.
 	 * <p>
 	 * The specific type is determined by {@link JRHyperlink#getLinkType() getLinkType()}.
 	 */
-	CUSTOM((byte)7, "Custom");
+	CUSTOM("Custom");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private HyperlinkTypeEnum(byte value, String name)
+	private HyperlinkTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -124,21 +104,5 @@ public enum HyperlinkTypeEnum implements JREnum
 	public static HyperlinkTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static HyperlinkTypeEnum getByValue(Byte value)
-	{
-		return (HyperlinkTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static HyperlinkTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

@@ -24,57 +24,37 @@
 package net.sf.jasperreports.crosstabs.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum CrosstabTotalPositionEnum implements JREnum
+public enum CrosstabTotalPositionEnum implements NamedEnum
 {
 	/**
 	 * Constant indicating that total are not required for this bucket.
 	 */
-	NONE((byte)0, "None"),
+	NONE("None"),
 	
 	/**
 	 * Constants indicating that totals are to be positioned before the other buckets.
 	 */
-	START((byte)1, "Start"),
+	START("Start"),
 	
 	/**
 	 * Constants indicating that totals are to be positioned at the end of the other buckets.
 	 */
-	END((byte)2, "End");
+	END("End");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private CrosstabTotalPositionEnum(byte value, String name)
+	private CrosstabTotalPositionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -89,21 +69,5 @@ public enum CrosstabTotalPositionEnum implements JREnum
 	public static CrosstabTotalPositionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabTotalPositionEnum getByValue(Byte value)
-	{
-		return (CrosstabTotalPositionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabTotalPositionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

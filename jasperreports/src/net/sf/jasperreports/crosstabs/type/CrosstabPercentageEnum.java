@@ -24,54 +24,34 @@
 package net.sf.jasperreports.crosstabs.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum CrosstabPercentageEnum implements JREnum
+public enum CrosstabPercentageEnum implements NamedEnum
 {
 	/**
 	 * Percentage type indicating that the value will not be calculated
 	 * as a percentage.
 	 */
-	NONE((byte)0, "None"),
+	NONE("None"),
 	
 	/**
 	 * Percentage type indicating that the value will be calculated as percentage
 	 * of the grand total value.
 	 */
-	GRAND_TOTAL((byte)1, "GrandTotal");
+	GRAND_TOTAL("GrandTotal");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private CrosstabPercentageEnum(byte value, String name)
+	private CrosstabPercentageEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -86,21 +66,5 @@ public enum CrosstabPercentageEnum implements JREnum
 	public static CrosstabPercentageEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabPercentageEnum getByValue(Byte value)
-	{
-		return (CrosstabPercentageEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabPercentageEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

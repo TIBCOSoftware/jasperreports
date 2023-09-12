@@ -27,54 +27,34 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum SplitTypeEnum implements JREnum
+public enum SplitTypeEnum implements NamedEnum
 {
 	/**
 	 * The band is allowed to split, but never within its declared height. 
 	 * This means the band splits only when its content stretches.
 	 */
-	STRETCH((byte)1, "Stretch"),
+	STRETCH("Stretch"),
 
 	/**
 	 * Prevents the band from splitting on first break attempt. 
 	 * On subsequent pages/columns, the band is allowed to split, to avoid infinite loops.
 	 */
-	PREVENT((byte)2, "Prevent"),
+	PREVENT("Prevent"),
 
 	/**
 	 * The band is allowed to split anywhere, as early as needed, 
 	 * but not before at least one element being printed on the current page/column.
 	 */
-	IMMEDIATE((byte)3, "Immediate");
+	IMMEDIATE("Immediate");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private SplitTypeEnum(byte value, String name)
+	private SplitTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -89,21 +69,5 @@ public enum SplitTypeEnum implements JREnum
 	public static SplitTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static SplitTypeEnum getByValue(Byte value)
-	{
-		return (SplitTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static SplitTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

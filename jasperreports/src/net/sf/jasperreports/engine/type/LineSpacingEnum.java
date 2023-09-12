@@ -27,67 +27,47 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum LineSpacingEnum implements JREnum
+public enum LineSpacingEnum implements NamedEnum
 {
 	/**
 	 * Constant for setting normal spacing between lines.
 	 */
-	SINGLE((byte)0, "Single"),
+	SINGLE("Single"),
 
 	/**
 	 * Constant for setting spacing between lines to 50% more than normal.
 	 */
-	ONE_AND_HALF((byte)1, "1_1_2"),
+	ONE_AND_HALF("1_1_2"),
 	
 	/**
 	 * Constant for setting spacing between lines to double size.
 	 */
-	DOUBLE((byte)2, "Double"),
+	DOUBLE("Double"),
 	
 	/**
 	 * Constant for setting spacing between lines to at least a specified size.
 	 */
-	AT_LEAST((byte)3, "AtLeast"),
+	AT_LEAST("AtLeast"),
 	
 	/**
 	 * Constant for setting spacing between lines to a specified size.
 	 */
-	FIXED((byte)4, "Fixed"),
+	FIXED("Fixed"),
 	
 	/**
 	 * Constant for setting spacing between lines to a specified proportion of the normal line spacing.
 	 */
-	PROPORTIONAL((byte)5, "Proportional");
+	PROPORTIONAL("Proportional");
 	
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private LineSpacingEnum(byte value, String name)
+	private LineSpacingEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -102,21 +82,5 @@ public enum LineSpacingEnum implements JREnum
 	public static LineSpacingEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineSpacingEnum getByValue(Byte value)
-	{
-		return (LineSpacingEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineSpacingEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

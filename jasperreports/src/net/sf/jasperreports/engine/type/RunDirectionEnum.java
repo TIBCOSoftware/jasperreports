@@ -27,46 +27,26 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum RunDirectionEnum implements JREnum
+public enum RunDirectionEnum implements NamedEnum
 {
 	/**
 	 * Constant useful to specify that text flows from left to right.
 	 */
-	LTR((byte)0, "LTR"),
+	LTR("LTR"),
 
 	/**
 	 * Constant useful to specify that text flows from right to left.
 	 */
-	RTL((byte)1, "RTL");
+	RTL("RTL");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private RunDirectionEnum(byte value, String name)
+	private RunDirectionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -81,21 +61,5 @@ public enum RunDirectionEnum implements JREnum
 	public static RunDirectionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static RunDirectionEnum getByValue(Byte value)
-	{
-		return (RunDirectionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static RunDirectionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

@@ -27,70 +27,49 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ImageTypeEnum implements JREnum
+public enum ImageTypeEnum implements NamedEnum
 {
 	/**
 	 * Specifies that the image is of unknown type.
 	 */ 
-	UNKNOWN((byte)0, "Unknown", null, null),
+	UNKNOWN("Unknown", null, null),
 	
 	/**
 	 * Specifies that the image is of GIF type.
 	 */ 
-	GIF((byte)1, "GIF", "image/gif", "gif"),
+	GIF("GIF", "image/gif", "gif"),
 	
 	/**
 	 * Specifies that the image is of JPEG type.
 	 */ 
-	JPEG((byte)2, "JPEG", "image/jpeg", "jpg"),
+	JPEG("JPEG", "image/jpeg", "jpg"),
 	
 	/**
 	 * Specifies that the image is of PNG type.
 	 */ 
-	PNG((byte)3, "PNG", "image/png", "png"),
+	PNG("PNG", "image/png", "png"),
 	
 	/**
 	 * Specifies that the image is of TIFF type.
 	 */ 
-	TIFF((byte)3, "TIFF", "image/tiff", "tiff");
+	TIFF("TIFF", "image/tiff", "tiff");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 	private final transient String mimeType;
 	private final transient String fileExtension;
 
 	private ImageTypeEnum(
-		byte value, 
 		String name, 
 		String mimeType,
 		String fileExtension
 		)
 	{
-		this.value = value;
 		this.name = name;
 		this.mimeType = mimeType;
 		this.fileExtension = fileExtension;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -121,21 +100,5 @@ public enum ImageTypeEnum implements JREnum
 	public static ImageTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ImageTypeEnum getByValue(Byte value)
-	{
-		return (ImageTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ImageTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

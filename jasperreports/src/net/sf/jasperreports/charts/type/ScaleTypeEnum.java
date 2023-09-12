@@ -81,12 +81,4 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleTypeEnum getByValue(Integer value)
-	{
-		return EnumUtil.getByValue(values(), value);
-	}
 }

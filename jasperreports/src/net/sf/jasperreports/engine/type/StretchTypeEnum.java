@@ -23,11 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.properties.PropertyConstants;
-
 /**
  * There are two main reasons for an element to stretch.
  * <p>
@@ -50,24 +45,24 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum StretchTypeEnum implements JREnum
+public enum StretchTypeEnum implements NamedEnum
 {
 	/**
 	 * A constant indicating that the element preserves its original specified height.
 	 */
-	NO_STRETCH((byte)0, "NoStretch"),//FIXMEENUM check all 0 constants for initialization
+	NO_STRETCH("NoStretch"),//FIXMEENUM check all 0 constants for initialization
 
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#ELEMENT_GROUP_HEIGHT}.
 	 */
 	@Deprecated
-	RELATIVE_TO_TALLEST_OBJECT((byte)1, "RelativeToTallestObject"),
+	RELATIVE_TO_TALLEST_OBJECT("RelativeToTallestObject"),
 	
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#CONTAINER_HEIGHT}.
 	 */
 	@Deprecated
-	RELATIVE_TO_BAND_HEIGHT((byte)2, "RelativeToBandHeight"),
+	RELATIVE_TO_BAND_HEIGHT("RelativeToBandHeight"),
 	
 	/**
 	 * Constant used for specifying that the element will adapt its height to match the changing 
@@ -79,7 +74,7 @@ public enum StretchTypeEnum implements JREnum
 	 * Like all element group based types of stretch, the amount of stretch forced onto the element comes only from the natural
 	 * stretch of the sibling elements in the same group. 
 	 */
-	ELEMENT_GROUP_HEIGHT((byte)3, "ElementGroupHeight"),
+	ELEMENT_GROUP_HEIGHT("ElementGroupHeight"),
 
 	/**
 	 * Constant used for specifying that the element will adapt its height to match the changing 
@@ -91,7 +86,7 @@ public enum StretchTypeEnum implements JREnum
 	 * Like all element group based types of stretch, the amount of stretch forced onto the element comes only from the natural
 	 * stretch of the sibling elements in the same group. 
 	 */
-	ELEMENT_GROUP_BOTTOM((byte)3, "ElementGroupBottom"),
+	ELEMENT_GROUP_BOTTOM("ElementGroupBottom"),
 
 	/**
 	 * Constant used for specifying that the element will adapt its height to match the new 
@@ -104,7 +99,7 @@ public enum StretchTypeEnum implements JREnum
 	 * Like all container based types of stretch, the amount of stretch forced onto the element can come from both the natural
 	 * stretch of the sibling elements in the same container, or from the container's own forced stretch imposed onto it by its own parent container. 
 	 */
-	CONTAINER_HEIGHT((byte)3, "ContainerHeight"),
+	CONTAINER_HEIGHT("ContainerHeight"),
 	
 	/**
 	 * Constant used for specifying that the element will adapt its height to match the new 
@@ -115,50 +110,17 @@ public enum StretchTypeEnum implements JREnum
 	 * Like all container based types of stretch, the amount of stretch forced onto the element can come from both the natural
 	 * stretch of the sibling elements in the same container, or from the container's own forced stretch imposed onto it by its own parent container. 
 	 */
-	CONTAINER_BOTTOM((byte)4, "ContainerBottom");
+	CONTAINER_BOTTOM("ContainerBottom");
 	
-	
-	/**
-	 * 
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_6_2_2,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.element.stretch.enabled";
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private StretchTypeEnum(byte value, String name)
+	private StretchTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -173,21 +135,5 @@ public enum StretchTypeEnum implements JREnum
 	public static StretchTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static StretchTypeEnum getByValue(Byte value)
-	{
-		return (StretchTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static StretchTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

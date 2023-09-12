@@ -27,46 +27,26 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum OrientationEnum implements JREnum
+public enum OrientationEnum implements NamedEnum
 {
 	/**
 	 * Specifies a portrait orientation. This is used mostly to inform printers of page layouts.
 	 */
-	PORTRAIT((byte)1, "Portrait"),
+	PORTRAIT("Portrait"),
 
 	/**
 	 * Specifies a landscape orientation. This is used mostly to inform printers of page layouts.
 	 */
-	LANDSCAPE((byte)2, "Landscape");
+	LANDSCAPE("Landscape");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private OrientationEnum(byte value, String name)
+	private OrientationEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -81,21 +61,5 @@ public enum OrientationEnum implements JREnum
 	public static OrientationEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static OrientationEnum getByValue(Byte value)
-	{
-		return (OrientationEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static OrientationEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

@@ -27,66 +27,46 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum PenEnum implements JREnum
+public enum PenEnum implements NamedEnum
 {
 	/**
 	 * Constant useful for specifying that the element border will not be drawn.
 	 */
-	NONE((byte)0, "None"),
+	NONE("None"),
 
 	/**
 	 * Constant useful for specifying that an element border of 1 pixel.
 	 */
-	ONE_POINT((byte)1, "1Point"),
+	ONE_POINT("1Point"),
 	
 	/**
 	 * Constant useful for specifying that an element border of 2 pixels.
 	 */
-	TWO_POINT((byte)2, "2Point"),
+	TWO_POINT("2Point"),
 	
 	/**
 	 * Constant useful for specifying that an element border of 4 pixels.
 	 */
-	FOUR_POINT((byte)3, "4Point"),
+	FOUR_POINT("4Point"),
 	
 	/**
 	 * Constant useful for specifying that an element has a dotted border.
 	 */
-	DOTTED((byte)4, "Dotted"),
+	DOTTED("Dotted"),
 	
 	/**
 	 * Constant useful for specifying that an element has a thin border (0.5 pixels)
 	 */
-	THIN((byte)5, "Thin");
+	THIN("Thin");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private PenEnum(byte value, String name)
+	private PenEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -101,21 +81,5 @@ public enum PenEnum implements JREnum
 	public static PenEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PenEnum getByValue(Byte value)
-	{
-		return (PenEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PenEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

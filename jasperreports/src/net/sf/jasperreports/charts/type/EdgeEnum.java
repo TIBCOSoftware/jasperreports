@@ -24,65 +24,45 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum EdgeEnum implements JREnum
+public enum EdgeEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	TOP((byte)1, "Top"),
+	TOP("Top"),
 	
 	/**
 	 *
 	 */
-	BOTTOM((byte)2, "Bottom"),
+	BOTTOM("Bottom"),
 	
 	/**
 	 *
 	 */
-	LEFT((byte)3, "Left"),
+	LEFT("Left"),
 	
 	/**
 	 *
 	 */
-	RIGHT((byte)4, "Right");
+	RIGHT("Right");
 	
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private EdgeEnum(byte value, String name)
+	private EdgeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -95,21 +75,5 @@ public enum EdgeEnum implements JREnum
 	public static EdgeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static EdgeEnum getByValue(Byte value)
-	{
-		return (EdgeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static EdgeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

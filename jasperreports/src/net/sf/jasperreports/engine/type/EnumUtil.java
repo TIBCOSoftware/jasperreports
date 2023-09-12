@@ -29,37 +29,6 @@ package net.sf.jasperreports.engine.type;
  */
 public final class EnumUtil
 {
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static JREnum getByValue(JREnum[] values, Integer value)
-	{
-		if (values != null && value != null)
-		{
-			return getByValue(values, value.byteValue());
-		}
-		return null;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static JREnum getByValue(JREnum[] values, Byte value)
-	{
-		if (values != null && value != null)
-		{
-			for(JREnum e:values)
-			{
-				if (value.equals(e.getValueByte()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 *
 	 */
@@ -76,14 +45,6 @@ public final class EnumUtil
 			}
 		}
 		return null;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getEnumByName(NamedEnum[], String)}.
-	 */
-	public static JREnum getByName(JREnum[] values, String name)
-	{
-		return EnumUtil.<JREnum>getEnumByName(values, name);
 	}
 
 	/**
@@ -104,24 +65,6 @@ public final class EnumUtil
 		return null;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getByConstantName(Enum[], String)}.
-	 */
-	public static JREnum getByEnumConstantName(JREnum[] values, String name)
-	{
-		if (values != null && name != null)
-		{
-			for(JREnum e:values)
-			{
-				if (name.equals(((Enum<?>)e).name()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 *
 	 */

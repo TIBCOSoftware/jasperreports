@@ -24,64 +24,44 @@
 package net.sf.jasperreports.crosstabs.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum CrosstabRowPositionEnum implements JREnum
+public enum CrosstabRowPositionEnum implements NamedEnum
 {
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the top.
 	 */
-	TOP((byte)1, "Top"),
+	TOP("Top"),
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the middle.
 	 */
-	MIDDLE((byte)2, "Middle"),
+	MIDDLE("Middle"),
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered on the bottom.
 	 */
-	BOTTOM((byte)3, "Bottom"),
+	BOTTOM("Bottom"),
 	
 	/**
 	 * Vertical stretch position indicating that the contents will be rendered vertically stretched.
 	 */
-	STRETCH((byte)4, "Stretch");
+	STRETCH("Stretch");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private CrosstabRowPositionEnum(byte value, String name)
+	private CrosstabRowPositionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -94,21 +74,5 @@ public enum CrosstabRowPositionEnum implements JREnum
 	public static CrosstabRowPositionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabRowPositionEnum getByValue(Byte value)
-	{
-		return (CrosstabRowPositionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static CrosstabRowPositionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

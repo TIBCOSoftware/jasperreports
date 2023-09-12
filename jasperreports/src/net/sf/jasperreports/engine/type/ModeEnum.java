@@ -27,48 +27,28 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ModeEnum implements JREnum
+public enum ModeEnum implements NamedEnum
 {
 	/**
 	 * Specifies that the element is opaque.
 	 */ 
-	OPAQUE((byte)1, "Opaque"),
+	OPAQUE("Opaque"),
 	
 	/**
 	 * Specifies that the element is transparent.
 	 */ 
-	TRANSPARENT((byte)2, "Transparent");
+	TRANSPARENT("Transparent");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private ModeEnum(byte value, String name)
+	private ModeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -81,21 +61,5 @@ public enum ModeEnum implements JREnum
 	public static ModeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ModeEnum getByValue(Byte value)
-	{
-		return (ModeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ModeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

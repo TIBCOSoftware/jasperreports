@@ -27,54 +27,34 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum OnErrorTypeEnum implements JREnum
+public enum OnErrorTypeEnum implements NamedEnum
 {
 	/**
 	 * A constant used for specifying that the engine should raise an exception if the image is not found.
 	 */
-	ERROR((byte)1, "Error"),
+	ERROR("Error"),
 
 	/**
 	 * A constant used for specifying that the engine should display blank space if the image is not found.
 	 */
-	BLANK((byte)2, "Blank"),
+	BLANK("Blank"),
 	
 	/**
 	 * A constant used for specifying that the engine should display a replacement icon if the image is not found.
 	 */
-	ICON((byte)3, "Icon");
+	ICON("Icon");
 	
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private OnErrorTypeEnum(byte value, String name)
+	private OnErrorTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -87,21 +67,5 @@ public enum OnErrorTypeEnum implements JREnum
 	public static OnErrorTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static OnErrorTypeEnum getByValue(Byte value)
-	{
-		return (OnErrorTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static OnErrorTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

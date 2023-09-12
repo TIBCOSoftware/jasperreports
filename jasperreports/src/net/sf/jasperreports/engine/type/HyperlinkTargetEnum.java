@@ -29,32 +29,32 @@ import net.sf.jasperreports.engine.JRHyperlink;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum HyperlinkTargetEnum implements JREnum
+public enum HyperlinkTargetEnum implements NamedEnum
 {
 	/**
 	 * Target not defined.
 	 */
-	NONE((byte)0, "None", null),
+	NONE("None", null),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the same window.
 	 */
-	SELF((byte)1, "Self", "_self"),
+	SELF("Self", "_self"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in a new window.
 	 */
-	BLANK((byte)2, "Blank", "_blank"),
+	BLANK("Blank", "_blank"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the parent frame.
 	 */
-	PARENT((byte)3, "Parent", "_parent"),
+	PARENT("Parent", "_parent"),
 
 	/**
 	 * Constant useful for specifying that the hyperlink will be opened in the top frame.
 	 */
-	TOP((byte)4, "Top", "_top"),
+	TOP("Top", "_top"),
 
 	/**
 	 * Custom hyperlink target name.
@@ -62,38 +62,18 @@ public enum HyperlinkTargetEnum implements JREnum
 	 * The specific target name is determined by {@link JRHyperlink#getLinkTarget() getLinkTarget()}.
 	 * </p>
 	 */
-	CUSTOM((byte)5, "Custom", null);
+	CUSTOM("Custom", null);
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 	private final transient String htmlValue;
 
-	private HyperlinkTargetEnum(byte value, String name, String htmlValue)
+	private HyperlinkTargetEnum(String name, String htmlValue)
 	{
-		this.value = value;
 		this.name = name;
 		this.htmlValue = htmlValue;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -116,21 +96,5 @@ public enum HyperlinkTargetEnum implements JREnum
 	public static HyperlinkTargetEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static HyperlinkTargetEnum getByValue(Byte value)
-	{
-		return (HyperlinkTargetEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static HyperlinkTargetEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

@@ -27,46 +27,26 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum BreakTypeEnum implements JREnum
+public enum BreakTypeEnum implements NamedEnum
 {
 	/**
 	 * Constant used for specifying that the break element will break the page.
 	 */
-	PAGE((byte)1, "Page"),
+	PAGE("Page"),
 
 	/**
 	 * Constant used for specifying that the break element will break the column.
 	 */
-	COLUMN((byte)2, "Column");
+	COLUMN("Column");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private BreakTypeEnum(byte value, String name)
+	private BreakTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -81,21 +61,5 @@ public enum BreakTypeEnum implements JREnum
 	public static BreakTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static BreakTypeEnum getByValue(Byte value)
-	{
-		return (BreakTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static BreakTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

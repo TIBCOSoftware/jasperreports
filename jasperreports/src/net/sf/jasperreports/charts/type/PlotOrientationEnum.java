@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.charts.type;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
-
-import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
@@ -77,24 +77,5 @@ public enum PlotOrientationEnum implements NamedEnum
 	public static PlotOrientationEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
-	{
-		PlotOrientationEnum[] values = values();
-		if (values != null && orientation != null)
-		{
-			for(PlotOrientationEnum e:values)
-			{
-				if (orientation.equals(e.getOrientation()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
 	}
 }

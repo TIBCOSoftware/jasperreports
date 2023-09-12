@@ -29,38 +29,38 @@ import net.sf.jasperreports.engine.JRVariable;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum EvaluationTimeEnum implements JREnum
+public enum EvaluationTimeEnum implements NamedEnum
 {
 	/**
 	 * A constant specifying that an expression should be evaluated at the exact moment in the filling process
 	 * when it is encountered.
 	 */
-	NOW((byte)1, "Now"),
+	NOW("Now"),
 
 	/**
 	 * A constant specifying that an expression should be evaluated at the end of the filling process.
 	 */
-	REPORT((byte)2, "Report"),
+	REPORT("Report"),
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each page is filled.
 	 */
-	PAGE((byte)3, "Page"),
+	PAGE("Page"),
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each column is filled.
 	 */
-	COLUMN((byte)4, "Column"),
+	COLUMN("Column"),
 
 	/**
 	 * A constant specifying that an expression should be evaluated after each group break.
 	 */
-	GROUP((byte)5, "Group"),
+	GROUP("Group"),
 
 	/**
 	 * The element will be evaluated at band end.
 	 */
-	BAND((byte)6, "Band"),
+	BAND("Band"),
 	
 	/**
 	 * Evaluation time indicating that each variable participating in the expression
@@ -75,7 +75,7 @@ public enum EvaluationTimeEnum implements JREnum
 	 * NB: avoid using this evaluation type when other types suffice as it can lead
 	 * to performance loss.
 	 */
-	AUTO((byte)7, "Auto"),
+	AUTO("Auto"),
 	
 	/**
 	 * Used for elements that are evaluated at the moment the master report ends.
@@ -83,36 +83,16 @@ public enum EvaluationTimeEnum implements JREnum
 	 * @see JRVariable#MASTER_CURRENT_PAGE
 	 * @see JRVariable#MASTER_TOTAL_PAGES
 	 */
-	MASTER((byte) 8, "Master");
+	MASTER("Master");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private EvaluationTimeEnum(byte value, String name)
+	private EvaluationTimeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -127,21 +107,5 @@ public enum EvaluationTimeEnum implements JREnum
 	public static EvaluationTimeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static EvaluationTimeEnum getByValue(Byte value)
-	{
-		return (EvaluationTimeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static EvaluationTimeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

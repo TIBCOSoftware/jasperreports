@@ -27,103 +27,83 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum BandTypeEnum implements JREnum
+public enum BandTypeEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	UNKNOWN((byte)0, "unknown"),
+	UNKNOWN("unknown"),
 
 	/**
 	 *
 	 */
-	BACKGROUND((byte)1, "background"),
+	BACKGROUND("background"),
 
 	/**
 	 *
 	 */
-	TITLE((byte)2, "title"),
+	TITLE("title"),
 
 	/**
 	 *
 	 */
-	PAGE_HEADER((byte)3, "pageHeader"),
+	PAGE_HEADER("pageHeader"),
 
 	/**
 	 *
 	 */
-	COLUMN_HEADER((byte)4, "columnHeader"),
+	COLUMN_HEADER("columnHeader"),
 
 	/**
 	 *
 	 */
-	GROUP_HEADER((byte)5, "groupHeader"),
+	GROUP_HEADER("groupHeader"),
 
 	/**
 	 *
 	 */
-	DETAIL((byte)6, "detail"),
+	DETAIL("detail"),
 
 	/**
 	 *
 	 */
-	GROUP_FOOTER((byte)7, "groupFooter"),
+	GROUP_FOOTER("groupFooter"),
 
 	/**
 	 *
 	 */
-	COLUMN_FOOTER((byte)8, "columnFooter"),
+	COLUMN_FOOTER("columnFooter"),
 
 	/**
 	 *
 	 */
-	PAGE_FOOTER((byte)9, "pageFooter"),
+	PAGE_FOOTER("pageFooter"),
 
 	/**
 	 *
 	 */
-	LAST_PAGE_FOOTER((byte)10, "lastPageFooter"),
+	LAST_PAGE_FOOTER("lastPageFooter"),
 
 	/**
 	 *
 	 */
-	SUMMARY((byte)11, "summary"),
+	SUMMARY("summary"),
 
 	/**
 	 *
 	 */
-	NO_DATA((byte)12, "noData");
+	NO_DATA("noData");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private BandTypeEnum(byte value, String name)
+	private BandTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -136,21 +116,5 @@ public enum BandTypeEnum implements JREnum
 	public static BandTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static BandTypeEnum getByValue(Byte value)
-	{
-		return (BandTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static BandTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

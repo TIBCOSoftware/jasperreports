@@ -27,47 +27,27 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum PrintOrderEnum implements JREnum
+public enum PrintOrderEnum implements NamedEnum
 {
 	/**
 	 * Specifies that columns in a report should be filled vertically (fill an entire column and then go to the
 	 * next one).
 	 */
-	VERTICAL((byte)1, "Vertical"),
+	VERTICAL("Vertical"),
 
 	/**
 	 * Specifies that columns in a report should be filled horizontally (columns are filled proportionally).
 	 */
-	HORIZONTAL((byte)2, "Horizontal");
+	HORIZONTAL("Horizontal");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private PrintOrderEnum(byte value, String name)
+	private PrintOrderEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -82,21 +62,5 @@ public enum PrintOrderEnum implements JREnum
 	public static PrintOrderEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PrintOrderEnum getByValue(Byte value)
-	{
-		return (PrintOrderEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PrintOrderEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

@@ -27,48 +27,28 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum LineDirectionEnum implements JREnum
+public enum LineDirectionEnum implements NamedEnum
 {
 	/**
 	 * Constant used for specifying that the line starts from the top and goes towards the bottom.
 	 */
-	TOP_DOWN((byte)1, "TopDown"),
+	TOP_DOWN("TopDown"),
 
 	/**
 	 * Constant used for specifying that the line starts from the bottom and goes towards the top.
 	 */
-	BOTTOM_UP((byte)2, "BottomUp");
+	BOTTOM_UP("BottomUp");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private LineDirectionEnum(byte value, String name)
+	private LineDirectionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -81,21 +61,5 @@ public enum LineDirectionEnum implements JREnum
 	public static LineDirectionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineDirectionEnum getByValue(Byte value)
-	{
-		return (LineDirectionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineDirectionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

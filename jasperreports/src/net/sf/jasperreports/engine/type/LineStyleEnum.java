@@ -27,58 +27,38 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum LineStyleEnum implements JREnum
+public enum LineStyleEnum implements NamedEnum
 {
 	/**
 	 * Constant useful for specifying solid line style.
 	 */
-	SOLID((byte)0, "Solid"),
+	SOLID("Solid"),
 
 	/**
 	 * Constant useful for specifying dashed line style.
 	 */
-	DASHED((byte)1, "Dashed"),
+	DASHED("Dashed"),
 	
 	/**
 	 * Constant useful for specifying dotted line style.
 	 */
-	DOTTED((byte)2, "Dotted"),
+	DOTTED("Dotted"),
 	
 	/**
 	 * Constant useful for specifying double line style.
 	 */
-	DOUBLE((byte)3, "Double");
+	DOUBLE("Double");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private LineStyleEnum(byte value, String name)
+	private LineStyleEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -91,21 +71,5 @@ public enum LineStyleEnum implements JREnum
 	public static LineStyleEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineStyleEnum getByValue(Byte value)
-	{
-		return (LineStyleEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static LineStyleEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

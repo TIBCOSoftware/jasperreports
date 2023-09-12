@@ -24,65 +24,45 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum ValueLocationEnum implements JREnum
+public enum ValueLocationEnum implements NamedEnum
 {
 	/**
 	 * The value should not be displayed.
 	 */
-	NONE((byte)0, "none"),
+	NONE("none"),
 	
 	/**
 	 * The value should be displayed to the left of the thermometer.
 	 */
-	LEFT((byte)1, "left"),
+	LEFT("left"),
 	
 	/**
 	 * The value should be displayed to the right of the thermometer.
 	 */
-	RIGHT((byte)2, "right"),
+	RIGHT("right"),
 	
 	/**
 	 * The value should be displayed in the bulb of the thermometer.  When
 	 * using this option make sure the font is small enough or the value short
 	 * enough so the value fits in the bulb.
 	 */
-	BULB((byte)3, "bulb");
+	BULB("bulb");
 	
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private ValueLocationEnum(byte value, String name)
+	private ValueLocationEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -97,21 +77,5 @@ public enum ValueLocationEnum implements JREnum
 	public static ValueLocationEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ValueLocationEnum getByValue(Byte value)
-	{
-		return (ValueLocationEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ValueLocationEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

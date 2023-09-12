@@ -24,56 +24,36 @@
 package net.sf.jasperreports.charts.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum AxisPositionEnum implements JREnum
+public enum AxisPositionEnum implements NamedEnum
 {
 	/**
 	 * Position the axis to the left of a VERTICAL chart or on the top
 	 * of a HORIZONTAL chart.
 	 */
-	LEFT_OR_TOP((byte)1, "leftOrTop"),
+	LEFT_OR_TOP("leftOrTop"),
 	
 	/**
 	 * Position the axis to the right of a VERTICAL chart or on the bottom
 	 * of a HORIZONTAL chart.
 	 */
-	RIGHT_OR_BOTTOM((byte)2, "rightOrBottom");
+	RIGHT_OR_BOTTOM("rightOrBottom");
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private AxisPositionEnum(byte value, String name)
+	private AxisPositionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
-	}
-	
 	@Override
 	public String getName()
 	{
@@ -86,21 +66,5 @@ public enum AxisPositionEnum implements JREnum
 	public static AxisPositionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static AxisPositionEnum getByValue(Byte value)
-	{
-		return (AxisPositionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static AxisPositionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

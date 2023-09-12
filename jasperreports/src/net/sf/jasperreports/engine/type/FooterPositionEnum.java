@@ -27,63 +27,43 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum FooterPositionEnum implements JREnum
+public enum FooterPositionEnum implements NamedEnum
 {
 	/**
 	 * The group footer section is rendered at normal position, just right after the last detail 
 	 * or right after the nested group footer section.
 	 */
-	NORMAL((byte)1, "Normal"),
+	NORMAL("Normal"),
 
 	/**
 	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
 	 * having this value would force outer group footers to stack at the bottom of the current page, 
 	 * regardless of the outer group footer setting.
 	 */
-	STACK_AT_BOTTOM((byte)2 ,"StackAtBottom"),
+	STACK_AT_BOTTOM("StackAtBottom"),
 
 	/**
 	 * The group footer section is rendered at bottom of the current page, provided that an inner group 
 	 * having this value would render its footer right at the bottom of the page, forcing the outer group 
 	 * footers to render on the next page.
 	 */
-	FORCE_AT_BOTTOM((byte)3, "ForceAtBottom"),
+	FORCE_AT_BOTTOM("ForceAtBottom"),
 
 	/**
 	 * The group footer section is rendered at bottom of the current page, provided that the outer footers
 	 * have a similar footer display option to render at the page bottom as well, because otherwise, they cannot
 	 * be forced to change their behavior in any way.
 	 */
-	COLLATE_AT_BOTTOM((byte)4, "CollateAtBottom");
+	COLLATE_AT_BOTTOM("CollateAtBottom");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private FooterPositionEnum(byte value, String name)
+	private FooterPositionEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -98,21 +78,5 @@ public enum FooterPositionEnum implements JREnum
 	public static FooterPositionEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static FooterPositionEnum getByValue(Byte value)
-	{
-		return (FooterPositionEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static FooterPositionEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

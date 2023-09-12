@@ -27,46 +27,26 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum SortOrderEnum implements JREnum
+public enum SortOrderEnum implements NamedEnum
 {
 	/**
 	 * Ascending order constant.
 	 */ 
-	ASCENDING((byte)1, "Ascending"),
+	ASCENDING("Ascending"),
 	
 	/**
 	 * Descending order constant.
 	 */ 
-	DESCENDING((byte)2, "Descending");
+	DESCENDING("Descending");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private SortOrderEnum(byte value, String name)
+	private SortOrderEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -81,21 +61,5 @@ public enum SortOrderEnum implements JREnum
 	public static SortOrderEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static SortOrderEnum getByValue(Byte value)
-	{
-		return (SortOrderEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static SortOrderEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }

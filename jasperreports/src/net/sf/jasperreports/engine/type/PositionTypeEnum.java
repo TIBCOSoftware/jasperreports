@@ -27,54 +27,34 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum PositionTypeEnum implements JREnum
+public enum PositionTypeEnum implements NamedEnum
 {
 	/**
 	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
 	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
 	 */
-	FLOAT((byte)1, "Float"),
+	FLOAT("Float"),
 
 	/**
 	 * The element will simply ignore what happens to the other section elements and tries to
 	 * conserve the y offset measured from the top of its parent report section.
 	 */
-	FIX_RELATIVE_TO_TOP((byte)2, "FixRelativeToTop"),
+	FIX_RELATIVE_TO_TOP("FixRelativeToTop"),
 
 	/**
 	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
 	 * conserve the original distance between its bottom margin and the bottom of the band.
 	 */
-	FIX_RELATIVE_TO_BOTTOM((byte)3, "FixRelativeToBottom");
+	FIX_RELATIVE_TO_BOTTOM("FixRelativeToBottom");
 
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private PositionTypeEnum(byte value, String name)
+	private PositionTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public Byte getValueByte()
-	{
-		return value;
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	@Override
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -89,21 +69,5 @@ public enum PositionTypeEnum implements JREnum
 	public static PositionTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PositionTypeEnum getByValue(Byte value)
-	{
-		return (PositionTypeEnum)EnumUtil.getByValue(values(), value);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static PositionTypeEnum getByValue(byte value)
-	{
-		return getByValue((Byte)value);
 	}
 }
