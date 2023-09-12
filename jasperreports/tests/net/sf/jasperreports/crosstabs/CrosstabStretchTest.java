@@ -32,30 +32,12 @@ import org.testng.annotations.Test;
 import net.sf.jasperreports.AbstractXmlTest;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
-import net.sf.jasperreports.engine.type.StretchTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class CrosstabStretchTest extends AbstractXmlTest
 {
-	@Test(dataProvider = "testArgsLegacy")
-	public void testReportLegacy(String folderName, String jrxmlFileNamePrefix, String referenceFileNamePrefix) 
-			throws JRException, NoSuchAlgorithmException, IOException
-	{
-		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-		setJasperReportsContext(jasperReportsContext);
-
-		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "true");
-		runReport(folderName, jrxmlFileNamePrefix, referenceFileNamePrefix);
-	}
-	
-	@DataProvider
-	public Object[][] testArgsLegacy()
-	{
-		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 7);
-	}
-	
 	@Override
 	@Test(dataProvider = "testArgs")
 	public void testReport(String folderName, String jrxmlFileNamePrefix, String referenceFileNamePrefix) 
@@ -64,7 +46,6 @@ public class CrosstabStretchTest extends AbstractXmlTest
 		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
 		setJasperReportsContext(jasperReportsContext);
 		
-		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "false");
 		runReport(folderName, jrxmlFileNamePrefix, referenceFileNamePrefix);
 	}
 	

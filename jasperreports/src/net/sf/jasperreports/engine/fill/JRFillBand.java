@@ -381,28 +381,19 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		rewind();
 		restoreSavedVariables();
 
+		evaluatePrintWhenExpression(evaluation);
+		
 		JRPrintBand printBand = null;
 		
-		@SuppressWarnings("deprecation")
-		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
-		if (isLegacyBandEvaluationEnabled)
+		if (isToPrint())
 		{
+			evaluate(evaluation);
+			
 			printBand = fill(availableHeight);
 		}
 		else
 		{
-			evaluatePrintWhenExpression(evaluation);
-			
-			if (isToPrint())
-			{
-				evaluate(evaluation);
-				
-				printBand = fill(availableHeight);
-			}
-			else
-			{
-				printBand = new JRPrintBand();
-			}
+			printBand = new JRPrintBand();
 		}
 		
 		return printBand;
@@ -451,15 +442,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		resetElements();
 
 		prepareElements(availableHeight, isOverflowAllowed);
-
-		if (isLegacyElementStretchEnabled())
-		{
-			stretchElements();
-
-			moveBandBottomElements();
-
-			removeBlankElements();
-		}
 
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		isNewPageColumn = false;

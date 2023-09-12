@@ -390,17 +390,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	protected JRPrintFrame fill() throws JRException
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			stretchElements();
-			moveBandBottomElements();
-			removeBlankElements();
-		}
-		else
-		{
-			stretchElementsToContainer();
-			moveBandBottomElements();
-		}
+		stretchElementsToContainer();
+		moveBandBottomElements();
 
 		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame(), printElementOriginator);
 		//printCell.setUUID();

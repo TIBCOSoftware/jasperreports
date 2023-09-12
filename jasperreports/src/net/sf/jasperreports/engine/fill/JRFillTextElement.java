@@ -557,12 +557,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	@Override
 	public void rewind()
 	{
-		@SuppressWarnings("deprecation")
-		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
-		if (!isLegacyBandEvaluationEnabled)
-		{
-			this.rawText = this.oldRawText;
-		}
+		this.rawText = this.oldRawText;
+
 		resetTextChunk();
 	}
 

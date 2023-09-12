@@ -2660,14 +2660,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				if (recalculateVariables)
 				{
-					@SuppressWarnings("deprecation")
-					boolean isLegacyBandEvaluationEnabled = getFillContext().isLegacyBandEvaluationEnabled(); 
-					if (!isLegacyBandEvaluationEnabled)
-					{
-						mainDataset.revertVariablesToOldValues();
-						
-						calculator.recalculateVariables();
-					}
+					mainDataset.revertVariablesToOldValues();
+					
+					calculator.recalculateVariables();
 				}
 				
 				printBand = band.refill(evaluation, columnFooterOffsetY - offsetY);

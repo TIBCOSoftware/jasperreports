@@ -128,17 +128,8 @@ public class FillListContents extends JRFillElementContainer
 	// and this method could be removed
 	protected void finalizeElementPositions()
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			stretchElements();
-			moveBandBottomElements();
-			removeBlankElements();
-		}
-		else
-		{
-			stretchElementsToContainer();
-			moveBandBottomElements();
-		}
+		stretchElementsToContainer();
+		moveBandBottomElements();
 	}
 
 	@Override

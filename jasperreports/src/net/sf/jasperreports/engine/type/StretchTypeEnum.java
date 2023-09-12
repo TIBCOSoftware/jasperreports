@@ -23,11 +23,6 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.properties.PropertyConstants;
-
 /**
  * There are two main reasons for an element to stretch.
  * <p>
@@ -116,19 +111,6 @@ public enum StretchTypeEnum implements NamedEnum
 	 * stretch of the sibling elements in the same container, or from the container's own forced stretch imposed onto it by its own parent container. 
 	 */
 	CONTAINER_BOTTOM("ContainerBottom");
-	
-	/**
-	 * 
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_6_2_2,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.element.stretch.enabled";
 	
 	/**
 	 *

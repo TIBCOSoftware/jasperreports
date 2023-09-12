@@ -30,8 +30,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Map;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -40,7 +38,6 @@ import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -70,19 +67,6 @@ public class JRCalculator implements JRFillExpressionEvaluator
 {
 
 	/**
-	 * 
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_6_5_0,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_LEGACY_BAND_EVALUATION_ENABLED = 
-		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.band.evaluation.enabled";
-
-	/**
 	 *
 	 */
 	protected JRFillDataset dataset;
@@ -95,11 +79,6 @@ public class JRCalculator implements JRFillExpressionEvaluator
 
 	private JRFillVariable pageNumber;
 	private JRFillVariable columnNumber;
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	private boolean legacyBandEvaluationEnabled;
 	
 	/**
 	 * The expression evaluator
@@ -157,12 +136,6 @@ public class JRCalculator implements JRFillExpressionEvaluator
 					true
 					);
 		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType, ignoreNPE);
-		
-		legacyBandEvaluationEnabled = 
-			JRPropertiesUtil.getInstance(getFillDataset().getJasperReportsContext())
-				.getBooleanProperty(
-					PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
-					);
 	}
 
 
@@ -417,7 +390,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 			if (toIncrement)
 			{
 				variable.setIncrementedValue(variable.getValue());
-				if (toSetPreviousValue && !legacyBandEvaluationEnabled)
+				if (toSetPreviousValue)
 				{
 					variable.setPreviousIncrementedValue(variable.getValue());
 				}
@@ -544,7 +517,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 					);
 				variable.setInitialized(true);
 				variable.setIncrementedValue(null);
-				if (toSetOldValue && !legacyBandEvaluationEnabled)
+				if (toSetOldValue)
 				{
 					variable.setOldValue(variable.getValue());
 					variable.setPreviousIncrementedValue(null);

@@ -613,12 +613,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		super.rewind();
 		
-		@SuppressWarnings("deprecation")
-		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
-		if (!isLegacyBandEvaluationEnabled)
-		{
-			this.renderer = this.oldRenderer;
-		}
+		this.renderer = this.oldRenderer;
 	}
 
 	

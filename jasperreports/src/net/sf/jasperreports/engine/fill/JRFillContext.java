@@ -49,7 +49,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -113,16 +112,6 @@ public class JRFillContext
 	
 	private boolean detectParts;
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	private final boolean legacyElementStretchEnabled;
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	private final boolean legacyBandEvaluationEnabled;
-
 	
 	/**
 	 * Constructs a fill context.
@@ -140,16 +129,6 @@ public class JRFillContext
 		deduplicableRegistry = new DeduplicableRegistry();
 		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
-		
-		legacyElementStretchEnabled = 
-			masterFiller.getPropertiesUtil().getBooleanProperty(
-				StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED
-				);
-		
-		legacyBandEvaluationEnabled = 
-			masterFiller.getPropertiesUtil().getBooleanProperty(
-				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
-				);
 	}
 
 	public BaseReportFiller getMasterFiller()
@@ -322,24 +301,6 @@ public class JRFillContext
 	public boolean isIgnorePagination()
 	{
 		return masterFiller.isIgnorePagination();
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public boolean isLegacyElementStretchEnabled()
-	{
-		return legacyElementStretchEnabled;
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public boolean isLegacyBandEvaluationEnabled()
-	{
-		return legacyBandEvaluationEnabled;
 	}
 	
 	

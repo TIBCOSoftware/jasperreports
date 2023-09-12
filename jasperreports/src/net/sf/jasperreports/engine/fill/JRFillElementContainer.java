@@ -86,8 +86,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	protected Map<JRStyle,JRStyle> evaluatedStyles = new HashMap<>();
 	
 	protected boolean hasPrintWhenOverflowElement;
-	
-	private final boolean legacyElementStretchEnabled;
 
 	
 	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup container, JRFillObjectFactory factory)
@@ -98,10 +96,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		initDeepElements();
 		
 		this.filler = filler;
-		
-		@SuppressWarnings("deprecation")
-		boolean depFlag = filler.getFillContext().isLegacyElementStretchEnabled();
-		legacyElementStretchEnabled = depFlag; 
 	}
 	
 	protected JRFillElementContainer(JRFillElementContainer container, JRFillCloneFactory factory)
@@ -112,10 +106,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		initDeepElements();
 		
 		this.filler = container.filler;
-		
-		@SuppressWarnings("deprecation")
-		boolean depFlag = filler.getFillContext().isLegacyElementStretchEnabled();
-		legacyElementStretchEnabled = depFlag; 
 	}
 
 
@@ -235,12 +225,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 	protected final void initElements()
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			_initElements();
-			return;
-		}
-		
 		hasPrintWhenOverflowElement = false;
 		
 		if (elements != null && elements.length > 0)
@@ -520,12 +504,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		boolean isOverflowAllowed
 		) throws JRException
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			_prepareElements(availableHeight, isOverflowAllowed);
-			return;
-		}
-		
 		currentOverflowWithElements = false;
 		currentOverflowWithWhiteSpace = false;
 		currentOverflowAllowed = isOverflowAllowed;
@@ -672,14 +650,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		return calculatedStretchHeight;
 	}
 
-	/**
-	 *
-	 */
-	public boolean isLegacyElementStretchEnabled()
-	{
-		return legacyElementStretchEnabled;
-	}
-
 	@Override
 	public boolean isCurrentOverflow()
 	{
@@ -753,12 +723,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 	protected void setStretchHeight(int stretchHeight)
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			_setStretchHeight(stretchHeight);
-			return;
-		}
-		
 		this.stretchHeight = stretchHeight;
 	}
 
@@ -935,12 +899,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	 */
 	protected void removeBlankElements()
 	{
-		if (isLegacyElementStretchEnabled())
-		{
-			_removeBlankElements();
-			return;
-		}
-		
 		if (removableElements != null && removableElements.length > 0)
 		{
 			for (JRFillElement remElem : removableElements)
