@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.charts.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +38,11 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDataset
 {
-
-
 	/**
 	 *
 	 */
@@ -171,88 +166,6 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getKeyExpression()
-	{
-		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getKeyExpression() : null;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public void setKeyExpression(JRExpression keyExpression)
-	{
-		if (pieSeriesList.size() == 0)
-		{
-			addPieSeries(new JRDesignPieSeries());
-		}
-		((JRDesignPieSeries)pieSeriesList.get(0)).setKeyExpression(keyExpression);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getValueExpression()
-	{
-		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getValueExpression() : null;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public void setValueExpression(JRExpression valueExpression)
-	{
-		if (pieSeriesList.size() == 0)
-		{
-			addPieSeries(new JRDesignPieSeries());
-		}
-		((JRDesignPieSeries)pieSeriesList.get(0)).setValueExpression(valueExpression);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getLabelExpression() : null;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public void setLabelExpression(JRExpression labelExpression)
-	{
-		if (pieSeriesList.size() == 0)
-		{
-			addPieSeries(new JRDesignPieSeries());
-		}
-		((JRDesignPieSeries)pieSeriesList.get(0)).setLabelExpression(labelExpression);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRHyperlink getSectionHyperlink()
-	{
-		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getSectionHyperlink() : null;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
-	{
-		if (pieSeriesList.size() == 0)
-		{
-			addPieSeries(new JRDesignPieSeries());
-		}
-		((JRDesignPieSeries)pieSeriesList.get(0)).setSectionHyperlink(sectionHyperlink);
-	}
-	
-	
 	@Override
 	public JRExpression getOtherKeyExpression()
 	{
@@ -332,47 +245,4 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		clone.otherSectionHyperlink = JRCloneUtils.nullSafeClone(otherSectionHyperlink);
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	/**
-	 * @deprecated
-	 */
-	private JRExpression keyExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRExpression valueExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRExpression labelExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRHyperlink sectionHyperlink;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (pieSeriesList == null)
-		{
-			pieSeriesList = new ArrayList<>();
-			
-			JRDesignPieSeries ps = new JRDesignPieSeries();
-			ps.setKeyExpression(keyExpression);
-			ps.setValueExpression(valueExpression);
-			ps.setLabelExpression(labelExpression);
-			ps.setSectionHyperlink(sectionHyperlink);
-			pieSeriesList.add(ps);
-
-			keyExpression = null;
-			valueExpression = null;
-			labelExpression = null;
-			sectionHyperlink = null;
-		}
-	}
-
 }

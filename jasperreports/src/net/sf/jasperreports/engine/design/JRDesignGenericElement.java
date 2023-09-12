@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -39,14 +37,14 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
+
 /**
  * A implementation of {@link JRGenericElement} that is to be used at report
  * design time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRDesignGenericElement extends JRDesignElement implements
-		JRGenericElement
+public class JRDesignGenericElement extends JRDesignElement implements JRGenericElement
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -78,14 +76,6 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	public JRGenericElementParameter[] getParameters()
 	{
 		return parameters.toArray(new JRGenericElementParameter[parameters.size()]);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getParametersList()}.
-	 */
-	public List<JRGenericElementParameter> getParamtersList()
-	{
-		return getParametersList();
 	}
 	
 	/**
@@ -244,25 +234,5 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		JRDesignGenericElement clone = (JRDesignGenericElement)super.clone();
 		clone.parameters = JRCloneUtils.cloneList(parameters);
 		return clone;
-	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-		}
 	}
 }

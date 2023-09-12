@@ -23,13 +23,11 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+
 
 /**
  * Base read-only implementation of crosstab row groups.
@@ -62,26 +60,4 @@ public class JRBaseCrosstabRowGroup extends JRBaseCrosstabGroup implements JRCro
 	{
 		return width;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte position;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			positionValue = CrosstabRowPositionEnum.getByValue(position);
-		}
-	}
-
 }

@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,8 +48,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 {
-
-
 	/**
 	 *
 	 */
@@ -274,47 +270,5 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		clone.valueDisplay = valueDisplay == null ? null : valueDisplay.clone(parentChart);
 		clone.intervals = JRCloneUtils.cloneList(intervals);
 		return clone;
-	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte shape = MeterShapeEnum.PIE.getValue();
-	/**
-	 * @deprecated
-	 */
-	private int meterAngle = 180;
-	/**
-	 * @deprecated
-	 */
-	private double tickInterval = 10.0;
-	/**
-	 * @deprecated
-	 */
-	private Byte shapeByte;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-			{
-				shapeValue = MeterShapeEnum.getByValue(shape);
-				meterAngleInteger = meterAngle;
-				tickIntervalDouble = tickInterval;
-			}
-			else
-			{
-				shapeValue = MeterShapeEnum.getByValue(shapeByte);
-				shapeByte = null;
-			}
-		}
 	}
 }

@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -41,8 +39,8 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
-public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
-	
+public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot 
+{
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_SHOW_LINES = "isShowLines";
@@ -332,29 +330,4 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowShapes = true;
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowLines = true;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			showShapes = isShowShapes;
-			showLines = isShowLines;
-		}
-	}
-	
 }

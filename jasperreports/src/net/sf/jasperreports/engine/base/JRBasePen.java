@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.Deduplicable;
@@ -47,8 +45,6 @@ import net.sf.jasperreports.engine.util.StyleResolver;
  */
 public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEventsSupport, Deduplicable
 {
-
-
 	/**
 	 *
 	 */
@@ -202,29 +198,6 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte lineStyle;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			lineStyleValue = LineStyleEnum.getByValue(lineStyle);
-			
-			lineStyle = null;
-		}
-	}
-
-
 	@Override
 	public int getHashCode()
 	{
@@ -265,5 +238,4 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		lineStyleValue = getLineStyleValue();
 		lineColor = getLineColor();
 	}
-
 }

@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -39,7 +36,6 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
-import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
@@ -55,8 +51,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 {
-
-
 	/**
 	 *
 	 */
@@ -430,85 +424,5 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		return clone;
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private Byte scaleImage;
-	/**
-	 * @deprecated
-	 */
-	private byte onErrorType;
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
-			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			scaleImage = null;
-		}
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
-			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
 	}
 }

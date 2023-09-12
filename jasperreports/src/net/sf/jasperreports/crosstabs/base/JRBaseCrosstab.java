@@ -24,8 +24,6 @@
 package net.sf.jasperreports.crosstabs.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,13 +47,13 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElement;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * Base read-only {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -507,31 +505,4 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	{
 		return lineBox;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte runDirection;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
-		}
-		
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-		}
-	}
-
-
 }

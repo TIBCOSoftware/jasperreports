@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPiePlot;
@@ -197,38 +194,4 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	@SuppressWarnings("unused")
-	private boolean isCircular;//we need this field for fields.get("isCircular")
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		// this fixes a problem with JFreeChart that changed the default value of isCircular at some point.
-		// look into Git history for details
-		ObjectInputStream.GetField fields = in.readFields();
-		//the following lines are required because above we called readFields(), not defaultReadObject()
-		labelFormat = (String) fields.get("labelFormat", null);
-		legendLabelFormat = (String) fields.get("legendLabelFormat", null);
-		itemLabel = (JRItemLabel) fields.get("itemLabel", null);
-		showLabels = (Boolean) fields.get("showLabels", null);
-		
-		PSEUDO_SERIAL_VERSION_UID = fields.get("PSEUDO_SERIAL_VERSION_UID", 0);
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			boolean circularField = fields.get("isCircular", true);
-			circular = circularField;
-		}
-		else
-		{
-			circular = (Boolean) fields.get("circular", null);
-		}
-	}
-	
 }

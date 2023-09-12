@@ -23,12 +23,10 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * Crosstab row group implementation to be used for report designing.
@@ -123,26 +121,4 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 				new JRCrosstabOrigin(getParent(), JRCrosstabOrigin.TYPE_ROW_GROUP_TOTAL_HEADER,
 						getName(), null));
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte position;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			positionValue = CrosstabRowPositionEnum.getByValue(position);
-		}
-	}
-
 }

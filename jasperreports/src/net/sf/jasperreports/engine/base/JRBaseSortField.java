@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -41,8 +39,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  */
 public class JRBaseSortField implements JRSortField, Serializable, JRChangeEventsSupport
 {
-
-
 	/**
 	 *
 	 */
@@ -137,31 +133,4 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		
 		return eventSupport;
 	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte order;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			orderValue = SortOrderEnum.getByValue((byte)(order + 1));
-		}
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_5)
-		{
-			type = SortFieldTypeEnum.FIELD;
-		}
-	}
-	
 }

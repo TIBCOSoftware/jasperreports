@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.util;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRDataRange;
@@ -43,8 +41,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
  */
-
-
 public class JRMeterInterval implements JRCloneable, Serializable
 {
 	public static final double DEFAULT_TRANSPARENCY = 1.0;
@@ -196,24 +192,4 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private double alpha = DEFAULT_TRANSPARENCY;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			alphaDouble = alpha;
-		}
-	}
-	
 }

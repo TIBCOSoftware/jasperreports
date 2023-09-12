@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +50,6 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.OrientationEnum;
@@ -73,8 +70,6 @@ import net.sf.jasperreports.engine.util.StyleResolver;
  */
 public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSupport
 {
-
-
 	/**
 	 *
 	 */
@@ -748,48 +743,4 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		
 		return eventSupport;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private JRBand detail;
-	/**
-	 * @deprecated
-	 */
-	private byte whenNoDataType;
-	/**
-	 * @deprecated
-	 */
-	private byte printOrder;
-	/**
-	 * @deprecated
-	 */
-	private byte orientation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		styleResolver = StyleResolver.getInstance();
-
-		if (detail != null)
-		{
-			detailSection = new JRBaseSection(detail);
-			detail = null;
-		}
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			whenNoDataTypeValue = WhenNoDataTypeEnum.getByValue(whenNoDataType);
-			printOrderValue = PrintOrderEnum.getByValue(printOrder);
-			orientationValue = OrientationEnum.getByValue(orientation);
-		}
-	}
-
 }

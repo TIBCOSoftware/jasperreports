@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -45,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class StandardBarbecueComponent implements BarbecueComponent, Serializable, JRChangeEventsSupport
 {
-
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_TYPE = "type";
@@ -287,26 +284,5 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		//FIXMENOW should context be cloned?
 		clone.eventSupport = null;
 		return clone;
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-		}
 	}
 }

@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRConstants;
@@ -57,8 +54,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  */
 public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommonImage
 {
-
-
 	/**
 	 *
 	 */
@@ -417,82 +412,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommo
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_0;
-	}
-	
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private Byte scaleImage;
-	/**
-	 * @deprecated
-	 */
-	private byte onErrorType;
-
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
-			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
-
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			scaleImage = null;
-		}
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
-			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
 	}
 
 	@Override

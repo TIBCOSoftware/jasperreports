@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -45,7 +42,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -53,8 +49,6 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  */
 public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPrintImage
 {
-
-
 	/**
 	 *
 	 */
@@ -104,24 +98,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #getRenderer()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.Renderable getRenderable()
-	{
-		return net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderable);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setRenderer(net.sf.jasperreports.renderers.Renderable)}.
-	 */
-	@Override
-	public void setRenderable(net.sf.jasperreports.engine.Renderable renderable)
-	{
-		this.renderable = renderable;
-	}
-		
 	@Override
 	public Renderable getRenderer()
 	{
@@ -216,24 +192,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		this.verticalImageAlign = verticalImageAlign;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ResourceRenderer}.
-	 */
-	@Override
-	public boolean isLazy()
-	{
-		return isLazy;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ResourceRenderer}.
-	 */
-	@Override
-	public void setLazy(boolean isLazy)
-	{
-		this.isLazy = isLazy;
 	}
 
 	@Override
@@ -424,103 +382,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private Byte scaleImage;
-	/**
-	 * @deprecated
-	 */
-	private byte onErrorType;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.JRRenderable renderer;
-	/**
-	 * @deprecated
-	 */
-	private boolean isLazy;
-
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
-			onErrorTypeValue = OnErrorTypeEnum.getByValue(onErrorType);
-
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			scaleImage = null;
-		}
-		
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-		
-		if (renderer != null && renderable == null)
-		{
-			if (renderer instanceof Renderable)
-			{
-				renderable = (Renderable)renderer;
-			}
-			else
-			{
-				renderable = net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderer);
-			}
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
-			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
-	}
-
 
 	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)

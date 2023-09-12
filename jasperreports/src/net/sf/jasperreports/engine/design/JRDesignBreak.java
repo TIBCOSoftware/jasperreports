@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -41,8 +38,6 @@ import net.sf.jasperreports.engine.type.BreakTypeEnum;
  */
 public class JRDesignBreak extends JRDesignElement implements JRBreak
 {
-
-
 	/**
 	 *
 	 */
@@ -104,25 +99,4 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	{
 		visitor.visitBreak(this);
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte type;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			typeValue = BreakTypeEnum.getByValue(type);
-		}
-	}
-
 }

@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.chartthemes.simple;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import org.jfree.ui.HorizontalAlignment;
@@ -274,29 +272,4 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 		this.padding = padding;
 		getEventSupport().firePropertyChange(PROPERTY_padding, old, getPadding());
 	}
-	
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte position;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			positionValue = EdgeEnum.getByValue(position);
-			
-			position = null;
-			
-		}
-	}
-	
 }

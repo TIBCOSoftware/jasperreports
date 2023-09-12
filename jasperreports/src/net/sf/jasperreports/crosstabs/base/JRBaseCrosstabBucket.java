@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -33,9 +31,9 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket JRCrosstabBucket}.
@@ -52,9 +50,6 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	protected String valueClassRealName;
 	protected transient Class<?> valueClass;
 
-	// only used for deserialization
-	@Deprecated
-	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 	protected BucketOrder bucketOrder = BucketOrder.ASCENDING;
 	
 	protected JRExpression expression;
@@ -163,39 +158,4 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		clone.comparatorExpression = JRCloneUtils.nullSafeClone(comparatorExpression);
 		return clone;
 	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte order;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			SortOrderEnum sortOrder = SortOrderEnum.getByValue(order);
-			bucketOrder = BucketOrder.fromSortOrderEnum(sortOrder);
-		}
-		else if (orderValue != null && bucketOrder == null)
-		{
-			// deserializing old version object
-			bucketOrder = BucketOrder.fromSortOrderEnum(orderValue);
-			orderValue = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_0_3)
-		{
-			//expression can never be null due to verifier
-			valueClassName = getExpression().getValueClassName();//we probably can never remove this method from expression, if we want to preserve backward compatibility
-		}
-	}
-	
 }

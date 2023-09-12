@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
@@ -45,7 +43,6 @@ import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
@@ -60,8 +57,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  */
 public class JRTemplateText extends JRTemplateElement implements JRTextAlignment, JRFont, JRCommonText, TextFormat
 {
-
-
 	/**
 	 *
 	 */
@@ -672,113 +667,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		return getForecolor();
 	}
 	
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private Byte rotation;
-	/**
-	 * @deprecated
-	 */
-	private Byte lineSpacing;
-	/**
-	 * @deprecated
-	 */
-	private LineSpacingEnum lineSpacingValue;
-	/**
-	 * @deprecated
-	 */
-	private Boolean isStyledText;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private Integer fontSize;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			rotationValue = RotationEnum.getByValue(rotation);
-			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
-
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			rotation = null;
-			lineSpacing = null;
-		}
-
-		if (isStyledText != null)
-		{
-			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
-			isStyledText = null;
-		}
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-
-		if (paragraph == null)
-		{
-			paragraph = new JRBaseParagraph(this);
-			paragraph.setLineSpacing(lineSpacingValue);
-			lineSpacingValue = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
-		{
-			fontsize = fontSize == null ? null : fontSize.floatValue();
-
-			fontSize = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalTextAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue);
-			verticalTextAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
-	}
 
 	@Override
 	public int getHashCode()

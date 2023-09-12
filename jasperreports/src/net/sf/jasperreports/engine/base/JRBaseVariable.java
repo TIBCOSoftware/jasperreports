@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -313,36 +311,4 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		
 		return eventSupport;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte resetType;
-	/**
-	 * @deprecated
-	 */
-	private byte incrementType;
-	/**
-	 * @deprecated
-	 */
-	private byte calculation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			resetTypeValue = ResetTypeEnum.getByValue(resetType);
-			incrementTypeValue = IncrementTypeEnum.getByValue(incrementType);
-			calculationValue = CalculationEnum.getByValue(calculation);
-		}
-		
-	}
-
 }

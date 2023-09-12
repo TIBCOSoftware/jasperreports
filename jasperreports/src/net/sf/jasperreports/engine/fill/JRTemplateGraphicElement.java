@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRConstants;
@@ -46,8 +44,6 @@ import net.sf.jasperreports.engine.util.ObjectUtils.HashCode;
  */
 public abstract class JRTemplateGraphicElement extends JRTemplateElement implements JRCommonGraphicElement
 {
-
-
 	/**
 	 *
 	 */
@@ -136,28 +132,6 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
-	}
-
-		
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte fill;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			fillValue = FillEnum.getByValue(fill);
-			fill = null;
-		}
 	}
 
 	protected void addGraphicHash(HashCode hash)

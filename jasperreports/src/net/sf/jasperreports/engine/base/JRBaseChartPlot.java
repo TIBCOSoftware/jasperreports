@@ -24,15 +24,11 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import org.jfree.chart.plot.PlotOrientation;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
@@ -379,44 +375,4 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		return eventSupport;
 	}
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private float backgroundAlpha = 1;
-	/**
-	 * @deprecated
-	 */
-	private float foregroundAlpha = 1;
-	/**
-	 * @deprecated
-	 */
-	private double labelRotation = 0.0;
-	/**
-	 * @deprecated
-	 */
-	private PlotOrientation orientation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			backgroundAlphaFloat = backgroundAlpha;
-			foregroundAlphaFloat = foregroundAlpha;
-			labelRotationDouble = labelRotation;
-		}
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_1_3)
-		{
-			orientationValue = PlotOrientationEnum.getByValue(orientation);
-			
-			orientation = null;
-		}
-	}
-	
 }

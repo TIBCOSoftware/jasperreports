@@ -23,11 +23,8 @@
  */
 package net.sf.jasperreports.components.list;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -38,6 +35,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
+
 /**
  * Standard {@link ListComponent} implementation.
  * 
@@ -45,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class StandardListComponent implements Serializable, ListComponent, JRChangeEventsSupport
 {
-
 	private static final long serialVersionUID = 1L;
 	
 	public static final String PROPERTY_PRINT_ORDER = "printOrder";
@@ -191,26 +188,6 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	{
 		setIgnoreWidth((Boolean)ignoreWidth);
 	}
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte printOrder;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			printOrderValue = PrintOrderEnum.getByValue(printOrder);
-		}
-	}
 
 	@Override
 	public void visit(JRVisitor visitor)
@@ -220,5 +197,4 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 			ElementsVisitorUtils.visitElements(visitor, contents.getChildren());
 		}
 	}
-	
 }

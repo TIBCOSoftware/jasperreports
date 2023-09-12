@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -46,6 +44,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
@@ -341,26 +340,4 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		
 		return eventSupport;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte whenResourceMissingType;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType);
-		}
-	}
-
 }

@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -44,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 {
-
 	/**
 	 *
 	 */
@@ -332,29 +329,4 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowOpenTicks;
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowCloseTicks;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			showOpenTicks = isShowOpenTicks;
-			showCloseTicks = isShowCloseTicks;
-		}
-	}
-	
 }

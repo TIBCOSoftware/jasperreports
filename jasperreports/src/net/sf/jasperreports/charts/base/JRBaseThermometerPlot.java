@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRThermometerPlot;
@@ -208,35 +206,4 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		clone.highRange = JRCloneUtils.nullSafeClone(highRange);
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte valueLocation = ValueLocationEnum.BULB.getValue();
-	/**
-	 * @deprecated
-	 */
-	private Byte valueLocationByte;
-
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			valueLocationObject = ValueLocationEnum.getByValue(valueLocation);
-		}
-		else if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			valueLocationObject = ValueLocationEnum.getByValue(valueLocationByte);
-			valueLocationByte = null;
-		}
-	}
-	
 }

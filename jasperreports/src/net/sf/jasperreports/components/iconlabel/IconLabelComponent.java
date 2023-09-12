@@ -24,12 +24,9 @@
 package net.sf.jasperreports.components.iconlabel;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -47,12 +44,12 @@ import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.StyleResolver;
 
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, JRImageAlignment, Serializable, JRChangeEventsSupport 
 {
-
 	/**
 	 * 
 	 */
@@ -274,34 +271,5 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 		}
 		
 		return eventSupport;
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlign;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlign;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlign);
-			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlign);
-
-			horizontalAlign = null;
-			verticalAlign = null;
-		}
 	}
 }

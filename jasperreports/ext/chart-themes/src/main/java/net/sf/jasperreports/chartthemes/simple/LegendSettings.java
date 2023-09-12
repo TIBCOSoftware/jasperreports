@@ -280,39 +280,4 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 		this.verticalAlignment = verticalAlignment;
 		getEventSupport().firePropertyChange(PROPERTY_verticalAlignment, old, getVerticalAlignment());
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte position;
-	/**
-	 * @deprecated
-	 */
-	@JsonIgnore
-	private BlockFrame blockFrame;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			positionValue = EdgeEnum.getByValue(position);
-			
-			position = null;
-			
-		}
-		
-		if (blockFrame != null && frame == null)// check version?
-		{
-			frame = new BlockFrameWrapper(blockFrame);
-			blockFrame = null;
-		}
-	}
-	
 }

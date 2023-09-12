@@ -24,8 +24,6 @@
 package net.sf.jasperreports.crosstabs.design;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRConstants;
@@ -38,6 +36,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.type.ModeEnum;
+
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents} used for
@@ -240,29 +239,6 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		clone.lineBox = lineBox == null ? null : (JRLineBox) lineBox.clone(clone);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
-	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte mode;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			modeValue = ModeEnum.getByValue(mode);
-			
-			mode = null;
-		}
 	}
 
 	@Override

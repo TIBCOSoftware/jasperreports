@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -33,9 +31,9 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * Read-only implementation of {@link JRHyperlink JRHyperlink}.
@@ -44,7 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseHyperlink implements JRHyperlink, Serializable
 {
-	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected String linkType;
@@ -131,14 +128,6 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
@@ -186,24 +175,4 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-	}
-	
 }

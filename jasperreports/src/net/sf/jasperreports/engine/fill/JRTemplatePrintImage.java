@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
@@ -42,7 +41,6 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -54,8 +52,6 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  */
 public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implements JRPrintImage
 {
-
-
 	/**
 	 *
 	 */
@@ -100,24 +96,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		super(image, originator);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #getRenderer()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.Renderable getRenderable()
-	{
-		return net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderable);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setRenderer(net.sf.jasperreports.renderers.Renderable)}.
-	 */
-	@Override
-	public void setRenderable(net.sf.jasperreports.engine.Renderable renderable)
-	{
-		this.renderable = renderable;
-	}
-		
 	@Override
 	public Renderable getRenderer()
 	{
@@ -213,23 +191,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link ResourceRenderer}.
-	 */
-	@Override
-	public boolean isLazy()
-	{
-		return ((JRTemplateImage)this.template).isLazy();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ResourceRenderer}.
-	 */
-	@Override
-	public void setLazy(boolean isLazy)
-	{
-	}
-
 	@Override
 	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
@@ -384,33 +345,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.JRRenderable renderer;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (renderer != null && renderable == null)
-		{
-			if (renderer instanceof Renderable)
-			{
-				renderable = (Renderable)renderer;
-			}
-			else
-			{
-				renderable = net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderer);
-			}
-		}
-	}
-
-
 	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
@@ -520,5 +454,4 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 			hyperlinkParameters = (JRPrintHyperlinkParameters) in.readJRObject();
 		}
 	}
-
 }

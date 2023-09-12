@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
@@ -37,6 +35,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * Base read-only crosstab measure implementation.
@@ -274,31 +273,4 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		clone.variable = cloneFactory.clone(variable);
 		return clone;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte percentageOfType;
-	/**
-	 * @deprecated
-	 */
-	private byte calculation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			percentageType = CrosstabPercentageEnum.getByValue(percentageOfType);
-			calculationValue = CalculationEnum.getByValue(calculation);
-		}
-	}
-
 }

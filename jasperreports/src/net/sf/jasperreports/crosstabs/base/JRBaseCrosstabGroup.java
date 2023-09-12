@@ -23,19 +23,17 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * Base read-only implementation for crosstab row and column groups.
@@ -153,26 +151,4 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		clone.variable = cloneFactory.clone(variable);
 		return clone;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte totalPosition;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			totalPositionValue = CrosstabTotalPositionEnum.getByValue(totalPosition);
-		}
-	}
-
 }

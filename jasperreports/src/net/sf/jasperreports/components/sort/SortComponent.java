@@ -24,11 +24,8 @@
 package net.sf.jasperreports.components.sort;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
@@ -41,11 +38,12 @@ import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class SortComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport {
-
+public class SortComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport 
+{
 	/**
 	 * 
 	 */
@@ -244,34 +242,5 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		this.symbolFont = symbolFont;
 		getEventSupport().firePropertyChange(PROPERTY_SYMBOL_FONT, 
 				old, this.symbolFont);
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum handlerVerticalAlign;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum handlerHorizontalAlign;
-
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			handlerHorizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(handlerHorizontalAlign);
-			handlerVerticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(handlerVerticalAlign);
-
-			handlerHorizontalAlign = null;
-			handlerVerticalAlign = null;
-		}
 	}
 }

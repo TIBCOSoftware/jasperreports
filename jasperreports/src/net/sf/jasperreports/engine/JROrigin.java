@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.type.BandTypeEnum;
@@ -35,7 +33,6 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
  */
 public class JROrigin implements JRCloneable, Serializable
 {
-
 	/**
 	 *
 	 */
@@ -157,27 +154,4 @@ public class JROrigin implements JRCloneable, Serializable
 				+ ", groupName: " + groupName 
 				+ ",bandType: " + bandTypeValue + "}";
 	}
-
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte bandType;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			bandTypeValue = BandTypeEnum.getByValue(bandType);
-		}
-	}
-
 }

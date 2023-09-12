@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintLine;
@@ -38,8 +35,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  */
 public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrintLine
 {
-
-
 	/**
 	 *
 	 */
@@ -94,32 +89,9 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 		this.directionValue = directionValue;
 	}
 
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte direction;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			directionValue = LineDirectionEnum.getByValue(direction);
-		}
-		
-	}
-
 	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);
 	}
-
-
 }

@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -430,14 +428,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPositionValue);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
@@ -960,79 +950,5 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
 		clone.plot = plot == null ? null : (JRChartPlot) plot.clone(clone);
 		return clone;
-	}
-	
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowLegend;
-	/**
-	 * @deprecated
-	 */
-	private byte titlePosition;
-	/**
-	 * @deprecated
-	 */
-	private byte legendPosition;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	/**
-	 * @deprecated
-	 */
-	private Byte legendPositionByte;
-	/**
-	 * @deprecated
-	 */
-	private Byte titlePositionByte;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-			if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-			{
-				legendPositionValue = EdgeEnum.getByValue(legendPosition);
-				titlePositionValue = EdgeEnum.getByValue(titlePosition);
-				showLegend = isShowLegend;
-			}
-			else
-			{
-				legendPositionValue = EdgeEnum.getByValue(legendPositionByte);
-				titlePositionValue = EdgeEnum.getByValue(titlePositionByte);
-				
-				legendPositionByte = null;
-				titlePositionByte = null;
-			}
-			
-		}
 	}
 }

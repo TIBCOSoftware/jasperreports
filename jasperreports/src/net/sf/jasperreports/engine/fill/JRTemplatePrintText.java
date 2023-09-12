@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRCommonText;
@@ -56,8 +55,6 @@ import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
  */
 public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPrintText
 {
-
-
 	/**
 	 *
 	 */
@@ -708,26 +705,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
 
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte runDirection;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
-		}
-	}
-
 	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
@@ -896,7 +873,8 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 		runDirectionValue = (flags & SERIALIZATION_FLAG_RTL) != 0 ? RunDirectionEnum.RTL : RunDirectionEnum.LTR;
 		
-		PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
+		// keep this commented just in case we'll need it again sometime in the future
+		//PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;
 	}
 	
 }

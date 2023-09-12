@@ -64,7 +64,6 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEventsSupport
 {
-
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_STYLE = "engine.jasper.print.duplicate.style";
 	
 	/**
@@ -1023,26 +1022,6 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 			getEventSupport().firePropertyChange(PROPERTY_TIME_ZONE_ID, old, this.timeZoneId);
 		}
 	}
-		
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte orientation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			orientationValue = OrientationEnum.getByValue(orientation);
-		}
-	}
 	
 	public void copyFrom(JasperPrint jasperPrint)
 	{
@@ -1103,6 +1082,4 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 		
 		return eventSupport;
 	}
-
-
 }

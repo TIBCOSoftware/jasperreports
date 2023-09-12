@@ -26,8 +26,6 @@ package net.sf.jasperreports.crosstabs.design;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +74,7 @@ import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.Pair;
+
 
 /**
  * Design-time {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -1914,39 +1913,4 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		return lineBox;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte runDirection;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
-		}
-		
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-		}
-		
-		// this will work as long as SequencedHashMap is part of commons collections
-		// we could also look at PSEUDO_SERIAL_VERSION_UID
-		if (variablesList.getClass().getName().equals("org.apache.commons.collections.SequencedHashMap"))
-		{
-			// converting to the new type
-			variablesList = new LinkedMap<>(variablesList);
-		}
-	}
-
-	
 }

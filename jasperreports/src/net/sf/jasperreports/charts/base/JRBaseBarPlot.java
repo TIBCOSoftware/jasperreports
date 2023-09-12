@@ -24,8 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -46,8 +44,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 {
-
-
 	/**
 	 *
 	 */
@@ -382,35 +378,4 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowTickMarks;
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowTickLabels = true;
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowLabels = true;
-
-
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
-		{
-			showTickMarks = isShowTickMarks;
-			showTickLabels = isShowTickLabels;
-			showLabels = isShowLabels;
-		}
-	}
-
 }

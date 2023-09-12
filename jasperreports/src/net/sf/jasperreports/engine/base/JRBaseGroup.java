@@ -23,11 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -47,8 +44,6 @@ import net.sf.jasperreports.engine.util.StoreCloneable;
  */
 public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport, StoreCloneable<JRBaseGroup>
 {
-
-
 	/**
 	 *
 	 */
@@ -331,8 +326,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		}
 	
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
-		clone.groupHeader = JRCloneUtils.nullSafeClone(groupHeader);
-		clone.groupFooter = JRCloneUtils.nullSafeClone(groupFooter);
+		clone.groupHeaderSection = JRCloneUtils.nullSafeClone(groupHeaderSection);
+		clone.groupFooterSection = JRCloneUtils.nullSafeClone(groupFooterSection);
 		clone.countVariable = cloneStore == null ? JRCloneUtils.nullSafeClone(countVariable) 
 				: cloneStore.clone(countVariable);
 		clone.eventSupport = null;
@@ -356,58 +351,4 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		
 		return eventSupport;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte footerPosition;
-	/**
-	 * @deprecated
-	 */
-	private JRBand groupHeader;
-	/**
-	 * @deprecated
-	 */
-	private JRBand groupFooter;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			if (footerPosition == 0)
-			{
-				// stream class didn't have footerPosition, use default.
-				// ideally we should have used PSEUDO_SERIAL_VERSION_UID to 
-				// detect this case, but there was no PSEUDO_SERIAL_VERSION_UID
-				// when footerPosition was introduced
-				footerPositionValue = FooterPositionEnum.NORMAL;
-			}
-			else
-			{
-				// convert stream byte value to enum
-				footerPositionValue = FooterPositionEnum.getByValue(footerPosition);
-			}
-		}
-
-		if (groupHeader != null)
-		{
-			groupHeaderSection = new JRBaseSection(groupHeader);
-			groupHeader = null;
-		}
-		
-		if (groupFooter != null)
-		{
-			groupFooterSection = new JRBaseSection(groupFooter);
-			groupFooter = null;
-		}
-	}
-
 }

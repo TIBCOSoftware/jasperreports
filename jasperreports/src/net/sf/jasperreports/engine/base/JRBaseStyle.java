@@ -24,15 +24,11 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
-import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConditionalStyle;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
@@ -45,7 +41,6 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -55,12 +50,12 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.engine.util.StyleResolver;
 
+
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
 public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport, Deduplicable
 {
-
 	public static final String EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY = "engine.style.circular.dependency";
 	
 	/**
@@ -82,21 +77,11 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_FORECOLOR = "forecolor";
 	
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_HORIZONTAL_TEXT_ALIGNMENT} and {@link #PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT}.
-	 */
-	public static final String PROPERTY_HORIZONTAL_ALIGNMENT = "horizontalAlignment";
-	
 	public static final String PROPERTY_HORIZONTAL_TEXT_ALIGNMENT = "horizontalTextAlignment";
 
 	public static final String PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT = "horizontalImageAlignment";
 
 	public static final String PROPERTY_ITALIC = "isItalic";
-	
-	/**
-	 * @deprecated Replaced by {@link JRBaseParagraph#PROPERTY_LINE_SPACING}
-	 */
-	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
 	
 	public static final String PROPERTY_MODE = "mode";
 	
@@ -120,11 +105,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_UNDERLINE = "isUnderline";
 	
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_VERTICAL_TEXT_ALIGNMENT} and {@value #PROPERTY_VERTICAL_IMAGE_ALIGNMENT}.
-	 */
-	public static final String PROPERTY_VERTICAL_ALIGNMENT = "verticalAlignment";
-	
 	public static final String PROPERTY_VERTICAL_TEXT_ALIGNMENT = "verticalTextAlignment";
 	
 	public static final String PROPERTY_VERTICAL_IMAGE_ALIGNMENT = "verticalImageAlignment";
@@ -143,8 +123,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected String name;
 	protected boolean isDefault;
 
-	protected Byte positionType;//FIXME not used
-	protected Byte stretchType;//FIXME not used
 	protected ModeEnum modeValue;
 	protected Color forecolor;
 	protected Color backcolor;
@@ -881,117 +859,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		}
 		
 		return eventSupport;
-	}
-
-		
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte mode;
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private Byte rotation;
-	/**
-	 * @deprecated
-	 */
-	private Byte lineSpacing;
-	/**
-	 * @deprecated
-	 */
-	private LineSpacingEnum lineSpacingValue;
-	/**
-	 * @deprecated
-	 */
-	private Boolean isStyledText;
-	/**
-	 * @deprecated
-	 */
-	private Byte scaleImage;
-	/**
-	 * @deprecated
-	 */
-	private Byte fill;
-	/**
-	 * @deprecated
-	 */
-	private Integer fontSize;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			modeValue = ModeEnum.getByValue(mode);
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			rotationValue = RotationEnum.getByValue(rotation);
-			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
-			scaleImageValue = ScaleImageEnum.getByValue(scaleImage);
-			fillValue = FillEnum.getByValue(fill);
-			
-			mode = null;
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			rotation = null;
-			lineSpacing = null;
-			scaleImage = null;
-			fill = null;
-		}
-
-		if (isStyledText != null)
-		{
-			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
-			isStyledText = null;
-		}
-
-		if (paragraph == null)
-		{
-			paragraph = new JRBaseParagraph(this);
-			paragraph.setLineSpacing(lineSpacingValue);
-			lineSpacingValue = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
-		{
-			fontsize = fontSize == null ? null : fontSize.floatValue();
-
-			fontSize = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalTextAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue);
-			verticalTextAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue);
-
-			horizontalImageAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue);
-			verticalImageAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
 	}
 	
 	@Override

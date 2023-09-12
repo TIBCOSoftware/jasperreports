@@ -24,13 +24,9 @@
 package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
-import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -38,7 +34,6 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
@@ -52,8 +47,6 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
  */
 public abstract class JRDesignTextElement extends JRDesignElement implements JRTextElement
 {
-
-
 	/**
 	 *
 	 */
@@ -194,31 +187,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public JRParagraph getParagraph()
 	{
 		return paragraph;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return this;
-	}
-
-	/**
-	 * Sets a <tt>JRFont</tt> object containing all font properties for this text element
-	 * @deprecated
-	 */
-	public void setFont(JRFont font)
-	{
-		setFontName(font.getOwnFontName());
-		setBold(font.isOwnBold());
-		setItalic(font.isOwnItalic());
-		setUnderline(font.isOwnUnderline());
-		setStrikeThrough(font.isOwnStrikeThrough());
-		setFontSize(font.getOwnFontsize());
-		setPdfFontName(font.getOwnPdfFontName());
-		setPdfEncoding(font.getOwnPdfEncoding());
-		setPdfEmbedded(font.isOwnPdfEmbedded());
 	}
 
 	@Override
@@ -443,95 +411,5 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		clone.paragraph = paragraph.clone(clone);
 		
 		return clone;
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte horizontalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private Byte verticalAlignment;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue;
-	/**
-	 * @deprecated
-	 */
-	private Byte rotation;
-	/**
-	 * @deprecated
-	 */
-	private Byte lineSpacing;
-	/**
-	 * @deprecated
-	 */
-	private LineSpacingEnum lineSpacingValue;
-	/**
-	 * @deprecated
-	 */
-	private Boolean isStyledText;
-	/**
-	 * @deprecated
-	 */
-	private Integer fontSize;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			horizontalAlignmentValue = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getByValue(horizontalAlignment);
-			verticalAlignmentValue = net.sf.jasperreports.engine.type.VerticalAlignEnum.getByValue(verticalAlignment);
-			rotationValue = RotationEnum.getByValue(rotation);
-			lineSpacingValue = LineSpacingEnum.getByValue(lineSpacing);
-
-			horizontalAlignment = null;
-			verticalAlignment = null;
-			rotation = null;
-			lineSpacing = null;
-		}
-		
-		if (isStyledText != null)
-		{
-			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
-			isStyledText = null;
-		}
-
-		if (paragraph == null)
-		{
-			paragraph = new JRBaseParagraph(this);
-			paragraph.setLineSpacing(lineSpacingValue);
-			lineSpacingValue = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
-		{
-			fontsize = fontSize == null ? null : fontSize.floatValue();
-
-			fontSize = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			horizontalTextAlign = net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue);
-			verticalTextAlign = net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue);
-
-			horizontalAlignmentValue = null;
-			verticalAlignmentValue = null;
-		}
 	}
 }

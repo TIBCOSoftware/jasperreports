@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -36,7 +33,6 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -49,8 +45,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 {
-
-
 	/**
 	 *
 	 */
@@ -119,28 +113,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 		
 
-	/**
-	 * @deprecated Replaced by {@link #getTextAdjust()}.
-	 */
-	@Override
-	public boolean isStretchWithOverflow()
-	{
-		return getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
-	 */
-	@Override
-	public void setStretchWithOverflow(boolean isStretchWithOverflow)
-	{
-		boolean old = this.textAdjust == TextAdjustEnum.STRETCH_HEIGHT;
-		
-		setTextAdjust(isStretchWithOverflow ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
-		
-		getEventSupport().firePropertyChange(PROPERTY_STRETCH_WITH_OVERFLOW, old, isStretchWithOverflow);
-	}
-
 	@Override
 	public TextAdjustEnum getTextAdjust()
 	{
@@ -205,14 +177,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	public void setBlankWhenNull(boolean isBlank)
 	{
 		setBlankWhenNull((Boolean)isBlank);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
 	}
 		
 	@Override
@@ -342,52 +306,5 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		return clone;
-	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	/**
-	 * @deprecated
-	 */
-	private boolean isStretchWithOverflow;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
-		{
-			textAdjust = isStretchWithOverflow ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT;
-		}
 	}
 }

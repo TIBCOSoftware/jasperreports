@@ -23,14 +23,13 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}.
@@ -39,7 +38,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  */
 public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Serializable // do not extend BaseCommonReturnValue to avoid deserialization field issues 
 {
-
 	/**
 	 * 
 	 */
@@ -129,27 +127,6 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
-	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte calculation;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			calculationValue = CalculationEnum.getByValue(calculation);
-		}
-		
 	}
 
 	@Override

@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,16 +34,15 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
+
 /**
  * A read-only implementation of {@link JRGenericElement}
  * that is included in compiled reports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRBaseGenericElement extends JRBaseElement implements
-		JRGenericElement
+public class JRBaseGenericElement extends JRBaseElement implements JRGenericElement
 {
-
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRGenericElementType genericType;
@@ -113,26 +110,5 @@ public class JRBaseGenericElement extends JRBaseElement implements
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;
-	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-		}
 	}
 }

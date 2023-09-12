@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,8 +45,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRDesignBand extends JRDesignElementGroup implements JRBand
 {
-	
-
 	/**
 	 *
 	 */
@@ -218,38 +214,6 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		return clone;
 	}
 
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private boolean isSplitAllowed = true;
-	/**
-	 * @deprecated
-	 */
-	private Byte splitType;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2)
-		{
-			splitType = isSplitAllowed ? SplitTypeEnum.STRETCH.getValueByte() : SplitTypeEnum.PREVENT.getValueByte();
-		}
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)//FIXMEENUM check order of ifs for all
-		{
-			splitTypeValue = SplitTypeEnum.getByValue(splitType);
-			
-			splitType = null;
-		}
-	}
-
 	@Override
 	public boolean hasProperties()
 	{
@@ -271,5 +235,4 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	{
 		return null;
 	}
-
 }

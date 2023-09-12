@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.design;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -53,8 +51,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRDesignTextField extends JRDesignTextElement implements JRTextField
 {
-
-
 	/**
 	 *
 	 */
@@ -132,15 +128,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 
-	/**
-	 * @deprecated Replaced by {@link #getTextAdjust()}.
-	 */
-	@Override
-	public boolean isStretchWithOverflow()
-	{
-		return getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT;
-	}
-
 	@Override
 	public TextAdjustEnum getTextAdjust()
 	{
@@ -177,14 +164,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		return isBlankWhenNull;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
@@ -251,19 +230,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		return this.hyperlinkPageExpression;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
-	 */
-	@Override
-	public void setStretchWithOverflow(boolean isStretch)
-	{
-		boolean old = this.textAdjust == TextAdjustEnum.STRETCH_HEIGHT;
-		
-		setTextAdjust(isStretch ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
-		
-		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW, old, isStretch);
-	}
-	
 	@Override
 	public void setTextAdjust(TextAdjustEnum textAdjust)
 	{
@@ -612,52 +578,4 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		return clone;
 	}
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkType;
-	/**
-	 * @deprecated
-	 */
-	private byte hyperlinkTarget;
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
-	/**
-	 * @deprecated
-	 */
-	private boolean isStretchWithOverflow;
-
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (linkType == null)
-		{
-			 linkType = JRHyperlinkHelper.getLinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-		}
-
-		if (linkTarget == null)
-		{
-			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
-		{
-			textAdjust = isStretchWithOverflow ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT;
-		}
-	}
-
 }

@@ -24,10 +24,6 @@
 package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
-import org.jfree.chart.renderer.category.BarRenderer3D;
 
 import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -47,7 +43,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot 
 {
-
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
@@ -372,35 +367,5 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
 		return clone;
-	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
-	/**
-	 * @deprecated
-	 */
-	private double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
-	/**
-	 * @deprecated
-	 */
-	private boolean isShowLabels;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
-		{
-			xOffsetDouble = xOffset;
-			yOffsetDouble = yOffset;
-			showLabels = isShowLabels;
-		}
 	}
 }

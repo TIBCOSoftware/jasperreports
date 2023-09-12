@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPie3DPlot;
@@ -42,8 +39,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 {
-
-
 	/**
 	 *
 	 */
@@ -216,29 +211,4 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
 		return clone;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private double depthFactor = DEPTH_FACTOR_DEFAULT;
-	/**
-	 * @deprecated
-	 */
-	private boolean isCircular;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
-		{
-			depthFactorDouble = depthFactor;
-			circular = isCircular;
-		}
-	}
-	
 }

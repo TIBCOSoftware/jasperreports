@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -46,8 +44,6 @@ import net.sf.jasperreports.engine.util.StyleResolver;
  */
 public class JRBasePrintElement implements JRPrintElement, Serializable
 {
-
-
 	/**
 	 *
 	 */
@@ -295,29 +291,6 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return null;
 	}
 
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Byte mode;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			modeValue = ModeEnum.getByValue(mode);
-			
-			mode = null;
-		}
-	}
-
 
 	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
@@ -358,5 +331,4 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	{
 		this.printElementId = printElementId;
 	}
-
 }

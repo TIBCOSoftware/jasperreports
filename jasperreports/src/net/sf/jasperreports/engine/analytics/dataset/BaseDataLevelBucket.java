@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +31,9 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -50,10 +48,6 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	protected String valueClassName;
 	protected String valueClassRealName;
 	protected Class<?> valueClass;
-
-	// only used for deserialization
-	@Deprecated
-	protected SortOrderEnum orderValue = null;
 	
 	protected BucketOrder order = BucketOrder.ASCENDING;
 	protected JRExpression expression;
@@ -177,17 +171,4 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		clone.bucketProperties = JRCloneUtils.cloneList(bucketProperties);
 		return clone;
 	}
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (orderValue != null && order == null)
-		{
-			// deserializing old version object
-			order = BucketOrder.fromSortOrderEnum(orderValue);
-			orderValue = null;
-		}
-	}
-
 }

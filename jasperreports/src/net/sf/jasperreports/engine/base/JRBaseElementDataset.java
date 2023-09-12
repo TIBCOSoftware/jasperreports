@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -36,7 +34,6 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
@@ -45,8 +42,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class JRBaseElementDataset implements JRElementDataset, Serializable
 {
-
-
 	/**
 	 *
 	 */
@@ -143,41 +138,6 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	{
 		// expressions are collected in JRExpressionCollector directly
 	}
-	
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private ResetTypeEnum resetTypeValue;
-	/**
-	 * @deprecated
-	 */
-	private byte resetType;
-	/**
-	 * @deprecated
-	 */
-	private byte incrementType;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
-		{
-			resetTypeValue = ResetTypeEnum.getByValue(resetType);
-			incrementTypeValue = IncrementTypeEnum.getByValue(incrementType);
-		}
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
-		{
-			datasetResetType = resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte());
-		}
-	}
 
 	
 	@Override
@@ -199,6 +159,4 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 		
 		return clone;
 	}
-
-	
 }

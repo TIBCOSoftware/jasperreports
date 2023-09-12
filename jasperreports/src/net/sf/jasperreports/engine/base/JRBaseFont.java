@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.font.TextAttribute;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Map;
@@ -49,8 +47,6 @@ import net.sf.jasperreports.engine.util.StyleResolver;
  */
 public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, JRCloneable
 {
-
-
 	/**
 	 *
 	 */
@@ -492,27 +488,4 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		
 		return eventSupport;
 	}
-
-	
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private Integer fontSize;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
-		{
-			fontsize = fontSize == null ? null : fontSize.floatValue();
-			
-			fontSize = null;
-		}
-	}
-
 }

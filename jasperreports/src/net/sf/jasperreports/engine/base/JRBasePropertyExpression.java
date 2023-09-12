@@ -45,10 +45,6 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 	
 	public static final String PROPERTY_NAME = "name";
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_VALUE_EXPRESSION}. 
-	 */
-	public static final String pROPERTY_VALUE_EXPRESSION = PROPERTY_VALUE_EXPRESSION;
 
 	private String name;
 	private JRExpression valueExpression;

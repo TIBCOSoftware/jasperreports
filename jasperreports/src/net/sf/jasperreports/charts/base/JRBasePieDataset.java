@@ -23,12 +23,8 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPieSeries;
-import net.sf.jasperreports.charts.design.JRDesignPieSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -202,47 +198,4 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		
 		return eventSupport;
 	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	/**
-	 * @deprecated
-	 */
-	private JRExpression keyExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRExpression valueExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRExpression labelExpression;
-	/**
-	 * @deprecated
-	 */
-	private JRHyperlink sectionHyperlink;
-	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (pieSeries == null)
-		{
-			pieSeries = new JRPieSeries[1];
-
-			JRDesignPieSeries ps = new JRDesignPieSeries();
-			ps.setKeyExpression(keyExpression);
-			ps.setValueExpression(valueExpression);
-			ps.setLabelExpression(labelExpression);
-			ps.setSectionHyperlink(sectionHyperlink);
-			pieSeries[0] = ps;
-
-			keyExpression = null;
-			valueExpression = null;
-			labelExpression = null;
-			sectionHyperlink = null;
-		}
-	}
-
 }
