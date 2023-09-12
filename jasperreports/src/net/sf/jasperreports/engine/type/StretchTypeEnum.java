@@ -51,18 +51,6 @@ public enum StretchTypeEnum implements NamedEnum
 	 * A constant indicating that the element preserves its original specified height.
 	 */
 	NO_STRETCH("NoStretch"),//FIXMEENUM check all 0 constants for initialization
-
-	/**
-	 * @deprecated Replaced by {@link StretchTypeEnum#ELEMENT_GROUP_HEIGHT}.
-	 */
-	@Deprecated
-	RELATIVE_TO_TALLEST_OBJECT("RelativeToTallestObject"),
-	
-	/**
-	 * @deprecated Replaced by {@link StretchTypeEnum#CONTAINER_HEIGHT}.
-	 */
-	@Deprecated
-	RELATIVE_TO_BAND_HEIGHT("RelativeToBandHeight"),
 	
 	/**
 	 * Constant used for specifying that the element will adapt its height to match the changing 
@@ -133,6 +121,18 @@ public enum StretchTypeEnum implements NamedEnum
 	 */
 	public static StretchTypeEnum getByName(String name)
 	{
+		if (RELATIVE_TO_TALLEST_OBJECT.equals(name))
+		{
+			return ELEMENT_GROUP_HEIGHT;
+		}
+		if (RELATIVE_TO_BAND_HEIGHT.equals(name))
+		{
+			return CONTAINER_HEIGHT;
+		}
 		return EnumUtil.getEnumByName(values(), name);
 	}
+
+
+	public static final String RELATIVE_TO_TALLEST_OBJECT = "RelativeToTallestObject";
+	public static final String RELATIVE_TO_BAND_HEIGHT = "RelativeToBandHeight";
 }

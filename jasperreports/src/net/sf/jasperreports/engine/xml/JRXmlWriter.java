@@ -1106,9 +1106,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	@SuppressWarnings("deprecation")
 	private void writeStretchType(StretchTypeEnum stretchType)
 	{
+		String stretchTypeStr = stretchType == null ? null : stretchType.getName();
+		
 		if (isOlderVersionThan(JRConstants.VERSION_6_2_2))
 		{
 			switch (stretchType)
@@ -1116,19 +1117,19 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				case CONTAINER_HEIGHT :
 				case CONTAINER_BOTTOM :
 				{
-					stretchType = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT;
+					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT;
 					break;
 				}
 				case ELEMENT_GROUP_HEIGHT :
 				case ELEMENT_GROUP_BOTTOM :
 				{
-					stretchType = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
+					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
 					break;
 				}
 				default :
 			}
 		}
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchType, StretchTypeEnum.NO_STRETCH);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchTypeStr, StretchTypeEnum.NO_STRETCH.getName());
 	}
 
 

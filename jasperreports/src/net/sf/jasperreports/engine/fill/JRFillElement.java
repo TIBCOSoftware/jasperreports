@@ -1006,68 +1006,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 
 	/**
-	 * @deprecated To be removed.
-	 */
-	protected void _stretchElement(int bandStretch)
-	{
-		switch (getStretchTypeValue())
-		{
-			case RELATIVE_TO_BAND_HEIGHT :
-			case CONTAINER_HEIGHT :
-			case CONTAINER_BOTTOM :
-			{
-				_stretchElementToHeight(getHeight() + bandStretch);
-				break;
-			}
-			case RELATIVE_TO_TALLEST_OBJECT :
-			case ELEMENT_GROUP_HEIGHT :
-			case ELEMENT_GROUP_BOTTOM :
-			{
-				if (elementGroup != null)
-				{
-					//setStretchHeight(getHeight() + getStretchHeightDiff());
-					_stretchElementToHeight(getHeight() + elementGroup.getStretchHeightDiff());
-				}
-
-				break;
-			}
-			case NO_STRETCH :
-			default :
-			{
-				break;
-			}
-		}
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected void _stretchElementToHeight(int stretchHeight)
-	{
-		if (stretchHeight > getStretchHeight())
-		{
-			setStretchHeight(stretchHeight);
-		}
-	}
-
-
-	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected boolean stretchElement(int containerStretch)
 	{
 		boolean applied = false;
 		switch (getStretchTypeValue())
 		{
-			case RELATIVE_TO_BAND_HEIGHT :
 			case CONTAINER_HEIGHT :
 			case CONTAINER_BOTTOM :
 			{
 				applied = stretchElementToContainer(containerStretch);
 				break;
 			}
-			case RELATIVE_TO_TALLEST_OBJECT :
 			case ELEMENT_GROUP_HEIGHT :
 			case ELEMENT_GROUP_BOTTOM :
 			{
@@ -1087,13 +1038,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected boolean stretchElementToContainer(int containerStretch)//TODO subtract firstY?
 	{
 		boolean applied = false;
 		switch (getStretchTypeValue())
 		{
-			case RELATIVE_TO_BAND_HEIGHT :
 			case CONTAINER_HEIGHT :
 			{
 				applied = stretchElementToHeight(getHeight() + containerStretch);
@@ -1113,7 +1062,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected boolean stretchElementToElementGroup()
 	{
 		boolean applied = false;
@@ -1121,7 +1069,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		{
 			switch (getStretchTypeValue())
 			{
-				case RELATIVE_TO_TALLEST_OBJECT :
 				case ELEMENT_GROUP_HEIGHT :
 				{
 					applied = stretchElementToHeight(getHeight() + elementGroup.getStretchHeightDiff());
@@ -1156,29 +1103,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			applied = true;
 		}
 		return applied;
-	}
-
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected void _moveDependantElements()
-	{
-		Collection<JRFillElement> elements = getDependantElements();
-		if (elements != null && elements.size() > 0)
-		{
-			for (JRFillElement element : elements)
-			{
-				int newRelativeY = 
-					getRelativeY() + getStretchHeight() //pusher element current bottom edge
-					+ (element.getY() - (getY() + getHeight())); //design time distance between elements; difference between float element top edge and pusher element bottom edge
-
-				if (newRelativeY > element.getRelativeY())
-				{
-					element.setRelativeY(newRelativeY);
-				}
-			}
-		}
 	}
 
 
@@ -1737,17 +1661,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected final void setShrinkable(boolean shrinkable)
 	{
 		this.shrinkable = shrinkable;
-	}
-
-
-	/**
-	 * Called when the stretch height of an element is final so that
-	 * the element can perform any adjustments.
-	 * @deprecated To be removed.
-	 */
-	protected void stretchHeightFinal()
-	{
-		// nothing		
 	}
 	
 	

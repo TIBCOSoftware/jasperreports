@@ -60,17 +60,6 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 	private final RenderersCache renderersCache;
 
 	/**
-	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext, RenderersCache)}.
-	 */
-	public ImageDrawer(JasperReportsContext jasperReportsContext)
-	{
-		this(
-			jasperReportsContext,
-			new RenderersCache(jasperReportsContext)
-			);
-	}
-	
-	/**
 	 *
 	 */
 	public ImageDrawer(

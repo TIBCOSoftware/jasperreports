@@ -308,26 +308,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 	
 	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@Override
-	protected void stretchHeightFinal()
-	{
-		// only do this if the frame is printing
-		if (isToPrint())
-		{
-			frameContainer.stretchElements();
-			frameContainer.moveBandBottomElements();
-			frameContainer.removeBlankElements();
-
-			int topPadding = getLineBox().getTopPadding();
-			int bottomPadding = getLineBox().getBottomPadding();
-			super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
-		}
-	}
-
-
 	@Override
 	protected boolean stretchElementToHeight(int stretchHeight)
 	{
