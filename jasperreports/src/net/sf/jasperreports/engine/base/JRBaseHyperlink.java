@@ -125,10 +125,19 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return hyperlinkWhenExpression;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(this);
+		return getHyperlinkTargetValue().getValue();
+	}
+
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
 	}
 
 	/**

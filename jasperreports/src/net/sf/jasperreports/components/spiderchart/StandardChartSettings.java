@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRDesignHyperlink;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -372,10 +373,19 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(this);
+		return getHyperlinkTargetValue().getValue();
+	}
+		
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
 	}
 		
 	@Override
