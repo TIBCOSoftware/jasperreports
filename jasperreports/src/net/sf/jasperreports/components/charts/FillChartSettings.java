@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
@@ -282,14 +283,26 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTarget()
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
 	 */
 	@Override
 	public byte getHyperlinkTarget() {
 		
-		return parent.getHyperlinkTarget();
+		return 
+			parent.getHyperlinkTargetValue() == null
+			? HyperlinkTargetEnum.NONE.getValue() 
+			: parent.getHyperlinkTargetValue().getValue();
 	}
-
+	
+	/**
+	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTargetValue()
+	 */
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue() {
+		
+		return parent.getHyperlinkTargetValue();
+	}
+	
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTooltipExpression()
 	 */

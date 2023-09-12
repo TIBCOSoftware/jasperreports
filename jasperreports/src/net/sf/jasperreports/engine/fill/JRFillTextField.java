@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -276,10 +277,19 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return ((JRTextField)parent).getHyperlinkTypeValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return ((JRTextField)parent).getHyperlinkTarget();
+		return getHyperlinkTargetValue().getValue();
+	}
+		
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return ((JRTextField)parent).getHyperlinkTargetValue();
 	}
 		
 	@Override
