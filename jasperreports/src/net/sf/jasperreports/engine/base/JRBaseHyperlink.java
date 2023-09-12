@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -120,15 +121,6 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return hyperlinkWhenExpression;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
 	}
 
 	@Override

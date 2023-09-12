@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -469,15 +470,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
 	}
 		
 	@Override

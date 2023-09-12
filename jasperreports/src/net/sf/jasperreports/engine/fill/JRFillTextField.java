@@ -263,27 +263,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-
 	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return ((JRTextField)parent).getHyperlinkTypeValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
 	}
 		
 	@Override

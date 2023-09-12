@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -183,15 +184,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
 	}
 		
 	@Override

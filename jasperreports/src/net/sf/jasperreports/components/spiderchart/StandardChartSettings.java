@@ -373,15 +373,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
 	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{

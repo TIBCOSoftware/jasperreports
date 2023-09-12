@@ -91,7 +91,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * use the Boolean expression <code>&lt;hyperlinkWhenExpression&gt;</code> (see {@link #getHyperlinkWhenExpression()}).
  * <h3>Hyperlink Target</h3>
  * All hyperlink elements, like textfields, images, and charts, also expose an attribute
- * called <code>hyperlinkTarget</code> (see {@link #getHyperlinkTarget()}). Its purpose is to 
+ * called <code>hyperlinkTarget</code> (see {@link #getHyperlinkTargetValue()}). Its purpose is to 
  * help customize the behavior of the specified link when it is clicked in the viewer.
  * <p/>
  * Possible values for this attribute:
@@ -212,12 +212,6 @@ public interface JRHyperlink extends JRCloneable
 	 * @see #getLinkType()
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue();
-
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget();
 
 
 	/**

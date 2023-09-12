@@ -245,15 +245,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
 	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{

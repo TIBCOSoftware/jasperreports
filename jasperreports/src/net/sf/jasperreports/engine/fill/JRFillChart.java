@@ -621,15 +621,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart)parent).getHyperlinkTypeValue();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-
 	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{

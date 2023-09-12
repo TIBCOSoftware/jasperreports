@@ -97,15 +97,6 @@ public final class JRHyperlinkHelper
 	
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue(JRHyperlink)}.
-	 */
-	public static byte getHyperlinkTarget(JRHyperlink hyperlink)
-	{
-		return getHyperlinkTargetValue(hyperlink.getLinkTarget()).getValue();
-	}
-	
-
-	/**
 	 * Returns the built-in hyperlink target, or {@link HyperlinkTargetEnum#CUSTOM HyperlinkTargetEnum.CUSTOM}
 	 * if the target name is not a built-in one.
 	 * 

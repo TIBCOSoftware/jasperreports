@@ -281,18 +281,6 @@ public class FillChartSettings implements ChartSettings
 		
 		return parent.getHyperlinkWhenExpression();
 	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget() {
-		
-		return 
-			parent.getHyperlinkTargetValue() == null
-			? HyperlinkTargetEnum.NONE.getValue() 
-			: parent.getHyperlinkTargetValue().getValue();
-	}
 	
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTargetValue()

@@ -287,15 +287,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)parent).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	@Override
-	public byte getHyperlinkTarget()
-	{
-		return ((JRImage)this.parent).getHyperlinkTarget();
-	}
-		
 	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
