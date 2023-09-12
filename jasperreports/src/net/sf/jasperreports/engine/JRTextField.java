@@ -264,19 +264,6 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 			sinceVersion = PropertyConstants.VERSION_6_0_0
 			)
 	public static final String PROPERTY_PATTERN_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.number";
-	
-	/**
-	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
-	 * @return true if the text field will stretch vertically, false otherwise
-	 * @deprecated Replaced by {@link #getTextAdjust()}.
-	 */
-	public boolean isStretchWithOverflow();
-
-	/**
-	 * Set to true if the text field should stretch vertically if its text does not fit in one line.
-	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
-	 */
-	public void setStretchWithOverflow(boolean isStretchWithOverflow);
 		
 	/**
 	 * Gets the text adjust type.

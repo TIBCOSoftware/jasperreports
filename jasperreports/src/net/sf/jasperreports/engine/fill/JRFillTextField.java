@@ -130,23 +130,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getTextAdjust()}.
-	 */
-	@Override
-	public boolean isStretchWithOverflow()
-	{
-		return getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
-	 */
-	@Override
-	public void setStretchWithOverflow(boolean isStretchWithOverflow)
-	{
-	}
-
 	@Override
 	public TextAdjustEnum getTextAdjust()
 	{
@@ -708,7 +691,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 				if (
 					getTextEnd() >= getTextString().length()
-					|| !isStretchWithOverflow()
+					|| getTextAdjust() != TextAdjustEnum.STRETCH_HEIGHT
 					|| !getRotationValue().equals(RotationEnum.NONE)
 					)
 				{
@@ -787,8 +770,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 						// the text field is empty
 
 						if (
-							isStretchWithOverflow()
-							&& getRotationValue().equals(RotationEnum.NONE)
+							getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT
+							&& getRotationValue() == RotationEnum.NONE
 							)
 						{
 							// the text field is allowed to stretch downwards in order to
