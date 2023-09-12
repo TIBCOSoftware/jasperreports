@@ -35,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
 /**
@@ -564,22 +563,12 @@ public class JRXmlWriteHelper
 		}
 	}
 	
-	public void addAttribute(String name, JREnum value)
-	{
-		addAttribute(name, (NamedEnum) value);
-	}
-	
 	public void addAttribute(String name, NamedEnum value)
 	{
 		if (value != null)
 		{
 			writeAttribute(name, value.getName());
 		}
-	}
-	
-	public void addAttribute(String name, JREnum value, JREnum defaultValue)
-	{
-		addAttribute(name, (NamedEnum) value, (NamedEnum) defaultValue);
 	}
 	
 	public void addAttribute(String name, NamedEnum value, NamedEnum defaultValue)
