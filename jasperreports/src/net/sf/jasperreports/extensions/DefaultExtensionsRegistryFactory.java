@@ -102,13 +102,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (
-					net.sf.jasperreports.engine.export.FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
-					&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)
-					)
-				{
-					return net.sf.jasperreports.engine.export.FlashHtmlHandler.getInstance();
-				}
 				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
 				{
 					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
