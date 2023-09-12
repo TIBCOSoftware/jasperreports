@@ -420,19 +420,6 @@ public class RendererUtil
 		{
 			isLazy = ((ResourceRenderer)renderer).isLazy();
 		}
-		else if (renderer != null)
-		{
-			@SuppressWarnings("deprecation")
-			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
-			if (depClass.equals(renderer.getClass()))
-			{
-				@SuppressWarnings("deprecation")
-				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
-				@SuppressWarnings("deprecation")
-				String depImageLocation = depRenderer.getImageLocation();
-				isLazy = depImageLocation != null;
-			}
-		}
 		
 		return isLazy;
 	}
@@ -448,19 +435,6 @@ public class RendererUtil
 		if (renderer instanceof ResourceRenderer)
 		{
 			resourceLocation = ((ResourceRenderer)renderer).getResourceLocation();
-		}
-		else if (renderer != null)
-		{
-			@SuppressWarnings("deprecation")
-			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
-			if (depClass.equals(renderer.getClass()))
-			{
-				@SuppressWarnings("deprecation")
-				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
-				@SuppressWarnings("deprecation")
-				String depImageLocation = depRenderer.getImageLocation();
-				resourceLocation = depImageLocation;
-			}
 		}
 		
 		return resourceLocation;
