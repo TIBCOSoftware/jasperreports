@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -739,5 +741,12 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		}
 		
 		return eventSupport;
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		styleResolver = StyleResolver.getInstance();
 	}
 }

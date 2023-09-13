@@ -166,6 +166,59 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
+	/**
+	 * This is a convenient way to set key expression in the first series.
+	 * It is used by the JRXML parser when there is a single series in the pie dataset.
+	 */
+	public void setKeyExpression(JRExpression keyExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setKeyExpression(keyExpression);
+	}
+
+	/**
+	 * This is a convenient way to set value expression in the first series.
+	 * It is used by the JRXML parser when there is a single series in the pie dataset.
+	 */
+	public void setValueExpression(JRExpression valueExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setValueExpression(valueExpression);
+	}
+
+	/**
+	 * This is a convenient way to set label expression in the first series.
+	 * It is used by the JRXML parser when there is a single series in the pie dataset.
+	 */
+	public void setLabelExpression(JRExpression labelExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setLabelExpression(labelExpression);
+	}
+
+	/**
+	 * This is a convenient way to set the section hyperlink in the first series.
+	 * It is used by the JRXML parser when there is a single series in the pie dataset.
+	 */
+	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setSectionHyperlink(sectionHyperlink);
+	}
+	
+	
 	@Override
 	public JRExpression getOtherKeyExpression()
 	{

@@ -48,11 +48,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
 	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
-	/*
-	 * README
-	 * 
-	 * Make sure that all fields are read in readObject().
-	 */
+
 	protected Boolean circular;
 	protected String labelFormat;
 	protected String legendLabelFormat;
