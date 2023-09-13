@@ -61,16 +61,11 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	 */
 	public static JasperReportsContext getLocalContext(JasperReportsContext jasperReportsContext, Map<String,Object> parameterValues)
 	{
-		if (
-			parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER)
-			)
+		if (parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
 		{
 			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
 
-			if (parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
-			{
-				localJasperReportsContext.setClassLoader((ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER));
-			}
+			localJasperReportsContext.setClassLoader((ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER));
 
 			return localJasperReportsContext;
 		}

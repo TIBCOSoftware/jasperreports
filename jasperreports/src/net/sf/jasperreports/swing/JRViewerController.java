@@ -56,10 +56,6 @@ public class JRViewerController
 	protected static final int TYPE_OBJECT = 3;
 	
 	private JasperReportsContext jasperReportsContext;
-	/**
-	 * @deprecated To be removed.
-	 */
-	private net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext;
 	private ResourceBundle resourceBundle;
 	private Locale locale;
 	private final List<JRViewerListener> listeners = new ArrayList<>();
@@ -151,7 +147,6 @@ public class JRViewerController
 		renderersCache = null;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
 		setReport(fileName, isXmlReport);
@@ -160,12 +155,6 @@ public class JRViewerController
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
 
-		if (localJasperReportsContext == null)
-		{
-			localJasperReportsContext = new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
-			jasperReportsContext = localJasperReportsContext;
-		}
-		
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);
 		setPageIndex(0);

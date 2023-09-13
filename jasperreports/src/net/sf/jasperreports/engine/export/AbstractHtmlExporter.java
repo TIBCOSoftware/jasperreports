@@ -81,19 +81,6 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected HtmlResourceHandler imageHandler;
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected HtmlResourceHandler fontHandler;
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected HtmlResourceHandler resourceHandler;
 	
 	protected Map<String, HtmlFontFamily> fontsToProcess;
 	
@@ -104,54 +91,6 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	{
 		super(jasperReportsContext);
 	}
-	
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
-	 */
-	public HtmlResourceHandler getImageHandler() 
-	{
-		return imageHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getImageHandler()}.
-	 */
-	public void setImageHandler(HtmlResourceHandler imageHandler) 
-	{
-		this.imageHandler = imageHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getFontHandler()}.
-	 */
-	public HtmlResourceHandler getFontHandler() 
-	{
-		return fontHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getFontHandler()}.
-	 */
-	public void setFontHandler(HtmlResourceHandler fontHandler) 
-	{
-		this.fontHandler = fontHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
-	 */
-	public HtmlResourceHandler getResourceHandler() 
-	{
-		return resourceHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
-	 */
-	public void setResourceHandler(HtmlResourceHandler resourceHandler) 
-	{
-		this.resourceHandler = resourceHandler;
-	}
 
 
 	/**
@@ -160,15 +99,6 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link #getImageName(JRPrintElementIndex, String)}.
-	 */
-	public static String getImageName(JRPrintElementIndex printElementIndex)
-	{
-		return getImageName(printElementIndex, null);
 	}
 
 	
@@ -313,10 +243,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	protected String handleFont(FontInfo fontInfo, Locale locale)
 	{
 		HtmlExporterOutput output = getExporterOutput();
-		HtmlResourceHandler resourceHandler = 
-			output.getResourceHandler() == null
-			? getResourceHandler()
-			: output.getResourceHandler();
+		HtmlResourceHandler resourceHandler = output.getResourceHandler();
 		String family = null;
 		if (resourceHandler != null)
 		{
@@ -345,10 +272,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			if (getReportContext() == null)
 			{
 				HtmlExporterOutput output = getExporterOutput();
-				HtmlResourceHandler resourceHandler = 
-					output.getResourceHandler() == null
-					? getResourceHandler()
-					: output.getResourceHandler();
+				HtmlResourceHandler resourceHandler = output.getResourceHandler();
 					
 				// create font resources only in static HTML export
 				HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(

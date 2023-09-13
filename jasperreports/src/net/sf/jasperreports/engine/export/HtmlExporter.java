@@ -401,18 +401,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			if (reportContext == null) 
 			{
-				@SuppressWarnings("deprecation")
-				HtmlResourceHandler fontHandler = 
-					getExporterOutput().getFontHandler() == null
-					? getFontHandler()
-					: getExporterOutput().getFontHandler();
+				HtmlResourceHandler fontHandler = getExporterOutput().getFontHandler();
 				if (fontHandler == null)
 				{
-					@SuppressWarnings("deprecation")
-					HtmlResourceHandler resourceHandler = 
-						getExporterOutput().getResourceHandler() == null
-						? getResourceHandler()
-						: getExporterOutput().getResourceHandler();
+					HtmlResourceHandler resourceHandler = getExporterOutput().getResourceHandler();
 					fontHandler = resourceHandler;
 				}
 
@@ -1566,11 +1558,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					}
 					else
 					{
-						@SuppressWarnings("deprecation")
-						HtmlResourceHandler imageHandler = 
-							getImageHandler() == null 
-							? getExporterOutput().getImageHandler() 
-							: getImageHandler();
+						HtmlResourceHandler imageHandler = getExporterOutput().getImageHandler();
 						if (imageHandler != null)
 						{
 							Dimension dim =	null;

@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.draw.PrintDrawVisitor;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
@@ -375,15 +374,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	public PrintDrawVisitor getDrawVisitor()
 	{
 		return drawVisitor;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getDrawVisitor()}.
-	 */
-	public FrameDrawer getFrameDrawer()
-	{
-		return drawVisitor.getFrameDrawer();
 	}
 
 
