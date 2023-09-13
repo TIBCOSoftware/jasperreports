@@ -25,14 +25,10 @@ package net.sf.jasperreports.engine.util;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 
@@ -41,7 +37,6 @@ import net.sf.jasperreports.engine.query.QueryExecuterFactory;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@SuppressWarnings("deprecation")
 public final class JRQueryExecuterUtils
 {
 	public static final String EXCEPTION_MESSAGE_KEY_QUERY_EXECUTER_FACTORY_NOT_REGISTERED = "util.query.executer.factory.not.registered";
@@ -77,18 +72,6 @@ public final class JRQueryExecuterUtils
 	 */
 	public QueryExecuterFactory getExecuterFactory(String language) throws JRException
 	{
-		List<net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle> oldBundles = jasperReportsContext.getExtensions(
-				net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle.class);
-		for (Iterator<net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle> it = oldBundles.iterator(); it.hasNext();)
-		{
-			net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle bundle = it.next();
-			net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory = bundle.getQueryExecuterFactory(language);
-			if (factory != null)
-			{
-				return new WrappingQueryExecuterFactory(factory);
-			}
-		}
-
 		List<JRQueryExecuterFactoryBundle> bundles = jasperReportsContext.getExtensions(
 				JRQueryExecuterFactoryBundle.class);
 		for (Iterator<JRQueryExecuterFactoryBundle> it = bundles.iterator(); it.hasNext();)
@@ -104,51 +87,6 @@ public final class JRQueryExecuterUtils
 			new JRRuntimeException(
 				EXCEPTION_MESSAGE_KEY_QUERY_EXECUTER_FACTORY_NOT_REGISTERED,
 				new Object[]{language});
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static class WrappingQueryExecuterFactory implements QueryExecuterFactory
-	{
-		private net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory;
-		
-		public WrappingQueryExecuterFactory(net.sf.jasperreports.engine.query.JRQueryExecuterFactory factory)
-		{
-			this.factory = factory;
-		}
-
-		@Override
-		public Object[] getBuiltinParameters() 
-		{
-			return factory.getBuiltinParameters();
-		}
-
-		@Override
-		public JRQueryExecuter createQueryExecuter(
-			JasperReportsContext jasperReportsContext, 
-			JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters
-			) throws JRException 
-		{
-			return factory.createQueryExecuter(dataset, parameters);
-		}
-
-		@Override
-		public JRQueryExecuter createQueryExecuter(
-			JRDataset dataset,
-			Map<String, ? extends JRValueParameter> parameters
-			) throws JRException 
-		{
-			return factory.createQueryExecuter(dataset, parameters);
-		}
-
-		@Override
-		public boolean supportsQueryParameterType(String className) 
-		{
-			return factory.supportsQueryParameterType(className);
-		}
 	}
 }
 

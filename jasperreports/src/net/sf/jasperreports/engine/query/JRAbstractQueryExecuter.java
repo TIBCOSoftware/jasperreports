@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
 import net.sf.jasperreports.engine.util.JRQueryParser;
 import net.sf.jasperreports.repo.RepositoryContext;
@@ -908,29 +907,6 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		return getIntegerParameter(name, name);
 	}
 	
-	
-	/**
-	 * Return a fill parameter from the parameter map.
-	 * 
-	 * @param parameterName the parameter name
-	 * @return the parameter
-	 * @deprecated {@link #getValueParameter(String) getValueParameter(String)} should be used instead
-	 */
-	protected JRFillParameter getParameter(String parameterName)
-	{
-		JRFillParameter parameter = (JRFillParameter) parametersMap.get(parameterName);
-		
-		if (parameter == null)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_PARAMETER_NOT_FOUND,
-					new Object[]{parameterName});
-		}
-		
-		return parameter;
-	}
-
 	
 	protected void checkParameter(String parameterName)
 	{

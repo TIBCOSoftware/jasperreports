@@ -23,30 +23,9 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.util.Map;
-
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public abstract class AbstractQueryExecuterFactory implements QueryExecuterFactory 
 {
-	
-	/**
-	 * @deprecated Replaced by {@link #createQueryExecuter(JasperReportsContext, JRDataset, Map)}.
-	 */
-	@Override
-	public final JRQueryExecuter createQueryExecuter(
-		JRDataset dataset, 
-		Map<String, ? extends JRValueParameter> parameters
-		) throws JRException 
-	{
-		return createQueryExecuter(DefaultJasperReportsContext.getInstance(), dataset, parameters);
-	}
-
 }

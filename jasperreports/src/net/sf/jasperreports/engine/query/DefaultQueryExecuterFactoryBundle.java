@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 
@@ -41,9 +40,8 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
  */
 public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterFactoryBundle
 {
-	@SuppressWarnings("deprecation")
-	private static final JRSingletonCache<JRQueryExecuterFactory> cache = 
-			new JRSingletonCache<>(JRQueryExecuterFactory.class);
+	private static final JRSingletonCache<QueryExecuterFactory> cache = 
+			new JRSingletonCache<>(QueryExecuterFactory.class);
 	
 	private static final DefaultQueryExecuterFactoryBundle INSTANCE = new DefaultQueryExecuterFactoryBundle();
 	
@@ -91,7 +89,6 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public QueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{
 		String factoryClassName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(QueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language);
@@ -100,13 +97,6 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 			return null;
 		}
 		
-		JRQueryExecuterFactory factory = cache.getCachedInstance(factoryClassName);
-		if (factory instanceof QueryExecuterFactory)
-		{
-			return (QueryExecuterFactory)factory;
-		}
-		
-		return new JRQueryExecuterUtils.WrappingQueryExecuterFactory(factory);
+		return cache.getCachedInstance(factoryClassName);
 	}
-
 }
