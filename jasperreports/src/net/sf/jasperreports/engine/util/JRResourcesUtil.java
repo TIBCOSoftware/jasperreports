@@ -172,27 +172,6 @@ public final class JRResourcesUtil
 	}
 
 	
-	/**
-	 * Attempts to find a file using a file resolver.
-	 * 
-	 * @param location file name
-	 * @param fileRes a file resolver
-	 * @return the file, if found
-	 * @deprecated To be removed.
-	 */
-	public static File resolveFile(String location, FileResolver fileRes)
-	{
-		FileResolver fileResolver = fileRes;//getFileResolver(fileRes);
-		
-		if (fileResolver != null)
-		{
-			return fileResolver.resolveFile(location);
-		}
-
-		return resolveFile(null, location);
-	}
-
-
 	public static File resolveFile(RepositoryContext context, String location)
 	{
 		return resolveFile(context, location, JRResourcesUtil::defaultLocateFile);

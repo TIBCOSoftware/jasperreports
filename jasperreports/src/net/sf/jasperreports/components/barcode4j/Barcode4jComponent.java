@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -145,18 +142,6 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		this.verticalQuietZone = verticalQuietZone;
 		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_QUIET_ZONE, 
 				old, this.verticalQuietZone);
-	}
-	
-	protected final void copyBarcodeComponentFields(GetField fields) throws IOException, ClassNotFoundException
-	{
-		int orientation = fields.get("orientation", 0);
-		this.orientationValue = OrientationEnum.getByValue(orientation);
-		this.patternExpression = (JRExpression) fields.get("patternExpression", null);
-		this.moduleWidth = (Double) fields.get("moduleWidth", null);
-		String textPosition = (String) fields.get("textPosition", null);
-		this.textPositionValue = TextPositionEnum.getByName(textPosition);
-		this.quietZone = (Double) fields.get("quietZone", null);
-		this.verticalQuietZone = (Double) fields.get("verticalQuietZone", null);
 	}
 
 	@Override

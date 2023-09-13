@@ -66,10 +66,6 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	protected ClassLoader classLoader;
 	protected URLStreamHandlerFactory urlHandlerFactory;
-	/**
-	 * @deprecated To be removed. 
-	 */
-	protected net.sf.jasperreports.engine.util.FileResolver fileResolver;
 
 	/**
 	 *
@@ -95,14 +91,6 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	public void setURLStreamHandlerFactory(URLStreamHandlerFactory urlHandlerFactory) 
 	{
 		this.urlHandlerFactory = urlHandlerFactory;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setFileResolver(net.sf.jasperreports.engine.util.FileResolver fileResolver) 
-	{
-		this.fileResolver = fileResolver;
 	}
 	
 	@Override
@@ -142,16 +130,8 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		return null;
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected File resolveFile(RepositoryContext context, String uri)
 	{
-		if (fileResolver != null)
-		{
-			return fileResolver.resolveFile(uri);
-		}
-		
 		if (filesEnabled)
 		{
 			return JRResourcesUtil.resolveFile(context, uri);
@@ -209,12 +189,6 @@ public class DefaultRepositoryService implements StreamRepositoryService
 			return null;
 		}
 
-		if (fileResolver != null)
-		{
-			//not dealing with file resolvers
-			return null;
-		}
-		
 		File file = resolveFile(context, location);
 		if (file != null)
 		{

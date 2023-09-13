@@ -218,7 +218,7 @@ public class RendererUtil
 	 * encoder that supports the supplied image type.
 	 * 
 	 * @param image the java.awt.Image object to wrap into a JRImageRenderer instance
-	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
+	 * @param imageType the type of the image as specified by one of the constants defined in the ImageTypeEnum
 	 * @param onErrorType one of the error type constants defined in the {@link OnErrorTypeEnum}.
 	 * @return the image renderer instance
 	 */

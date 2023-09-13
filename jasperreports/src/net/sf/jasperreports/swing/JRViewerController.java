@@ -23,10 +23,8 @@
  */
 package net.sf.jasperreports.swing;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -162,15 +160,11 @@ public class JRViewerController
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
 
-		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver = 
-			new net.sf.jasperreports.engine.util.SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
-		fileResolver.setResolveAbsolutePath(true);
 		if (localJasperReportsContext == null)
 		{
 			localJasperReportsContext = new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 			jasperReportsContext = localJasperReportsContext;
 		}
-		localJasperReportsContext.setFileResolver(fileResolver);
 		
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);

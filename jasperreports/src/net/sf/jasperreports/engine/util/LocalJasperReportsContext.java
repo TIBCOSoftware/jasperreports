@@ -114,14 +114,6 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 		getLocalRepositoryService().setURLStreamHandlerFactory(urlHandlerFactory);
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setFileResolver(FileResolver fileResolver)
-	{
-		getLocalRepositoryService().setFileResolver(fileResolver);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)

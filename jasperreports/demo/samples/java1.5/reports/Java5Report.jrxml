@@ -7,7 +7,6 @@
 		<defaultValueExpression><![CDATA[5]]></defaultValueExpression>
 	</parameter>
 	<parameter name="greeting" class="Greeting"/>
-	<variable name="Chart" class="net.sf.jasperreports.engine.JRRenderable" calculation="System"/>
 	<title>
 		<band height="742">
 			<line>
