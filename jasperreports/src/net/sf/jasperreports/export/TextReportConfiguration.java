@@ -27,7 +27,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRTextExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -105,11 +104,6 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * Returns a float value representing the pixel/character horizontal ratio.
 	 * @see #PROPERTY_CHARACTER_WIDTH
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="CHARACTER_WIDTH"
-		)
 	@ExporterProperty(
 		value=PROPERTY_CHARACTER_WIDTH, 
 		intDefault=0
@@ -120,11 +114,6 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * Returns a float value representing the pixel/character vertical ratio.
 	 * @see #PROPERTY_CHARACTER_HEIGHT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="CHARACTER_HEIGHT"
-		)
 	@ExporterProperty(
 		value=PROPERTY_CHARACTER_HEIGHT, 
 		intDefault=0
@@ -135,11 +124,6 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * Returns an integer representing the page width in characters.
 	 * @see #PROPERTY_PAGE_WIDTH
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="PAGE_WIDTH"
-		)
 	@ExporterProperty(
 		value=PROPERTY_PAGE_WIDTH, 
 		intDefault=0
@@ -150,11 +134,6 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * Returns an integer representing the page height in characters.
 	 * @see #PROPERTY_PAGE_HEIGHT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="PAGE_HEIGHT"
-		)
 	@ExporterProperty(
 		value=PROPERTY_PAGE_HEIGHT, 
 		intDefault=0

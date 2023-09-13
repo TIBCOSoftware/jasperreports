@@ -97,7 +97,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				return JRXmlConstants.JASPERREPORTS_NAMESPACE;
 			}
 			
-			@SuppressWarnings("deprecation")
 			@Override
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)

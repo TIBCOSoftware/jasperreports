@@ -273,22 +273,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -1884,12 +1868,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		helper.write("\"/>");
 	}
 	
-	@Override
-	protected void ensureInput()
-	{
-		super.ensureInput();
-	}
-
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{

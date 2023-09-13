@@ -599,15 +599,6 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput() {
-		if (exporterOutput == null) {
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(), getParameters(), getCurrentJasperPrint());
-		}
-	}
-
-	@Override
 	protected void initExport() {
 		super.initExport();
 

@@ -199,17 +199,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = new net.sf.jasperreports.export.parameters.ParametersGraphics2DExporterOutput(parameters);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */

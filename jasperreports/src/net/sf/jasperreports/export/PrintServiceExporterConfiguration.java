@@ -28,7 +28,6 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.PrintServiceAttributeSet;
 
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 
 
 /**
@@ -43,70 +42,35 @@ public interface PrintServiceExporterConfiguration extends Graphics2DExporterCon
 	/**
 	 * Returns an instance of <tt>javax.print.attribute.PrintRequestAttributeSet</tt>.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="PRINT_REQUEST_ATTRIBUTE_SET"
-		)
 	public PrintRequestAttributeSet getPrintRequestAttributeSet();
 
 	/**
 	 * Returns an instance of <tt>javax.print.attribute.PrintServiceAttributeSet</tt>.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="PRINT_SERVICE_ATTRIBUTE_SET"
-		)
 	public PrintServiceAttributeSet getPrintServiceAttributeSet();
 
 	/**
 	 * Returns a boolean value specifying whether a page setup dialog should be opened before printing.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="DISPLAY_PAGE_DIALOG"
-		)
 	public Boolean isDisplayPageDialog();
 
 	/**
 	 * Returns a boolean value specifying whether a page setup dialog should be opened only once before printing in a batch export job.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="DISPLAY_PAGE_DIALOG_ONLY_ONCE"
-		)
 	public Boolean isDisplayPageDialogOnlyOnce();
 
 	/**
 	 * Returns a boolean value specifying whether a print setup dialog should be opened before printing.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="DISPLAY_PRINT_DIALOG"
-		)
 	public Boolean isDisplayPrintDialog();
 
 	/**
 	 * Returns a boolean value specifying whether a print setup dialog should be opened only once in a batch export job.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="DISPLAY_PRINT_DIALOG_ONLY_ONCE"
-		)
 	public Boolean isDisplayPrintDialogOnlyOnce();
 
 	/**
 	 * Returns an instance of <tt>javax.print.PrintService</tt>, useful if users do not want JPS to lookup for an available print service.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter.class, 
-		name="PRINT_SERVICE"
-		)
 	public PrintService getPrintService();
 }

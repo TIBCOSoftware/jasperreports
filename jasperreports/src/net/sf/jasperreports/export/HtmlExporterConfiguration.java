@@ -27,7 +27,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -97,11 +96,6 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * Returns a string representing HTML code that will be inserted in front of the generated report. The JasperReports engine places
 	 * a piece of HTML code at the top of the page but users can define their own headers and stylesheet links.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="HTML_HEADER"
-		)
 	@ExporterProperty(PROPERTY_HTML_HEADER)
 	public String getHtmlHeader();
 	
@@ -111,11 +105,6 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * the usual HTML tags that were opened in {@link #getHtmlHeader()}. If a custom HTML header was provided using {@link #getHtmlHeader()}, 
 	 * it is recommended that a value for this setting is provided too, in order to ensure proper construction of HTML page.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="HTML_FOOTER"
-		)
 	@ExporterProperty(PROPERTY_HTML_FOOTER)
 	public String getHtmlFooter();
 	
@@ -124,11 +113,6 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * Returns a string representing HTML code that will be inserted between pages of the generated report. By default, JasperReports
 	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="BETWEEN_PAGES_HTML"
-		)
 	@ExporterProperty(PROPERTY_BETWEEN_PAGES_HTML)
 	public String getBetweenPagesHtml();
 	
@@ -138,11 +122,6 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * output stream after writing the HTML content to it.
 	 * @see #PROPERTY_FLUSH_OUTPUT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="FLUSH_OUTPUT"
-		)
 	@ExporterProperty(
 		value=PROPERTY_FLUSH_OUTPUT, 
 		booleanDefault=true

@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -1042,11 +1041,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
 	 * @see #PROPERTY_ONE_PAGE_PER_SHEET
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		name="IS_ONE_PAGE_PER_SHEET"
-		)
 	@ExporterProperty(
 		value=PROPERTY_ONE_PAGE_PER_SHEET, 
 		booleanDefault=false
@@ -1057,11 +1051,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Returns a boolean value specifying whether the empty spaces that could appear between rows should be removed or not.
 	 * @see #PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, 
 		booleanDefault=false
@@ -1072,11 +1061,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Returns a boolean value specifying whether the empty spaces that could appear between columns should be removed or not.
 	 * @see #PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, 
 		booleanDefault=false
@@ -1088,11 +1072,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * may vary depending on the XLS viewer properties or the operating system color scheme.
 	 * @see #PROPERTY_WHITE_PAGE_BACKGROUND
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		name="IS_WHITE_PAGE_BACKGROUND"
-		)
 	@ExporterProperty(
 		value=PROPERTY_WHITE_PAGE_BACKGROUND, 
 		booleanDefault=false
@@ -1121,11 +1100,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see #PROPERTY_DETECT_CELL_TYPE
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_DETECT_CELL_TYPE"
-		)
 	@ExporterProperty(
 		value=PROPERTY_DETECT_CELL_TYPE,
 		booleanDefault=false
@@ -1136,11 +1110,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for decreasing font size so that texts fit into the specified cell height.
 	 * @see #PROPERTY_FONT_SIZE_FIX_ENABLED
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_FONT_SIZE_FIX_ENABLED"
-		)
 	@ExporterProperty(
 		value=PROPERTY_FONT_SIZE_FIX_ENABLED,
 		booleanDefault=false
@@ -1151,11 +1120,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for forcing the minimum image padding to 1 pixel, to avoid situations where the image hides the cell border.
 	 * @see #PROPERTY_IMAGE_BORDER_FIX_ENABLED
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_IMAGE_BORDER_FIX_ENABLED"
-		)
 	@ExporterProperty(
 		value=PROPERTY_IMAGE_BORDER_FIX_ENABLED,
 		booleanDefault=false
@@ -1167,11 +1131,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for ignoring graphic elements and exporting text elements only.
 	 * @see #PROPERTY_IGNORE_GRAPHICS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_IGNORE_GRAPHICS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_GRAPHICS,
 		booleanDefault=false
@@ -1182,11 +1141,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for collapsing row span and avoid merging cells across rows.
 	 * @see #PROPERTY_COLLAPSE_ROW_SPAN
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_COLLAPSE_ROW_SPAN"
-		)
 	@ExporterProperty(
 		value=PROPERTY_COLLAPSE_ROW_SPAN,
 		booleanDefault=false
@@ -1197,11 +1151,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for ignoring the cell border.
 	 * @see #PROPERTY_IGNORE_CELL_BORDER
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_IGNORE_CELL_BORDER"
-		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_CELL_BORDER,
 		booleanDefault=false
@@ -1212,11 +1161,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Flag for ignoring the cell background color.
 	 * @see #PROPERTY_IGNORE_CELL_BACKGROUND
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="IS_IGNORE_CELL_BACKGROUND"
-		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_CELL_BACKGROUND,
 		booleanDefault=false
@@ -1258,11 +1202,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * When set, a new sheet is created for the remaining rows to be displayed. Negative values or zero means that no limit has been set.
 	 * @see #PROPERTY_MAXIMUM_ROWS_PER_SHEET
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="MAXIMUM_ROWS_PER_SHEET"
-		)
 	@ExporterProperty(
 		value=PROPERTY_MAXIMUM_ROWS_PER_SHEET,
 		intDefault=0
@@ -1276,11 +1215,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see #PROPERTY_IGNORE_PAGE_MARGINS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="IGNORE_PAGE_MARGINS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_IGNORE_PAGE_MARGINS, 
 		booleanDefault=false
@@ -1333,11 +1267,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Returns a String value representing the password in case of password protected documents.
 	 * @see #PROPERTY_PASSWORD 
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="PASSWORD"
-		)
 	@ExporterProperty(PROPERTY_PASSWORD)
 	public String getPassword();
 
@@ -1346,11 +1275,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * This is useful when used with the <i>isOnePagePerSheet()</i> setting.
 	 * @see #PROPERTY_SHEET_NAMES_PREFIX
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="SHEET_NAMES"
-		)
 	@ExporterProperty(PROPERTY_SHEET_NAMES_PREFIX)
 	public String[] getSheetNames();
 	
@@ -1361,11 +1285,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <p/>
 	 * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class, 
-		name="FORMAT_PATTERNS_MAP"
-		)
 	@ExporterProperty(FORMAT_PATTERN_PREFIX)
 	public Map<String, String> getFormatPatternsMap();
 	

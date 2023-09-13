@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -65,11 +64,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Returns an integer value representing the start index of the page range to be exported. 
 	 * This is useful when only a range of pages is needed for export.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		name="START_PAGE_INDEX"
-		)
 	public Integer getStartPageIndex();
 	
 
@@ -77,11 +71,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Returns an integer value representing the end index of the page range to be exported. 
 	 * This is useful when only a range of pages is needed for export.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		name="END_PAGE_INDEX"
-		)
 	public Integer getEndPageIndex();
 	
 
@@ -89,11 +78,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Returns an integer value representing the index of the page to be exported. 
 	 * This is useful when only one page of the entire report is needed for export.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		name="PAGE_INDEX"
-		)
 	public Integer getPageIndex();
 	
 
@@ -101,11 +85,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Return a {@link net.sf.jasperreports.engine.export.JRExportProgressMonitor JRExportProgressMonitor} instance for monitoring export status. 
 	 * This is useful for users who need to be notified after each page is exported (a GUI tool that shows a progress bar might need this feature).
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class, 
-		name="PROGRESS_MONITOR"
-		)
 	public JRExportProgressMonitor getProgressMonitor();
 	
 
@@ -113,11 +92,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Returns an instance of the {@link net.sf.jasperreports.engine.export.ExporterFilter ExporterFilter} interface to be used by the exporter 
 	 * to filter the elements to be exported.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="FILTER"
-		)
 	public ExporterFilter getExporterFilter();
 	
 
@@ -125,11 +99,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * A setting that allows users to move the entire content of each page horizontally. 
 	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="OFFSET_X"
-		)
 	public Integer getOffsetX();
 	
 
@@ -137,11 +106,6 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * A setting that allows users to move the entire content of each page vertically. 
 	 * It is mostly useful for printing, when the report data does not fit inside the page margins.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="OFFSET_Y"
-		)
 	public Integer getOffsetY();
 	
 
@@ -149,10 +113,5 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * Returns a {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
 	 * hyperlink types during export.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="HYPERLINK_PRODUCER_FACTORY"
-		)
 	public JRHyperlinkProducerFactory getHyperlinkProducerFactory();
 }

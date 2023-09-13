@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -109,11 +108,6 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see #PROPERTY_FRAMES_AS_NESTED_TABLES
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-		name="FRAMES_AS_NESTED_TABLES"
-		)
 	@ExporterProperty(
 		value=PROPERTY_FRAMES_AS_NESTED_TABLES, 
 		booleanDefault=true
@@ -127,11 +121,6 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see #PROPERTY_FLEXIBLE_ROW_HEIGHT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-			type=net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter.class, 
-			name="FLEXIBLE_ROW_HEIGHT"
-			)
 	@ExporterProperty(
 			value=PROPERTY_FLEXIBLE_ROW_HEIGHT, 
 			booleanDefault=false

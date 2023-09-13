@@ -24,9 +24,7 @@
 package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.export.JsonExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
-
 
 /**
  * Interface containing settings used by the JSON exporter.
@@ -42,11 +40,6 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 	 * output stream after writing the JSON content to it.
 	 * @see HtmlExporterConfiguration#PROPERTY_FLUSH_OUTPUT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="FLUSH_OUTPUT"
-		)
 	@ExporterProperty(
 		value=HtmlExporterConfiguration.PROPERTY_FLUSH_OUTPUT,
 		booleanDefault=true
@@ -57,10 +50,5 @@ public interface JsonExporterConfiguration extends ExporterConfiguration
 	 * A flag that determines whether the JSON exporter should export only the
 	 * report components, thus ignoring the page components
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JsonExporterParameter.class,
-		name="REPORT_COMPONENTS_EXPORT_ONLY"
-		)
 	public Boolean isReportComponentsExportOnly();
 }

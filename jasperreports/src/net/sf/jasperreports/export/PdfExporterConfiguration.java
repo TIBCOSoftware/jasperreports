@@ -29,7 +29,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
@@ -369,11 +368,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Returns a boolean value specifying  whether the PDF document should contain an outline section.
 	 * @see #PROPERTY_CREATE_BATCH_MODE_BOOKMARKS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="IS_CREATING_BATCH_MODE_BOOKMARKS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_CREATE_BATCH_MODE_BOOKMARKS, 
 		booleanDefault=false
@@ -384,11 +378,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Returns a boolean value specifying whether the PDF document should be compressed.
 	 * @see #PROPERTY_COMPRESSED
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="IS_COMPRESSED"
-		)
 	@ExporterProperty(
 		value=PROPERTY_COMPRESSED, 
 		booleanDefault=false
@@ -402,11 +391,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * encrypt the resulting PDF document. By default PDF files are not encrypted.
 	 * @see PdfExporterConfiguration#PROPERTY_ENCRYPTED
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="IS_ENCRYPTED"
-		)
 	@ExporterProperty(
 		value=PROPERTY_ENCRYPTED, 
 		booleanDefault=false
@@ -422,11 +406,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * can be configured to use a 128-bit key for stronger encryption.
 	 * @see #PROPERTY_128_BIT_KEY
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="IS_128_BIT_KEY"
-		)
 	@ExporterProperty(
 		value=PROPERTY_128_BIT_KEY, 
 		booleanDefault=false
@@ -437,11 +416,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * The user password needed to open the document, if it is encrypted.
 	 * @see #PROPERTY_USER_PASSWORD
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="USER_PASSWORD"
-		)
 	@ExporterProperty(PROPERTY_USER_PASSWORD)
 	public String getUserPassword();
 	
@@ -450,11 +424,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * by a random string, so that access is denied to all would-be owners.
 	 * @see #PROPERTY_OWNER_PASSWORD
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="OWNER_PASSWORD"
-		)
 	@ExporterProperty(PROPERTY_OWNER_PASSWORD)
 	public String getOwnerPassword();
 	
@@ -463,11 +432,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * that can be passed as parameters directly.
 	 * @see #PROPERTY_PDF_VERSION
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PDF_VERSION"
-		)
 	@ExporterProperty(PROPERTY_PDF_VERSION)
 	public PdfVersionEnum getPdfVersion();
 	
@@ -475,22 +439,12 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * The user defined JavaScript piece of code to be inserted in the generated PDF document.
 	 * @see #PROPERTY_PDF_JAVASCRIPT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PDF_JAVASCRIPT"
-		)
 	@ExporterProperty(PROPERTY_PDF_JAVASCRIPT)
 	public String getPdfJavaScript();
 	
 	/**
 	 * Setting specifying the print scaling preference in the PDF print dialog.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PRINT_SCALING"
-		)
 	@ExporterProperty(PROPERTY_PRINT_SCALING)
 	public PdfPrintScalingEnum getPrintScaling();
 	
@@ -498,11 +452,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Specifies whether the exporter should put structure tags in the generated PDF.
 	 * @see #PROPERTY_TAGGED
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="IS_TAGGED"
-		)
 	@ExporterProperty(
 		value=PROPERTY_TAGGED, 
 		booleanDefault=false
@@ -513,11 +462,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * Specifies the language that the exporter should put in the language tag of the generated PDF.
 	 * @see #PROPERTY_TAG_LANGUAGE
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="TAG_LANGUAGE"
-		)
 	@ExporterProperty(PROPERTY_TAG_LANGUAGE)
 	public String getTagLanguage();
 	
@@ -525,11 +469,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * The Conformance level of the PDF/A document.
 	 * @see #PROPERTY_PDFA_CONFORMANCE
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PDFA_CONFORMANCE"
-		)
 	@ExporterProperty(PROPERTY_PDFA_CONFORMANCE)
 	public PdfaConformanceEnum getPdfaConformance();
 	
@@ -537,11 +476,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * The path to the ICC profile file needed for CMYK color conversion and/or the PDF/A compliance.
 	 * @see #PROPERTY_PDFA_ICC_PROFILE_PATH
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PDFA_ICC_PROFILE_PATH"
-		)
 	@ExporterProperty(PROPERTY_PDFA_ICC_PROFILE_PATH)
 	public String getIccProfilePath();
 	
@@ -573,11 +507,6 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * ALLOW_ASSEMBLY and ALLOW_DEGRADED_PRINTING (these can all be found in the PdfWriter class of OpenPDF library). The
 	 * permissions can be combined by applying bitwise OR to them.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="PERMISSIONS"
-		)
 	public Integer getPermissions();
 	
 	/**
@@ -599,55 +528,30 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	/**
 	 * The Title of the PDF document.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="METADATA_TITLE"
-		)
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
 	public String getMetadataTitle();
 
 	/**
 	 * The Author of the PDF document.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="METADATA_AUTHOR"
-		)
 	@ExporterProperty(PROPERTY_METADATA_AUTHOR)
 	public String getMetadataAuthor();
 
 	/**
 	 * The Subject of the PDF document.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="METADATA_SUBJECT"
-		)
 	@ExporterProperty(PROPERTY_METADATA_SUBJECT)
 	public String getMetadataSubject();
 
 	/**
 	 * The Keywords of the PDF document, as comma-separated String.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="METADATA_KEYWORDS"
-		)
 	@ExporterProperty(PROPERTY_METADATA_KEYWORDS)
 	public String getMetadataKeywords();
 
 	/**
 	 * The Creator or Application for the PDF document. Defaults to "JasperReports Library version x.x.x".
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="METADATA_CREATOR"
-		)
 	@ExporterProperty(PROPERTY_METADATA_CREATOR)
 	public String getMetadataCreator();
 	

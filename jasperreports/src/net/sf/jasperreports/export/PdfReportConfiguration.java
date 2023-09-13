@@ -28,7 +28,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -204,11 +203,6 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	 *
 	 * @see #PROPERTY_FORCE_SVG_SHAPES
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="FORCE_SVG_SHAPES"
-		)
 	@ExporterProperty(
 		value=PROPERTY_FORCE_SVG_SHAPES, 
 		booleanDefault=false
@@ -283,11 +277,6 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_FORCE_LINEBREAK_POLICY
 	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRPdfExporterParameter.class, 
-		name="FORCE_LINEBREAK_POLICY"
-		)
 	@ExporterProperty(
 		value=PROPERTY_FORCE_LINEBREAK_POLICY,
 		booleanDefault=false

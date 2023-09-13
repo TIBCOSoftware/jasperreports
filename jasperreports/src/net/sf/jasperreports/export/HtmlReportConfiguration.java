@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.HtmlBorderCollapseEnum;
 import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
@@ -115,7 +114,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 
 	
 	/**
-	 * Property that provides the default value for the {@link #getBorderCollapse()} export configuration setting.
+	 * Property that provides the default value for the {@link #getBorderCollapseValue()} export configuration setting.
 	 * <p>
 	 * The property can be set globally and at report level.  It defaults to <code>collapse</code>.
 	 * </p>
@@ -223,11 +222,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * All the remaining empty space could be removed by setting this parameter to true.
 	 * @see #PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS"
-		)
 	@ExporterProperty(
 		value=PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, 
 		booleanDefault=false
@@ -240,11 +234,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * background will appear, depending on the selected CSS styles.
 	 * @see #PROPERTY_WHITE_PAGE_BACKGROUND
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="IS_WHITE_PAGE_BACKGROUND"
-		)
 	@ExporterProperty(
 		value=PROPERTY_WHITE_PAGE_BACKGROUND, 
 		booleanDefault=true
@@ -261,11 +250,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * property.
 	 * @see #PROPERTY_WRAP_BREAK_WORD
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class,
-		name="IS_WRAP_BREAK_WORD"
-		)
 	@ExporterProperty(
 		value=PROPERTY_WRAP_BREAK_WORD,
 		booleanDefault=false
@@ -279,12 +263,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels.
 	 * @see #PROPERTY_SIZE_UNIT 
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="SIZE_UNIT",
-		acceptNull=false
-		)
 	@ExporterProperty(PROPERTY_SIZE_UNIT)
 	public HtmlSizeUnitEnum getSizeUnit();
 	
@@ -305,11 +283,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see ReportExportConfiguration#PROPERTY_IGNORE_PAGE_MARGINS
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.JRExporterParameter.class,
-		name="IGNORE_PAGE_MARGINS"
-		)
 	@ExporterProperty(
 		value=ReportExportConfiguration.PROPERTY_IGNORE_PAGE_MARGINS, 
 		booleanDefault=false
@@ -331,11 +304,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	/**
 	 * The zoom ratio used for the export. The default value is 1.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRHtmlExporterParameter.class, 
-		name="ZOOM_RATIO"
-		)
 	public Float getZoomRatio();
 	
 	

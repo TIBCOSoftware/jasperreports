@@ -30,6 +30,9 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -40,9 +43,6 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 import net.sf.jasperreports.export.CsvReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -111,22 +111,6 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 	protected Class<CsvReportConfiguration> getItemConfigurationInterface()
 	{
 		return CsvReportConfiguration.class;
-	}
-	
-
-	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
 	}
 	
 

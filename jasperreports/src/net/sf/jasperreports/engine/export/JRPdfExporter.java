@@ -642,22 +642,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		registerFonts();

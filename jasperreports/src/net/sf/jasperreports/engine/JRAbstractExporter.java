@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URLStreamHandlerFactory;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -78,13 +77,15 @@ import net.sf.jasperreports.repo.SimpleRepositoryContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements JRExporter<ExporterInput, RC, C, O>
+public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C extends ExporterConfiguration, O extends ExporterOutput, E extends JRExporterContext> implements Exporter<ExporterInput, RC, C, O>
 {
+	public static final String EXCEPTION_MESSAGE_KEY_EMPTY_INPUT_SOURCE_IN_BATCH_MODE = "export.common.empty.input.source.in.batch.mode";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_INPUT_SOURCE = "export.common.no.input.source";
+	public static final String EXCEPTION_MESSAGE_KEY_NO_OUTPUT_SPECIFIED = "export.common.no.output.specified";
 	public static final String EXCEPTION_MESSAGE_KEY_START_PAGE_INDEX_OUT_OF_RANGE = "export.common.start.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_END_PAGE_INDEX_OUT_OF_RANGE = "export.common.end.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_IMAGE_NAME = "export.common.invalid.image.name";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO = "export.common.invalid.zoom.ratio";
-	public static final String EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED = "export.common.mixed.calls.not.allowed";
 	public static final String EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE = "export.common.page.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_WRITER_ERROR = "export.common.output.writer.error";
 
@@ -127,15 +128,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	{
 		private Map<String, Object> values = new HashMap<>();
 
-		/**
-		 * @deprecated Replaced by {@link #getExporterRef()}.
-		 */
-		@Override
-		public JRExporter getExporter()
-		{
-			return JRAbstractExporter.this;
-		}
-
 		@Override
 		public Exporter getExporterRef()
 		{
@@ -161,13 +153,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		}
 
 		@Override
-		@SuppressWarnings("deprecation")
-		public Map<JRExporterParameter,Object> getExportParameters()
-		{
-			return parameters;
-		}
-
-		@Override
 		public int getOffsetX()
 		{
 			return JRAbstractExporter.this.getOffsetX();
@@ -179,13 +164,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			return JRAbstractExporter.this.getOffsetY();
 		}
 
-		@Override
-		@SuppressWarnings("deprecation")
-		public String getExportPropertiesPrefix()
-		{
-			return JRAbstractExporter.this.getExporterPropertiesPrefix();
-		}
-		
 		@Override
 		public Object getValue(String key)
 		{
@@ -205,11 +183,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		}
 	}
 	
-	// this would make the applet require logging library
-	//private final static Log log = LogFactory.getLog(JRAbstractExporter.class);
-	
-	private Boolean useOldApi = null;
-
 	/**
 	 *
 	 */
@@ -221,12 +194,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	protected JRStyledTextAttributeSelector noneSelector;
 	protected JRStyledTextUtil styledTextUtil;
 	protected FontUtil fontUtil;
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	protected Map<JRExporterParameter,Object> parameters = new HashMap<>();
 
 	/**
 	 *
@@ -294,39 +261,10 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	
 	/**
-	 * 
-	 */
-	private void checkApi(boolean isOldApi)
-	{
-		if (useOldApi == null)
-		{
-			useOldApi = isOldApi;
-		}
-		else
-		{
-			if (useOldApi != isOldApi)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_MIXED_CALLS_NOT_ALLOWED,  
-						(Object[])null 
-						);
-			}
-		}
-	}
-	
-	
-	/**
 	 *
 	 */
 	public void reset()
 	{
-		useOldApi = null;
-
-		@SuppressWarnings("deprecation")
-		Map<JRExporterParameter,Object> dep = new HashMap<>();
-		parameters = dep;
-		
 		elementOffsetStack = new LinkedList<>();
 		exporterInput = null;
 		exporterOutput = null;
@@ -335,59 +273,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
-	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
-	 */
-	@Override
-	public void setParameter(JRExporterParameter parameter, Object value)
-	{
-		checkApi(true);
-		
-		parameters.put(parameter, value);
-		exporterInput = null;
-		exporterOutput = null;
-		exporterConfiguration = null;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
-	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}.
-	 */
-	@Override
-	public Object getParameter(JRExporterParameter parameter)
-	{
-		return parameters.get(parameter);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
-	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
-	 */
-	@Override
-	public void setParameters(Map<JRExporterParameter,Object> parameters)
-	{
-		checkApi(true);
-
-		this.parameters = parameters;
-		exporterInput = null;
-		exporterOutput = null;
-		exporterConfiguration = null;
-	}
-	
-
-	/**
-	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
-	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
-	 */
-	@Override
-	public Map<JRExporterParameter,Object> getParameters()
-	{
-		return parameters;
-	}
-
 	/**
 	 *
 	 */
@@ -400,8 +285,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	@Override
 	public void setExporterInput(ExporterInput exporterInput)
 	{
-		checkApi(false);
-
 		this.exporterInput = exporterInput;
 	}
 
@@ -418,8 +301,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	@Override
 	public void setExporterOutput(O exporterOutput)
 	{
-		checkApi(false);
-
 		this.exporterOutput = exporterOutput;
 	}
 
@@ -427,8 +308,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	@Override
 	public void setConfiguration(RC configuration)
 	{
-		checkApi(false);
-		
 		this.itemConfiguration = configuration;
 	}
 
@@ -436,8 +315,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	@Override
 	public void setConfiguration(C configuration)
 	{
-		checkApi(false);
-		
 		this.exporterConfiguration = configuration;
 	}
 
@@ -548,30 +425,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected void ensureJasperReportsContext()
 	{
-		if (
-			parameters.containsKey(JRExporterParameter.CLASS_LOADER)
-			|| parameters.containsKey(JRExporterParameter.URL_HANDLER_FACTORY)
-			)
-		{
-			net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
-				new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
-
-			if (parameters.containsKey(JRExporterParameter.CLASS_LOADER))
-			{
-				localJasperReportsContext.setClassLoader((ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER));
-			}
-
-			if (parameters.containsKey(JRExporterParameter.URL_HANDLER_FACTORY))
-			{
-				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameters.get(JRExporterParameter.URL_HANDLER_FACTORY));
-			}
-
-			setJasperReportsContext(localJasperReportsContext);
-		}
-		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 	}
 		
@@ -584,24 +439,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 * @deprecated replaced by {@link #ensureJasperReportsContext() setExportContext} 
-	 */
-	protected void setClassLoader()
-	{
-		ensureJasperReportsContext();
-	}
-
-	
-	/**
-	 * @deprecated replaced by {@link #resetExportContext() resetExportContext} 
-	 */
-	protected void resetClassLoader()
-	{
-		resetExportContext();
-	}
-
-
 	/**
 	 *
 	 */
@@ -626,41 +463,19 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			RC crtItemConfiguration = (RC)crtItem.getConfiguration();
 			
-			if (crtItemConfiguration != null)
-			{
-				checkApi(false);
-			}
+			PropertiesDefaultsConfigurationFactory<RC> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
+			RC defaultsConfiguration = defaultsFactory.getConfiguration(getItemConfigurationInterface());
 			
-			if (useOldApi)
-			{
-				@SuppressWarnings("deprecation")
-				RC depConf = 
-					new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<RC>(
-						getJasperReportsContext(),
-						getParameters(),
-						getCurrentJasperPrint()
-						).getConfiguration(
-							getItemConfigurationInterface()
-							);
-				crtCompositeItemConfiguration = depConf; 
-			}
-			else
-			{
-				PropertiesDefaultsConfigurationFactory<RC> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
-				RC defaultsConfiguration = defaultsFactory.getConfiguration(getItemConfigurationInterface());
-				
-				PropertiesNoDefaultsConfigurationFactory<RC> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
-				RC noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getItemConfigurationInterface(), getCurrentJasperPrint());
+			PropertiesNoDefaultsConfigurationFactory<RC> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
+			RC noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getItemConfigurationInterface(), getCurrentJasperPrint());
 
-				CompositeExporterConfigurationFactory<RC> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getItemConfigurationInterface());
+			CompositeExporterConfigurationFactory<RC> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getItemConfigurationInterface());
 
-				RC tmpItemConfiguration = compositeFactory.getConfiguration(crtItemConfiguration, noDefaultsConfiguration);
-				
-				tmpItemConfiguration = compositeFactory.getConfiguration(itemConfiguration, tmpItemConfiguration);
-				
-				crtCompositeItemConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
-
-			}
+			RC tmpItemConfiguration = compositeFactory.getConfiguration(crtItemConfiguration, noDefaultsConfiguration);
+			
+			tmpItemConfiguration = compositeFactory.getConfiguration(itemConfiguration, tmpItemConfiguration);
+			
+			crtCompositeItemConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
 		}
 		return crtCompositeItemConfiguration;
 	}
@@ -673,34 +488,17 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	{
 		if (crtCompositeConfiguration == null)
 		{
-			if (useOldApi)
-			{
-				@SuppressWarnings("deprecation")
-				C depConf = 
-					new net.sf.jasperreports.export.parameters.ParametersExporterConfigurationFactory<C>(
-						getJasperReportsContext(),
-						getParameters(),
-						getCurrentJasperPrint()
-						).getConfiguration(
-							getConfigurationInterface()
-							);
-				crtCompositeConfiguration = depConf;
-			}
-			else
-			{
-				PropertiesDefaultsConfigurationFactory<C> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
-				C defaultsConfiguration = defaultsFactory.getConfiguration(getConfigurationInterface());
+			PropertiesDefaultsConfigurationFactory<C> defaultsFactory = new PropertiesDefaultsConfigurationFactory<>(jasperReportsContext);
+			C defaultsConfiguration = defaultsFactory.getConfiguration(getConfigurationInterface());
 
-				PropertiesNoDefaultsConfigurationFactory<C> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
-				C noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getConfigurationInterface(), getCurrentJasperPrint());
+			PropertiesNoDefaultsConfigurationFactory<C> noDefaultsFactory = new PropertiesNoDefaultsConfigurationFactory<>(jasperReportsContext);
+			C noDefaultsConfiguration = noDefaultsFactory.getConfiguration(getConfigurationInterface(), getCurrentJasperPrint());
 
-				CompositeExporterConfigurationFactory<C> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getConfigurationInterface());
+			CompositeExporterConfigurationFactory<C> compositeFactory = new CompositeExporterConfigurationFactory<>(jasperReportsContext, getConfigurationInterface());
 
-				C tmpItemConfiguration = compositeFactory.getConfiguration(exporterConfiguration, noDefaultsConfiguration);
-				
-				crtCompositeConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
-			}
-
+			C tmpItemConfiguration = compositeFactory.getConfiguration(exporterConfiguration, noDefaultsConfiguration);
+			
+			crtCompositeConfiguration = compositeFactory.getConfiguration(tmpItemConfiguration, defaultsConfiguration, true);
 		}
 		return crtCompositeConfiguration;
 	}
@@ -721,12 +519,15 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected void ensureInput()
 	{
 		if (exporterInput == null)
 		{
-			exporterInput = new net.sf.jasperreports.export.parameters.ParametersExporterInput(parameters);
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_NO_INPUT_SOURCE, (Object[])null);
+		}
+		else if (exporterInput.getItems().size() == 0)
+		{
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_EMPTY_INPUT_SOURCE_IN_BATCH_MODE, (Object[])null);
 		}
 		
 		crtItem = exporterInput.getItems().get(0);//for getRepository
@@ -737,7 +538,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	protected abstract void ensureOutput();
+	protected void ensureOutput()
+	{
+		if (exporterOutput == null)
+		{
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_NO_OUTPUT_SPECIFIED, (Object[])null);
+		}
+	}
 	
 
 	/**

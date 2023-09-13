@@ -277,22 +277,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersOutputStreamExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */

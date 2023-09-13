@@ -28,7 +28,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -76,11 +75,6 @@ public interface OdtReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see #PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class, 
-		name="ODT_FLEXIBLE_ROW_HEIGHT"
-		)
 	@ExporterProperty(
 		value=PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT, 
 		booleanDefault=false

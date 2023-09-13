@@ -150,22 +150,6 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		List<JRPrintElement> elements = page.getElements();

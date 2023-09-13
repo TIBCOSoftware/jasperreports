@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -181,11 +180,6 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see #PROPERTY_CREATE_CUSTOM_PALETTE
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
-		name="CREATE_CUSTOM_PALETTE"
-		)
 	@ExporterProperty(
 		value=PROPERTY_CREATE_CUSTOM_PALETTE, 
 		booleanDefault=false

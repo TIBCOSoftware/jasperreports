@@ -27,7 +27,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRTextExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -89,11 +88,6 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 * Returns a string representing text that will be inserted between pages of the generated report. By default, JasperReports
 	 * separates pages by two empty lines, but this behavior can be overridden by this parameter.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="BETWEEN_PAGES_TEXT"
-		)
 	@ExporterProperty(PROPERTY_PAGE_SEPARATOR)
 	public String getPageSeparator();
 	
@@ -101,11 +95,6 @@ public interface TextExporterConfiguration extends ExporterConfiguration
 	 * Returns a string representing the separator between two lines of text. This parameter is useful since line separators can
 	 * vary from one operating system to another. The default value is the system "line.separator" property.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRTextExporterParameter.class, 
-		name="LINE_SEPARATOR"
-		)
 	@ExporterProperty(PROPERTY_LINE_SEPARATOR)
 	public String getLineSeparator();
 

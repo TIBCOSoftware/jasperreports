@@ -173,22 +173,6 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */

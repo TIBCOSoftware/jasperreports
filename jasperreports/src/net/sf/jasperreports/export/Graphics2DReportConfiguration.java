@@ -28,7 +28,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -73,12 +72,7 @@ public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 	/**
 	 * The zoom ratio used for the export. The default value is 1.
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class,
-		name="ZOOM_RATIO"
-		)
-	public Float getZoomRatio();
+	public Float getZoomRatio();//FIXME7 no config property; check all float, integer, boolean and maybe even string getters in export configs
 	
 	/**
 	 * Flag to control the use of an AWT rendering fix which causes the printer job size to be reduced when
@@ -92,11 +86,6 @@ public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 	 *
 	 * @see #MINIMIZE_PRINTER_JOB_SIZE
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter.class, 
-		name="MINIMIZE_PRINTER_JOB_SIZE"
-		)
 	@ExporterProperty(
 		value=MINIMIZE_PRINTER_JOB_SIZE, 
 		booleanDefault=true

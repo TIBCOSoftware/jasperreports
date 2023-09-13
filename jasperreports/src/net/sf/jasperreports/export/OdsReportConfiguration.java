@@ -27,7 +27,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -65,10 +64,6 @@ public interface OdsReportConfiguration extends XlsReportConfiguration
 	 * </p>
 	 * @see #PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT
 	 */
-	@SuppressWarnings("deprecation")
-	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporterParameter.class,
-		name="ODS_FLEXIBLE_ROW_HEIGHT")
 	@ExporterProperty(
 		value=PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT,
 		booleanDefault=false

@@ -285,22 +285,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-
-
-	@Override
 	protected void initExport()
 	{
 		super.initExport();

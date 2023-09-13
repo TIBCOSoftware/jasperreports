@@ -325,22 +325,6 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput =
-					new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-							getJasperReportsContext(),
-							getParameters(),
-							getCurrentJasperPrint()
-					);
-		}
-	}
-
-
-	@Override
 	public String getExporterKey()
 	{
 		return JSON_EXPORTER_KEY;

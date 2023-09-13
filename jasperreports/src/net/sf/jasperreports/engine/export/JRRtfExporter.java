@@ -192,22 +192,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected void ensureOutput()
-	{
-		if (exporterOutput == null)
-		{
-			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
-					getJasperReportsContext(),
-					getParameters(),
-					getCurrentJasperPrint()
-					);
-		}
-	}
-	
-
-	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
