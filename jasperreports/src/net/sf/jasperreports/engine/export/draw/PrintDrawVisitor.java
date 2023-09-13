@@ -94,29 +94,6 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		frameDrawer = new FrameDrawer(jasperReportsContext, null, this);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, ExporterFilter, RenderersCache, boolean, boolean, boolean, boolean)}.
-	 */
-	public PrintDrawVisitor(
-		JRGraphics2DExporterContext exporterContext, 
-		RenderersCache renderersCache,
-		boolean minimizePrinterJobSize,
-		boolean ignoreMissingFont,
-		boolean defaultIndentFirstLine,
-		boolean defaultJustifyLastLine
-		)
-	{
-		this(
-			exporterContext, 
-			null,
-			renderersCache,
-			minimizePrinterJobSize,
-			ignoreMissingFont,
-			true,
-			false
-			);
-	}
-	
 	public PrintDrawVisitor(
 		JRGraphics2DExporterContext exporterContext,
 		ExporterFilter filter,

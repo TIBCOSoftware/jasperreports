@@ -75,30 +75,6 @@ public abstract class JRAbstractScriptlet
 	public void setData(JRFillDataset dataset)
 	{
 		this.dataset = dataset;
-		
-		setData( // keep this deprecated method call here just in case it was overridden in scriptlet implementations
-			dataset.getParametersMap(),
-			dataset.getFieldsMap(),
-			dataset.getVariablesMap(),
-			(JRFillGroup[])dataset.getGroups()
-			);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #setData(JRFillDataset)}.
-	 */
-	public void setData(
-		Map<String,JRFillParameter> parsm,
-		Map<String,JRFillField> fldsm,
-		Map<String,JRFillVariable> varsm,
-		JRFillGroup[] grps
-		)
-	{
-		parametersMap = parsm;
-		fieldsMap = fldsm;
-		variablesMap = varsm;
-		groups = grps;
 	}
 
 

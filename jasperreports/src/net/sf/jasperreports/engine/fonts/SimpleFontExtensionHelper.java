@@ -73,11 +73,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public static final String EXCEPTION_MESSAGE_KEY_FILE_WRITER_ERROR = "fonts.file.writer.error";
 	public static final String EXCEPTION_MESSAGE_KEY_OUTPUT_STREAM_WRITER_ERROR = "fonts.output.stream.writer.error";
 	
-	/**
-	 * @deprecated Replaced by {@link StandardCharsets#UTF_8}.
-	 */
-	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
-	
 
 	/**
 	 *

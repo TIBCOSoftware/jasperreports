@@ -1,4 +1,3 @@
-package net.sf.jasperreports.engine.style;
 /*
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
@@ -22,7 +21,7 @@ package net.sf.jasperreports.engine.style;
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
+package net.sf.jasperreports.engine.style;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -53,6 +52,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
+
 
 /**
  * 
@@ -113,15 +113,6 @@ public class PropertyStyleProvider implements StyleProvider
 			valueType = ScaleImageEnum.class
 			)
 	public static final String STYLE_PROPERTY_SCALE_IMAGE = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_scaleImage;
-	/**
-	 * @deprecated Replaced by {@link #STYLE_PROPERTY_H_TEXT_ALIGN} and {@link #STYLE_PROPERTY_H_IMAGE_ALIGN}.
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_DESIGN,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
-			)
-	public static final String STYLE_PROPERTY_HALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_hAlign;
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
@@ -136,15 +127,6 @@ public class PropertyStyleProvider implements StyleProvider
 			valueType = HorizontalImageAlignEnum.class
 			)
 	public static final String STYLE_PROPERTY_H_IMAGE_ALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_hImageAlign;
-	/**
-	 * @deprecated Replaced by {@link #STYLE_PROPERTY_V_TEXT_ALIGN} and {@link #STYLE_PROPERTY_V_IMAGE_ALIGN}.
-	 */
-	@Property(
-			category = PropertyConstants.CATEGORY_DESIGN,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
-			)
-	public static final String STYLE_PROPERTY_VALIGN = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_vAlign;
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
@@ -563,13 +545,7 @@ public class PropertyStyleProvider implements StyleProvider
 			style.setScaleImage(ScaleImageEnum.getByName(scaleImage));
 		}
 		
-		String hAlign = getPropertyValue(STYLE_PROPERTY_HALIGN, evaluation);
-		if (hAlign != null)
-		{
-			style.setHorizontalTextAlign(HorizontalTextAlignEnum.getByName(hAlign));
-			style.setHorizontalImageAlign(HorizontalImageAlignEnum.getByName(hAlign));
-		}
-		hAlign = getPropertyValue(STYLE_PROPERTY_H_TEXT_ALIGN, evaluation);
+		String hAlign = getPropertyValue(STYLE_PROPERTY_H_TEXT_ALIGN, evaluation);
 		if (hAlign != null)
 		{
 			style.setHorizontalTextAlign(HorizontalTextAlignEnum.getByName(hAlign));
@@ -580,13 +556,7 @@ public class PropertyStyleProvider implements StyleProvider
 			style.setHorizontalImageAlign(HorizontalImageAlignEnum.getByName(hAlign));
 		}
 		
-		String vAlign = getPropertyValue(STYLE_PROPERTY_VALIGN, evaluation);
-		if (vAlign != null)
-		{
-			style.setVerticalTextAlign(VerticalTextAlignEnum.getByName(vAlign));
-			style.setVerticalImageAlign(VerticalImageAlignEnum.getByName(vAlign));
-		}
-		vAlign = getPropertyValue(STYLE_PROPERTY_V_TEXT_ALIGN, evaluation);
+		String vAlign = getPropertyValue(STYLE_PROPERTY_V_TEXT_ALIGN, evaluation);
 		if (vAlign != null)
 		{
 			style.setVerticalTextAlign(VerticalTextAlignEnum.getByName(vAlign));

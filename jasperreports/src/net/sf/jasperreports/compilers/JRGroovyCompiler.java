@@ -62,10 +62,6 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 public class JRGroovyCompiler extends JRAbstractJavaCompiler 
 {
 
-	/**
-	 * @deprecated Replaced by {@link StandardCharsets#UTF_8}.
-	 */
-	protected static final String SOURCE_ENCODING = StandardCharsets.UTF_8.name();
 	public static final String EXCEPTION_MESSAGE_KEY_COMPILING_EXPRESSIONS_CLASS_FILE = "compilers.compiling.expressions.class.file";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_FEW_CLASSES_GENERATED = "compilers.groovy.too.few.classes.generated";
 	public static final String EXCEPTION_MESSAGE_KEY_TOO_MANY_CLASSES_GENERATED = "compilers.groovy.too.many.classes.generated";

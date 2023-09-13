@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.util.Arrays;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -1075,24 +1074,6 @@ public final class JasperFillManager
 	}
 
 
-	/**
-	 * @deprecated replaced by {@link JasperReportSource}
-	 */
-	@Deprecated
-	protected JasperReportsContext getLocalJasperReportsContext(File file)
-	{
-		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver =
-			new net.sf.jasperreports.engine.util.SimpleFileResolver(
-				Arrays.asList(new File[]{file.getParentFile(), new File(".")})
-				);
-		fileResolver.setResolveAbsolutePath(true);
-		
-		net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
-			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
-		localJasperReportsContext.setFileResolver(fileResolver);
-		return localJasperReportsContext;
-	}
-	
 	protected static JasperReportSource getReportSource(JasperReportsContext jasperReportsContext, 
 			File reportFile) throws JRException
 	{

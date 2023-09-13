@@ -227,7 +227,6 @@ public class JasperDesign extends JRBaseReport
 		this(DefaultJasperReportsContext.getInstance());
 	}
 
-	@SuppressWarnings("deprecation")
 	public JasperDesign(JasperReportsContext context)
 	{
 		setMainDataset(new JRDesignDataset(context, true));

@@ -36,10 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * Properties map of an JR element.
@@ -54,13 +54,6 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
-	
-	/**
-	 * @deprecated no longer used, {@link #setProperty(String, String)} now uses 
-	 * the actual property name for the change event
-	 */
-	@Deprecated
-	public static final String PROPERTY_VALUE = "value";
 	
 	private Map<String, String> propertiesMap;
 	private List<String> propertiesList;

@@ -42,9 +42,7 @@ public class TableReportGroup implements JRGroup
 {
 
 	private final JRGroup datasetGroup;
-	private JRBand header;
 	private JRSection headerSection;
-	private JRBand footer;
 	private JRSection footerSection;
 	
 	public TableReportGroup(JRGroup datasetGroup)
@@ -70,15 +68,8 @@ public class TableReportGroup implements JRGroup
 		return datasetGroup.getFooterPositionValue();
 	}
 
-	@Deprecated
-	public JRBand getGroupFooter()
+	protected void setGroupFooter(JRBand footer)
 	{
-		return footer;
-	}
-
-	public void setGroupFooter(JRBand footer)
-	{
-		this.footer = footer;
 		this.footerSection = wrapBand(footer, BandTypeEnum.GROUP_FOOTER);
 	}
 	
@@ -101,15 +92,8 @@ public class TableReportGroup implements JRGroup
 		return footerSection;
 	}
 
-	@Deprecated
-	public JRBand getGroupHeader()
+	protected void setGroupHeader(JRBand header)
 	{
-		return header;
-	}
-
-	public void setGroupHeader(JRBand header)
-	{
-		this.header = header;
 		this.headerSection = wrapBand(header, BandTypeEnum.GROUP_HEADER);
 	}
 

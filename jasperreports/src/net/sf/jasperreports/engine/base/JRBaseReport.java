@@ -145,10 +145,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected JRBand noData;
 
 
-	/**
-	 * @deprecated Replaced by {@link JasperDesign#JasperDesign()}.
-	 */
-	public JRBaseReport()
+	protected JRBaseReport()
 	{
 	}
 
