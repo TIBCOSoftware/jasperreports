@@ -75,6 +75,11 @@ public abstract class JRAbstractScriptlet
 	public void setData(JRFillDataset dataset)
 	{
 		this.dataset = dataset;
+		
+		parametersMap = dataset.getParametersMap();
+		fieldsMap = dataset.getFieldsMap();
+		variablesMap = dataset.getVariablesMap();
+		groups = (JRFillGroup[])dataset.getGroups();
 	}
 
 
