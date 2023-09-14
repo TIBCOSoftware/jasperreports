@@ -29,7 +29,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
@@ -132,10 +131,6 @@ public abstract class JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vImageAlign, style.getOwnVerticalImageAlign());
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
-		if (isOlderVersionThan(JRConstants.VERSION_4_0_2))
-		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getParagraph().getLineSpacing());
-		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
@@ -200,7 +195,7 @@ public abstract class JRXmlBaseWriter
 	protected void writeConditionalStyle(JRConditionalStyle style) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
-		writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
 		writeStyle(style);
 		writer.closeElement();
 	}
@@ -265,7 +260,7 @@ public abstract class JRXmlBaseWriter
 	 */
 	public void writeParagraph(JRParagraph paragraph, XmlNamespace namespace) throws IOException
 	{
-		if (paragraph != null && isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
+		if (paragraph != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_paragraph, namespace);
 			
@@ -326,17 +321,4 @@ public abstract class JRXmlBaseWriter
 		return versionComparator.compare(this.version, version) < 0;
 	}
 	
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, JRExpression expression, boolean writeClass)  throws IOException
-	{
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, expression, writeClass);
-		}
-	}
-
 }

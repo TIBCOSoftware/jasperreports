@@ -30,7 +30,6 @@ import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -95,7 +94,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
-		return isNewerVersionOrEqual(version, JRConstants.VERSION_3_7_4);
+		return true;
 	}
 	
 	
@@ -148,10 +147,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chartSettings.getLinkType(), HyperlinkTypeEnum.NONE.getName());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chartSettings.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chartSettings.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
-		if(isNewerVersionOrEqual(version, JRConstants.VERSION_3_7_5))
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chartSettings.getCustomizerClass());
-		}
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chartSettings.getCustomizerClass());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_renderType, chartSettings.getRenderType());
 
 		// write title
@@ -161,7 +157,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writeFont(chartSettings.getTitleFont(), writer);
 		if (chartSettings.getTitleExpression() != null)
 		{
-			writeExpression(JRXmlConstants.ELEMENT_titleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getTitleExpression(), false, writer);
+			writer.writeExpression(JRXmlConstants.ELEMENT_titleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getTitleExpression());
 		}
 		writer.closeElement();
 
@@ -171,7 +167,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writeFont(chartSettings.getSubtitleFont(), writer);
 		if (chartSettings.getSubtitleExpression() != null)
 		{
-			writeExpression(JRXmlConstants.ELEMENT_subtitleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getSubtitleExpression(), false, writer);
+			writer.writeExpression(JRXmlConstants.ELEMENT_subtitleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getSubtitleExpression());
 		}
 		writer.closeElement();
 
@@ -189,16 +185,16 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writeFont(chartSettings.getLegendFont(), writer);
 		writer.closeElement();
 
-		writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getAnchorNameExpression(), false, writer);
+		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getAnchorNameExpression());
 		if(isNewerVersionOrEqual(version, JRConstants.VERSION_6_13_0))
 		{
-			writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getBookmarkLevelExpression(), false, writer);
+			writer.writeExpression(JRXmlConstants.ELEMENT_bookmarkLevelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getBookmarkLevelExpression());
 		}
-		writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkReferenceExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkWhenExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkAnchorExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkPageExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkTooltipExpression(), false, writer);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkReferenceExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkWhenExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkWhenExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkAnchorExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkPageExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkTooltipExpression());
 		writeHyperlinkParameters(chartSettings.getHyperlinkParameters(), writer);
 
 		writer.closeElement();
@@ -230,10 +226,10 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_categorySeries, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 
-		writeExpression(JRXmlConstants.ELEMENT_seriesExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getSeriesExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_categoryExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getCategoryExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getValueExpression(), false, writer);
-		writeExpression(JRXmlConstants.ELEMENT_labelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getLabelExpression(), false, writer);
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getSeriesExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getCategoryExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getValueExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getLabelExpression());
 		reportWriter.writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getItemHyperlink());
 
 		writer.closeElement();
@@ -278,8 +274,8 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
 
-			writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE,
-					parameter.getValueExpression(), false, writer);
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE,
+					parameter.getValueExpression());
 
 			writer.closeElement();
 		}
@@ -307,7 +303,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 //		writeSeriesColors(spiderPlot.getSeriesColors(), writer);
 		
 		writeLabelFont(spiderPlot.getLabelFont(), writer);
-		writeExpression(ELEMENT_maxValueExpression, namespace, spiderPlot.getMaxValueExpression(), false, writer);
+		writer.writeExpression(ELEMENT_maxValueExpression, namespace, spiderPlot.getMaxValueExpression());
 		writer.closeElement(true);
 		
 	}
@@ -343,19 +339,6 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	protected boolean isNewerVersionOrEqual(String currentVersion, String oldVersion) 
 	{
 		return versionComparator.compare(currentVersion, oldVersion) >= 0;
-	}
-
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRXmlWriteHelper writer)  throws IOException
-	{
-		if(isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, namespace, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, namespace, expression, writeClass);
-		}
 	}
 	
 }

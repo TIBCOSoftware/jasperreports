@@ -106,9 +106,7 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 				digester.addSetNext(PATTERN_STYLE, "addStyle", JRStyle.class.getName());
 				
 				digester.addFactoryCreate(PATTERN_CONDITIONAL_STYLE, JRConditionalStyleFactory.class.getName());
-				@SuppressWarnings("deprecation")
-				Class<?> depBooleanExprFactoryClass = JRExpressionFactory.BooleanExpressionFactory.class;
-				digester.addFactoryCreate(PATTERN_CONDITION_EXPRESSION, depBooleanExprFactoryClass.getName());
+				digester.addFactoryCreate(PATTERN_CONDITION_EXPRESSION, JRExpressionFactory.class.getName());
 				digester.addSetNext(PATTERN_CONDITION_EXPRESSION, "setConditionExpression", JRExpression.class.getName());
 				digester.addCallMethod(PATTERN_CONDITION_EXPRESSION, "setText", 0);
 				digester.addCallMethod(PATTERN_CONDITION_EXPRESSION, "setInterpreted");

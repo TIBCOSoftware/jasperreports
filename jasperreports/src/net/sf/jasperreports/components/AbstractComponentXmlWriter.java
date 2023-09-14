@@ -28,7 +28,6 @@ import java.io.IOException;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
@@ -120,31 +119,15 @@ public abstract class AbstractComponentXmlWriter implements ComponentXmlWriter
 		return versionComparator.compare(getVersion(jasperReportsContext, componentElement, reportWriter), version) < 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void writeExpression(String name, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
 	{
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, expression, writeClass);
-		}
+		writer.writeExpression(name, expression);
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
 	{
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(name, namespace, expression);
-		}
-		else
-		{
-			writer.writeExpression(name, namespace, expression, writeClass);
-		}
+		writer.writeExpression(name, namespace, expression);
 	}
 }

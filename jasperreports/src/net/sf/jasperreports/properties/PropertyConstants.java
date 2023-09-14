@@ -126,27 +126,27 @@ public interface PropertyConstants
 
 	String VERSION_3_0_1 = "3.0.1";
 
-	String VERSION_3_1_0 = JRConstants.VERSION_3_1_0;
+	String VERSION_3_1_0 = "3.1.0";
 
-	String VERSION_3_1_2 = JRConstants.VERSION_3_1_2;
+	String VERSION_3_1_2 = "3.1.2";
 
 	String VERSION_3_1_3 = "3.1.3";
 
-	String VERSION_3_1_4 = JRConstants.VERSION_3_1_4;
+	String VERSION_3_1_4 = "3.1.4";
 
-	String VERSION_3_5_0 = JRConstants.VERSION_3_5_0;
+	String VERSION_3_5_0 = "3.5.0";
 
-	String VERSION_3_5_1 = JRConstants.VERSION_3_5_1;
+	String VERSION_3_5_1 = "3.5.1";
 
-	String VERSION_3_5_2 = JRConstants.VERSION_3_5_2;
+	String VERSION_3_5_2 = "3.5.2";
 
-	String VERSION_3_5_3 = JRConstants.VERSION_3_5_3;
+	String VERSION_3_5_3 = "3.5.3";
 
 	String VERSION_3_5_4 = "3.5.4";
 
-	String VERSION_3_6_1 = JRConstants.VERSION_3_6_1;
+	String VERSION_3_6_1 = "3.6.1";
 
-	String VERSION_3_6_2 = JRConstants.VERSION_3_6_2;
+	String VERSION_3_6_2 = "3.6.2";
 
 	String VERSION_3_7_0 = "3.7.0";
 
@@ -154,17 +154,17 @@ public interface PropertyConstants
 
 	String VERSION_3_7_3 = "3.7.3";
 
-	String VERSION_3_7_5 = JRConstants.VERSION_3_7_5;
+	String VERSION_3_7_5 = "3.7.5";
 
 	String VERSION_3_7_6 = "3.7.6";
 
-	String VERSION_4_0_0 = JRConstants.VERSION_4_0_0;
+	String VERSION_4_0_0 = "4.0.0";
 
 	String VERSION_4_0_1 = "4.0.1";
 
-	String VERSION_4_0_2 = JRConstants.VERSION_4_0_2;
+	String VERSION_4_0_2 = "4.0.2";
 
-	String VERSION_4_1_1 = JRConstants.VERSION_4_1_1;
+	String VERSION_4_1_1 = "4.1.1";
 
 	String VERSION_4_1_2 = "4.1.2";
 

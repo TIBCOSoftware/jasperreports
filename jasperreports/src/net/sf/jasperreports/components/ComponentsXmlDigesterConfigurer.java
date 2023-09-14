@@ -134,7 +134,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addRule(listContentsPattern, new DatasetRunReportContextRule<>(ListComponent.class));
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void addBarbecueRules(Digester digester)
 	{
 		String barcodePattern = "*/componentElement/barbecue";
@@ -154,7 +153,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
 		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
@@ -162,7 +161,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		String applicationIdentifierExpressionPattern = barcodePattern 
 				+ "/applicationIdentifierExpression";
 		digester.addFactoryCreate(applicationIdentifierExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(applicationIdentifierExpressionPattern, "setText", 0);
 		digester.addSetNext(applicationIdentifierExpressionPattern, 
 				"setApplicationIdentifierExpression", 
@@ -225,18 +224,16 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 						TextPositionEnum.values()));
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected <T> void addPatternExpressionRules(Digester digester, String barcodePattern)
 	{
 		String patternExpressionPattern = barcodePattern + "/patternExpression";
 		digester.addFactoryCreate(patternExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(patternExpressionPattern, "setText", 0);
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
 				JRExpression.class.getName());
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected <T> void addBarcodeRules(Digester digester, 
 			String barcodePattern, Class<T> barcodeComponentClass,
 			String[] ignoredProperties)
@@ -254,7 +251,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(codeExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(codeExpressionPattern, "setText", 0);
 		digester.addSetNext(codeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
@@ -271,12 +268,11 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 						ErrorCorrectionLevelEnum.values()));
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void addTemplateRules(Digester digester, String barcodePattern)
 	{
 		String templateExpressionPattern = barcodePattern + "/templateExpression";
 		digester.addFactoryCreate(templateExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(templateExpressionPattern, "setText", 0);
 		digester.addSetNext(templateExpressionPattern, "setTemplateExpression", 
 				JRExpression.class.getName());
@@ -431,7 +427,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	protected void addTableRules(Digester digester)
 	{
 		String tablePattern = "*/componentElement/table";
@@ -447,7 +442,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				new String[0]);
 		digester.addRule(columnPattern, new UuidPropertyRule("uuid", "UUID"));
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
@@ -466,7 +461,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				new String[0]);
 		digester.addRule(columnGroupPattern, new UuidPropertyRule("uuid", "UUID"));
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
@@ -523,7 +518,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(pattern, setNextMethod);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void addTableRowRules(Digester digester, String pattern, 
 			String setNextMethod)
 	{
@@ -536,7 +530,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				"splitType", "splitType", SplitTypeEnum.values()));
 		digester.addSetNext(pattern, setNextMethod);
 		addExpressionRules(digester, pattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.class, "setPrintWhenExpression",
 				true);
 	}
 	

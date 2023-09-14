@@ -54,7 +54,13 @@ import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.GroupRow;
 import net.sf.jasperreports.components.table.Row;
 import net.sf.jasperreports.components.table.TableComponent;
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -137,10 +143,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("list", namespace);
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_6_1))
-		{
-			writer.addAttribute("printOrder", list.getPrintOrderValue());
-		}
+		writer.addAttribute("printOrder", list.getPrintOrderValue());
 		writer.addAttribute("ignoreWidth", list.getIgnoreWidth()); 
 		reportWriter.writeDatasetRun(list.getDatasetRun());
 		
@@ -173,10 +176,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
-		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_0_0))
-		{
-			writer.addAttribute("rotation", barcode.getOwnRotation());
-		}
+		writer.addAttribute("rotation", barcode.getOwnRotation());
 		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
@@ -496,10 +496,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("table", namespace);
-		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
-		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType());
-		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType());
 		reportWriter.writeDatasetRun(table.getDatasetRun());
 		
 		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()
@@ -709,32 +706,32 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
-		ComponentKey componentKey = componentElement.getComponentKey();
-		if (ComponentsExtensionsRegistryFactory.NAMESPACE.equals(componentKey.getNamespace()))
-		{
-			if(ComponentsExtensionsRegistryFactory.SORT_COMPONENT_NAME.equals(componentKey.getName())
-					|| ComponentsExtensionsRegistryFactory.MAP_COMPONENT_NAME.equals(componentKey.getName()))
-			{
-				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
-			}
-			else if(ComponentsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME.equals(componentKey.getName()))
-			{
-				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_4);
-			}
-			else if(ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME.equals(componentKey.getName()))
-			{
-				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_2);
-			}
-			else if(ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME.equals(componentKey.getName()))
-			{
-				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_1);
-			}
-			else if(ComponentsExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME.equals(componentKey.getName())
-					|| isBarcode4jName(componentKey.getName()))
-			{
-				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_2);
-			}
-		}
+//		ComponentKey componentKey = componentElement.getComponentKey();
+//		if (ComponentsExtensionsRegistryFactory.NAMESPACE.equals(componentKey.getNamespace()))
+//		{
+//			if(ComponentsExtensionsRegistryFactory.SORT_COMPONENT_NAME.equals(componentKey.getName())
+//					|| ComponentsExtensionsRegistryFactory.MAP_COMPONENT_NAME.equals(componentKey.getName()))
+//			{
+//				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
+//			}
+//			else if(ComponentsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME.equals(componentKey.getName()))
+//			{
+//				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_4);
+//			}
+//			else if(ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME.equals(componentKey.getName()))
+//			{
+//				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_2);
+//			}
+//			else if(ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME.equals(componentKey.getName()))
+//			{
+//				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_1);
+//			}
+//			else if(ComponentsExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME.equals(componentKey.getName())
+//					|| isBarcode4jName(componentKey.getName()))
+//			{
+//				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_2);
+//			}
+//		}
 
 		return true;
 	}

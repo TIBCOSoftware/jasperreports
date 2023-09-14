@@ -25,9 +25,7 @@ package net.sf.jasperreports.components.iconlabel;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.components.ComponentsXmlWriter;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -59,8 +57,7 @@ public class IconLabelComponentXmlWriter implements ComponentXmlWriter
 	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
-		String version = ComponentsXmlWriter.getVersion(jasperReportsContext, componentElement, reportWriter);
-		return isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1);
+		return true;
 	}
 	
 	

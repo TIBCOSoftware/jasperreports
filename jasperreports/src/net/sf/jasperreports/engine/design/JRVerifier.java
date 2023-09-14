@@ -112,7 +112,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
-import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -269,13 +268,6 @@ public class JRVerifier
 			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y =
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.y";
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	private static Class<?>[] templateTypes = new Class[] {
-		String.class, java.io.File.class, java.net.URL.class, java.io.InputStream.class,
-		JRTemplate.class};
 
 	/**
 	 *
@@ -899,24 +891,6 @@ public class JRVerifier
 		}
 	}
 
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected boolean verifyTemplateSourceType(Class<?> valueClass)
-	{
-		boolean valid = false;
-		for (int i = 0; i < templateTypes.length; i++)
-		{
-			Class<?> type = templateTypes[i];
-			if (type.isAssignableFrom(valueClass))
-			{
-				valid = true;
-				break;
-			}
-		}
-		return valid;
-	}
 
 	/**
 	 *

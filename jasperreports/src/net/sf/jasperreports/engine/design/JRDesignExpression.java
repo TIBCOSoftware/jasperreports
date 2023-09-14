@@ -31,7 +31,6 @@ package net.sf.jasperreports.engine.design;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -78,19 +77,8 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		LEGACY_PARSER = properties.getBooleanProperty(PROPERTY_LEGACY_PARSER, false);
 	}
 	
-	/**
-	 * @deprecated moved to {@link ExpressionParser#PLACEHOLDER_PATTERN}
-	 */
-	@Deprecated
-	public static final Pattern PLACEHOLDER_PATTERN = ExpressionParser.PLACEHOLDER_PATTERN;
-	
 	public static final String PROPERTY_TEXT = "text";
 	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
-
 	/**
 	 *
 	 */
@@ -118,26 +106,6 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		setText(text);
 	}
 
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setValueClass(Class<?> clazz)
-	{
-		setValueClassName(clazz.getName());
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setValueClassName(String className)
-	{
-		Object old = this.valueClassName;
-		valueClassName = className;
-		valueClass = null;
-		valueClassRealName = null;
-		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS_NAME, old, this.valueClassName);
-	}
 
 	/**
 	 * FIXMENOW remove me?

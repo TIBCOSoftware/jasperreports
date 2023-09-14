@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
-import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
@@ -47,20 +46,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected String valueClassName;
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected String valueClassRealName;
 	protected int id;
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected transient Class<?> valueClass;
 
 	/**
 	 *
@@ -151,53 +137,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 		id = getNextId();
 	}
 
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	@Override
-	public Class<?> getValueClass()
-	{
-		if (valueClass == null)
-		{
-			String className = getValueClassRealName();
-			if (className != null)
-			{
-				try
-				{
-					valueClass = JRClassLoader.loadClassForName(className);
-				}
-				catch(ClassNotFoundException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-			}
-		}
-		
-		return valueClass;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	@Override
-	public String getValueClassName()
-	{
-		return valueClassName;
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	private String getValueClassRealName()
-	{
-		if (valueClassRealName == null)
-		{
-			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
-		}
-		
-		return valueClassRealName;
-	}
 
 	@Override
 	public int getId()

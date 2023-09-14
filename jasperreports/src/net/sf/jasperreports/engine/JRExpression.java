@@ -167,18 +167,6 @@ public interface JRExpression extends JRCloneable
 	public static final Integer ID_INTERPRETED = -2;
 
 	/**
-	 * Returns the expression return value class.
-	 * @deprecated To be removed.
-	 */
-	public Class<?> getValueClass();
-	
-	/**
-	 * Returns the expression return value class.
-	 * @deprecated To be removed.
-	 */
-	public String getValueClassName();
-	
-	/**
 	 *
 	 */
 	public int getId();

@@ -28,7 +28,6 @@ import java.io.IOException;
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -114,14 +113,14 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 
 	protected void writeBaseContents(BarcodeComponent barcode) throws IOException
 	{
-		writeExpression("codeExpression", barcode.getCodeExpression(), false);
+		xmlWriteHelper.writeExpression("codeExpression", barcode.getCodeExpression());
 	}
 	
 	protected void writeBaseContents(Barcode4jComponent barcode) throws IOException
 	{
 		writeBaseContents((BarcodeComponent)barcode);
 		
-		writeExpression("patternExpression", barcode.getPatternExpression(), false);
+		xmlWriteHelper.writeExpression("patternExpression", barcode.getPatternExpression());
 	}
 	
 	@Override
@@ -193,7 +192,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			writeBaseContents(ean128);
 			if(isNewerVersionOrEqual(version, JRConstants.VERSION_5_1_2))
 			{
-				writeExpression("templateExpression", ean128.getTemplateExpression(), false);
+				xmlWriteHelper.writeExpression("templateExpression", ean128.getTemplateExpression());
 			}
 			endBarcode();
 		}
@@ -420,19 +419,6 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	protected void writeExpression(String name, JRExpression expression, boolean writeClass)  throws IOException
-	{
-		if(versionComparator.compare(version, JRConstants.VERSION_4_1_1) >= 0 )
-		{
-			xmlWriteHelper.writeExpression(name, expression);
-		}
-		else
-		{
-			xmlWriteHelper.writeExpression(name, expression, writeClass);
 		}
 	}
 

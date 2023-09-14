@@ -46,7 +46,6 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 		setHtmlComponentRules(digester);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void setHtmlComponentRules(Digester digester)
 	{
 		String htmlComponentPattern = "*/componentElement/html";
@@ -79,7 +78,7 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 						EvaluationTimeEnum.values()));
 
 		String htmlContentPattern = htmlComponentPattern + "/htmlContentExpression";
-		digester.addFactoryCreate(htmlContentPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
+		digester.addFactoryCreate(htmlContentPattern, JRExpressionFactory.class.getName());
 		digester.addCallMethod(htmlContentPattern, "setText", 0);
 		digester.addSetNext(htmlContentPattern, "setHtmlContentExpression", JRExpression.class.getName());
 	}

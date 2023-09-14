@@ -57,7 +57,7 @@ public class SortComponentXmlWriter extends AbstractComponentXmlWriter
 	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
-		return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
+		return true;
 	}
 	
 	

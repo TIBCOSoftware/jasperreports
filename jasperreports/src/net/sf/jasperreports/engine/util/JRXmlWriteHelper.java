@@ -435,15 +435,6 @@ public class JRXmlWriteHelper
 	}
 	
 
-	/**
-	 * @deprecated Replaced by {@link #writeExpression(String, JRExpression)}.
-	 */
-	public void writeExpression(String name, JRExpression expression, boolean writeClass) throws IOException
-	{
-		writeExpression(name, expression, writeClass, null);
-	}
-	
-
 	public void writeExpression(String name, XmlNamespace namespace, JRExpression expression) throws IOException
 	{
 		if (expression != null)
@@ -456,46 +447,7 @@ public class JRXmlWriteHelper
 	{
 		writeExpression(name, getParentNamespace(), expression);
 	}
-
-	/**
-	 * @deprecated Replaced by {@link #writeExpression(String, XmlNamespace, JRExpression)}.
-	 */
-	public void writeExpression(String name, XmlNamespace namespace, 
-			JRExpression expression, boolean writeClass) throws IOException
-	{
-		writeExpression(name, namespace, expression, writeClass, null);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #writeExpression(String, JRExpression)}.
-	 */
-	public void writeExpression(String name, 
-			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
-	{
-		writeExpression(name, getParentNamespace(), expression, writeClass, defaultClassName);
-	}
 	
-
-	/**
-	 * @deprecated Replaced by {@link #writeExpression(String, XmlNamespace, JRExpression)}.
-	 */
-	public void writeExpression(String name, XmlNamespace namespace,
-			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
-	{
-		if (expression != null)
-		{
-			if (writeClass &&
-					(defaultClassName == null || !defaultClassName.equals(expression.getValueClassName())))
-			{
-				writeCDATAElement(name, namespace, expression.getText(), 
-						"class", expression.getValueClassName());
-			}
-			else
-			{
-				writeCDATAElement(name, namespace, expression.getText());
-			}
-		}
-	}
 
 	protected void writeAttribute(String name, String value)
 	{
