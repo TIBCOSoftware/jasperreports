@@ -53,6 +53,11 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 public class ClassicPdfWriter implements PdfDocumentWriter
 {
 
+        /** PDFA-2A level. */
+        public static final int PDFA2A = 5;
+        /** PDFA-2B level. */
+        public static final int PDFA2B = 6;
+    
 	private static final Log log = LogFactory.getLog(ClassicPdfWriter.class);
 	
 	private ClassicPdfProducer pdfProducer;
@@ -147,6 +152,14 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 		else if (PdfaConformanceEnum.PDFA_1B == pdfaConformance)
 		{
 			pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
+		}
+                else if (PdfaConformanceEnum.PDFA_2A == pdfaConformance)
+		{
+			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA2A);
+		}
+		else if (PdfaConformanceEnum.PDFA_2B == pdfaConformance)
+		{
+			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA2B);
 		}
 	}
 

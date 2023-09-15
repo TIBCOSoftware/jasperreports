@@ -43,6 +43,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.xml.xmp.DublinCoreSchema;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.export.pdf.classic.ClassicPdfWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -100,6 +101,8 @@ class XmpWriter
 	private static final String PDFA_CONFORMANCE = "conformance";
 
 	private static final String PDFA_PART_1 = "1";
+        
+	private static final String PDFA_PART_2 = "2";
 
 	private static final String PDFA_CONFORMANCE_A = "A";
 
@@ -138,6 +141,16 @@ class XmpWriter
 			else if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1B)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_1);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
+			}
+                        else if (pdfWriter.getPDFXConformance() == ClassicPdfWriter.PDFA2A)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
+			}
+			else if (pdfWriter.getPDFXConformance() == ClassicPdfWriter.PDFA2B)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
 			}
 
