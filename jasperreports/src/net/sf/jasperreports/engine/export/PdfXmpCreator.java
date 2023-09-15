@@ -44,6 +44,7 @@ import com.lowagie.text.xml.xmp.DublinCoreSchema;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.export.pdf.classic.ClassicPdfWriter;
+import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -79,9 +80,10 @@ public class PdfXmpCreator
 		return XMP_LIBRARY;
 	}
 
-	public static byte[] createXmpMetadata(PdfWriter pdfWriter)
+        
+	public static byte[] createXmpMetadata(PdfWriter pdfWriter, PdfaConformanceEnum conformance)
 	{
-		XmpWriter writer = new XmpWriter(pdfWriter);
+		XmpWriter writer = new XmpWriter(pdfWriter, conformance);
 		return writer.createXmpMetadata();
 	}
 
@@ -103,10 +105,14 @@ class XmpWriter
 	private static final String PDFA_PART_1 = "1";
         
 	private static final String PDFA_PART_2 = "2";
+        
+        private static final String PDFA_PART_3 = "3";
 
 	private static final String PDFA_CONFORMANCE_A = "A";
 
 	private static final String PDFA_CONFORMANCE_B = "B";
+        
+        private static final String PDFA_CONFORMANCE_U = "U";
 
 	private static final String XMP_CREATE_DATE = "CreateDate";
 
@@ -116,11 +122,13 @@ class XmpWriter
 	
 	private final PdfWriter pdfWriter;
 	private final PdfDictionary info;
+        private final PdfaConformanceEnum conformance;
 	
-	XmpWriter(PdfWriter pdfWriter)
+        XmpWriter(PdfWriter pdfWriter, PdfaConformanceEnum conformance)
 	{
 		this.pdfWriter = pdfWriter;
 		this.info = pdfWriter.getInfo();
+                this.conformance = conformance;
 	}
 	
 	byte[] createXmpMetadata()
@@ -133,25 +141,45 @@ class XmpWriter
 			xmp.setProperty(XMPConst.NS_DC, DublinCoreSchema.FORMAT, FORMAT_PDF);
 			xmp.setProperty(XMPConst.NS_PDF, PDF_PRODUCER, Document.getVersion());
 
-			if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A)
+			if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A || this.conformance == PdfaConformanceEnum.PDFA_1A)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_1);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
 			}
-			else if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1B)
+			else if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1B || this.conformance == PdfaConformanceEnum.PDFA_1B)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_1);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
 			}
-                        else if (pdfWriter.getPDFXConformance() == ClassicPdfWriter.PDFA2A)
+                        else if (this.conformance == PdfaConformanceEnum.PDFA_2A)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
 			}
-			else if (pdfWriter.getPDFXConformance() == ClassicPdfWriter.PDFA2B)
+			else if (this.conformance == PdfaConformanceEnum.PDFA_2B)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
+			}
+                        else if (this.conformance == PdfaConformanceEnum.PDFA_2U)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_U);
+			}
+                        else if (this.conformance == PdfaConformanceEnum.PDFA_3A)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
+			}
+			else if (this.conformance == PdfaConformanceEnum.PDFA_3B)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
+			}
+                        else if (this.conformance == PdfaConformanceEnum.PDFA_3U)
+			{
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
+				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_U);
 			}
 
 			xmp.setProperty(XMPConst.NS_XMP, XMP_CREATE_DATE, ((PdfDate) info.get(PdfName.CREATIONDATE)).getW3CDate());
