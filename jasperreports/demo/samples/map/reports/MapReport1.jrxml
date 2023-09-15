@@ -27,20 +27,20 @@
 				<box padding="5">
 					<pen lineWidth="1.0" lineStyle="Dashed" lineColor="#BEBEBE"/>
 				</box>
-				<textElement markup="html" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="html">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["<b>Note: </b>in order to get accurate results with Google maps, you need to set the <br/><b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property with an appropriate Google API key value. <p/><p/>The Google API key must be enabled for Google Javascript API, Google Maps Static API and Google Geocoding API. More information about API keys can be found at <a href='https://developers.google.com/maps/gmp-get-started'>https://developers.google.com/maps/gmp-get-started</a>.<p/><p/>The <b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property can be set either in the report itself or in a <b><span style='font-family:DejaVu Sans Mono'>jasperreports.properties</span></b> file."]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Bold" x="0" y="120" width="515" height="50" positionType="Float" uuid="e21201eb-8650-47b4-8d57-724711bffee9"/>
+				<reportElement style="Sans_Bold" positionType="Float" x="0" y="120" width="515" height="50" uuid="e21201eb-8650-47b4-8d57-724711bffee9"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Bucharest - Road Map"]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="0" y="170" width="515" height="50" positionType="Float" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee"/>
+				<reportElement positionType="Float" x="0" y="170" width="515" height="50" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee"/>
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></textFieldExpression>
 			</textField>
