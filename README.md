@@ -4,6 +4,25 @@ The **JasperReports Library** is the world's most popular open source reporting 
 It is entirely written in Java and it is able to use data coming from any kind of data source and 
 produce pixel-perfect documents that can be viewed, printed or exported in a variety of document 
 formats including HTML, PDF, Excel, OpenOffice, MS Word and other.
+
+_**Documentation:**_
+- [JasperReports Ultimate Guide](https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf)
+- [Samples Reference](https://jasperreports.sourceforge.net/sample.reference.html)
+- [Schema Reference](https://jasperreports.sourceforge.net/schema.reference.html)
+- [Configuration Reference](https://jasperreports.sourceforge.net/config.reference.html)
+- [Functions Reference](https://jasperreports.sourceforge.net/function.reference.html)
+- [FAQ](http://community.jaspersoft.com/wiki/jasperreports-library-faqs)
+- [API (Javadoc)](https://jasperreports.sourceforge.net/api/index.html)
+- [Discussion Forums](https://community.jaspersoft.com/project/jasperreports-library/answers)
+
+_**JasperReports Library 7 coming up soon!**_
+
+Work is in progress on a separate [branch](https://github.com/TIBCOSoftware/jasperreports/tree/release-7.0.0) that will 
+introduce major refactoring to the library, which is needed for the Jakarta Migration.
+The changes help improving the dependency management by splitting the library into multiple optional artifacts (*.jar files) 
+dependeing on the functionality they provide.
+Deprecated code has been removed and the backward compatiblity of serialized/compiled *.jasper report template files has been deliberatly broken.
+Backward compatibility will be guaranteed only for source *.jrxml report template files.
 <br/>
 <br/>
 
