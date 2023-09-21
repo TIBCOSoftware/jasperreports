@@ -53,24 +53,24 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 public class ClassicPdfWriter implements PdfDocumentWriter
 {
 
-        /** PDFA-2A level. */
-        public static final int PDFA2A = 5;
-        /** PDFA-2B level. */
-        public static final int PDFA2B = 6;
-        /** PDFA-2U level. */
-        public static final int PDFA2U = 7;
-        /** PDFA-3A level. */
-        public static final int PDFA3A = 8;
-        /** PDFA-3B level. */
-        public static final int PDFA3B = 9;
-        /** PDFA-3U level. */
-        public static final int PDFA3U = 10;
+	/** PDFA-2A level. */
+	public static final int PDFA2A = 5;
+	/** PDFA-2B level. */
+	public static final int PDFA2B = 6;
+	/** PDFA-2U level. */
+	public static final int PDFA2U = 7;
+	/** PDFA-3A level. */
+	public static final int PDFA3A = 8;
+	/** PDFA-3B level. */
+	public static final int PDFA3B = 9;
+	/** PDFA-3U level. */
+	public static final int PDFA3U = 10;
     
 	private static final Log log = LogFactory.getLog(ClassicPdfWriter.class);
 	
 	private ClassicPdfProducer pdfProducer;
 	private PdfWriter pdfWriter;
-        private PdfaConformanceEnum pdfaConformance = null;
+	private PdfaConformanceEnum pdfaConformance = null;
 
 	public ClassicPdfWriter(ClassicPdfProducer pdfProducer, PdfWriter pdfWriter)
 	{
@@ -154,8 +154,8 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	@Override
 	public void setPdfaConformance(PdfaConformanceEnum pdfaConformance)
 	{
-                this.pdfaConformance = pdfaConformance;
-                
+		this.pdfaConformance = pdfaConformance;
+		
 		if (PdfaConformanceEnum.PDFA_1A == pdfaConformance)
 		{
 			pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
@@ -164,30 +164,6 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 		{
 			pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
 		}
-//                else if (PdfaConformanceEnum.PDFA_2A == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA2A);
-//		}
-//		else if (PdfaConformanceEnum.PDFA_2B == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA2B);
-//		}
-//                else if (PdfaConformanceEnum.PDFA_2U == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA2U);
-//		}
-//                else if (PdfaConformanceEnum.PDFA_3A == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA3A);
-//		}
-//		else if (PdfaConformanceEnum.PDFA_3B == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA3B);
-//		}
-//                else if (PdfaConformanceEnum.PDFA_3U == pdfaConformance)
-//		{
-//			pdfWriter.setPDFXConformance(ClassicPdfWriter.PDFA3U);
-//		}
 	}
 
 	@Override

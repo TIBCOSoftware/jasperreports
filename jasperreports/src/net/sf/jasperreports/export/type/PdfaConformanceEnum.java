@@ -46,34 +46,34 @@ public enum PdfaConformanceEnum implements NamedEnum
 	 * 
 	 */
 	PDFA_1B("pdfa1b"),
-        
-        
-        /**
+	
+	
+	/**
 	 * 
 	 */
 	PDFA_2A("pdfa2a"),
-        
-        /**
+	
+	/**
 	 * 
 	 */
 	PDFA_2B("pdfa2b"),
-        
-        /**
+	
+	/**
 	 * 
 	 */
 	PDFA_2U("pdfa2u"),
-        
-        /**
+	
+	/**
 	 * 
 	 */
 	PDFA_3A("pdfa3a"),
-        
-        /**
+	
+	/**
 	 * 
 	 */
 	PDFA_3B("pdfa3b"),
-        
-        /**
+	
+	/**
 	 * 
 	 */
 	PDFA_3U("pdfa3u");

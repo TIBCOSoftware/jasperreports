@@ -43,7 +43,6 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.xml.xmp.DublinCoreSchema;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.export.pdf.classic.ClassicPdfWriter;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 /**
@@ -80,7 +79,6 @@ public class PdfXmpCreator
 		return XMP_LIBRARY;
 	}
 
-        
 	public static byte[] createXmpMetadata(PdfWriter pdfWriter, PdfaConformanceEnum conformance)
 	{
 		XmpWriter writer = new XmpWriter(pdfWriter, conformance);
@@ -103,16 +101,16 @@ class XmpWriter
 	private static final String PDFA_CONFORMANCE = "conformance";
 
 	private static final String PDFA_PART_1 = "1";
-        
+	
 	private static final String PDFA_PART_2 = "2";
-        
-        private static final String PDFA_PART_3 = "3";
+	
+	private static final String PDFA_PART_3 = "3";
 
 	private static final String PDFA_CONFORMANCE_A = "A";
 
 	private static final String PDFA_CONFORMANCE_B = "B";
-        
-        private static final String PDFA_CONFORMANCE_U = "U";
+	
+	private static final String PDFA_CONFORMANCE_U = "U";
 
 	private static final String XMP_CREATE_DATE = "CreateDate";
 
@@ -122,13 +120,13 @@ class XmpWriter
 	
 	private final PdfWriter pdfWriter;
 	private final PdfDictionary info;
-        private final PdfaConformanceEnum conformance;
+	private final PdfaConformanceEnum conformance;
 	
-        XmpWriter(PdfWriter pdfWriter, PdfaConformanceEnum conformance)
+	XmpWriter(PdfWriter pdfWriter, PdfaConformanceEnum conformance)
 	{
 		this.pdfWriter = pdfWriter;
 		this.info = pdfWriter.getInfo();
-                this.conformance = conformance;
+		this.conformance = conformance;
 	}
 	
 	byte[] createXmpMetadata()
@@ -151,7 +149,7 @@ class XmpWriter
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_1);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
 			}
-                        else if (this.conformance == PdfaConformanceEnum.PDFA_2A)
+			else if (this.conformance == PdfaConformanceEnum.PDFA_2A)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
@@ -161,12 +159,12 @@ class XmpWriter
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
 			}
-                        else if (this.conformance == PdfaConformanceEnum.PDFA_2U)
+			else if (this.conformance == PdfaConformanceEnum.PDFA_2U)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_2);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_U);
 			}
-                        else if (this.conformance == PdfaConformanceEnum.PDFA_3A)
+			else if (this.conformance == PdfaConformanceEnum.PDFA_3A)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_A);
@@ -176,7 +174,7 @@ class XmpWriter
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_B);
 			}
-                        else if (this.conformance == PdfaConformanceEnum.PDFA_3U)
+			else if (this.conformance == PdfaConformanceEnum.PDFA_3U)
 			{
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_PART, PDFA_PART_3);
 				xmp.setProperty(XMPConst.NS_PDFA_ID, PDFA_CONFORMANCE, PDFA_CONFORMANCE_U);
