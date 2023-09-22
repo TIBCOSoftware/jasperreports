@@ -77,6 +77,8 @@ public class MessageFormatWrapper
 
 	private static class DateFormatWrapper extends Format
 	{
+		private static final long serialVersionUID = 1L;
+
 		private final Format format;
 
 		private DateFormatWrapper(Format format)

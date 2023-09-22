@@ -298,6 +298,8 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		// creating a LRU map
 		return new LinkedHashMap<Pair<UUID,FontKey>, SimpleTextLineWrapper.ElementFontInfo>(64, 0.75f, true)
 		{
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected boolean removeEldestEntry(Entry<Pair<UUID, FontKey>, ElementFontInfo> eldest)
 			{
