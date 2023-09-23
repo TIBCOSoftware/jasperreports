@@ -142,7 +142,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		{
 			this.markerItemDataList = new ArrayList<>();
 			for(MarkerItemData markerData : markerList){
-				this.markerItemDataList.add(new MarkerStandardItemData(markerData, objectFactory));
+				this.markerItemDataList.add(new StandardMarkerItemData(markerData, objectFactory));
 			}
 		} 
 		this.onErrorType = map.getOnErrorType();
@@ -448,7 +448,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 				{
 					// objects serialized after 5.0.4 would have ItemData and not MarkerItemData object in them
 					// see StandardMarkerDataset.getItemData(markerDataset)
-					MarkerStandardItemData markerItemData = new MarkerStandardItemData();
+					StandardMarkerItemData markerItemData = new StandardMarkerItemData();
 					List<Item> items = itemData.getItems();
 					if (items != null)
 					{

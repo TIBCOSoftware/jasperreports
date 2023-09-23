@@ -176,7 +176,7 @@ public class StandardMarkerDataset implements Serializable, MarkerDataset, JRCha
 	{
 		if (markerDataset != null)
 		{
-			StandardItemData itemData = new MarkerStandardItemData();
+			StandardItemData itemData = new StandardMarkerItemData();
 			for (Marker marker : markerDataset.getMarkers())
 			{
 				StandardItem item = new StandardItem();
