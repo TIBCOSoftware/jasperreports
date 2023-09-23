@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import net.sf.jasperreports.components.AbstractComponentXmlWriter;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -89,35 +88,23 @@ public class SortComponentXmlWriter extends AbstractComponentXmlWriter
 
 		writer.startElement("sort", componentNamespace);
 		
-		if(isOlderVersionThan(componentElement, reportWriter, JRConstants.VERSION_4_1_3))
-		{
-			writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
-			writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
-			writer.addAttribute(PROPERTY_HANDLER_FONT_SIZE, sortComponent.getSymbolFont().getFontsize());
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalImageAlign());
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalImageAlign());
-		}
 		if (sortComponent.getEvaluationTime() != EvaluationTimeEnum.NOW) {
 			writer.addAttribute(SortComponent.PROPERTY_EVALUATION_TIME, sortComponent.getEvaluationTime());
 		}
 		writer.addAttribute(SortComponent.PROPERTY_EVALUATION_GROUP, sortComponent.getEvaluationGroup());
 		
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_3))
+		// write symbol settings
+		writer.startElement("symbol");
+		if (sortComponent.getHandlerColor() != null)
 		{
-			// write symbol settings
-			writer.startElement("symbol");
-			if (sortComponent.getHandlerColor() != null)
-			{
-				writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
-			}
-			writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
-			writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalImageAlign());
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalImageAlign());
-			reportWriter.writeFont(sortComponent.getSymbolFont());
-			writer.closeElement();
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
 		}
+		writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
+		writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
+		writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalImageAlign());
+		writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalImageAlign());
+		reportWriter.writeFont(sortComponent.getSymbolFont());
+		writer.closeElement();
 
 		writer.closeElement();
 	}

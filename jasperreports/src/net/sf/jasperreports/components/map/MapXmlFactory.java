@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.map;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -30,8 +32,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -59,18 +59,6 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ELEMENT_itemProperty = "itemProperty";
 	public static final String ELEMENT_pathStyle = "pathStyle";
 	public static final String ELEMENT_pathData = "pathData";
-	/**
-	 * @deprecated Replaced by {@link #ELEMENT_item}.
-	 */
-	public static final String ELEMENT_marker = "marker";
-	/**
-	 * @deprecated Replaced by {@link #ELEMENT_markerData}.
-	 */
-	public static final String ELEMENT_markerDataset = "markerDataset";
-	/**
-	 * @deprecated Replaced by {@link #ELEMENT_itemProperty}.
-	 */
-	public static final String ELEMENT_markerProperty = "markerProperty";
 
 	@Override
 	public Object createObject(Attributes atts)

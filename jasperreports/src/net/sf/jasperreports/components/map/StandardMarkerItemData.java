@@ -24,8 +24,10 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.items.StandardItemData;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -99,7 +101,23 @@ public class StandardMarkerItemData extends StandardItemData implements MarkerIt
         getEventSupport().firePropertyChange(PROPERTY_LEGEND_ICON_EXPRESSION, old, this.legendIconExpression);
     }
 
-    @Override
+	/**
+	 * Used only during JRXML parsing for the backward compatibility of the <markerDataset> tag.
+	 * @param datasetRun
+	 */
+    public void setDatasetRun(JRDatasetRun datasetRun)
+	{
+    	JRDesignElementDataset dataset = (JRDesignElementDataset)getDataset();
+    	if (dataset == null)
+    	{
+    		dataset = new JRDesignElementDataset();
+    		setDataset(dataset);
+    	}
+    	
+    	dataset.setDatasetRun(datasetRun);
+	}
+
+	@Override
     public Object clone() {
         StandardMarkerItemData clone = (StandardMarkerItemData) super.clone();
         clone.seriesNameExpression = JRCloneUtils.nullSafeClone(seriesNameExpression);

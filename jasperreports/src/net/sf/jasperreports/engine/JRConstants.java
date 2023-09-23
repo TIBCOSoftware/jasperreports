@@ -92,24 +92,24 @@ public interface JRConstants
 //	public static final String VERSION_4_0_2 = "4.0.2";
 //	
 //	public static final String VERSION_4_1_1 = "4.1.1"; // expression class removal
-	
-	public static final String VERSION_4_1_3 = "4.1.3";
-	
-	public static final String VERSION_4_5_0 = "4.5.0";
-	
-	public static final String VERSION_4_6_0 = "4.6.0";
-	
-	public static final String VERSION_4_7_0 = "4.7.0";
-	
-	public static final String VERSION_4_8_0 = "4.8.0";
-	
-	public static final String VERSION_5_0_1 = "5.0.1";
-	
-	public static final String VERSION_5_0_4 = "5.0.4";
-	
-	public static final String VERSION_5_1_2 = "5.1.2";
-	
-	public static final String VERSION_5_5_0 = "5.5.0";
+//	
+//	public static final String VERSION_4_1_3 = "4.1.3";
+//	
+//	public static final String VERSION_4_5_0 = "4.5.0";
+//	
+//	public static final String VERSION_4_6_0 = "4.6.0";
+//	
+//	public static final String VERSION_4_7_0 = "4.7.0";
+//	
+//	public static final String VERSION_4_8_0 = "4.8.0";
+//	
+//	public static final String VERSION_5_0_1 = "5.0.1";
+//	
+//	public static final String VERSION_5_0_4 = "5.0.4"; 
+//	
+//	public static final String VERSION_5_1_2 = "5.1.2";
+//	
+//	public static final String VERSION_5_5_0 = "5.5.0"; // map marker items removal
 	
 	public static final String VERSION_5_5_2 = "5.5.2";
 	

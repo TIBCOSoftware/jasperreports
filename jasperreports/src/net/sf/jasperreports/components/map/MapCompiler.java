@@ -31,7 +31,6 @@ import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemCompiler;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
-import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -99,48 +98,6 @@ public class MapCompiler implements ComponentCompiler
 				for(ItemProperty property : itemProperties)
 				{
 					collector.addExpression(property.getValueExpression());
-				}
-			}
-		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}.
-	 */
-	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
-	{
-		ItemCompiler.collectExpressions(data, collector);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}.
-	 */
-	public static void collectExpressions(MarkerDataset dataset, JRExpressionCollector collector)
-	{
-		if(dataset != null)
-		{
-			JRExpressionCollector datasetCollector = collector;
-
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			if (datasetRun != null)
-			{
-				collector.collect(datasetRun);
-				datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
-			}
-
-			List<Marker> markers = dataset.getMarkers();
-			if (markers != null && !markers.isEmpty())
-			{
-				for(Marker marker : markers)
-				{
-					List<MarkerProperty> markerProperties = marker.getProperties();
-					if(markerProperties != null)
-					{
-						for(MarkerProperty property : markerProperties)
-						{
-							datasetCollector.addExpression(property.getValueExpression());
-						}
-					}
 				}
 			}
 		}

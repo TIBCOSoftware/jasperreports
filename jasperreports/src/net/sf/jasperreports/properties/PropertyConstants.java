@@ -168,31 +168,31 @@ public interface PropertyConstants
 
 	String VERSION_4_1_2 = "4.1.2";
 
-	String VERSION_4_1_3 = JRConstants.VERSION_4_1_3;
+	String VERSION_4_1_3 = "4.1.3";
 
-	String VERSION_4_5_0 = JRConstants.VERSION_4_5_0;
+	String VERSION_4_5_0 = "4.5.0";
 
 	String VERSION_4_5_1 = "4.5.1";
 
-	String VERSION_4_6_0 = JRConstants.VERSION_4_6_0;
+	String VERSION_4_6_0 = "4.6.0";
 
-	String VERSION_4_7_0 = JRConstants.VERSION_4_7_0;
+	String VERSION_4_7_0 = "4.7.0";
 
 	String VERSION_4_7_1 = "4.7.1";
 
-	String VERSION_4_8_0 = JRConstants.VERSION_4_8_0;
+	String VERSION_4_8_0 = "4.8.0";
 
 	String VERSION_5_0_0 = "5.0.0";
 	
-	String VERSION_5_0_1 = JRConstants.VERSION_5_0_1;
+	String VERSION_5_0_1 = "5.0.1";
 
-	String VERSION_5_0_4 = JRConstants.VERSION_5_0_4;
+	String VERSION_5_0_4 = "5.0.4";
 
 	String VERSION_5_1_2 = "5.1.2";
 	
 	String VERSION_5_2_0 = "5.2.0";
 
-	String VERSION_5_5_0 = JRConstants.VERSION_5_5_0;
+	String VERSION_5_5_0 = "5.5.0";
 	
 	String VERSION_5_5_1 = "5.5.1";
 

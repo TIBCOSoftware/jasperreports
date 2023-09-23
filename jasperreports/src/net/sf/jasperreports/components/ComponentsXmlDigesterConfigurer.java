@@ -278,7 +278,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				JRExpression.class.getName());
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void addMapRules(Digester digester)
 	{
 		String mapPattern = "*/componentElement/map";
@@ -323,16 +322,16 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
 
 		String markerDatasetPattern = mapPattern + "/markerDataset";
-		digester.addFactoryCreate(markerDatasetPattern, net.sf.jasperreports.components.map.MarkerDatasetXmlFactory.class.getName());
-		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", net.sf.jasperreports.components.map.MarkerDataset.class.getName());
+		digester.addFactoryCreate(markerDatasetPattern, MarkerItemDataXmlFactory.class.getName());
+		digester.addSetNext(markerDatasetPattern, "addMarkerData", MarkerItemData.class.getName());
 
 		String markerPattern = markerDatasetPattern + "/marker";
-		digester.addFactoryCreate(markerPattern, net.sf.jasperreports.components.map.MarkerXmlFactory.class.getName());
-		digester.addSetNext(markerPattern, "addMarker", net.sf.jasperreports.components.map.Marker.class.getName());
+		digester.addFactoryCreate(markerPattern, ItemXmlFactory.class.getName());
+		digester.addSetNext(markerPattern, "addItem", Item.class.getName());
 
 		String markerPropertyPattern = markerPattern + "/markerProperty";
-		digester.addFactoryCreate(markerPropertyPattern, net.sf.jasperreports.components.map.MarkerPropertyXmlFactory.class.getName());
-		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", net.sf.jasperreports.components.map.MarkerProperty.class.getName());
+		digester.addFactoryCreate(markerPropertyPattern, ItemPropertyXmlFactory.class.getName());
+		digester.addSetNext(markerPropertyPattern, "addItemProperty", ItemProperty.class.getName());
 
 		digester.setRuleNamespaceURI(jrNamespace);
 		

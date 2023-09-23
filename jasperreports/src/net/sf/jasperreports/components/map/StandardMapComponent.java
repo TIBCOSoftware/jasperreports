@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.map;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,15 +70,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_PATH_STYLE_LIST = "pathStyleList";
 	public static final String PROPERTY_PATH_DATA_LIST = "pathDataList";
 	
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA}.
-	 */
-	public static final String PROPERTY_MARKER_DATASET = "markerDataset";
-
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_MARKER_DATA_LIST}.
-	 */
-	public static final String PROPERTY_MARKER_DATA = "markerData";
 	public static final String PROPERTY_LEGEND = "legend";
 	public static final String PROPERTY_RESET_MAP = "resetMap";
 
@@ -328,21 +317,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getMarkerDataList()}.
-	 */
-	@Override
-	public ItemData getMarkerData() {
-		return !markerItemDataList.isEmpty() ? markerItemDataList.get(0) : null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #addMarkerData(ItemData)}.
-	 */
-	public void setMarkerData(ItemData markerData) {
-		addMarkerData(markerData);
-	}
-
 
 	@Override
 	public OnErrorTypeEnum getOnErrorType() {
@@ -375,95 +349,6 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		Object old = this.markerSpidering;
 		this.markerSpidering = markerSpidering;
 		getEventSupport().firePropertyChange(PROPERTY_MARKER_SPIDERING, old, this.markerSpidering);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMarkerData()}.
-	 */
-	@Override
-	public MarkerDataset getMarkerDataset() {
-		return markerDataset; //FIXMEMAP make dummy marker dataset
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkerData(ItemData)}.
-	 */
-	public void setMarkerDataset(MarkerDataset markerDataset) {
-		setMarkerData(StandardMarkerDataset.getItemData(markerDataset));
-	}
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private MarkerDataset markerDataset;
-	/**
-	 * @deprecated Replaced by {@link #markerDataList}.
-	 */
-	private ItemData markerData;
-	/**
-	 * @deprecated Replaced by {@link #markerItemDataList}.
-	 */
-	private List<ItemData> markerDataList;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_0_4)
-		{
-			if (markerDataset != null)
-			{
-				markerData = StandardMarkerDataset.getItemData(markerDataset);
-			}
-			markerDataset = null;
-		}
-
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
-		{
-			if (markerData != null)
-			{
-				this.markerDataList = new ArrayList<ItemData>();
-				this.markerDataList.add(markerData);
-			}
-			markerData = null;
-		}
-
-		if (markerDataList != null && markerItemDataList == null) // equivalent of a 6_20_2 pseudo serial uuid test for which no constant was created at the time of the 6.20.2 release
-		{
-			this.markerItemDataList = new ArrayList<>(markerDataList.size());
-			for (ItemData itemData : markerDataList)
-			{
-				if (itemData instanceof MarkerItemData)
-				{
-					// objects serialized prior to 5.0.4 would have markerDataset above converted to markerData and thus contain MarkerItemData items
-					// see StandardMarkerDataset.getItemData(markerDataset), which started to instantiate MarkerStandardItemData right after 6.20.6
-					this.markerItemDataList.add((MarkerItemData)itemData);
-				}
-				else
-				{
-					// objects serialized after 5.0.4 would have ItemData and not MarkerItemData object in them
-					// see StandardMarkerDataset.getItemData(markerDataset)
-					StandardMarkerItemData markerItemData = new StandardMarkerItemData();
-					List<Item> items = itemData.getItems();
-					if (items != null)
-					{
-						for (Item item : items)
-						{
-							markerItemData.addItem(item);
-						}
-					}
-					markerItemData.setDataset(itemData.getDataset());
-					this.markerItemDataList.add(markerItemData);
-				}
-			}
-
-			markerDataList = null;
-		}
 	}
 
 	@Override

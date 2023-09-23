@@ -477,10 +477,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, report.getResourceBundle());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
-		if (
-			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
-			&& !isExcludeUuids()
-			)
+		if (!isExcludeUuids())
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, report.getUUID().toString());
 		}
@@ -899,10 +896,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_height, band.getHeight());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, band.getSplitTypeValue());
 
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_8_0))
-		{
-			writeProperties(band);
-		}
+		writeProperties(band);
 		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, band.getPrintWhenExpression());
 		
 		writeChildElements(band);
@@ -1050,10 +1044,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
 		
-		if (
-			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
-			&& !isExcludeUuids()
-			)
+		if (!isExcludeUuids())
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID().toString());
 		}
@@ -1777,10 +1768,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeXySeries(JRXySeries xySeries) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_xySeries);
-		if(isNewerVersionOrEqual(JRConstants.VERSION_5_0_1))
-		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_autoSort, xySeries.getAutoSort());
-		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_autoSort, xySeries.getAutoSort());
 		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, xySeries.getSeriesExpression());
 		writer.writeExpression(JRXmlConstants.ELEMENT_xValueExpression, xySeries.getXValueExpression());
 		writer.writeExpression(JRXmlConstants.ELEMENT_yValueExpression, xySeries.getYValueExpression());
@@ -2739,10 +2727,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_meterColor, plot.getMeterBackgroundColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_needleColor, plot.getNeedleColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickColor, plot.getTickColor());
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
-		{
-			writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickCount, plot.getTickCount());
-		}
+		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickCount, plot.getTickCount());
 		writePlot(chart.getPlot());
 		if (plot.getTickLabelFont() != null)
 		{
@@ -2987,10 +2972,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_horizontalPosition, crosstab.getHorizontalPosition());
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_ignoreWidth, crosstab.getIgnoreWidth());
 		writeReportElement(crosstab);
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_5_0))
-		{
-			writeBox(crosstab.getLineBox());
-		}
+		writeBox(crosstab.getLineBox());
 
 		JRCrosstabParameter[] parameters = crosstab.getParameters();
 		if (parameters != null)
@@ -3229,10 +3211,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getModeValue());
 			writeStyleReferenceAttr(contents);
 
-			if(isNewerVersionOrEqual(JRConstants.VERSION_4_8_0))
-			{
-				writeProperties(contents);
-			}
+			writeProperties(contents);
 			writeBox(contents.getLineBox());
 
 			writeChildElements(contents);
@@ -3261,10 +3240,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
-		if (
-			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
-			&& !isExcludeUuids() 
-			)
+		if (!isExcludeUuids())
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, dataset.getUUID().toString());
 		}
@@ -3371,14 +3347,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_datasetRun, getNamespace());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
-		if (isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
+		if (!isExcludeUuids())
 		{
-			if (!isExcludeUuids())
-			{
-				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, datasetRun.getUUID().toString());
-			}
-			writeProperties(datasetRun);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, datasetRun.getUUID().toString());
 		}
+		writeProperties(datasetRun);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_parametersMapExpression, datasetRun.getParametersMapExpression());
 
@@ -3587,45 +3560,42 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	
 	public void writeMultiAxisData(MultiAxisData data) throws IOException
 	{
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_8_0))
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisData, getNamespace());
+		
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisDataset);
+		writeElementDataset(data.getDataset());
+		writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisDataset
+		
+		for (DataAxis dataAxis : data.getDataAxisList())
 		{
-			writer.startElement(JRXmlConstants.ELEMENT_multiAxisData, getNamespace());
+			writer.startElement(JRXmlConstants.ELEMENT_dataAxis);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_axis, dataAxis.getAxis());
 			
-			writer.startElement(JRXmlConstants.ELEMENT_multiAxisDataset);
-			writeElementDataset(data.getDataset());
-			writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisDataset
-			
-			for (DataAxis dataAxis : data.getDataAxisList())
+			for (DataAxisLevel level : dataAxis.getLevels())
 			{
-				writer.startElement(JRXmlConstants.ELEMENT_dataAxis);
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_axis, dataAxis.getAxis());
-				
-				for (DataAxisLevel level : dataAxis.getLevels())
-				{
-					writer.startElement(JRXmlConstants.ELEMENT_axisLevel);
-					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
-					writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, level.getLabelExpression());
-					writeDataLevelBucket(level.getBucket());
-					writer.closeElement();//JRXmlConstants.ELEMENT_axisLevel
-				}
-				
-				writer.closeElement();//JRXmlConstants.ELEMENT_dataAxis
+				writer.startElement(JRXmlConstants.ELEMENT_axisLevel);
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
+				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, level.getLabelExpression());
+				writeDataLevelBucket(level.getBucket());
+				writer.closeElement();//JRXmlConstants.ELEMENT_axisLevel
 			}
 			
-			for (DataMeasure measure : data.getMeasures())
-			{
-				writer.startElement(JRXmlConstants.ELEMENT_multiAxisMeasure);
-				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
-				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, measure.getCalculation());
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, measure.getIncrementerFactoryClassName());
-				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, measure.getLabelExpression());
-				writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, measure.getValueExpression());
-				writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisMeasure
-			}
-			
-			writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisData
+			writer.closeElement();//JRXmlConstants.ELEMENT_dataAxis
 		}
+		
+		for (DataMeasure measure : data.getMeasures())
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_multiAxisMeasure);
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, measure.getCalculation());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, measure.getIncrementerFactoryClassName());
+			writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, measure.getLabelExpression());
+			writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, measure.getValueExpression());
+			writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisMeasure
+		}
+		
+		writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisData
 	}
 
 	protected void writeDataLevelBucket(DataLevelBucket bucket) throws IOException

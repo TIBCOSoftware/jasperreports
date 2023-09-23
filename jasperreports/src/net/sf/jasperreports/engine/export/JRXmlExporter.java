@@ -707,10 +707,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_reportElement);
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_7_0))
-		{
-			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
-		}
+		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)

@@ -190,10 +190,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			writeBaseAttributes(ean128);
 			xmlWriteHelper.addAttribute("checksumMode", ean128.getChecksumMode());
 			writeBaseContents(ean128);
-			if(isNewerVersionOrEqual(version, JRConstants.VERSION_5_1_2))
-			{
-				xmlWriteHelper.writeExpression("templateExpression", ean128.getTemplateExpression());
-			}
+			xmlWriteHelper.writeExpression("templateExpression", ean128.getTemplateExpression());
 			endBarcode();
 		}
 		catch (IOException e)

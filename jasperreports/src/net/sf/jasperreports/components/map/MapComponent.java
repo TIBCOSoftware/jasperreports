@@ -74,11 +74,6 @@ public interface MapComponent extends Component, JRCloneable
 			)
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
 	
-	/**
-	 * 	@deprecated Replaced by #PROPERTY_GOOGLE_VERSION.
-	 */
-	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
-	
 	@Property(
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
@@ -834,14 +829,4 @@ public interface MapComponent extends Component, JRCloneable
 	 * @see ItemData
 	 */
 	List<ItemData> getPathDataList();
-	
-	/**
-	 * @deprecated Replaced by {@link #getMarkerDataList()}.
-	 */
-	ItemData getMarkerData();
-	
-	/**
-	 * @deprecated Replaced by {@link #getMarkerDataList()}.
-	 */
-	MarkerDataset getMarkerDataset();
 }

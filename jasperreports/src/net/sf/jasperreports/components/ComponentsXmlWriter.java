@@ -56,7 +56,6 @@ import net.sf.jasperreports.components.table.Row;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -213,16 +212,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				map.getEvaluationGroup());
 
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
-		{
-			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
-			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
-			writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
-			if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
-			{
-				writer.addAttribute(MapXmlFactory.ATTRIBUTE_onErrorType, map.getOnErrorType(), OnErrorTypeEnum.ERROR);
-			}
-		}
+		writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
+		writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
+		writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
+		writer.addAttribute(MapXmlFactory.ATTRIBUTE_onErrorType, map.getOnErrorType(), OnErrorTypeEnum.ERROR);
 		
 		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) 
 		{
@@ -240,11 +233,8 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		}
 		writer.writeExpression("zoomExpression", 
 				map.getZoomExpression());
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
-		{
-			writer.writeExpression("languageExpression", 
-					map.getLanguageExpression());
-		}
+		writer.writeExpression("languageExpression", 
+				map.getLanguageExpression());
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_2)) {
 			// write legendItem
 			Item legendItem = map.getLegendItem();
@@ -283,31 +273,19 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 					writeItemData(MapXmlFactory.ELEMENT_markerData, markerData, writer, reportWriter, namespace, componentElement);
 				}
 			}
-		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_0_4)) {
-			@SuppressWarnings("deprecation")
-			ItemData itemData = map.getMarkerData();
-			writeItemData(MapXmlFactory.ELEMENT_markerData, itemData, writer, reportWriter, namespace, componentElement);
-		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0)) {
-
-			@SuppressWarnings("deprecation")
-			net.sf.jasperreports.components.map.MarkerDataset dataset = map.getMarkerDataset();
-			writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
 		}
 		
-		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_0))
-		{
-			List<ItemData> pathStyleList = map.getPathStyleList();
-			if(pathStyleList !=null && pathStyleList.size() > 0) {
-				for(ItemData pathStyle : pathStyleList) {
-					writeItemData(MapXmlFactory.ELEMENT_pathStyle, pathStyle, writer, reportWriter, namespace, componentElement);
-				}
+		List<ItemData> pathStyleList = map.getPathStyleList();
+		if(pathStyleList !=null && pathStyleList.size() > 0) {
+			for(ItemData pathStyle : pathStyleList) {
+				writeItemData(MapXmlFactory.ELEMENT_pathStyle, pathStyle, writer, reportWriter, namespace, componentElement);
 			}
-			
-			List<ItemData> pathDataList = map.getPathDataList();
-			if(pathDataList !=null && pathDataList.size() > 0) {
-				for(ItemData pathData : pathDataList) {
-					writeItemData(MapXmlFactory.ELEMENT_pathData, pathData, writer, reportWriter, namespace, componentElement);
-				}
+		}
+		
+		List<ItemData> pathDataList = map.getPathDataList();
+		if(pathDataList !=null && pathDataList.size() > 0) {
+			for(ItemData pathData : pathDataList) {
+				writeItemData(MapXmlFactory.ELEMENT_pathData, pathData, writer, reportWriter, namespace, componentElement);
 			}
 		}
 
@@ -389,80 +367,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		writer.closeElement();
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	private void writeMarkerDataset(net.sf.jasperreports.components.map.MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
-	{
-		if (dataset != null)
-		{
-			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
-	
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			if (datasetRun != null)
-			{
-				reportWriter.writeDatasetRun(datasetRun);
-			}
-	
-			/*   */
-			List<net.sf.jasperreports.components.map.Marker> markerList = dataset.getMarkers();
-			if (markerList != null && !markerList.isEmpty())
-			{
-				for(net.sf.jasperreports.components.map.Marker marker : markerList)
-				{
-					if(marker.getProperties() != null && !marker.getProperties().isEmpty())
-					{
-						writeMarker(marker, writer, reportWriter, namespace, componentElement);
-					}
-				}
-			}
-	
-			writer.closeElement();
-		}
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	private void writeMarker(
-		net.sf.jasperreports.components.map.Marker marker, 
-		JRXmlWriteHelper writer, 
-		JRXmlWriter reportWriter, 
-		XmlNamespace namespace, 
-		JRComponentElement componentElement
-		) throws IOException
-	{
-		writer.startElement(MapXmlFactory.ELEMENT_marker, namespace);
-		List<net.sf.jasperreports.components.map.MarkerProperty> markerProperties = marker.getProperties();
-		for(net.sf.jasperreports.components.map.MarkerProperty property : markerProperties)
-		{
-			writeMarkerProperty(property, writer, reportWriter, namespace, componentElement);
-		}
-		writer.closeElement();
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	private void writeMarkerProperty(
-		net.sf.jasperreports.components.map.MarkerProperty markerProperty, 
-		JRXmlWriteHelper writer, 
-		JRXmlWriter reportWriter, 
-		XmlNamespace namespace, 
-		JRComponentElement componentElement
-		) throws IOException
-	{
-		writer.startElement(MapXmlFactory.ELEMENT_markerProperty, namespace);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, markerProperty.getName());
-		if(markerProperty.getValue() != null)
-		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, markerProperty.getValue());
-		}
-		writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, markerProperty.getValueExpression(), false, componentElement, reportWriter);
-		writer.closeElement();
-	}
-	
-	
 	protected void writeTable(final JRComponentElement componentElement, final JRXmlWriter reportWriter) throws IOException
 	{
 		Component component = componentElement.getComponent();
@@ -488,15 +392,12 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				{
 					writer.startElement("column");
 					writer.addAttribute("width", column.getWidth());
-					if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_6_0))
+					if (!reportWriter.isExcludeUuids())
 					{
-						if (!reportWriter.isExcludeUuids())
-						{
-							writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
-						}
-						reportWriter.writeProperties(column);
-						reportWriter.writePropertyExpressions(column.getPropertyExpressions());
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
 					}
+					reportWriter.writeProperties(column);
+					reportWriter.writePropertyExpressions(column.getPropertyExpressions());
 					writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression(),
@@ -527,15 +428,12 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				{
 					writer.startElement("columnGroup");
 					writer.addAttribute("width", columnGroup.getWidth());
-					if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_6_0))
+					if (!reportWriter.isExcludeUuids())
 					{
-						if (!reportWriter.isExcludeUuids())
-						{
-							writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
-						}
-						reportWriter.writeProperties(columnGroup);
-						reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
 					}
+					reportWriter.writeProperties(columnGroup);
+					reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
 					writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression(),
@@ -632,10 +530,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writer.addAttribute("height", cell.getHeight());
 			writer.addAttribute("rowSpan", cell.getRowSpan());
 			
-			if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
-			{
-				reportWriter.writeProperties(cell);
-			}
+			reportWriter.writeProperties(cell);
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
 			

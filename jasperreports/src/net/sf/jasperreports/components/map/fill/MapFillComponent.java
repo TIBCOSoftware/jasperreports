@@ -36,13 +36,13 @@ import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sf.jasperreports.components.map.MarkerItemData;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.components.map.MarkerItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -103,7 +103,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String signature;
 	private String key;
 	private String googleVersion;
-	private String version;
 	private String reqParams;
 	private String defaultMarkerIcon;
 
@@ -188,9 +187,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
 		defaultMarkerIcon = util.getProperty(propertiesHolder, MapComponent.PROPERTY_DEFAULT_MARKER_ICON);
 		googleVersion = util.getProperty(propertiesHolder, MapComponent.PROPERTY_GOOGLE_VERSION);
-		@SuppressWarnings("deprecation")
-		String depVersion = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
-		version = depVersion;
 		
 		Number lat = (Number)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		latitude = lat == null ? null : lat.floatValue();
@@ -524,9 +520,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			
 			if(googleVersion != null && googleVersion.trim().length() > 0) {
 				rParams += "&v=" + googleVersion;
-			} else if(version != null && version.trim().length() > 0 && (version.indexOf('.') < 0 || version.indexOf(".exp") > -1)) {
-				// avoiding name collision of the version property
-				rParams += "&v=" + version;
 			}
 			reqParams = rParams.length() == 0 ? null : rParams.substring(1);
 		}
