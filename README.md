@@ -2,10 +2,10 @@
 > _**JasperReports Library 7 coming soon!**_
 > 
 > Work is in progress on a separate [branch](https://github.com/TIBCOSoftware/jasperreports/tree/release-7.0.0) that will introduce
-> major refactoring of the library, which is needed for the Jakarta Migration.
-> The changes help improving the dependency management by splitting the library into multiple optional artifacts (*.jar files) depending on
-> the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled *.jasper report template
-> files has been deliberately broken. Backward compatibility will be guaranteed only for source *.jrxml report template files.
+> major refactoring of the library, which is needed for the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee).
+> The changes help improving the dependency management by splitting the library into multiple optional artifacts (`*.jar` files) depending on
+> the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled `*.jasper` report template
+> files has been deliberately broken. Backward compatibility will be guaranteed only for source `*.jrxml` report template files.
 
 ## JasperReports Library 7.0.0 Change Log
 - deprecated code removed;
