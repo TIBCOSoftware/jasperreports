@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.search.LuceneUtil;
 import net.sf.jasperreports.search.SpansInfo;
-import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 
 /**
@@ -62,7 +61,7 @@ public class SearchAction extends AbstractAction {
 			ReportContext reportContext = getReportContext();
 
 			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) reportContext.getParameterValue(
-					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+					JasperPrintAccessor.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
 
 			JasperPrint jasperPrint = jasperPrintAccessor.getFinalJasperPrint();
 			LuceneUtil luceneUtil = new LuceneUtil(jasperReportsContext, searchData.isCaseSensitive(), searchData.isWholeWordsOnly(), searchData.isRemoveAccents());
