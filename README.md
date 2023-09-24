@@ -7,6 +7,13 @@
 > the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled *.jasper report template
 > files has been deliberately broken. Backward compatibility will be guaranteed only for source *.jrxml report template files.
 
+## JasperReports Library 7.0.0 Change Log
+- deprecated code removed;
+- deliberatly breaking backward compatibility of serialized/compiled *.jasper report template files, mostly because of historical 
+deprecated serialization code removal/cleanup mentioned above (source JRXML report templates need to be recompiled to *.jasper using the new version of the library);
+- backward compatibility of source JRXML report templates is still guaranteed, but the built-in JRXML writer does not write back to
+versions older than 5.5.2;
+
 # JasperReports® - Free Java Reporting Library
 
 The **JasperReports Library** is the world's most popular open source reporting engine. 
