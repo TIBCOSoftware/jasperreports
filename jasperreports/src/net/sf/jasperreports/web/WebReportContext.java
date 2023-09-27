@@ -44,7 +44,7 @@ public class WebReportContext implements ReportContext
 	 *
 	 */
 	private static final String SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX = "net.sf.jasperreports.web.report.context_";
-	private static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr_ctxid";
+	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr_ctxid";
 
 	/**
 	 * @deprecated Replaced by {@link JasperPrintAccessor#REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR}.
