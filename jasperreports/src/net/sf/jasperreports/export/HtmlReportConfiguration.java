@@ -290,12 +290,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getBorderCollapseValue()}.
-	 */
-	public String getBorderCollapse();
-	
-	
-	/**
 	 * Provides the value for the <code>border-collapse</code> CSS property to be applied
 	 * to the table generated for the report.
 	 * @see #PROPERTY_BORDER_COLLAPSE

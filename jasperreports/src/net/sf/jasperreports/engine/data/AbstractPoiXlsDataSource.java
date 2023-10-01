@@ -88,9 +88,19 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	 */
 	public AbstractPoiXlsDataSource(InputStream is) throws JRException, IOException
 	{
+		this(is, false);
+	}
+
+
+	/**
+	 * Creates a data source instance from an XLSX or XLS data input stream.
+	 * @param is an input stream containing XLSX or XLS data
+	 */
+	public AbstractPoiXlsDataSource(InputStream is, boolean closeInputStream) throws JRException, IOException
+	{
 		this.inputStream = is;
 		this.closeWorkbook = true;
-		this.closeInputStream = false;
+		this.closeInputStream = closeInputStream;
 
 		this.workbook = loadWorkbook(inputStream);
 	}
@@ -235,11 +245,11 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		Class<?> valueClass = jrField.getValueClass();
+		Sheet sheet = workbook.getSheetAt(sheetIndex);
 		try 
 		{
 			Integer columnIndex = getColumnIndex(jrField);
 
-			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
 			if (cell == null)
 			{
@@ -394,7 +404,8 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				throw 
 					new JRException(
 						EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE,
-						new Object[]{jrField.getName(), valueClass.getName(), recordIndex});
+						new Object[]{jrField.getName(), valueClass.getName(), "[Sheet:" + sheet.getSheetName() + ", Row:" + (recordIndex + 1) + "]"}
+						);
 			}
 		}
 		catch (Exception e) 
@@ -402,8 +413,9 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			throw 
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
-					new Object[]{jrField.getName(), valueClass.getName(), recordIndex}, 
-					e);
+					new Object[]{jrField.getName(), valueClass.getName(), "[Sheet:" + sheet.getSheetName() + ", Row:" + (recordIndex + 1) + "]"}, 
+					e
+					);
 		}
 	}
 
@@ -483,10 +495,10 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	// only used in JSS, to guess field types
 	public String getStringFieldValue(JRField jrField) throws JRException
 	{
+		Sheet sheet = workbook.getSheetAt(sheetIndex);
 		try
 		{
 			Integer columnIndex = getColumnIndex(jrField);
-			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
 			if (cell == null)
 			{
@@ -502,18 +514,19 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			throw
 				new JRException(
 					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
-					new Object[]{jrField.getName(), String.class.getName()},
-					e);
+					new Object[]{jrField.getName(), String.class.getName(), "[Sheet:" + sheet.getSheetName() + ", Row:" + (recordIndex + 1) + "]"},
+					e
+					);
 		}
 	}
 
 	// only used in JSS, to guess field types
 	public String getFieldFormatPattern(JRField jrField) throws JRException
 	{
+		Sheet sheet = workbook.getSheetAt(sheetIndex);
 		try
 		{
 			Integer columnIndex = getColumnIndex(jrField);
-			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
 			if (cell == null)
 			{
@@ -527,10 +540,11 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 		catch (Exception e)
 		{
 			throw
-			new JRException(
+				new JRException(
 					EXCEPTION_MESSAGE_KEY_XLS_FIELD_VALUE_NOT_RETRIEVED,
-					new Object[]{jrField.getName(), String.class.getName()},
-					e);
+					new Object[]{jrField.getName(), String.class.getName(), "[Sheet:" + sheet.getSheetName() + ", Row:" + (recordIndex + 1) + "]"},
+					e
+					);
 		}
 	}
 	

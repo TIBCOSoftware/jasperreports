@@ -65,6 +65,22 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_HIDE_SLIDE_MASTER_PAGES = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "hide.slide.master.pages";
 
 	/**
+	 * This property serves as default value for the {@link #isFrameAsTable()} export configuration setting.
+	 * <p>
+	 * The property itself defaults to <code>false</code>.
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TABLE, PropertyScope.FRAME},
+			sinceVersion = PropertyConstants.VERSION_6_20_6,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_FRAME_AS_TABLE = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "frame.as.table";
+
+	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
 	 */
 	@ExporterProperty(
@@ -83,4 +99,17 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	 */
 	@ExporterProperty(PROPERTY_HIDE_SLIDE_MASTER_PAGES)
 	public String getHideSlideMasterPages();
+
+	/**
+	 * Indicates whether the contents of the frame produced by a table component is to be exported as table.
+	 * <p>
+	 * If set to <code>true</code>, the content of a table component frame is rendered using DrawingML table markup.
+	 * </p>
+	 * @see #PROPERTY_FRAME_AS_TABLE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_FRAME_AS_TABLE, 
+		booleanDefault=false
+		)
+	public Boolean isFrameAsTable();
 }

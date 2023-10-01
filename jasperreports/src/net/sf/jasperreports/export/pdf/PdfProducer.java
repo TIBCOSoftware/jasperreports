@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.export.pdf;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -87,14 +86,16 @@ public interface PdfProducer
 	
 	PdfImage createImage(byte[] loadBytesFromResource, boolean verify) throws IOException, JRException;
 
-	PdfImage createImage(BufferedImage bi, int angle) throws IOException;
+	PdfImage clipImage(
+			PdfImage image, 
+			int clipWidth, int clipHeight, 
+			int translateX, int translateY
+			) throws JRException;
 
-	void drawImage(JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
-			double templateWidth, double templateHeight,
-			int translateX, int translateY, double angle, 
-			double renderWidth, double renderHeight, 
-			float ratioX, float ratioY, float x, float y)
-			throws JRException, IOException;
+	PdfImage drawImage(
+			JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
+			double renderWidth, double renderHeight
+			) throws JRException, IOException;
 	
 	PdfTextChunk createChunk(String text, Map<Attribute, Object> attributes, Locale locale);
 

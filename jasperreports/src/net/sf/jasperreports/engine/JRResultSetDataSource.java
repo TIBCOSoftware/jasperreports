@@ -135,6 +135,8 @@ public class JRResultSetDataSource implements JRDataSource
 	private Map<JRField, Calendar> fieldCalendars = new HashMap<>();
 
 	private int rowCount;
+	
+	private Boolean supportsTypedGetObjectMethod;
 
 	/**
 	 *
@@ -398,7 +400,30 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else
 				{
-					objValue = resultSet.getObject(columnIndex);
+					if (supportsTypedGetObjectMethod == null)
+					{
+						try
+						{
+							objValue = resultSet.getObject(columnIndex, clazz);
+							supportsTypedGetObjectMethod = true;
+						}
+						catch (AbstractMethodError e)
+						{
+							supportsTypedGetObjectMethod = false;
+							objValue = resultSet.getObject(columnIndex);
+						}
+					}
+					else
+					{
+						if (supportsTypedGetObjectMethod)
+						{
+							objValue = resultSet.getObject(columnIndex, clazz);
+						}
+						else
+						{
+							objValue = resultSet.getObject(columnIndex);
+						}
+					}
 				}
 			}
 			catch (Exception e)

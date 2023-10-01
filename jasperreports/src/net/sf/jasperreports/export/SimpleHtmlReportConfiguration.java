@@ -110,23 +110,6 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.sizeUnit = sizeUnit;
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #getBorderCollapseValue()}.
-	 */
-	@Override
-	public String getBorderCollapse()
-	{
-		return borderCollapse == null ? null : borderCollapse.getName();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setBorderCollapse(HtmlBorderCollapseEnum)}.
-	 */
-	public void setBorderCollapse(String borderCollapse)
-	{
-		setBorderCollapse(HtmlBorderCollapseEnum.getByName(borderCollapse));
-	}
-	
 	@Override
 	public HtmlBorderCollapseEnum getBorderCollapseValue()
 	{

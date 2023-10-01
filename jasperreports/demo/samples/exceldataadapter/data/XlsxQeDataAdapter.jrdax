@@ -6,5 +6,5 @@
 	<queryExecuterMode>true</queryExecuterMode>
 	<numberPattern>#,##0</numberPattern>
 	<datePattern>yyyy-MM-dd</datePattern>
-	<sheetSelection>XlsxDataSource3</sheetSelection>
+	<sheetSelection>Data Sheet 3</sheetSelection>
 </xlsxDataAdapter>

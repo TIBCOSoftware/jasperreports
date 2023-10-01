@@ -99,7 +99,7 @@
 }
 
 .sortlink {
-    background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
+    background-image: url('${path}net/sf/jasperreports/engine/images/white-transparent-pixel.png');
 }
 
 .filterSymbol_Inactive {

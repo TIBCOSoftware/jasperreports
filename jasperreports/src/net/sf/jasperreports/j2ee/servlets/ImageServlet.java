@@ -79,7 +79,7 @@ public class ImageServlet extends BaseHttpServlet
 			try
 			{
 				imageData = RepositoryUtil.getInstance(getJasperReportsContext()).getBytesFromLocation(JRImageLoader.PIXEL_IMAGE_RESOURCE);
-				imageMimeType = ImageTypeEnum.GIF.getMimeType();
+				imageMimeType = ImageTypeEnum.PNG.getMimeType();
 			}
 			catch (JRException e)
 			{

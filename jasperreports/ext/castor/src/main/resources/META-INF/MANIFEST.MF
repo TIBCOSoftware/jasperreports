@@ -18,4 +18,4 @@ Export-Package: net.sf.jasperreports.data.excel,
  net.sf.jasperreports.data.json,
  net.sf.jasperreports.repo,
  net.sf.jasperreports.util
- DynamicImport-Package: *
+DynamicImport-Package: *

@@ -1,98 +1,156 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/AbstractPdfTextRenderer</className>
-		<differenceType>7002</differenceType>
-		<method>*AbstractPdfTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean)</method>
+		<className>net/sf/jasperreports/components/headertoolbar/HeaderLabelUtil$HeaderLabelBuiltinExpression</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/components/table/fill/BuiltinExpressionEvaluator</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/AbstractTextRenderer</className>
-		<differenceType>7002</differenceType>
-		<method>*AbstractTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean, boolean)</method>
+		<className>net/sf/jasperreports/components/table/fill/ConstantBuiltinExpression</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/AwtTextRenderer</className>
-		<differenceType>7002</differenceType>
-		<method>*AwtTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean, boolean)</method>
+		<className>net/sf/jasperreports/components/table/fill/*ExpressionEvaluator*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/PdfGlyphRenderer</className>
-		<differenceType>7002</differenceType>
-		<method>*PdfGlyphRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean, boolean)</method>
+		<className>net/sf/jasperreports/components/table/fill/Fill*Table*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/PdfTextRenderer</className>
-		<differenceType>7002</differenceType>
-		<method>*PdfTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean)</method>
+		<className>net/sf/jasperreports/components/table/fill/TableSubreport*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/draw/PrintDrawVisitor</className>
-		<differenceType>7002</differenceType>
-		<method>*PrintDrawVisitor(*)</method>
+		<className>net/sf/jasperreports/phantomjs/*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
+		<className>net/sf/jasperreports/components/table/fill/FillTable</className>
 		<differenceType>7002</differenceType>
-		<method>*getMarkupProcessor(java.lang.String)</method>
+		<method>*createFillTableSubreportFactory()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/SimplePdfTextRenderer</className>
+		<className>net/sf/jasperreports/components/table/fill/TableReport</className>
+		<differenceType>7002</differenceType>
+		<method>*getTableName()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/table/fill/TableReport</className>
 		<differenceType>7005</differenceType>
-		<method>*SimplePdfTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, boolean)</method>
-		<to>*SimplePdfTextRenderer(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.export.pdf.PdfTextRendererContext)</to>
+		<method>*TableReport(net.sf.jasperreports.engine.component.FillContext, net.sf.jasperreports.components.table.TableComponent, net.sf.jasperreports.components.table.fill.TableReportDataset, java.util.List, net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory)</method>
+		<to>*TableReport(net.sf.jasperreports.engine.component.FillContext, net.sf.jasperreports.components.table.TableComponent, net.sf.jasperreports.components.table.fill.TableReportDataset, java.util.List, net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory)</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
-		<differenceType>6011</differenceType>
-		<field>EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY</field>
+		<className>net/sf/jasperreports/components/table/fill/TableReport$SummaryGroupFooterPrintWhenEvaluator</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/components/table/fill/BuiltinExpressionEvaluator</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/util/JEditorPaneHtmlMarkupProcessor</className>
-		<differenceType>5001</differenceType>
-		<to>net/sf/jasperreports/engine/util/JEditorPaneMarkupProcessor</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/JEditorPaneHtmlMarkupProcessor</className>
-		<differenceType>5001</differenceType>
-		<to>net/sf/jasperreports/engine/util/JEditorPaneMarkupProcessor</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/JEditorPaneRtfMarkupProcessor</className>
-		<differenceType>5001</differenceType>
-		<to>net/sf/jasperreports/engine/util/JEditorPaneMarkupProcessor</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/PdfExporterConfiguration</className>
+		<className>net/sf/jasperreports/engine/JRElement</className>
 		<differenceType>7012</differenceType>
-		<method>*isEmbedIccProfile()</method>
+		<method>*getStyleExpression()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/PdfExporterConfiguration</className>
+		<className>net/sf/jasperreports/export/PdfReportConfiguration</className>
 		<differenceType>7012</differenceType>
-		<method>*isUseCMYKColors()</method>
+		<method>*isBookmarksEnabled()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/PptxReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*isFrameAsTable()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JasperPrintManager</className>
+		<differenceType>6001</differenceType>
+		<field>unixSunJDK</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
+		<differenceType>6001</differenceType>
+		<field>pxImage</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/TextMeasurer$TextMeasuredState</className>
+		<differenceType>6001</differenceType>
+		<field>paragraphStartLine</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
+		<differenceType>7002</differenceType>
+		<method>*getPxImage()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxBorderHelper</className>
+		<differenceType>7002</differenceType>
+		<method>*export(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxCellHelper</className>
+		<differenceType>7002</differenceType>
+		<method>*getBorderHelper()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxBorderInfo</className>
+		<differenceType>6001</differenceType>
+		<field>borderPadding</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillCrosstab$CrosstabFiller</className>
+		<differenceType>7005</differenceType>
+		<method>*createIconLabelElement(net.sf.jasperreports.engine.type.SortOrderEnum, net.sf.jasperreports.engine.fill.JRFillTextElement, net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory)</method>
+		<to>*createIconLabelElement(net.sf.jasperreports.engine.type.SortOrderEnum, net.sf.jasperreports.engine.fill.JRFillTextElement, net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
+		<differenceType>6001</differenceType>
+		<field>startPage</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/pdf/PdfImage</className>
+		<differenceType>7012</differenceType>
+		<method>*scalePercent(float)</method>
 	</difference>
 	<difference>
 		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
 		<differenceType>7012</differenceType>
-		<method>*getTextRenderer(net.sf.jasperreports.export.pdf.PdfTextRendererContext)</method>
+		<method>*clipImage(net.sf.jasperreports.export.pdf.PdfImage, int, int, int, int)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducerContext</className>
-		<differenceType>7012</differenceType>
-		<method>*getCMYKColorSpace()</method>
+		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
+		<differenceType>7002</differenceType>
+		<method>*createImage(java.awt.image.BufferedImage, int)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducerContext</className>
-		<differenceType>7012</differenceType>
-		<method>*getExporter()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/classic/ClassicFontRecipient</className>
+		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
 		<differenceType>7004</differenceType>
-		<method>*ClassicFontRecipient()</method>
+		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfContent</className>
+		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
+		<differenceType>7006</differenceType>
+		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
+		<to>net.sf.jasperreports.export.pdf.PdfImage</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
+		<differenceType>7002</differenceType>
+		<method>*createImage(java.awt.image.BufferedImage, int)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
 		<differenceType>7004</differenceType>
-		<method>*ClassicPdfContent(com.lowagie.text.pdf.PdfWriter)</method>
+		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
+		<differenceType>7006</differenceType>
+		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
+		<to>net.sf.jasperreports.export.pdf.PdfImage</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/properties/PropertyConstants</className>
+		<differenceType>6011</differenceType>
+		<field>CATEGORY_PHANTOM_JS</field>
 	</difference>
 </differences>

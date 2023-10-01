@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>fastexceldatasource</name>
+  <title>Fastexcel Data Source Sample</title>
+  <description>Shows how the XLSX data source implementation could be used to fill reports.</description>
+
+  <mainFeature ref="fastexceldatasource"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  
+  <!-- fastexceldatasource -->
+  
+  <feature name="fastexceldatasource" title="Fastexcel Data Source">
+    <description>
+How to fill a report using data from an XLSX file.
+    </description>
+    <since>4.0.3</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="datasource"/>
+    <content>
+<b>Fastexcel Data Sources</b>
+<br/>
+<br/>
+...
+    </content>
+  </feature>
+
+</sample>

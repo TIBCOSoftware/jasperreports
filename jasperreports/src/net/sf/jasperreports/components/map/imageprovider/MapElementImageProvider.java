@@ -35,8 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.awt.Color;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
@@ -86,8 +85,8 @@ public class MapElementImageProvider extends AbstractMapElementImageProvider
 		String reqParams = (String)element.getParameterValue(MapComponent.PARAMETER_REQ_PARAMS);
 		String markers ="";
 
-		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
-		if(markerList != null && !markerList.isEmpty())
+		List<Map<String,Object>> markerList = prepareMarkerList(element);
+		if(!markerList.isEmpty())
 		{
 			String currentMarkers = "";
 			for(Map<String,Object> map : markerList)
@@ -195,6 +194,28 @@ public class MapElementImageProvider extends AbstractMapElementImageProvider
 		}
 
 		return imageLocation;
+	}
+
+	List<Map<String, Object>> prepareMarkerList(JRGenericPrintElement element)
+	{
+		Map<String, Object> markerSeries = (Map<String, Object>)element.getParameterValue(MapComponent.PARAMETER_MARKERS);
+		List<Map<String, Object>> markerList = new ArrayList<>();
+		if (markerSeries != null && !markerSeries.isEmpty())
+		{
+			for (Object seriesConfig: markerSeries.values())
+			{
+				Map<String, Object> markerSingleSeriesConfiguration = (Map<String, Object>) seriesConfig;
+				if (markerSingleSeriesConfiguration.containsKey(MapComponent.PARAMETER_MARKERS))
+				{
+					List<Map<String, Object>> markerSeriesItems =
+							(List<Map<String, Object>>) markerSingleSeriesConfiguration.get(
+									MapComponent.PARAMETER_MARKERS);
+					markerList.addAll(markerSeriesItems);
+				}
+			}
+		}
+
+		return markerList;
 	}
 
 }

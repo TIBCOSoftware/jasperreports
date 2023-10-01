@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * query executers.
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelQueryExecuterFactory}.
  */
 public class JRXlsxQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
 {

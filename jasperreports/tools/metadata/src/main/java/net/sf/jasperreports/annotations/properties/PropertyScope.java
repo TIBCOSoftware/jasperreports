@@ -52,6 +52,7 @@ public enum PropertyScope
 	IMAGE_ELEMENT("Image Element"),
 	FRAME("Frame Element"),
 	GENERIC_ELEMENT("Generic Element"),
+	TABLE("Table"),
 	TABLE_COLUMN("Column"),
 	TABLE_CELL("Table Cell"),
 	EXTENSION("Extension"),

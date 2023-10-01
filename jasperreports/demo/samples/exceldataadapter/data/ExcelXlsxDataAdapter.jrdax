@@ -18,6 +18,6 @@
 	<columnIndexes>4</columnIndexes>
 	<columnIndexes>5</columnIndexes>
 	<columnIndexes>6</columnIndexes>
-	<sheetSelection>XlsxDataSource3</sheetSelection>
+	<sheetSelection>Data Sheet 3</sheetSelection>
 	<format>autodetect</format>
 </excelDataAdapter>

@@ -27,13 +27,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
 
 
 /**
@@ -44,6 +44,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * names or set a flag to read the column names from the first row of the CSV file.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelDataSource}.
  */
 public class XlsDataSource extends AbstractPoiXlsDataSource
 {
@@ -64,6 +65,16 @@ public class XlsDataSource extends AbstractPoiXlsDataSource
 	public XlsDataSource(InputStream inputStream) throws JRException, IOException
 	{
 		super(inputStream);
+	}
+
+
+	/**
+	 * Creates a data source instance from an XLS data input stream.
+	 * @param inputStream an input stream containing XLS data
+	 */
+	public XlsDataSource(InputStream inputStream, boolean closeInputStream) throws JRException, IOException
+	{
+		super(inputStream, closeInputStream);
 	}
 
 

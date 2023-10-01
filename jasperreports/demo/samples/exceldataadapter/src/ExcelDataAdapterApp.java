@@ -90,12 +90,6 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxQeDataAdapter.jrdax");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
-//		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-//		@SuppressWarnings("deprecation")
-//		String deprecatedFactory = net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory.class.getName();
-//		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.xls", deprecatedFactory);
-//		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.XLS", deprecatedFactory);
-		
 		//data source mode
 		parameters.put("DataFile", "Excel data adapter for XLS data source");
 		JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", new HashMap<String, Object>(parameters));

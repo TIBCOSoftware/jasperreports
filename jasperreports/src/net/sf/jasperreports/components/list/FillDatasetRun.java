@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.FillDatasetPosition;
@@ -83,7 +84,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 			JRFillObjectFactory factory) throws JRException
 	{
 		JasperReport jasperReport = factory.getReportFiller().getJasperReport();
-		JRDataset reportDataset = JRReportUtils.findSubdataset(datasetRun, jasperReport);
+		JRDataset reportDataset = JRReportUtils.findSubdataset(datasetRun, (JRReport)jasperReport);
 		
 		FillListDatasetFactory datasetFactory = new FillListDatasetFactory(factory);
 		JRFillDataset fillDataset = datasetFactory.getDataset(reportDataset);

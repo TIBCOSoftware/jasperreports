@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:tblStyleLst
+	xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
+	def="{2D5ABB26-0587-4C30-8999-92F81FD0307C}">
+	<a:tblStyle styleId="{2D5ABB26-0587-4C30-8999-92F81FD0307C}"
+		styleName="No Style, No Grid">
+		<a:wholeTbl>
+			<a:tcTxStyle>
+				<a:fontRef idx="minor">
+					<a:scrgbClr r="0" g="0" b="0" />
+				</a:fontRef>
+				<a:schemeClr val="tx1" />
+			</a:tcTxStyle>
+			<a:tcStyle>
+				<a:tcBdr>
+					<a:left>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:left>
+					<a:right>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:right>
+					<a:top>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:top>
+					<a:bottom>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:bottom>
+					<a:insideH>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:insideH>
+					<a:insideV>
+						<a:ln>
+							<a:noFill />
+						</a:ln>
+					</a:insideV>
+				</a:tcBdr>
+				<a:fill>
+					<a:noFill />
+				</a:fill>
+			</a:tcStyle>
+		</a:wholeTbl>
+	</a:tblStyle>
+</a:tblStyleLst>

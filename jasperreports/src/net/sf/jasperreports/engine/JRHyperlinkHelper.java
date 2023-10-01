@@ -90,6 +90,15 @@ public final class JRHyperlinkHelper
 	 * @param hyperlink the hyperlink object
 	 * @return the hyperlink target
 	 */
+	public static HyperlinkTargetEnum getHyperlinkTargetValue(JRHyperlink hyperlink)
+	{
+		return getHyperlinkTargetValue(hyperlink.getLinkTarget());
+	}
+	
+
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue(JRHyperlink)}.
+	 */
 	public static byte getHyperlinkTarget(JRHyperlink hyperlink)
 	{
 		return getHyperlinkTargetValue(hyperlink.getLinkTarget()).getValue();

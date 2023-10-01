@@ -25,7 +25,6 @@ package net.sf.jasperreports.export.pdf.classic;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -38,12 +37,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
+import com.lowagie.text.ImgTemplate;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
@@ -423,47 +422,22 @@ public class ClassicPdfProducer implements PdfProducer
 	}
 	
 	@Override
-	public PdfImage createImage(BufferedImage bi, int angle) throws IOException
-	{
-		try
-		{
-			Image image = Image.getInstance(bi, null);
-			image.setRotationDegrees(angle);
-			
-			return new ClassicImage(image);
-		}
-		catch (BadElementException e)
-		{
-			//TODO message
-			throw new JRRuntimeException(e);
-		}
-	}
-	
-	@Override
-	public void drawImage(JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
-			double templateWidth, double templateHeight,
-			int translateX, int translateY, double angle, 
-			double renderWidth, double renderHeight, 
-			float ratioX, float ratioY, float x, float y) throws JRException, IOException
+	public PdfImage drawImage(
+		JRPrintImage image, Graphics2DRenderable renderer, boolean forceSvgShapes, 
+		double renderWidth, double renderHeight
+		) throws JRException, IOException
 	{
 		PdfContentByte pdfContentByte = getPdfContentByte();
 		PdfTemplate template = pdfContentByte.createTemplate(
-				(float) templateWidth, (float) templateHeight);
+				(float) renderWidth, (float) renderHeight);
 
 		Graphics2D g = forceSvgShapes
-			? template.createGraphicsShapes((float) templateWidth, (float) templateHeight)
-			: template.createGraphics((float) templateWidth, (float) templateHeight, 
+			? template.createGraphicsShapes((float) renderWidth, (float) renderHeight)
+			: template.createGraphics((float) renderWidth, (float) renderHeight, 
 					new ClassicPdfFontMapper(this));
 
 		try
 		{
-			g.translate(translateX, translateY);
-
-			if (angle != 0)
-			{
-				g.rotate(angle);
-			}
-			
 			if (image.getModeValue() == ModeEnum.OPAQUE)
 			{
 				g.setColor(image.getBackcolor());
@@ -478,13 +452,24 @@ public class ClassicPdfProducer implements PdfProducer
 			g.dispose();
 		}
 
-		pdfContentByte.saveState();
-		pdfContentByte.addTemplate(
-			template,
-			ratioX, 0f, 0f, ratioY, x, y);
-		pdfContentByte.restoreState();
+		return new ClassicImage(new ImgTemplate(template));
+	}
+	
+	@Override
+	public PdfImage clipImage(PdfImage image, int clipWidth, int clipHeight, int translateX, int translateY) throws JRException
+	{
+		Image img = ((ClassicImage)image).getImage();
+
+		PdfContentByte pdfContentByte = getPdfContentByte();
+		PdfTemplate template = pdfContentByte.createTemplate(img.getWidth(), img.getHeight());
+		template.newPath();
+		template.rectangle(- translateX, img.getHeight() - clipHeight + translateY, clipWidth, clipHeight);
+		template.clip();
+		template.newPath();
+		img.setAbsolutePosition(0, 0);
+		template.addImage(img);
 		
-		getPdfWriter().releaseTemplate(template);
+		return new ClassicImage(Image.getInstance(template));
 	}
 	
 	public Font getFont(Map<Attribute,Object> attributes, Locale locale)

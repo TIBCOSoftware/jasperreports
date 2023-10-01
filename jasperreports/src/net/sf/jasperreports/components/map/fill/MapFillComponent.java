@@ -139,7 +139,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 			resetMap = new FillResetMapItem(this, mapComponent.getResetMapItem(), factory);
 		}
 
-		if(mapComponent.getMarkerDataList() != null){
+		if(mapComponent.getMarkerItemDataList() != null){
 			markerDataList = new ArrayList<>();
 			for(MarkerItemData markerData : mapComponent.getMarkerItemDataList()) {
 				markerDataList.add(new FillMarkerItemData(this, markerData, factory));
