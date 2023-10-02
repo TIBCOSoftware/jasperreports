@@ -28,6 +28,8 @@ package net.sf.jasperreports.web.util;
  */
 public interface WebConstants
 {
+	public static final String APPLICATION_CONTEXT_PATH = "net.sf.jasperreports.web.app.context.path";
+
 	public static final String REQUEST_PARAMETER_APPLICATION_DOMAIN = "jr_app_domain";
 	public static final String REQUEST_PARAMETER_REPORT_URI = "jr_report_uri";
 	public static final String REQUEST_PARAMETER_ASYNC_REPORT = "jr_async";

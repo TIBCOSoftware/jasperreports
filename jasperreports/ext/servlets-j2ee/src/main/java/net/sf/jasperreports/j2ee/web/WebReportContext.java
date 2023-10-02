@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
-
+import net.sf.jasperreports.web.util.WebConstants;
 
 
 /**
@@ -50,8 +50,6 @@ public class WebReportContext implements ReportContext
 	 * @deprecated Replaced by {@link JasperPrintAccessor#REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR}.
 	 */
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = JasperPrintAccessor.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR;
-	
-	public static final String APPLICATION_CONTEXT_PATH = "net.sf.jasperreports.web.app.context.path";
 	
 	/**
 	 *
@@ -102,7 +100,7 @@ public class WebReportContext implements ReportContext
 		if (webReportContext != null)
 		{
 			//webReportContext.setRequest(request);
-			webReportContext.setParameterValue(APPLICATION_CONTEXT_PATH, request.getContextPath());
+			webReportContext.setParameterValue(WebConstants.APPLICATION_CONTEXT_PATH, request.getContextPath());
 			webReportContext.setParameterValue(JRParameter.REPORT_CONTEXT, webReportContext);
 		}
 		
