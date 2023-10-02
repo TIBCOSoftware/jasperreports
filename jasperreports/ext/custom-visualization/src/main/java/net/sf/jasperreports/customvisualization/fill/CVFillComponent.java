@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.customvisualization.fill;
 
-import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
+import static net.sf.jasperreports.web.util.WebConstants.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
 
 import java.io.File;
 import java.io.InputStream;

@@ -37,14 +37,14 @@ public class RequirejsTemplateConfigContext
 	private static final Log log = LogFactory.getLog(RequirejsTemplateConfigContext.class);
 	
 	private String contextPath;
-	private WebUtil webUtil;
+	private ResourcePathUtil resourcePathUtil;
 	private Map<String, String> paths;
 	private Map<String, String> resourcePaths;
 
 	public RequirejsTemplateConfigContext(WebRequestContext context, Map<String, String> paths, Map<String, String> resourcePaths)
 	{
 		contextPath = context.getRequestContextPath();
-		webUtil = WebUtil.getInstance(context.getJasperReportsContext());
+		resourcePathUtil = ResourcePathUtil.getInstance(context.getJasperReportsContext());
 		this.paths = paths;
 		this.resourcePaths = resourcePaths;
 	}
@@ -58,7 +58,7 @@ public class RequirejsTemplateConfigContext
 			String resource = resourcePaths.get(key);
 			if (resource != null)
 			{
-				path = contextPath + webUtil.getResourcesBasePath() + resource;
+				path = contextPath + resourcePathUtil.getResourcesBasePath() + resource;
 			}
 		}
 		

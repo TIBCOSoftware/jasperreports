@@ -35,7 +35,7 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.web.util.WebConstants;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -88,7 +88,7 @@ public class SaveZoomAction extends AbstractAction {
 		Map<String, JasperDesignReportResource> cachedResources = cache.getCachedResources();
 
 		Set<String> uris = cachedResources.keySet();
-		String reportUri = (String) reportContext.getParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI);
+		String reportUri = (String) reportContext.getParameterValue(WebConstants.REQUEST_PARAMETER_REPORT_URI);
 
 		if (reportUri != null) {
 			for (String uri : uris) {

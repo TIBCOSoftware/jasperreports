@@ -121,11 +121,11 @@ public enum StretchTypeEnum implements NamedEnum
 	 */
 	public static StretchTypeEnum getByName(String name)
 	{
-		if (RELATIVE_TO_TALLEST_OBJECT.equals(name))
+		if (RELATIVE_TO_TALLEST_OBJECT_deprecated.equals(name))
 		{
 			return ELEMENT_GROUP_HEIGHT;
 		}
-		if (RELATIVE_TO_BAND_HEIGHT.equals(name))
+		if (RELATIVE_TO_BAND_HEIGHT_deprecated.equals(name))
 		{
 			return CONTAINER_HEIGHT;
 		}
@@ -133,6 +133,6 @@ public enum StretchTypeEnum implements NamedEnum
 	}
 
 
-	public static final String RELATIVE_TO_TALLEST_OBJECT = "RelativeToTallestObject";
-	public static final String RELATIVE_TO_BAND_HEIGHT = "RelativeToBandHeight";
+	public static final String RELATIVE_TO_TALLEST_OBJECT_deprecated = "RelativeToTallestObject";
+	public static final String RELATIVE_TO_BAND_HEIGHT_deprecated = "RelativeToBandHeight";
 }

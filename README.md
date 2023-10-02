@@ -9,8 +9,8 @@
 
 ## JasperReports Library 7.0.0 Change Log
 - deprecated code removed;
-- deliberatly breaking backward compatibility of serialized/compiled *.jasper report template files, mostly because of historical 
-deprecated serialization code removal/cleanup mentioned above (source JRXML report templates need to be recompiled to *.jasper using the new version of the library);
+- deliberatly breaking backward compatibility of serialized/compiled `*.jasper` report template files, mostly because of historical 
+deprecated serialization code removal/cleanup mentioned above (source `*.jrxml` report templates need to be recompiled to `*.jasper` using the new version of the library);
 - backward compatibility of source JRXML report templates is still guaranteed, but the built-in JRXML writer does not write back to
 versions older than 5.5.2;
 

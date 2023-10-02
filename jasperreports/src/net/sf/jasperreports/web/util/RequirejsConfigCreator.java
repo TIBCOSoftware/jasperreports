@@ -77,14 +77,14 @@ public class RequirejsConfigCreator
 
 	protected void setModuleMappings(JasperReportsContext jrContext, String contextPath, ObjectNode configPaths)
 	{
-		WebUtil webUtil = WebUtil.getInstance(jrContext);
+		ResourcePathUtil resourcePathUtil = ResourcePathUtil.getInstance(jrContext);
 		List<RequirejsModuleMapping> requirejsMappings = jrContext.getExtensions(RequirejsModuleMapping.class);
 		for (RequirejsModuleMapping requirejsMapping : requirejsMappings)
 		{
 			String modulePath = requirejsMapping.getPath();
 			if (requirejsMapping.isClasspathResource())
 			{
-				modulePath = contextPath + webUtil.getResourcesBasePath() + modulePath;
+				modulePath = contextPath + resourcePathUtil.getResourcesBasePath() + modulePath;
 			}
 			configPaths.put(requirejsMapping.getName(), modulePath);
 		}

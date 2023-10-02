@@ -29,7 +29,7 @@
 <%@ page import="net.sf.jasperreports.engine.*" %>
 <%@ page import="net.sf.jasperreports.engine.util.*" %>
 <%@ page import="net.sf.jasperreports.engine.export.*" %>
-<%@ page import="net.sf.jasperreports.j2ee.servlets.*" %>
+<%@ page import="net.sf.jasperreports.jakarta.servlets.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 

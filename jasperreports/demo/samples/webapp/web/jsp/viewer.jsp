@@ -41,7 +41,7 @@
 <%@ page import="net.sf.jasperreports.export.SimpleHtmlExporterOutput" %>
 <%@ page import="net.sf.jasperreports.export.SimpleHtmlExporterConfiguration" %>
 <%@ page import="net.sf.jasperreports.export.SimpleHtmlReportConfiguration" %>
-<%@ page import="net.sf.jasperreports.j2ee.servlets.ImageServlet" %>
+<%@ page import="net.sf.jasperreports.jakarta.servlets.ImageServlet" %>
 <%@ page import="net.sf.jasperreports.web.util.WebHtmlResourceHandler" %>
 
 <%

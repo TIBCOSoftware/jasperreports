@@ -39,7 +39,7 @@
 <%@ page import="net.sf.jasperreports.engine.util.JRLoader" %>
 <%@ page import="net.sf.jasperreports.export.SimpleExporterInput" %>
 <%@ page import="net.sf.jasperreports.export.SimpleHtmlExporterOutput" %>
-<%@ page import="net.sf.jasperreports.j2ee.servlets.ImageServlet" %>
+<%@ page import="net.sf.jasperreports.jakarta.servlets.ImageServlet" %>
 <%@ page import="net.sf.jasperreports.web.util.WebHtmlResourceHandler" %>
 
 

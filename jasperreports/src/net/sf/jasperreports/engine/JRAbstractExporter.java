@@ -305,6 +305,24 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
+	/**
+	 *
+	 */
+	public RC getReportExportConfiguration()
+	{
+		return itemConfiguration;
+	}
+
+	
+	/**
+	 *
+	 */
+	public C getExporterConfiguration()
+	{
+		return exporterConfiguration;
+	}
+
+	
 	@Override
 	public void setConfiguration(RC configuration)
 	{

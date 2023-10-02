@@ -1071,13 +1071,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				case CONTAINER_HEIGHT :
 				case CONTAINER_BOTTOM :
 				{
-					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT;
+					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT_deprecated;
 					break;
 				}
 				case ELEMENT_GROUP_HEIGHT :
 				case ELEMENT_GROUP_BOTTOM :
 				{
-					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
+					stretchTypeStr = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT_deprecated;
 					break;
 				}
 				default :

@@ -17,7 +17,7 @@
 	</servlet>
 	<servlet>
 		<servlet-name>PdfServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.PdfServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.PdfServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>HtmlServlet</servlet-name>
@@ -25,23 +25,23 @@
 	</servlet>
 	<servlet>
 		<servlet-name>ImageServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.ImageServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>XlsServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.XlsServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.XlsServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>RtfServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.RtfServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.RtfServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>OdtServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.OdtServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.OdtServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>OdsServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.OdsServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.OdsServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>JasperPrintServlet</servlet-name>
@@ -49,15 +49,15 @@
 	</servlet>
 	<servlet>
 		<servlet-name>DocxServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.DocxServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.DocxServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>PptxServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.PptxServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.PptxServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>XlsxServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.XlsxServlet</servlet-class>
+		<servlet-class>net.sf.jasperreports.jakarta.servlets.XlsxServlet</servlet-class>
 	</servlet>
 	
 

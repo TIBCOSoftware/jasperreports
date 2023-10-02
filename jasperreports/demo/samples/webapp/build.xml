@@ -2,25 +2,22 @@
 
 	<description>Shows how reporting functionality could be added to a Web application.</description>
 
-	<path id="project-classpath">
-		<path refid="project-lib"/>
-		<pathelement location="../../../build/classes"/>
-	</path>
-	
-	<path id="sample-classpath">
-		<pathelement location="./build/jetty-base/webapps/jasper-webapp/WEB-INF/classes/"/>
-		<pathelement location="../../../ext/fonts"/>
-		<path refid="project-classpath"/>
-	</path>
-
-	<target name="prepare-compile-classpath">
-		<ant dir="../../../" target="compile"/>
-		<ivy:configure file="../../../ivysettings.xml" override="true"/>
-		<ivy:resolve file="../../../ivy.xml" log="download-only" conf="compile"/> 
-		<ivy:cachepath pathid="project-lib"/> 
-	</target>
+	<import file="../build-sample-classpath.xml"/>
 
 	<target name="javac" description="Compiles the java source files of the web application." depends="prepare-compile-classpath">
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/servlets/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
+				encoding="UTF-8" includeantruntime="false">
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+		<copy todir="./build/ext">
+			<fileset dir="../../../ext/servlets/src/main/resources">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
 		<mkdir dir="./build/jetty-base/webapps/jasper-webapp/WEB-INF/classes"/> 
 		<javac srcdir="./src/" destdir="./build/jetty-base/webapps/jasper-webapp/WEB-INF/classes/" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
@@ -72,6 +69,9 @@
 				<exclude name="jasperreports-javaflow-*.jar"/>
 			</fileset>
 		</copy>
+		<jar jarfile="./build/jetty-base/webapps/jasper-webapp/WEB-INF/lib/jasperreports-servlets.jar">
+			<fileset dir="./build/ext"/>
+		</jar>
 		<copy todir="./build/jetty-base/webapps/jasper-webapp/">
 			<fileset dir="./web"/>
 		</copy>
