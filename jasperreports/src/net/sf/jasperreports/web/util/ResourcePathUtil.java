@@ -23,12 +23,9 @@
  */
 package net.sf.jasperreports.web.util;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -36,32 +33,6 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public class ResourcePathUtil
 {
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_URI = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.uri";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REPORT_EXECUTION_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.execution.path";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REPORT_RESOURCES_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.resources.path";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_5_5_0,
-			valueType = Boolean.class
-			)
-	public static final String PROPERTY_EMBED_COMPONENT_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "web.embed.component.metadata.in.html.output";
-
 	public static final String EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET = "web.util.config.property.not.set";
 
 	protected JRPropertiesUtil propertiesUtil;
@@ -81,13 +52,13 @@ public class ResourcePathUtil
 	 */
 	public String getReportExecutionPath() 
 	{
-		String path = propertiesUtil.getProperty(PROPERTY_REPORT_EXECUTION_PATH);
+		String path = propertiesUtil.getProperty(WebConstants.PROPERTY_REPORT_EXECUTION_PATH);
 		if (path == null)
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET,
-					new Object[]{PROPERTY_REPORT_EXECUTION_PATH});
+					new Object[]{WebConstants.PROPERTY_REPORT_EXECUTION_PATH});
 		}
 		return path;
 	}
@@ -97,13 +68,13 @@ public class ResourcePathUtil
 	 */
 	public String getResourcesPath() 
 	{
-		String path = propertiesUtil.getProperty(PROPERTY_REPORT_RESOURCES_PATH);
+		String path = propertiesUtil.getProperty(WebConstants.PROPERTY_REPORT_RESOURCES_PATH);
 		if (path == null)
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET,
-					new Object[]{PROPERTY_REPORT_RESOURCES_PATH});
+					new Object[]{WebConstants.PROPERTY_REPORT_RESOURCES_PATH});
 		}
 		return path;
 	}
@@ -112,13 +83,13 @@ public class ResourcePathUtil
 	{
 		String resourcesBasePath = getResourcesPath();
 		
-		String resourceUriParamName = propertiesUtil.getProperty(PROPERTY_REQUEST_PARAMETER_RESOURCE_URI);
+		String resourceUriParamName = propertiesUtil.getProperty(WebConstants.PROPERTY_REQUEST_PARAMETER_RESOURCE_URI);
 
 		return resourcesBasePath + "?" + resourceUriParamName + "=";
 	}
 
 	public boolean isComponentMetadataEmbedded()
 	{
-		return Boolean.parseBoolean(propertiesUtil.getProperty(PROPERTY_EMBED_COMPONENT_METADATA));
+		return Boolean.parseBoolean(propertiesUtil.getProperty(WebConstants.PROPERTY_EMBED_COMPONENT_METADATA));
 	}
 }

@@ -27,12 +27,10 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.web.util.WebConstants;
 
 
 /**
@@ -40,37 +38,12 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public final class WebUtil
 {
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_URI = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.uri";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_LOCALE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.locale";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_BUNDLE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.bundle";
-	@Property(
-			category = PropertyConstants.CATEGORY_WEB_UTIL,
-			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_4_6_0
-			)
-	public static final String PROPERTY_REQUEST_PARAMETER_DYNAMIC_RESOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.dynamic.resource";
-
-	private JasperReportsContext jasperReportsContext;
+//	private JasperReportsContext jasperReportsContext;
 	private JRPropertiesUtil propertiesUtil;
 	
 	private WebUtil(JasperReportsContext jasperReportsContext) 
 	{
-		this.jasperReportsContext = jasperReportsContext;
+//		this.jasperReportsContext = jasperReportsContext;
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 	}
 	
@@ -81,26 +54,26 @@ public final class WebUtil
 	
 	public String getResourceUri(HttpServletRequest request) 
 	{
-		String resourceUriParamName = propertiesUtil.getProperty(PROPERTY_REQUEST_PARAMETER_RESOURCE_URI);
+		String resourceUriParamName = propertiesUtil.getProperty(WebConstants.PROPERTY_REQUEST_PARAMETER_RESOURCE_URI);
 		return request.getParameter(resourceUriParamName);
 	}
 
 	public Locale getResourceLocale(HttpServletRequest request) 
 	{
-		String resourceLocaleParamName = propertiesUtil.getProperty(PROPERTY_REQUEST_PARAMETER_RESOURCE_LOCALE);
+		String resourceLocaleParamName = propertiesUtil.getProperty(WebConstants.PROPERTY_REQUEST_PARAMETER_RESOURCE_LOCALE);
 		String localeCode = request.getParameter(resourceLocaleParamName);
 		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);
 	}
 
 	public String getResourceBundleForResource(HttpServletRequest request) 
 	{
-		String resourceBundleParamName = propertiesUtil.getProperty(PROPERTY_REQUEST_PARAMETER_RESOURCE_BUNDLE);
+		String resourceBundleParamName = propertiesUtil.getProperty(WebConstants.PROPERTY_REQUEST_PARAMETER_RESOURCE_BUNDLE);
 		return request.getParameter(resourceBundleParamName);
 	}
 
 	public boolean isDynamicResource(HttpServletRequest request) 
 	{
-		String dynamicResourceParamName = propertiesUtil.getProperty(PROPERTY_REQUEST_PARAMETER_DYNAMIC_RESOURCE);
+		String dynamicResourceParamName = propertiesUtil.getProperty(WebConstants.PROPERTY_REQUEST_PARAMETER_DYNAMIC_RESOURCE);
 		return Boolean.parseBoolean(request.getParameter(dynamicResourceParamName));
 	}
 }

@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.web.util;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -47,4 +52,49 @@ public interface WebConstants
 	 * Boolean property to control the setting of the response header Access-Control-Allow-Origin to *
 	 */
 	public static final String PROPERTY_ACCESS_CONTROL_ALLOW_ORIGIN = "net.sf.jasperreports.web.resource.cors.header.allow.origin.all";
+
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_URI = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.uri";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_LOCALE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.locale";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REQUEST_PARAMETER_RESOURCE_BUNDLE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.resource.bundle";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REQUEST_PARAMETER_DYNAMIC_RESOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "web.request.parameter.dynamic.resource";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REPORT_EXECUTION_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.execution.path";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
+	public static final String PROPERTY_REPORT_RESOURCES_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "web.report.resources.path";
+	@Property(
+			category = PropertyConstants.CATEGORY_WEB_UTIL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_5_5_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_EMBED_COMPONENT_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "web.embed.component.metadata.in.html.output";
+
 }
