@@ -23,30 +23,17 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.util.Map;
-
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
- * Java Persistence API query executer factory for EJBQL queries.
- * <p/>
- * The factory creates {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuter JRJpaQueryExecuter}
- * query executers. 
- * 
- * @author Marcel Overdijk (marceloverdijk@hotmail.com)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
+public interface EjbqlConstants
 {
-	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:EJBQL";
+	public static final String QUERY_EXECUTER_NAME_EJBQL = "net.sf.jasperreports.query.executer:EJBQL";
 
 	/**
 	 * EJBQL query language.
@@ -65,16 +52,6 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	public static final String PARAMETER_JPA_QUERY_HINTS_MAP = "JPA_QUERY_HINTS_MAP";	
 	
 	
-	private static final Object[] JPA_BUILTIN_PARAMETERS = {
-		PARAMETER_JPA_ENTITY_MANAGER,  "javax.persistence.EntityManager",
-		PARAMETER_JPA_QUERY_HINTS_MAP, "java.util.Map"
-	};	
-	
-	@Override
-	public Object[] getBuiltinParameters() {
-		return JPA_BUILTIN_PARAMETERS;
-	}
-
 	/**
 	 * Property specifying the number of result rows to be retrieved at once.
 	 * <p/>
@@ -85,7 +62,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_EJBQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_3,
 			valueType = Integer.class
 			)
@@ -98,32 +75,8 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			name = "net.sf.jasperreports.ejbql.query.hint.{hint}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET},
-			scopeQualifications = {QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_EJBQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_3
 			)
 	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
-	
-	@Override
-	public JRQueryExecuter createQueryExecuter(
-		JasperReportsContext jasperReportsContext,
-		JRDataset dataset, 
-		Map<String,? extends JRValueParameter> parameters
-		) throws JRException 
-	{
-		return new JRJpaQueryExecuter(jasperReportsContext, dataset, parameters);
-	}
-
-	/**
-	 * Returns <code>true</code> for all parameter types.
-	 */
-	@Override
-	public boolean supportsQueryParameterType(String className) {
-		return true;
-	}
-
-	@Override
-	public String getDesignation()
-	{
-		return QUERY_EXECUTER_NAME;
-	}
 }

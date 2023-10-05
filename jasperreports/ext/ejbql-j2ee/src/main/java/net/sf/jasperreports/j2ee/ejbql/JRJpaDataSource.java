@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.j2ee.ejbql;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +31,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
+import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 
 /**
  * Java Persistence API data source that uses <code>javax.persistence.Query.getResultList()</code>.
@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
  * </ul>
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_PAGE_SIZE
+ * @see net.sf.jasperreports.engine.query.EjbqlConstants#PROPERTY_JPA_QUERY_PAGE_SIZE
  */
 public class JRJpaDataSource extends JRAbstractBeanDataSource {
 	

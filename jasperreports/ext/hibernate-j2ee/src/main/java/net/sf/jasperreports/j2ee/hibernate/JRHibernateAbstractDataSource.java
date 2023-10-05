@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.j2ee.hibernate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
+import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 
 /**
  * Base abstract Hibernate data source.

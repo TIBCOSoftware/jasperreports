@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.EjbqlConstants;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -372,7 +372,7 @@ public class EjbqlApp extends AbstractSampleApp
 	 */
 	private static Map<String, Object> getParameters(EntityManager em) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
+		parameters.put(EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER, em);
 		parameters.put("ReportTitle", "JRMDb - The JasperReports Movie Database");
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(1990, 1, 1);

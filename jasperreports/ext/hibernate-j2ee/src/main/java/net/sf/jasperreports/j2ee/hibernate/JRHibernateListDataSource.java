@@ -21,13 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.j2ee.hibernate;
 
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
 
 /**
  * Hibernate data source that uses <code>org.hibernate.Query.list()</code>.
@@ -35,7 +34,7 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
  * The query result can be paginated by not retrieving all the rows at once.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
+ * @see net.sf.jasperreports.engine.query.HibernateConstants#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
  */
 public class JRHibernateListDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {

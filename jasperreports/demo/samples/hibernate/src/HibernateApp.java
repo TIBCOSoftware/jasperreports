@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.HibernateConstants;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -426,7 +426,7 @@ public class HibernateApp extends AbstractSampleApp
 	private static Map<String, Object> getParameters(Session session)
 	{
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
+		parameters.put(HibernateConstants.PARAMETER_HIBERNATE_SESSION, session);
 		parameters.put("ReportTitle", "Address Report");
 		List<String> cityFilter = new ArrayList<String>(3);
 		cityFilter.add("Boston");

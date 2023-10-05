@@ -23,30 +23,17 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.util.Map;
-
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
- * Query executer factory for HQL queries that uses Hibernate 3.
- * <p/>
- * The factory creates {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuter JRHibernateQueryExecuter}
- * query executers. 
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
+public interface HibernateConstants
 {
-	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:HQL";
+	public static final String QUERY_EXECUTER_NAME_HQL = "net.sf.jasperreports.query.executer:HQL";
 
 	/**
 	 * HQL query language.
@@ -65,7 +52,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 */
 	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
 	
-	private final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
+	public final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
 		//passing the parameter type as class name and not class in order to 
 		//avoid a dependency on Hibernate classes so that reports that have
 		//HQL queries would load even when Hibernate is not present
@@ -87,7 +74,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "list",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_HQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_0
 			)
 	public static final String PROPERTY_HIBERNATE_QUERY_RUN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.run.type";
@@ -103,7 +90,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_HQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)
@@ -114,13 +101,13 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 * <p/>
 	 * By default, the cache cleanup is not performed.
 	 * <p/>
-	 * @see net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
+	 * @see #PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_HQL},
 			sinceVersion = PropertyConstants.VERSION_1_3_1,
 			valueType = Boolean.class
 			)
@@ -134,7 +121,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME_HQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Boolean.class
 			)
@@ -157,40 +144,4 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 * corresponding to <em>scroll</em> execution type.
 	 */
 	public static final String VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL = "scroll";
-
-	
-	/**
-	 * Returns an array containing the {@link #PARAMETER_HIBERNATE_SESSION PARAMETER_HIBERNATE_SESSION} and
-	 * {@link #PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} parameters.
-	 */
-	@Override
-	public Object[] getBuiltinParameters()
-	{
-		return HIBERNATE_BUILTIN_PARAMETERS;
-	}
-
-	@Override
-	public JRQueryExecuter createQueryExecuter(
-		JasperReportsContext jasperReportsContext, 
-		JRDataset dataset, 
-		Map<String, ? extends JRValueParameter> parameters
-		) throws JRException
-	{
-		return new JRHibernateQueryExecuter(jasperReportsContext, dataset, parameters);
-	}
-
-	/**
-	 * Returns <code>true</code> for all parameter types.
-	 */
-	@Override
-	public boolean supportsQueryParameterType(String className)
-	{
-		return true;
-	}
-
-	@Override
-	public String getDesignation()
-	{
-		return QUERY_EXECUTER_NAME;
-	}
 }

@@ -9,7 +9,21 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="AddressesReport" />
 	
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/hibernate-j2ee/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
+				encoding="UTF-8" includeantruntime="false">
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+		<copy todir="./build/ext">
+			<fileset dir="../../../ext/hibernate-j2ee/src/main/resources">
+				<include name="**/*.properties"/>
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
 		<ant dir="../" target="javac"/>
 	</target>
 

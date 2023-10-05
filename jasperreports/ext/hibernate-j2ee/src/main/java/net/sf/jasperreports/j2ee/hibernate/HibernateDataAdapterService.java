@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.hibernate;
+package net.sf.jasperreports.j2ee.hibernate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,9 +34,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.HibernateConstants;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -109,7 +110,7 @@ public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapt
 								.getMethod("beginTransaction", new Class[] {})
 								.invoke(session, new Object[] {});
 						parameters
-								.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION,
+								.put(HibernateConstants.PARAMETER_HIBERNATE_SESSION,
 										session);
 					}
 				}

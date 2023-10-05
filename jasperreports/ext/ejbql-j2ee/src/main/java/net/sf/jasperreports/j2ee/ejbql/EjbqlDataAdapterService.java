@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.ejbql;
+package net.sf.jasperreports.j2ee.ejbql;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -32,9 +32,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.ejbql.EjbqlDataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.EjbqlConstants;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -74,7 +75,7 @@ public class EjbqlDataAdapterService extends AbstractDataAdapterService {
 						.invoke(emf, new Object[] {});
 
 				parameters.put(
-						JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER,
+						EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER,
 						em);
 			} catch (IllegalArgumentException | SecurityException | IllegalAccessException 
 					| InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {

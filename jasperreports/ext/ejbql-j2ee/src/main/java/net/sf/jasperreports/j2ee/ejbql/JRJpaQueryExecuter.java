@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.query;
+package net.sf.jasperreports.j2ee.ejbql;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,14 +44,15 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.JRJpaDataSource;
+import net.sf.jasperreports.engine.query.EjbqlConstants;
+import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * EJBQL query executer that uses the Java Persistence API.
  * <p/>
  * To use EJBQL in queries, an <code>javax.persistence.EntityManager</code> is needed.
- * When running or filling reports the <code>em</code> need to be supplied with the named parameter {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_ENTITY_MANAGER}.
+ * When running or filling reports the <code>em</code> need to be supplied with the named parameter {@link net.sf.jasperreports.engine.query.EjbqlConstants#PARAMETER_JPA_ENTITY_MANAGER}.
  * <p/>
  * Example:
  * <code>
@@ -63,7 +64,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * </pre>
  * </code>
  * <p/>
- * When dealing with large result sets, pagination can be used by setting the {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_PAGE_SIZE} property in the report template.
+ * When dealing with large result sets, pagination can be used by setting the {@link net.sf.jasperreports.engine.query.EjbqlConstants#PROPERTY_JPA_QUERY_PAGE_SIZE} property in the report template.
  * <p/>
  * Example:
  * <code>
@@ -73,7 +74,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * </code>
  * <p/>
  * Implementation-specific query hints can be set either using report properties in the report template,
- * or by supplying the named parameter {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_QUERY_HINTS_MAP}
+ * or by supplying the named parameter {@link net.sf.jasperreports.engine.query.EjbqlConstants#PARAMETER_JPA_QUERY_HINTS_MAP}
  * containing a <code>java.util.Map</code> with named/value query hints.
  * <p/>
  * Example using report property:
@@ -82,7 +83,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * &lt;property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="100"/&gt;
  * </pre>
  * </code>
- * The name of the query hint need to be prefixed with {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.}.
+ * The name of the query hint need to be prefixed with {@link net.sf.jasperreports.engine.query.EjbqlConstants#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.}.
  * Above example will set a query hint with the name <code>fetchSize</code> and the <code>String</code> value <code>100</code>.
  * <p/>
  * Example using map:
@@ -102,7 +103,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * When using a query hints map, any <code>Object</code> can be set as value.
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory
+ * @see JRJpaQueryExecuterFactory
  */
 public class JRJpaQueryExecuter extends JRAbstractQueryExecuter 
 {
@@ -127,7 +128,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		super(jasperReportsContext, dataset, parameters);
 		
-		em = (EntityManager)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER);
+		em = (EntityManager)getParameterValue(EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER);
 		reportMaxCount = (Integer)getParameterValue(JRParameter.REPORT_MAX_COUNT);
 
 		if (em == null) {
@@ -195,7 +196,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 
 		// Set query hints.
 		// First, set query hints supplied by the JPA_QUERY_HINTS_MAP parameter.
-		Map<String,Object> queryHintsMap = (Map<String,Object>)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_QUERY_HINTS_MAP);
+		Map<String,Object> queryHintsMap = (Map<String,Object>)getParameterValue(EjbqlConstants.PARAMETER_JPA_QUERY_HINTS_MAP);
 		if (queryHintsMap != null) {
 			for (Iterator<Map.Entry<String,Object>> i = queryHintsMap.entrySet().iterator(); i.hasNext(); ) {
 				Map.Entry<String,Object> pairs = i.next();
@@ -209,7 +210,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		// Example: net.sf.jasperreports.ejbql.query.hint.fetchSize
 		// This property will result in a query hint set with the name: fetchSize
 		List<PropertySuffix> properties = JRPropertiesUtil.getProperties(dataset, 
-				JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX);
+				EjbqlConstants.PROPERTY_JPA_QUERY_HINT_PREFIX);
 		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();) {
 			PropertySuffix property = it.next();
 			String queryHint = property.getSuffix();
@@ -233,7 +234,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		
 		try {
 			int pageSize = getPropertiesUtil().getIntegerProperty(dataset, 
-					JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_PAGE_SIZE,
+					EjbqlConstants.PROPERTY_JPA_QUERY_PAGE_SIZE,
 					0);
 
 			resDatasource = new JRJpaDataSource(this, pageSize);
@@ -242,7 +243,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,
-					new Object[]{JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_PAGE_SIZE},
+					new Object[]{EjbqlConstants.PROPERTY_JPA_QUERY_PAGE_SIZE},
 					e);
 		}
 		

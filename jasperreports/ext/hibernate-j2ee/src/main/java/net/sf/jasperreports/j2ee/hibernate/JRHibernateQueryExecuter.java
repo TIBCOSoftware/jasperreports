@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.query;
+package net.sf.jasperreports.j2ee.hibernate;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -49,9 +49,9 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
-import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
-import net.sf.jasperreports.engine.data.JRHibernateScrollDataSource;
+import net.sf.jasperreports.engine.query.HibernateConstants;
+import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
+import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
@@ -145,10 +145,10 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	{
 		super(jasperReportsContext, dataset, parameters);
 		
-		session = (Session) getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION);
+		session = (Session) getParameterValue(HibernateConstants.PARAMETER_HIBERNATE_SESSION);
 		reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
 		isClearCache = getPropertiesUtil().getBooleanProperty(dataset, 
-				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_CLEAR_CACHE,
+				HibernateConstants.PROPERTY_HIBERNATE_CLEAR_CACHE,
 				false);
 
 		if (session == null)
@@ -198,17 +198,17 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		JRDataSource resDatasource;
 		
 		String runType = getPropertiesUtil().getProperty(dataset, 
-				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
+				HibernateConstants.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
 		boolean useFieldDescriptions = getPropertiesUtil().getBooleanProperty(dataset, 
-				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS,
+				HibernateConstants.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS,
 				true);
 		
-		if (runType == null || runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST))
+		if (runType == null || runType.equals(HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST))
 		{
 			try
 			{
 				int pageSize = getPropertiesUtil().getIntegerProperty(dataset, 
-						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE,
+						HibernateConstants.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE,
 						0);
 
 				resDatasource = new JRHibernateListDataSource(this, useFieldDescriptions, pageSize);
@@ -218,15 +218,15 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,
-						new Object[]{JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE},
+						new Object[]{HibernateConstants.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE},
 						e);
 			}
 		}
-		else if (runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE))
+		else if (runType.equals(HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE))
 		{
 			resDatasource = new JRHibernateIterateDataSource(this, useFieldDescriptions);
 		}
-		else if (runType.equals(JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL))
+		else if (runType.equals(HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL))
 		{
 			resDatasource = new JRHibernateScrollDataSource(this, useFieldDescriptions);
 		}
@@ -236,10 +236,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNKNOWN_QUERY_RUN_TYPE,
 					new Object[]{
-						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE,
-						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST,
-						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE,
-						JRHibernateQueryExecuterFactory.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL});
+						HibernateConstants.PROPERTY_HIBERNATE_QUERY_RUN_TYPE,
+						HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_LIST,
+						HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_ITERATE,
+						HibernateConstants.VALUE_HIBERNATE_QUERY_RUN_TYPE_SCROLL}
+					);
 		}
 		
 		return resDatasource;
@@ -261,7 +262,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			log.debug("HQL query: " + queryString);
 		}
 		
-		Object filterCollection = getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_FILTER_COLLECTION);
+		Object filterCollection = getParameterValue(HibernateConstants.PARAMETER_HIBERNATE_FILTER_COLLECTION);
 		if (filterCollection == null)
 		{
 			query = session.createQuery(queryString);

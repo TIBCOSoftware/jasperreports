@@ -36,8 +36,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.EjbqlConstants;
+import net.sf.jasperreports.engine.query.HibernateConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -55,8 +55,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	@Property (
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
-			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME, 
-					JRJpaQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {HibernateConstants.QUERY_EXECUTER_NAME_HQL, EjbqlConstants.QUERY_EXECUTER_NAME_EJBQL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_JAVABEAN_FIELD_PROPERTY = JRPropertiesUtil.PROPERTY_PREFIX + "javabean.field.property";
@@ -74,7 +73,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	 */
 	protected PropertyNameProvider propertyNameProvider;
 
-	protected static class DefaultPropertyNameProvider implements PropertyNameProvider
+	public static class DefaultPropertyNameProvider implements PropertyNameProvider
 	{
 		private boolean isUseFieldDescription;
 		private Map<String, String> fieldPropertyNames = new HashMap<>();
@@ -131,7 +130,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	interface PropertyNameProvider
+	public interface PropertyNameProvider
 	{
 		public String getPropertyName(JRField field);
 	}
@@ -141,7 +140,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 		return getBeanProperty(bean, getPropertyName(field));
 	}
 	
-	protected static Object getBeanProperty(Object bean, String propertyName) throws JRException
+	public static Object getBeanProperty(Object bean, String propertyName) throws JRException
 	{
 		Object value = null;
 		

@@ -32,16 +32,10 @@ import net.sf.jasperreports.data.csv.CsvDataAdapter;
 import net.sf.jasperreports.data.csv.CsvDataAdapterService;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapter;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapterService;
-import net.sf.jasperreports.data.ejbql.EjbqlDataAdapter;
-import net.sf.jasperreports.data.ejbql.EjbqlDataAdapterService;
 import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
 import net.sf.jasperreports.data.excel.ExcelDataAdapter;
 import net.sf.jasperreports.data.excel.ExcelDataAdapterService;
-import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
-import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
-import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
-import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
@@ -156,18 +150,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		else if (dataAdapter instanceof JsonDataAdapter)
 		{
 			dataAdapterService = new JsonDataAdapterService(context, (JsonDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof HibernateDataAdapter)
-		{
-			dataAdapterService = new HibernateDataAdapterService(context, (HibernateDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof SpringHibernateDataAdapter)
-		{
-			dataAdapterService = new SpringHibernateDataAdapterService(context, (SpringHibernateDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof EjbqlDataAdapter)
-		{
-			dataAdapterService = new EjbqlDataAdapterService(context, (EjbqlDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof MondrianDataAdapter)
 		{

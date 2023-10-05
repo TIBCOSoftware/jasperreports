@@ -58,7 +58,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			scopeQualifications = {QUERY_EXECUTER_NAME, JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			scopeQualifications = {QUERY_EXECUTER_NAME, HibernateConstants.QUERY_EXECUTER_NAME_HQL},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)

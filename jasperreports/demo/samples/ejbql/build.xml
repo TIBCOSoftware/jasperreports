@@ -2,12 +2,28 @@
 
 	<description>Shows how EJBQL could be used in reports.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="ejbql"/>
 	<property name="sample.base.name" value="Ejbql" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="JRMDbReport" />
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
+		<mkdir dir="./build/ext"/> 
+		<javac srcdir="../../../ext/ejbql-j2ee/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
+				encoding="UTF-8" includeantruntime="false">
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+		<copy todir="./build/ext">
+			<fileset dir="../../../ext/ejbql-j2ee/src/main/resources">
+				<include name="**/*.properties"/>
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
 		<ant dir="../" target="javac"/>
 		<copy todir="./build" file="data/db.script"/>
 	</target>
@@ -52,7 +68,7 @@
 		<ant dir="../" target="rtf"/>
 	</target>
 
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file.">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<ant dir="../" target="xls"/>
 	</target>
 
@@ -64,7 +80,7 @@
 		<ant dir="../" target="odt"/>
 	</target>
 
-	<target name="ods" description="Generates an ODT version of the report by converting the .jrprint file.">
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
 		<ant dir="../" target="ods"/>
 	</target>
 

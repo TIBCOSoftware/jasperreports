@@ -21,45 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.j2ee.hibernate;
 
-import java.util.Iterator;
+import org.hibernate.ScrollableResults;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
 
 /**
- * Hibernate data source that uses <code>org.hibernate.Query.iterate()</code>.
+ * Hibernate data source that uses <code>org.hibernate.Query.scroll()</code>.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
+public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	private Iterator<?> iterator;
-	
-	public JRHibernateIterateDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
+	private ScrollableResults scrollableResults;
+
+	public JRHibernateScrollDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
-		super(queryExecuter, useFieldDescription, false);
-		
-		moveFirst();
+		super(queryExecuter, useFieldDescription, true);
+
+		scrollableResults = queryExecuter.scroll();
 	}
 
 	@Override
 	public boolean next() throws JRException
 	{
-		if (iterator != null && iterator.hasNext())
+		if (scrollableResults != null && scrollableResults.next())
 		{
-			setCurrentRowValue(iterator.next());
+			setCurrentRowValue(scrollableResults.get());
 			return true;
 		}
-
+		
 		return false;
 	}
 
 	@Override
 	public void moveFirst()
 	{
-		iterator = queryExecuter.iterate();
+		queryExecuter.closeScrollableResults();
+		scrollableResults = queryExecuter.scroll();
 	}
 }
