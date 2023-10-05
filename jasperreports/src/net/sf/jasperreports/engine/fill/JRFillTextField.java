@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.fill.events.TextFieldEvaluatedEvent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -985,6 +986,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			text.setHyperlinkReference(null);
 		}
 		transferProperties(text);
+
+		filler.getFillContext().getFillEvents().triggerEvent(TextFieldEvaluatedEvent.class, 
+				this::textEvaluatedEvent);
+	}
+
+	protected TextFieldEvaluatedEvent textEvaluatedEvent()
+	{
+		return new TextFieldEvaluatedEvent(filler, this, value);
 	}
 
 	@Override
