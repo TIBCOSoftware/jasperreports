@@ -455,10 +455,19 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(this);
+		return getHyperlinkTargetValue().getValue();
+	}
+		
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
 	}
 		
 	/**

@@ -23,15 +23,18 @@
  */
 package net.sf.jasperreports.data.excel;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
-import net.sf.jasperreports.engine.data.ExcelDataSource;
+import net.sf.jasperreports.engine.query.ExcelQueryExecuter;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.Pair;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -64,9 +67,9 @@ public class ExcelDataAdapterService extends AbstractXlsDataAdapterService
 
 			if (xlsDataAdapter.isQueryExecuterMode())
 			{	
-				if(format != null) 
+				if (format != null) 
 				{
-					parameters.put( ExcelQueryExecuterFactory.XLS_FORMAT, format);
+					parameters.put(ExcelQueryExecuterFactory.XLS_FORMAT, format);
 				}
 			}
 		}
@@ -75,21 +78,79 @@ public class ExcelDataAdapterService extends AbstractXlsDataAdapterService
 	@Override
 	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{
+		AbstractXlsDataSource dataSource = null;
+
 		ExcelDataAdapter excelDataAdapter = getExcelDataAdapter();
 		
-		AbstractXlsDataSource dataSource = null;
-		try
+		InputStream inputStream = dataStream;
+		ExcelFormatEnum format = excelDataAdapter.getFormat();
+		if (format == null || format == ExcelFormatEnum.AUTODETECT)
 		{
-			dataSource =
-				new ExcelDataSource(
-					dataStream,
-					excelDataAdapter.getFormat()
-					);
+			Pair<InputStream, ExcelFormatEnum> sniffResult = ExcelQueryExecuter.sniffExcelFormat(inputStream);
+			inputStream = sniffResult.first();
+			format = sniffResult.second();
 		}
-		catch (IOException e)
+		
+		switch (format)
 		{
-			throw new JRException(e);
+			case XLS :
+			{
+				dataSource =
+					ExcelQueryExecuter.createDataSource(
+						ExcelQueryExecuter.EXCEL_DATA_SOURCE_CLASS,
+						new Class<?>[]{InputStream.class, boolean.class, ExcelFormatEnum.class},
+						new Object[]{inputStream, false, format}
+						);
+				break;
+			}
+			case XLSX :
+			{
+				String dataSourceFactoryClassName = 
+					JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(
+						ExcelQueryExecuter.PROPERTY_XLSX_DATA_SOURCE_FACTORY, 
+						getParameterContributorContext().getDataset()
+						);
+				if (dataSourceFactoryClassName == null)
+				{
+					try
+					{
+						JRClassLoader.loadClassForName(ExcelQueryExecuter.FASTEXCEL_DATA_SOURCE_CLASS);
+						dataSource =
+							ExcelQueryExecuter.createDataSource(
+								ExcelQueryExecuter.FASTEXCEL_DATA_SOURCE_CLASS,
+								new Class<?>[]{InputStream.class, boolean.class},
+								new Object[]{inputStream, false}
+								);
+					}
+					catch (ClassNotFoundException e)
+					{
+						dataSource =
+							ExcelQueryExecuter.createDataSource(
+								ExcelQueryExecuter.EXCEL_DATA_SOURCE_CLASS,
+								new Class<?>[]{InputStream.class, boolean.class, ExcelFormatEnum.class},
+								new Object[]{inputStream, false, format}
+								);
+					}
+				}
+				else
+				{
+					dataSource =
+						ExcelQueryExecuter.createDataSource(
+							dataSourceFactoryClassName,
+							inputStream,
+							false
+							);
+				}
+				
+				break;
+			}
+			case AUTODETECT :
+			default:
+			{
+				// should never get here
+			}
 		}
+		
 		return dataSource;
 	}
 

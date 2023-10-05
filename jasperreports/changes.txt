@@ -2,6 +2,36 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.20.6 (2023-09-12)
+---------------------------------------------
+
+- optional style expression added to report elements in addition to their existing static style 
+reference property to allow for more flexible and dynamic styling scenarios;
+
+- new IS_EVEN_ROW and IS_EVEN_COLUMN boolean built-in variables available in crosstabs to help 
+with alternate row/column styling of crosstab cells;
+
+- new custom configuration property net.sf.jasperreports.export.pptx.frame.as.table added to 
+control the rendering of table components as true PowerPoint table structures in PPTX exports;
+
+- added new data source implementation based on the Fastexcel Reader library to allow loading of 
+larger XLSX files without using too much heap memory (compared to existing POI-based implementation);
+
+- new custom property net.sf.jasperreports.cut.text.max.height available for text field elements 
+to limit the maximum height to which they can stretch to accommodate their larger text content 
+when textAdjust attribute is set to CutText value;
+
+- improved caching for clipped images and SVG drawings in the PDF exporter to help create smaller 
+size PDF files;
+
+- new number rounding functions available in report expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.5 (2023-05-10)
 ---------------------------------------------
 

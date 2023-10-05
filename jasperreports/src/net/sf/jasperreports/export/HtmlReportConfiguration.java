@@ -227,7 +227,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_21_0,
+			sinceVersion = PropertyConstants.VERSION_6_20_7,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_INCLUDE_ELEMENT_UUID = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "include.element.uuid";
@@ -303,12 +303,6 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		)
 	@ExporterProperty(PROPERTY_SIZE_UNIT)
 	public HtmlSizeUnitEnum getSizeUnit();
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getBorderCollapseValue()}.
-	 */
-	public String getBorderCollapse();
 	
 	
 	/**

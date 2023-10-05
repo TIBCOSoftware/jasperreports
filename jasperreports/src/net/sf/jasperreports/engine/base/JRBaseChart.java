@@ -474,10 +474,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTarget(this);
+		return getHyperlinkTargetValue().getValue();
+	}
+		
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
 	}
 		
 	@Override

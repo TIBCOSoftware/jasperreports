@@ -704,6 +704,16 @@ String property specifying value of the time zone id to be used when parsing the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.xlsx.data.source.factory -->
+  
+  <configProperty name="net.sf.jasperreports.xlsx.data.source.factory">
+    <description>
+Property that specifies the name of class implementing the <api href="net/sf/jasperreports/engine/data/XlsxDataSourceFactory.html">XlsxDataSourceFactory</api> interface, which would be used to instantiate
+data source objects for reading Excel files of the XLSX format.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xml.source -->
   
   <configProperty name="net.sf.jasperreports.xml.source">
@@ -2107,6 +2117,16 @@ Property used to force the expanding text fields to occupy all remaining space a
     <description>
 Property used to specify the minimum amount when scaling down font size to adjust the content in text elements. 
 This works in conjunction with the <code>textAdjust</code> property of text elements which needs to be set to <code>ScaleFont</code> value.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.cut.text.max.height -->
+  
+  <configProperty name="net.sf.jasperreports.cut.text.max.height">
+    <description>
+Property used to specify the maximum height the text field element can stretch to before the text content gets cut. 
+This works in conjunction with the <code>textAdjust</code> property of text elements which needs to be set to <code>CutText</code> value.
     </description>
   </configProperty>
   
@@ -4908,6 +4928,18 @@ Property whose value is used as default for the
   </configProperty>
   
   
+  
+  <!-- net.sf.jasperreports.export.pptx.frame.as.table -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.frame.as.table">
+    <description>
+This property serves as default value for the <api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isFrameAsTable()">isFrameAsTable()</api> export configuration setting.
+<br/>
+Its default value is <code>false</code>.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">
@@ -6693,6 +6725,15 @@ Property whose value is used to check the availability of printers accepting job
   <configProperty name="net.sf.jasperreports.export.html.flush.output">
     <description>
 A boolean property that determines whether the HTML exporter should flush the output stream after writing the HTML content to it.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.bookmarks.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.bookmarks.enabled">
+    <description>
+Property that determines if the bookmarks are to be created or not in the resulting PDF document.
     </description>
   </configProperty>
   

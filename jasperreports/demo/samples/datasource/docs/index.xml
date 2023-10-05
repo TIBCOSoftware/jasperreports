@@ -121,7 +121,7 @@ is still supported, but is now discouraged, the above mentioned custom property 
  <dt><b>CSV</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api> class</dt>
   <dd>- Represents an implementation for data sources which retrieve their data from structured text files, usually CSVs. 
 Field values are retrieved using their column index.</dd>
- <dt><b>XLS</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRXlsDataSource.html">JRXlsDataSource</api> class</dt>
+ <dt><b>XLS/XLSX</b> data sources: the <api href="net/sf/jasperreports/engine/data/ExcelDataSource.html">ExcelDataSource</api> class</dt>
   <dd>- Represents an implementation for data sources which retrieve their data from Excel documents (workbooks). 
 Report-field mapping for this data source implementation is also based on the field column index.</dd>
  <dt><b>Empty</b> data sources: the <api href="net/sf/jasperreports/engine/data/JREmptyDataSource.html">JREmptyDataSource</api> class</dt>

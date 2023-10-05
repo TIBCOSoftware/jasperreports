@@ -42,6 +42,8 @@ public interface PdfImage
 
 	void scaleToFit(int width, int height);
 
+	void scalePercent(float percent);
+
 	void setRotationDegrees(int i);
 
 }

@@ -84,7 +84,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			try
 			{
 				imageData = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(JRImageLoader.PIXEL_IMAGE_RESOURCE);
-				imageMimeType = ImageTypeEnum.GIF.getMimeType();
+				imageMimeType = ImageTypeEnum.PNG.getMimeType();
 			}
 			catch (JRException e)
 			{
@@ -104,7 +104,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			}
 			
 			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
-					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+					JasperPrintAccessor.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
 			if (jasperPrintAccessor == null)
 			{
 				throw 

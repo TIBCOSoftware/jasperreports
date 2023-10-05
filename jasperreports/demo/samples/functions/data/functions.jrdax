@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+  <name>functions</name>
+  <dataFile type="repositoryDataLocation">
+    <location>/data/functions.csv</location>
+  </dataFile>
+  <encoding>UTF-8</encoding>
+  <recordDelimiter>
+</recordDelimiter>
+  <fieldDelimiter>,</fieldDelimiter>
+  <useFirstRowAsHeader>true</useFirstRowAsHeader>
+  <locale>en_RO</locale>
+  <timeZone>Europe/Bucharest</timeZone>
+  <queryExecuterMode>true</queryExecuterMode>
+  <columnNames>Category</columnNames>
+  <columnNames>Description</columnNames>
+  <columnNames>Expression</columnNames>
+  <columnNames>Result</columnNames>
+</csvDataAdapter>

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.compilers.ReportSourceCompilation;
-import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
@@ -97,43 +96,6 @@ public class JRSourceCompileTask
 				onlyDefaultEvaluation);
 	}
 	
-	/**
-	 * Creates source code generation information for a dataset of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param dataset the dataset
-	 * @param expressionCollector the expression collector used for the report
-	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, ReportSourceCompilation, boolean)}
-	 */
-	@Deprecated
-	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignDataset dataset, JRExpressionCollector expressionCollector, String unitName)
-	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(dataset), 
-				expressionCollector.getCollector(dataset).getCompiledExpressions(),
-				dataset.getParametersMap(), dataset.getFieldsMap(), dataset.getVariablesMap(), dataset.getVariables(),
-				false);
-	}
-	
-	
-	/**
-	 * Creates source code generation information for a crosstab of a report.
-	 * 
-	 * @param jasperDesign the report
-	 * @param crosstab the crosstab
-	 * @param expressionCollector the expression collector used for the report
-	 * @param unitName the unit name of the code to be generated
-	 * @deprecated in favor of {@link JRSourceCompileTask#JRSourceCompileTask(JasperDesign, String, JRExpressionCollector, ReportSourceCompilation, boolean)}
-	 */
-	@Deprecated
-	public JRSourceCompileTask(JasperDesign jasperDesign, JRDesignCrosstab crosstab, JRExpressionCollector expressionCollector, String unitName)
-	{
-		this(jasperDesign, unitName, expressionCollector.getCollector(crosstab), 
-				expressionCollector.getCollector(crosstab).getCompiledExpressions(),
-				crosstab.getParametersMap(), null, crosstab.getVariablesMap(), crosstab.getVariables(),
-				true);
-	}
-
 	private String computeCompileName()
 	{
 		StringBuilder sourceText = new StringBuilder();

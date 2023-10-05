@@ -66,6 +66,7 @@ public class PptxZip extends FileBufferedZip
 		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
 		addEntry("ppt/slideLayouts/slideLayout1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/slideLayout1.xml");
 		addEntry("ppt/theme/theme1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/theme/theme1.xml");
+		addEntry("ppt/tableStyles.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/tableStyles.xml");
 	}
 	
 	/**

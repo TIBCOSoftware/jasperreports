@@ -46,7 +46,9 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
@@ -310,8 +312,7 @@ public class FillTable extends SubreportFillComponent
 	{
 		JasperReport parentReport = fillContext.getFiller().getJasperReport();
 		JasperReport containingReport = containingReport(parentReport);
-		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), 
-				containingReport);
+		JRDataset reportSubdataset = JRReportUtils.findSubdataset(table.getDatasetRun(), (JRReport)containingReport);
 		
 //		BuiltinExpressionEvaluatorFactory builtinEvaluatorFactory = new BuiltinExpressionEvaluatorFactory();
 		
@@ -402,6 +403,11 @@ public class FillTable extends SubreportFillComponent
 			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
 			printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
 		}
+		
+		fillContext.getFiller().getPropertiesUtil().transferProperties(
+			fillContext.getComponentElement(), 
+			printFrame, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
+			);
 
 		return printFrame;
 	}

@@ -224,15 +224,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 		}
 		
-		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) {
-			Boolean markerClustering = map.getMarkerClustering();
-			if (markerClustering != null) {
-				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, markerClustering);
-			}
-			Boolean markerSpidering = map.getMarkerSpidering();
-			if (markerSpidering != null) {
-				writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerSpidering, markerSpidering);
-			}
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_20_1)) 
+		{
+			writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerClustering, map.getMarkerClustering(), false);
+			writer.addAttribute(MapXmlFactory.ATTRIBUTE_markerSpidering, map.getMarkerSpidering(), false);
 		}
 		
 		writer.writeExpression("latitudeExpression", 
@@ -281,6 +276,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				}
 			}
 		} else if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_5_5_2)) {
+			@SuppressWarnings("deprecation")
 			List<ItemData> markerDataList = map.getMarkerDataList();
 			if(markerDataList !=null && markerDataList.size() > 0) {
 				for(ItemData markerData : markerDataList) {
@@ -364,25 +360,10 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	{
 		writeItemDataContent(name, markerItemData, writer, reportWriter, namespace, componentElement);
 
-		JRExpression seriesNameExpression = markerItemData.getSeriesNameExpression();
-		if (seriesNameExpression != null) {
-			writeExpression(MapXmlFactory.ELEMENT_seriesNameExpression, namespace, markerItemData.getSeriesNameExpression(), false, componentElement, reportWriter);
-		}
-
-		JRExpression markerClusteringExpression = markerItemData.getMarkerClusteringExpression();
-		if (markerClusteringExpression != null) {
-			writeExpression(MapXmlFactory.ELEMENT_markerClusteringExpression, namespace, markerItemData.getMarkerClusteringExpression(), false, componentElement, reportWriter);
-		}
-
-		JRExpression markerSpideringExpression = markerItemData.getMarkerSpideringExpression();
-		if (markerSpideringExpression != null) {
-			writeExpression(MapXmlFactory.ELEMENT_markerSpideringExpression, namespace, markerItemData.getMarkerSpideringExpression(), false, componentElement, reportWriter);
-		}
-
-		JRExpression legendIconExpression = markerItemData.getLegendIconExpression();
-		if (legendIconExpression != null) {
-			writeExpression(MapXmlFactory.ELEMENT_legendIconExpression, namespace, markerItemData.getLegendIconExpression(), false, componentElement, reportWriter);
-		}
+		writeExpression(MapXmlFactory.ELEMENT_seriesNameExpression, namespace, markerItemData.getSeriesNameExpression(), false, componentElement, reportWriter);
+		writeExpression(MapXmlFactory.ELEMENT_markerClusteringExpression, namespace, markerItemData.getMarkerClusteringExpression(), false, componentElement, reportWriter);
+		writeExpression(MapXmlFactory.ELEMENT_markerSpideringExpression, namespace, markerItemData.getMarkerSpideringExpression(), false, componentElement, reportWriter);
+		writeExpression(MapXmlFactory.ELEMENT_legendIconExpression, namespace, markerItemData.getLegendIconExpression(), false, componentElement, reportWriter);
 	}
 	
 	private void writeItem(Item item, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException

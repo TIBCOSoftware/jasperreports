@@ -89,14 +89,12 @@ import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
-import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
-import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 
 
@@ -686,29 +684,6 @@ public class JRExpressionCollector
 		return new ArrayList<>(generatedIds.expressions());
 	}
 
-
-	/**
-	 * Returns the list of expressions that should be compiled.
-	 *
-	 * @return the list of expressions that should be compiled
-	 * @see #getExpressions()
-	 * @see JRExpression#getType()
-	 * @deprecated {@link JRAbstractCompiler} internally filters expressions to be compiled
-	 */
-	@Deprecated
-	public List<JRExpression> getCompiledExpressions()
-	{
-		List<JRExpression> expressions = generatedIds.expressions();
-		List<JRExpression> compiledExpressions = new ArrayList<>(expressions.size());
-		for (JRExpression expression : expressions)
-		{
-			if (expression.getType() != ExpressionTypeEnum.SIMPLE_TEXT)
-			{
-				compiledExpressions.add(expression);
-			}
-		}
-		return compiledExpressions;
-	}
 
 	/**
 	 * Return all the expressions collected from the report.

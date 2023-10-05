@@ -98,6 +98,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -113,10 +114,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.NamedChartCustomizer;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.base.JRBaseChart;
-import net.sf.jasperreports.engine.fill.JRFillChart.FillChartContext;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -621,10 +621,19 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart)parent).getHyperlinkTypeValue();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return ((JRChart)parent).getHyperlinkTarget();
+		return getHyperlinkTargetValue().getValue();
+	}
+
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return ((JRChart)parent).getHyperlinkTargetValue();
 	}
 
 	@Override

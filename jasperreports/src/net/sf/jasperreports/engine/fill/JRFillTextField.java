@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.fill.events.TextFieldEvaluatedEvent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -294,10 +295,19 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return ((JRTextField)parent).getHyperlinkTypeValue();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
 	@Override
 	public byte getHyperlinkTarget()
 	{
-		return ((JRTextField)parent).getHyperlinkTarget();
+		return getHyperlinkTargetValue().getValue();
+	}
+		
+	@Override
+	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	{
+		return ((JRTextField)parent).getHyperlinkTargetValue();
 	}
 		
 	@Override
@@ -809,7 +819,21 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// the text field is not allowed to stretch downwards in order to
 							// display all its content
 
-							chopTextElement(0);
+							int cutTextMaxHeight = cutTextMaxHeight();
+							if (cutTextMaxHeight == 0)
+							{
+								chopTextElement(0);
+							}
+							else
+							{
+								chopTextElement(
+									Math.max(
+										Math.min(cutTextMaxHeight, availableHeight - getRelativeY() - getHeight()),
+										getHeight()
+										)
+									- getHeight()
+									);
+							}
 						}
 					}
 					else

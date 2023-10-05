@@ -31,6 +31,7 @@ package net.sf.jasperreports.export;
 public class SimplePdfReportConfiguration extends SimpleReportExportConfiguration implements PdfReportConfiguration
 {
 	private Boolean isForceSvgShapes;
+	private Boolean isBookmarksEnabled;
 	private Boolean isCollapseMissingBookmarkLevels;
 	private Boolean isSizePageToContent;
 	private Boolean isIgnoreHyperlink;
@@ -60,6 +61,20 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 	public void setForceSvgShapes(Boolean isForceSvgShapes)
 	{
 		this.isForceSvgShapes = isForceSvgShapes;
+	}
+	
+	@Override
+	public Boolean isBookmarksEnabled()
+	{
+		return isBookmarksEnabled;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBookmarksEnabled(Boolean isBookmarksEnabled)
+	{
+		this.isBookmarksEnabled = isBookmarksEnabled;
 	}
 	
 	@Override

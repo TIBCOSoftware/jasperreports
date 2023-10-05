@@ -62,11 +62,6 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 
 	public static final String GET_COLLECTED = "getCollectedParameterNames()";
 	
-	/**
-	 * @deprecated use {@link JRClauseTokens#CLAUSE_ID_POSITION} or {@link JRClauseTokens#getClauseId()} instead.
-	 */
-	protected static final int CLAUSE_POSITION_ID = JRClauseTokens.CLAUSE_ID_POSITION;
-
 	protected class VisitExceptionWrapper extends RuntimeException
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

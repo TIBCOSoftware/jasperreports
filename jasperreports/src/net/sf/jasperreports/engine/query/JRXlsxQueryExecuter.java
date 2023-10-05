@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.data.JRXlsxDataSource;
  * XLS query executer implementation.
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @deprecated Replaced by {@link ExcelQueryExecuter}.
  */
 public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter 
 {
@@ -76,7 +77,6 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 	@Override
 	public JRDataSource createDatasource() throws JRException {
 		try {
-			@SuppressWarnings("deprecation")
 			Workbook workbook = (Workbook) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK);
 			if (workbook == null)
 			{
@@ -85,7 +85,6 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 			if (workbook != null) {
 				datasource = new JRXlsxDataSource(workbook);
 			} else {
-				@SuppressWarnings("deprecation")
 				InputStream xlsxInputStream = (InputStream) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_INPUT_STREAM);
 				if (xlsxInputStream == null)
 				{
@@ -94,7 +93,6 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 				if (xlsxInputStream != null) {
 					datasource = new JRXlsxDataSource(xlsxInputStream);
 				} else {
-					@SuppressWarnings("deprecation")
 					File xlsxFile = (File) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_FILE);
 					if (xlsxFile == null)
 					{
@@ -103,7 +101,6 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 					if (xlsxFile != null) {
 						datasource = new JRXlsxDataSource(xlsxFile);
 					} else {
-						@SuppressWarnings("deprecation")
 						String xlsxSource = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_SOURCE);
 						if (xlsxSource == null)
 						{

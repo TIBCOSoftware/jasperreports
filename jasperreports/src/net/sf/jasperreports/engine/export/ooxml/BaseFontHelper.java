@@ -119,7 +119,7 @@ public abstract class BaseFontHelper extends BaseHelper
 
 		if (rIdf == null)
 		{
-			rIdf = "rIdf" + new Integer(fontPaths.size() + 1);
+			rIdf = "rIdf" + Integer.valueOf(fontPaths.size() + 1);
 			fontPaths.put(fontPath, rIdf);
 		}
 		

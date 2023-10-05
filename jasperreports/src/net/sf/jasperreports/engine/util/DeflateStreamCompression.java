@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 /**
@@ -45,9 +43,7 @@ public class DeflateStreamCompression implements StreamCompression
 	@Override
 	public OutputStream compressedOutput(OutputStream stream)
 	{
-		Deflater deflater = new Deflater(deflaterLevel);
-		DeflaterOutputStream deflaterStream = new DeflaterOutputStream(stream, deflater);
-		return deflaterStream;
+		return new DeflaterLevelOutputStream(stream, deflaterLevel);
 	}
 
 	@Override

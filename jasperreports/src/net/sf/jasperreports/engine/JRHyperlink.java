@@ -215,6 +215,12 @@ public interface JRHyperlink extends JRCloneable
 
 
 	/**
+	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
+	 */
+	public byte getHyperlinkTarget();
+
+
+	/**
 	 * Retrieves the hyperlink target for the element.
 	 * <p>
 	 * The actual hyperlink target is determined by {@link #getLinkTarget() getLinkTarget()}.
@@ -225,9 +231,9 @@ public interface JRHyperlink extends JRCloneable
 	 * @return one of the hyperlink target constants
 	 * @see #getLinkTarget()
 	 */
-	public byte getHyperlinkTarget();
+	public HyperlinkTargetEnum getHyperlinkTargetValue();
 
-
+	
 	/**
 	 * Returns the expression whose value represents the hyperlink reference. It is only used when the hyperlink type is
 	 * reference or anchor

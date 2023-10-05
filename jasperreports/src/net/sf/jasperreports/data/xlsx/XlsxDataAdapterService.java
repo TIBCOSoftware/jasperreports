@@ -23,17 +23,19 @@
  */
 package net.sf.jasperreports.data.xlsx;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
-import net.sf.jasperreports.engine.data.JRXlsxDataSource;
+import net.sf.jasperreports.engine.query.ExcelQueryExecuter;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
@@ -64,7 +66,7 @@ public class XlsxDataAdapterService extends AbstractXlsDataAdapterService
 		{
 			if (xlsDataAdapter.isQueryExecuterMode())
 			{	
-				parameters.put( ExcelQueryExecuterFactory.XLS_FORMAT, ExcelFormatEnum.XLSX);//add this just for the sake of ExcelQueryExecuter, which is called when queryMode=true
+				parameters.put(ExcelQueryExecuterFactory.XLS_FORMAT, ExcelFormatEnum.XLSX);//add this just for the sake of ExcelQueryExecuter, which is called when queryMode=true
 			}
 		}
 	}
@@ -73,14 +75,44 @@ public class XlsxDataAdapterService extends AbstractXlsDataAdapterService
 	protected AbstractXlsDataSource getXlsDataSource() throws JRException
 	{
 		AbstractXlsDataSource dataSource = null;
-		try
+
+		String dataSourceFactoryClassName = 
+			JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(
+				ExcelQueryExecuter.PROPERTY_XLSX_DATA_SOURCE_FACTORY, 
+				getParameterContributorContext().getDataset()
+				);
+		if (dataSourceFactoryClassName == null)
 		{
-			dataSource = new JRXlsxDataSource(dataStream);
+			try
+			{
+				JRClassLoader.loadClassForName(ExcelQueryExecuter.FASTEXCEL_DATA_SOURCE_CLASS);
+				dataSource =
+					ExcelQueryExecuter.createDataSource(
+						ExcelQueryExecuter.FASTEXCEL_DATA_SOURCE_CLASS,
+						new Class<?>[]{InputStream.class, boolean.class},
+						new Object[]{dataStream, false}
+						);
+			}
+			catch (ClassNotFoundException e)
+			{
+				dataSource =
+					ExcelQueryExecuter.createDataSource(
+						ExcelQueryExecuter.EXCEL_DATA_SOURCE_CLASS,
+						new Class<?>[]{InputStream.class, boolean.class, ExcelFormatEnum.class},
+						new Object[]{dataStream, false, ExcelFormatEnum.XLSX}
+						);
+			}
 		}
-		catch (IOException e)
+		else
 		{
-			throw new JRException(e);
+			dataSource =
+				ExcelQueryExecuter.createDataSource(
+					dataSourceFactoryClassName,
+					dataStream,
+					false
+					);
 		}
+
 		return dataSource;
 	}
 	

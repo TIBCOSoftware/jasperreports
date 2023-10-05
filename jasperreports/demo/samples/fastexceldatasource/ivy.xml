@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
+	</info>
+	<dependencies>
+		<dependency org="com.fasterxml" name="aalto-xml" rev="1.3.2" conf="test->*"/>
+		<dependency org="org.apache.commons" name="commons-compress" rev="1.21" conf="test->*"/>
+		<dependency org="org.dhatim" name="fastexcel-reader" rev="0.15.6"/>
+	</dependencies>
+</ivy-module>

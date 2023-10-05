@@ -23,8 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
 import org.xml.sax.Attributes;
+
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -32,6 +33,6 @@ import org.xml.sax.Attributes;
 public class MarkerItemDataXmlFactory extends JRBaseFactory  {
     @Override
     public Object createObject(Attributes attributes) throws Exception {
-        return new MarkerStandardItemData();
+        return new StandardMarkerItemData();
     }
 }

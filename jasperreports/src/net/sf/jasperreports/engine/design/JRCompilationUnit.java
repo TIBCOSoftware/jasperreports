@@ -25,11 +25,9 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.compilers.DirectExpressionEvaluation;
-import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * Expression evaluator compilation unit used by report compilers.
@@ -54,13 +52,6 @@ public class JRCompilationUnit
 	 */
 	private File sourceFile;
 	
-	/**
-	 * The list of expressions.
-	 * @deprecated in favor of {@link JRSourceCompileTask#getExpressions()}
-	 */
-	@Deprecated
-	private List<JRExpression> expressions;
-
 	private JRSourceCompileTask compileTask;
 
 	/**
@@ -72,27 +63,7 @@ public class JRCompilationUnit
 	
 	/**
 	 * Creates a compilation unit.
-	 * 
-	 * @param name the name of the unit
-	 * @param sourceCode the source code generated for the unit
-	 * @param sourceFile the file where the source code was saved
-	 * @param expressions the list of expressions
-	 * @param compileTask the compile task for the unit
-	 * @deprecated in favor of {@link JRCompilationUnit#JRCompilationUnit(String)} and
-	 * {@link JRCompilationUnit#setSource(JRCompilationSourceCode, File, JRSourceCompileTask)}.
-	 * Expressions are available via {@link JRSourceCompileTask#getExpressions()}
 	 */
-	@Deprecated
-	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
-			List<JRExpression> expressions, JRSourceCompileTask compileTask)
-	{
-		this.name = name;
-		this.source = sourceCode;
-		this.sourceFile = sourceFile;
-		this.expressions = expressions;
-		this.compileTask = compileTask;
-	}
-
 	public JRCompilationUnit(String name)
 	{
 		this.name = name;
@@ -141,18 +112,6 @@ public class JRCompilationUnit
 	public File getSourceFile()
 	{
 		return sourceFile;
-	}
-	
-	
-	/**
-	 * Returns the list of expressions.
-	 * @return the list of expressions
-	 * @deprecated in favor of {@link JRSourceCompileTask#getExpressions()}
-	 */
-	@Deprecated
-	public List<JRExpression> getExpressions()
-	{
-		return expressions;
 	}
 	
 	

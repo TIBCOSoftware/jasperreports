@@ -14,84 +14,8 @@
 <html>
 <head>
 <title>JasperReports <xsl:value-of select="$version"/> - Configuration Reference</title>
+<link rel="stylesheet" href="resources/stylesheet.css"/>
 <style type="text/css">
-.title {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 28px;
-	font-weight: normal;
-}
-
-.toc {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.name {
-	font-family: Courier New, Courier, serif;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.label {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	font-style: italic;
-	padding-right:8px;
-}
-
-.description {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.value {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.element {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.attribute {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: bold;
-}
-
-.copy {
-	font-decoration: none;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 8pt;
-	font-style: normal;
-	color: #000000;
-}
-
-.note {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-style: italic;
-	color: #990000;
-}
-
-.text {
-	font-size: 12px;
-}
-
-.bold {
-	font-weight: bold;
-}
-
-.code {
-  	font-family: Courier New, Courier, serif;
-	font-size: 13px;
-}
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -114,9 +38,10 @@ ga('send', 'pageview');
     <td colspan="2" align="right">
 <span class="element"><xsl:element name="a">
 <xsl:attribute name="href">JasperReports-Ultimate-Guide-3.pdf</xsl:attribute>JasperReports Ultimate Guide</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">sample.reference.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>

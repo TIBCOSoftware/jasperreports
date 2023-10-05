@@ -14,86 +14,8 @@
 <html>
 <head>
 <title>JasperReports <xsl:value-of select="$version"/> - Schema Reference</title>
+<link rel="stylesheet" href="resources/stylesheet.css"/>
 <style type="text/css">
-.title {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 28px;
-	font-weight: normal;
-}
-
-.toc {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.name {
-	font-family: Courier New, Courier, serif;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.category {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px;
-	font-weight: bold;
-	font-style: italic;
-}
-
-.label {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	font-style: italic;
-}
-
-.description {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.value {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.element {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-.attribute {
-	font-family: Courier New, Courier, serif;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #000000;
-}
-
-.copy {
-	font-decoration: none;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 8pt;
-	font-style: normal;
-	color: #000000;
-}
-
-.indent {
-    margin-left: 20px;
-} 
-
-.code {
-  	font-family: Courier New, Courier, serif;
-	font-size: 13px;
-}
-
-.bold {
-	font-weight: bold;
-}
-
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -116,9 +38,10 @@ ga('send', 'pageview');
     <td colspan="2" align="right">
 <span class="element"><xsl:element name="a">
 <xsl:attribute name="href">JasperReports-Ultimate-Guide-3.pdf</xsl:attribute>JasperReports Ultimate Guide</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">sample.reference.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
@@ -196,7 +119,7 @@ ga('send', 'pageview');
     </xsl:choose>
     </span>
     <br/>
-    <xsl:if test="position() mod 60 = 0">
+    <xsl:if test="position() mod 50 = 0">
 	  <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
 	</xsl:if>
   </xsl:for-each>
@@ -206,6 +129,13 @@ ga('send', 'pageview');
 
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td style="width: 20px;"><br/></td>
+    <td><br/></td>
+  </tr>
   <tr>
     <td colspan="5">
       <span class="category"><br/>1. Named Enumeration Types</span>
@@ -226,8 +156,7 @@ ga('send', 'pageview');
     <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
   </tr>
   <tr>
-    <td style="width: 20px;"></td>
-    <td style="width: 20px;"></td>
+    <td colspan="2"/>
     <td colspan="3"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
   <tr valign="top">
@@ -236,8 +165,7 @@ ga('send', 'pageview');
     <td colspan="3"/>
   </tr>
   <tr valign="top">
-  	<td style="width: 20px;"/>
-  	<td style="width: 20px;"/>
+  	<td colspan="2"/>
     <td colspan="3"><table width="100%" cellspacing="0" cellpadding="0" border="0">
     <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
     </table>
@@ -257,22 +185,22 @@ ga('send', 'pageview');
     <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><hr size="1"/></td>
   </tr>
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><span class="name"><xsl:value-of select="@name"/></span></td>
   </tr>
   <xsl:if test="@abstract">
   <tr>
-  	<td></td>
+  	<td style="width: 20px;"></td>
     <td colspan="4"><span class="description"> - abstract type</span></td>
   </tr>
   </xsl:if>
   <xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation != ''">
   <tr>
-    <td></td>
+    <td style="width: 20px;"></td>
     <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
   </tr>
   </xsl:if>

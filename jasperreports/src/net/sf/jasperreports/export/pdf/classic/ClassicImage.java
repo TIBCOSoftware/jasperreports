@@ -83,6 +83,12 @@ public class ClassicImage implements PdfImage
 	}
 
 	@Override
+	public void scalePercent(float percent)
+	{
+		image.scalePercent(percent);
+	}
+
+	@Override
 	public void setRotationDegrees(int degrees)
 	{
 		image.setRotationDegrees(degrees);
