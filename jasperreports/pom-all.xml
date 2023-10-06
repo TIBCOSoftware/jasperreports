@@ -28,6 +28,7 @@
 		<module>ext/xalan</module>
 		<module>ext/servlets</module>
 		<module>ext/servlets-j2ee</module>
+		<module>ext/ejbql</module>
 		<module>ext/ejbql-j2ee</module>
 		<module>ext/hibernate-j2ee</module>
 	</modules>

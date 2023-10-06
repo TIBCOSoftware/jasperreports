@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRMDbCastSubreport" pageWidth="245" pageHeight="842" columnWidth="175" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="53617ea3-eaff-4bf5-9461-5f788e40c3f6">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="Cast" class="java.lang.Integer"/>
+	<field name="actor.name" class="java.lang.String"/>
+	<field name="character" class="java.lang.String"/>
+	<title>
+		<band height="14">
+			<staticText>
+				<reportElement style="Sans_Italic" x="0" y="2" width="240" height="10" uuid="b017bd55-895b-4eca-818e-58e62938c4a6"/>
+				<text><![CDATA[Cast (among others)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="14">
+			<rectangle>
+				<reportElement x="0" y="2" width="240" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF" uuid="6ef38fca-493b-47a4-bf40-4fb1bd90a865"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="2" width="120" height="10" backcolor="#CCFFFF" uuid="0d260621-e634-4646-aea0-9b679a2ffd07"/>
+				<text><![CDATA[Actor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="125" y="2" width="120" height="10" backcolor="#CCFFFF" uuid="6ec2bdc4-7776-442c-ad45-6a809eafb700"/>
+				<text><![CDATA[Character]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" x="0" y="2" width="120" height="10" uuid="dc3fd9b3-30e2-443b-b4d3-1ccffb2db230"/>
+				<textFieldExpression><![CDATA[$F{actor.name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" x="125" y="2" width="120" height="10" uuid="b51294d5-a0bd-4deb-9ff6-ebe17e86b076"/>
+				<textFieldExpression><![CDATA[$F{character}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

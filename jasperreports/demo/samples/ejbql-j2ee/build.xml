@@ -1,17 +1,17 @@
-<project name="ejbql" default="test" basedir=".">
+<project name="ejbql-j2ee" default="test" basedir=".">
 
 	<description>Shows how EJBQL could be used in reports.</description>
 
 	<import file="../build-sample-classpath.xml"/>
 
-	<property name="sample.dir" value="ejbql"/>
+	<property name="sample.dir" value="ejbql-j2ee"/>
 	<property name="sample.base.name" value="Ejbql" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="JRMDbReport" />
 
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/ext"/> 
-		<javac srcdir="../../../ext/ejbql/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
+		<javac srcdir="../../../ext/ejbql-j2ee/src/main/java" destdir="./build/ext" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
@@ -19,7 +19,7 @@
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/ext">
-			<fileset dir="../../../ext/ejbql/src/main/resources">
+			<fileset dir="../../../ext/ejbql-j2ee/src/main/resources">
 				<include name="**/*.properties"/>
 				<include name="**/*.xml"/>
 			</fileset>
