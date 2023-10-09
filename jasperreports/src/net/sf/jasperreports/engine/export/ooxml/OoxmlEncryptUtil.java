@@ -25,51 +25,41 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.poifs.crypt.EncryptionInfo;
-import org.apache.poi.poifs.crypt.EncryptionMode;
-import org.apache.poi.poifs.crypt.Encryptor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.zip.AbstractZip;
-import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public final class OoxmlEncryptUtil 
+public final class OoxmlEncryptUtil
 {
+	public static final String EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_POI = "missing.extension.poi";
+
 	/**
 	 *
 	 */
 	public static void zipEntries(AbstractZip zip, OutputStream os, String password) throws IOException
 	{
-		FileBufferedOutputStream fbos = new FileBufferedOutputStream();
-		zip.zipEntries(fbos);
-
-		try (POIFSFileSystem fs = new POIFSFileSystem()) 
+		try
 		{
-			EncryptionInfo info = new EncryptionInfo(EncryptionMode.agile);
-			Encryptor enc = info.getEncryptor();
-			enc.confirmPassword(password);
-
-			try (
-				OPCPackage opc = OPCPackage.open(fbos.getDataInputStream());
-				OutputStream eos = enc.getDataStream(fs)
-				)
-			{
-				opc.save(eos);
-			}
-			catch (InvalidFormatException | GeneralSecurityException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-
-			fs.writeFilesystem(os);
-		}			
+			Class clazz  = Class.forName("net.sf.jasperreports.poi.export.PoiEncryptUtil");
+			Method method = clazz.getMethod("zipEntries", AbstractZip.class, OutputStream.class, String.class);
+			method.invoke(method, zip, os, password);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_POI,  
+					(Object[])null 
+					);
+		}
+		catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 }

@@ -34,8 +34,6 @@ import net.sf.jasperreports.data.ds.DataSourceDataAdapter;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapterService;
 import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
-import net.sf.jasperreports.data.excel.ExcelDataAdapter;
-import net.sf.jasperreports.data.excel.ExcelDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterContributorFactory;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
@@ -51,10 +49,6 @@ import net.sf.jasperreports.data.qe.QueryExecuterDataAdapter;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapterService;
 import net.sf.jasperreports.data.random.RandomDataAdapter;
 import net.sf.jasperreports.data.random.RandomDataAdapterService;
-import net.sf.jasperreports.data.xls.XlsDataAdapter;
-import net.sf.jasperreports.data.xls.XlsDataAdapterService;
-import net.sf.jasperreports.data.xlsx.XlsxDataAdapter;
-import net.sf.jasperreports.data.xlsx.XlsxDataAdapterService;
 import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
@@ -127,22 +121,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		{
 			dataAdapterService = new QueryExecuterDataAdapterService(context, (QueryExecuterDataAdapter)dataAdapter);
 		}
-		
-		// these following three adapters must be kept in order of inheritance hierarchy
-		else if (dataAdapter instanceof ExcelDataAdapter)
-		{
-			dataAdapterService = new ExcelDataAdapterService(context, (ExcelDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof XlsxDataAdapter)
-		{
-			dataAdapterService = new XlsxDataAdapterService(context, (XlsxDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof XlsDataAdapter)
-		{
-			dataAdapterService = new XlsDataAdapterService(context, (XlsDataAdapter)dataAdapter);
-		}
-		// end excel
-
 		else if (dataAdapter instanceof XmlDataAdapter)
 		{
 			dataAdapterService = new XmlDataAdapterService(context, (XmlDataAdapter)dataAdapter);

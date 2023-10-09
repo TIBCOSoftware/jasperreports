@@ -50,8 +50,8 @@ public class SaveContributorUtils
 		"net.sf.jasperreports.view.save.JROdtSaveContributor",
 		"net.sf.jasperreports.view.save.JRDocxSaveContributor",
 		"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
-		"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
-		"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
+		"net.sf.jasperreports.poi.view.save.JRSingleSheetXlsSaveContributor",
+		"net.sf.jasperreports.poi.view.save.JRMultipleSheetsXlsSaveContributor",
 		"net.sf.jasperreports.view.save.JRCsvSaveContributor",
 		"net.sf.jasperreports.view.save.JRXmlSaveContributor",
 		"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor"

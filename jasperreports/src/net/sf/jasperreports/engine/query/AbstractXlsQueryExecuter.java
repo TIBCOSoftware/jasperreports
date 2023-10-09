@@ -91,7 +91,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			// build column names list
 			List<String> columnNamesList = null;
 			@SuppressWarnings("deprecation")
-			String columnNames = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES);
+			String columnNames = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_COLUMN_NAMES);
 			if (columnNames == null)
 			{
 				columnNames = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_COLUMN_NAMES);
@@ -102,7 +102,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				columnNamesList.add(columnNames);
 			} else {
 				@SuppressWarnings("deprecation")
-				String[] columnNamesArray = (String[]) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES_ARRAY, true);
+				String[] columnNamesArray = (String[]) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_COLUMN_NAMES_ARRAY, true);
 				if (columnNamesArray == null)
 				{
 					columnNamesArray = (String[]) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_NAMES_ARRAY, true);
@@ -111,7 +111,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 					columnNamesList = Arrays.asList(columnNamesArray);
 				} else {
 					@SuppressWarnings("deprecation")
-					String propertiesPrefix = JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES;
+					String propertiesPrefix = AbstractXlsQueryExecuterFactory.XLSX_COLUMN_NAMES;
 					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) 
 					{
@@ -162,7 +162,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			// build column indexes list
 			List<Integer> columnIndexesList = null;
 			@SuppressWarnings("deprecation")
-			String columnIndexes = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES);
+			String columnIndexes = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_COLUMN_INDEXES);
 			if (columnIndexes == null)
 			{
 				columnIndexes = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_COLUMN_INDEXES);
@@ -175,7 +175,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				}
 			} else {
 				@SuppressWarnings("deprecation")
-				Integer[] columnIndexesArray = (Integer[]) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, true);
+				Integer[] columnIndexesArray = (Integer[]) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, true);
 				if (columnIndexesArray == null)
 				{
 					columnIndexesArray = (Integer[]) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_INDEXES_ARRAY, true);
@@ -184,7 +184,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 					columnIndexesList = Arrays.asList(columnIndexesArray);
 				} else {
 					@SuppressWarnings("deprecation")
-					String propertiesPrefix = JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES;
+					String propertiesPrefix = AbstractXlsQueryExecuterFactory.XLSX_COLUMN_INDEXES;
 					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) 
 					{
@@ -235,7 +235,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			
 			
 			@SuppressWarnings("deprecation")
-			DateFormat dateFormat = (DateFormat) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_DATE_FORMAT, true);
+			DateFormat dateFormat = (DateFormat) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_DATE_FORMAT, true);
 			if (dateFormat == null)
 			{
 				dateFormat = (DateFormat) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, true);
@@ -244,7 +244,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				datasource.setDateFormat(dateFormat);
 			} else {
 				@SuppressWarnings("deprecation")
-				String dateFormatPattern = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_DATE_PATTERN);
+				String dateFormatPattern = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_DATE_PATTERN);
 				if (dateFormatPattern == null)
 				{
 					dateFormatPattern = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_DATE_PATTERN);
@@ -255,7 +255,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			}
 			
 			@SuppressWarnings("deprecation")
-			NumberFormat numberFormat = (NumberFormat) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_NUMBER_FORMAT, true);
+			NumberFormat numberFormat = (NumberFormat) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_NUMBER_FORMAT, true);
 			if (numberFormat == null)
 			{
 				numberFormat = (NumberFormat) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, true);
@@ -264,7 +264,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				datasource.setNumberFormat(numberFormat);
 			} else {
 				@SuppressWarnings("deprecation")
-				String numberFormatPattern = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_NUMBER_PATTERN);
+				String numberFormatPattern = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_NUMBER_PATTERN);
 				if (numberFormatPattern == null)
 				{
 					numberFormatPattern = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_NUMBER_PATTERN);
@@ -275,7 +275,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			}
 
 			@SuppressWarnings("deprecation")
-			Boolean useFirstRowAsHeader = getBooleanParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_USE_FIRST_ROW_AS_HEADER);
+			Boolean useFirstRowAsHeader = getBooleanParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_USE_FIRST_ROW_AS_HEADER);
 			if (useFirstRowAsHeader == null)
 			{
 				useFirstRowAsHeader = getBooleanParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, false);
@@ -283,7 +283,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			datasource.setUseFirstRowAsHeader(useFirstRowAsHeader);
 			
 			@SuppressWarnings("deprecation")
-			Locale xlsLocale = (Locale) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_LOCALE, true);
+			Locale xlsLocale = (Locale) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_LOCALE, true);
 			if (xlsLocale == null)
 			{
 				xlsLocale = (Locale) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE, true);
@@ -292,7 +292,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				datasource.setLocale(xlsLocale);
 			} else {
 				@SuppressWarnings("deprecation")
-				String xlsLocaleCode = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_LOCALE_CODE);
+				String xlsLocaleCode = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_LOCALE_CODE);
 				if (xlsLocaleCode == null)
 				{
 					xlsLocaleCode = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_LOCALE_CODE);
@@ -308,7 +308,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 			}
 			
 			@SuppressWarnings("deprecation")
-			TimeZone xlsTimezone = (TimeZone) getParameterValue(JRXlsxQueryExecuterFactory.XLSX_TIMEZONE, true);
+			TimeZone xlsTimezone = (TimeZone) getParameterValue(AbstractXlsQueryExecuterFactory.XLSX_TIMEZONE, true);
 			if (xlsTimezone == null)
 			{
 				xlsTimezone = (TimeZone) getParameterValue(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE, true);
@@ -317,7 +317,7 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 				datasource.setTimeZone(xlsTimezone);
 			} else {
 				@SuppressWarnings("deprecation")
-				String xlsTimezoneId = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_TIMEZONE_ID);
+				String xlsTimezoneId = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLSX_TIMEZONE_ID);
 				if (xlsTimezoneId == null)
 				{
 					xlsTimezoneId = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_TIMEZONE_ID);

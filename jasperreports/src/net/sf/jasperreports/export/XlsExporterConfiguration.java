@@ -27,9 +27,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -38,10 +35,10 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * Interface containing settings used by the Excel exporters.
  *
- * @see JRXlsExporter
- * @see JRXlsxExporter
- * @see JROdsExporter
- * @see JRXlsMetadataExporter
+ * @see net.sf.jasperreports.poi.export.JRXlsExporter
+ * @see net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
+ * @see net.sf.jasperreports.engine.export.oasis.JROdsExporter
+ * @see net.sf.jasperreports.poi.export.JRXlsMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -193,7 +190,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
 	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 	 * <p>
-	 * This setting is used in the Excel exporter based on Apache POI APIs ({@link JRXlsExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * This setting is used in the Excel exporter based on Apache POI APIs ({@link net.sf.jasperreports.poi.export.JRXlsExporter}). There's no similar property for the {@link JRXlsxExporter}.
 	 * @see #PROPERTY_WORKBOOK_TEMPLATE
 	 */
 	@ExporterProperty(PROPERTY_WORKBOOK_TEMPLATE)

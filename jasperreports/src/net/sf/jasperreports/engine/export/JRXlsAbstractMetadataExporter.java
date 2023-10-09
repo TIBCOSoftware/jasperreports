@@ -73,9 +73,9 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	protected List<String> columnNames;
 	protected Map<String, Integer> columnNamesMap;
 	protected int rowIndex;
-	boolean hasDefinedColumns;
-	Map<String, Object> currentRow;	
-	Map<String, Object> repeatedValues;	
+	protected boolean hasDefinedColumns;
+	protected Map<String, Object> currentRow;	
+	protected Map<String, Object> repeatedValues;	
 
 	/**
 	 * @see #JRXlsAbstractMetadataExporter(JasperReportsContext)

@@ -23,13 +23,10 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
-
-
 /**
  * Interface containing settings used by the Excel metadata exporters.
  *
- * @see JRXlsMetadataExporter
+ * @see net.sf.jasperreports.engine.export.JRXlsAbstractMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */

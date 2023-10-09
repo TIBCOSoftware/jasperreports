@@ -26,7 +26,7 @@ package net.sf.jasperreports.j2ee.servlets;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

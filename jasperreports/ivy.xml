@@ -65,8 +65,6 @@
 		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="8.11.2"/>
 		<dependency org="org.apache.lucene" name="lucene-core" rev="8.11.2"/>
 		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="8.11.2"/>
-		<dependency org="org.apache.poi" name="poi-ooxml" rev="5.2.2"/>
-		<dependency org="org.apache.poi" name="poi" rev="5.2.2"/>
 		<dependency org="org.apache.velocity" name="velocity-engine-core" rev="2.3"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.17"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.17"/>

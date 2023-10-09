@@ -66,7 +66,7 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
  * <h3>Excel Exporters</h3>
  * For generating Excel files, there are currently two different exporter implementations
  * available in JasperReports. The first to appear was the
- * {@link net.sf.jasperreports.engine.export.JRXlsExporter} implementation, which
+ * {@link net.sf.jasperreports.poi.export.JRXlsExporter} implementation, which
  * uses the Apache POI library to export documents to the Microsoft Excel 2003 file format (XLS). 
  * <p/>
  * Later on, with the introduction of the Microsoft Excel 2007 file format (XLSX), a new

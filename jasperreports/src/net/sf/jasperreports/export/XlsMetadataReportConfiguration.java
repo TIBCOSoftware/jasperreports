@@ -26,7 +26,6 @@ package net.sf.jasperreports.export;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -34,7 +33,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * Interface containing settings used by the Excel metadata exporters.
  *
- * @see JRXlsMetadataExporter
+ * @see net.sf.jasperreports.engine.export.JRXlsAbstractMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */

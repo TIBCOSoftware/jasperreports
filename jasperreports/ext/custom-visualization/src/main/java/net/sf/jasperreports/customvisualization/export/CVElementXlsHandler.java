@@ -29,11 +29,11 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.GenericElementXlsHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterContext;
+import net.sf.jasperreports.poi.export.GenericElementXlsHandler;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporterContext;
 import net.sf.jasperreports.repo.RepositoryContext;
 
 /**

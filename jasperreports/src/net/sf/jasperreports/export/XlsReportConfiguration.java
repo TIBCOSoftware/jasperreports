@@ -35,10 +35,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
-import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
@@ -48,10 +44,10 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * Interface containing settings used by the Excel exporters.
  *
- * @see JRXlsExporter
- * @see JRXlsxExporter
- * @see JROdsExporter
- * @see JRXlsMetadataExporter
+ * @see net.sf.jasperreports.poi.export.JRXlsExporter
+ * @see net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
+ * @see net.sf.jasperreports.engine.export.oasis.JROdsExporter
+ * @see net.sf.jasperreports.poi.export.JRXlsMetadataExporter
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */

@@ -31,6 +31,7 @@
 		<module>ext/ejbql</module>
 		<module>ext/ejbql-j2ee</module>
 		<module>ext/hibernate-j2ee</module>
+		<module>ext/poi</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>
