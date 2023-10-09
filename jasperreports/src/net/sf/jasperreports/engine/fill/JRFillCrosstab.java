@@ -1928,23 +1928,35 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			if (rowIdx == -1)
 			{
 				rowCountVar.setValue(null);
-				evenRowVar.setValue(null);
+				if (evenRowVar != null)
+				{
+					evenRowVar.setValue(null);
+				}
 			}
 			else
 			{
 				rowCountVar.setValue(rowCount[rowIdx]);
-				evenRowVar.setValue(rowCount[rowIdx] % 2 == 0);
+				if (evenRowVar != null)
+				{
+					evenRowVar.setValue(rowCount[rowIdx] % 2 == 0);
+				}
 			}
 			
 			if (colIdx == -1)
 			{
 				colCountVar.setValue(null);
-				evenColVar.setValue(null);
+				if (evenColVar != null)
+				{
+					evenColVar.setValue(null);
+				}
 			}
 			else
 			{
 				colCountVar.setValue(columnCount[colIdx]);
-				evenColVar.setValue(columnCount[colIdx] % 2 == 0);
+				if (evenColVar != null)
+				{
+					evenColVar.setValue(columnCount[colIdx] % 2 == 0);
+				}
 			}
 			
 		}

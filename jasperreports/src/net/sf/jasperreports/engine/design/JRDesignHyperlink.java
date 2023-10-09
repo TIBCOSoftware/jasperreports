@@ -68,11 +68,11 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
 	
-	private List<JRHyperlinkParameter> hyperlinkParameters;
+	private List<JRHyperlinkParameter> hyperlinkParametersList;
 	
 	public JRDesignHyperlink()
 	{
-		hyperlinkParameters = new ArrayList<>();
+		hyperlinkParametersList = new ArrayList<>();
 	}
 
 	
@@ -96,7 +96,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * <li>{@link HyperlinkTargetEnum#SELF HyperlinkTargetEnum.SELF}</li>
 	 * <li>{@link HyperlinkTargetEnum#BLANK HyperlinkTargetEnum.BLANK}</li>
 	 * </ul>
-	 * @see #getHyperlinkTarget()
+	 * @see #getHyperlinkTargetValue()
 	 */
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
@@ -214,14 +214,14 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		JRHyperlinkParameter[] parameters;
-		if (hyperlinkParameters.isEmpty())
+		if (hyperlinkParametersList.isEmpty())
 		{
 			parameters = null;
 		}
 		else
 		{
-			parameters = new JRHyperlinkParameter[hyperlinkParameters.size()];
-			hyperlinkParameters.toArray(parameters);
+			parameters = new JRHyperlinkParameter[hyperlinkParametersList.size()];
+			hyperlinkParametersList.toArray(parameters);
 		}
 		return parameters;
 	}
@@ -234,7 +234,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
-		return hyperlinkParameters;
+		return hyperlinkParametersList;
 	}
 	
 	
@@ -245,9 +245,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void addHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
-		hyperlinkParameters.add(parameter);
+		hyperlinkParametersList.add(parameter);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
-				parameter, hyperlinkParameters.size() - 1);
+				parameter, hyperlinkParametersList.size() - 1);
 	}
 	
 
@@ -258,10 +258,10 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void removeHyperlinkParameter(JRHyperlinkParameter parameter)
 	{
-		int idx = hyperlinkParameters.indexOf(parameter);
+		int idx = hyperlinkParametersList.indexOf(parameter);
 		if (idx >= 0)
 		{
-			hyperlinkParameters.remove(idx);
+			hyperlinkParametersList.remove(idx);
 			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_HYPERLINK_PARAMETERS, 
 					parameter, idx);
 		}
@@ -279,7 +279,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParametersList.listIterator(); it.hasNext();)
 		{
 			JRHyperlinkParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
