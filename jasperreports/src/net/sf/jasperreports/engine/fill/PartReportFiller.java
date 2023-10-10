@@ -255,7 +255,7 @@ public class PartReportFiller extends BaseReportFiller
 */			
 			delayedActions.dispose();
 
-			fillingThread = null;
+			clearFillingThread();
 
 			//kill the subreport filler threads
 			//killSubfillerThreads();

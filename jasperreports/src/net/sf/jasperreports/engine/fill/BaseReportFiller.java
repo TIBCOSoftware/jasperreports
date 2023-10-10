@@ -117,6 +117,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	protected JasperPrint jasperPrint;
 	
 	protected Thread fillingThread;
+	private volatile boolean fillingThreadInterrupted;
 	
 	private boolean isInterrupted;
 	private boolean threadInterrupted;
@@ -812,9 +813,26 @@ public abstract class BaseReportFiller implements ReportFiller
 					log.debug("Fill " + fillerId + ": Interrupting thread " + t);
 				}
 
+				fillingThreadInterrupted = true;
 				t.interrupt();
 			}
 		}
+	}
+
+	protected void clearFillingThread()
+	{
+		if (fillingThreadInterrupted)
+		{
+			//we have previously interrupted the filling thread
+			//checking and clearing the interrupted status of the thread to make sure it doesn't stay on
+			boolean interrupted = Thread.interrupted();
+			if (interrupted && log.isDebugEnabled())
+			{
+				log.debug("filling thread interrupted status was on");
+			}
+		}
+
+		fillingThread = null;
 	}
 
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime,
