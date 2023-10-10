@@ -103,44 +103,7 @@
 		</jar>
 	</target>
 	
-	<target name="alljars" depends="jar, javaflow" description="Builds all JasperReports JAR files."/>
-
-	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
-		<ivy:cachepath pathid="project-lib" log="download-only" conf="javaflow"/> 
-		<taskdef name="javaflow" classname="net.sf.jasperreports.ant.JavaflowRewriteTask">
-			<classpath refid="project-classpath"/>
-		</taskdef>
-
-		<copy todir="./build/javaflow" overwrite="true">
-			<fileset dir="./build/classes"/>
-		</copy>
-
-		<replaceregexp
-			file="./build/javaflow/default.jasperreports.properties"
-			match="net.sf.jasperreports.subreport.runner.factory\=[\w\.]*"
-			replace="net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
-		</replaceregexp>
-
-		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm5">
-			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRHorizontalFiller.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRFillSubreport.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRSubreportRunnable.class"/>
-			<include name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner.class"/>
-			<include name="net/sf/jasperreports/engine/fill/FillerSubreportParent.class"/>
-		</javaflow>
-
-		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="build/classes/META-INF/MANIFEST.MF">
-			<fileset dir="./build/javaflow"/>
-			<fileset dir="./">
-				<include name="**/lgpl.txt"/>
-				<include name="**/license.txt"/>
-			</fileset>
-		</jar>
-	</target>
+	<target name="alljars" depends="jar" description="Builds all JasperReports JAR files."/>
 
 	<target name="clean" description="Deletes all build files.">
 		<delete dir="./build"/>
@@ -295,7 +258,7 @@
 	<target name="docs" depends="preparedocs, javadoc, schemaref, partschemaref, componentschemaref, configref, sampleref, functionref" description="Generates all documentation."/>
 
 	<target name="retrievelibs" description="Retrieve dependencies with Apache Ivy">
-		<ivy:retrieve conf="compile, javaflow, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>
+		<ivy:retrieve conf="compile, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>
 	</target>
 	
 	<target name="test" depends="compile" description="Compiles the test sources and runs the tests">
