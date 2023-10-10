@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.mondrian;
+package net.sf.jasperreports.olap;
 
 import java.io.PrintWriter;
 import java.sql.Connection;

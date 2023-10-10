@@ -142,52 +142,11 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>mondrian</groupId>
-			<artifactId>mondrian</artifactId>
-			<version>3.1.1.12687</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-			<!-- 
-			this exclusion is here because xerces would interfere with the tests
-			-->
-			<exclusions>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
 			<version>2.7.5</version>
 			<scope>compile</scope>
 			<optional>true</optional>
-		</dependency>
-		<!-- we need this dependency here because it was removed from Java 11 -->
-		<dependency>
-			<groupId>javax.xml.soap</groupId>
-			<artifactId>javax.xml.soap-api</artifactId>
-			<version>1.4.0</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.soap</groupId>
-			<artifactId>saaj-api</artifactId>
-			<version>1.3</version>
-			<scope>runtime</scope>
-			<optional>true</optional>
-			<!-- 
-			this exclusion is here because the activation 1.0.2 artifact seems to be faulty on public Maven repos;
-			see JAR file is missing here: https://repo.maven.apache.org/maven2/javax/activation/activation/1.0.2/
-			-->
-			<exclusions>
-				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>activation</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>
@@ -346,13 +305,6 @@
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
 			<version>8.11.2</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.olap4j</groupId>
-			<artifactId>olap4j</artifactId>
-			<version>0.9.7.309-JS-3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

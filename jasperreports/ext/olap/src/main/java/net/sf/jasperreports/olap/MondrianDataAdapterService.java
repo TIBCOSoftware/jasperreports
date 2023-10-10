@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.mondrian;
+package net.sf.jasperreports.olap;
 
 import java.util.Locale;
 import java.util.Map;
@@ -30,9 +30,9 @@ import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
 import mondrian.olap.Util;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
+import net.sf.jasperreports.data.mondrian.MondrianDataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

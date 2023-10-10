@@ -36,7 +36,6 @@
 		<!-- we need this dependency here because it was removed from Java 11 -->
 		<dependency org="javax.xml.soap" name="javax.xml.soap-api" rev="1.4.0"/>
 		<dependency org="jaxen" name="jaxen" rev="1.2.0"/>
-		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="7.0.0-SNAPSHOT" conf="annotations->*"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="7.0.0-SNAPSHOT" conf="compile,annotations->*"/>
@@ -89,7 +88,6 @@
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
 		<dependency org="org.kohsuke" name="groovy-sandbox" rev="1.26-jaspersoft-2"/>
 		<dependency org="org.mozilla" name="rhino" rev="1.7.14"/>
-		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
 		<dependency org="org.springframework" name="spring-beans" rev="5.3.27"/>

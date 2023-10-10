@@ -41,8 +41,6 @@ import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
 import net.sf.jasperreports.data.json.JsonDataAdapter;
 import net.sf.jasperreports.data.json.JsonDataAdapterService;
-import net.sf.jasperreports.data.mondrian.MondrianDataAdapter;
-import net.sf.jasperreports.data.mondrian.MondrianDataAdapterService;
 import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapter;
 import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapterService;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapter;
@@ -51,8 +49,6 @@ import net.sf.jasperreports.data.random.RandomDataAdapter;
 import net.sf.jasperreports.data.random.RandomDataAdapterService;
 import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
-import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
-import net.sf.jasperreports.data.xmla.XmlaDataAdapterService;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
@@ -128,14 +124,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		else if (dataAdapter instanceof JsonDataAdapter)
 		{
 			dataAdapterService = new JsonDataAdapterService(context, (JsonDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof MondrianDataAdapter)
-		{
-			dataAdapterService = new MondrianDataAdapterService(context, (MondrianDataAdapter)dataAdapter);
-		}
-		else if (dataAdapter instanceof XmlaDataAdapter)
-		{
-			dataAdapterService = new XmlaDataAdapterService(context, (XmlaDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof JdbcDataAdapter)
 		{
