@@ -67,6 +67,7 @@ public class XlsxContentTypesHelper extends BaseHelper
 		write("  <Default Extension=\"jpg\" ContentType=\"image/jpeg\"/>\n");
 		write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
 		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
+		write("  <Default Extension=\"webp\" ContentType=\"image/webp\"/>\n");
 		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
 		write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
 		write("  <Override PartName=\"/docProps/app.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\"/>\n");

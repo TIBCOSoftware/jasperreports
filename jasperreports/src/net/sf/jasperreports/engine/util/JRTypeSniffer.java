@@ -34,7 +34,7 @@ public final class JRTypeSniffer
 
 	/**
 	 * Sniffs an incoming byte array to see if the first 3 characters
-	 * are GIF. This is also known as the GIF signiture. See
+	 * are GIF. This is also known as the GIF signature. See
 	 * http://www.dcs.ed.ac.uk/home/mxr/gfx/2d/GIF87a.txt for more details
 	 * Note: Perhaps we should be checking for the more restive string GIF87a but
 	 *       I am not sure if older GIF images are sill out there in use on the web.
@@ -42,14 +42,16 @@ public final class JRTypeSniffer
 	 */
 	public static boolean isGIF(byte[] data) {
 		// chech if the image data length is less than 3 bytes
-		if(data.length < 3) {
+		if (data.length < 3) {
 			return false;
 		}
 		
-		// get the first three characters
-		byte[] first = new byte[3];
-		System.arraycopy(data, 0, first, 0, 3);
-		if((new String(first)).equalsIgnoreCase("GIF")){
+		if (
+			data[0] == 'G'
+			&& data[1] == 'I'
+			&& data[2] == 'F'
+			) 
+		{
 			return true;
 		}
 	
@@ -123,6 +125,37 @@ public final class JRTypeSniffer
 		
 		return false;
 	}
+	
+	/**
+	 * Sniffs an incoming byte array to see if the starting values are matching
+	 * the WEBP magic number.
+	 * See https://en.wikipedia.org/wiki/WebP for more details.
+	 * Note: This method only really needs the first 15 bytes.
+	 */
+	public static boolean isWEBP(byte[] data) {
+		if (data.length < 15) {
+			return false;
+		}
+		
+		if (
+			data[0] == 'R'
+			&& data[1] == 'I'
+			&& data[2] == 'F'
+			&& data[3] == 'F'
+			&& data[8] == 'W'
+			&& data[9] == 'E'
+			&& data[10] == 'B'
+			&& data[11] == 'P'
+			&& data[12] == 'V'
+			&& data[13] == 'P'
+			&& data[14] == '8'
+			) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * 
@@ -144,6 +177,10 @@ public final class JRTypeSniffer
 		else if (JRTypeSniffer.isTIFF(data)) 
 		{
 			return ImageTypeEnum.TIFF;
+		}
+		else if (JRTypeSniffer.isWEBP(data)) 
+		{
+			return ImageTypeEnum.WEBP;
 		}
 		
 		return ImageTypeEnum.UNKNOWN;
