@@ -13,17 +13,8 @@
 		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file." depends="prepare-compile-classpath">
-		<mkdir dir="build/reports"/> 
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="compile"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-		<copy todir="build/reports">
-			<fileset dir="reports">
-				<exclude name="**/*.jrxml"/>
-			</fileset>
-		</copy>
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">

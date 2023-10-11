@@ -52,7 +52,12 @@ public enum ImageTypeEnum implements NamedEnum
 	/**
 	 * Specifies that the image is of TIFF type.
 	 */ 
-	TIFF("TIFF", "image/tiff", "tiff");
+	TIFF("TIFF", "image/tiff", "tiff"),
+	
+	/**
+	 * Specifies that the image is of WEBP type.
+	 */ 
+	WEBP("WEBP", "image/webp", "webp");
 
 	/**
 	 *
