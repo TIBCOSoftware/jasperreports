@@ -398,6 +398,13 @@ public class JRResultSetDataSource implements JRDataSource
 				{
 					objValue = readBytes(columnIndex);
 				}
+				else if (clazz.equals(Object.class))
+				{
+					// there is no point in getting typed value when class is java.lang.Object;
+					// some drivers even fail trying to convert to java.lang.Object, if typed getObject(int, Class)
+					// getter is used as in the next else block
+					objValue = resultSet.getObject(columnIndex);
+				}
 				else
 				{
 					if (supportsTypedGetObjectMethod == null)
