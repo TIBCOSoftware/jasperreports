@@ -83,6 +83,7 @@
 		<skipDeploy>true</skipDeploy>
 		<scmConnection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</scmConnection>
 		<scmUrl>https://github.com/TIBCOSoftware/jasperreports</scmUrl>
+		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 	</properties>
 	<repositories>
 		<repository>
@@ -140,7 +141,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
+					<doCheck>${maven.buildNumber.doCheck}</doCheck>
 					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
