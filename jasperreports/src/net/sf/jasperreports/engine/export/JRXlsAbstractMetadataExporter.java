@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
@@ -182,10 +181,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.interrupted())
-						{
-							throw new ExportInterruptedException();
-						}
+						checkInterrupted();
 
 						JRPrintPage page = pages.get(pageIndex);
 
@@ -228,10 +224,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 					}
 					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.interrupted())
-						{
-							throw new ExportInterruptedException();
-						}
+						checkInterrupted();
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						exportPage(page);

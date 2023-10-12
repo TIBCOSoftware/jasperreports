@@ -443,10 +443,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					page = pages.get(pageIndex);
 
@@ -474,7 +471,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 		}
 	}
 
-	protected void exportPage(JRPrintPage page) throws IOException
+	protected void exportPage(JRPrintPage page) throws IOException, ExportInterruptedException
 	{
 		Collection<JRPrintElement> elements = page.getElements();
 
@@ -488,12 +485,13 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	}
 
 
-	protected void exportElements(Collection<JRPrintElement> elements) throws IOException
+	protected void exportElements(Collection<JRPrintElement> elements) throws IOException, ExportInterruptedException
 	{
 		if (elements != null && elements.size() > 0)
 		{
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
+				checkInterrupted();
 				JRPrintElement element = it.next();
 
 				if (filter == null || filter.isToExport(element))

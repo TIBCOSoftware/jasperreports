@@ -670,7 +670,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			
 			delayedActions.dispose();
 
-			fillingThread = null;
+			clearFillingThread();
 
 			//kill the subreport filler threads
 			abortSubfillers();
