@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.CompositeExporterConfigurationFactory;
+import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
@@ -402,6 +403,15 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	
 	@Override
 	public abstract void exportReport() throws JRException;
+	
+	protected void checkInterrupted() throws ExportInterruptedException
+	{
+		boolean interrupted = Thread.interrupted();
+		if (interrupted)
+		{
+			throw new ExportInterruptedException();
+		}
+	}
 
 
 	protected void setOffset()

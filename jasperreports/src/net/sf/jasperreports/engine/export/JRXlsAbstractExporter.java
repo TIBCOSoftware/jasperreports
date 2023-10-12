@@ -55,7 +55,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -488,10 +487,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				{
 					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.interrupted())
-						{
-							throw new ExportInterruptedException();
-						}
+						checkInterrupted();
 
 						JRPrintPage page = pages.get(pageIndex);
 						
@@ -523,10 +519,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						if (Thread.interrupted())
-						{
-							throw new ExportInterruptedException();
-						}
+						checkInterrupted();
 						JRPrintPage page = pages.get(pageIndex);
 						pageFormat = jasperPrint.getPageFormat(pageIndex);
 						startRow = exportPage(page, xCuts, startRow, jasperPrint.getName());//FIXMEPART

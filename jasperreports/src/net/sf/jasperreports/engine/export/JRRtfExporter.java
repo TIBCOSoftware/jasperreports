@@ -83,7 +83,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
@@ -297,11 +296,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 				for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++) 
 				{
-					if (Thread.interrupted())
-					{
-						throw 
-							new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					JRPrintPage page = pages.get(pageIndex);
 
@@ -1602,6 +1597,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	protected void exportElements(Collection<JRPrintElement> elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
 			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();) {
+				checkInterrupted();
 				JRPrintElement element = it.next();
 				if (filter == null || filter.isToExport(element)) {
 					if (element instanceof JRPrintLine) {

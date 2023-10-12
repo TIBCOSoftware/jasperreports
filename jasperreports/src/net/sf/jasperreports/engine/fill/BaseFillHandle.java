@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -45,7 +48,10 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public abstract class BaseFillHandle implements FillHandle
-{	
+{
+	
+	private static final Log log = LogFactory.getLog(BaseFillHandle.class);
+	
 	protected final JasperReportsContext jasperReportsContext;
 	protected final JasperReport jasperReport;
 	protected final Map<String,Object> parameters;
@@ -139,6 +145,11 @@ public abstract class BaseFillHandle implements FillHandle
 			}
 			catch (Throwable e) //NOPMD
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("fill error", e);
+				}
+				
 				synchronized (lock)
 				{
 					if (cancelled)

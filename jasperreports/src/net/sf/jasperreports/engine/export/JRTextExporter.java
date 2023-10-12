@@ -42,7 +42,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.TextExporterConfiguration;
 import net.sf.jasperreports.export.TextReportConfiguration;
@@ -320,10 +319,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 
 				for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					JRPrintPage page = pages.get(pageIndex);
 

@@ -93,7 +93,6 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XmlExporterOutput;
@@ -433,10 +432,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			JRPrintPage page = null;
 			for(int i = startPageIndex; i <= endPageIndex; i++)
 			{
-				if (Thread.interrupted())
-				{
-					throw new ExportInterruptedException();
-				}
+				checkInterrupted();
 				
 				page = pages.get(i);
 	
@@ -650,6 +646,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 	public void exportElement(JRPrintElement element) throws IOException, JRException
 	{
+		checkInterrupted();
 		if (filter == null || filter.isToExport(element))
 		{
 			if (element instanceof JRPrintLine)

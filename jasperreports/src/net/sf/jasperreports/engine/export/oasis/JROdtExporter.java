@@ -84,7 +84,6 @@ import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.ImageUtil.Insets;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OdtExporterConfiguration;
 import net.sf.jasperreports.export.OdtReportConfiguration;
@@ -377,10 +376,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
 					
