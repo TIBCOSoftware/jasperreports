@@ -34,9 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
@@ -51,8 +48,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public abstract class AbstractSampleApp
 {
-	private static final Log log = LogFactory.getLog(AbstractSampleApp.class);
-	
 	/**
 	 *
 	 */
@@ -196,26 +191,23 @@ public abstract class AbstractSampleApp
 			{
 				destFileParent.mkdirs();
 			}
+
+			System.out.println("Compiling " + files.length + " report design files."); // deliberately using System.out.println instead of logging in the sample apps
+
 			for (int i = 0; i < files.length; i++)
 			{
 				File srcFile = files[i];
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jrxml")) + ".jasper";
 
-				if (log.isInfoEnabled())
-				{
-					log.info("Compiling: " + srcFileName + " ... ");
-				}
+				System.out.println("Compiling: " + srcFileName + " ... ");
 
 				JasperCompileManager.compileReportToFile(
 					srcFile.getAbsolutePath(),
 					new File(destFileParent, destFileName).getAbsolutePath()
 					);
 
-				if (log.isInfoEnabled())
-				{
-					log.info("OK.");
-				}
+				System.out.print("OK.");
 			}
 		}
 	}
@@ -234,16 +226,16 @@ public abstract class AbstractSampleApp
 			{
 				destFileParent.mkdirs();
 			}
+
+			System.out.println("Decompiling " + files.length + " report design files.");
+
 			for (int i = 0; i < files.length; i++)
 			{
 				File srcFile = files[i];
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName + ".jrxml";
 
-				if (log.isInfoEnabled())
-				{
-					log.info("Decompiling: " + srcFileName + " ... ");
-				}
+				System.out.println("Decompiling: " + srcFileName + " ... ");
 
 				new JRXmlWriter(DefaultJasperReportsContext.getInstance()).write(
 					(JasperReport)JRLoader.loadObjectFromFile(srcFile.getAbsolutePath()), 
@@ -251,10 +243,7 @@ public abstract class AbstractSampleApp
 					"UTF-8"
 					);
 
-				if (log.isInfoEnabled())
-				{
-					log.info("OK.");
-				}
+				System.out.print("OK.");
 			}
 		}
 	}
@@ -273,16 +262,16 @@ public abstract class AbstractSampleApp
 			{
 				destFileParent.mkdirs();
 			}
+
+			System.out.println("Writing API for " + files.length + " report design files.");
+
 			for (int i = 0; i < files.length; i++)
 			{
 				File srcFile = files[i];
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper")) + ".java";
 
-				if (log.isInfoEnabled())
-				{
-					log.info("Writing API for: " + srcFileName + " ... ");
-				}
+				System.out.println("Writing API for: " + srcFileName + " ... ");
 
 				JRReport report = (JRReport)JRLoader.loadObjectFromFile(srcFile.getAbsolutePath());
 
@@ -291,10 +280,7 @@ public abstract class AbstractSampleApp
 					new File(destFileParent, destFileName).getAbsolutePath()
 					);
 				
-				if (log.isInfoEnabled())
-				{
-					log.info("OK.");
-				}
+				System.out.print("OK.");
 			}
 		}
 	}
@@ -314,12 +300,7 @@ public abstract class AbstractSampleApp
 				destFileParent.mkdirs();
 			}
 
-			boolean isError = false;
-			
-			if (log.isInfoEnabled())
-			{
-				log.info("Running " + files.length + " API report design files.");
-			}
+			System.out.println("Running " + files.length + " API report design files.");
 
 			for (int i = 0; i < files.length; i++)
 			{
@@ -328,10 +309,7 @@ public abstract class AbstractSampleApp
 				String srcClassName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper"));
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper")) + ".api.jrxml";
 
-				if (log.isInfoEnabled())
-				{
-					log.info("Running: " + srcFileName + " ... ");
-				}
+				System.out.println("Running: " + srcFileName + " ... ");
 
 				try
 				{
@@ -344,24 +322,12 @@ public abstract class AbstractSampleApp
 						"UTF-8"
 						);
 
-					if (log.isInfoEnabled())
-					{
-						log.info("OK.");
-					}
+					System.out.print("OK.");
 				}
-				catch (JRException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
+				catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
 				{
-					if (log.isErrorEnabled())
-					{
-						log.error("Error running API report design class : " + srcFileName, e);
-					}
-					isError = true;
+					throw new JRException(e);
 				}
-			}
-			
-			if (isError)
-			{
-				throw new JRException("Errors were encountered when running API report designs classes."); //FIXME7 i18n
 			}
 		}
 	}
