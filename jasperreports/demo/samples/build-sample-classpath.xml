@@ -12,6 +12,7 @@
 		<pathelement location="./build/components"/>
 		<pathelement location="./build/ext"/>
 		<pathelement location="../../../ext/fonts"/>
+		<pathelement location="../../common-samples/classes"/>
 		<path refid="project-classpath"/>
 	</path>
 

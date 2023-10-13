@@ -200,15 +200,19 @@ public abstract class AbstractSampleApp
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jrxml")) + ".jasper";
 
-				System.out.println("Compiling: " + srcFileName + " ... ");
+				System.out.print("Compiling: " + srcFileName + " ... ");
 
 				JasperCompileManager.compileReportToFile(
 					srcFile.getAbsolutePath(),
 					new File(destFileParent, destFileName).getAbsolutePath()
 					);
 
-				System.out.print("OK.");
+				System.out.println("OK.");
 			}
+		}
+		else
+		{
+			System.out.println("No report design files found to compile.");
 		}
 	}
 
@@ -235,7 +239,7 @@ public abstract class AbstractSampleApp
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName + ".jrxml";
 
-				System.out.println("Decompiling: " + srcFileName + " ... ");
+				System.out.print("Decompiling: " + srcFileName + " ... ");
 
 				new JRXmlWriter(DefaultJasperReportsContext.getInstance()).write(
 					(JasperReport)JRLoader.loadObjectFromFile(srcFile.getAbsolutePath()), 
@@ -243,8 +247,12 @@ public abstract class AbstractSampleApp
 					"UTF-8"
 					);
 
-				System.out.print("OK.");
+				System.out.println("OK.");
 			}
+		}
+		else
+		{
+			System.out.println("No report design files found to decompile.");
 		}
 	}
 
@@ -271,7 +279,7 @@ public abstract class AbstractSampleApp
 				String srcFileName = srcFile.getName();
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper")) + ".java";
 
-				System.out.println("Writing API for: " + srcFileName + " ... ");
+				System.out.print("Writing API for: " + srcFileName + " ... ");
 
 				JRReport report = (JRReport)JRLoader.loadObjectFromFile(srcFile.getAbsolutePath());
 
@@ -280,8 +288,12 @@ public abstract class AbstractSampleApp
 					new File(destFileParent, destFileName).getAbsolutePath()
 					);
 				
-				System.out.print("OK.");
+				System.out.println("OK.");
 			}
+		}
+		else
+		{
+			System.out.println("No report design files found to write API for.");
 		}
 	}
 
@@ -309,7 +321,7 @@ public abstract class AbstractSampleApp
 				String srcClassName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper"));
 				String destFileName = srcFileName.substring(0, srcFileName.lastIndexOf(".jasper")) + ".api.jrxml";
 
-				System.out.println("Running: " + srcFileName + " ... ");
+				System.out.print("Running: " + srcFileName + " ... ");
 
 				try
 				{
@@ -322,13 +334,17 @@ public abstract class AbstractSampleApp
 						"UTF-8"
 						);
 
-					System.out.print("OK.");
+					System.out.println("OK.");
 				}
 				catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
 				{
 					throw new JRException(e);
 				}
 			}
+		}
+		else
+		{
+			System.out.println("No API report design files found to run.");
 		}
 	}
 }
