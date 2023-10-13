@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.swing;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -39,10 +41,15 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.PrintParts;
+import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.PartsUtil;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.renderers.RenderersCache;
+import net.sf.jasperreports.repo.FileRepositoryPersistenceServiceFactory;
+import net.sf.jasperreports.repo.FileRepositoryService;
+import net.sf.jasperreports.repo.PersistenceServiceFactory;
+import net.sf.jasperreports.repo.RepositoryService;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -55,6 +62,7 @@ public class JRViewerController
 	protected static final int TYPE_INPUT_STREAM = 2;
 	protected static final int TYPE_OBJECT = 3;
 	
+	private JasperReportsContext initialJasperReportsContext;
 	private JasperReportsContext jasperReportsContext;
 	private ResourceBundle resourceBundle;
 	private Locale locale;
@@ -89,6 +97,7 @@ public class JRViewerController
 		ResourceBundle resBundle
 		)
 	{
+		this.initialJasperReportsContext = jasperReportsContext;
 		this.jasperReportsContext = jasperReportsContext;
 		
 		if (locale != null)
@@ -154,6 +163,23 @@ public class JRViewerController
 		type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
+
+		SimpleJasperReportsContext localJasperReportsContext = new SimpleJasperReportsContext(initialJasperReportsContext);
+		localJasperReportsContext.setExtensions(
+			RepositoryService.class, 
+			Arrays.asList(
+				new FileRepositoryService(
+					localJasperReportsContext, 
+					new File(fileName).getParentFile().getAbsolutePath(), true)
+				)
+			);
+		localJasperReportsContext.setExtensions(
+			PersistenceServiceFactory.class, 
+			Arrays.asList(
+				FileRepositoryPersistenceServiceFactory.getInstance()
+				)
+			);
+		jasperReportsContext = localJasperReportsContext;
 
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);
