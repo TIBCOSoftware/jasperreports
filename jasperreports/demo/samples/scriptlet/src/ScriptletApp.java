@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -50,6 +49,7 @@ import net.sf.jasperreports.export.SimpleRtfReportConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -71,6 +71,8 @@ public class ScriptletApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException 
 	{
+		System.out.println("Working Directory = " + System.getProperty("user.dir"));
+		compile();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -97,7 +99,7 @@ public class ScriptletApp extends AbstractSampleApp
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ReportTitle", "Address Report");
 		
-		JasperFillManager.fillReportToFile("build/reports/ScriptletReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperFillManager.fillReportToFile("target/reports/ScriptletReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -108,7 +110,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/ScriptletReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/ScriptletReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -119,7 +121,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/ScriptletReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/ScriptletReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -130,7 +132,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/ScriptletReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/ScriptletReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -141,7 +143,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/ScriptletReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/ScriptletReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -152,7 +154,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -178,7 +180,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -205,7 +207,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -231,7 +233,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -257,7 +259,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -284,7 +286,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -310,7 +312,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -337,7 +339,7 @@ public class ScriptletApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
+		File sourceFile = new File("target/reports/ScriptletReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

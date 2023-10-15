@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../../pom-parent.xml</relativePath>
+	</parent>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-samples</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>accessible</module>
+		<module>alterdesign</module>
+		<module>barbecue</module>
+		<module>barcode4j</module>
+		<module>chartcustomizers</module>
+		<module>charts</module>
+		<module>chartthemes</module>
+		<module>jasper</module>
+		<module>query</module>
+		<module>scriptlet</module>
+	</modules>
+	<properties>
+		<skipInstall>true</skipInstall>
+		<skipDeploy>true</skipDeploy>
+		<enforcer.skip>true</enforcer.skip>
+		<maven.buildNumber.phase>none</maven.buildNumber.phase>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<!-- 
+					This execution is placed here so that when exec:exec@all is called to run all the sample modules,
+					the current parent project does not actually do anything, and does not crash either.
+					 -->
+					<execution>
+						<id>all</id>
+						<configuration>
+							<executable>java</executable>
+							<skip>true</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

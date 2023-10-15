@@ -41,8 +41,6 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -61,6 +59,8 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsMetadataExporter;
 
 
 /**
@@ -82,6 +82,7 @@ public class AccessibleApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -129,7 +130,7 @@ public class AccessibleApp extends AbstractSampleApp
 		parameters.put("MaxOrderID", 10500);
 		parameters.put("SummaryImage", image);
 		
-		JasperFillManager.fillReportToFile("build/reports/AccessibleReport.jasper", parameters);
+		JasperFillManager.fillReportToFile("target/reports/AccessibleReport.jasper", parameters);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -140,7 +141,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/AccessibleReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/AccessibleReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -151,7 +152,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/AccessibleReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/AccessibleReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -169,7 +170,7 @@ public class AccessibleApp extends AbstractSampleApp
 			JRPdfExporter exporter = new JRPdfExporter();
 			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 			
-			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/AccessibleReport.jrprint"));
+			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("target/reports/AccessibleReport.jrprint"));
 			
 			// Exclude transparent images when exporting to PDF; elements marked with the key 'TransparentImage'
 			// will be excluded from the exported PDF
@@ -190,7 +191,7 @@ public class AccessibleApp extends AbstractSampleApp
 			exporter.setConfiguration(configuration);
 			exporter.exportReport();
 
-			FileOutputStream fos = new FileOutputStream("build/reports/AccessibleReport_pdfa.pdf");
+			FileOutputStream fos = new FileOutputStream("target/reports/AccessibleReport_pdfa.pdf");
 			os.writeTo(fos);
 			fos.close();
 		}catch(Exception e){
@@ -207,7 +208,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/AccessibleReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/AccessibleReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -218,7 +219,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/AccessibleReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/AccessibleReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -229,7 +230,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/AccessibleReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/AccessibleReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -240,7 +241,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -263,7 +264,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		
@@ -294,7 +295,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xlsMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -325,7 +326,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void jsonMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -348,7 +349,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -371,7 +372,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void csvMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -394,7 +395,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -417,7 +418,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -440,7 +441,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -463,7 +464,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -493,7 +494,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void xlsxMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -524,7 +525,7 @@ public class AccessibleApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/AccessibleReport.jrprint");
+		File sourceFile = new File("target/reports/AccessibleReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -565,7 +566,7 @@ public class AccessibleApp extends AbstractSampleApp
 		parameters.put("MaxOrderID", 10500);
 		parameters.put("SummaryImage", image);
 		
-		JasperRunManager.runReportToPdfFile("build/reports/AccessibleReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperRunManager.runReportToPdfFile("target/reports/AccessibleReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("PDF running time : " + (System.currentTimeMillis() - start));
 	}
 
