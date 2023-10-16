@@ -26,7 +26,6 @@ package net.sf.jasperreports.components;
 import java.io.IOException;
 import java.util.List;
 
-import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeXmlWriter;
 import net.sf.jasperreports.components.items.Item;
@@ -57,7 +56,6 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementDataset;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
@@ -96,10 +94,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		else if (component instanceof TableComponent)
 		{
 			writeTable(componentElement, reportWriter);
-		}
-		else if (component instanceof BarbecueComponent)
-		{
-			writeBarbecue(componentElement, reportWriter);
 		}
 		else if (component instanceof BarcodeComponent)
 		{
@@ -152,40 +146,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		writer.addAttribute("width", contents.getWidth());
 		reportWriter.writeChildElements(contents);
 		writer.closeElement();
-		
-		writer.closeElement();
-	}
-
-	protected void writeBarbecue(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
-	{
-		Component component = componentElement.getComponent();
-		BarbecueComponent barcode = (BarbecueComponent) component;
-		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-		ComponentKey componentKey = componentElement.getComponentKey();
-		
-		XmlNamespace namespace = new XmlNamespace(
-				ComponentsExtensionsRegistryFactory.NAMESPACE, 
-				componentKey.getNamespacePrefix(),
-				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
-		
-		writer.startElement("barbecue", namespace);
-		
-		writer.addAttribute("type", barcode.getType());
-		writer.addAttribute("drawText", barcode.isDrawText());
-		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
-		writer.addAttribute("barWidth", barcode.getBarWidth());
-		writer.addAttribute("barHeight", barcode.getBarHeight());
-		writer.addAttribute("rotation", barcode.getOwnRotation());
-		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
-		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
-					barcode.getEvaluationTimeValue());
-		}
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
-				barcode.getEvaluationGroup());
-
-		writeExpression("codeExpression", barcode.getCodeExpression(), false, componentElement, reportWriter);
-		writeExpression("applicationIdentifierExpression", barcode.getApplicationIdentifierExpression(), false, componentElement, reportWriter);
 		
 		writer.closeElement();
 	}

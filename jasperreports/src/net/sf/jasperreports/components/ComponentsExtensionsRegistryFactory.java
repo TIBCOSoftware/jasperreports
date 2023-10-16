@@ -28,12 +28,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.jasperreports.components.barbecue.BarbecueCompiler;
-import net.sf.jasperreports.components.barbecue.BarbecueDesignConverter;
-import net.sf.jasperreports.components.barbecue.BarbecueFillFactory;
-import net.sf.jasperreports.components.barcode4j.BarcodeCompiler;
-import net.sf.jasperreports.components.barcode4j.BarcodeDesignConverter;
-import net.sf.jasperreports.components.barcode4j.BarcodeFillFactory;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentCompiler;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentDesignConverter;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentFillFactory;
@@ -124,23 +118,6 @@ public class ComponentsExtensionsRegistryFactory implements
 		//tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
 		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
-		
-		ComponentsManager barbecueManager = new ComponentsManager();
-		barbecueManager.setDesignConverter(new BarbecueDesignConverter());
-		barbecueManager.setComponentCompiler(new BarbecueCompiler());
-		//barbecueManager.setComponentXmlWriter(xmlHandler);
-		barbecueManager.setComponentFillFactory(new BarbecueFillFactory());
-		componentManagers.put(BARBECUE_COMPONENT_NAME, barbecueManager);
-		
-		ComponentsManager barcode4jManager = new ComponentsManager();
-		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
-		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
-		//barcode4jManager.setComponentXmlWriter(xmlHandler);
-		barcode4jManager.setComponentFillFactory(new BarcodeFillFactory());
-		for (String name : BARCODE4J_COMPONENT_NAMES)
-		{
-			componentManagers.put(name, barcode4jManager);
-		}
 		
 		ComponentsManager spiderChartManager = new ComponentsManager();
 		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());

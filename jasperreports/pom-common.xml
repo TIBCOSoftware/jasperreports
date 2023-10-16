@@ -225,13 +225,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.barbecue</groupId>
-			<artifactId>barbecue</artifactId>
-			<version>1.5-beta1</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 			<version>2.3</version>

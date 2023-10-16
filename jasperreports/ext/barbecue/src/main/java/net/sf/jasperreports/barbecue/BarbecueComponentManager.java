@@ -21,18 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.barbecue;
 
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.component.ComponentXmlWriter;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 
 /**
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface BarcodeProvider
+public class BarbecueComponentManager extends DefaultComponentManager
 {
 
-	Barcode createBarcode(BarcodeInfo barcodeInfo) throws BarcodeException;
-	
+	@Override
+	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		return new BarbecueXmlWriter(jasperReportsContext);
+	}
+
 }

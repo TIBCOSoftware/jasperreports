@@ -25,7 +25,6 @@ package net.sf.jasperreports.components;
 
 import org.apache.commons.digester.Digester;
 
-import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.CodabarComponent;
 import net.sf.jasperreports.components.barcode4j.Code128Component;
 import net.sf.jasperreports.components.barcode4j.Code39Component;
@@ -74,7 +73,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.xml.DatasetRunReportContextRule;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
@@ -106,7 +104,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	public void configureDigester(Digester digester)
 	{
 		addListRules(digester);
-		addBarbecueRules(digester);
 		addBarcode4jRules(digester);
 		addTableRules(digester);
 		SpiderChartDigester.addSpiderChartRules(digester);
@@ -132,40 +129,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(listContentsPattern, "setContents");
 		// rule to set the context dataset name
 		digester.addRule(listContentsPattern, new DatasetRunReportContextRule<>(ListComponent.class));
-	}
-
-	protected void addBarbecueRules(Digester digester)
-	{
-		String barcodePattern = "*/componentElement/barbecue";
-		digester.addObjectCreate(barcodePattern, StandardBarbecueComponent.class);
-		digester.addSetProperties(barcodePattern,
-				//properties to be ignored by this rule
-				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime, StandardBarbecueComponent.PROPERTY_ROTATION}, 
-				new String[0]);
-		digester.addRule(barcodePattern, 
-				new XmlConstantPropertyRule(
-						JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
-						EvaluationTimeEnum.values()));
-		digester.addRule(barcodePattern, 
-				new XmlConstantPropertyRule(
-						StandardBarbecueComponent.PROPERTY_ROTATION,
-						RotationEnum.values()));
-
-		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
-		digester.addFactoryCreate(barcodeExpressionPattern, 
-				JRExpressionFactory.class.getName());
-		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
-		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", 
-				JRExpression.class.getName());
-
-		String applicationIdentifierExpressionPattern = barcodePattern 
-				+ "/applicationIdentifierExpression";
-		digester.addFactoryCreate(applicationIdentifierExpressionPattern, 
-				JRExpressionFactory.class.getName());
-		digester.addCallMethod(applicationIdentifierExpressionPattern, "setText", 0);
-		digester.addSetNext(applicationIdentifierExpressionPattern, 
-				"setApplicationIdentifierExpression", 
-				JRExpression.class.getName());
 	}
 
 	protected void addBarcode4jRules(Digester digester)

@@ -21,35 +21,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.components;
 
-import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentFillFactory;
-import net.sf.jasperreports.engine.component.FillComponent;
-import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class BarbecueFillFactory implements ComponentFillFactory
+public interface BarcodeConstants
 {
-
-	@Override
-	public FillComponent toFillComponent(Component component,
-			JRFillObjectFactory factory)
-	{
-		BarbecueComponent barcode = (BarbecueComponent) component;
-		return new BarbecueFillComponent(barcode);
-	}
-
-	@Override
-	public FillComponent cloneFillComponent(FillComponent component,
-			JRFillCloneFactory factory)
-	{
-		BarbecueFillComponent fillBarcode = (BarbecueFillComponent) component;
-		return new BarbecueFillComponent(fillBarcode.getBarcode());
-	}
-
+	String METADATA_KEY_QUALIFICATION_BARBECUE = 
+			ComponentsExtensionsRegistryFactory.NAMESPACE 
+			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
+			+ "barbecue";
 }

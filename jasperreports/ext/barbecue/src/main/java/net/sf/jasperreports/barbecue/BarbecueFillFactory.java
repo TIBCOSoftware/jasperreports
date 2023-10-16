@@ -21,36 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.barbecue;
 
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeException;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentFillFactory;
+import net.sf.jasperreports.engine.component.FillComponent;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class BaseBarcodeProvider implements BarcodeProvider
+public class BarbecueFillFactory implements ComponentFillFactory
 {
 
 	@Override
-	public Barcode createBarcode(BarcodeInfo barcodeInfo)
-			throws BarcodeException
+	public FillComponent toFillComponent(Component component,
+			JRFillObjectFactory factory)
 	{
-		Barcode barcode = createBaseBarcode(barcodeInfo);
-		barcode.setDrawingText(barcodeInfo.isDrawText());
-		if (barcodeInfo.getBarWidth() != null)
-		{
-			barcode.setBarWidth(barcodeInfo.getBarWidth());
-		}
-		if (barcodeInfo.getBarHeight() != null)
-		{
-			barcode.setBarHeight(barcodeInfo.getBarHeight());
-		}
-		return barcode;
+		BarbecueComponent barcode = (BarbecueComponent) component;
+		return new BarbecueFillComponent(barcode);
 	}
-	
-	protected abstract Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
-			throws BarcodeException;
+
+	@Override
+	public FillComponent cloneFillComponent(FillComponent component,
+			JRFillCloneFactory factory)
+	{
+		BarbecueFillComponent fillBarcode = (BarbecueFillComponent) component;
+		return new BarbecueFillComponent(fillBarcode.getBarcode());
+	}
 
 }

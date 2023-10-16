@@ -34,6 +34,7 @@
 		<module>ext/poi</module>
 		<module>ext/olap</module>
 		<module>ext/ant</module>
+		<module>ext/barbecue</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>

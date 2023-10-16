@@ -63,9 +63,9 @@
 * type is not supported. 
 * </p><p>
 * On the API side, the Barbecue component is represented by the 
-* {@link net.sf.jasperreports.components.barbecue.BarbecueComponent BarbecueComponent} 
+* {@link net.sf.jasperreports.barbecue.BarbecueComponent BarbecueComponent} 
 * interface, whose default implementation is 
-* {@link net.sf.jasperreports.components.barbecue.StandardBarbecueComponent StandardBarbecueComponent}. 
+* {@link net.sf.jasperreports.barbecue.StandardBarbecueComponent StandardBarbecueComponent}. 
 * </p><p>
 * When the report is filled, a barcode renderer of type 
 * {@link net.sf.jasperreports.components.barbecue.BarbecueRenderer BarbecueRenderer} is 
@@ -73,4 +73,4 @@
 * scale type from the <code>RetainShape</code> attribute and its size from the <code>size</code> defined 
 * for the barcode element in the report. 
 */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.barbecue;

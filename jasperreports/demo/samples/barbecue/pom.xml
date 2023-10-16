@@ -15,10 +15,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>net.sourceforge.barbecue</groupId>
-			<artifactId>barbecue</artifactId>
-			<version>1.5-beta1</version>
-			<scope>runtime</scope>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-barbecue</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>
