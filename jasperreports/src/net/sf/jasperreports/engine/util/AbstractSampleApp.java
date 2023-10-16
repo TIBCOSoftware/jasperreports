@@ -160,9 +160,16 @@ public abstract class AbstractSampleApp
 	{
 		try
 		{
-			for (String arg : args)
+			if (args.length > 0)
 			{
-				app.executeTask(arg);
+				for (String arg : args)
+				{
+					app.executeTask(arg);
+				}
+			}
+			else
+			{
+				System.out.println(app.usage());
 			}
 		}
 		catch (Exception e)
