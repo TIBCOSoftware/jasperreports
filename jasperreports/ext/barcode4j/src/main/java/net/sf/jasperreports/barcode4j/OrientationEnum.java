@@ -21,22 +21,74 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedValueEnum;
+
 
 /**
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public enum OrientationEnum implements NamedValueEnum<Integer>
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
+	/**
+	 * 
+	 */
+	UP(0, "up"),
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	/**
+	 * 
+	 */
+	LEFT(90, "left"),
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	/**
+	 * 
+	 */
+	DOWN(180, "down"),
+
+	/**
+	 * 
+	 */
+	RIGHT(270, "right");
+
+	/**
+	 *
+	 */
+	private final transient int value;
+	private final transient String name;
+
+	private OrientationEnum(int value, String name)
+	{
+		this.value = value;
+		this.name = name;
+	}
+
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+	
+	@Override
+	public Integer getValue()
+	{
+		return value;
+	}
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getByValue(Integer value)
+	{
+		return EnumUtil.getByValue(values(), value);
+	}
 }

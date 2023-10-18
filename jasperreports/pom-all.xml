@@ -35,6 +35,7 @@
 		<module>ext/olap</module>
 		<module>ext/ant</module>
 		<module>ext/barbecue</module>
+		<module>ext/barcode4j</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>

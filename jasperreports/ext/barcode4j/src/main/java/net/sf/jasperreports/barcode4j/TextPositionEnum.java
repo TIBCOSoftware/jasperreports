@@ -21,22 +21,53 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
+
 
 /**
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public enum TextPositionEnum implements NamedEnum
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
+	/**
+	 * 
+	 */
+	NONE("none"),
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	/**
+	 * 
+	 */
+	BOTTOM("bottom"),
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	/**
+	 * 
+	 */
+	TOP("top");
+
+	/**
+	 *
+	 */
+	private final transient String name;
+
+	private TextPositionEnum(String name)
+	{
+		this.name = name;
+	}
+
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+	
+	/**
+	 *
+	 */
+	public static TextPositionEnum getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
+	}
 }

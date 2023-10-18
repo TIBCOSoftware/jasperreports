@@ -21,22 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
+ * This class is used to generate QRCode component barcode logic. 
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public class QRCodeBean
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
+	private Integer margin;
+	private ErrorCorrectionLevelEnum errorCorrectionLevel;
+	private Integer qrVersion;
+  
+	public QRCodeBean() {
+	}
+	
+	public Integer getMargin() {
+		return margin;
+	}
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	public void setMargin(Integer margin) {
+		this.margin = margin;
+	}
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	public ErrorCorrectionLevelEnum getErrorCorrectionLevel() {
+		return errorCorrectionLevel;
+	}
+
+	public void setErrorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel) {
+		this.errorCorrectionLevel = errorCorrectionLevel;
+	}
+
+	public Integer getQrVersion() {
+		return qrVersion;
+	}
+
+	public void setQrVersion(Integer qrVersion) {
+		this.qrVersion = qrVersion;
+	}
 }
+

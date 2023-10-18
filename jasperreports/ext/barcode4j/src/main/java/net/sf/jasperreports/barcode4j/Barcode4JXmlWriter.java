@@ -21,11 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.jasperreports.components.AbstractComponentXmlWriter;
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
@@ -69,14 +70,14 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * XML writer for built-in component implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see ComponentsExtensionsRegistryFactory
+ * @see Barcode4JExtensionsRegistryFactory
  */
-public class ComponentsXmlWriter extends AbstractComponentXmlWriter
+public class Barcode4JXmlWriter extends AbstractComponentXmlWriter
 {
 	/**
 	 * 
 	 */
-	public ComponentsXmlWriter(JasperReportsContext jasperReportsContext)
+	public Barcode4JXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
 	}
@@ -92,6 +93,15 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		else if (component instanceof TableComponent)
 		{
 			writeTable(componentElement, reportWriter);
+		}
+		else if (component instanceof BarcodeComponent)
+		{
+			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(
+													reportWriter, 
+													componentElement, 
+													getVersion(jasperReportsContext, componentElement, reportWriter), 
+													versionComparator);
+			barcodeWriter.writeBarcode();
 		}
 		else if (component instanceof SpiderChartComponent)
 		{
@@ -120,9 +130,9 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 		
 		XmlNamespace namespace = new XmlNamespace(
-				ComponentsExtensionsRegistryFactory.NAMESPACE, 
+				Barcode4JExtensionsRegistryFactory.NAMESPACE, 
 				componentKey.getNamespacePrefix(),
-				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+				Barcode4JExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("list", namespace);
 		writer.addAttribute("printOrder", list.getPrintOrderValue());
@@ -147,9 +157,9 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		XmlNamespace namespace = new XmlNamespace(
-			ComponentsExtensionsRegistryFactory.NAMESPACE, 
+			Barcode4JExtensionsRegistryFactory.NAMESPACE, 
 			componentKey.getNamespacePrefix(),
-			ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+			Barcode4JExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("map", namespace);
 		
@@ -324,9 +334,9 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		XmlNamespace namespace = new XmlNamespace(
-				ComponentsExtensionsRegistryFactory.NAMESPACE, 
+				Barcode4JExtensionsRegistryFactory.NAMESPACE, 
 				componentKey.getNamespacePrefix(),
-				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+				Barcode4JExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("table", namespace);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType());
@@ -563,7 +573,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	
 	protected boolean isBarcode4jName(String name)
 	{
-		for (String barcode4jName : ComponentsExtensionsRegistryFactory.BARCODE4J_COMPONENT_NAMES)
+		for (String barcode4jName : Barcode4JExtensionsRegistryFactory.BARCODE4J_COMPONENT_NAMES)
 		{
 			if(barcode4jName.equals(name)){
 				return true;

@@ -25,24 +25,6 @@ package net.sf.jasperreports.components;
 
 import org.apache.commons.digester.Digester;
 
-import net.sf.jasperreports.components.barcode4j.CodabarComponent;
-import net.sf.jasperreports.components.barcode4j.Code128Component;
-import net.sf.jasperreports.components.barcode4j.Code39Component;
-import net.sf.jasperreports.components.barcode4j.DataMatrixComponent;
-import net.sf.jasperreports.components.barcode4j.EAN128Component;
-import net.sf.jasperreports.components.barcode4j.EAN13Component;
-import net.sf.jasperreports.components.barcode4j.EAN8Component;
-import net.sf.jasperreports.components.barcode4j.ErrorCorrectionLevelEnum;
-import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
-import net.sf.jasperreports.components.barcode4j.OrientationRule;
-import net.sf.jasperreports.components.barcode4j.PDF417Component;
-import net.sf.jasperreports.components.barcode4j.POSTNETComponent;
-import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
-import net.sf.jasperreports.components.barcode4j.RoyalMailCustomerComponent;
-import net.sf.jasperreports.components.barcode4j.TextPositionEnum;
-import net.sf.jasperreports.components.barcode4j.UPCAComponent;
-import net.sf.jasperreports.components.barcode4j.UPCEComponent;
-import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentDigester;
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
@@ -104,7 +86,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	public void configureDigester(Digester digester)
 	{
 		addListRules(digester);
-		addBarcode4jRules(digester);
 		addTableRules(digester);
 		SpiderChartDigester.addSpiderChartRules(digester);
 		addMapRules(digester);
@@ -129,62 +110,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(listContentsPattern, "setContents");
 		// rule to set the context dataset name
 		digester.addRule(listContentsPattern, new DatasetRunReportContextRule<>(ListComponent.class));
-	}
-
-	protected void addBarcode4jRules(Digester digester)
-	{
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Codabar", 
-				CodabarComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Code128", 
-				Code128Component.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/EAN128", 
-				EAN128Component.class);
-		addTemplateRules(digester, 
-				"*/componentElement/EAN128");
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/DataMatrix", 
-				DataMatrixComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/RoyalMailCustomer", 
-				RoyalMailCustomerComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/USPSIntelligentMail", 
-				USPSIntelligentMailComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Code39", Code39Component.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/Interleaved2Of5", Interleaved2Of5Component.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/UPCA", UPCAComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/UPCE", UPCEComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/EAN13", EAN13Component.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/EAN8", EAN8Component.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/POSTNET", POSTNETComponent.class);
-		addBaseBarcode4jRules(digester, 
-				"*/componentElement/PDF417", PDF417Component.class);
-		addQRCodeRules(digester, 
-				"*/componentElement/QRCode", QRCodeComponent.class);
-	}
-	
-	protected <T> void addBaseBarcode4jRules(Digester digester, 
-			String barcodePattern, Class<T> barcodeComponentClass)
-	{
-		addBarcodeRules(digester, barcodePattern, barcodeComponentClass, BARCODE4J_IGNORED_PROPERTIES);
-		addPatternExpressionRules(digester, barcodePattern);
-		
-		digester.addRule(barcodePattern, 
-				new OrientationRule("orientation", "orientation"));
-		digester.addRule(barcodePattern, 
-				new XmlConstantPropertyRule(
-						"textPosition", "textPosition",
-						TextPositionEnum.values()));
 	}
 	
 	protected <T> void addPatternExpressionRules(Digester digester, String barcodePattern)
@@ -220,17 +145,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 				JRExpression.class.getName());
 	}
 
-	protected <T> void addQRCodeRules(Digester digester, 
-			String barcodePattern, Class<T> barcodeComponentClass)
-	{
-		addBarcodeRules(digester, barcodePattern, barcodeComponentClass, QRCODE_IGNORED_PROPERTIES);
-
-		digester.addRule(barcodePattern, 
-				new XmlConstantPropertyRule(
-						"errorCorrectionLevel", "errorCorrectionLevel",
-						ErrorCorrectionLevelEnum.values()));
-	}
-	
 	protected void addTemplateRules(Digester digester, String barcodePattern)
 	{
 		String templateExpressionPattern = barcodePattern + "/templateExpression";

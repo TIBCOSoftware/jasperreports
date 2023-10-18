@@ -8,10 +8,10 @@
 		<relativePath>../../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-barbecue</artifactId>
+	<artifactId>jasperreports-barcode4j</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Barbecue</name>
-	<description>JasperReports Barbecue</description>
+	<name>JasperReports Barcode4J</name>
+	<description>JasperReports Barcode4J</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -31,9 +31,23 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.barbecue</groupId>
-			<artifactId>barbecue</artifactId>
-			<version>1.5-beta1</version>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-annotation-processors</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.barcode4j</groupId>
+			<artifactId>barcode4j</artifactId>
+			<version>2.1</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.4.0</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

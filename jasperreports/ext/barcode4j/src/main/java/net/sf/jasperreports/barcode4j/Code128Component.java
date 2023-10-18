@@ -21,22 +21,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public class Code128Component extends Barcode4jComponent
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	@Override
+	public void receive(BarcodeVisitor visitor)
+	{
+		visitor.visitCode128(this);
+	}
+
 }

@@ -21,22 +21,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public interface BarcodeVisitor
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	void visitCodabar(CodabarComponent codabar);
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	void visitCode128(Code128Component code128);
+
+	void visitEANCode128(EAN128Component ean128);
+
+	void visitDataMatrix(DataMatrixComponent dataMatrix);
+
+	void visitRoyalMailCustomer(RoyalMailCustomerComponent royalMailCustomer);
+
+	void visitUSPSIntelligentMail(USPSIntelligentMailComponent intelligentMail);
+	
+	void visitCode39(Code39Component code39);
+
+	void visitUPCA(UPCAComponent upcA);
+
+	void visitUPCE(UPCEComponent upcE);
+
+	void visitEAN13(EAN13Component ean13);
+
+	void visitEAN8(EAN8Component ean8);
+
+	void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
+
+	void visitPostnet(POSTNETComponent postnet);
+
+	void visitPDF417(PDF417Component pdf417);
+	
+	void visitQRCode(QRCodeComponent qrCode);
+
 }

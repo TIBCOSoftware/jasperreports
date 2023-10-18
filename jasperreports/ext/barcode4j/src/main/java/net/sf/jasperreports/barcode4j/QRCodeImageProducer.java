@@ -21,22 +21,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public interface QRCodeImageProducer
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
-
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	@Property(
+			name = "net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}",
+			category = PropertyConstants.CATEGORY_BARCODE,
+			valueType = Class.class,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {QRCodeComponent.COMPONENT_DESIGNATION},
+			sinceVersion = PropertyConstants.VERSION_6_0_2
+			)
+	String PROPERTY_PREFIX_QRCODE_PRODUCER = 
+		BarcodeComponent.PROPERTY_PREFIX + "qrcode.producer.";
+	
+	Renderable createImage(
+		JasperReportsContext jasperReportsContext,
+		JRComponentElement componentElement, 
+		QRCodeBean qrCodeBean, 
+		String message
+		);
+	
 }

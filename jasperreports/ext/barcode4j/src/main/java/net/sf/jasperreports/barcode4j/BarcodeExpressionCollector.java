@@ -21,22 +21,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.engine.JRExpressionCollector;
 
 /**
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public class BarcodeExpressionCollector extends UniformBarcodeVisitor
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	private final JRExpressionCollector collector;
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	public BarcodeExpressionCollector(JRExpressionCollector collector)
+	{
+		this.collector = collector;
+	}
+	
+	@Override
+	protected void visitBarcode(BarcodeComponent barcode)
+	{
+		collector.addExpression(barcode.getCodeExpression());
+	}
+
+	@Override
+	protected void visitBarcode(Barcode4jComponent barcode)
+	{
+		visitBarcode((BarcodeComponent)barcode);
+
+		collector.addExpression(barcode.getPatternExpression());
+	}
+
+	@Override
+	public void visitEANCode128(EAN128Component ean128) 
+	{
+		super.visitEANCode128(ean128);
+
+		collector.addExpression(ean128.getTemplateExpression());
+	}
+	
 }

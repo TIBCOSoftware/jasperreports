@@ -21,22 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentFillFactory;
+import net.sf.jasperreports.engine.component.FillComponent;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface BarcodeConstants
+public class BarcodeFillFactory implements ComponentFillFactory
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
 
-	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
+	@Override
+	public FillComponent toFillComponent(Component component,
+			JRFillObjectFactory factory)
+	{
+		BarcodeComponent barcode = (BarcodeComponent) component;
+		return new BarcodeFillComponent(barcode);
+	}
 
-	String COMPONENT_DESIGNATION_QRCODE = "net.sf.jasperreports.component.element:QRCode";
+	@Override
+	public FillComponent cloneFillComponent(FillComponent component,
+			JRFillCloneFactory factory)
+	{
+		BarcodeFillComponent barcode = (BarcodeFillComponent) component;
+		return new BarcodeFillComponent(barcode);
+	}
+
 }
