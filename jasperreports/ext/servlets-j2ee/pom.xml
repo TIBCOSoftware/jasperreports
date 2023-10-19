@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-poi</artifactId>
+			<artifactId>jasperreports-excel-poi</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>true</optional>

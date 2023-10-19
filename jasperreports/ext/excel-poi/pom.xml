@@ -8,10 +8,10 @@
 		<relativePath>../../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-poi</artifactId>
+	<artifactId>jasperreports-excel-poi</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports POI</name>
-	<description>JasperReports POI</description>
+	<name>JasperReports Excel POI</name>
+	<description>JasperReports Excel POI</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
