@@ -18,6 +18,7 @@
 		<module>chartcustomizers</module>
 		<module>charts</module>
 		<module>chartthemes</module>
+		<module>groovy</module>
 		<module>jasper</module>
 		<module>query</module>
 		<module>scriptlet</module>

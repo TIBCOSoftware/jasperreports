@@ -26,7 +26,7 @@
  * Contributors:
  * Peter Severin - peter_p_s@users.sourceforge.net 
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.groovy;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -42,6 +42,7 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.Phases;
 import org.codehaus.groovy.tools.GroovyClass;
 
+import net.sf.jasperreports.compilers.DirectExpressionValueFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReportsContext;

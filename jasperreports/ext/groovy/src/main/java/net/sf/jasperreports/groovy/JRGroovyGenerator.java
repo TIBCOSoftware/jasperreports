@@ -27,7 +27,7 @@
  * Peter Severin - peter_p_s@users.sourceforge.net 
  * Gaganis Giorgos - gaganis@users.sourceforge.net
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.groovy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +41,7 @@ import java.util.Set;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
@@ -238,8 +239,8 @@ public class JRGroovyGenerator
 		sb.append(sourceTask.getCompileName());
 		sb.append(" extends ");
 		String baseClass = classFilter != null && classFilter.isFilteringEnabled() 
-				? "net.sf.jasperreports.compilers.GroovySandboxEvaluator" 
-				: "net.sf.jasperreports.compilers.GroovyEvaluator";
+				? "net.sf.jasperreports.groovy.GroovySandboxEvaluator" 
+				: "net.sf.jasperreports.groovy.GroovyEvaluator";
 		sb.append(baseClass);
 		sb.append("\n{\n"); 
 		sb.append("\n");

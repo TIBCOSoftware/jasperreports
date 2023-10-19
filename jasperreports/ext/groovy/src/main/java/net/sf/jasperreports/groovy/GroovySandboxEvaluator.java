@@ -21,10 +21,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.groovy;
 
 import org.kohsuke.groovy.sandbox.GroovyInterceptor;
 
+import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 

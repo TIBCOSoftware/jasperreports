@@ -107,13 +107,6 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.groovy</groupId>
-			<artifactId>groovy</artifactId>
-			<version>4.0.8</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>1.7.14</version>
@@ -123,13 +116,6 @@
 		<dependency>
 			<groupId>net.tascalate.javaflow</groupId>
 			<artifactId>net.tascalate.javaflow.api</artifactId>
-			<version>2.7.3</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>net.tascalate.javaflow</groupId>
-			<artifactId>net.tascalate.javaflow.tools.ant</artifactId>
 			<version>2.7.3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
@@ -312,13 +298,6 @@
 			<groupId>com.github.kklisura.cdt</groupId>
 			<artifactId>cdt-java-client</artifactId>
 			<version>4.0.0</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.kohsuke</groupId>
-			<artifactId>groovy-sandbox</artifactId>
-			<version>1.26-jaspersoft-2</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

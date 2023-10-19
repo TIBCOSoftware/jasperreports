@@ -48,6 +48,7 @@ public class GroovyApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 	}
@@ -59,7 +60,7 @@ public class GroovyApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/GroovyReport.jasper", null);
+		JasperFillManager.fillReportToFile("target/reports/GroovyReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -70,7 +71,7 @@ public class GroovyApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/GroovyReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/GroovyReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 
