@@ -19,23 +19,24 @@
 		<module>ext/fonts</module>
 		<module>pom-javaflow.xml</module>
 		<module>pom.xml</module>
+		<module>ext/ant</module>
+		<module>ext/barbecue</module>
+		<module>ext/barcode4j</module>
 		<module>ext/castor</module>
 		<module>ext/chart-customizers</module>
 		<module>ext/chart-themes</module>
 		<module>ext/custom-visualization</module>
-		<module>ext/fastexcel</module>
-		<module>ext/functions</module>
-		<module>ext/xalan</module>
-		<module>ext/servlets</module>
-		<module>ext/servlets-j2ee</module>
 		<module>ext/ejbql</module>
 		<module>ext/ejbql-j2ee</module>
+		<module>ext/fastexcel</module>
+		<module>ext/functions</module>
 		<module>ext/hibernate-j2ee</module>
-		<module>ext/poi</module>
 		<module>ext/olap</module>
-		<module>ext/ant</module>
-		<module>ext/barbecue</module>
-		<module>ext/barcode4j</module>
+		<module>ext/poi</module>
+		<module>ext/servlets</module>
+		<module>ext/servlets-j2ee</module>
+		<module>ext/spring</module>
+		<module>ext/xalan</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>

@@ -8,10 +8,10 @@
 		<relativePath>../../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-chart-themes</artifactId>
+	<artifactId>jasperreports-spring</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Chart Themes</name>
-	<description>JasperReports Chart Themes</description>
+	<name>JasperReports Spring</name>
+	<description>JasperReports Spring</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -31,47 +31,43 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-spring</artifactId>
-			<version>${revision}</version>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jcommon</artifactId>
-			<version>1.0.23</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-xml</artifactId>
-			<version>1.4.1</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.27</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>5.3.27</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-annotation-processors</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		-->
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources/META-INF</directory>
+				<includes>
+					<include>**/*.MF</include>
+				</includes>
+				<targetPath>META-INF</targetPath>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -89,22 +85,7 @@
 				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestEntries>
-							<Built-By>${project.organization.name}</Built-By>
-						</manifestEntries>
-						<manifestSections>
-							<manifestSection>
-								<name>net/sf/jasperreports/chartthemes/</name>
-								<manifestEntries>
-									<Specification-Title>${project.name}</Specification-Title>
-									<Specification-Version>${project.version}</Specification-Version>
-									<Specification-Vendor>${project.organization.name}</Specification-Vendor>
-									<Implementation-Title>net.sf.jasperreports.chartthemes</Implementation-Title>
-									<Implementation-Version>${project.version}-${buildNumber}</Implementation-Version>
-									<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-								</manifestEntries>
-							</manifestSection>
-						</manifestSections>
+						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>

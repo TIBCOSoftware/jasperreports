@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.extensions;
+package net.sf.jasperreports.spring;
 
 import java.net.URL;
 
@@ -35,6 +35,9 @@ import org.springframework.core.io.UrlResource;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * A {@link ExtensionsRegistryFactory} which works by loading a Spring beans XML
