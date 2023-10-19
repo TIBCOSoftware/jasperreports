@@ -48,6 +48,7 @@ public class JavaScriptApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 	}
@@ -59,7 +60,7 @@ public class JavaScriptApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/JavaScriptReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/JavaScriptReport.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -70,7 +71,7 @@ public class JavaScriptApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/JavaScriptReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/JavaScriptReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 

@@ -32,6 +32,7 @@
 		<module>ext/functions</module>
 		<module>ext/groovy</module>
 		<module>ext/hibernate-j2ee</module>
+		<module>ext/javascript</module>
 		<module>ext/olap</module>
 		<module>ext/poi</module>
 		<module>ext/servlets</module>

@@ -20,6 +20,7 @@
 		<module>chartthemes</module>
 		<module>groovy</module>
 		<module>jasper</module>
+		<module>javascript</module>
 		<module>query</module>
 		<module>scriptlet</module>
 	</modules>

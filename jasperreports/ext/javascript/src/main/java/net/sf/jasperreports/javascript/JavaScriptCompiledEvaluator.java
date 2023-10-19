@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.javascript;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.functions.FunctionsUtil;
+import net.sf.jasperreports.javascript.JavaScriptCompiledData.ExpressionIndexes;
 
 /**
  * JavaScript expression evaluator that uses Java bytecode compiled by {@link JavaScriptClassCompiler}.
@@ -140,7 +141,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 		return evaluateExpression(expression.getOldExpressionIndex());
 	}
 
-	protected JavaScriptCompiledData.ExpressionIndexes getExpression(int id)
+	protected ExpressionIndexes getExpression(int id)
 	{
 		return compiledData.getExpression(id);
 	}

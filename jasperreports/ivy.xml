@@ -81,7 +81,6 @@
 		<dependency org="org.eclipse.jdt" name="ecj" rev="3.21.0"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
-		<dependency org="org.mozilla" name="rhino" rev="1.7.14"/>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.7.26"/>
 		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26"/>
 		<dependency org="org.testng" name="testng" rev="7.7.0" conf="test->*"/>

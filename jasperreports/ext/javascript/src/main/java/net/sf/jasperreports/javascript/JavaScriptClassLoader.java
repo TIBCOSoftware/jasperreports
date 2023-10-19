@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.javascript;
 
 import java.lang.reflect.InvocationTargetException;
 import java.security.ProtectionDomain;
@@ -32,10 +32,10 @@ import org.mozilla.javascript.DefiningClassLoader;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.optimizer.Codegen;
 
-import net.sf.jasperreports.compilers.JavaScriptCompiledData.CompiledClass;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.ProtectionDomainFactory;
+import net.sf.jasperreports.javascript.JavaScriptCompiledData.CompiledClass;
 
 /**
  * Class loader used to load classes generated for JavaScript expression evaluation.

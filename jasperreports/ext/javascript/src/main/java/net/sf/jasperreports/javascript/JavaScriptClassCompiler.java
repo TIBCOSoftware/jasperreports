@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.compilers;
+package net.sf.jasperreports.javascript;
 
 import java.io.File;
 import java.util.HashMap;
