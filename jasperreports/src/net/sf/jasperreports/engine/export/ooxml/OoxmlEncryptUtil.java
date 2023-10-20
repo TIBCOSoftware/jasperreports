@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.export.zip.AbstractZip;
  */
 public final class OoxmlEncryptUtil
 {
-	public static final String EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_POI = "missing.extension.poi";
+	private static final String EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_EXCEL_POI = "extensions.missing.extension.excelpoi";
 
 	/**
 	 *
@@ -53,7 +53,7 @@ public final class OoxmlEncryptUtil
 		{
 			throw 
 				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_POI,  
+					EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_EXCEL_POI,  
 					(Object[])null 
 					);
 		}

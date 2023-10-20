@@ -27,11 +27,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -51,7 +53,7 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
  * 
  * @see net.sf.jasperreports.engine.JasperPrint
  * @see net.sf.jasperreports.engine.export.HtmlExporter
- * @see net.sf.jasperreports.engine.export.JRPdfExporter
+ * @see net.sf.jasperreports.pdf.JRPdfExporter
  * @see net.sf.jasperreports.engine.export.JRXmlExporter
  * @see net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
  * @see net.sf.jasperreports.engine.export.JRCsvExporter
@@ -59,6 +61,8 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
  */
 public final class JasperExportManager
 {
+	private static final String EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_PDF = "extensions.missing.extension.pdf";
+	
 	private JasperReportsContext jasperReportsContext;
 
 
@@ -96,7 +100,7 @@ public final class JasperExportManager
 	 *  
 	 * @param sourceFileName source file containing the generated report
 	 * @return resulting PDF file name
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public String exportToPdfFile(String sourceFileName) throws JRException
 	{
@@ -120,7 +124,7 @@ public final class JasperExportManager
 	 *  
 	 * @param sourceFileName source file containing the generated report
 	 * @param destFileName   file name to place the PDF content into
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToPdfFile(
 		String sourceFileName, 
@@ -139,7 +143,7 @@ public final class JasperExportManager
 	 *
 	 * @param jasperPrint  report object to export 
 	 * @param destFileName file name to place the PDF content into
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToPdfFile(
 		JasperPrint jasperPrint, 
@@ -147,7 +151,7 @@ public final class JasperExportManager
 		) throws JRException
 	{
 		/*   */
-		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
+		Exporter exporter = getPdfExporter();
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFileName));
@@ -162,7 +166,7 @@ public final class JasperExportManager
 	 *
 	 * @param inputStream  input stream to read the generated report object from
 	 * @param outputStream output stream to write the resulting PDF content to
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToPdfStream(
 		InputStream inputStream, 
@@ -181,14 +185,14 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint  report object to export 
 	 * @param outputStream output stream to write the resulting PDF content to
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToPdfStream(
 		JasperPrint jasperPrint, 
 		OutputStream outputStream
 		) throws JRException
 	{
-		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
+		Exporter exporter = getPdfExporter();
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
@@ -203,13 +207,13 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint report object to export 
 	 * @return byte array representing the resulting PDF content 
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public byte[] exportToPdf(JasperPrint jasperPrint) throws JRException
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-		JRPdfExporter exporter = new JRPdfExporter(jasperReportsContext);
+		Exporter exporter = getPdfExporter();
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
@@ -217,6 +221,32 @@ public final class JasperExportManager
 		exporter.exportReport();
 		
 		return baos.toByteArray();
+	}
+
+	
+	/**
+	 *
+	 */
+	private Exporter getPdfExporter()
+	{
+		try
+		{
+			Class clazz  = Class.forName("net.sf.jasperreports.pdf.JRPdfExporter");
+			Constructor constructor = clazz.getConstructor(JasperReportsContext.class);
+			return (Exporter)constructor.newInstance(jasperReportsContext);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_MISSING_EXTENSION_PDF,  
+					(Object[])null 
+					);
+		}
+		catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	
@@ -234,7 +264,7 @@ public final class JasperExportManager
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
 	 *                          XML content itself using the Base64 encoder or be referenced as external resources
 	 * @return XML representation of the generated report
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public String exportToXmlFile(
 		String sourceFileName, 
@@ -271,7 +301,7 @@ public final class JasperExportManager
 	 * @param destFileName      file name to place the XML representation into
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
 	 *                          XML content itself using the Base64 encoder or be referenced as external resources
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToXmlFile(
 		String sourceFileName, 
@@ -302,7 +332,7 @@ public final class JasperExportManager
 	 * @param isEmbeddingImages flag that indicates whether the images should be embedded in the
 	 *                          XML content itself using the Base64 encoder or be referenced as external resources
 	 *  
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToXmlFile(
 		JasperPrint jasperPrint, 
@@ -329,7 +359,7 @@ public final class JasperExportManager
 	 * 
 	 * @param inputStream  input stream to read the generated report object from
 	 * @param outputStream output stream to write the resulting XML representation to
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToXmlStream(
 		InputStream inputStream, 
@@ -349,7 +379,7 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint  report object to export
 	 * @param outputStream output stream to write the resulting XML representation to
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToXmlStream(
 		JasperPrint jasperPrint, 
@@ -372,7 +402,7 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint report object to export
 	 * @return XML representation of the generated report
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public String exportToXml(JasperPrint jasperPrint) throws JRException
 	{
@@ -430,7 +460,7 @@ public final class JasperExportManager
 	 * 
 	 * @param sourceFileName source file containing the generated report
 	 * @param destFileName   file name to place the HTML content into
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToHtmlFile(
 		String sourceFileName, 
@@ -455,7 +485,7 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint  report object to export
 	 * @param destFileName file name to place the HTML content into
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 */
 	public void exportToHtmlFile(
 		JasperPrint jasperPrint, 
@@ -522,7 +552,7 @@ public final class JasperExportManager
 	 * 
 	 * @param jasperPrint  report object to export 
 	 * @param outputStream output stream to write the resulting PDF content to
-	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 * @see net.sf.jasperreports.pdf.JRPdfExporter
 	 * @see #exportToPdfStream(JasperPrint, OutputStream)
 	 */
 	public static void exportReportToPdfStream(

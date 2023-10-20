@@ -45,7 +45,7 @@ public class SaveContributorUtils
 	
 	private static final String[] DEFAULT_CONTRIBUTORS = {
 		"net.sf.jasperreports.view.save.JRPrintSaveContributor",
-		"net.sf.jasperreports.view.save.JRPdfSaveContributor",
+		"net.sf.jasperreports.pdf.view.save.JRPdfSaveContributor",
 		"net.sf.jasperreports.view.save.JRRtfSaveContributor",
 		"net.sf.jasperreports.view.save.JROdtSaveContributor",
 		"net.sf.jasperreports.view.save.JRDocxSaveContributor",

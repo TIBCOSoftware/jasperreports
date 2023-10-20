@@ -36,7 +36,6 @@ import net.sf.jasperreports.components.iconlabel.IconLabelElementGraphics2DHandl
 import net.sf.jasperreports.components.iconlabel.IconLabelElementHtmlHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementOdsHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementOdtHandler;
-import net.sf.jasperreports.components.iconlabel.IconLabelElementPdfHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementPptxHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementRtfHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementXlsxHandler;
@@ -47,7 +46,6 @@ import net.sf.jasperreports.components.map.MapElementHtmlHandler;
 import net.sf.jasperreports.components.map.MapElementJsonHandler;
 import net.sf.jasperreports.components.map.MapElementOdsHandler;
 import net.sf.jasperreports.components.map.MapElementOdtHandler;
-import net.sf.jasperreports.components.map.MapElementPdfHandler;
 import net.sf.jasperreports.components.map.MapElementPptxHandler;
 import net.sf.jasperreports.components.map.MapElementRtfHandler;
 import net.sf.jasperreports.components.map.MapElementXlsxHandler;
@@ -61,7 +59,6 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
@@ -112,10 +109,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return MapElementJsonHandler.getInstance();
 					}
-					else if(JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementPdfHandler.getInstance();
-					}
 					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementXlsxHandler.getInstance();
@@ -157,11 +150,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
-					if (JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new IconLabelElementPdfHandler();
-					}
-					else if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 					{
 						return new IconLabelElementGraphics2DHandler();
 					}		

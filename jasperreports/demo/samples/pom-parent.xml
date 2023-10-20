@@ -30,6 +30,13 @@
 			<artifactId>jasperreports-fonts</artifactId>
 			<version>${revision}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- 
 		JasperReports POI dependency is needed by the Swing viewers 
 		even if the sample does not actually export to XLS 

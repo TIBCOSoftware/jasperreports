@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
-import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
+import net.sf.jasperreports.engine.export.PdfConstants;
 import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillContext;
@@ -400,7 +400,7 @@ public class FillTable extends SubreportFillComponent
 
 		if (getBaseReport().isAccessibleTable())
 		{
-			printFrame.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
+			printFrame.getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_TABLE, PdfConstants.TAG_FULL);
 			printFrame.getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.TABLE.getName());
 		}
 		

@@ -99,8 +99,8 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterTagHelper;
 import net.sf.jasperreports.engine.export.MatcherExporterFilter;
+import net.sf.jasperreports.engine.export.PdfConstants;
 import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -1641,7 +1641,7 @@ public class TableReport implements JRReport
 			return;
 		}
 		
-		String cellTagProp = isHeader ? JRPdfExporterTagHelper.PROPERTY_TAG_TH : JRPdfExporterTagHelper.PROPERTY_TAG_TD;
+		String cellTagProp = isHeader ? PdfConstants.PROPERTY_TAG_TH : PdfConstants.PROPERTY_TAG_TD;
 
 		List<BandRowInfo> rows = bandInfo.getRows();
 		
@@ -1649,29 +1649,29 @@ public class TableReport implements JRReport
 		{
 			List<CellInfo> cells = row.getCells();
 			CellInfo firstCell = cells.get(0);
-			firstCell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_START);
+			firstCell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_TR, PdfConstants.TAG_START);
 			
 			for (CellInfo cell : cells)
 			{
-				cell.getElement().getPropertiesMap().setProperty(cellTagProp, JRPdfExporterTagHelper.TAG_FULL);
+				cell.getElement().getPropertiesMap().setProperty(cellTagProp, PdfConstants.TAG_FULL);
 				if (isHeader)
 				{
 					cell.getElement().getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.COLUMN_HEADER.getName());
 				}
 				if (cell.getRowSpan() > 1)
 				{
-					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
+					cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
 				}
 				if (cell.getColSpan() > 1)
 				{
-					cell.getElement().getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_COLSPAN, String.valueOf(cell.getColSpan()));
+					cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_COLSPAN, String.valueOf(cell.getColSpan()));
 				}
 			}
 			
 			CellInfo lastCell = cells.get(cells.size() - 1);
 			lastCell.getElement().getPropertiesMap().setProperty(
-				JRPdfExporterTagHelper.PROPERTY_TAG_TR, 
-				cells.size() == 1 ? JRPdfExporterTagHelper.TAG_FULL : JRPdfExporterTagHelper.TAG_END
+				PdfConstants.PROPERTY_TAG_TR, 
+				cells.size() == 1 ? PdfConstants.TAG_FULL : PdfConstants.TAG_END
 				);
 		}		
 	}
