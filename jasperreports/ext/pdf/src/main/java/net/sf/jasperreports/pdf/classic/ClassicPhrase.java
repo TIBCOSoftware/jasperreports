@@ -29,10 +29,10 @@ import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.PdfChunk;
-import net.sf.jasperreports.pdf.pdf.PdfPhrase;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
-import net.sf.jasperreports.pdf.pdf.TextDirection;
+import net.sf.jasperreports.pdf.common.PdfChunk;
+import net.sf.jasperreports.pdf.common.PdfPhrase;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.TextDirection;
 
 /**
  * 

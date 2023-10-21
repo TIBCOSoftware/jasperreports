@@ -28,7 +28,7 @@ import java.awt.Color;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Font;
 
-import net.sf.jasperreports.pdf.pdf.PdfTextChunk;
+import net.sf.jasperreports.pdf.common.PdfTextChunk;
 
 /**
  * 

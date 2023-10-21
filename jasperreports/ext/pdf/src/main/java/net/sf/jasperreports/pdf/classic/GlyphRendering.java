@@ -47,8 +47,8 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.pdf.AbstractPdfTextRenderer;
 import net.sf.jasperreports.pdf.PdfGlyphRenderer;
 import net.sf.jasperreports.pdf.PdfReportConfiguration;
-import net.sf.jasperreports.pdf.pdf.PdfProducerContext;
-import net.sf.jasperreports.pdf.pdf.PdfTextRendererContext;
+import net.sf.jasperreports.pdf.common.PdfProducerContext;
+import net.sf.jasperreports.pdf.common.PdfTextRendererContext;
 import net.sf.jasperreports.pdf.type.PdfVersionEnum;
 
 /**

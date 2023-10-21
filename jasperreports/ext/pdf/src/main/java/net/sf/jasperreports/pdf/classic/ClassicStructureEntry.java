@@ -30,7 +30,7 @@ import com.lowagie.text.pdf.PdfNumber;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfStructureElement;
 
-import net.sf.jasperreports.pdf.pdf.PdfStructureEntry;
+import net.sf.jasperreports.pdf.common.PdfStructureEntry;
 
 /**
  * 

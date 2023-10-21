@@ -26,7 +26,7 @@ package net.sf.jasperreports.pdf.classic;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
 
-import net.sf.jasperreports.pdf.pdf.PdfOutlineEntry;
+import net.sf.jasperreports.pdf.common.PdfOutlineEntry;
 
 /**
  * 

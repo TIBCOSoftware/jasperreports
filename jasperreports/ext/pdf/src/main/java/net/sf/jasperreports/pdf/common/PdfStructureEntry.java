@@ -21,19 +21,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfPhrase
+public interface PdfStructureEntry
 {
 
-	void add(PdfChunk chunk);
+	void putString(String name, String value);
 
-	float go(float llx, float lly, float urx, float ury, 
-			float fixedLeading, float multipliedLeading, 
-			PdfTextAlignment alignment, TextDirection runDirection);
+	void putArray(String name);
+
+	void setSpan(int colSpan, int rowSpan);
 
 }

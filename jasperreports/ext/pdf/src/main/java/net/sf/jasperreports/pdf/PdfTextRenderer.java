@@ -25,9 +25,9 @@ package net.sf.jasperreports.pdf;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.pdf.pdf.PdfPhrase;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
-import net.sf.jasperreports.pdf.pdf.TextDirection;
+import net.sf.jasperreports.pdf.common.PdfPhrase;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.TextDirection;
 
 
 /**

@@ -30,7 +30,7 @@ import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.RadioCheckField;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.PdfRadioCheck;
+import net.sf.jasperreports.pdf.common.PdfRadioCheck;
 import net.sf.jasperreports.pdf.type.PdfFieldCheckTypeEnum;
 
 /**

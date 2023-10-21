@@ -21,44 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
-
-import java.awt.Color;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.Locale;
-import java.util.Map;
-
-import net.sf.jasperreports.pdf.type.PdfFieldBorderStyleEnum;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfField
+public interface PdfProducerFactory
 {
 
-	void setBorderWidth(float width);
-
-	void setBackgroundColor(Color color);
-
-	void setTextColor(Color color);
-	
-	void setAlignment(PdfTextAlignment alignment);
-
-	void setBorderColor(Color color);
-
-	void setBorderStyle(PdfFieldBorderStyleEnum borderStyle);
-	
-	void setReadOnly();
-
-	void setText(String value);
-
-	void setFont(Map<Attribute,Object> attributes, Locale locale);
-	
-	void setFontSize(float fontsize);
-
-	void setRotation(int rotation);
-
-	void setVisible();
+	PdfProducer createProducer(PdfProducerContext context);
 	
 }

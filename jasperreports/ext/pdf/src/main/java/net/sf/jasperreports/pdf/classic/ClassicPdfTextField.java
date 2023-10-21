@@ -30,7 +30,7 @@ import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.TextField;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.PdfTextField;
+import net.sf.jasperreports.pdf.common.PdfTextField;
 import net.sf.jasperreports.pdf.type.PdfFieldTypeEnum;
 
 /**

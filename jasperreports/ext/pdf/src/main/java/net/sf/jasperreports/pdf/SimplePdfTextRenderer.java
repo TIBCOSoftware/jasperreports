@@ -30,11 +30,11 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.pdf.pdf.PdfPhrase;
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
-import net.sf.jasperreports.pdf.pdf.PdfTextRendererContext;
-import net.sf.jasperreports.pdf.pdf.TextDirection;
+import net.sf.jasperreports.pdf.common.PdfPhrase;
+import net.sf.jasperreports.pdf.common.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.PdfTextRendererContext;
+import net.sf.jasperreports.pdf.common.TextDirection;
 
 
 /**

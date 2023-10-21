@@ -31,8 +31,8 @@ import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.StyledTextListWriter;
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
 
 
 /**

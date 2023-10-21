@@ -21,32 +21,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
-import java.util.Locale;
-
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.util.JRStyledText;
+import java.awt.Color;
 
 /**
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfTextRendererContext
+public interface FontRecipient
 {
-	
-	JRPrintText getPrintText();
-	
-	JRStyledText getStyledText();
-	
-	Locale getTextLocale();
-	
-	boolean getAwtIgnoreMissingFont();
-	
-	boolean getIndentFirstLine();
-	
-	boolean getJustifyLastLine();
-	
-	boolean getLegacyTextMeasuringFix();
+
+	boolean hasFont();
+
+	void setFont(String pdfFontName, String pdfEncoding, boolean isPdfEmbedded, 
+			float size, PdfFontStyle pdfFontStyle, Color forecolor);
+
+	void setFont(String pdfFontName, String pdfEncoding, boolean isPdfEmbedded, 
+			float size, PdfFontStyle pdfFontStyle, Color forecolor, 
+			byte[] fontData);
 
 }

@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.pdf.classic;
 
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
-import net.sf.jasperreports.pdf.pdf.PdfProducerContext;
-import net.sf.jasperreports.pdf.pdf.PdfProducerFactory;
+import net.sf.jasperreports.pdf.common.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfProducerContext;
+import net.sf.jasperreports.pdf.common.PdfProducerFactory;
 
 /**
  * 

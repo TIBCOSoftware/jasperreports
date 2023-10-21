@@ -21,25 +21,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfChunk
+public interface PdfStructure
 {
-
-	void setLocalDestination(String anchorName);
 	
-	void setJavaScriptAction(String script);
+	PdfStructureEntry createAllTag(String language);
+	
+	PdfStructureEntry createTag(PdfStructureEntry parent, String name);
+	
+	PdfStructureEntry beginTag(PdfStructureEntry parent, String name);
 
-	void setAnchor(String reference);
-
-	void setLocalGoto(String anchor);
-
-	void setRemoteGoto(String reference, String anchor);
-
-	void setRemoteGoto(String reference, int page);
+	PdfStructureEntry beginTag(PdfStructureEntry parent, String name, String text);
+	
+	void endTag();
 
 }

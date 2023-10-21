@@ -21,17 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfOutlineEntry
+public class PdfFontStyle
 {
-
-	PdfOutlineEntry createChild(String title);
 	
-	PdfOutlineEntry createChild(String title, float left, float top);
+	private final boolean bold;
+	private final boolean italic;
+	private final boolean underline;
+	private final boolean strikethrough;
+	
+	public PdfFontStyle(boolean bold, boolean italic,
+			boolean underline, boolean strikethrough)
+	{
+		this.bold = bold;
+		this.italic = italic;
+		this.underline = underline;
+		this.strikethrough = strikethrough;
+	}
+
+	public boolean isBold()
+	{
+		return bold;
+	}
+
+	public boolean isItalic()
+	{
+		return italic;
+	}
+
+	public boolean isUnderline()
+	{
+		return underline;
+	}
+
+	public boolean isStrikethrough()
+	{
+		return strikethrough;
+	}
 	
 }

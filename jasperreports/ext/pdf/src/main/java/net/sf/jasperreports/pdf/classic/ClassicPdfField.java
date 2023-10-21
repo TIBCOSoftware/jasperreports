@@ -32,8 +32,8 @@ import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.TextField;
 
-import net.sf.jasperreports.pdf.pdf.PdfField;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.PdfField;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
 import net.sf.jasperreports.pdf.type.PdfFieldBorderStyleEnum;
 
 /**

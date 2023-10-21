@@ -33,8 +33,8 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.pdf.BaseFont;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.FontRecipient;
-import net.sf.jasperreports.pdf.pdf.PdfFontStyle;
+import net.sf.jasperreports.pdf.common.FontRecipient;
+import net.sf.jasperreports.pdf.common.PdfFontStyle;
 
 /**
  * 

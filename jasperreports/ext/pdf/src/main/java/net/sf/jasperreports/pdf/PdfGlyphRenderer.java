@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.pdf.classic.ClassicPdfProducer;
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfProducer;
 
 
 /**

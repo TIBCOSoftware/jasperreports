@@ -21,19 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfTextField extends PdfField
+public interface PdfDocument
 {
-	
-	void setEdit();
-	
-	void setMultiline();
 
-	void add();
+	void addTitle(String title);
+
+	void addAuthor(String author);
+
+	void addSubject(String subject);
+
+	void addKeywords(String keywords);
+
+	void addCreator(String creator);
+
+	void open();
 
 }

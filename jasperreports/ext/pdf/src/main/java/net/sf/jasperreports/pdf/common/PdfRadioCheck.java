@@ -21,24 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
-import java.awt.Color;
+import java.io.IOException;
+
+import net.sf.jasperreports.pdf.type.PdfFieldCheckTypeEnum;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface FontRecipient
+public interface PdfRadioCheck extends PdfField
 {
+	
+	void setCheckType(PdfFieldCheckTypeEnum checkType);
 
-	boolean hasFont();
+	void setOnValue(String value);
 
-	void setFont(String pdfFontName, String pdfEncoding, boolean isPdfEmbedded, 
-			float size, PdfFontStyle pdfFontStyle, Color forecolor);
+	void setChecked(boolean checked);
 
-	void setFont(String pdfFontName, String pdfEncoding, boolean isPdfEmbedded, 
-			float size, PdfFontStyle pdfFontStyle, Color forecolor, 
-			byte[] fontData);
+	void add();
+
+	void addToGroup() throws IOException;
 
 }

@@ -26,7 +26,7 @@ package net.sf.jasperreports.pdf.classic;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.pdf.PdfAction;
 
-import net.sf.jasperreports.pdf.pdf.PdfChunk;
+import net.sf.jasperreports.pdf.common.PdfChunk;
 
 /**
  * 

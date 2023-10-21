@@ -32,8 +32,8 @@ import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.LineCapStyle;
-import net.sf.jasperreports.pdf.pdf.PdfContent;
+import net.sf.jasperreports.pdf.common.LineCapStyle;
+import net.sf.jasperreports.pdf.common.PdfContent;
 
 /**
  * 

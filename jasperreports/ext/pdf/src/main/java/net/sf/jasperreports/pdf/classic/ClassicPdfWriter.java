@@ -41,7 +41,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.pdf.PdfXmpCreator;
-import net.sf.jasperreports.pdf.pdf.PdfDocumentWriter;
+import net.sf.jasperreports.pdf.common.PdfDocumentWriter;
 import net.sf.jasperreports.pdf.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.pdf.type.PdfVersionEnum;
 import net.sf.jasperreports.pdf.type.PdfaConformanceEnum;

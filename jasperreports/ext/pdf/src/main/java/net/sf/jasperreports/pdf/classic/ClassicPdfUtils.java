@@ -30,7 +30,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.pdf.CMYKColor;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.pdf.pdf.PdfTextAlignment;
+import net.sf.jasperreports.pdf.common.PdfTextAlignment;
 
 /**
  * 

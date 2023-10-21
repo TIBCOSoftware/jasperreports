@@ -26,7 +26,7 @@ package net.sf.jasperreports.pdf;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.export.JRExporterContext;
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfProducer;
 
 
 /**

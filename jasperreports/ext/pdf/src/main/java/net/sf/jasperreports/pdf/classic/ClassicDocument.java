@@ -25,7 +25,7 @@ package net.sf.jasperreports.pdf.classic;
 
 import com.lowagie.text.Document;
 
-import net.sf.jasperreports.pdf.pdf.PdfDocument;
+import net.sf.jasperreports.pdf.common.PdfDocument;
 
 /**
  * 

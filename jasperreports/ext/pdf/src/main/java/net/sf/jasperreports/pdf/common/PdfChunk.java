@@ -21,15 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public enum TextDirection
+public interface PdfChunk
 {
-	DEFAULT,
-	LTR,
-	RTL
+
+	void setLocalDestination(String anchorName);
+	
+	void setJavaScriptAction(String script);
+
+	void setAnchor(String reference);
+
+	void setLocalGoto(String anchor);
+
+	void setRemoteGoto(String reference, String anchor);
+
+	void setRemoteGoto(String reference, int page);
+
 }

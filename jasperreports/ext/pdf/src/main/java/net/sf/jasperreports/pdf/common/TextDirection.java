@@ -21,23 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfStructure
+public enum TextDirection
 {
-	
-	PdfStructureEntry createAllTag(String language);
-	
-	PdfStructureEntry createTag(PdfStructureEntry parent, String name);
-	
-	PdfStructureEntry beginTag(PdfStructureEntry parent, String name);
-
-	PdfStructureEntry beginTag(PdfStructureEntry parent, String name, String text);
-	
-	void endTag();
-
+	DEFAULT,
+	LTR,
+	RTL
 }

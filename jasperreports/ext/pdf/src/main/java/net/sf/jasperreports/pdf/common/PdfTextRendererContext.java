@@ -21,19 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
+
+import java.util.Locale;
+
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.util.JRStyledText;
 
 /**
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface PdfStructureEntry
+public interface PdfTextRendererContext
 {
-
-	void putString(String name, String value);
-
-	void putArray(String name);
-
-	void setSpan(int colSpan, int rowSpan);
+	
+	JRPrintText getPrintText();
+	
+	JRStyledText getStyledText();
+	
+	Locale getTextLocale();
+	
+	boolean getAwtIgnoreMissingFont();
+	
+	boolean getIndentFirstLine();
+	
+	boolean getJustifyLastLine();
+	
+	boolean getLegacyTextMeasuringFix();
 
 }

@@ -21,27 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
-
-import java.io.IOException;
-
-import net.sf.jasperreports.pdf.type.PdfFieldCheckTypeEnum;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfRadioCheck extends PdfField
+public interface PdfImage
 {
-	
-	void setCheckType(PdfFieldCheckTypeEnum checkType);
 
-	void setOnValue(String value);
+	float getPlainHeight();
 
-	void setChecked(boolean checked);
+	float getPlainWidth();
 
-	void add();
+	float getScaledWidth();
 
-	void addToGroup() throws IOException;
+	float getScaledHeight();
+
+	void scaleAbsolute(int width, int height);
+
+	void scaleToFit(int width, int height);
+
+	void scalePercent(float percent);
+
+	void setRotationDegrees(int i);
 
 }

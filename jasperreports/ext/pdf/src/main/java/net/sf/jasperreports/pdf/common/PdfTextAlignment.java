@@ -21,29 +21,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.pdf.pdf;
+package net.sf.jasperreports.pdf.common;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PdfImage
+public enum PdfTextAlignment
 {
-
-	float getPlainHeight();
-
-	float getPlainWidth();
-
-	float getScaledWidth();
-
-	float getScaledHeight();
-
-	void scaleAbsolute(int width, int height);
-
-	void scaleToFit(int width, int height);
-
-	void scalePercent(float percent);
-
-	void setRotationDegrees(int i);
-
+	LEFT,
+	RIGHT,
+	CENTER,
+	JUSTIFIED,
+	JUSTIFIED_ALL
 }

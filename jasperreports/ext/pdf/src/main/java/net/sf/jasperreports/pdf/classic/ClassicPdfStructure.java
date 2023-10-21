@@ -34,8 +34,8 @@ import com.lowagie.text.pdf.PdfStructureElement;
 import com.lowagie.text.pdf.PdfStructureTreeRoot;
 import com.lowagie.text.pdf.PdfWriter;
 
-import net.sf.jasperreports.pdf.pdf.PdfStructure;
-import net.sf.jasperreports.pdf.pdf.PdfStructureEntry;
+import net.sf.jasperreports.pdf.common.PdfStructure;
+import net.sf.jasperreports.pdf.common.PdfStructureEntry;
 
 /**
  * 

@@ -44,9 +44,9 @@ import net.sf.jasperreports.engine.export.PdfConstants;
 import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.type.AccessibilityTagEnum;
-import net.sf.jasperreports.pdf.pdf.PdfProducer;
-import net.sf.jasperreports.pdf.pdf.PdfStructure;
-import net.sf.jasperreports.pdf.pdf.PdfStructureEntry;
+import net.sf.jasperreports.pdf.common.PdfProducer;
+import net.sf.jasperreports.pdf.common.PdfStructure;
+import net.sf.jasperreports.pdf.common.PdfStructureEntry;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
