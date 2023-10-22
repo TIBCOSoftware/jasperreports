@@ -36,8 +36,6 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
-import org.jfree.chart.plot.PlotOrientation;
-
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
@@ -400,12 +398,6 @@ public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
 		Object old = this.foregroundAlpha;
 		this.foregroundAlpha = foregroundAlpha;
 		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
-	}
-	
-	@Override
-	public PlotOrientation getOrientation()
-	{
-		return null;
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
