@@ -45,7 +45,6 @@ import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.time.Day;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
@@ -82,6 +81,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -2004,7 +2004,7 @@ public class JRApiWriter
 		{
 			write( plotName + ".setBackcolor({0});\n", plot.getOwnBackcolor());
 
-			if (plot.getOrientationValue() != null && plot.getOrientationValue().getOrientation() != PlotOrientation.VERTICAL)
+			if (plot.getOrientationValue() != null && plot.getOrientationValue() != PlotOrientationEnum.VERTICAL)
 			{
 				write( plotName + ".setOrientation({0});\n", plot.getOrientationValue());
 			}
