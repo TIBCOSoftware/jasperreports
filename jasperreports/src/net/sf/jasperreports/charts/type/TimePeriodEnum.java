@@ -26,16 +26,6 @@ package net.sf.jasperreports.charts.type;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
-import org.jfree.data.time.Day;
-import org.jfree.data.time.Hour;
-import org.jfree.data.time.Millisecond;
-import org.jfree.data.time.Minute;
-import org.jfree.data.time.Month;
-import org.jfree.data.time.Quarter;
-import org.jfree.data.time.Second;
-import org.jfree.data.time.Week;
-import org.jfree.data.time.Year;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -45,58 +35,56 @@ public enum TimePeriodEnum implements NamedEnum
 	/**
 	 *
 	 */
-	YEAR(Year.class, "Year"),
+	YEAR("Year"),
 
 	/**
 	 *
 	 */
-	QUARTER(Quarter.class, "Quarter"),
+	QUARTER("Quarter"),
 	
 	/**
 	 *
 	 */
-	MONTH(Month.class, "Month"),
+	MONTH("Month"),
 	
 	/**
 	 *
 	 */
-	WEEK(Week.class, "Week"),
+	WEEK("Week"),
 	
 	/**
 	 *
 	 */
-	DAY(Day.class, "Day"),
+	DAY("Day"),
 	
 	/**
 	 *
 	 */
-	HOUR(Hour.class, "Hour"),
+	HOUR("Hour"),
 	
 	/**
 	 *
 	 */
-	MINUTE(Minute.class, "Minute"),
+	MINUTE("Minute"),
 	
 	/**
 	 *
 	 */
-	SECOND(Second.class, "Second"),
+	SECOND("Second"),
 	
 	/**
 	 *
 	 */
-	MILLISECOND(Millisecond.class, "Milisecond");//FIXMENOW should we fix this spelling error?
+	MILLISECOND("Millisecond");
 
 
 	/**
 	 *
 	 */
-	private final transient Class<?> value;
 	private final transient String name;
 
-	private TimePeriodEnum(Class<?> clazz, String name)
+	private TimePeriodEnum(String name)
 	{
-		this.value = clazz;
 		this.name = name;
 	}
 
@@ -109,36 +97,13 @@ public enum TimePeriodEnum implements NamedEnum
 	/**
 	 *
 	 */
-	public final Class<?> getTimePeriod()
-	{
-		return this.value;
-	}
-	
-	/**
-	 *
-	 */
 	public static TimePeriodEnum getByName(String name)
 	{
-		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 *
-	 */
-	public static TimePeriodEnum getByValue(Class<?> clazz)
-	{
-		TimePeriodEnum[] values = values();
-		if (values != null && clazz != null)
+		if ("Milisecond".equals(name)) // deal with historical spelling error
 		{
-			for(TimePeriodEnum e:values)
-			{
-				if (clazz.getName().equals(e.getTimePeriod().getName()))
-				{
-					return e;
-				}
-			}
+			return MILLISECOND;
 		}
-		return null;
+		return EnumUtil.getEnumByName(values(), name);
 	}
 	
 }

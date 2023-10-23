@@ -45,7 +45,6 @@ import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.data.time.Day;
 
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
@@ -82,6 +81,8 @@ import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -1525,9 +1526,9 @@ public class JRApiWriter
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignTimeSeriesDataset " + datasetName + " =  new JRDesignTimeSeriesDataset(" + parentName + ".getDataset());\n");
 
-			if (dataset.getTimePeriod() != null && !Day.class.getName().equals(dataset.getTimePeriod().getName()))
+			if (dataset.getTimePeriodValue() != null && dataset.getTimePeriodValue() != TimePeriodEnum.DAY)
 			{
-				write( datasetName + ".setTimePeriod({0}.class);\n", dataset.getTimePeriod().getName());
+				write( datasetName + ".setTimePeriod({0}.class);\n", ChartUtil.getTimePeriod(dataset.getTimePeriodValue()).getName());
 			}
 	
 			writeElementDataset( dataset, datasetName);

@@ -23,49 +23,39 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.NamedValueEnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum ScaleTypeEnum implements NamedValueEnum<Integer>
+public enum ScaleTypeEnum implements NamedEnum
 {
 	/**
 	 *
 	 */
-	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	ON_BOTH_AXES("BothAxes"),
 
 	/**
 	 *
 	 */
-	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	ON_DOMAIN_AXIS("DomainAxis"),
 
 	/**
 	 *
 	 */
-	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	ON_RANGE_AXIS("RangeAxis");
 
 
 	/**
 	 *
 	 */
-	private final transient int value;
 	private final transient String name;
 
-	private ScaleTypeEnum(int value, String name)
+	private ScaleTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	@Override
-	public final Integer getValue()
-	{
-		return value;
 	}
 	
 	@Override
@@ -80,13 +70,5 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	public static ScaleTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleTypeEnum getByValue(Integer value)
-	{
-		return EnumUtil.getByValue(values(), value);
 	}
 }
