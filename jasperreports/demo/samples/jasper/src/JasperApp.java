@@ -186,7 +186,7 @@ public class JasperApp extends AbstractSampleApp
 			configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
 			
 			// Uncomment the following line and specify a valid path for the ICC profile
-//			configuration.setIccProfilePath("path/to/ICC/profile");
+			configuration.setIccProfilePath("./sRGB_IEC61966-2-1_no_black_scaling.icc");
 			
 			exporter.setConfiguration(configuration);
 			exporter.exportReport();

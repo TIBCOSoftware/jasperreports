@@ -70,6 +70,8 @@ public class PdfAApp extends AbstractSampleApp
 		JasperFillManager.fillReportToFile("build/reports/PdfA1Report.jasper", null, new JREmptyDataSource());
 		JasperFillManager.fillReportToFile("build/reports/PdfA2Report.jasper", null, new JREmptyDataSource());
 		JasperFillManager.fillReportToFile("build/reports/PdfA3Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/TaggedPdfA1Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/TabularPdfA1Report.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -82,7 +84,9 @@ public class PdfAApp extends AbstractSampleApp
 		File[] sourceFiles = new File[] {
 			new File("build/reports/PdfA1Report.jrprint"),
 			new File("build/reports/PdfA2Report.jrprint"),
-			new File("build/reports/PdfA3Report.jrprint")
+			new File("build/reports/PdfA3Report.jrprint"),
+			new File("build/reports/TaggedPdfA1Report.jrprint"),
+			new File("build/reports/TabularPdfA1Report.jrprint")
 		};
 		
 		for (int i=0; i<sourceFiles.length; ++i) {
@@ -111,10 +115,6 @@ public class PdfAApp extends AbstractSampleApp
 		
 		switch (i)
 		{
-			case 0:
-				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
-				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_4);
-			break;
 			case 1:
 				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_2A);
 				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
@@ -122,6 +122,10 @@ public class PdfAApp extends AbstractSampleApp
 			case 2:
 				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_3A);
 				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
+			break;
+			default:
+				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
+				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_4);
 			break;
 		}
 

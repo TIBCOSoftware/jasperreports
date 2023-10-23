@@ -20,6 +20,7 @@
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="240" y="120" width="80" height="20" uuid="5f1c96b1-1c14-4832-b78a-8236076c85fd"/>
 				<imageExpression><![CDATA["jasperreports.png"]]></imageExpression>
+				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 			<rectangle>
 				<reportElement x="210" y="210" width="100" height="50" uuid="6168dfc1-c58d-4981-be19-871972f97214"/>
@@ -30,6 +31,7 @@
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="280" y="250" width="80" height="20" uuid="36925676-fe93-4bd5-8daa-7d8256cd3884"/>
 				<imageExpression><![CDATA["jasperreports.png"]]></imageExpression>
+				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 		</band>
 	</title>
