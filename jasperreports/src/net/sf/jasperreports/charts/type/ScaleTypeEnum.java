@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -57,14 +56,6 @@ public enum ScaleTypeEnum implements NamedEnum
 	private ScaleTypeEnum(String name)
 	{
 		this.name = name;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ChartUtil#getScaleType(ScaleTypeEnum)}.
-	 */
-	public final Integer getValue()
-	{
-		return ChartUtil.getScaleType(this);
 	}
 	
 	@Override

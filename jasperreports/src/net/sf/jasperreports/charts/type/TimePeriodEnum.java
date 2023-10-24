@@ -93,7 +93,7 @@ public enum TimePeriodEnum implements NamedEnum
 	{
 		return name;
 	}
-	
+
 	/**
 	 *
 	 */
