@@ -36,7 +36,6 @@ import org.jfree.chart.plot.PlotOrientation;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -402,6 +401,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	private PlotOrientation orientation;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -413,7 +413,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		}
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_1_3)
 		{
-			orientationValue = ChartUtil.getPlotOrientation(orientation);
+			orientationValue = PlotOrientationEnum.getByValue(orientation);
 			
 			orientation = null;
 		}

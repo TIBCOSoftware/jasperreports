@@ -77,4 +77,12 @@ public enum PlotOrientationEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 * @deprecated Used only by deprecated serialized fields.
+	 */
+	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
+	{
+		return ChartUtil.getPlotOrientation(orientation);
+	}
 }

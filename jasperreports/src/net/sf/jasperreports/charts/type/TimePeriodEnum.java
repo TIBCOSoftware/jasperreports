@@ -115,4 +115,13 @@ public enum TimePeriodEnum implements NamedEnum
 		return EnumUtil.getEnumByName(values(), name);
 	}
 	
+	
+	/**
+	 *
+	 */
+	public static TimePeriodEnum getByValue(Class<?> clazz)
+	{
+		return ChartUtil.getTimePeriod(clazz);
+	}
+
 }
