@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.charts.type;
 
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -94,6 +95,14 @@ public enum TimePeriodEnum implements NamedEnum
 		return name;
 	}
 	
+ 	/**
+	 * @deprecated Replaced by {@link ChartUtil#getTimePeriod(TimePeriodEnum)}.
+	 */
+	public final Class<?> getTimePeriod()
+	{
+		return ChartUtil.getTimePeriod(this);
+	}
+
 	/**
 	 *
 	 */
