@@ -252,14 +252,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return evaluator;
 	}
 
-	/**
-	 *
-	 */
-	protected JRFillChartDataset[] getDatasets()
-	{
-		return elementDatasets.toArray(new JRFillChartDataset[elementDatasets.size()]);
-	}
-
 
 	protected JRFillElementDataset[] getElementDatasets(JRDataset dataset)
 	{
