@@ -44,7 +44,6 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -88,6 +87,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.export.type.CellEdgeEnum;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
@@ -500,13 +500,13 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 					int rowFreezeIndex = rowFreeze == null 
 							? -1
-							: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) ? rowIndex + 1 : rowIndex);
+							: (CellEdgeEnum.BOTTOM.getName().equals(rowFreeze) ? rowIndex + 1 : rowIndex);
 
 					String columnFreeze = getPropertiesUtil().getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 
 					int columnFreezeIndex = columnFreeze == null 
 							? -1
-							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
+							: (CellEdgeEnum.RIGHT.getName().equals(columnFreeze) 
 									? columnNamesMap.get(currentColumnName) + 1
 									: columnNamesMap.get(currentColumnName));
 
