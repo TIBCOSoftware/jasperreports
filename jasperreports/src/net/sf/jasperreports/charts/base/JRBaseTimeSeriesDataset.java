@@ -23,8 +23,13 @@
  */
 package net.sf.jasperreports.charts.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -48,7 +53,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
 	
 	private JRTimeSeries[] timeSeries;
-	private Class<?> timePeriod;
+	private TimePeriodEnum timePeriodValue;
 	
 	protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){
 		super( dataset );
@@ -57,7 +62,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset, JRBaseObjectFactory factory ){
 		super( dataset, factory );
 		
-		timePeriod = dataset.getTimePeriod();
+		timePeriodValue = dataset.getTimePeriodValue();
 		JRTimeSeries[] srcTimeSeries = dataset.getSeries();
 		
 		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
@@ -73,16 +78,33 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		return timeSeries;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getTimePeriod()}.
+	 */
 	@Override
 	public Class<?> getTimePeriod(){
-		return timePeriod;
+		return ChartUtil.getTimePeriod(timePeriodValue);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setTimePeriod(TimePeriodEnum)}.
+	 */
+	@Override
+	public void setTimePeriod( Class<?> timePeriod ){
+		setTimePeriod(ChartUtil.getTimePeriod(timePeriod));
+	}
+
+	
+	@Override
+	public TimePeriodEnum getTimePeriodValue(){
+		return timePeriodValue;
 	}
 	
 	@Override
-	public void setTimePeriod( Class<?> timePeriod ){
-		Object old = this.timePeriod;
-		this.timePeriod = timePeriod;
-		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
+	public void setTimePeriod( TimePeriodEnum timePeriodValue ){
+		Object old = this.timePeriodValue;
+		this.timePeriodValue = timePeriodValue;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriodValue);
 	}
 
 
@@ -129,5 +151,24 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		
 		return eventSupport;
 	}
-
+	
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private Class<?> timePeriod;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_21_0)
+		{
+			timePeriodValue = ChartUtil.getTimePeriod(timePeriod);
+		}
+	}
+	
 }

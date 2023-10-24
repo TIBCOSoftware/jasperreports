@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -50,7 +54,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	public static final String PROPERTY_TIME_SERIES = "timeSeries";
 	
 	private List<JRTimeSeries> timeSeriesList = new ArrayList<>();
-	private Class<?> timePeriod;
+	private TimePeriodEnum timePeriodValue;
 	
 
 	/**
@@ -116,18 +120,34 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		return timeSeries;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getTimePeriod()}.
+	 */
 	@Override
-	public Class<?> getTimePeriod() 
+	public Class<?> getTimePeriod(){
+		return ChartUtil.getTimePeriod(timePeriodValue);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setTimePeriod(TimePeriodEnum)}.
+	 */
+	@Override
+	public void setTimePeriod( Class<?> timePeriod ){
+		setTimePeriod(ChartUtil.getTimePeriod(timePeriod));
+	}
+
+	@Override
+	public TimePeriodEnum getTimePeriodValue() 
 	{
-		return timePeriod;
+		return timePeriodValue;
 	}
 	
 	@Override
-	public void setTimePeriod( Class<?> timePeriod )
+	public void setTimePeriod(TimePeriodEnum timePeriodValue)
 	{
-		Object old = this.timePeriod;
-		this.timePeriod = timePeriod;
-		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
+		Object old = this.timePeriodValue;
+		this.timePeriodValue = timePeriodValue;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriodValue);
 	}
 
 	@Override
@@ -155,5 +175,24 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		JRDesignTimeSeriesDataset clone = (JRDesignTimeSeriesDataset)super.clone();
 		clone.timeSeriesList = JRCloneUtils.cloneList(timeSeriesList);
 		return clone;
+	}
+	
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private Class<?> timePeriod;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_21_0)
+		{
+			timePeriodValue = ChartUtil.getTimePeriod(timePeriod);
+		}
 	}
 }

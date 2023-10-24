@@ -1633,7 +1633,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	private void writeTimeSeriesDataset(JRTimeSeriesDataset dataset) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_timeSeriesDataset);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_timePeriod, TimePeriodEnum.getByValue(dataset.getTimePeriod()), TimePeriodEnum.DAY);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_timePeriod, dataset.getTimePeriodValue(), TimePeriodEnum.DAY);
 
 		writeElementDataset( dataset );
 

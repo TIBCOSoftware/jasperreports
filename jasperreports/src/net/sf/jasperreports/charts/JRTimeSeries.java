@@ -47,7 +47,7 @@ public interface JRTimeSeries extends JRCloneable
 	 * @return a <code>java.util.Date</code> expression from which the engine 
 	 * will extract the corresponding time period depending on the value set 
 	 * for the <code>timePeriod</code> attribute.
-	 * @see JRTimeSeriesDataset#getTimePeriod()
+	 * @see JRTimeSeriesDataset#getTimePeriodValue()
 	 */
 	public JRExpression getTimePeriodExpression();
 
