@@ -43,7 +43,6 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -58,6 +57,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo;
+import net.sf.jasperreports.engine.export.type.CellEdgeEnum;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -143,7 +143,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_1_1,
-			valueType = EdgeEnum.class
+			valueType = CellEdgeEnum.class
 			)
 	public static final String PROPERTY_FREEZE_ROW_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row.edge";
 	
@@ -160,7 +160,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_1_1,
-			valueType = EdgeEnum.class
+			valueType = CellEdgeEnum.class
 			)
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column.edge";
 	

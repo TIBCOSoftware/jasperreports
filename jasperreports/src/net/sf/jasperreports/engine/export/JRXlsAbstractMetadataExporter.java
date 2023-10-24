@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -53,6 +52,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.type.CellEdgeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -302,7 +302,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			
 			int rowFreezeIndex = rowFreeze == null 
 				? -1 
-				: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
+				: (CellEdgeEnum.BOTTOM.getName().equals(rowFreeze) 
 						? rowIndex + 1
 						: rowIndex
 						);
@@ -311,7 +311,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 				
 			int columnFreezeIndex = columnFreeze == null 
 				? -1 
-				: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
+				: (CellEdgeEnum.RIGHT.getName().equals(columnFreeze) 
 						? columnNamesMap.get(currentColumnName) + 1
 						: columnNamesMap.get(currentColumnName)
 						);

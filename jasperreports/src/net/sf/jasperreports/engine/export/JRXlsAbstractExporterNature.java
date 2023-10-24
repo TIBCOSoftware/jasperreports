@@ -39,10 +39,10 @@ import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PAGE_S
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_HEIGHT;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN;
-import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_HEIGHT;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_WIDTH;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT;
@@ -59,7 +59,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -67,6 +66,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.type.CellEdgeEnum;
 
 
 /**
@@ -310,7 +310,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		return null;
 	}
 	
-	public EdgeEnum getFreezeRowEdge(JRPrintElement element)
+	public CellEdgeEnum getFreezeRowEdge(JRPrintElement element)
 	{
 		if (element.hasProperties()
 				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE)
@@ -318,12 +318,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE));
+			return CellEdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_ROW_EDGE));
 		}
 		return null;
 	}
 	
-	public EdgeEnum getFreezeColumnEdge(JRPrintElement element)
+	public CellEdgeEnum getFreezeColumnEdge(JRPrintElement element)
 	{
 		if (element.hasProperties()
 				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE)
@@ -331,7 +331,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return EdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE));
+				return CellEdgeEnum.getByName(getPropertiesUtil().getProperty(element, ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE));
 			}
 			return null;
 	}
@@ -549,10 +549,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			cut.setProperty(PROPERTY_WHITE_PAGE_BACKGROUND, whitePageBackground);
 		}
 
-		EdgeEnum freezeColumnEdge = getFreezeColumnEdge(element);
+		CellEdgeEnum freezeColumnEdge = getFreezeColumnEdge(element);
 		int columnFreezeIndex = freezeColumnEdge == null 
 				? 0
-				: (EdgeEnum.RIGHT.equals(freezeColumnEdge) 
+				: (CellEdgeEnum.RIGHT == freezeColumnEdge 
 					? col2
 					: col1
 					);
@@ -561,10 +561,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			cut.setProperty(ExcelAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE, columnFreezeIndex);
 		}
 		
-		EdgeEnum freezeRowEdge = getFreezeRowEdge(element);
+		CellEdgeEnum freezeRowEdge = getFreezeRowEdge(element);
 		int rowFreezeIndex = freezeRowEdge == null 
 			? 0
-			: (EdgeEnum.BOTTOM.equals(freezeRowEdge) 
+			: (CellEdgeEnum.BOTTOM == freezeRowEdge 
 					? row2
 					: row1
 					);

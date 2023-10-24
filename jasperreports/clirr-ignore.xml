@@ -1,156 +1,58 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/components/headertoolbar/HeaderLabelUtil$HeaderLabelBuiltinExpression</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/components/table/fill/BuiltinExpressionEvaluator</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/ConstantBuiltinExpression</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/*ExpressionEvaluator*</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/Fill*Table*</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/TableSubreport*</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/phantomjs/*</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/FillTable</className>
-		<differenceType>7002</differenceType>
-		<method>*createFillTableSubreportFactory()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/TableReport</className>
-		<differenceType>7002</differenceType>
-		<method>*getTableName()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/TableReport</className>
-		<differenceType>7005</differenceType>
-		<method>*TableReport(net.sf.jasperreports.engine.component.FillContext, net.sf.jasperreports.components.table.TableComponent, net.sf.jasperreports.components.table.fill.TableReportDataset, java.util.List, net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory)</method>
-		<to>*TableReport(net.sf.jasperreports.engine.component.FillContext, net.sf.jasperreports.components.table.TableComponent, net.sf.jasperreports.components.table.fill.TableReportDataset, java.util.List, net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/TableReport$SummaryGroupFooterPrintWhenEvaluator</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/components/table/fill/BuiltinExpressionEvaluator</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRElement</className>
+		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
 		<differenceType>7012</differenceType>
-		<method>*getStyleExpression()</method>
+		<method>*isIncludeElementUUID()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/PdfReportConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*isBookmarksEnabled()</method>
+		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
+		<differenceType>7009</differenceType>
+		<method>*executeTask(java.lang.String)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/PptxReportConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*isFrameAsTable()</method>
+		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
+		<differenceType>7009</differenceType>
+		<method>*usage()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JasperPrintManager</className>
-		<differenceType>6001</differenceType>
-		<field>unixSunJDK</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
-		<differenceType>6001</differenceType>
-		<field>pxImage</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/TextMeasurer$TextMeasuredState</className>
-		<differenceType>6001</differenceType>
-		<field>paragraphStartLine</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
+		<className>net/sf/jasperreports/engine/fill/JRFillObjectFactory</className>
 		<differenceType>7002</differenceType>
-		<method>*getPxImage()</method>
+		<method>*getDatasets()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxBorderHelper</className>
-		<differenceType>7002</differenceType>
-		<method>*export(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxCellHelper</className>
-		<differenceType>7002</differenceType>
-		<method>*getBorderHelper()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxBorderInfo</className>
-		<differenceType>6001</differenceType>
-		<field>borderPadding</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillCrosstab$CrosstabFiller</className>
-		<differenceType>7005</differenceType>
-		<method>*createIconLabelElement(net.sf.jasperreports.engine.type.SortOrderEnum, net.sf.jasperreports.engine.fill.JRFillTextElement, net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory)</method>
-		<to>*createIconLabelElement(net.sf.jasperreports.engine.type.SortOrderEnum, net.sf.jasperreports.engine.fill.JRFillTextElement, net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
-		<differenceType>6001</differenceType>
-		<field>startPage</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfImage</className>
-		<differenceType>7012</differenceType>
-		<method>*scalePercent(float)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
-		<differenceType>7012</differenceType>
-		<method>*clipImage(net.sf.jasperreports.export.pdf.PdfImage, int, int, int, int)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
-		<differenceType>7002</differenceType>
-		<method>*createImage(java.awt.image.BufferedImage, int)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
-		<differenceType>7004</differenceType>
-		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfProducer</className>
+		<className>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature</className>
 		<differenceType>7006</differenceType>
-		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
-		<to>net.sf.jasperreports.export.pdf.PdfImage</to>
+		<method>*getFreeze*Edge(net.sf.jasperreports.engine.JRPrintElement)</method>
+		<to>net.sf.jasperreports.engine.export.type.CellEdgeEnum</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
-		<differenceType>7002</differenceType>
-		<method>*createImage(java.awt.image.BufferedImage, int)</method>
+		<className>net/sf/jasperreports/engine/JRHyperlink</className>
+		<differenceType>7012</differenceType>
+		<method>*getHyperlinkTargetValue()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
-		<differenceType>7004</differenceType>
-		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/classic/ClassicPdfProducer</className>
-		<differenceType>7006</differenceType>
-		<method>*drawImage(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.renderers.Graphics2DRenderable, boolean, double, double, int, int, double, double, double, float, float, float, float)</method>
-		<to>net.sf.jasperreports.export.pdf.PdfImage</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/properties/PropertyConstants</className>
+		<className>net/sf/jasperreports/components/map/MarkerStandardItemData</className>
 		<differenceType>6011</differenceType>
-		<field>CATEGORY_PHANTOM_JS</field>
+		<field>PROPERTY_*</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/charts/JRTimeSeriesDataset</className>
+		<differenceType>7012</differenceType>
+		<method>*etTimePeriod*(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/charts/type/ScaleTypeEnum</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/type/NamedValueEnum</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/charts/ChartPlot</className>
+		<differenceType>7002</differenceType>
+		<method>*getOrientation()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/spiderchart/*Plot</className>
+		<differenceType>7002</differenceType>
+		<method>*getOrientation()</method>
 	</difference>
 </differences>
