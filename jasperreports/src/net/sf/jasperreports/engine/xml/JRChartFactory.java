@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.JRAxisFormat;
@@ -33,8 +35,6 @@ import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -62,7 +62,7 @@ public class JRChartFactory extends JRBaseFactory
 		}
 		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			xmlLoader.addGroupEvaluatedChart(chart);
+			xmlLoader.addGroupReference(new ChartEvaluationGroupReference(chart));
 
 			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)

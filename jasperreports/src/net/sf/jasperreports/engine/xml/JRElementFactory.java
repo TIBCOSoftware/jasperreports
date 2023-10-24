@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Map;
 import java.util.UUID;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
@@ -34,8 +36,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -131,7 +131,7 @@ public class JRElementFactory extends JRBaseFactory
 			JRDesignGroup group = new JRDesignGroup();
 			group.setName(groupName);
 			element.setPrintWhenGroupChanges(group);
-			xmlLoader.addGroupReprintedElement(element);
+			xmlLoader.addGroupReference(new ElementReprintGroupReference(element));
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);

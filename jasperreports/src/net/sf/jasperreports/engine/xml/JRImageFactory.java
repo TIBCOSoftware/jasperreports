@@ -100,7 +100,7 @@ public class JRImageFactory extends JRBaseFactory
 		}
 		if (image.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			xmlLoader.addGroupEvaluatedImage(image);
+			xmlLoader.addGroupReference(new ImageEvaluationGroupReference(image));
 
 			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
