@@ -135,24 +135,36 @@ public class JRXmlLoader
 		groupReferences.put(reference, reportContext);
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void addGroupReprintedElement(JRDesignElement element)
 	{
 		addGroupReference(
 				new ElementReprintGroupReference(element));
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void addGroupEvaluatedImage(JRDesignImage image)
 	{
 		addGroupReference(
 				new ImageEvaluationGroupReference(image));
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void addGroupEvaluatedTextField(JRDesignTextField textField)
 	{
 		addGroupReference(
 				new TextFieldEvaluationGroupReference(textField));
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void addGroupEvaluatedChart(JRDesignChart chart)
 	{
 		addGroupReference(
@@ -470,7 +482,7 @@ public class JRXmlLoader
 
 				if (!ignoreConsistencyProblems && group == null)
 				{
-					throw new JRValidationException("Unknown increment group '" + groupName + "' for chart dataset.", dataset);
+					throw new JRValidationException("Unknown increment group '" + groupName + "' for element dataset.", dataset);
 				}
 
 				dataset.setIncrementGroup(group);
@@ -492,7 +504,7 @@ public class JRXmlLoader
 
 				if (!ignoreConsistencyProblems && group == null)
 				{
-					throw new JRValidationException("Unknown reset group '" + groupName + "' for chart dataset.", dataset);
+					throw new JRValidationException("Unknown reset group '" + groupName + "' for element dataset.", dataset);
 				}
 
 				dataset.setResetGroup(group);

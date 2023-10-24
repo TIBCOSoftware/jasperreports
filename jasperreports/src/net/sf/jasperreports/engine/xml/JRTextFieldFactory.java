@@ -81,7 +81,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		}
 		if (textField.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			xmlLoader.addGroupEvaluatedTextField(textField);
+			xmlLoader.addGroupReference(new TextFieldEvaluationGroupReference(textField));
 			
 			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
