@@ -142,7 +142,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		{
 			this.markerItemDataList = new ArrayList<>();
 			for(MarkerItemData markerData : markerList){
-				this.markerItemDataList.add(new MarkerStandardItemData(markerData, objectFactory));
+				this.markerItemDataList.add(new StandardMarkerItemData(markerData, objectFactory));
 			}
 		} 
 		this.onErrorType = map.getOnErrorType();
@@ -401,34 +401,68 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	 */
 	private MarkerDataset markerDataset;
 	/**
-	 * @deprecated Replaced by {@link #markerItemDataList}.
+	 * @deprecated Replaced by {@link #markerDataList}.
 	 */
 	private ItemData markerData;
+	/**
+	 * @deprecated Replaced by {@link #markerItemDataList}.
+	 */
+	private List<ItemData> markerDataList;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_0_4)
 		{
 			if (markerDataset != null)
 			{
-				if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0){
-					markerData = StandardMarkerDataset.getItemData(markerDataset);
-				} else {
-					this.markerItemDataList = new ArrayList<>();
-					this.markerItemDataList.add((MarkerItemData) StandardMarkerDataset.getItemData(markerDataset));
-				}
+				markerData = StandardMarkerDataset.getItemData(markerDataset);
 			}
 			markerDataset = null;
-			
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_5_5_2)
+		{
 			if (markerData != null)
 			{
-				this.markerItemDataList = new ArrayList<>();
-				this.markerItemDataList.add((MarkerItemData) markerData);
+				this.markerDataList = new ArrayList<ItemData>();
+				this.markerDataList.add(markerData);
 			}
 			markerData = null;
+		}
+
+		if (markerDataList != null && markerItemDataList == null) // equivalent of a 6_20_2 pseudo serial uuid test for which no constant was created at the time of the 6.20.2 release
+		{
+			this.markerItemDataList = new ArrayList<>(markerDataList.size());
+			for (ItemData itemData : markerDataList)
+			{
+				if (itemData instanceof MarkerItemData)
+				{
+					// objects serialized prior to 5.0.4 would have markerDataset above converted to markerData and thus contain MarkerItemData items
+					// see StandardMarkerDataset.getItemData(markerDataset), which started to instantiate MarkerStandardItemData right after 6.20.6
+					this.markerItemDataList.add((MarkerItemData)itemData);
+				}
+				else
+				{
+					// objects serialized after 5.0.4 would have ItemData and not MarkerItemData object in them
+					// see StandardMarkerDataset.getItemData(markerDataset)
+					StandardMarkerItemData markerItemData = new StandardMarkerItemData();
+					List<Item> items = itemData.getItems();
+					if (items != null)
+					{
+						for (Item item : items)
+						{
+							markerItemData.addItem(item);
+						}
+					}
+					markerItemData.setDataset(itemData.getDataset());
+					this.markerItemDataList.add(markerItemData);
+				}
+			}
+
+			markerDataList = null;
 		}
 	}
 

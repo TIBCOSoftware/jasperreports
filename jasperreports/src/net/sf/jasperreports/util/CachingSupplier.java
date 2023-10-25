@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,22 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.util;
 
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 /**
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @deprecated Replaced by StandardMarkerItemData.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class MarkerStandardItemData extends StandardMarkerItemData 
+public class CachingSupplier
 {
-	private static final long serialVersionUID = -6250861878178353956L; // identical to StandardMarkerItemData.serialVersionUID
 
-	public MarkerStandardItemData() {
-    }
+	public static <T> Supplier<T> wrap(Supplier<T> supplier)
+	{
+		AtomicReference<T> ref = new AtomicReference<>();
+		return () ->
+		{
+			T value = ref.get();
+			if (value == null)
+			{
+				value = supplier.get();
+				if (value == null)
+				{
+					throw new IllegalArgumentException("Supplier returned null");
+				}
+				ref.set(value);
+			}
+			return value;
+		};
+	}
 
-    public MarkerStandardItemData(MarkerItemData data, JRBaseObjectFactory factory) {
-        super(data, factory);
-    }
 }

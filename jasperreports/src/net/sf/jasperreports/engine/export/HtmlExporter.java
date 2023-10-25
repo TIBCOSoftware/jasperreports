@@ -119,7 +119,6 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyledTextListWriter;
 import net.sf.jasperreports.engine.util.StyledTextWriteContext;
 import net.sf.jasperreports.export.AccessibilityUtil;
-import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -385,10 +384,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					page = pages.get(pageIndex);
 
@@ -459,6 +455,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			//for sure reportContext is not null, because otherwise there would be no item in the hyperilnkData
 			reportContext.setParameterValue("net.sf.jasperreports.html.hyperlinks", hyperlinksData);
+		}
+
+		if (getCurrentItemConfiguration().isIncludeElementUUID())
+		{
+			reportContext.setParameterValue("net.sf.jasperreports.html.clickable.elements", Boolean.TRUE);
 		}
 		
 		if (htmlFooter == null)
@@ -2105,6 +2106,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			sb.append(" class=\"" + JRStringUtil.encodeXmlAttribute(clazz) +"\"");
 		}
+
+		if (element instanceof JRPrintText && ((JRPrintText) element).getValue() instanceof Number 
+				&& getCurrentItemConfiguration().isIncludeElementUUID())
+		{
+			sb.append(" data-eluuid=\"" + element.getUUID() + "\"");
+		}
+
 		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);//FIXMEJIVE register properties like this in a pluggable way; extensions?
 		if (colUuid != null)
 		{

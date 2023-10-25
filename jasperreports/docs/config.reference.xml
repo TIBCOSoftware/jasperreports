@@ -7601,4 +7601,17 @@ property which can be used to control Apache FOP glyph substitution.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.html.include.element.uuid -->
+
+  <configProperty name="net.sf.jasperreports.export.html.include.element.uuid">
+    <description>
+Property that determines whether design element UUIDs are included in the HTML exporter output as <code>data-eluuid</code> attributes of <code>td</code> elements.
+<br/>
+Its value is used as default for the
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isIncludeElementUUID()">HtmlReportConfiguration.isIncludeElementUUID()</api> HTML export configuration setting.
+It only applies to text elements with numeric values.
+    </description>
+  </configProperty>
+
+
 </configReference>

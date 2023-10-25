@@ -63,15 +63,15 @@
 				<textFieldExpression><![CDATA["Portions of this page are modifications based on work created and <span style='text-decoration:underline;color:blue'><a href='https://developers.google.com/readme/policies'>shared by Google</a></span> and used according to terms described in the <span style='text-decoration:underline;color:blue'><a href='http://creativecommons.org/licenses/by/3.0'>Creative Commons 3.0 Attribution License</a></span>."]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="20" width="515" height="1" uuid="8051168a-21e2-45e7-a105-777eebf0effc" positionType="Float"/>
+				<reportElement positionType="Float" x="0" y="20" width="515" height="1" uuid="8051168a-21e2-45e7-a105-777eebf0effc"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="25" width="80" height="15" uuid="dec0f8ff-2a19-426f-8681-98d7245ac977" positionType="Float"/>
+				<reportElement positionType="Float" x="200" y="25" width="80" height="15" uuid="dec0f8ff-2a19-426f-8681-98d7245ac977"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="280" y="25" width="75" height="15" uuid="a60c893d-9fe2-4aa6-b149-b7fc2c388d98" positionType="Float"/>
+				<reportElement positionType="Float" x="280" y="25" width="75" height="15" uuid="a60c893d-9fe2-4aa6-b149-b7fc2c388d98"/>
 				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,22 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.engine.fill.events;
 
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.fill.BaseReportFiller;
+import net.sf.jasperreports.engine.fill.JRFillElement;
 
 /**
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @deprecated Replaced by StandardMarkerItemData.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class MarkerStandardItemData extends StandardMarkerItemData 
+public class TextFieldEvaluatedEvent extends ElementEvaluatedEvent
 {
-	private static final long serialVersionUID = -6250861878178353956L; // identical to StandardMarkerItemData.serialVersionUID
 
-	public MarkerStandardItemData() {
-    }
+	private final Object value;
 
-    public MarkerStandardItemData(MarkerItemData data, JRBaseObjectFactory factory) {
-        super(data, factory);
-    }
+	public TextFieldEvaluatedEvent(BaseReportFiller filler, JRFillElement fillElement, Object value)
+	{
+		super(filler, fillElement);
+		this.value = value;
+	}
+
+	public Object getValue()
+	{
+		return value;
+	}
+
 }

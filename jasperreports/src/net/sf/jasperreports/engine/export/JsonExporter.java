@@ -25,12 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -212,10 +207,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 				JRPrintPage page = null;
 				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
-					if (Thread.interrupted())
-					{
-						throw new ExportInterruptedException();
-					}
+					checkInterrupted();
 
 					page = pages.get(pageIndex);
 
@@ -238,7 +230,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		}
 	}
 	
-	protected void exportPage(JRPrintPage page) throws IOException
+	protected void exportPage(JRPrintPage page) throws IOException, ExportInterruptedException
 	{
 		Collection<JRPrintElement> elements = page.getElements();
 		Boolean exportReportComponentsOnly = getCurrentConfiguration().isReportComponentsExportOnly();
@@ -255,6 +247,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			exportElements(elements);
 			exportWebFonts();
 			exportHyperlinks();
+			exportClickableElements();
 		}
 
 		exportBookmarks();
@@ -267,12 +260,13 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		}
 	}
 	
-	protected void exportElements(Collection<JRPrintElement> elements) throws IOException
+	protected void exportElements(Collection<JRPrintElement> elements) throws IOException, ExportInterruptedException
 	{
 		if (elements != null && elements.size() > 0)
 		{
 			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
+				checkInterrupted();
 				JRPrintElement element = it.next();
 
 				if (filter == null || filter.isToExport(element))
@@ -290,7 +284,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		}
 	}
 	
-	protected void exportFrame(JRPrintFrame frame) throws IOException
+	protected void exportFrame(JRPrintFrame frame) throws IOException, ExportInterruptedException
 	{
 		exportElements(frame.getElements());
 	}
@@ -514,6 +508,33 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 			writer.write(jacksonUtil.getJsonString(hyperlinkArray));
 			writer.write("}");
+		}
+	}
+
+	protected void exportClickableElements() throws IOException
+	{
+		ReportContext reportContext = getReportContext();
+		String clickableElementsParameter = "net.sf.jasperreports.html.clickable.elements";
+		if (reportContext != null && reportContext.containsParameter(clickableElementsParameter))
+		{
+			Boolean useClickableElements = (Boolean) reportContext.getParameterValue(clickableElementsParameter);
+			if (useClickableElements)
+			{
+				String id = "clickable_" + UUID.randomUUID();
+				if (gotFirstJsonFragment)
+				{
+					writer.write(",\n");
+				} else
+				{
+					gotFirstJsonFragment = true;
+				}
+				writer.write("\"" + id + "\": {");
+
+				writer.write("\"id\": \"" + id + "\",");
+				writer.write("\"type\": \"clickableElements\",");
+				writer.write("\"selector\": \"td[data-eluuid]\"");
+				writer.write("}");
+			}
 		}
 	}
 

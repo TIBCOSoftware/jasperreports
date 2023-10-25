@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 
 
 
@@ -45,8 +46,10 @@ public class WebReportContext implements ReportContext
 	private static final String SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX = "net.sf.jasperreports.web.report.context_";
 	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr_ctxid";
 
-	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = "net.sf.jasperreports.web.jasper_print.accessor";
-	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
+	/**
+	 * @deprecated Replaced by {@link JasperPrintAccessor#REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR}.
+	 */
+	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = JasperPrintAccessor.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR;
 	
 	public static final String APPLICATION_CONTEXT_PATH = "net.sf.jasperreports.web.app.context.path";
 	

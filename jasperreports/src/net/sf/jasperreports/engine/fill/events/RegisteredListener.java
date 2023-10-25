@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2023 Cloud Software Group, Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,22 +21,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
-
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+package net.sf.jasperreports.engine.fill.events;
 
 /**
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @deprecated Replaced by StandardMarkerItemData.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class MarkerStandardItemData extends StandardMarkerItemData 
+public class RegisteredListener<T>
 {
-	private static final long serialVersionUID = -6250861878178353956L; // identical to StandardMarkerItemData.serialVersionUID
 
-	public MarkerStandardItemData() {
-    }
+	private final Class<? extends T> eventType;
+	private final ReportEventListener<? super T> listener;
 
-    public MarkerStandardItemData(MarkerItemData data, JRBaseObjectFactory factory) {
-        super(data, factory);
-    }
+	public RegisteredListener(Class<? extends T> eventType, ReportEventListener<? super T> listener)
+	{
+		this.eventType = eventType;
+		this.listener = listener;
+	}
+
+	public Class<? extends T> getEventType()
+	{
+		return eventType;
+	}
+
+	public ReportEventListener<?> getListener()
+	{
+		return listener;
+	}
+
+	public boolean supports(Class<?> eventType)
+	{
+		return this.eventType.isAssignableFrom(eventType);
+	}
+
+	public void notifyListener(T event)
+	{
+		listener.on(event);
+	}
 }

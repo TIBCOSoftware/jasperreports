@@ -38,15 +38,8 @@
 
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="reports/WebappReport.jrxml"/>
+			<arg value="web/reports/WebappReport.jrxml"/>
 			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design." depends="prepare-compile-classpath">
-		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="reports/WebappReport.jasper"/>
-			<classpath refid="classpath"/>
 		</java>
 	</target>
 
@@ -98,8 +91,10 @@
 	<!--
 		To debug the Web application ran here with Jetty, you need to add the following to the ANT_OPTS environment variable:
 		 -Xdebug -agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n
+		 
+		Order of targers in "depends" is important because "prepare-jetty seems to ruin classpath for compile."
 	-->
-	<target name="jetty.run" depends="prepare-jetty, prepare-webapp" description="Launches the Web application at http://localhost:8080/jasper-webapp">
+	<target name="jetty.run" depends="prepare-webapp, prepare-jetty" description="Launches the Web application at http://localhost:8080/jasper-webapp">
 		<java jar="./build/jetty/start.jar" fork="true">
 			<arg value="jetty.base=./build/jetty-base"/>
 		</java>
