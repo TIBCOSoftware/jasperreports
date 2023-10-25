@@ -31,6 +31,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -320,18 +321,17 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	private Integer scaleTypeInteger;
 	
-	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
-			scaleTypeValue = ScaleTypeEnum.getByValue(scaleType);
+			scaleTypeValue = ChartUtil.getScaleType(scaleType);
 		}
 		else if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			scaleTypeValue = ScaleTypeEnum.getByValue(scaleTypeInteger);
+			scaleTypeValue = ChartUtil.getScaleType(scaleTypeInteger);
 			scaleTypeInteger = null;
 		}
 	}

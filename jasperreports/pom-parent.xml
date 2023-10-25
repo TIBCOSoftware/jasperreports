@@ -77,12 +77,13 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<revision>develop-JS-70590-mysql-SNAPSHOT</revision>
+		<revision>develop-JS-69328-5-SNAPSHOT</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipInstall>true</skipInstall>
 		<skipDeploy>true</skipDeploy>
 		<scmConnection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</scmConnection>
 		<scmUrl>https://github.com/TIBCOSoftware/jasperreports</scmUrl>
+		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 	</properties>
 	<repositories>
 		<repository>
@@ -140,7 +141,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
+					<doCheck>${maven.buildNumber.doCheck}</doCheck>
 					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>

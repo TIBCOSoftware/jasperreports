@@ -35,6 +35,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.charts.util.TimeSeriesLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -197,13 +198,28 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getTimePeriodValue()}.
+	 */
 	@Override
 	public Class<?> getTimePeriod() {
 		return ((JRTimeSeriesDataset)parent).getTimePeriod();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setTimePeriod(TimePeriodEnum)}.
+	 */
 	@Override
 	public void setTimePeriod(Class<?> timePeriod) {	
+	}
+
+	@Override
+	public TimePeriodEnum getTimePeriodValue() {
+		return ((JRTimeSeriesDataset)parent).getTimePeriodValue();
+	}
+
+	@Override
+	public void setTimePeriod(TimePeriodEnum timePeriod) {	
 	}
 
 	@Override

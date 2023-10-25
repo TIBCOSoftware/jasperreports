@@ -21,7 +21,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -30,6 +32,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
@@ -42,9 +45,11 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 
 /**
@@ -68,6 +73,7 @@ public class TabularApp extends AbstractSampleApp
 	{
 		fill();
 		pdf();
+		pdfa1();
 		xmlEmbed();
 		xml();
 		html();
@@ -340,5 +346,48 @@ public class TabularApp extends AbstractSampleApp
 		System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public void pdfa1() throws JRException
+	{
+		long start = System.currentTimeMillis();
+
+		try
+		{
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+			JRPdfExporter exporter = new JRPdfExporter();
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
+			
+			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/TabularReport.jrprint"));
+			
+			exporter.setExporterInput(new SimpleExporterInput(jp));
+			
+			SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+			
+			// Include structure tags for PDF/A-1a compliance; unnecessary for PDF/A-1b
+			//configuration.setTagged(true);
+			
+			configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
+			
+			// Specify the path for the ICC profile
+			configuration.setIccProfilePath("./sRGB_IEC61966-2-1_no_black_scaling.icc");
+			
+			exporter.setConfiguration(configuration);
+			exporter.exportReport();
+
+			FileOutputStream fos = new FileOutputStream("build/reports/TabularReport_pdfa.pdf");
+			os.writeTo(fos);
+			fos.close();
+		}
+		catch(Exception e)
+		{
+			 e.printStackTrace();
+		}
+				
+		System.err.println("PDF/A-1a creation time : " + (System.currentTimeMillis() - start));
+	}
 	
 }

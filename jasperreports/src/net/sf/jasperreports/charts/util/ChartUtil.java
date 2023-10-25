@@ -42,10 +42,15 @@ import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.data.Range;
 
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImageArea;
@@ -54,6 +59,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 
@@ -420,5 +426,131 @@ public final class ChartUtil
 				numberAxis.setTickUnit((NumberTickUnit) unit, false, false);
 			}
 		}
+	}
+	
+	public static final PlotOrientation getPlotOrientation(PlotOrientationEnum plotOrientationEnum)
+	{
+		PlotOrientation plotOrientation = null;
+		if (plotOrientationEnum != null)
+		{
+			switch (plotOrientationEnum)
+			{
+				case VERTICAL : 
+				{
+					plotOrientation = PlotOrientation.VERTICAL;
+					break;
+				}
+				case HORIZONTAL : 
+				{
+					plotOrientation = PlotOrientation.HORIZONTAL;
+					break;
+				}
+				default :
+				{
+				}
+			}
+		}
+		return plotOrientation;
+	}
+	
+	public static final PlotOrientationEnum getPlotOrientation(PlotOrientation plotOrientationValue)
+	{
+		PlotOrientationEnum plotOrientation = null;
+		if (plotOrientationValue == PlotOrientation.VERTICAL)
+		{
+			plotOrientation = PlotOrientationEnum.VERTICAL;
+		}
+		else if (plotOrientationValue == PlotOrientation.HORIZONTAL)
+		{
+			plotOrientation = PlotOrientationEnum.HORIZONTAL;
+		}
+		return plotOrientation;
+	}
+	
+	public static final Integer getScaleType(ScaleTypeEnum scaleTypeEnum)
+	{
+		Integer scaleType = null;
+		if (scaleTypeEnum != null)
+		{
+			switch (scaleTypeEnum)
+			{
+				case ON_DOMAIN_AXIS : 
+				{
+					scaleType = XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS;
+					break;
+				}
+				case ON_RANGE_AXIS : 
+				{
+					scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+					break;
+				}
+				case ON_BOTH_AXES : 
+				{
+					scaleType = XYBubbleRenderer.SCALE_ON_BOTH_AXES;
+					break;
+				}
+				default :
+				{
+				}
+			}
+		}
+		return scaleType;
+	}
+	
+	public static final ScaleTypeEnum getScaleType(Integer scaleTypeValue)
+	{
+		ScaleTypeEnum scaleType = null;
+		if (scaleTypeValue != null)
+		{
+			switch (scaleTypeValue)
+			{
+				case XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS : 
+				{
+					scaleType = ScaleTypeEnum.ON_DOMAIN_AXIS;
+					break;
+				}
+				case XYBubbleRenderer.SCALE_ON_RANGE_AXIS : 
+				{
+					scaleType = ScaleTypeEnum.ON_RANGE_AXIS;
+					break;
+				}
+				case XYBubbleRenderer.SCALE_ON_BOTH_AXES : 
+				{
+					scaleType = ScaleTypeEnum.ON_BOTH_AXES;
+					break;
+				}
+				default :
+				{
+				}
+			}
+		}
+		return scaleType;
+	}
+	
+	public static final TimePeriodEnum getTimePeriod(Class<?> timePeriodClass)
+	{
+		TimePeriodEnum timePeriod = null;
+		if (timePeriodClass != null)
+		{
+			timePeriod = TimePeriodEnum.valueOf(timePeriodClass.getSimpleName().toUpperCase());
+		}
+		return timePeriod;
+	}
+	
+	public static final Class<?> getTimePeriod(TimePeriodEnum timePeriod)
+	{
+		Class<?> timePeriodClass = null;
+		if (timePeriod != null)
+		{
+			try
+			{
+				timePeriodClass = JRClassLoader.loadClassForName("org.jfree.data.time." + timePeriod.getName());
+			}
+			catch (ClassNotFoundException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		return timePeriodClass;
 	}
 }

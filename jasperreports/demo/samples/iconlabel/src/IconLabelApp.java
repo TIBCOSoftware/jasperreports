@@ -26,11 +26,9 @@ import java.io.File;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -41,7 +39,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -93,22 +90,6 @@ public class IconLabelApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		JasperFillManager.fillReportToFile("build/reports/IconLabelReport.jasper", null, (JRDataSource)null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void print() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperDesign jasperDesign = JRXmlLoader.load("reports/FirstJasper.jrxml");
-		int i = 0;
-		for (; i < 100; i++)
-		{
-			JasperCompileManager.compileReport(jasperDesign);
-		}
-		System.err.println("Average compile time : " + (System.currentTimeMillis() - start) / i);
 	}
 	
 	

@@ -5,6 +5,7 @@
   <Default Extension="jpg" ContentType="image/jpeg"/>
   <Default Extension="png" ContentType="image/png"/>
   <Default Extension="tiff" ContentType="image/tiff"/>
+  <Default Extension="webp" ContentType="image/webp"/>
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Default Extension="ttf" ContentType="application/x-font-ttf"/>

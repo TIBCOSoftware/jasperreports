@@ -10,7 +10,7 @@
 		<band height="50">
 			<image scaleImage="Clip">
 				<reportElement x="0" y="5" width="165" height="40" uuid="79b09f84-2997-4365-9a3c-ad280fe09a1c"/>
-				<imageExpression><![CDATA["jasperreports.png"]]></imageExpression>
+				<imageExpression><![CDATA["jasperreports.svg"]]></imageExpression>
 				<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 			</image>
 			<staticText>
