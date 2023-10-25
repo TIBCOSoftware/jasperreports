@@ -57,7 +57,7 @@ public class PdfAApp extends AbstractSampleApp
 	public void test() throws JRException
 	{
 		fill();
-		pdf();
+		pdfa();
 	}
 
 
@@ -79,7 +79,7 @@ public class PdfAApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void pdf() throws JRException
+	public void pdfa() throws JRException
 	{
 		File[] sourceFiles = new File[] {
 			new File("build/reports/PdfA1Report.jrprint"),
@@ -132,7 +132,7 @@ public class PdfAApp extends AbstractSampleApp
 		exporter.setConfiguration(configuration);
 		exporter.exportReport();
 
-		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
+		System.err.println("PDF/A creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 

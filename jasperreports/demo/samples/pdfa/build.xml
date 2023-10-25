@@ -23,7 +23,7 @@
 		<ant dir="../" target="view"/>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+	<target name="pdfa" description="Generates a PDF/A version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pdf"/>
 	</target>
 

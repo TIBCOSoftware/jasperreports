@@ -73,6 +73,7 @@ public class TabularApp extends AbstractSampleApp
 	{
 		fill();
 		pdf();
+		pdfa1();
 		xmlEmbed();
 		xml();
 		html();
@@ -353,17 +354,14 @@ public class TabularApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 
-		try{
+		try
+		{
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 
 			JRPdfExporter exporter = new JRPdfExporter();
 			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 			
 			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/TabularReport.jrprint"));
-			
-			// Exclude transparent images when exporting to PDF; elements marked with the key 'TransparentImage'
-			// will be excluded from the exported PDF
-			//jp.setProperty("net.sf.jasperreports.export.pdf.exclude.key.TransparentImage", null);
 			
 			exporter.setExporterInput(new SimpleExporterInput(jp));
 			
@@ -374,7 +372,7 @@ public class TabularApp extends AbstractSampleApp
 			
 			configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
 			
-			// Uncomment the following line and specify a valid path for the ICC profile
+			// Specify the path for the ICC profile
 			configuration.setIccProfilePath("./sRGB_IEC61966-2-1_no_black_scaling.icc");
 			
 			exporter.setConfiguration(configuration);
@@ -383,7 +381,9 @@ public class TabularApp extends AbstractSampleApp
 			FileOutputStream fos = new FileOutputStream("build/reports/TabularReport_pdfa.pdf");
 			os.writeTo(fos);
 			fos.close();
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			 e.printStackTrace();
 		}
 				

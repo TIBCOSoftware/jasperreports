@@ -53,24 +53,11 @@ import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 public class ClassicPdfWriter implements PdfDocumentWriter
 {
 
-	/** PDFA-2A level. */
-	public static final int PDFA2A = 5;
-	/** PDFA-2B level. */
-	public static final int PDFA2B = 6;
-	/** PDFA-2U level. */
-	public static final int PDFA2U = 7;
-	/** PDFA-3A level. */
-	public static final int PDFA3A = 8;
-	/** PDFA-3B level. */
-	public static final int PDFA3B = 9;
-	/** PDFA-3U level. */
-	public static final int PDFA3U = 10;
-    
 	private static final Log log = LogFactory.getLog(ClassicPdfWriter.class);
 	
 	private ClassicPdfProducer pdfProducer;
 	private PdfWriter pdfWriter;
-	private PdfaConformanceEnum pdfaConformance = null;
+	private PdfaConformanceEnum pdfaConformance;
 
 	public ClassicPdfWriter(ClassicPdfProducer pdfProducer, PdfWriter pdfWriter)
 	{
@@ -171,7 +158,7 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	{
 		if (PdfXmpCreator.supported())
 		{
-			byte[] metadata = PdfXmpCreator.createXmpMetadata(pdfWriter, this.pdfaConformance);
+			byte[] metadata = PdfXmpCreator.createXmpMetadata(pdfWriter, pdfaConformance);
 			pdfWriter.setXmpMetadata(metadata);
 		}
 		else
