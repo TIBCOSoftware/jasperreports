@@ -71,7 +71,7 @@ public class PdfAApp extends AbstractSampleApp
 		JasperFillManager.fillReportToFile("build/reports/PdfA2Report.jasper", null, new JREmptyDataSource());
 		JasperFillManager.fillReportToFile("build/reports/PdfA3Report.jasper", null, new JREmptyDataSource());
 		JasperFillManager.fillReportToFile("build/reports/TaggedPdfA1Report.jasper", null, new JREmptyDataSource());
-		JasperFillManager.fillReportToFile("build/reports/TabularPdfA1Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/TabularPdfA1Report.jasper", null, new JREmptyDataSource(10));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
