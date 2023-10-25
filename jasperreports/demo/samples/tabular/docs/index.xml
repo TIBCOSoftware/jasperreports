@@ -24,6 +24,7 @@ How to create tables using text elements and their border.
     </documentedBy>
     <otherSample ref="table"/>
     <otherSample ref="list"/>
+    <otherSample ref="pdfa"/>
     <content>
 <subtitle name="overview">Table-like Structures - Overview</subtitle>
 <br/>

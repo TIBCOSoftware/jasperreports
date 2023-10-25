@@ -57,6 +57,7 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	
 	private ClassicPdfProducer pdfProducer;
 	private PdfWriter pdfWriter;
+	private PdfaConformanceEnum pdfaConformance;
 
 	public ClassicPdfWriter(ClassicPdfProducer pdfProducer, PdfWriter pdfWriter)
 	{
@@ -140,6 +141,8 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	@Override
 	public void setPdfaConformance(PdfaConformanceEnum pdfaConformance)
 	{
+		this.pdfaConformance = pdfaConformance;
+		
 		if (PdfaConformanceEnum.PDFA_1A == pdfaConformance)
 		{
 			pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
@@ -155,7 +158,7 @@ public class ClassicPdfWriter implements PdfDocumentWriter
 	{
 		if (PdfXmpCreator.supported())
 		{
-			byte[] metadata = PdfXmpCreator.createXmpMetadata(pdfWriter);
+			byte[] metadata = PdfXmpCreator.createXmpMetadata(pdfWriter, pdfaConformance);
 			pdfWriter.setXmpMetadata(metadata);
 		}
 		else

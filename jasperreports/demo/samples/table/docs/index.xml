@@ -23,6 +23,7 @@ How to render tabular data using the built-in table component and a subdataset.
     </documentedBy>
     <otherSample ref="tabular"/>
     <otherSample ref="list"/>
+    <otherSample ref="pdfa"/>
     <content>
 <subtitle name="overview">The Built-in Table Component - Overview</subtitle>
 <br/>
