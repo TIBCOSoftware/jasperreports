@@ -25,6 +25,7 @@ Explains how to design reports that produce accessible content.
   	<otherSample ref="markup"/>
   	<otherSample ref="styledtext"/>
   	<otherSample ref="table"/>
+  	<otherSample ref="pdfa"/>
     <content>
 JasperReports library accessibility support currently covers HTML and PDF export formats and allows screen readers 
 to correctly identify and read through the following types of structured content:
