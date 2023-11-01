@@ -43,7 +43,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.xml.xmp.DublinCoreSchema;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.pdf.type.PdfaConformanceEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
