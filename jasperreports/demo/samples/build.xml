@@ -35,6 +35,7 @@
         <pathelement location="${sample.dir}/build/components"/>
         <pathelement location="${sample.dir}/build/ext"/>
 		<pathelement location="../../ext/fonts"/>
+		<pathelement location="../common-samples/classes"/>
 		<path refid="project-classpath"/>
 	</path>
 

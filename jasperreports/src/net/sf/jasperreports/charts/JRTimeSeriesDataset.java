@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.engine.JRChartDataset;
 
 /**
@@ -40,6 +41,16 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * @see JRTimeSeries
 	 */
 	public JRTimeSeries[] getSeries();
+
+	/**
+	 * @deprecated Replaced by {@link #getTimePeriodValue()}.
+	 */
+	public Class<?> getTimePeriod();
+
+	/**
+	 * @deprecated Replaced by {@link #setTimePeriod(TimePeriodEnum)}.
+	 */
+	public void setTimePeriod(Class<?> timePeriod);
 	
 	/**
 	 * 
@@ -48,7 +59,7 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * days, months, years, or other predefined time periods.
 	 * @see net.sf.jasperreports.charts.type.TimePeriodEnum
 	 */
-	public Class<?> getTimePeriod();
+	public TimePeriodEnum getTimePeriodValue();
 
 	/**
 	 * 
@@ -56,6 +67,6 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * days, months, years, or other predefined time periods.
 	 * @see net.sf.jasperreports.charts.type.TimePeriodEnum
 	 */
-	public void setTimePeriod(Class<?> timePeriod);
+	public void setTimePeriod(TimePeriodEnum timePeriod);
 
 }

@@ -47,10 +47,14 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
+import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
@@ -238,10 +242,18 @@ public abstract class DocumentBuilder
 						backcolor
 						);
 
+				byte[] data = imageRenderer.getData(getJasperReportsContext());
+				
+				if (ImageTypeEnum.WEBP == JRTypeSniffer.getImageTypeValue(data))
+				{
+					WrappingImageDataToGraphics2DRenderer graphics2DRenderer = new WrappingImageDataToGraphics2DRenderer(imageRenderer);
+					data = new WrappingRenderToImageDataRenderer(graphics2DRenderer, graphics2DRenderer, null).getData(getJasperReportsContext());
+				}
+				
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"Pictures/" + DocumentBuilder.getImageName(imageIndex),
-						imageRenderer.getData(getJasperReportsContext())
+						data
 						)
 					);
 

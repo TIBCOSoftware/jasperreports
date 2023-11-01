@@ -52,7 +52,12 @@ public enum ImageTypeEnum implements JREnum
 	/**
 	 * Specifies that the image is of TIFF type.
 	 */ 
-	TIFF((byte)3, "TIFF", "image/tiff", "tiff");
+	TIFF((byte)3, "TIFF", "image/tiff", "tiff"),
+	
+	/**
+	 * Specifies that the image is of WEBP type.
+	 */ 
+	WEBP((byte)5, "WEBP", "image/webp", "webp");
 
 	/**
 	 *

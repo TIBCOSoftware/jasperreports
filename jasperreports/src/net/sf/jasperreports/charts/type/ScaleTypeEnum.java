@@ -23,8 +23,7 @@
  */
 package net.sf.jasperreports.charts.type;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedValueEnum;
 
@@ -37,35 +36,36 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	/**
 	 *
 	 */
-	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	ON_BOTH_AXES("BothAxes"),
 
 	/**
 	 *
 	 */
-	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	ON_DOMAIN_AXIS("DomainAxis"),
 
 	/**
 	 *
 	 */
-	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	ON_RANGE_AXIS("RangeAxis");
 
 
 	/**
 	 *
 	 */
-	private final transient int value;
 	private final transient String name;
 
-	private ScaleTypeEnum(int value, String name)
+	private ScaleTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link ChartUtil#getScaleType(ScaleTypeEnum)}.
+	 */
 	@Override
 	public final Integer getValue()
 	{
-		return value;
+		return ChartUtil.getScaleType(this);
 	}
 	
 	@Override

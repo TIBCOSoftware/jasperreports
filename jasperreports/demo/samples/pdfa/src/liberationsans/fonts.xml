@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="LiberationSans">
+		<normal>liberation/LiberationSans-Regular.ttf</normal>
+		<bold>liberation/LiberationSans-Bold.ttf</bold>
+		<italic>liberation/LiberationSans-Italic.ttf</italic>
+		<boldItalic>liberation/LiberationSans-BoldItalic.ttf</boldItalic>
+		<pdfEmbedded>true</pdfEmbedded>
+		<!--
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'Lobster Two', 'Times New Roman', Times, serif</export>
+		</exportFonts>
+		-->
+	</fontFamily>
+
+</fontFamilies>

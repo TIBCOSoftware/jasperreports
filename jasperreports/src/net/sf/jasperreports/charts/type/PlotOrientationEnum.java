@@ -23,10 +23,11 @@
  */
 package net.sf.jasperreports.charts.type;
 
+import org.jfree.chart.plot.PlotOrientation;
+
+import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
-
-import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
@@ -37,23 +38,21 @@ public enum PlotOrientationEnum implements NamedEnum
 	/**
 	 *
 	 */
-	HORIZONTAL(PlotOrientation.HORIZONTAL, "Horizontal"),
+	HORIZONTAL("Horizontal"),
 
 	/**
 	 *
 	 */
-	VERTICAL(PlotOrientation.VERTICAL, "Vertical");
+	VERTICAL("Vertical");
 
 
 	/**
 	 *
 	 */
-	private final transient PlotOrientation value;
 	private final transient String name;
 
-	private PlotOrientationEnum(PlotOrientation orientation, String name)
+	private PlotOrientationEnum(String name)
 	{
-		this.value = orientation;
 		this.name = name;
 	}
 
@@ -63,12 +62,12 @@ public enum PlotOrientationEnum implements NamedEnum
 		return name;
 	}
 	
-	/**
-	 *
+ 	/**
+	 * @deprecated Replaced by {@link ChartUtil#getPlotOrientation(PlotOrientationEnum)}.
 	 */
 	public final PlotOrientation getOrientation()
 	{
-		return this.value;
+		return ChartUtil.getPlotOrientation(this);
 	}
 	
 	/**
@@ -84,17 +83,6 @@ public enum PlotOrientationEnum implements NamedEnum
 	 */
 	public static PlotOrientationEnum getByValue(PlotOrientation orientation)
 	{
-		PlotOrientationEnum[] values = values();
-		if (values != null && orientation != null)
-		{
-			for(PlotOrientationEnum e:values)
-			{
-				if (orientation.equals(e.getOrientation()))
-				{
-					return e;
-				}
-			}
-		}
-		return null;
+		return ChartUtil.getPlotOrientation(orientation);
 	}
 }

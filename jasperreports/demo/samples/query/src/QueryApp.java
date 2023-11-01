@@ -29,7 +29,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -85,17 +84,6 @@ public class QueryApp extends AbstractSampleApp
 		docx();
 		xlsx();
 		pptx();
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void compile() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperCompileManager.compileReportToFile("reports/QueryReport.jrxml", "build/reports/QueryReport.jasper");
-		System.err.println("Compile time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

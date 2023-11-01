@@ -122,6 +122,7 @@
     <content>
       <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
+      <feature name="pdfa" sample="pdfa" title="Generating PDF/A compliant documents"/>
       <feature name="forms" sample="forms" title="Generating editable PDF content using PDF input fields"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
       <feature name="textexport" sample="text" title="Exporting to Pure Text Format"/>

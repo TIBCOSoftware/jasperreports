@@ -24,12 +24,12 @@
 package net.sf.jasperreports.charts.xml;
 
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
 import net.sf.jasperreports.charts.type.TimePeriodEnum;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -55,7 +55,7 @@ public class JRTimeSeriesDatasetFactory extends JRBaseFactory {
 		TimePeriodEnum timePeriod = TimePeriodEnum.getByName(attrs.getValue(ATTRIBUTE_timePeriod));
 		if( timePeriod != null)
 		{
-			dataset.setTimePeriod(timePeriod.getTimePeriod());
+			dataset.setTimePeriod(timePeriod);
 		}
 		
 		

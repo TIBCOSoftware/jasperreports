@@ -5704,6 +5704,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
       <enumeration value="Minute"/>
       <enumeration value="Second"/>
       <enumeration value="Milisecond"/>
+      <enumeration value="Millisecond"/>
      </restriction>
     </simpleType>
    </attribute>

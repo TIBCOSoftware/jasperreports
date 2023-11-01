@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -112,6 +113,7 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -148,6 +150,8 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
 import net.sf.jasperreports.renderers.WrappingSvgDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
@@ -1762,6 +1766,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			else
 			{
 				byte[] data = renderer.getData(jasperReportsContext);
+				
+				if (ImageTypeEnum.WEBP == JRTypeSniffer.getImageTypeValue(data))
+				{
+					WrappingImageDataToGraphics2DRenderer graphics2DRenderer = new WrappingImageDataToGraphics2DRenderer(renderer);
+					data = new WrappingRenderToImageDataRenderer(graphics2DRenderer, graphics2DRenderer, null).getData(jasperReportsContext);
+				}
 				
 				try
 				{
