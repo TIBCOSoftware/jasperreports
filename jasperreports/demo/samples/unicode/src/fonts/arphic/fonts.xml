@@ -3,7 +3,7 @@
 <fontFamilies>
 
 	<fontFamily name="AR PL KaitiM GB">
-		<normal>arphic/gkai00mp.ttf</normal>
+		<normal>fonts/arphic/gkai00mp.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 		<exportFonts>
