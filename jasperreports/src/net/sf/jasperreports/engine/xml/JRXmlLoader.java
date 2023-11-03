@@ -56,12 +56,8 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
-import net.sf.jasperreports.engine.design.JRDesignImage;
-import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -133,42 +129,6 @@ public class JRXmlLoader
 	{
 		XmlLoaderReportContext reportContext = getReportContext();
 		groupReferences.put(reference, reportContext);
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void addGroupReprintedElement(JRDesignElement element)
-	{
-		addGroupReference(
-				new ElementReprintGroupReference(element));
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void addGroupEvaluatedImage(JRDesignImage image)
-	{
-		addGroupReference(
-				new ImageEvaluationGroupReference(image));
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void addGroupEvaluatedTextField(JRDesignTextField textField)
-	{
-		addGroupReference(
-				new TextFieldEvaluationGroupReference(textField));
-	}
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void addGroupEvaluatedChart(JRDesignChart chart)
-	{
-		addGroupReference(
-				new ChartEvaluationGroupReference(chart));
 	}
 
 	/**

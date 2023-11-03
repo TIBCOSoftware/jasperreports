@@ -97,7 +97,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	}
 	
 	
-	protected void setBand(JRFillBand band)
+	public void setBand(JRFillBand band)
 	{
 		if (datasetRun != null)
 		{

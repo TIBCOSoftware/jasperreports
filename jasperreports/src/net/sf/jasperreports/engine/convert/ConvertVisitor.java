@@ -36,7 +36,6 @@ import java.util.List;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRBreak;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -104,14 +103,6 @@ public class ConvertVisitor implements JRVisitor
 	public void visitBreak(JRBreak breakElement)
 	{
 		//FIXMECONVERT
-	}
-
-	@Override
-	public void visitChart(JRChart chart)
-	{
-		JRPrintElement printImage = ChartConverter.getInstance().convert(reportConverter, chart);
-		addElement(parentFrame, printImage);
-		addContour(reportConverter, parentFrame, printImage);
 	}
 
 	@Override

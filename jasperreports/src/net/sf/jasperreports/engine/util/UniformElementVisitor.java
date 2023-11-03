@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRBreak;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JREllipse;
@@ -59,12 +58,6 @@ public abstract class UniformElementVisitor implements JRVisitor
 	public void visitBreak(JRBreak breakElement)
 	{
 		visitElement(breakElement);
-	}
-
-	@Override
-	public void visitChart(JRChart chart)
-	{
-		visitElement(chart);
 	}
 
 	@Override

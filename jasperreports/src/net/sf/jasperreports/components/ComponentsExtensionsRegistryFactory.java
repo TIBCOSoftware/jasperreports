@@ -42,9 +42,6 @@ import net.sf.jasperreports.components.map.fill.MapFillFactory;
 import net.sf.jasperreports.components.sort.SortComponentCompiler;
 import net.sf.jasperreports.components.sort.SortComponentDesignConverter;
 import net.sf.jasperreports.components.sort.SortComponentFillFactory;
-import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
-import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
-import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
@@ -118,13 +115,6 @@ public class ComponentsExtensionsRegistryFactory implements
 		//tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
 		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
-		
-		ComponentsManager spiderChartManager = new ComponentsManager();
-		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());
-		spiderChartManager.setComponentCompiler(new SpiderChartCompiler());
-		//spiderChartManager.setComponentXmlWriter(xmlHandler);
-		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
-		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
 		
 		ComponentsManager mapManager = new ComponentsManager();
 		mapManager.setDesignConverter(MapDesignConverter.getInstance());

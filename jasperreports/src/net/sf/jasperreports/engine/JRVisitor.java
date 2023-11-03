@@ -41,11 +41,6 @@ public interface JRVisitor
 	/**
 	 *
 	 */
-	public void visitChart(JRChart chart);
-
-	/**
-	 *
-	 */
 	public void visitCrosstab(JRCrosstab crosstab);
 
 	/**

@@ -66,7 +66,7 @@ public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 	}
 	
 	@Override
-	protected JRBaseGroup getGroup(JRGroup group)
+	public JRBaseGroup getGroup(JRGroup group)
 	{
 		JRGroup origGroup;
 		if (tableGroupMap.containsKey(group))

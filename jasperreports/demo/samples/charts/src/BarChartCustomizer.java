@@ -26,7 +26,7 @@ import java.awt.Color;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**

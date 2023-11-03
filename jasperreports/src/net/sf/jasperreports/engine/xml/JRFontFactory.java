@@ -25,14 +25,12 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRChart;
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
-import net.sf.jasperreports.engine.design.JRDesignFont;
 import net.sf.jasperreports.engine.design.JasperDesign;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -144,55 +142,4 @@ public abstract class JRFontFactory extends JRBaseFactory
 	}
 	
 
-	/**
-	 *
-	 */
-	public static class ChartFontFactory extends JRFontFactory
-	{
-		@Override
-		public JRFont getFont()
-		{
-			int i = 0;
-			JRChart chart = null;
-			while (chart == null && i < digester.getCount())
-			{
-				Object obj = digester.peek(i);
-				chart = obj instanceof JRChart ? (JRChart)obj : null;
-				i++;
-			}
-			
-			return new JRDesignFont(chart);
-		}
-		
-		@Override
-		public void setStyle(JRFont font, Attributes atts)
-		{
-			JRDesignFont designFont = (JRDesignFont)font;
-
-//			if (
-//				designFont.getStyle() == null
-//				&& designFont.getStyleNameReference() == null
-//				)
-//			{
-				String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
-				if (styleName != null)
-				{
-					JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-					Map<String,JRStyle> stylesMap = jasperDesign.getStylesMap();
-
-					if (stylesMap.containsKey(styleName))
-					{
-						JRStyle style = stylesMap.get(styleName);
-						designFont.setStyle(style);
-					}
-					else
-					{
-						designFont.setStyleNameReference(styleName);
-					}
-				}
-//			}
-		}
-	}
-	
-	
 }

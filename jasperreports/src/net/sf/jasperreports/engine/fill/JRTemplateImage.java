@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -34,7 +33,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBasePen;
-import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -90,16 +88,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommo
 
 
 	/**
-	 *
-	 */
-	protected JRTemplateImage(JROrigin origin, JRDefaultStyleProvider defaultStyleProvider, JRChart chart)
-	{
-		super(origin, defaultStyleProvider);
-		
-		setChart(chart);
-	}
-
-	/**
 	 * Creates a template image.
 	 * 
 	 * @param origin the origin of the elements that will use this template
@@ -134,25 +122,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRCommo
 		setLinkTarget(image.getLinkTarget());
 	}
 
-	/**
-	 *
-	 */
-	protected void setChart(JRChart chart)
-	{
-		super.setElement(chart);
-		
-		linePen = new JRBasePen(this);
-		
-		getLinePen().setLineWidth(0f);
-		setFill(FillEnum.SOLID);
-		
-		copyLineBox(chart.getLineBox());
-
-		setLinkType(chart.getLinkType());
-		setLinkTarget(chart.getLinkTarget());
-	}
-
-	
 	/**
 	 * Copies box attributes.
 	 * 

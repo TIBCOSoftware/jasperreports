@@ -179,7 +179,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		}
 		return StyleResolver.getInstance();
 	}
-	
+
 	/**
 	 *
 	 */

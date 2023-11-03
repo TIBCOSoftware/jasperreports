@@ -38,10 +38,6 @@ import net.sf.jasperreports.components.map.MarkerItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
-import net.sf.jasperreports.components.sort.SortComponent;
-import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
-import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
-import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
 import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
@@ -86,15 +82,7 @@ public class Barcode4JXmlWriter extends AbstractComponentXmlWriter
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
 	{
 		Component component = componentElement.getComponent();
-		if (component instanceof ListComponent)
-		{
-			writeList(componentElement, reportWriter);
-		}
-		else if (component instanceof TableComponent)
-		{
-			writeTable(componentElement, reportWriter);
-		}
-		else if (component instanceof BarcodeComponent)
+		if (component instanceof BarcodeComponent)
 		{
 			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(
 													reportWriter, 
@@ -103,24 +91,6 @@ public class Barcode4JXmlWriter extends AbstractComponentXmlWriter
 													versionComparator);
 			barcodeWriter.writeBarcode();
 		}
-		else if (component instanceof SpiderChartComponent)
-		{
-			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(
-															jasperReportsContext, 
-															getVersion(jasperReportsContext, componentElement, reportWriter), 
-															versionComparator);
-			spiderChartWriter.writeToXml(componentElement, reportWriter);
-		}
-		else if (component instanceof SortComponent)
-		{
-			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(jasperReportsContext);
-			sortWriter.writeToXml(componentElement, reportWriter);
-		}
-		else if (component instanceof MapComponent)
-		{
-			writeMap(componentElement, reportWriter);
-		}
-		
 	}
 
 	protected void writeList(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException

@@ -26,7 +26,6 @@ package net.sf.jasperreports.extensions;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.json.HeaderToolbarElementJsonHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
@@ -66,7 +65,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
@@ -217,10 +215,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				else if (ScriptletFactory.class.equals(extensionType))
 				{
 					return (List<T>) Collections.singletonList((Object)DefaultScriptletFactory.getInstance());
-				}
-				else if (ChartThemeBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)DefaultChartTheme.BUNDLE);
 				}
 				else if (GenericElementHandlerBundle.class.equals(extensionType))
 				{

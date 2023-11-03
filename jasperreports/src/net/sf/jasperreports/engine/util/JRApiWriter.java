@@ -41,49 +41,10 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
-import net.sf.jasperreports.charts.JRBarPlot;
-import net.sf.jasperreports.charts.JRBubblePlot;
-import net.sf.jasperreports.charts.JRCandlestickPlot;
-import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.JRGanttDataset;
-import net.sf.jasperreports.charts.JRGanttSeries;
-import net.sf.jasperreports.charts.JRHighLowDataset;
-import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRItemLabel;
-import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.charts.JRPiePlot;
-import net.sf.jasperreports.charts.JRPieSeries;
-import net.sf.jasperreports.charts.JRScatterPlot;
-import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.charts.JRTimePeriodDataset;
-import net.sf.jasperreports.charts.JRTimePeriodSeries;
-import net.sf.jasperreports.charts.JRTimeSeries;
-import net.sf.jasperreports.charts.JRTimeSeriesDataset;
-import net.sf.jasperreports.charts.JRTimeSeriesPlot;
-import net.sf.jasperreports.charts.JRValueDataset;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.JRXyDataset;
-import net.sf.jasperreports.charts.JRXySeries;
-import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
-import net.sf.jasperreports.charts.type.TimePeriodEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -105,10 +66,6 @@ import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRBreak;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -157,11 +114,9 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.TabStop;
-import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -239,6 +194,15 @@ public class JRApiWriter
 		StringWriter buffer = new StringWriter();//FIXME use file buffered writer
 		writeReport(report, buffer);
 		return buffer.toString();
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getIndent()
+	{
+		return indent;
 	}
 
 
@@ -350,9 +314,6 @@ public class JRApiWriter
 		write(" */\n");
 		write("import java.awt.Color;\n");
 		write("\n");
-		write("import org.jfree.chart.plot.PlotOrientation;\n");
-		write("import org.jfree.chart.renderer.xy.XYBubbleRenderer;\n");
-		write("\n");
 		write("import net.sf.jasperreports.charts.*;\n");
 		write("import net.sf.jasperreports.charts.design.*;\n");
 		write("import net.sf.jasperreports.charts.util.*;\n");
@@ -360,7 +321,7 @@ public class JRApiWriter
 		write("import net.sf.jasperreports.crosstabs.design.*;\n");
 		write("import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;\n");
 		write("import net.sf.jasperreports.engine.*;\n");
-		write("import net.sf.jasperreports.engine.base.JRBaseChartPlot.JRBaseSeriesColor;\n");
+		write("import net.sf.jasperreports.charts.base.JRBaseChartPlot.JRBaseSeriesColor;\n");
 		write("import net.sf.jasperreports.engine.base.JRBaseFont;\n");
 		write("import net.sf.jasperreports.engine.design.*;\n");
 		write("import net.sf.jasperreports.engine.type.*;\n");
@@ -915,7 +876,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private void writeReportElement( JRElement element, String elementName)
+	public void writeReportElement( JRElement element, String elementName)
 	{
 		if(element != null)
 		{
@@ -1148,7 +1109,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private void writeFont( JRFont font, String fontHolderName)
+	public void writeFont( JRFont font, String fontHolderName)
 	{
 		if (font != null)
 		{
@@ -1365,76 +1326,6 @@ public class JRApiWriter
 	}
 	
 	/**
-	 *
-	 */
-	private void writeChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( chartName + ".setShowLegend({0});\n", getBooleanText(chart.getShowLegend()));
-			write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
-			write( chartName + ".setEvaluationGroup({0});\n", getGroupName(chart.getEvaluationGroup()));
-	
-			if(chart.getLinkType() != null)
-			{
-				write( chartName + ".setLinkType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkType()), HyperlinkTypeEnum.NONE.getName());
-			}
-			if(chart.getLinkTarget() != null)
-			{
-				write( chartName + ".setLinkTarget(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getLinkTarget()), HyperlinkTargetEnum.SELF.getName());
-			}
-			write( chartName + ".setBookmarkLevel({0, number, #});\n", chart.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
-
-			if(chart.getCustomizerClass() != null)
-			{
-				write( chartName + ".setCustomizerClass(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getCustomizerClass()));
-			}
-			write( chartName + ".setRenderType(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getRenderType()));
-			write( chartName + ".setTheme(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(chart.getTheme()));
-
-			writeReportElement( chart, chartName);
-			writeBox( chart.getLineBox(), chartName + ".getLineBox()");
-	
-			write( chartName + ".setTitlePosition({0});\n", chart.getTitlePositionValue());
-			write( chartName + ".setTitleColor({0});\n", chart.getOwnTitleColor());
-			if(chart.getTitleFont() != null)
-			{
-				write( chartName + ".setTitleFont(new JRBaseFont());\n");
-				writeFont( chart.getTitleFont(), chartName + ".getTitleFont()");
-			}
-			writeExpression( chart.getTitleExpression(), chartName, "TitleExpression");
-			write( chartName + ".setSubtitleColor({0});\n", chart.getOwnSubtitleColor());
-			
-			if(chart.getSubtitleFont() != null)
-			{
-				write( chartName + ".setSubtitleFont(new JRBaseFont());\n");
-				writeFont( chart.getSubtitleFont(), chartName + ".getSubtitleFont()");
-			}
-
-			writeExpression( chart.getSubtitleExpression(), chartName, "SubtitleExpression");
-			write( chartName + ".setLegendColor({0});\n", chart.getOwnLegendColor());
-			write( chartName + ".setLegendBackgroundColor({0});\n", chart.getOwnLegendBackgroundColor());
-			write( chartName + ".setLegendPosition({0});\n", chart.getLegendPositionValue());
-
-			if(chart.getLegendFont() != null)
-			{
-				write( chartName + ".setLegendFont(new JRBaseFont());\n");
-				writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
-			}
-			writeExpression( chart.getBookmarkLevelExpression(), chartName, "BookmarkLevelExpression");
-			writeExpression( chart.getAnchorNameExpression(), chartName, "AnchorNameExpression");
-			writeExpression( chart.getHyperlinkReferenceExpression(), chartName, "HyperlinkReferenceExpression");
-			writeExpression( chart.getHyperlinkWhenExpression(), chartName, "HyperlinkWhenExpression");//FIXMENOW can we reuse hyperlink write method?
-			writeExpression( chart.getHyperlinkAnchorExpression(), chartName, "HyperlinkAnchorExpression");
-			writeExpression( chart.getHyperlinkPageExpression(), chartName, "HyperlinkPageExpression");
-			writeExpression( chart.getHyperlinkTooltipExpression(), chartName, "HyperlinkTooltipExpression");
-			writeHyperlinkParameters( chart.getHyperlinkParameters(), chartName);
-	
-			flush();
-		}
-	}
-
-	/**
 	 * Writes the JRXML representation of an {@link JRElementDataset element dataset}.
 	 * 
 	 * <p>
@@ -1485,1572 +1376,6 @@ public class JRApiWriter
 				writeDatasetRun( datasetRun, datasetName);
 			}
 			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeCategoryDataSet( JRCategoryDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignCategoryDataset " + datasetName + " = new JRDesignCategoryDataset("+ parentName + ".getDataset());\n");
-	
-			writeElementDataset( dataset, datasetName);
-	
-			JRCategorySeries[] categorySeries = dataset.getSeries();
-			if (categorySeries != null && categorySeries.length > 0)
-			{
-				for(int i = 0; i < categorySeries.length; i++)
-				{
-					writeCategorySeries( categorySeries[i], datasetName, i);
-				}
-			}
-	
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	private void writeTimeSeriesDataset( JRTimeSeriesDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignTimeSeriesDataset " + datasetName + " =  new JRDesignTimeSeriesDataset(" + parentName + ".getDataset());\n");
-
-			if (dataset.getTimePeriodValue() != null && dataset.getTimePeriodValue() != TimePeriodEnum.DAY)
-			{
-				write( datasetName + ".setTimePeriod({0}.class);\n", ChartUtil.getTimePeriod(dataset.getTimePeriodValue()).getName());
-			}
-	
-			writeElementDataset( dataset, datasetName);
-	
-			JRTimeSeries[] timeSeries = dataset.getSeries();
-			if( timeSeries != null && timeSeries.length > 0 )
-			{
-				for( int i = 0; i < timeSeries.length; i++ )
-			{
-					writeTimeSeries( timeSeries[i], datasetName, i  );
-				}
-			}
-
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	private void writeGanttDataset( JRGanttDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignGanttDataset " + datasetName + " = new JRDesignGanttDataset(" + parentName + ".getDataset());\n");
-			writeElementDataset( dataset, datasetName);
-	
-			JRGanttSeries[] ganttSeries = dataset.getSeries();
-			if (ganttSeries != null && ganttSeries.length > 0)
-			{
-				for(int i = 0; i < ganttSeries.length; i++)
-				{
-					writeGanttSeries( ganttSeries[i], datasetName, i);
-				}
-			}
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	private void writeTimePeriodDataset( JRTimePeriodDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignTimePeriodDataset " + datasetName + " = new JRDesignTimePeriodDataset(" + parentName + ".getDataset());\n");
-			writeElementDataset( dataset, datasetName);
-	
-			JRTimePeriodSeries[] timePeriodSeries = dataset.getSeries();
-			if( timePeriodSeries != null && timePeriodSeries.length > 0 )
-			{
-				for( int i = 0; i < timePeriodSeries.length; i++ )
-				{
-					writeTimePeriodSeries( timePeriodSeries[i], datasetName, i);
-				}
-			}
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writePieSeries( JRPieSeries pieSeries, String parentName, int index)
-	{
-		if(pieSeries != null)
-		{
-			String pieSeriesName = parentName + "PieSeries" + index;
-			write( "JRDesignPieSeries " + pieSeriesName + " = new JRDesignPieSeries();\n");
-	
-			writeExpression( pieSeries.getKeyExpression(), pieSeriesName, "KeyExpression");
-			writeExpression( pieSeries.getValueExpression(), pieSeriesName, "ValueExpression");
-			writeExpression( pieSeries.getLabelExpression(), pieSeriesName, "LabelExpression");
-			writeHyperlink( pieSeries.getSectionHyperlink(),pieSeriesName, "SectionHyperlink");
-			write( parentName + ".addPieSeries(" + pieSeriesName + ");\n");
-	
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void writeCategorySeries( JRCategorySeries categorySeries, String parentName, int index)
-	{
-		if(categorySeries != null)
-		{
-			String categorySeriesName = parentName + "CategorySeries" + index;
-
-			write( "JRDesignCategorySeries " + categorySeriesName + " = new JRDesignCategorySeries();\n");
-
-			writeExpression( categorySeries.getSeriesExpression(), categorySeriesName, "SeriesExpression");
-			writeExpression( categorySeries.getCategoryExpression(), categorySeriesName, "CategoryExpression");
-			writeExpression( categorySeries.getValueExpression(), categorySeriesName, "ValueExpression");
-			writeExpression( categorySeries.getLabelExpression(), categorySeriesName, "LabelExpression");
-			writeHyperlink( categorySeries.getItemHyperlink(), categorySeriesName, "ItemHyperlink");
-			write( parentName + ".addCategorySeries(" + categorySeriesName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void writeXyzDataset( JRXyzDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignXyzDataset " + datasetName + " = new JRDesignXyzDataset(" + parentName + ".getDataset());\n");
-	
-			writeElementDataset( dataset, datasetName);
-	
-			JRXyzSeries[] series = dataset.getSeries();
-			if( series != null && series.length > 0 )
-			{
-				for( int i = 0; i < series.length; i++ )
-				{
-					writeXyzSeries( series[i], datasetName, i);
-				}
-			}
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeXyzSeries( JRXyzSeries series, String parentName, int index)
-	{
-		if(series != null)
-		{
-			String xyzSeriesName = parentName + "XyzSeries" + index;
-
-			write( "JRDesignXyzSeries " + xyzSeriesName + " = new JRDesignXyzSeries();\n");
-	
-			writeExpression( series.getSeriesExpression(), xyzSeriesName, "SeriesExpression");
-			writeExpression( series.getXValueExpression(), xyzSeriesName, "XValueExpression");
-			writeExpression( series.getYValueExpression(), xyzSeriesName, "YValueExpression");
-			writeExpression( series.getZValueExpression(), xyzSeriesName, "ZValueExpression");
-			writeHyperlink( series.getItemHyperlink(), xyzSeriesName, "ItemHyperlink");
-			write( parentName + ".addXyzSeries(" + xyzSeriesName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeXySeries( JRXySeries xySeries, String parentName, int index)
-	{
-		if(xySeries != null)
-		{
-			String xySeriesName = parentName + "XySeries" + index;
-			write( "JRDesignXySeries " + xySeriesName + " = new JRDesignXySeries();\n");
-			if(xySeries.getAutoSort() != null)
-			{
-				write( xySeriesName + ".setAutoSort({0});\n", xySeries.getAutoSort());
-			}
-			writeExpression( xySeries.getSeriesExpression(), xySeriesName, "SeriesExpression");
-			writeExpression( xySeries.getXValueExpression(), xySeriesName, "XValueExpression");
-			writeExpression( xySeries.getYValueExpression(), xySeriesName, "YValueExpression");
-			writeExpression( xySeries.getLabelExpression(), xySeriesName, "LabelExpression");
-			writeHyperlink( xySeries.getItemHyperlink(), xySeriesName, "ItemHyperlink");
-			write( parentName + ".addXySeries(" + xySeriesName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeXyDataset( JRXyDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignXyDataset " + datasetName + " = new JRDesignXyDataset(" + parentName + ".getDataset());\n");
-	
-			writeElementDataset( dataset, datasetName);
-	
-			JRXySeries[] xySeries = dataset.getSeries();
-			if (xySeries != null && xySeries.length > 0)
-			{
-				for(int i = 0; i < xySeries.length; i++)
-				{
-					writeXySeries( xySeries[i], datasetName, i);
-				}
-			}
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void writeTimeSeries( JRTimeSeries timeSeries, String parentName, int index)
-	{
-		if(timeSeries != null)
-		{
-			String timeSeriesName = parentName + "TimeSeries" + index;
-			write( "JRDesignTimeSeries " + timeSeriesName + " = new JRDesignTimeSeries();\n");
-			writeExpression( timeSeries.getSeriesExpression(), timeSeriesName, "SeriesExpression");
-			writeExpression( timeSeries.getTimePeriodExpression(), timeSeriesName, "TimePeriodExpression");
-			writeExpression( timeSeries.getValueExpression(), timeSeriesName, "ValueExpression");
-			writeExpression( timeSeries.getLabelExpression(), timeSeriesName, "LabelExpression");
-			writeHyperlink( timeSeries.getItemHyperlink(), timeSeriesName, "ItemHyperlink");
-			write( parentName + ".addTimeSeries(" + timeSeriesName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	private void writeGanttSeries( JRGanttSeries ganttSeries, String parentName, int index)
-	{
-		if(ganttSeries != null)
-		{
-			String ganttSeriesName = parentName + "GanttSeries" + index;
-			write( "JRDesignGanttSeries " + ganttSeriesName + " = new JRDesignGanttSeries();\n");
-			
-			writeExpression( ganttSeries.getSeriesExpression(), ganttSeriesName, "SeriesExpression");
-			writeExpression( ganttSeries.getTaskExpression(), ganttSeriesName, "TaskExpression");
-			writeExpression( ganttSeries.getSubtaskExpression(), ganttSeriesName, "SubtaskExpression");
-			writeExpression( ganttSeries.getStartDateExpression(), ganttSeriesName, "StartDateExpression");
-			writeExpression( ganttSeries.getEndDateExpression(), ganttSeriesName, "EndDateExpression");
-			writeExpression( ganttSeries.getPercentExpression(), ganttSeriesName, "PercentExpression");
-			writeExpression( ganttSeries.getLabelExpression(), ganttSeriesName, "LabelExpression");
-			writeHyperlink( ganttSeries.getItemHyperlink(), ganttSeriesName, "ItemHyperlink");
-			write( parentName + ".addGanttSeries(" + ganttSeriesName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 * 
-	 */
-	private void writeTimePeriodSeries( JRTimePeriodSeries timePeriodSeries, String parentName, int index)
-	{
-		if(timePeriodSeries != null)
-		{
-			String timePeriodSeriesName = parentName + "TimePeriodSeries" + index;
-			write( "JRDesignTimePeriodSeries " + timePeriodSeriesName + " = new JRDesignTimePeriodSeries();\n");
-			
-			writeExpression( timePeriodSeries.getSeriesExpression(), timePeriodSeriesName, "SeriesExpression");
-			writeExpression( timePeriodSeries.getStartDateExpression(), timePeriodSeriesName, "StartDateExpression");
-			writeExpression( timePeriodSeries.getEndDateExpression(), timePeriodSeriesName, "EndDateExpression");
-			writeExpression( timePeriodSeries.getValueExpression(), timePeriodSeriesName, "ValueExpression");
-			writeExpression( timePeriodSeries.getLabelExpression(), timePeriodSeriesName, "LabelExpression");
-			writeHyperlink( timePeriodSeries.getItemHyperlink(), timePeriodSeriesName, "ItemHyperlink");
-			write( parentName + ".addTimePeriodSeries(" + timePeriodSeriesName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writePieDataset( JRPieDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignPieDataset " + datasetName + " = new JRDesignPieDataset(" + parentName + ".getDataset());\n");
-			write( datasetName + ".setMaxCount({0, number, #});\n", dataset.getMaxCount());
-			write( datasetName + ".setMinPercentage({0});\n", dataset.getMinPercentage());
-	
-			writeElementDataset( dataset, datasetName);
-	
-			JRPieSeries[] pieSeries = dataset.getSeries();
-			if (pieSeries != null)
-			{
-				if (pieSeries.length > 1)
-				{
-					for(int i = 0; i < pieSeries.length; i++)
-					{
-						writePieSeries( pieSeries[i], datasetName, i);
-					}
-				}
-				else
-				{
-					//preserve old syntax of single series pie datasets
-					writePieSeries( pieSeries[0], datasetName, 0);
-				}
-			}
-	
-			writeExpression( dataset.getOtherKeyExpression(), datasetName, "OtherKeyExpression");
-			writeExpression( dataset.getOtherLabelExpression(), datasetName, "OtherLabelExpression");
-			writeHyperlink( dataset.getOtherSectionHyperlink(), datasetName, "OtherSectionHyperlink");
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 * Writes the description of a value dataset to the output stream.
-	 * @param dataset the value dataset to persist
-	 */
-	public void writeValueDataset( JRValueDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			write( "JRDesignValueDataset " + datasetName + " = new JRDesignValueDataset(" + parentName + ".getDataset());\n");
-			writeElementDataset( dataset, datasetName);
-			writeExpression( dataset.getValueExpression(), datasetName, "ValueExpression");
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes the description of how to display a value in a valueDataset.
-	 *
-	 * @param valueDisplay the description to save
-	 */
-	public void writeValueDisplay( JRValueDisplay valueDisplay, String parentName)
-	{
-		if(valueDisplay != null)
-		{
-			String valueDisplayName = parentName + "ValueDisplay";
-
-			write( "JRDesignValueDisplay " + valueDisplayName + " = new JRDesignValueDisplay(" +parentName + ".getValueDisplay(), " + parentName + ".getChart());\n");
-			
-			write( valueDisplayName + ".setColor({0});\n", valueDisplay.getColor());
-			write( valueDisplayName + ".setMask(\"{0}\");\n", valueDisplay.getMask());
-			write( valueDisplayName + ".setFont(new JRBaseFont());\n");
-			if(valueDisplay.getFont() != null)
-			{
-				write( valueDisplayName + ".setFont(new JRBaseFont());\n");
-				writeFont( valueDisplay.getFont(), valueDisplayName + ".getFont()");
-			}
-			
-			write( parentName + ".setValueDisplay(" + valueDisplayName + ");\n");
-			
-			flush();
-		}
-	}
-
-	/**
-	 * Writes the description of how to display item labels in a category plot.
-	 *
-	 * @param itemLabel the description to save
-	 */
-	public void writeItemLabel( JRItemLabel itemLabel, String parentName, String itemLabelSuffix)
-	{
-		if(itemLabel != null)
-		{
-			String itemLabelName = parentName + itemLabelSuffix;
-			write( "JRDesignItemLabel " + itemLabelName + " = new JRDesignItemLabel("+ parentName + ".getItemLabel(), " + parentName + ".getChart());\n");
-			write( itemLabelName + ".setColor({0});\n", itemLabel.getColor());
-			write( itemLabelName + ".setBackgroundColor({0});\n", itemLabel.getBackgroundColor());
-			if(itemLabel.getFont() != null)
-			{
-				write( itemLabelName + ".setFont(new JRBaseFont());\n");
-				writeFont( itemLabel.getFont(), itemLabelName + ".getFont()");
-			}
-			
-			write( parentName + ".set" + itemLabelSuffix + "(" + itemLabelName + ");\n");
-	
-			flush();
-		}
-	}
-
-	/**
-	 * Writes a data range block to the output stream.
-	 *
-	 * @param dataRange the range to write
-	 */
-	public void writeDataRange( JRDataRange dataRange, String parentName, String dataRangeSuffix)
-	{
-		if(dataRange != null)
-		{
-			String dataRangeName = parentName + dataRangeSuffix;
-			write( "JRDesignDataRange " + dataRangeName + " = new JRDesignDataRange(" + parentName + ".get" + dataRangeSuffix + "());\n");
-			writeExpression( dataRange.getLowExpression(), dataRangeName, "LowExpression");
-			writeExpression( dataRange.getHighExpression(), dataRangeName, "HighExpression");
-			write( parentName + ".set" + dataRangeSuffix + "(" + dataRangeName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes a meter interval description to the output stream.
-	 *
-	 * @param interval the interval to write
-	 */
-	private void writeMeterInterval( JRMeterInterval interval, String parentName, String meterIntervalName)
-	{
-		if(interval != null)
-		{
-			write( "JRMeterInterval " + meterIntervalName + " = new JRMeterInterval();\n");
-			write( meterIntervalName + ".setLabel(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(interval.getLabel()));
-			write( meterIntervalName + ".setBackgroundColor({0});\n", interval.getBackgroundColor());
-			write( meterIntervalName + ".setAlpha({0});\n", interval.getAlphaDouble());
-			writeDataRange( interval.getDataRange(), meterIntervalName, "DataRange");
-			write( parentName + ".addInterval(" + meterIntervalName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 * Writes out the contents of a series colors block for a chart.  Assumes the caller
-	 * has already written the <code>&lt;seriesColors&gt;</code> tag.
-	 *
-	 * @param seriesColors the colors to write
-	 */
-	private void writeSeriesColors( SortedSet<JRSeriesColor> seriesColors, String parentName)
-	{
-		if (seriesColors == null || seriesColors.size() == 0)
-		{
-			return;
-		}
-		//FIXME why do we need an array?
-		JRSeriesColor[] colors = seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
-		for (int i = 0; i < colors.length; i++)
-		{
-			String seriesColorName = parentName + "SeriesColor" +i;
-			write( "JRBaseSeriesColor " + seriesColorName + " = new JRBaseSeriesColor(" + colors[i].getSeriesOrder() +", {0});\n", colors[i].getColor());
-			write( parentName + ".addSeriesColor(" + seriesColorName + ");\n");
-			flush();
-		}
-	}
-
-	/**
-	 * Write the information about a the data and layout that make up one range axis in
-	 * a multiple axis chart.
-	 *
-	 * @param chartAxis the axis being written
-	 */
-	private void writeChartAxis( JRChartAxis chartAxis, String parentName, String axisName, String chartName)
-	{
-		if(chartAxis != null)
-		{
-			// Let the nested chart describe itself
-			writeChartTag( chartAxis.getChart(), axisName +"Chart");
-			
-			write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + axisName +"Chart);\n");
-			write( axisName + ".setPosition({0});\n", chartAxis.getPositionValue());
-			write( axisName + ".setChart(" + axisName +"Chart);\n");
-//			write( parentName + ".setChart(" + axisName +"Chart);\n");
-			write( parentName + ".addAxis(" + axisName + ");\n");
-			
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 *
-	 */
-	private void writePlot( JRChartPlot plot, String plotName)
-	{
-		if(plot != null)
-		{
-			write( plotName + ".setBackcolor({0});\n", plot.getOwnBackcolor());
-
-			if (plot.getOrientationValue() != null && plot.getOrientationValue() != PlotOrientationEnum.VERTICAL)
-			{
-				write( plotName + ".setOrientation({0});\n", plot.getOrientationValue());
-			}
-
-			write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
-			write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlphaFloat());
-			//write( plotName + ".setLabelRotation({0});\n", plot.getLabelRotationDouble());//FIXMECHART check the deprecation of this method; looks incomplete
-			writeSeriesColors( plot.getSeriesColors(), plotName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writePieChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_PIE);\n");
-			writeChart( chart, chartName);
-			writePieDataset( (JRPieDataset)chart.getDataset(), chartName, "PieDataset");
-			// write plot
-			JRPiePlot plot = (JRPiePlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "PiePlot";
-				write( "JRDesignPiePlot " + plotName + " = (JRDesignPiePlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
-				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
-				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
-				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
-				
-				writePlot( plot, plotName);
-				writeItemLabel( plot.getItemLabel(),plotName, "ItemLabel");
-				flush();
-			}
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writePie3DChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_PIE3D);\n");
-			writeChart( chart, chartName);
-			writePieDataset( (JRPieDataset)chart.getDataset(), chartName, "PieDataset");
-			// write plot
-			JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "Pie3DPlot";
-				write( "JRDesignPie3DPlot " + plotName + " = (JRDesignPie3DPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
-				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
-				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
-				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
-				write( plotName + ".setDepthFactor({0});\n", plot.getDepthFactorDouble());
-				
-				writePlot( plot, plotName);
-				writeItemLabel( plot.getItemLabel(),plotName, "ItemLabel");
-				flush();
-			}
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes out the category axis format block.
-	 *
-	 * @param axisLabelFont font to use for the axis label
-	 * @param axisLabelColor color to use for the axis label
-	 * @param axisTickLabelFont font to use for the label of each tick mark
-	 * @param axisTickLabelColor color to use for the label of each tick mark
-	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
-	 * @param axisVerticalTickLabels flag to render tick labels at 90 degrees
-	 * @param labelRotation label rotation angle
-	 * @param axisLineColor the color to use for the axis line and any tick marks
-	 *
-	 */
-	public void writeCategoryAxisFormat(
-		String indent, 
-		JRFont axisLabelFont, 
-		Color axisLabelColor,
-		JRFont axisTickLabelFont, 
-		Color axisTickLabelColor,
-		String axisTickLabelMask, 
-		Boolean axisVerticalTickLabels, 
-		Double labelRotation, 
-		Color axisLineColor,
-		String parentName
-		) 
-	{
-		if (axisLabelFont == null && axisLabelColor == null &&
-			axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
-		{
-			return;
-		}
-
-		write( parentName + ".setCategoryAxisTickLabelRotation({0});\n", labelRotation);
-		write( parentName + ".setCategoryAxisLabelColor({0});\n", axisLabelColor);
-		write( parentName + ".setCategoryAxisTickLabelColor({0});\n", axisTickLabelColor);
-		write( parentName + ".setCategoryAxisLineColor({0});\n", axisLineColor);
-		write( parentName + ".setCategoryAxisTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
-		write( parentName + ".setCategoryAxisVerticalTickLabels({0});\n", getBooleanText(axisVerticalTickLabels));
-
-		
-		if (axisLabelFont != null)
-		{
-			write( parentName + ".setCategoryAxisLabelFont(new JRBaseFont());\n");
-			writeFont( axisLabelFont, parentName + ".getCategoryAxisLabelFont()");
-		}
-
-		if (axisTickLabelFont != null)
-		{
-			write( parentName + ".setCategoryAxisTickLabelFont(new JRBaseFont());\n");
-			writeFont( axisTickLabelFont, parentName + ".getCategoryAxisTickLabelFont()");
-		}
-
-		//write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
-		
-		flush();
-	}
-	
-	
-	
-	/**
-	 * Writes out the axis format block for a chart axis.
-	 *
-	 * @param axisLabelFont font to use for the axis label
-	 * @param axisLabelColor color to use for the axis label
-	 * @param axisTickLabelFont font to use for the label of each tick mark
-	 * @param axisTickLabelColor color to use for the label of each tick mark
-	 * @param axisTickLabelMask formatting mask to use for the label of each tick mark
-	 * @param axisVerticalTickLabels flag to render tick labels at 90 degrees
-	 * @param axisLineColor the color to use for the axis line and any tick marks
-	 *
-	 */
-	public void writeAxisFormat(
-		String indent,
-		JRFont axisLabelFont, 
-		Color axisLabelColor,
-		JRFont axisTickLabelFont, 
-		Color axisTickLabelColor,
-		String axisTickLabelMask, 
-		Boolean axisVerticalTickLabels, 
-		Color axisLineColor,
-		String parentName,
-		String axisNameSuffix,
-		boolean isToSet
-		) 
-	{
-		if (axisLabelFont == null && axisLabelColor == null &&
-				axisTickLabelFont == null && axisTickLabelColor == null && axisLineColor == null)
-		{
-			return;
-		}
-		String axisName = parentName + axisNameSuffix;
-		if(isToSet)
-		{
-			write( "JRAxisFormat " + axisName + " = new JRAxisFormat();\n");
-		}
-		write( axisName + ".setLabelColor({0});\n", axisLabelColor);
-		write( axisName + ".setTickLabelColor({0});\n", axisTickLabelColor);
-		write( axisName + ".setLineColor({0});\n", axisLineColor);
-		write( axisName + ".setTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
-		write( axisName + ".setVerticalTickLabel({0});\n", getBooleanText(axisVerticalTickLabels));
-
-		
-		if (axisLabelFont != null)
-		{
-			write( axisName + ".setLabelFont(new JRBaseFont());\n");
-			writeFont( axisLabelFont, axisName + ".getLabelFont()");
-		}
-
-		if (axisTickLabelFont != null)
-		{
-			write( axisName + ".setTickLabelFont(new JRBaseFont());\n");
-			writeFont( axisTickLabelFont, axisName + ".getTickLabelFont()");
-		}
-		if(isToSet)//FIXMEAPIWRITER check this
-		{
-			write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
-		}
-
-		flush();
-	}
-
-	/**
-	 *
-	 */
-	private void writeBarPlot( JRBarPlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "BarPlot";
-			write( "JRDesignBarPlot " + plotName + " = (JRDesignBarPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
-			write( plotName + ".setShowTickLabels({0});\n", getBooleanText(plot.getShowTickLabels()));
-			write( plotName + ".setShowTickMarks({0});\n", getBooleanText(plot.getShowTickMarks()));
-			writePlot( plot, plotName);
-			
-			writeItemLabel( plot.getItemLabel(), plotName, "ItemLabel");
-			
-			writeExpression( plot.getCategoryAxisLabelExpression(), plotName, "CategoryAxisLabelExpression");
-			writeCategoryAxisFormat(
-					indent,
-					plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
-					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
-					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName
-					);
-			
-			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-					plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-					plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), 
-					plot.getOwnValueAxisLineColor(),
-					plotName, "ValueAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-		
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeBubblePlot( JRBubblePlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "BubblePlot";
-			write( "JRDesignBubblePlot " + plotName + " = (JRDesignBubblePlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setScaleType({0});\n", plot.getScaleTypeValue());
-			writePlot( plot, plotName);
-			
-			writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");
-			writeAxisFormat(
-					indent, plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
-					plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
-					plot.getXAxisTickLabelMask(), plot.getXAxisVerticalTickLabels(), plot.getOwnXAxisLineColor(),
-					plotName, "XAxisFormat", true
-					);
-			writeExpression( plot.getYAxisLabelExpression(), plotName, "YAxisLabelExpression");
-			writeAxisFormat(
-					indent, plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
-					plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
-					plot.getYAxisTickLabelMask(), plot.getYAxisVerticalTickLabels(), plot.getOwnYAxisLineColor(),
-					plotName, "YAxisFormat", true
-					);
-
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeLinePlot( JRLinePlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "LinePlot";
-			write( "JRDesignLinePlot " + plotName + " = (JRDesignLinePlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
-			writePlot( plot, plotName);
-			
-			writeExpression( plot.getCategoryAxisLabelExpression(), plotName, "CategoryAxisLabelExpression");
-			writeCategoryAxisFormat(
-					indent,
-					plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
-					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
-					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName
-					);
-			
-			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-					plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-					plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), 
-					plot.getOwnValueAxisLineColor(),
-					plotName, "ValueAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	private void writeTimeSeriesPlot( JRTimeSeriesPlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "TimeSeriesPlot";
-			write( "JRDesignTimeSeriesPlot " + plotName + " = (JRDesignTimeSeriesPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
-			writePlot( plot, plotName);
-			
-			writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
-			writeAxisFormat(
-					indent, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
-					plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
-					plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), 
-					plot.getOwnTimeAxisLineColor(),
-					plotName, "TimeAxisFormat", true
-					);
-			
-			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-					plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-					plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), 
-					plot.getOwnValueAxisLineColor(),
-					plotName, "ValueAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	public void writeBar3DPlot( JRBar3DPlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "Bar3DPlot";
-			write( "JRDesignBar3DPlot " + plotName + " = (JRDesignBar3DPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
-			write( plotName + ".setXOffset({0});\n", plot.getXOffsetDouble());
-			write( plotName + ".setYOffset({0});\n", plot.getYOffsetDouble());
-			writePlot( plot, plotName);
-			
-			writeItemLabel( plot.getItemLabel(), plotName, "ItemLabel");
-			
-			writeExpression( plot.getCategoryAxisLabelExpression(), plotName, "CategoryAxisLabelExpression");
-			writeCategoryAxisFormat(
-					indent,
-					plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
-					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
-					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName
-					);
-			
-			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-					plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-					plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), 
-					plot.getOwnValueAxisLineColor(),
-					plotName, "ValueAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeBarChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BAR);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeBar3DChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BAR3D);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeBubbleChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BUBBLE);\n");
-			writeChart( chart, chartName);
-			writeXyzDataset( (JRXyzDataset) chart.getDataset(), chartName, "XyzDataset");
-			writeBubblePlot( (JRBubblePlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeStackedBarChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDBAR);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeStackedBar3DChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDBAR3D);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeLineChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_LINE);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeLinePlot( (JRLinePlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public void writeTimeSeriesChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_TIMESERIES);\n");
-			writeChart( chart, chartName);
-			writeTimeSeriesDataset( (JRTimeSeriesDataset) chart.getDataset(), chartName, "TimeSeriesDataset");
-			writeTimeSeriesPlot( (JRTimeSeriesPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public void writeHighLowDataset( JRHighLowDataset dataset, String parentName, String datasetNameSuffix)
-	{
-		if(dataset != null)
-		{
-			String datasetName = parentName + datasetNameSuffix;
-			
-			write( "JRDesignHighLowDataset " + datasetName + " = (JRDesignHighLowDataset)" + parentName + ".getDataset();\n");
-	
-			writeElementDataset( dataset, datasetName);
-	
-			writeExpression( dataset.getSeriesExpression(), datasetName, "SeriesExpression");
-			writeExpression( dataset.getDateExpression(), datasetName, "DateExpression");
-			writeExpression( dataset.getHighExpression(), datasetName, "HighExpression");
-			writeExpression( dataset.getLowExpression(), datasetName, "LowExpression");
-			writeExpression( dataset.getOpenExpression(), datasetName, "OpenExpression");
-			writeExpression( dataset.getCloseExpression(), datasetName, "CloseExpression");
-			writeExpression( dataset.getVolumeExpression(), datasetName, "VolumeExpression");
-			writeHyperlink( dataset.getItemHyperlink(), datasetName, "ItemHyperlink");
-			write( parentName + ".setDataset(" + datasetName + ");\n");
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public void writeHighLowChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_HIGHLOW);\n");
-			writeChart( chart, chartName);
-			writeHighLowDataset( (JRHighLowDataset) chart.getDataset(), chartName, "HighLowDataset");
-			
-			JRHighLowPlot plot = (JRHighLowPlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "HighLowPlot";
-				write( "JRDesignHighLowPlot " + plotName + " = (JRDesignHighLowPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowOpenTicks({0});\n", getBooleanText(plot.getShowOpenTicks()));
-				write( plotName + ".setShowCloseTicks({0});\n", getBooleanText(plot.getShowCloseTicks()));
-
-				writePlot( plot, plotName);
-				writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
-				writeAxisFormat(
-						indent, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
-						plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
-						plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), plot.getOwnTimeAxisLineColor(),
-						plotName, "TimeAxisFormat", true
-						);
-				
-				writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-				writeAxisFormat(
-						indent, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-						plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-						plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor(),
-						plotName, "ValueAxisFormat", true
-						);
-				writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-				writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-				writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-				writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-		
-				flush();
-			}
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public void writeGanttChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_GANTT);\n");
-			writeChart( chart, chartName);
-			writeGanttDataset( (JRGanttDataset) chart.getDataset(), chartName, "GanttDataset");
-			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public void writeCandlestickChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_CANDLESTICK);\n");
-			writeChart( chart, chartName);
-			writeHighLowDataset( (JRHighLowDataset) chart.getDataset(), chartName, "HighLowDataset");
-			
-			JRCandlestickPlot plot = (JRCandlestickPlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "CandlestickPlot";
-				
-				write( "JRDesignCandlestickPlot " + plotName + " = (JRDesignCandlestickPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShowVolume({0});\n", getBooleanText(plot.getShowVolume()));
-				writePlot( plot, plotName);
-				writeExpression( plot.getTimeAxisLabelExpression(), plotName, "TimeAxisLabelExpression");
-				writeAxisFormat(
-						indent, plot.getTimeAxisLabelFont(), plot.getOwnTimeAxisLabelColor(),
-						plot.getTimeAxisTickLabelFont(), plot.getOwnTimeAxisTickLabelColor(),
-						plot.getTimeAxisTickLabelMask(), plot.getTimeAxisVerticalTickLabels(), plot.getOwnTimeAxisLineColor(),
-						plotName, "TimeAxisFormat", true
-						);
-				
-				writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-				writeAxisFormat(
-						indent, plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-						plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-						plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), plot.getOwnValueAxisLineColor(),
-						plotName, "ValueAxisFormat", true
-						);
-				writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-				writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-				writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-				writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-		
-				flush();
-			}
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void writeAreaPlot( JRAreaPlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "AreaPlot";
-			
-			write( "JRDesignAreaPlot " + plotName + " = (JRDesignAreaPlot)" + chartName + ".getPlot();\n");
-			writePlot( plot, plotName);
-	
-			writeExpression( plot.getCategoryAxisLabelExpression(), plotName, "CategoryAxisLabelExpression");
-			writeCategoryAxisFormat(
-					indent,
-					plot.getCategoryAxisLabelFont(), plot.getOwnCategoryAxisLabelColor(),
-					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
-					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
-					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName
-					);
-			
-			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getValueAxisLabelFont(), plot.getOwnValueAxisLabelColor(),
-					plot.getValueAxisTickLabelFont(), plot.getOwnValueAxisTickLabelColor(),
-					plot.getValueAxisTickLabelMask(), plot.getValueAxisVerticalTickLabels(), 
-					plot.getOwnValueAxisLineColor(),
-					plotName, "ValueAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeAreaChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_AREA);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeScatterPlot( JRScatterPlot plot, String chartName)
-	{
-		if(plot != null)
-		{
-			String plotName = chartName + "ScatterPlot";
-			write( "JRDesignScatterPlot " + plotName + " = (JRDesignScatterPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setShowLines({0});\n", getBooleanText(plot.getShowLines()));
-			write( plotName + ".setShowShapes({0});\n", getBooleanText(plot.getShowShapes()));
-			writePlot( plot, plotName);
-			
-			writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getXAxisLabelFont(), plot.getOwnXAxisLabelColor(),
-					plot.getXAxisTickLabelFont(), plot.getOwnXAxisTickLabelColor(),
-					plot.getXAxisTickLabelMask(), plot.getXAxisVerticalTickLabels(), 
-					plot.getOwnXAxisLineColor(),
-					plotName, "XAxisFormat", true
-					);
-			
-			writeExpression( plot.getYAxisLabelExpression(), plotName, "YAxisLabelExpression");
-			writeAxisFormat(
-					indent, 
-					plot.getYAxisLabelFont(), plot.getOwnYAxisLabelColor(),
-					plot.getYAxisTickLabelFont(), plot.getOwnYAxisTickLabelColor(),
-					plot.getYAxisTickLabelMask(), plot.getYAxisVerticalTickLabels(), 
-					plot.getOwnYAxisLineColor(),
-					plotName, "YAxisFormat", true
-					);
-			writeExpression( plot.getDomainAxisMinValueExpression(), plotName, "DomainAxisMinValueExpression");
-			writeExpression( plot.getDomainAxisMaxValueExpression(), plotName, "DomainAxisMaxValueExpression");
-			writeExpression( plot.getRangeAxisMinValueExpression(), plotName, "RangeAxisMinValueExpression");
-			writeExpression( plot.getRangeAxisMaxValueExpression(), plotName, "RangeAxisMaxValueExpression");
-	
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeScatterChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_SCATTER);\n");
-			writeChart( chart, chartName);
-			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
-			writeScatterPlot( (JRScatterPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeXyAreaChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYAREA);\n");
-			writeChart( chart, chartName);
-			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
-			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeXyBarChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYBAR);\n");
-			writeChart( chart, chartName);
-			JRChartDataset dataset = chart.getDataset();
-
-			if( dataset.getDatasetType() == JRChartDataset.TIMESERIES_DATASET )
-			{
-				writeTimeSeriesDataset( (JRTimeSeriesDataset)dataset, chartName, "TimeSeriesDataset");
-			}
-			else if( dataset.getDatasetType() == JRChartDataset.TIMEPERIOD_DATASET ){
-				writeTimePeriodDataset( (JRTimePeriodDataset)dataset, chartName, "XyDataset");
-			}
-			else if( dataset.getDatasetType() == JRChartDataset.XY_DATASET ){
-				writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
-			}
-			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public void writeXyLineChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYLINE);\n");
-			writeChart( chart, chartName);
-			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
-			writeLinePlot( (JRLinePlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes the definition of a meter chart to the output stream.
-	 *
-	 * @param chart the meter chart to write
-	 */
-	public void writeMeterChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_METER);\n");
-			writeChart( chart, chartName);
-			writeValueDataset( (JRValueDataset) chart.getDataset(), chartName, "ValueDataset");
-			JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "MeterPlot";
-				
-				write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setShape({0});\n", plot.getShapeValue());
-				write( plotName + ".setMeterAngle({0, number, #});\n", plot.getMeterAngleInteger());
-				
-				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
-				write( plotName + ".setTickInterval({0});\n", plot.getTickIntervalDouble());
-				write( plotName + ".setMeterBackgroundColor({0});\n", plot.getMeterBackgroundColor());
-				write( plotName + ".setNeedleColor({0});\n", plot.getNeedleColor());
-				write( plotName + ".setTickColor({0});\n", plot.getTickColor());
-				write( plotName + ".setTickCount({0});\n", plot.getTickCount());
-				
-				writePlot( plot, plotName);
-				if (plot.getTickLabelFont() != null)
-				{
-					write( plotName + ".setTickLabelFont(new JRBaseFont());\n");
-					writeFont( plot.getTickLabelFont(), plotName + ".getTickLabelFont()");
-					flush();
-				}
-				writeValueDisplay( plot.getValueDisplay(), plotName);
-				writeDataRange( plot.getDataRange(), plotName, "DataRange");
-
-				List<JRMeterInterval> intervals = plot.getIntervals();
-				if (intervals != null && intervals.size() > 0)
-				{
-					for(int i = 0; i < intervals.size(); i++)
-					{
-						JRMeterInterval meterInterval = intervals.get(i);
-						writeMeterInterval( meterInterval, plotName, plotName+"Interval"+i);
-					}
-				}
-				flush();
-				
-			}
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes the description of a thermometer chart to the output stream.
-	 *
-	 * @param chart the thermometer chart to write
-	 */
-	public void writeThermometerChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_THERMOMETER);\n");
-			writeChart( chart, chartName);
-			writeValueDataset( (JRValueDataset) chart.getDataset(), chartName, "ValueDataset");
-			JRThermometerPlot plot = (JRThermometerPlot) chart.getPlot();
-			if(plot != null)
-			{
-				String plotName = chartName + "ThermometerPlot";
-				write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
-				write( plotName + ".setValueLocation({0});\n", plot.getValueLocationValue());
-				write( plotName + ".setMercuryColor({0});\n", plot.getMercuryColor());
-				writePlot( plot, plotName);
-				writeValueDisplay( plot.getValueDisplay(), plotName);
-				writeDataRange( plot.getDataRange(), plotName, "DataRange");
-
-				if (plot.getLowRange() != null)
-				{
-					writeDataRange( plot.getLowRange(), plotName, "LowRange");
-				}
-
-				if (plot.getMediumRange() != null)
-				{
-					writeDataRange( plot.getMediumRange(), plotName, "MediumRange");
-				}
-
-				if (plot.getHighRange() != null)
-				{
-					writeDataRange( plot.getHighRange(), plotName, "HighRange");
-				}
-				flush();
-				
-			}
-			flush();
-		}
-	}
-
-
-	/**
-	 * Writes the definition of a multiple axis chart to the output stream.
-	 *
-	 * @param chart the multiple axis chart to write
-	 */
-	public void writeMultiAxisChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_MULTI_AXIS);\n");
-			writeChart( chart, chartName);
-			JRMultiAxisPlot plot = (JRMultiAxisPlot) chart.getPlot();
-			String plotName = chartName + "MultiAxisPlot";
-			
-			write( "JRDesignMultiAxisPlot " + plotName + " = (JRDesignMultiAxisPlot)" + chartName + ".getPlot();\n");
-			write( plotName + ".setChart(" + chartName + ");\n");//FIXMECHART why is this needed since we get the plot from chart?
-			writePlot( chart.getPlot(), plotName);
-			List<JRChartAxis> axes = plot.getAxes();
-			if (axes != null && axes.size() > 0)
-			{
-				for (int i = 0; i < axes.size(); i++)
-				{
-					JRChartAxis chartAxis = axes.get(i);
-					writeChartAxis( chartAxis, plotName, plotName + "Axis" + i, chartName);
-				}
-			}
-			flush();
-		}
-	}
-
-	/**
-	 *
-	 */
-	public void writeStackedAreaChart( JRChart chart, String chartName)
-	{
-		if(chart != null)
-		{
-			write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDAREA);\n");
-			writeChart( chart, chartName);
-			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
-			flush();
-		}
-	}
-
-
-	/**
-	 * 
-	 */
-	public void writeChartTag( JRChart chart, String chartName)
-	{
-		switch(chart.getChartType()) {
-			case JRChart.CHART_TYPE_AREA:
-				writeAreaChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_BAR:
-				writeBarChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_BAR3D:
-				writeBar3DChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_BUBBLE:
-				writeBubbleChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_CANDLESTICK:
-				writeCandlestickChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_HIGHLOW:
-				writeHighLowChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_LINE:
-				writeLineChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_METER:
-				writeMeterChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_MULTI_AXIS:
-				writeMultiAxisChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_PIE:
-				writePieChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_PIE3D:
-				writePie3DChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_SCATTER:
-				writeScatterChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_STACKEDBAR:
-				writeStackedBarChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_STACKEDBAR3D:
-				writeStackedBar3DChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_THERMOMETER:
-				writeThermometerChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_TIMESERIES:
-				writeTimeSeriesChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_XYAREA:
-				writeXyAreaChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_XYBAR:
-				writeXyBarChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_XYLINE:
-				writeXyLineChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_STACKEDAREA:
-				writeStackedAreaChart( chart, chartName);
-				break;
-			case JRChart.CHART_TYPE_GANTT:
-				writeGanttChart( chart, chartName);
-				break;
-			default:
-				throw 
-					new JRRuntimeException(
-						JRDesignChart.EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE,
-						(Object[])null);
 		}
 	}
 
@@ -3633,7 +1958,7 @@ public class JRApiWriter
 	/**
 	 * 
 	 */
-	protected void writeHyperlinkParameters( JRHyperlinkParameter[] parameters, String parentName)
+	public void writeHyperlinkParameters( JRHyperlinkParameter[] parameters, String parentName)
 	{
 		if (parameters != null)
 		{
@@ -3890,7 +2215,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void writeBox( JRLineBox box, String boxHolder)
+	public void writeBox( JRLineBox box, String boxHolder)
 	{
 		if (box != null)
 		{
@@ -3981,7 +2306,7 @@ public class JRApiWriter
 		}
 	}
 
-	private String getGroupName(JRGroup group)
+	public String getGroupName(JRGroup group)
 	{
 		if(group != null)
 		{
@@ -3998,7 +2323,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String text)
+	public void write(String text)
 	{
 		try
 		{
@@ -4014,7 +2339,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Object value)
+	public void write(String pattern, Object value)
 	{
 		write(pattern, value, null);
 	}
@@ -4023,7 +2348,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Object value, Object defaultValue)
+	public void write(String pattern, Object value, Object defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4035,7 +2360,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Enum<?> value)
+	public void write(String pattern, Enum<?> value)
 	{
 		write(pattern, value, null);
 	}
@@ -4044,7 +2369,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Enum<?> value, Enum<?> defaultValue)
+	public void write(String pattern, Enum<?> value, Enum<?> defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4056,7 +2381,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, int value)
+	public void write(String pattern, int value)
 	{
 		write(MessageFormat.format(pattern, new Object[]{value}));
 	}
@@ -4065,7 +2390,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, int value, int defaultValue)
+	public void write(String pattern, int value, int defaultValue)
 	{
 		if (value != defaultValue)
 		{
@@ -4077,7 +2402,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Float value)
+	public void write(String pattern, Float value)
 	{
 		write(pattern, value, null);
 	}
@@ -4086,7 +2411,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Float value, Float defaultValue)
+	public void write(String pattern, Float value, Float defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4103,7 +2428,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Double value)
+	public void write(String pattern, Double value)
 	{
 		write(pattern, value, null);
 	}
@@ -4112,7 +2437,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Double value, Double defaultValue)
+	public void write(String pattern, Double value, Double defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4129,7 +2454,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, boolean value, boolean defaultValue)
+	public void write(String pattern, boolean value, boolean defaultValue)
 	{
 		if (value != defaultValue)
 		{
@@ -4141,7 +2466,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, byte value, byte defaultValue)
+	public void write(String pattern, byte value, byte defaultValue)
 	{
 		if (value != defaultValue)
 		{
@@ -4153,7 +2478,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Color value)
+	public void write(String pattern, Color value)
 	{
 		write(pattern, value, null);
 	}
@@ -4162,7 +2487,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Color value, Color defaultValue)
+	public void write(String pattern, Color value, Color defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4189,7 +2514,7 @@ public class JRApiWriter
 	}
 
 	
-	private String getBooleanText(Boolean key)
+	public String getBooleanText(Boolean key)
 	{
 		return key == null 
 			? null 
@@ -4215,7 +2540,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void flush()
+	public void flush()
 	{
 		try
 		{
@@ -4261,121 +2586,4 @@ public class JRApiWriter
 	}
 
 	
-}
-
-
-class JRApiWriterVisitor implements JRVisitor
-{
-	
-	private JRApiWriter apiWriter;
-	private String name;
-	
-	/**
-	 *
-	 */
-	public JRApiWriterVisitor(JRApiWriter apiWriter)
-	{
-		this.apiWriter = apiWriter;
-	}
-
-	@Override
-	public void visitBreak(JRBreak breakElement)
-	{
-		apiWriter.writeBreak(breakElement, name);
-	}
-
-	@Override
-	public void visitChart(JRChart chart)
-	{
-		apiWriter.writeChartTag(chart, name);
-	}
-
-	@Override
-	public void visitCrosstab(JRCrosstab crosstab)
-	{
-		apiWriter.writeCrosstab(crosstab, name);
-	}
-
-	@Override
-	public void visitElementGroup(JRElementGroup elementGroup)
-	{
-		apiWriter.writeElementGroup(elementGroup, name);
-	}
-
-	@Override
-	public void visitEllipse(JREllipse ellipse)
-	{
-		apiWriter.writeEllipse(ellipse, name);
-	}
-
-	@Override
-	public void visitFrame(JRFrame frame)
-	{
-		apiWriter.writeFrame(frame, name);
-	}
-
-	@Override
-	public void visitImage(JRImage image)
-	{
-		apiWriter.writeImage(image, name);
-	}
-
-	@Override
-	public void visitLine(JRLine line)
-	{
-		apiWriter.writeLine(line, name);
-	}
-
-	@Override
-	public void visitRectangle(JRRectangle rectangle)
-	{
-		apiWriter.writeRectangle(rectangle, name);
-	}
-
-	@Override
-	public void visitStaticText(JRStaticText staticText)
-	{
-		apiWriter.writeStaticText(staticText, name);
-	}
-
-	@Override
-	public void visitSubreport(JRSubreport subreport)
-	{
-		apiWriter.writeSubreport(subreport, name);
-	}
-
-	@Override
-	public void visitTextField(JRTextField textField)
-	{
-		apiWriter.writeTextField(textField, name);
-	}
-
-	@Override
-	public void visitComponentElement(JRComponentElement componentElement)
-	{
-		apiWriter.writeComponentElement(componentElement, name);
-	}
-
-	@Override
-	public void visitGenericElement(JRGenericElement element)
-	{
-		apiWriter.writeGenericElement(element, name);
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
 }

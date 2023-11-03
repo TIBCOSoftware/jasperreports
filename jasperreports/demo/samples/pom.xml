@@ -23,6 +23,7 @@
 		<module>javascript</module>
 		<module>query</module>
 		<module>scriptlet</module>
+		<module>spiderchartcomponent</module>
 	</modules>
 	<properties>
 		<skipInstall>true</skipInstall>

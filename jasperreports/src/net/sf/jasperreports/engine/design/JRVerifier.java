@@ -36,22 +36,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.charts.JRGanttDataset;
-import net.sf.jasperreports.charts.JRGanttSeries;
-import net.sf.jasperreports.charts.JRHighLowDataset;
-import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.charts.JRPieSeries;
-import net.sf.jasperreports.charts.JRTimePeriodDataset;
-import net.sf.jasperreports.charts.JRTimePeriodSeries;
-import net.sf.jasperreports.charts.JRTimeSeries;
-import net.sf.jasperreports.charts.JRTimeSeriesDataset;
-import net.sf.jasperreports.charts.JRValueDataset;
-import net.sf.jasperreports.charts.JRXyDataset;
-import net.sf.jasperreports.charts.JRXySeries;
-import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
@@ -72,8 +56,6 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
@@ -285,6 +267,8 @@ public class JRVerifier
 	private boolean allowElementNegativeWidth;
 	private final boolean allowElementNegativeX;
 	private final boolean allowElementNegativeY;
+
+	private JRVerifierVisitor verifierVisitor = new JRVerifierVisitor(this);
 
 	/**
 	 * 
@@ -1498,49 +1482,14 @@ public class JRVerifier
 
 	public void verifyElement(JRElement element)
 	{
-		if (element instanceof JRStaticText)
-		{
-			verifyStaticText((JRStaticText)element);
-		}
-		else if (element instanceof JRTextField)
-		{
-			verifyTextField((JRTextField)element);
-		}
-		else if (element instanceof JRImage)
-		{
-			verifyImage((JRImage)element);
-		}
-		else if (element instanceof JRSubreport)
-		{
-			verifySubreport((JRSubreport)element);
-		}
-		else if (element instanceof JRCrosstab)
-		{
-			verifyCrosstab((JRDesignCrosstab) element);
-		}
-		else if (element instanceof JRChart)
-		{
-			verifyChart((JRChart) element);
-		}
-		else if (element instanceof JRFrame)
-		{
-			verifyFrame((JRFrame) element);
-		}
-		else if (element instanceof JRComponentElement)
-		{
-			verifyComponentElement((JRComponentElement) element);
-		}
-		else if (element instanceof JRGenericElement)
-		{
-			verifyGenericElement((JRGenericElement) element);
-		}
+		element.visit(verifierVisitor);
 	}
 
 
 	/**
 	 *
 	 */
-	private void verifyStaticText(JRStaticText staticText)
+	protected void verifyStaticText(JRStaticText staticText)
 	{
 		verifyReportElement(staticText);
 	}
@@ -1549,7 +1498,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyTextField(JRTextField textField)
+	protected void verifyTextField(JRTextField textField)
 	{
 		verifyReportElement(textField);
 		verifyAnchor(textField);
@@ -1608,7 +1557,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyImage(JRImage image)
+	protected void verifyImage(JRImage image)
 	{
 		verifyReportElement(image);
 		verifyAnchor(image);
@@ -1619,7 +1568,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifySubreport(JRSubreport subreport)
+	protected void verifySubreport(JRSubreport subreport)
 	{
 		if (subreport != null)
 		{
@@ -1711,7 +1660,7 @@ public class JRVerifier
 	}
 
 
-	private void verifyCrosstab(JRDesignCrosstab crosstab)
+	protected void verifyCrosstab(JRDesignCrosstab crosstab)
 	{
 		verifyReportElement(crosstab);
 		verifyParameters(crosstab);
@@ -2046,27 +1995,6 @@ public class JRVerifier
 	}
 
 
-	private void verifyChart(JRChart chart)
-	{
-		verifyReportElement(chart);
-		
-		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.AUTO)
-		{
-			addBrokenRule("Charts do not support Auto evaluation time.", chart);
-		}
-
-		JRChartDataset dataset = chart.getDataset();
-		if (dataset == null)
-		{
-			addBrokenRule("Chart dataset missing.", chart);
-		}
-		else
-		{
-			dataset.validate(this);
-		}
-	}
-
-
 	private void verifyCellContents(JRCellContents contents, String cellText)
 	{
 		if (contents != null)
@@ -2151,7 +2079,7 @@ public class JRVerifier
 					{
 						addBrokenRule("Crosstabs are not allowed inside crosstab cells.", element);
 					}
-					else if (element instanceof JRChart)
+					else if (element.getClass().getName().equals("net.sf.jasperreports.engine.JRChart")) // FIXME7
 					{
 						addBrokenRule("Charts are not allowed inside crosstab cells.", element);
 					}
@@ -2299,7 +2227,7 @@ public class JRVerifier
 	}
 
 
-	private void verifyFrame(JRFrame frame)
+	protected void verifyFrame(JRFrame frame)
 	{
 		verifyReportElement(frame);
 		
@@ -2329,172 +2257,7 @@ public class JRVerifier
 	}
 
 
-	public void verify(JRCategoryDataset dataset)
-	{
-		verifyElementDataset(dataset);
-
-		JRCategorySeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-
-
-	protected void verify(JRCategorySeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-
-
-	public void verify(JRPieDataset dataset)
-	{
-		verifyElementDataset(dataset);
-		
-		JRPieSeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-
-		verifyHyperlink(dataset.getOtherSectionHyperlink());
-	}
-
-	
-	protected void verify(JRPieSeries series)
-	{
-		verifyHyperlink(series.getSectionHyperlink());
-	}
-
-
-	public void verify(JRHighLowDataset dataset)
-	{
-		verifyElementDataset(dataset);
-		verifyHyperlink(dataset.getItemHyperlink());
-	}
-
-
-	public void verify(JRTimePeriodDataset dataset)
-	{
-		verifyElementDataset(dataset);
-
-		JRTimePeriodSeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-
-
-	protected void verify(JRTimePeriodSeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-
-
-	public void verify(JRTimeSeriesDataset dataset)
-	{
-		verifyElementDataset(dataset);
-
-		JRTimeSeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-
-
-	protected void verify(JRTimeSeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-
-
-	/**
-	 * Verify the design of a value dataset.  Since value dataset's only
-	 * contain a single value and do not support hyperlinks there is nothing
-	 * to verify.
-	 */
-	public void verify(JRValueDataset dataset)
-	{
-	}
-
-	public void verify(JRXyDataset dataset)
-	{
-		verifyElementDataset(dataset);
-
-		JRXySeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-
-
-	protected void verify(JRXySeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-
-
-	protected void verify(JRGanttSeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-
-
-	public void verify(JRXyzDataset dataset)
-	{
-		verifyElementDataset(dataset);
-
-		JRXyzSeries[] series = dataset.getSeries();
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-
-
-	public void verify(JRGanttDataset dataset)
-	{
-		verifyElementDataset(dataset);
-		
-		JRGanttSeries[] series = dataset.getSeries();
-		
-		if (series != null)
-		{
-			for (int i = 0; i < series.length; i++)
-			{
-				verify(series[i]);
-			}
-		}
-	}
-	
-
-	protected void verify(JRXyzSeries series)
-	{
-		verifyHyperlink(series.getItemHyperlink());
-	}
-	
-	protected void verifyReportElement(JRElement element)
+	public void verifyReportElement(JRElement element)
 	{
 		if (element.getWidth() < 0)
 		{

@@ -26,24 +26,6 @@ package net.sf.jasperreports.engine;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
-import net.sf.jasperreports.charts.JRBarPlot;
-import net.sf.jasperreports.charts.JRBubblePlot;
-import net.sf.jasperreports.charts.JRCandlestickPlot;
-import net.sf.jasperreports.charts.JRCategoryDataset;
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPieDataset;
-import net.sf.jasperreports.charts.JRPiePlot;
-import net.sf.jasperreports.charts.JRPieSeries;
-import net.sf.jasperreports.charts.JRTimePeriodDataset;
-import net.sf.jasperreports.charts.JRTimePeriodSeries;
-import net.sf.jasperreports.charts.JRTimeSeries;
-import net.sf.jasperreports.charts.JRTimeSeriesDataset;
-import net.sf.jasperreports.charts.JRXyzDataset;
-import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
@@ -64,7 +46,7 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	/**
 	 *
 	 */
-	protected Object get(Object object)
+	public Object get(Object object)
 	{
 		return objectsMap.get(object);
 	}
@@ -95,7 +77,7 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	/**
 	 *
 	 */
-	protected void setVisitResult(Object visitResult)
+	public void setVisitResult(Object visitResult)
 	{
 		this.visitResult = visitResult;
 	}
@@ -147,105 +129,6 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 
 		return baseFont;
 	}
-
-	
-	/**
-	 *
-	 */
-	public abstract JRPieDataset getPieDataset(JRPieDataset pieDataset);
-
-	/**
-	 *
-	 */
-	public abstract JRPiePlot getPiePlot(JRPiePlot piePlot);
-
-
-	/**
-	 *
-	 */
-	public abstract JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot);
-
-
-	/**
-	 *
-	 */
-	public abstract JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset);
-
-
-	/**
-	 * 
-	 */
-	public abstract JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset );
-
-	/**
-	 * 
-	 */
-	public abstract JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset );
-
-	/**
-	 * 
-	 */
-	public abstract JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries );
-
-	/**
-	 * 
-	 */
-	public abstract JRTimeSeries getTimeSeries( JRTimeSeries timeSeries );
-
-	/**
-	 *
-	 */
-	public abstract JRPieSeries getPieSeries(JRPieSeries pieSeries);
-
-	/**
-	 *
-	 */
-	public abstract JRCategorySeries getCategorySeries(JRCategorySeries categorySeries);
-
-	/**
-	 *
-	 */
-	public abstract JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset );
-
-	/**
-	 *
-	 */
-	public abstract JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries );
-
-
-	/**
-	 *
-	 */
-	public abstract JRBarPlot getBarPlot(JRBarPlot barPlot);
-
-	/**
-	 *
-	 */
-	public abstract JRBar3DPlot getBar3DPlot( JRBar3DPlot barPlot );
-
-
-	/**
-	 *
-	 */
-	public abstract JRLinePlot getLinePlot( JRLinePlot linePlot );
-
-
-	/**
-	 *
-	 */
-	public abstract JRAreaPlot getAreaPlot( JRAreaPlot areaPlot );
-
-
-	/**
-	 *
-	 */
-	public abstract JRBubblePlot getBubblePlot( JRBubblePlot bubblePlot );
-
-
-	/**
-	 *
-	 */
-	public abstract JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot);
 
 
 	/**

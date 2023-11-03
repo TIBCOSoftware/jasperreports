@@ -308,7 +308,7 @@ public abstract class JRXmlBaseWriter
 	/**
 	 *
 	 */
-	protected boolean isNewerVersionOrEqual(String oldVersion)
+	public boolean isNewerVersionOrEqual(String oldVersion)
 	{
 		return versionComparator.compare(version, oldVersion) >= 0;
 	}

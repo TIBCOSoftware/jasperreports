@@ -35,7 +35,6 @@ import java.io.IOException;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRBreak;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JREllipse;
@@ -66,6 +65,11 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		this.xmlWriter = xmlWriter;
 	}
+	
+	public JRXmlWriter getXmlWriter()
+	{
+		return xmlWriter;
+	}
 
 	@Override
 	public void visitBreak(JRBreak breakElement)
@@ -73,19 +77,6 @@ public class XmlWriterVisitor implements JRVisitor
 		try
 		{
 			xmlWriter.writeBreak(breakElement);
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-	@Override
-	public void visitChart(JRChart chart)
-	{
-		try
-		{
-			xmlWriter.writeChartTag(chart);
 		}
 		catch (IOException e)
 		{

@@ -46,7 +46,6 @@ import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
@@ -236,10 +235,11 @@ public class PropertiesMetadataUtil
 			return true;
 		}
 		
-		if (element instanceof JRChart && scopes.contains(PropertyScope.CHART_ELEMENT))
-		{
-			return true;
-		}
+//FIXME7
+//		if (element instanceof JRChart && scopes.contains(PropertyScope.CHART_ELEMENT))
+//		{
+//			return true;
+//		}
 		
 		if (element instanceof JRCrosstab && scopes.contains(PropertyScope.CROSSTAB))
 		{

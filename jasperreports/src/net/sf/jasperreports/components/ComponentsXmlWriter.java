@@ -39,8 +39,6 @@ import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
-import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
-import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
 import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
@@ -92,14 +90,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		else if (component instanceof TableComponent)
 		{
 			writeTable(componentElement, reportWriter);
-		}
-		else if (component instanceof SpiderChartComponent)
-		{
-			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(
-															jasperReportsContext, 
-															getVersion(jasperReportsContext, componentElement, reportWriter), 
-															versionComparator);
-			spiderChartWriter.writeToXml(componentElement, reportWriter);
 		}
 		else if (component instanceof SortComponent)
 		{

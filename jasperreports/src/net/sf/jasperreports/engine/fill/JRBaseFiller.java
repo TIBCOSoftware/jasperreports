@@ -1542,7 +1542,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		addBoundElement(element, printElement, evaluationType, group, band);
 	}
 
-	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, EvaluationTimeEnum evaluationType, JRGroup group, JRFillBand band)
+	public void addBoundElement(JRFillElement element, JRPrintElement printElement, EvaluationTimeEnum evaluationType, JRGroup group, JRFillBand band)
 	{
 		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
 		addBoundElement(element, printElement, evaluationTime);

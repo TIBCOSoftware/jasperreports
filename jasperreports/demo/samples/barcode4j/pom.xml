@@ -21,22 +21,6 @@
 			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>net.sf.barcode4j</groupId>
-			<artifactId>barcode4j</artifactId>
-			<version>2.1</version>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>core</artifactId>
-			<version>3.4.0</version>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-bridge</artifactId>

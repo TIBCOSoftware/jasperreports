@@ -40,17 +40,9 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 /**
- * Extension registry factory that includes built-in component element
- * implementations.
- * 
- * <p>
- * This registry factory is registered by default in JasperReports.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see ListComponent
  */
-public class Barcode4JExtensionsRegistryFactory implements
-		ExtensionsRegistryFactory
+public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 
 	public static final String NAMESPACE = 
@@ -60,17 +52,10 @@ public class Barcode4JExtensionsRegistryFactory implements
 	public static final String XSD_RESOURCE = 
 		"net/sf/jasperreports/components/components.xsd";
 	
-	public static final String LIST_COMPONENT_NAME = "list";
-	public static final String TABLE_COMPONENT_NAME = "table";
-	public static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	public static final List<String> BARCODE4J_COMPONENT_NAMES = Collections.unmodifiableList(Arrays.asList(
 			"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
 			"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
 			"POSTNET", "PDF417", "QRCode"));
-	public static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
-	public static final String MAP_COMPONENT_NAME = "map";
-	public static final String SORT_COMPONENT_NAME = "sort";
-	public static final String ICONLABEL_COMPONENT_NAME = "iconLabel";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	

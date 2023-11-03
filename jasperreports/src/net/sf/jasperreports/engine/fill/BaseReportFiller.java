@@ -631,7 +631,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	 *
 	 * @return the report locale
 	 */
-	protected Locale getLocale()
+	public Locale getLocale()
 	{
 		return mainDataset.getLocale();
 	}

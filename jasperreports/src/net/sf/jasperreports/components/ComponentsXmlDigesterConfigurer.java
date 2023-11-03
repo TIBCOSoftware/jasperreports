@@ -40,7 +40,6 @@ import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.map.MarkerItemData;
 import net.sf.jasperreports.components.map.MarkerItemDataXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
-import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignBaseCell;
 import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
@@ -87,7 +86,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	{
 		addListRules(digester);
 		addTableRules(digester);
-		SpiderChartDigester.addSpiderChartRules(digester);
 		addMapRules(digester);
 		SortComponentDigester.addSortComponentRules(digester);
 		IconLabelComponentDigester.addIconLabelComponentRules(digester);

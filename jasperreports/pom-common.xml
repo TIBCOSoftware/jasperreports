@@ -60,32 +60,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jcommon</artifactId>
-			<version>1.0.23</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>ecj</artifactId>
 			<version>3.21.0</version>
