@@ -29,7 +29,7 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.XYPlot;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.JRChart;
 
 /**
  * Customizer to define the minimum and maximum value of the range axis, works for both 

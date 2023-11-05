@@ -94,6 +94,7 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.TextAnchor;
 
+import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPiePlot;
@@ -104,7 +105,6 @@ import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.type.ValueLocationEnum;
 import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
-import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;

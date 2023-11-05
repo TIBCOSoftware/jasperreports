@@ -28,7 +28,7 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYStepRenderer;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**

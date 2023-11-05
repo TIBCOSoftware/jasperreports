@@ -33,11 +33,11 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
 
+import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
 import net.sf.jasperreports.customizers.util.CustomizerUtil;
 import net.sf.jasperreports.customizers.util.ItemsCounter;
 import net.sf.jasperreports.customizers.util.SeriesNameProvider;
-import net.sf.jasperreports.engine.JRChart;
 
 /**
  * Customizer to define the shape of a specific legend item, works for both 

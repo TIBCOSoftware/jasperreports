@@ -31,7 +31,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.Plot;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
 /**

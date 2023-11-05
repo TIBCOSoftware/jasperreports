@@ -28,7 +28,7 @@ import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.charts.JRChart;
 
 /**
  * This customizer plots a line chart as spline.

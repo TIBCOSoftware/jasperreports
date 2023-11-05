@@ -35,12 +35,12 @@ import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
+import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.customizers.util.CategoryCounter;
 import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
 import net.sf.jasperreports.customizers.util.CustomizerUtil;
 import net.sf.jasperreports.customizers.util.ItemsCounter;
 import net.sf.jasperreports.customizers.util.SeriesNameProvider;
-import net.sf.jasperreports.engine.JRChart;
 
 /**
  * Chart customizer to define the shape and the size of the symbol along the line.
