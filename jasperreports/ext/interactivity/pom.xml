@@ -8,10 +8,10 @@
 		<relativePath>../../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-charts</artifactId>
+	<artifactId>jasperreports-interactivity</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Charts</name>
-	<description>JasperReports Charts</description>
+	<name>JasperReports Interactivity</name>
+	<description>JasperReports Interactivity</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -31,61 +31,25 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-annotation-processors</artifactId>
-			<version>${revision}</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>8.11.2</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jcommon</artifactId>
-			<version>1.0.23</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>8.11.2</version>
 			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>8.11.2</version>
 			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-svggen</artifactId>
-			<version>1.17</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-svg-dom</artifactId>
-			<version>1.17</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis-ext</artifactId>
-				</exclusion>
-			</exclusions>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 	<build>
