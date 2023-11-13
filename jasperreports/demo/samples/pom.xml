@@ -19,6 +19,7 @@
 		<module>charts</module>
 		<module>chartthemes</module>
 		<module>groovy</module>
+		<module>hibernate</module>
 		<module>jasper</module>
 		<module>javascript</module>
 		<module>query</module>
