@@ -27,8 +27,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
@@ -61,7 +59,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -124,21 +121,6 @@ public class ClassicPdfProducer implements PdfProducer
 			sinceVersion = PropertyConstants.VERSION_6_20_5
 			)
 	public static final String PROPERTY_DOCUMENT_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.classic.document.language";
-	
-	private final static Method SET_GLYPH_SUBSTITUTION_ENABLED_METHOD;
-	static
-	{
-		Method setGlyphSubstitutionEnabledMethod = null;
-		try
-		{
-			setGlyphSubstitutionEnabledMethod = Document.class.getMethod("setGlyphSubstitutionEnabled", Boolean.TYPE);
-		}
-		catch (NoSuchMethodException | SecurityException e)
-		{
-			log.debug("Failed to detect com.lowagie.text.Document.setGlyphSubstitutionEnabled method: " + e);
-		}
-		SET_GLYPH_SUBSTITUTION_ENABLED_METHOD = setGlyphSubstitutionEnabledMethod;
-	}
 	
 	private PdfProducerContext context;
 	
@@ -206,19 +188,7 @@ public class ClassicPdfProducer implements PdfProducer
 				PROPERTY_FOP_GLYPH_SUBSTITUTION_ENABLED, false);
 		if (!glyphSubstitutionEnabled && FopGlyphProcessor.isFopSupported())
 		{
-			if (SET_GLYPH_SUBSTITUTION_ENABLED_METHOD == null)
-			{
-				throw new PatchedPdfLibraryUnavailableException();
-			}
-
-			try
-			{
-				SET_GLYPH_SUBSTITUTION_ENABLED_METHOD.invoke(pdfDocument, false);
-			} 
-			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-			{
-				throw new JRRuntimeException("Failed to invoke com.lowagie.text.Document.setGlyphSubstitutionEnabled", e);
-			}
+			pdfDocument.setGlyphSubstitutionEnabled(false);
 		}
 	}
 

@@ -181,7 +181,11 @@ class XmpWriter
 			}
 
 			xmp.setProperty(XMPConst.NS_XMP, XMP_CREATE_DATE, ((PdfDate) info.get(PdfName.CREATIONDATE)).getW3CDate());
-			xmp.setProperty(XMPConst.NS_XMP, XMP_MODIFY_DATE, ((PdfDate) info.get(PdfName.MODDATE)).getW3CDate());
+			PdfDate modifiedDate = (PdfDate) info.get(PdfName.MODDATE);
+			if (modifiedDate != null)
+			{
+				xmp.setProperty(XMPConst.NS_XMP, XMP_MODIFY_DATE, modifiedDate.getW3CDate());
+			}
 
 			String title = extractInfo(PdfName.TITLE);
 			if (title != null)

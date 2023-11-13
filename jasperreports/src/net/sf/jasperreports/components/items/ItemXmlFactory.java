@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.xml.JRBaseFactory;
  */
 public class ItemXmlFactory extends JRBaseFactory
 {
+	public static final String ELEMENT_item = "item";
+	public static final String ELEMENT_itemProperty = "itemProperty";
 
 	@Override
 	public Object createObject(Attributes atts)

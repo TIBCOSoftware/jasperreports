@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import org.xml.sax.Attributes;
 
+import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -48,7 +49,10 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_onErrorType = "onErrorType";
 	public static final String ATTRIBUTE_markerClustering = "markerClustering";
 	public static final String ATTRIBUTE_markerSpidering = "markerSpidering";
-	public static final String ELEMENT_item = "item";
+	/**
+	 * @deprecated Replaced by {@link ItemXmlFactory#ELEMENT_item}.
+	 */
+	public static final String ELEMENT_item = ItemXmlFactory.ELEMENT_item;
 	public static final String ELEMENT_markerData = "markerData";
 	public static final String ELEMENT_legendItem = "legendItem";
 	public static final String ELEMENT_resetMapItem = "resetMapItem";
@@ -56,7 +60,10 @@ public class MapXmlFactory extends JRBaseFactory
 	public static final String ELEMENT_markerClusteringExpression = "markerClusteringExpression";
 	public static final String ELEMENT_markerSpideringExpression = "markerSpideringExpression";
 	public static final String ELEMENT_legendIconExpression = "legendIconExpression";
-	public static final String ELEMENT_itemProperty = "itemProperty";
+	/**
+	 * @deprecated Replaced by {@link ItemXmlFactory#ELEMENT_itemProperty}.
+	 */
+	public static final String ELEMENT_itemProperty = ItemXmlFactory.ELEMENT_itemProperty;
 	public static final String ELEMENT_pathStyle = "pathStyle";
 	public static final String ELEMENT_pathData = "pathData";
 

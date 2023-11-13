@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.map.MapComponent;
@@ -285,7 +286,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	
 	private void writeItem(Item item, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
-		writer.startElement(MapXmlFactory.ELEMENT_item, namespace);
+		writer.startElement(ItemXmlFactory.ELEMENT_item, namespace);
 		List<ItemProperty> itemProperties = item.getProperties();
 		for(ItemProperty property : itemProperties)
 		{
@@ -296,7 +297,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 	
 	private void writeItemProperty(ItemProperty itemProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
-		writer.startElement(MapXmlFactory.ELEMENT_itemProperty, namespace);
+		writer.startElement(ItemXmlFactory.ELEMENT_itemProperty, namespace);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, itemProperty.getName());
 		if(itemProperty.getValue() != null)
 		{

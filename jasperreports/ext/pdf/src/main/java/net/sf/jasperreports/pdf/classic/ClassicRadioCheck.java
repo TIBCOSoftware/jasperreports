@@ -76,7 +76,7 @@ public class ClassicRadioCheck extends ClassicPdfField implements PdfRadioCheck
 	{
 		try
 		{
-			PdfFormField ck = radioCheckField.getCheckField();
+			PdfFormField ck = radioCheckField.getFullField();
 			pdfProducer.getPdfWriter().addAnnotation(ck);
 		}
 		catch (Exception e)
