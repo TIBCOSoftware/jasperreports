@@ -44,21 +44,6 @@ public interface HibernateConstants
 	 * Built-in parameter holding the value of the Hibernate session to be used for creating the query.
 	 */
 	public final static String PARAMETER_HIBERNATE_SESSION = "HIBERNATE_SESSION";
-	
-	/**
-	 * Built-in parameter used for collection filter queries.
-	 * <p/>
-	 * The value of this parameter will be used as the collection to filter using the query.
-	 */
-	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
-	
-	public final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
-		//passing the parameter type as class name and not class in order to 
-		//avoid a dependency on Hibernate classes so that reports that have
-		//HQL queries would load even when Hibernate is not present
-		PARAMETER_HIBERNATE_SESSION,  "org.hibernate.Session",
-		PARAMETER_HIBERNATE_FILTER_COLLECTION,  "java.lang.Object",
-		};
 
 	/**
 	 * Property specifying the query execution type.

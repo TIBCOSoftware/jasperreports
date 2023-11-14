@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AddressesReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="f050e3db-0847-4912-9c16-d6b157484813">
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Sans_Normal_Small" fontName="DejaVu Sans" fontSize="9"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<parameter name="CityFilter" class="java.util.List"/>
+	<queryString language="hql">
+		<![CDATA[select address as address, document.id as documentId, document.total as documentTotal
+			from Address as address join address.documents as document
+			where city not in ($P{CityFilter})
+			order by address.city, address.lastName, address.firstName, address.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.id"/>
+	</field>
+	<field name="firstName" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.firstName"/>
+	</field>
+	<field name="lastName" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.lastName"/>
+	</field>
+	<field name="street" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.street"/>
+	</field>
+	<field name="city" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.city"/>
+	</field>
+	<field name="documentId" class="java.lang.Long"/>
+	<field name="documentTotal" class="java.lang.Double"/>
+	<variable name="addressTotal" class="java.lang.Double" resetType="Group" resetGroup="AddressGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{documentTotal}]]></variableExpression>
+	</variable>
+	<group name="AddressGroup">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="375" height="21" backcolor="#E0E0E0" uuid="a143642b-fbed-4962-bfbf-c9d9ecc24879"/>
+					<textField textAdjust="StretchHeight">
+						<reportElement x="5" y="3" width="160" height="15" uuid="fdadafcd-6622-4d05-89f8-31eeb46e68f9"/>
+						<textFieldExpression><![CDATA[$F{firstName} + " " + $F{lastName} + " (ID: " + $F{id} + ")"]]></textFieldExpression>
+					</textField>
+					<textField textAdjust="StretchHeight">
+						<reportElement x="210" y="3" width="160" height="15" uuid="8e21ca6a-7eb9-4deb-8b36-9df9db27314c"/>
+						<textElement textAlignment="Right"/>
+						<textFieldExpression><![CDATA[$F{street} + "," + $F{city}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<line>
+					<reportElement x="20" y="0" width="475" height="1" forecolor="#808080" uuid="89aa8875-ef41-4ade-8143-b12e79955216"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Sans_Normal_Small" x="20" y="2" width="70" height="15" uuid="d248a006-9289-4a01-909d-81608bbdd09b"/>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Sans_Normal_Small" x="100" y="2" width="50" height="15" uuid="c4c43f7e-2ce3-4070-818b-e64bb6c27977"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{AddressGroup_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#.00">
+					<reportElement style="Sans_Normal_Small" x="255" y="2" width="100" height="15" uuid="026b8161-7824-41f8-a86f-38d8c1321003"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{addressTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="50">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1" forecolor="#000000" uuid="6a96d2fc-8ad1-4022-91e6-fcc11f3380f5"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30" uuid="876bd00a-1cd0-485e-8e71-20c402f03048"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="13">
+			<staticText>
+				<reportElement style="Sans_Normal_Small" isPrintRepeatedValues="false" x="20" y="0" width="70" height="12" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup" uuid="8d08fcca-f5d3-4c5b-baa0-e5ab70628047"/>
+				<text><![CDATA[Document ID]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Sans_Normal_Small" x="100" y="0" width="50" height="12" uuid="f31a81f4-a0c8-4883-9d4c-285e66739478"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{documentId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Sans_Normal_Small" isPrintRepeatedValues="false" x="180" y="0" width="70" height="12" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup" uuid="c5e1138c-175d-44cf-81ea-aa736ce885f2"/>
+				<text><![CDATA[Document Total]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight" pattern="#.00">
+				<reportElement style="Sans_Normal_Small" x="255" y="0" width="100" height="12" uuid="cf13a747-c535-4a39-b13b-3ba60926e317"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{documentTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40">
+			<printWhenExpression><![CDATA[!$P{IS_IGNORE_PAGINATION}]]></printWhenExpression>
+			<line>
+				<reportElement x="0" y="10" width="515" height="1" uuid="7c3195dc-606d-4287-a159-acf9af1e1063"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15" uuid="dba281f2-0790-48c4-a5d8-0a71cfc4c842"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15" uuid="e6b4b6f0-e454-4c46-ad41-765e42ea01e8"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

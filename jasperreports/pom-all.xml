@@ -33,6 +33,7 @@
 		<module>ext/fastexcel</module>
 		<module>ext/functions</module>
 		<module>ext/groovy</module>
+		<module>ext/hibernate</module>
 		<module>ext/hibernate-j2ee</module>
 		<module>ext/interactivity</module>
 		<module>ext/javascript</module>
