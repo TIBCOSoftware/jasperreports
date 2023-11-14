@@ -38,6 +38,7 @@
 		<module>ext/hibernate-j2ee</module>
 		<module>ext/interactivity</module>
 		<module>ext/javascript</module>
+		<module>ext/jdt</module>
 		<module>ext/olap</module>
 		<module>ext/pdf</module>
 		<module>ext/servlets</module>
