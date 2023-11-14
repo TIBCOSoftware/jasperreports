@@ -22,6 +22,7 @@
 		<module>hibernate</module>
 		<module>jasper</module>
 		<module>javascript</module>
+		<module>map</module>
 		<module>query</module>
 		<module>scriptlet</module>
 		<module>spiderchartcomponent</module>

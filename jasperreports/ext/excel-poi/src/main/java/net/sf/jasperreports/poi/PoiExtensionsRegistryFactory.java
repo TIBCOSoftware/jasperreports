@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
-import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.data.DataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
@@ -37,7 +36,6 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.poi.components.iconlabel.IconLabelElementXlsHandler;
-import net.sf.jasperreports.poi.components.map.MapElementXlsHandler;
 import net.sf.jasperreports.poi.data.PoiDataAdapterServiceFactory;
 import net.sf.jasperreports.poi.export.JRXlsExporter;
 import net.sf.jasperreports.poi.query.PoiQueryExecuterFactoryBundle;
@@ -61,13 +59,6 @@ public class PoiExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
-				{
-					if(JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementXlsHandler.getInstance();
-					}
-				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
 					if (JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
