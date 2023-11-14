@@ -20,7 +20,6 @@
 		<dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.14.1" conf="compile->*"/>
 		<dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.14.1" conf="test->*"/>
 		<dependency org="com.fasterxml.woodstox" name="woodstox-core" rev="6.4.0" conf="test->*"/>
-		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="4.0.0"/>
 		<dependency org="com.zaxxer" name="SparseBitSet" rev="1.2" conf="test->*"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.4"/>
 		<dependency org="commons-codec" name="commons-codec" rev="1.15" conf="test->*"/>

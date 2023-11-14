@@ -22,6 +22,14 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-chrome</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<!--
+		<dependency>
 			<groupId>com.github.kklisura.cdt</groupId>
 			<artifactId>cdt-java-client</artifactId>
 			<version>4.0.0</version>
@@ -42,7 +50,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!--
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-bridge</artifactId>
