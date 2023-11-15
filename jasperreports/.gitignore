@@ -1,5 +1,5 @@
 /build
 /dist
-/target
+**/target
 **/.flattened-pom.xml
 **/*.iml
