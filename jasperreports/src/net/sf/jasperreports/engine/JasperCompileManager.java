@@ -34,7 +34,6 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JRJavacCompiler;
 import net.sf.jasperreports.engine.design.JRJdk13Compiler;
-import net.sf.jasperreports.engine.design.JRJdtCompiler;
 import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -735,8 +734,9 @@ public final class JasperCompileManager
 
 		try 
 		{
-			JRClassLoader.loadClassForRealName("org.eclipse.jdt.internal.compiler.Compiler");
-			compiler = new JRJdtCompiler(jasperReportsContext);
+			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.design.JRJdtCompiler");
+			Constructor<JRCompiler> constructor = clazz.getDeclaredConstructor(JasperReportsContext.class);
+			compiler = constructor.newInstance(jasperReportsContext);
 		}
 		catch (Exception e)
 		{

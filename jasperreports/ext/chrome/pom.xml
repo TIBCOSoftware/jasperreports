@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-ext-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom-parent.xml</relativePath>
+	</parent>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-chrome</artifactId>
+	<packaging>jar</packaging>
+	<name>JasperReports Chrome</name>
+	<description>JasperReports Chrome</description>
+	<url>http://jasperreports.sourceforge.net</url>
+	<scm>
+		<connection>${scmConnection}</connection>
+		<tag>${revision}</tag>
+		<url>${scmUrl}</url>
+	</scm>
+	<properties>
+		<skipInstall>false</skipInstall>
+		<skipDeploy>false</skipDeploy>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-annotation-processors</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.kklisura.cdt</groupId>
+			<artifactId>cdt-java-client</artifactId>
+			<version>4.0.0</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+	</dependencies>
+</project>

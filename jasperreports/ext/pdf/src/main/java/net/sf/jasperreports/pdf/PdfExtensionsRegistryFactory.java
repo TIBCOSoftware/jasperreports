@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
-import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
@@ -35,7 +34,6 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.pdf.components.iconlabel.IconLabelElementPdfHandler;
-import net.sf.jasperreports.pdf.components.map.MapElementPdfHandler;
 
 
 /**
@@ -56,13 +54,6 @@ public class PdfExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
-				{
-					if(JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementPdfHandler.getInstance();
-					}
-				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
 					if (JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))

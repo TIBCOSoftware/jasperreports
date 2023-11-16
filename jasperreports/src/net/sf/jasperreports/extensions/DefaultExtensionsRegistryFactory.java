@@ -38,16 +38,6 @@ import net.sf.jasperreports.components.iconlabel.IconLabelElementOdtHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementPptxHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementRtfHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementXlsxHandler;
-import net.sf.jasperreports.components.map.MapComponent;
-import net.sf.jasperreports.components.map.MapElementDocxHandler;
-import net.sf.jasperreports.components.map.MapElementGraphics2DHandler;
-import net.sf.jasperreports.components.map.MapElementHtmlHandler;
-import net.sf.jasperreports.components.map.MapElementJsonHandler;
-import net.sf.jasperreports.components.map.MapElementOdsHandler;
-import net.sf.jasperreports.components.map.MapElementOdtHandler;
-import net.sf.jasperreports.components.map.MapElementPptxHandler;
-import net.sf.jasperreports.components.map.MapElementRtfHandler;
-import net.sf.jasperreports.components.map.MapElementXlsxHandler;
 import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.components.sort.SortElementJsonHandler;
@@ -93,45 +83,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
-				{
-					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementGraphics2DHandler.getInstance();
-					}
-					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementHtmlHandler.getInstance();
-					}
-					else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementJsonHandler.getInstance();
-					}
-					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementXlsxHandler.getInstance();
-					}
-					else if(JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementDocxHandler.getInstance();
-					}
-					else if(JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementPptxHandler.getInstance();
-					}
-					else if(JRRtfExporter.RTF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementRtfHandler.getInstance();
-					}
-					else if(JROdtExporter.ODT_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementOdtHandler.getInstance();
-					}
-					else if(JROdsExporter.ODS_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementOdsHandler.getInstance();
-					}
-				}
 				if (SortElement.SORT_ELEMENT_NAME.equals(elementName))
 				{
 					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))

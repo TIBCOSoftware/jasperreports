@@ -33,8 +33,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -52,6 +50,8 @@ import net.sf.jasperreports.export.SimpleXlsMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxMetadataReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsMetadataExporter;
 
 
 /**
@@ -73,6 +73,7 @@ public class CrosstabApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		html();
@@ -98,7 +99,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void fill() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jasper");
+		File[] files = getFiles(new File("target/reports"), "jasper");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -118,7 +119,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void print() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -137,7 +138,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void pdf() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -155,7 +156,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xml() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -174,7 +175,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xmlEmbed() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -193,7 +194,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void html() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -211,7 +212,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void rtf() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -238,7 +239,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xls() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -268,7 +269,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xlsMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -298,7 +299,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void csv() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -325,7 +326,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void csvMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -352,7 +353,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void jsonMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -379,7 +380,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void odt() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -406,7 +407,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void ods() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -436,7 +437,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void docx() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -463,7 +464,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xlsx() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -493,7 +494,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void xlsxMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -523,7 +524,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void pptx() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();

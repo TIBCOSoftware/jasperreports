@@ -36,9 +36,6 @@ import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
 import net.sf.jasperreports.components.list.ListDesignConverter;
-import net.sf.jasperreports.components.map.MapCompiler;
-import net.sf.jasperreports.components.map.MapDesignConverter;
-import net.sf.jasperreports.components.map.fill.MapFillFactory;
 import net.sf.jasperreports.components.sort.SortComponentCompiler;
 import net.sf.jasperreports.components.sort.SortComponentDesignConverter;
 import net.sf.jasperreports.components.sort.SortComponentFillFactory;
@@ -116,13 +113,6 @@ public class ComponentsExtensionsRegistryFactory implements
 		tableManager.setComponentFillFactory(new FillTableFactory());
 		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
 		
-		ComponentsManager mapManager = new ComponentsManager();
-		mapManager.setDesignConverter(MapDesignConverter.getInstance());
-		mapManager.setComponentCompiler(new MapCompiler());
-		//mapManager.setComponentXmlWriter(xmlHandler);
-		mapManager.setComponentFillFactory(new MapFillFactory());
-		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
-
 		ComponentsManager sortManager = new ComponentsManager();
 		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
 		sortManager.setComponentCompiler(new SortComponentCompiler());

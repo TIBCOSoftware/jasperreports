@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.sf.jasperreports</groupId>
-		<artifactId>jasperreports-parent</artifactId>
+		<artifactId>jasperreports-ext-parent</artifactId>
 		<version>${revision}</version>
-		<relativePath>../../pom-parent.xml</relativePath>
+		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-pdf</artifactId>
@@ -23,13 +23,6 @@
 		<skipDeploy>false</skipDeploy>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-annotation-processors</artifactId>
@@ -52,50 +45,4 @@
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>src/main/resources/META-INF</directory>
-				<includes>
-					<include>**/*.MF</include>
-				</includes>
-				<targetPath>META-INF</targetPath>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<archive>
-						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-					<quiet>true</quiet>
-					<doclint>none</doclint>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -26,17 +26,20 @@
 		<module>ext/charts</module>
 		<module>ext/chart-customizers</module>
 		<module>ext/chart-themes</module>
+		<module>ext/chrome</module>
 		<module>ext/custom-visualization</module>
 		<module>ext/ejbql</module>
 		<module>ext/ejbql-j2ee</module>
 		<module>ext/excel-poi</module>
 		<module>ext/fastexcel</module>
 		<module>ext/functions</module>
+		<module>ext/google-maps</module>
 		<module>ext/groovy</module>
 		<module>ext/hibernate</module>
 		<module>ext/hibernate-j2ee</module>
 		<module>ext/interactivity</module>
 		<module>ext/javascript</module>
+		<module>ext/jdt</module>
 		<module>ext/olap</module>
 		<module>ext/pdf</module>
 		<module>ext/servlets</module>
