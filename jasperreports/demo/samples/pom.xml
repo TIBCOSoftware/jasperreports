@@ -15,12 +15,14 @@
 		<module>alterdesign</module>
 		<module>barbecue</module>
 		<module>barcode4j</module>
+		<module>book</module>
 		<module>chartcustomizers</module>
 		<module>charts</module>
 		<module>chartthemes</module>
 		<module>crosstabs</module>
 		<module>groovy</module>
 		<module>hibernate</module>
+		<module>htmlcomponent</module>
 		<module>jasper</module>
 		<module>javascript</module>
 		<!-- FIXME7
