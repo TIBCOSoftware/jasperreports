@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.sf.jasperreports</groupId>
-		<artifactId>jasperreports-parent</artifactId>
+		<artifactId>jasperreports-samples-parent</artifactId>
 		<version>${revision}</version>
-		<relativePath>../../../pom-parent.xml</relativePath>
+		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-html-component</artifactId>
@@ -21,24 +21,25 @@
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
+		<sample.base.name>HtmlComponent</sample.base.name>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>core-renderer</artifactId>
 			<version>R8</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>jtidy</groupId>
+			<groupId>net.sf.jtidy</groupId>
 			<artifactId>jtidy</artifactId>
-			<version>4aug2000r7-dev</version>
+			<version>r938</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -52,6 +53,14 @@
 					<include>**/*.xsd</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>src/META-INF</directory>
+				<includes>
+					<include>**/*.MF</include>
+				</includes>
+				<targetPath>META-INF</targetPath>
+				<filtering>true</filtering>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -61,9 +70,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<excludes>
-						<exclude>**/*App.java</exclude>
-					</excludes>
 					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
 				</configuration>
 			</plugin>
@@ -73,23 +79,11 @@
 				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestEntries>
-							<Built-By>${project.organization.name}</Built-By>
-						</manifestEntries>
-						<manifestSections>
-							<manifestSection>
-								<name>net/sf/jasperreports/components/html</name>
-								<manifestEntries>
-									<Specification-Title>${project.name}</Specification-Title>
-									<Specification-Version>${project.version}</Specification-Version>
-									<Specification-Vendor>${project.organization.name}</Specification-Vendor>
-									<Implementation-Title>net.sf.jasperreports.components.html</Implementation-Title>
-									<Implementation-Version>${project.version}-${buildNumber}</Implementation-Version>
-									<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-								</manifestEntries>
-							</manifestSection>
-						</manifestSections>
+						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
+					<excludes>
+						<exclude>**/App.class</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>

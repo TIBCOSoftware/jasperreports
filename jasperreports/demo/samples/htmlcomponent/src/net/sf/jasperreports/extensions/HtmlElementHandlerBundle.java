@@ -37,14 +37,14 @@ import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsxHandler;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.pdf.JRPdfExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)

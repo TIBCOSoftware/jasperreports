@@ -1,9 +1,0 @@
-<ivy-module version="2.0">
-	<info organisation="net.sf.jasperreports" module="jasperreports">
-		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
-	</info>
-	<dependencies>
-		<dependency org="net.sf.jtidy" name="jtidy" rev="r938" conf="compile->*"/>
-		<dependency org="org.xhtmlrenderer" name="core-renderer" rev="R8" conf="compile->*"/>
-	</dependencies>
-</ivy-module>

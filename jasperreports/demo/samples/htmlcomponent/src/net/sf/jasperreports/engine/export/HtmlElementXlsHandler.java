@@ -26,6 +26,9 @@ package net.sf.jasperreports.engine.export;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporterContext;
+import net.sf.jasperreports.poi.export.GenericElementXlsHandler;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
