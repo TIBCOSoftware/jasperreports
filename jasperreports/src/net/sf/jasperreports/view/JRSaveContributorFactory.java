@@ -23,31 +23,37 @@
  */
 package net.sf.jasperreports.view;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ServiceLoader;
-import java.util.ServiceLoader.Provider;
 
-import aQute.bnd.annotation.spi.ServiceConsumer;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @author stefan Bischof
+ * @author Stefan Bischof
  */
-@ServiceConsumer(JRSaveContributorFactory.class)
-public class SaveContributorUtils {
-
-	private SaveContributorUtils() {}
+public interface JRSaveContributorFactory 
+{
 	
-	public static List<JRSaveContributor> createBuiltinContributors(JasperReportsContext context, Locale locale,
-			ResourceBundle resourceBundle) {
-		return ServiceLoader.load(JRSaveContributorFactory.class)
-				.stream()
-				.map(Provider<JRSaveContributorFactory>::get)
-				.map(factory -> factory.create(context, locale, resourceBundle))
-				.toList();
+	/**
+	 * @see #create(JasperReportsContext, Locale, ResourceBundle)
+	 */
+	default JRSaveContributor create()
+	{
+		return	create(null, null);
 	}
+	
+	/**
+	 * @see #create(JasperReportsContext, Locale, ResourceBundle)
+	 */
+	default JRSaveContributor create(Locale locale, ResourceBundle resBundle)
+	{
+		return create(DefaultJasperReportsContext.getInstance(), locale, resBundle);
+	}
+	
+	/**
+	 * creates a JRSaveContributor
+	 */
+	JRSaveContributor create(JasperReportsContext jasperReportsContext, Locale locale, ResourceBundle resBundle);
 
 }
