@@ -63,7 +63,7 @@
 					<doclint>none</doclint>
 					<docfilessubdirs>true</docfilessubdirs>
 					<sourcepath>../target/classes</sourcepath>
-					<outputDir>${project.build.directory}/docs</outputDir>
+					<outputDirectory>${project.build.directory}/docs</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -79,6 +79,39 @@
 				</executions>
 				<configuration>
 					<transformationSets>
+						<transformationSet>
+							<dir>../src/net/sf/jasperreports/engine/dtds</dir>
+							<includes>jasperreport.xsd</includes>
+							<stylesheet>schema.reference.xsl</stylesheet>
+							<outputDir>${project.build.directory}/docs</outputDir>
+						    <fileMappers>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+						           <targetName>schema.reference.html</targetName>
+						        </fileMapper>
+						    </fileMappers>
+						</transformationSet>
+						<transformationSet>
+							<dir>../src/net/sf/jasperreports/components</dir>
+							<includes>components.xsd</includes>
+							<stylesheet>components.schema.reference.xsl</stylesheet>
+							<outputDir>${project.build.directory}/docs</outputDir>
+						    <fileMappers>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+						           <targetName>components.schema.reference.html</targetName>
+						        </fileMapper>
+						    </fileMappers>
+						</transformationSet>
+						<transformationSet>
+							<dir>../src/net/sf/jasperreports/parts</dir>
+							<includes>parts.xsd</includes>
+							<stylesheet>parts.schema.reference.xsl</stylesheet>
+							<outputDir>${project.build.directory}/docs</outputDir>
+						    <fileMappers>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+						           <targetName>parts.schema.reference.html</targetName>
+						        </fileMapper>
+						    </fileMappers>
+						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
 							<includes>config.reference.xml</includes>
@@ -102,13 +135,17 @@
 						    </fileMappers>
 						</transformationSet>
 						<transformationSet>
-							<dir>../src/net/sf/jasperreports/engine/dtds</dir>
-							<includes>jasperreport.xsd</includes>
-							<stylesheet>schema.reference.xsl</stylesheet>
-							<outputDir>${project.build.directory}/docs</outputDir>
+							<dir>../demo/samples</dir>
+							<includes>**/docs/index.xml</includes>
+							<stylesheet>sample.xsl</stylesheet>
+							<outputDir>${project.build.directory}/docs/sample.reference</outputDir>
 						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>schema.reference.html</targetName>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+									<pattern>\/docs\/</pattern>
+									<replacement>/</replacement>
+								</fileMapper>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+						           <targetExtension>.html</targetExtension>
 						        </fileMapper>
 						    </fileMappers>
 						</transformationSet>
