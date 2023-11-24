@@ -45,6 +45,7 @@
 		<module>ext/servlets-j2ee</module>
 		<module>ext/spring</module>
 		<module>ext/xalan</module>
+		<module>docs</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>
