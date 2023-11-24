@@ -9,6 +9,7 @@
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-documentation</artifactId>
+	<packaging>pom</packaging>
 	<name>JasperReports Documentation</name>
 	<description>JasperReports Documentation</description>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -24,19 +25,35 @@
 	<build>
 		<directory>../dist</directory>
 		<outputDirectory>${project.build.directory}/docs</outputDirectory>
-		<resources>
-			<resource>
-				<directory>resources</directory>
-				<targetPath>resources</targetPath>
-			</resource>
-			<resource>
-				<directory>${basedir}</directory>
-				<includes>
-					<include>JasperReports-Ultimate-Guide-3.pdf</include>
-				</includes>
-			</resource>
-		</resources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/docs</outputDirectory>
+							<resources>
+								<resource>
+									<directory>resources</directory>
+									<targetPath>resources</targetPath>
+								</resource>
+								<resource>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>JasperReports-Ultimate-Guide-3.pdf</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -97,7 +114,7 @@
 						</transformationSet>
 					</transformationSets>
 				</configuration>
-			</plugin>						
+			</plugin>	
 		</plugins>
 	</build>
 </project>
