@@ -21,6 +21,7 @@
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
+		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,21 +60,21 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.14.1</version>
+			<version>2.15.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.14.1</version>
+			<version>2.15.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.14.1</version>
+			<version>2.15.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
