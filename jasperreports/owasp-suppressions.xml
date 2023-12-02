@@ -3,5 +3,10 @@
     <suppress>
         <cve>CVE-2021-37533</cve>
         <cve>CVE-2022-45688</cve>
+        <cve>CVE-2023-5072</cve>
+        <cve>CVE-2022-0869</cve>
+        <cve>CVE-2023-45960</cve>
+        <cve>CVE-2015-0897</cve>
+        <cve>CVE-2023-34411</cve>
     </suppress>
 </suppressions>

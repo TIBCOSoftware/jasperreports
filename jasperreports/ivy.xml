@@ -15,11 +15,11 @@
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="6.1.11"/>
 		<dependency org="com.beust" name="jcommander" rev="1.78" conf="test->*"/>
 		<dependency org="com.drewnoakes" name="metadata-extractor" rev="2.18.0" conf="compile->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.14.1" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.14.1" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.14.1" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.14.1" conf="compile->*"/>
-		<dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.14.1" conf="test->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.15.3" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.15.3" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.15.3" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.15.3" conf="compile->*"/>
+		<dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.15.3" conf="test->*"/>
 		<dependency org="com.fasterxml.woodstox" name="woodstox-core" rev="6.4.0" conf="test->*"/>
 		<dependency org="com.github.kklisura.cdt" name="cdt-java-client" rev="4.0.0"/>
 		<dependency org="com.google.zxing" name="core" rev="3.4.0"/>
