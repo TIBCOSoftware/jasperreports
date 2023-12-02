@@ -20,6 +20,12 @@
 		<module>charts</module>
 		<module>chartthemes</module>
 		<module>crosstabs</module>
+		<module>csvdatasource</module>
+		<module>datasource</module>
+		<module>daterange</module>
+		<module>exceldataadapter</module>
+		<module>exceldatasource</module>
+		<module>fastexceldatasource</module>
 		<module>groovy</module>
 		<module>hibernate</module>
 		<module>htmlcomponent</module>

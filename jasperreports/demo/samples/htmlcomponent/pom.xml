@@ -8,16 +8,8 @@
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-html-component</artifactId>
+	<artifactId>jasperreports-samples-htmlcomponent</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports HTML Component</name>
-	<description>JasperReports HTML Component</description>
-	<url>http://jasperreports.sourceforge.net</url>
-	<scm>
-		<connection>${scmConnection}</connection>
-		<tag>${revision}</tag>
-		<url>${scmUrl}</url>
-	</scm>
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>

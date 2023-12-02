@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -47,6 +46,7 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -68,6 +68,7 @@ public class DataSourceApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill1();
 		fill2();
 		fill3();
@@ -98,7 +99,7 @@ public class DataSourceApp extends AbstractSampleApp
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomDataSource.java");
 
-		JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", parameters, new CustomDataSource());
+		JasperFillManager.fillReportToFile("target/reports/DataSourceReport.jasper", parameters, new CustomDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -114,7 +115,7 @@ public class DataSourceApp extends AbstractSampleApp
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomTableModel.java");
 
-		JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", parameters, new JRTableModelDataSource(new CustomTableModel()));
+		JasperFillManager.fillReportToFile("target/reports/DataSourceReport.jasper", parameters, new JRTableModelDataSource(new CustomTableModel()));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -130,7 +131,7 @@ public class DataSourceApp extends AbstractSampleApp
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomBeanFactory.java - Bean Array");
 
-		JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", parameters, new JRBeanArrayDataSource(CustomBeanFactory.getBeanArray()));
+		JasperFillManager.fillReportToFile("target/reports/DataSourceReport.jasper", parameters, new JRBeanArrayDataSource(CustomBeanFactory.getBeanArray()));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -146,7 +147,7 @@ public class DataSourceApp extends AbstractSampleApp
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("DataFile", "CustomBeanFactory.java - Bean Collection");
 
-		JasperFillManager.fillReportToFile("build/reports/DataSourceReport.jasper", parameters, new JRBeanCollectionDataSource(CustomBeanFactory.getBeanCollection()));
+		JasperFillManager.fillReportToFile("target/reports/DataSourceReport.jasper", parameters, new JRBeanCollectionDataSource(CustomBeanFactory.getBeanCollection()));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -157,7 +158,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/DataSourceReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/DataSourceReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -168,7 +169,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/DataSourceReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/DataSourceReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -179,7 +180,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/DataSourceReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/DataSourceReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -190,7 +191,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/DataSourceReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/DataSourceReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -201,7 +202,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/DataSourceReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/DataSourceReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -212,7 +213,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -235,7 +236,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -261,7 +262,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -284,7 +285,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -307,7 +308,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -330,7 +331,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -353,7 +354,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -376,7 +377,7 @@ public class DataSourceApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/DataSourceReport.jrprint");
+		File sourceFile = new File("target/reports/DataSourceReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

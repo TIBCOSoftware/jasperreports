@@ -56,6 +56,7 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		html();
@@ -78,31 +79,31 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 
 		//query executer mode
 		parameters.put("DataFile", "XLS query executer mode for Excel data adapter");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsQeDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile("target/reports/ExcelXlsQeDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		parameters.put("DataFile", "XLSX query executer mode for Excel data adapter");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile("target/reports/ExcelXlsxQeDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsQeDataAdapterReport.jasper");
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ExcelXlsQeDataAdapterReport.jasper");
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.jrdax");
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile(jasperReport, "target/reports/XlsQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 
-		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxQeDataAdapterReport.jasper");
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ExcelXlsxQeDataAdapterReport.jasper");
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxQeDataAdapter.jrdax");
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile(jasperReport, "target/reports/XlsxQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 		//data source mode
 		parameters.put("DataFile", "Excel data adapter for XLS data source");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile("target/reports/ExcelXlsDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		parameters.put("DataFile", "Excel data adapter for XLSX data source");
-		JasperFillManager.fillReportToFile("build/reports/ExcelXlsxDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile("target/reports/ExcelXlsxDataAdapterReport.jasper", new HashMap<String, Object>(parameters));
 		
-		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsDataAdapterReport.jasper");
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ExcelXlsDataAdapterReport.jasper");
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.jrdax");
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile(jasperReport, "target/reports/XlsDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 
-		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxDataAdapterReport.jasper");
+		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ExcelXlsxDataAdapterReport.jasper");
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxDataAdapter.jrdax");
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile(jasperReport, "target/reports/XlsxDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
@@ -114,7 +115,7 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/ExcelXlsDataAdapterReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/ExcelXlsDataAdapterReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -124,7 +125,7 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	 */
 	public void pdf() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
@@ -144,7 +145,7 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 	 */
 	public void html() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			File reportFile = files[i];
