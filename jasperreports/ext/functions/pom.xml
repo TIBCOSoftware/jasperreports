@@ -21,5 +21,6 @@
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
+		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 </project>

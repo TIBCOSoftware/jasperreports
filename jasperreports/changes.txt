@@ -2,6 +2,19 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.21.0 (2023-12-01)
+---------------------------------------------
+
+- added support for PDF/A-2a, PDF/A-2b, PDF/A-2u, PDF/A-3a, PDF/A-3b, PDF/A-3u;
+
+- added support for WEBP images;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.20.6 (2023-09-12)
 ---------------------------------------------
 
