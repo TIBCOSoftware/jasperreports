@@ -102,6 +102,11 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		return store.size();
 	}
 
+	public synchronized int deepSize()
+	{
+		return store.deepSize();
+	}
+
 	@Override
 	public synchronized JRPrintElement set(int index, JRPrintElement element)
 	{

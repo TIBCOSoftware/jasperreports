@@ -57,7 +57,6 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	private JRVirtualizationContext virtualizationContext;
 	private JRVirtualPrintPage page;
 	private int virtualizationPageElementSize;
-	private boolean virtualizedElements;
 	private int deepSize;
 
 	public VirtualizableFrame(JRTemplatePrintFrame frame, 
@@ -101,7 +100,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 		
 		if (elements instanceof VirtualizableElementList)
 		{
-			virtualizedElements = true;
+			deepSize += ((VirtualizableElementList) elements).deepSize();
 		}
 		else
 		{
@@ -115,8 +114,7 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 	public void fill()
 	{
 		PrintElementId frameID = PrintElementId.forElement(frame);
-		boolean virtualized = virtualizationPageElementSize > 0 
-				&& (virtualizedElements || deepSize > virtualizationPageElementSize);
+		boolean virtualized = virtualizationPageElementSize > 0 && deepSize > virtualizationPageElementSize;
 
 		if (elements.size() == 1 && elements.get(0) instanceof OffsetElements)
 		{
@@ -126,18 +124,11 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 				Collection<? extends JRPrintElement> elementsList = offsetElements.getElements();
 				if (elementsList instanceof VirtualizableElementList)
 				{
-					if (log.isDebugEnabled())
+					if (virtualized)
 					{
-						log.debug("transferring virtualized list for frame " + frame.getUUID() + " (" + frameID + ")");
+						transferVirtualizedList((VirtualizableElementList) elementsList, frameID);
+						return;
 					}
-
-					VirtualizableElementList originalElements = (VirtualizableElementList) offsetElements.getElements();
-					JRVirtualizationContext framesContext = virtualizationContext.getFramesContext();
-					ElementStore elementStore = originalElements.transferStore(framesContext, page);
-					VirtualizableElementList virtualizableList = new VirtualizableElementList(framesContext, elementStore);
-					frame.setElementsList(virtualizableList);
-					framesContext.cacheVirtualizableList(frameID, virtualizableList);
-					return;
 				}
 				else if (!virtualized)
 				{
@@ -162,6 +153,20 @@ public class VirtualizableFrame implements JRPrintElementContainer, OffsetElemen
 		}
 		
 		OffsetElementsUtil.transfer(elements, frame::addElement);
+	}
+
+	protected void transferVirtualizedList(VirtualizableElementList originalElements, PrintElementId frameID) 
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("transferring virtualized list for frame " + frame.getUUID() + " (" + frameID + ")");
+		}
+
+		JRVirtualizationContext framesContext = virtualizationContext.getFramesContext();
+		ElementStore elementStore = originalElements.transferStore(framesContext, page);
+		VirtualizableElementList virtualizableList = new VirtualizableElementList(framesContext, elementStore);
+		frame.setElementsList(virtualizableList);
+		framesContext.cacheVirtualizableList(frameID, virtualizableList);
 	}
 
 	@Override

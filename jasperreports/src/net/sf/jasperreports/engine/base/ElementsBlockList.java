@@ -137,6 +137,17 @@ public class ElementsBlockList implements ElementStore, Serializable
 	}
 
 	@Override
+	public int deepSize()
+	{
+		int deepSize = 0;
+		for (int idx = 0; idx < blockCount; ++idx)
+		{
+			deepSize += blocks[idx].deepSize();
+		}
+		return deepSize;
+	}
+
+	@Override
 	public JRPrintElement get(int index)
 	{
 		int blockIndex = blockIndex(index);
