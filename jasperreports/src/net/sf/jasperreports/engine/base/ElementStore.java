@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 public interface ElementStore extends VirtualizablePageElements
 {
 	int size();
+	
+	int deepSize();
 
 	JRPrintElement get(int index);
 
