@@ -25,15 +25,14 @@ package net.sf.jasperreports.data;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 
-import net.sf.jasperreports.data.http.StandardHttpDataLocation;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @JsonSubTypes({
-	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class),
-	@JsonSubTypes.Type(value = StandardHttpDataLocation.class)
+	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class)
+	//StandardHttpDataLocation subtype is added in the data-adapters-http extension using Jackson mapping extension
 })
 // we do not need a @JsonTypeInfo annotation here because one is used in the DataFile getter of the FileDataAdapter
 public interface DataFile extends JRCloneable

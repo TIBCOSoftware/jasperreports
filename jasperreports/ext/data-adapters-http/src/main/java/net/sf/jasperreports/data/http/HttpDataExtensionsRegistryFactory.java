@@ -21,42 +21,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.http;
 
-import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.util.Designator;
+import net.sf.jasperreports.data.DataFileServiceFactory;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class BuiltinDataFileServiceFactory implements DataFileServiceFactory, Designator<DataFile>
+public class HttpDataExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
+	private static final ExtensionsRegistry extensionsRegistry = 
+			new SingletonExtensionRegistry<DataFileServiceFactory>(
+					DataFileServiceFactory.class, HttpDataFileServiceFactory.getInstance());
 	
-	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
-	
-	public static BuiltinDataFileServiceFactory instance()
-	{
-		return INSTANCE;
-	}
-	
-	protected BuiltinDataFileServiceFactory()
-	{
-	}
-
 	@Override
-	public DataFileService createService(ParameterContributorContext context, DataFile dataFile)
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		if (dataFile instanceof RepositoryDataLocation)
-		{
-			return new RepositoryDataLocationService(context, (RepositoryDataLocation) dataFile);
-		}
-		return null;
+		return extensionsRegistry;
 	}
-
-	@Override
-	public String getName(DataFile dataFile)
-	{
-		return null;
-	}
-
 }

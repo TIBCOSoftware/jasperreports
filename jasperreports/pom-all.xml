@@ -28,6 +28,7 @@
 		<module>ext/chart-themes</module>
 		<module>ext/chrome</module>
 		<module>ext/custom-visualization</module>
+		<module>ext/data-adapters-http</module>
 		<module>ext/ejbql</module>
 		<module>ext/ejbql-j2ee</module>
 		<module>ext/excel-poi</module>

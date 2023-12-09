@@ -21,34 +21,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.http;
 
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.DataFileService;
+import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.Designator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class BuiltinDataFileServiceFactory implements DataFileServiceFactory, Designator<DataFile>
+public class HttpDataFileServiceFactory implements DataFileServiceFactory, Designator<DataFile>
 {
 	
-	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
+	private static final HttpDataFileServiceFactory INSTANCE = new HttpDataFileServiceFactory();
 	
-	public static BuiltinDataFileServiceFactory instance()
+	public static HttpDataFileServiceFactory getInstance()
 	{
 		return INSTANCE;
 	}
 	
-	protected BuiltinDataFileServiceFactory()
+	protected HttpDataFileServiceFactory()
 	{
 	}
 
 	@Override
 	public DataFileService createService(ParameterContributorContext context, DataFile dataFile)
 	{
-		if (dataFile instanceof RepositoryDataLocation)
+		if (dataFile instanceof HttpDataLocation)
 		{
-			return new RepositoryDataLocationService(context, (RepositoryDataLocation) dataFile);
+			return new HttpDataService(context, (HttpDataLocation) dataFile);
 		}
 		return null;
 	}
@@ -56,6 +59,11 @@ public class BuiltinDataFileServiceFactory implements DataFileServiceFactory, De
 	@Override
 	public String getName(DataFile dataFile)
 	{
+		if (dataFile instanceof HttpDataLocation)
+		{
+			return HttpDataService.HTTP_DATA_SERVICE_NAME;
+		}
+		
 		return null;
 	}
 

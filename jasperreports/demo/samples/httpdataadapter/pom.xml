@@ -16,10 +16,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.13</version>
-			<scope>runtime</scope>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-data-adapters-http</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>

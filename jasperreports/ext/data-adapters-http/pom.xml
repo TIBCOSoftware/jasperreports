@@ -8,10 +8,10 @@
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
 	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-castor</artifactId>
+	<artifactId>jasperreports-data-adapters-http</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Castor Persistence (Deprecated)</name>
-	<description>JasperReports Castor Persistence (Deprecated)</description>
+	<name>JasperReports Data Adapters HTTP</name>
+	<description>JasperReports Data Adapters HTTP</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
@@ -21,28 +21,21 @@
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
-		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-data-adapters-http</artifactId>
+			<artifactId>jasperreports-annotation-processors</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
-			<optional>false</optional>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-xml</artifactId>
-			<version>1.4.1</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
 			<scope>compile</scope>
 			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
