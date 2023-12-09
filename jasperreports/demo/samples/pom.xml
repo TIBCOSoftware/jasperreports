@@ -29,6 +29,7 @@
 		<module>groovy</module>
 		<module>hibernate</module>
 		<module>htmlcomponent</module>
+		<module>httpdataadapter</module>
 		<module>jasper</module>
 		<module>javascript</module>
 		<!-- FIXME7

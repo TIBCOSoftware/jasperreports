@@ -139,14 +139,23 @@
 					<execution>
 						<id>all</id>
 						<configuration>
-							<executable>java</executable>
+							<executable>mvn</executable>
 							<arguments>
-								<argument>-classpath</argument> 
-								<classpath/>
-								<argument>${sample.app.name}</argument>  
-								<argument>test</argument>  
+								<argument>exec:java@test</argument>  
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>           
+						</configuration>
+					</execution>
+					<execution>
+						<id>test</id>
+						<configuration>
+							<mainClass>${sample.app.name}</mainClass>
+							<additionalClasspathElements>
+								<additionalClasspathElement>../../common-samples/classes</additionalClasspathElement>
+							</additionalClasspathElements>
+							<arguments>
+								<argument>test</argument>
+							</arguments>
 						</configuration>
 					</execution>
 					<execution>
