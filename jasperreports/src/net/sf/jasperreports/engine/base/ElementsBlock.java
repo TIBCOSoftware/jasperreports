@@ -156,6 +156,12 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		return size;
 	}
 
+	@Override
+	public int deepSize()
+	{
+		return deepElementCount;
+	}
+
 	public boolean isEmpty()
 	{
 		return size == 0;

@@ -94,11 +94,6 @@ public class Report
 	public void init()
 	{
 		jasperReportsContext = new SimpleJasperReportsContext();
-		// for some reason data adapter extensions are not registered by default
-		jasperReportsContext.setExtensions(ParameterContributorFactory.class, 
-				Collections.singletonList(DataAdapterParameterContributorFactory.getInstance()));
-		jasperReportsContext.setExtensions(DataFileServiceFactory.class, 
-				Collections.singletonList(BuiltinDataFileServiceFactory.instance()));
 		
 		try
 		{
