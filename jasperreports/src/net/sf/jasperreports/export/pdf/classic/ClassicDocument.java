@@ -77,6 +77,12 @@ public class ClassicDocument implements PdfDocument
 	}
 
 	@Override
+	public void addProducer(String producer)
+	{
+		document.addProducer(producer);
+	}
+
+	@Override
 	public void open()
 	{
 		document.open();

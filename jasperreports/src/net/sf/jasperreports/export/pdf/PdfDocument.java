@@ -40,6 +40,8 @@ public interface PdfDocument
 
 	void addCreator(String creator);
 
+	void addProducer(String producer);
+
 	void open();
 
 }

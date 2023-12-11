@@ -56,6 +56,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataCreator;
+	private String metadataProducer;
 	private Boolean displayMetadataTitle;
 
 	
@@ -386,6 +387,20 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	public void setMetadataCreator(String metadataCreator)
 	{
 		this.metadataCreator = metadataCreator;
+	}
+
+	@Override
+	public String getMetadataProducer()
+	{
+		return metadataProducer;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataProducer(String metadataProducer)
+	{
+		this.metadataProducer = metadataProducer;
 	}
 
 	@Override

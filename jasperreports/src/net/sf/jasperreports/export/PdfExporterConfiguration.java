@@ -338,6 +338,16 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_CREATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.creator";
 	
 	/**
+	 * Property whose value is used as default for the {@link #getMetadataProducer()} export configuration setting.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_21_1
+			)
+	public static final String PROPERTY_METADATA_PRODUCER = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.producer";
+	
+	/**
 	 * Property whose value is used as default for the {@link #isDisplayMetadataTitle()} export configuration setting.
 	 */
 	@Property(
@@ -650,6 +660,12 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_METADATA_CREATOR)
 	public String getMetadataCreator();
+	
+	/**
+	 * The Producer of the PDF document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_PRODUCER)
+	public String getMetadataProducer();
 	
 	/**
 	 * Specifies whether the document title should be displayed in the title bar instead of the file name.
