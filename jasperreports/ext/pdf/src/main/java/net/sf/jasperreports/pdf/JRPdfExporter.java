@@ -964,6 +964,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				creator = depCreator;
 			}
 			document.addCreator(creator);
+			String producer = configuration.getMetadataProducer();
+			if( producer != null )
+			{
+				document.addProducer(producer);
+			}
 			
 			//accessibility check: tab order follows the structure of the document
 			pdfWriter.setTabOrderStructure();

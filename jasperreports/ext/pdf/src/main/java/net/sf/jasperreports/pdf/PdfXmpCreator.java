@@ -137,7 +137,12 @@ class XmpWriter
 			xmp.setObjectName("");
 
 			xmp.setProperty(XMPConst.NS_DC, DublinCoreSchema.FORMAT, FORMAT_PDF);
-			xmp.setProperty(XMPConst.NS_PDF, PDF_PRODUCER, Document.getVersion());
+			
+			String producer = extractInfo(PdfName.PRODUCER);
+			if (producer != null)
+			{
+				xmp.setProperty(XMPConst.NS_PDF, PDF_PRODUCER, producer);
+			}
 
 			if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A || this.conformance == PdfaConformanceEnum.PDFA_1A)
 			{

@@ -89,50 +89,51 @@ public class PdfAApp extends AbstractSampleApp
 			new File("build/reports/TabularPdfA1Report.jrprint")
 		};
 		
-		for (int i=0; i<sourceFiles.length; ++i) {
-		
-		long start = System.currentTimeMillis();
-		
-		JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObject(sourceFiles[i]);
-		
-		File destFile = new File(sourceFiles[i].getParent(), jasperPrint.getName() + ".pdf");
-		
-		JRPdfExporter exporter = new JRPdfExporter();
-
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-
-		configuration.setTagged(true);
-		configuration.setCompressed(false);
-		configuration.setMetadataTitle("Some title");
-		configuration.setMetadataAuthor("Some author");
-		configuration.setMetadataSubject("Some subject");
-		configuration.setMetadataKeywords("The first keyword, the second keyword");
-		configuration.setMetadataCreator("Some author");
-		configuration.setEmbedIccProfile(Boolean.TRUE);
-		configuration.setIccProfilePath("./sRGB_IEC61966-2-1_no_black_scaling.icc");
-		
-		switch (i)
+		for (int i = 0; i < sourceFiles.length; ++i) 
 		{
-			case 1:
-				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_2A);
-				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
-			break;
-			case 2:
-				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_3A);
-				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
-			break;
-			default:
-				configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
-				configuration.setPdfVersion(PdfVersionEnum.VERSION_1_4);
-			break;
-		}
-
-		exporter.setConfiguration(configuration);
-		exporter.exportReport();
-
-		System.err.println("PDF/A creation time : " + (System.currentTimeMillis() - start));
+			long start = System.currentTimeMillis();
+			
+			JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObject(sourceFiles[i]);
+			
+			File destFile = new File(sourceFiles[i].getParent(), jasperPrint.getName() + ".pdf");
+			
+			JRPdfExporter exporter = new JRPdfExporter();
+	
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+			SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+	
+			configuration.setTagged(true);
+			configuration.setCompressed(false);
+			configuration.setMetadataTitle("Some title");
+			configuration.setMetadataAuthor("Some author");
+			configuration.setMetadataSubject("Some subject");
+			configuration.setMetadataKeywords("The first keyword, the second keyword");
+			configuration.setMetadataCreator("Some author");
+			configuration.setMetadataProducer("Some producer");
+			configuration.setEmbedIccProfile(Boolean.TRUE);
+			configuration.setIccProfilePath("./sRGB_IEC61966-2-1_no_black_scaling.icc");
+			
+			switch (i)
+			{
+				case 1:
+					configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_2A);
+					configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
+				break;
+				case 2:
+					configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_3A);
+					configuration.setPdfVersion(PdfVersionEnum.VERSION_1_7);
+				break;
+				default:
+					configuration.setPdfaConformance(PdfaConformanceEnum.PDFA_1A);
+					configuration.setPdfVersion(PdfVersionEnum.VERSION_1_4);
+				break;
+			}
+	
+			exporter.setConfiguration(configuration);
+			exporter.exportReport();
+	
+			System.err.println("PDF/A creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 
