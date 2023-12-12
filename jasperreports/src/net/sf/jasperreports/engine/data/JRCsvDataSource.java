@@ -49,7 +49,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.data.csv.CsvDataAdapterService;
+import net.sf.jasperreports.data.DataAdapterServiceConstants;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -91,7 +91,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
-					CsvDataAdapterService.SERVICE_DESIGNATION},
+					DataAdapterServiceConstants.SERVICE_DESIGNATION_CSV},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.name";
@@ -103,7 +103,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
-					CsvDataAdapterService.SERVICE_DESIGNATION},
+					DataAdapterServiceConstants.SERVICE_DESIGNATION_CSV},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Integer.class
 	)

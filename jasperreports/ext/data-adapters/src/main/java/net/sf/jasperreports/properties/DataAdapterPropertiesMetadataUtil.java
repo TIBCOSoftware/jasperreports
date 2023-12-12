@@ -38,6 +38,12 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.DataAdapterService;
+import net.sf.jasperreports.data.DataAdapterServiceUtil;
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.DataFileServiceFactory;
+import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRComponentElement;
@@ -51,9 +57,11 @@ import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
@@ -61,7 +69,7 @@ import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PropertiesMetadataUtil
+public class DataAdapterPropertiesMetadataUtil
 {
 	
 	public static PropertiesMetadataUtil getInstance(JasperReportsContext context)
@@ -79,7 +87,7 @@ public class PropertiesMetadataUtil
 	
 	private volatile Map<String, PropertyMetadata> loadedProperties;
 
-	protected PropertiesMetadataUtil(JasperReportsContext context, Locale locale)
+	protected DataAdapterPropertiesMetadataUtil(JasperReportsContext context, Locale locale)
 	{
 		this.context = context;
 		this.locale = locale;
@@ -153,6 +161,46 @@ public class PropertiesMetadataUtil
 			return propertyQualifications == null || propertyQualifications.isEmpty()
 					|| !Collections.disjoint(propertyQualifications, qualificationSet);
 		});
+	}
+	
+	public List<PropertyMetadata> getParameterProperties(DataAdapter dataAdapter)
+	{
+		String qualification = dataFileQualification(dataAdapter);
+		if (qualification == null)
+		{
+			return Collections.emptyList();
+		}
+		
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, qualification);
+		return properties;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected String dataFileQualification(DataAdapter dataAdapter)
+	{
+		if (!(dataAdapter instanceof FileDataAdapter))
+		{
+			return null;
+		}
+		
+		DataFile dataFile = ((FileDataAdapter) dataAdapter).getDataFile();
+		String name = null;
+		List<DataFileServiceFactory> factories = context.getExtensions(DataFileServiceFactory.class);
+		if (factories != null)
+		{
+			for (DataFileServiceFactory factory : factories)
+			{
+				if (factory instanceof Designator<?>)
+				{
+					name = ((Designator<DataFile>) factory).getName(dataFile);
+					if (name != null)
+					{
+						break;
+					}
+				}
+			}
+		}
+		return name;
 	}
 	
 	public List<PropertyMetadata> getElementProperties(JRElement element)
@@ -257,6 +305,39 @@ public class PropertiesMetadataUtil
 		String queryLanguage = dataset.getQuery() == null ? null : dataset.getQuery().getLanguage();
 		String queryQualification = queryLanguage == null ? null : queryExecuterQualification(queryLanguage);
 		return queryQualification;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected String dataAdapterQualification(JRDataset dataset, DataAdapter dataAdapter)
+	{
+		ParameterContributorContext contributorContext = new ParameterContributorContext(context,
+				dataset, Collections.<String, Object>emptyMap());
+		DataAdapterServiceUtil serviceUtil = DataAdapterServiceUtil.getInstance(contributorContext);
+		DataAdapterService service = serviceUtil.getService(dataAdapter);
+		if (service instanceof Designated)
+		{
+			return ((Designated) service).getDesignation();
+		}
+		if (service instanceof Designator<?>)
+		{
+			return ((Designator<DataAdapter>) service).getName(dataAdapter);
+		}
+		return null;
+	}
+	
+	public List<PropertyMetadata> getDatasetProperties(JRDataset dataset, DataAdapter dataAdapter) throws JRException
+	{
+		String queryQualification = datasetQueryQualification(dataset);
+		String dataAdapterQualification = dataAdapter == null ? null : dataAdapterQualification(dataset, dataAdapter);
+		String dataFileQualification = dataAdapter == null ? null : dataFileQualification(dataAdapter);
+		return filterQualifiedProperties(PropertyScope.DATASET, queryQualification, dataAdapterQualification, dataFileQualification);
+	}
+	
+	public List<PropertyMetadata> getFieldProperties(JRDataset dataset, DataAdapter dataAdapter) throws JRException
+	{
+		String queryQualification = datasetQueryQualification(dataset);
+		String dataAdapterQualification = dataAdapter == null ? null : dataAdapterQualification(dataset, dataAdapter);
+		return filterQualifiedProperties(PropertyScope.FIELD, queryQualification, dataAdapterQualification);
 	}
 	
 	public List<PropertyMetadata> getContainerProperties(JRElementGroup container)

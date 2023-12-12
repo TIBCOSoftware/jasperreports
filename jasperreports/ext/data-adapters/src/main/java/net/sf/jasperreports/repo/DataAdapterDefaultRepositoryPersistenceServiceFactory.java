@@ -29,14 +29,14 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class FileRepositoryPersistenceServiceFactory implements PersistenceServiceFactory
+public class DataAdapterDefaultRepositoryPersistenceServiceFactory implements PersistenceServiceFactory
 {
-	private static final FileRepositoryPersistenceServiceFactory INSTANCE = new FileRepositoryPersistenceServiceFactory();
+	private static final DataAdapterDefaultRepositoryPersistenceServiceFactory INSTANCE = new DataAdapterDefaultRepositoryPersistenceServiceFactory();
 	
 	/**
 	 * 
 	 */
-	public static FileRepositoryPersistenceServiceFactory getInstance()
+	public static DataAdapterDefaultRepositoryPersistenceServiceFactory getInstance()
 	{
 		return INSTANCE;
 	}
@@ -48,27 +48,11 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 		Class<L> resourceType
 		) 
 	{
-		if (FileRepositoryService.class.isAssignableFrom(repositoryServiceType))
+		if (DefaultRepositoryService.class.getName().equals(repositoryServiceType.getName()))
 		{
-			if (InputStreamResource.class.getName().equals(resourceType.getName()))
+			if (DataAdapterResource.class.isAssignableFrom(resourceType))
 			{
-				return new InputStreamPersistenceService();
-			}
-			else if (OutputStreamResource.class.getName().equals(resourceType.getName()))
-			{
-				return new OutputStreamPersistenceService();
-			}
-			else if (ReportResource.class.getName().equals(resourceType.getName()))
-			{
-				return new SerializedReportPersistenceService();
-			}
-			else if (ResourceBundleResource.class.getName().equals(resourceType.getName()))
-			{
-				return new ResourceBundlePersistenceService(jasperReportsContext);
-			}
-			else if (SerializableResource.class.isAssignableFrom(resourceType))
-			{
-				return new SerializedObjectPersistenceService();
+				return new JacksonDataAdapterPersistenceService(jasperReportsContext);
 			}
 		}
 		return null;

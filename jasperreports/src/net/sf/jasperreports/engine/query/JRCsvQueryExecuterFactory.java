@@ -28,7 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.data.csv.CsvDataAdapterService;
+import net.sf.jasperreports.data.DataAdapterServiceConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -98,7 +98,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME, 
-					CsvDataAdapterService.SERVICE_DESIGNATION},
+					DataAdapterServiceConstants.SERVICE_DESIGNATION_CSV},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "csv.encoding";
@@ -185,7 +185,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			defaultValue = ",",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
-					CsvDataAdapterService.SERVICE_DESIGNATION},
+					DataAdapterServiceConstants.SERVICE_DESIGNATION_CSV},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.delimiter";
@@ -214,7 +214,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			defaultValue = "\\n",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
-					CsvDataAdapterService.SERVICE_DESIGNATION},
+					DataAdapterServiceConstants.SERVICE_DESIGNATION_CSV},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.record.delimiter";

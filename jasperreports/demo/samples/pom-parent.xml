@@ -39,8 +39,6 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-pdf</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
 		</dependency>
 		<!-- 
 		JasperReports POI dependency is needed by the Swing viewers 
@@ -50,8 +48,11 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-excel-poi</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-data-adapters</artifactId>
+			<version>${revision}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

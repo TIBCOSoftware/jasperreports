@@ -66,10 +66,6 @@ public class DefaultRepositoryPersistenceServiceFactory implements PersistenceSe
 			{
 				return new ResourceBundlePersistenceService(jasperReportsContext);
 			}
-			else if (DataAdapterResource.class.isAssignableFrom(resourceType))
-			{
-				return new JacksonDataAdapterPersistenceService(jasperReportsContext);
-			}
 			else if (SerializableResource.class.isAssignableFrom(resourceType))
 			{
 				return new SerializedObjectPersistenceService();

@@ -25,6 +25,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-data-adapters</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-annotation-processors</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
