@@ -25,8 +25,10 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -101,6 +103,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		
 		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
+		Set<String> schemaURIs = new HashSet<>();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = it.next();
@@ -122,7 +125,14 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 				log.debug("Adding components schema at " + schemaURI);
 			}
 			
-			schemas.add(schemaURI);
+			if (schemaURIs.add(schemaURI))
+			{
+				schemas.add(schemaURI);
+			}
+			else
+			{
+				log.warn("Duplicate schema URI " + schemaURI);
+			}
 		}
 		
 		Collection<PartComponentsBundle> parts = PartComponentsEnvironment.getInstance(jasperReportsContext).getBundles();

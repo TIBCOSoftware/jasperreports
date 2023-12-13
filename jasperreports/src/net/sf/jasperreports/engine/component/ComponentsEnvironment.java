@@ -24,10 +24,8 @@
 package net.sf.jasperreports.engine.component;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -52,8 +50,9 @@ public final class ComponentsEnvironment
 	
 	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
 	public static final String EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED = "components.bundle.not.registered";
+	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "components.component.manager.not.found";
 	
-	private final ReferenceMap<Object, Map<String, ComponentsBundle>> cache = 
+	private final ReferenceMap<Object, List<ComponentsBundle>> cache = 
 		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
@@ -86,16 +85,16 @@ public final class ComponentsEnvironment
 	 */
 	public Collection<ComponentsBundle> getBundles()
 	{
-		Map<String, ComponentsBundle> components = getCachedBundles();
-		return components.values();
+		List<ComponentsBundle> bundles = getCachedBundles();
+		return bundles;
 	}
 	
-	protected Map<String, ComponentsBundle> getCachedBundles()
+	protected List<ComponentsBundle> getCachedBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			Map<String, ComponentsBundle> components = cache.get(cacheKey);
+			List<ComponentsBundle> components = cache.get(cacheKey);
 			if (components == null)
 			{
 				components = findBundles();
@@ -105,24 +104,9 @@ public final class ComponentsEnvironment
 		}
 	}
 
-	protected Map<String, ComponentsBundle> findBundles()
+	protected List<ComponentsBundle> findBundles()
 	{
-		Map<String, ComponentsBundle> components = new HashMap<>();
-		List<ComponentsBundle> bundles = jasperReportsContext.getExtensions(ComponentsBundle.class);
-		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
-		{
-			ComponentsBundle bundle = it.next();
-			String namespace = bundle.getXmlParser().getNamespace();
-			if (components.containsKey(namespace))
-			{
-				log.warn("Found two components for namespace " + namespace);
-			}
-			else
-			{
-				components.put(namespace, bundle);
-			}
-		}
-		return components;
+		return jasperReportsContext.getExtensions(ComponentsBundle.class);
 	}
 	
 	/**
@@ -135,16 +119,31 @@ public final class ComponentsEnvironment
 	 */
 	public ComponentsBundle getBundle(String namespace)
 	{
-		Map<String, ComponentsBundle> components = getCachedBundles();
-		ComponentsBundle componentsBundle = components.get(namespace);
-		if (componentsBundle == null)
+		List<ComponentsBundle> bundles = getBundles(namespace);
+		if (bundles.isEmpty())
 		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED,
-					new Object[]{namespace});
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED,
+				new Object[]{namespace});
 		}
-		return componentsBundle;
+		
+		if (bundles.size() > 1)
+		{
+			log.warn("Found " + bundles.size() + " component bundles for namespace " + namespace);
+		}
+		return bundles.get(0);
+	}
+	
+	/**
+	 * Returns the component bundles that correspond to a namespace.
+	 * 
+	 * @param namespace a component bundle namespace
+	 * @return the corresponding component bundles
+	 */
+	public List<ComponentsBundle> getBundles(String namespace)
+	{
+		List<ComponentsBundle> components = getCachedBundles();
+		return components.stream().filter(bundle -> bundle.getXmlParser().getNamespace().equals(namespace))
+				.collect(Collectors.toList());
 	}
 	
 	/**
@@ -159,9 +158,24 @@ public final class ComponentsEnvironment
 	public ComponentManager getManager(ComponentKey componentKey)
 	{
 		String namespace = componentKey.getNamespace();
-		ComponentsBundle componentsBundle = getBundle(namespace);
-		
+		List<ComponentsBundle> bundles = getBundles(namespace);
 		String name = componentKey.getName();
-		return componentsBundle.getComponentManager(name);
+		List<ComponentManager> managers = bundles.stream()
+				.map(bundle -> bundle.getComponentManager(name))
+				.filter(manager -> manager != null)
+				.collect(Collectors.toList());
+
+		if (managers.isEmpty())
+		{
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
+				new Object[]{name, namespace});
+		}
+		
+		if (managers.size() > 1)
+		{
+			log.warn("Found " + managers.size() + " components for name " + name 
+					+ ", namespace " + namespace);			
+		}
+		return managers.get(0);
 	}
 }
