@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.headertoolbar.json;
 
 import java.awt.GraphicsEnvironment;
+import java.nio.CharBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +42,8 @@ import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
@@ -295,7 +298,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("columnUuid", columnUuid);
 			//FIXME conceptually it would be better not to encode for html here 
 			//but produce a pure json and encode for html on the client where necessary
-			contextMap.put("columnLabel", JRStringUtil.htmlEncode(columnLabel));
+			contextMap.put("columnLabel", escapeJSONString(JRStringUtil.htmlEncode(columnLabel)));
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("dataType", FilterTypesEnum.TEXT.getName()); // use Text as default
 			contextMap.put("canSort", canSort);
@@ -1067,6 +1070,30 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 		
 		return classes;
+	}
+	
+	/**
+	 * Escapes a text to be used for a JSON string value.
+	 * 
+	 * @param text the text to escape for JSON
+	 * @return the escaped text if not null
+	 */
+	private static String escapeJSONString(String text)
+	{
+		if (text == null)
+		{
+			return null;
+		}
+		
+		// using Jackson's string quote method
+		char[] escapedChars = JsonStringEncoder.getInstance().quoteAsString(text);
+		if (text.contentEquals(CharBuffer.wrap(escapedChars)))
+		{
+			// nothing changed
+			return text;
+		}
+		
+		return String.valueOf(escapedChars);
 	}
 
 }
