@@ -25,7 +25,6 @@ package net.sf.jasperreports.components.headertoolbar;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.engine.JRExpression;
@@ -38,7 +37,7 @@ import net.sf.jasperreports.engine.style.StyleProviderContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.util.JsonLoader;
 
 /**
  *
@@ -61,12 +60,12 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 	{
 		if (context.getElement().getPropertiesMap() != null)
 		{
-			String srlzdConditionalFormattingData = context.getElement().getPropertiesMap().getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
+			String srlzdConditionalFormattingData = context.getElement().getPropertiesMap().getProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
 			if (srlzdConditionalFormattingData != null)
 			{
 				JRStyle style = null;
 
-				ConditionalFormattingData cfd = JacksonUtil.getInstance(jasperreportsContext).loadObject(srlzdConditionalFormattingData, ConditionalFormattingData.class);
+				ConditionalFormattingData cfd = JsonLoader.getInstance(jasperreportsContext).loadObject(srlzdConditionalFormattingData, ConditionalFormattingData.class);
 				if (cfd.getConditions().size() > 0)
 				{
 					Object compareTo;

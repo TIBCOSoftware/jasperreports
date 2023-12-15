@@ -69,7 +69,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 {
 	private static final Log log = LogFactory.getLog(JsonExporter.class);
 	
-	public static final String REPORT_CONTEXT_PARAMETER_WEB_FONTS = "net.sf.jasperreports.html.webfonts";
+	public static final String REPORT_CONTEXT_PARAMETER_WEB_FONTS = "net.sf.jasperreports.html.webfonts"; //FIXME7 deprecate
 
 	public static final String JSON_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "json";
 	

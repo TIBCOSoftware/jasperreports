@@ -25,8 +25,11 @@ package net.sf.jasperreports.components.sort;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.CompositeDatasetFilter;
+import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
@@ -86,5 +89,18 @@ public class SortElementUtils {
 			result = FilterTypesEnum.BOOLEAN;
 		}
 		return result;
+	}
+	
+	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {
+		if (existingFilter instanceof FieldFilter) {
+			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
+				fieldFilters.add((FieldFilter)existingFilter);
+			} 
+		} else if (existingFilter instanceof CompositeDatasetFilter) {
+			for (DatasetFilter filter : ((CompositeDatasetFilter)existingFilter).getFilters())
+			{
+				getFieldFilters(filter, fieldFilters, fieldName);
+			}
+		}
 	}
 }

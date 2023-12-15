@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.sort.FieldFilter;
-import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;
@@ -36,7 +35,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.util.JsonLoader;
 
 /**
  * 
@@ -58,7 +57,7 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
-			String serializedFilters = JRPropertiesUtil.getOwnProperty(context.getDataset(), FilterCommand.DATASET_FILTER_PROPERTY);
+			String serializedFilters = JRPropertiesUtil.getOwnProperty(context.getDataset(), HeaderToolbarElement.DATASET_FILTER_PROPERTY);
 			
 			if (serializedFilters != null) 
 			{
@@ -72,7 +71,7 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 	{
 		if (serializedFilters != null) 
 		{
-			return JacksonUtil.getInstance(context.getJasperReportsContext()).loadList(serializedFilters, FieldFilter.class);
+			return JsonLoader.getInstance(context.getJasperReportsContext()).loadList(serializedFilters, FieldFilter.class);
 		}
 		return null;
 	}

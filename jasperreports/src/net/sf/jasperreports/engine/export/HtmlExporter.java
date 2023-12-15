@@ -52,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
+import net.sf.jasperreports.crosstabs.CrosstabConstants;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
@@ -182,6 +182,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			sinceVersion = PropertyConstants.VERSION_3_7_0
 			)
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
+
+	public static final String REPORT_CONTEXT_PARAMETER_WEB_FONTS = "net.sf.jasperreports.html.webfonts";
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 	
@@ -422,7 +424,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			else
 			{
-				reportContext.setParameterValue(JsonExporter.REPORT_CONTEXT_PARAMETER_WEB_FONTS, fontsToProcess);
+				reportContext.setParameterValue(REPORT_CONTEXT_PARAMETER_WEB_FONTS, fontsToProcess);
 			}
 		}
 
@@ -2106,17 +2108,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			sb.append(" data-colidx=\"" + JRStringUtil.encodeXmlAttribute(columnIndex) + "\"");
 		}
 		
-		String xtabId = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID);
+		String xtabId = getCellProperty(element, cell, CrosstabConstants.PROPERTY_CROSSTAB_ID);
 		if (xtabId != null)
 		{
-			sb.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_CROSSTAB_ID + "=\"" 
+			sb.append(" " + CrosstabConstants.ATTRIBUTE_CROSSTAB_ID + "=\"" 
 					+ JRStringUtil.encodeXmlAttribute(xtabId) + "\"");
 		}
 		
-		String xtabColIdx = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX);
+		String xtabColIdx = getCellProperty(element, cell, CrosstabConstants.PROPERTY_COLUMN_INDEX);
 		if (xtabColIdx != null)
 		{
-			sb.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_COLUMN_INDEX + "=\"" 
+			sb.append(" " + CrosstabConstants.ATTRIBUTE_COLUMN_INDEX + "=\"" 
 					+ JRStringUtil.encodeXmlAttribute(xtabColIdx) + "\"");
 		}
 		

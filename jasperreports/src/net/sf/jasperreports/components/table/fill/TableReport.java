@@ -41,8 +41,7 @@ import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
-import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
-import net.sf.jasperreports.components.sort.actions.FilterCommand;
+import net.sf.jasperreports.components.sort.SortElementUtils;
 import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
@@ -130,7 +129,7 @@ import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.util.JsonLoader;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -1037,14 +1036,14 @@ public class TableReport implements JRReport
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 					
 					JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
-					String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+					String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(HeaderToolbarElement.DATASET_FILTER_PROPERTY);
 					if (serializedFilters != null)
 					{
-						List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
+						List<? extends DatasetFilter> existingFilters = JsonLoader.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 						if (existingFilters != null)
 						{
 							List<FieldFilter> fieldFilters = new ArrayList<>();
-							SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
+							SortElementUtils.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{
 								suffix += "" + propertiesUtil.getProperty(PROPERTY_FILTER_CHAR);

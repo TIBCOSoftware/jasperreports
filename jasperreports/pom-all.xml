@@ -39,13 +39,16 @@
 		<module>ext/groovy</module>
 		<module>ext/hibernate-j2ee</module>
 		<module>ext/interactivity</module>
+		<module>ext/jackson</module>
 		<module>ext/javascript</module>
 		<module>ext/jdt</module>
+		<module>ext/json</module>
 		<module>ext/olap</module>
 		<module>ext/pdf</module>
 		<module>ext/servlets</module>
 		<module>ext/servlets-j2ee</module>
 		<module>ext/spring</module>
+		<module>ext/velocity</module>
 		<module>ext/xalan</module>
 	</modules>
 	<properties>

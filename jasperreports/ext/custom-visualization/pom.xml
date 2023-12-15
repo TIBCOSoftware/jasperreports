@@ -26,6 +26,20 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-json</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-velocity</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-pdf</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
@@ -44,13 +58,6 @@
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity-engine-core</artifactId>
-			<version>2.3</version>
-			<scope>compile</scope>
-			<optional>false</optional>
 		</dependency>
 	</dependencies>
 </project>

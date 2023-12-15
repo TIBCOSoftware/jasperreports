@@ -33,7 +33,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
 import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditTextElementData;
 import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
@@ -57,7 +56,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.util.JsonLoader;
 
 
 
@@ -281,13 +280,13 @@ public class HeaderToolbarElementUtils
 		{
 			JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
 			if (
-				propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) 
-				&& propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null
+				propertiesMap.containsProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) 
+				&& propertiesMap.getProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY) != null
 				) 
 			{
 				cfd = 
-					JacksonUtil.getInstance(jasperReportsContext).loadObject(
-						propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), 
+					JsonLoader.getInstance(jasperReportsContext).loadObject(
+						propertiesMap.getProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), 
 						ConditionalFormattingData.class
 						);
 			}

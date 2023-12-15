@@ -26,8 +26,6 @@ package net.sf.jasperreports.extensions;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.headertoolbar.json.HeaderToolbarElementJsonHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementCsvHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementDocxHandler;
@@ -38,10 +36,6 @@ import net.sf.jasperreports.components.iconlabel.IconLabelElementOdtHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementPptxHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementRtfHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementXlsxHandler;
-import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
-import net.sf.jasperreports.components.sort.SortElementJsonHandler;
-import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
@@ -49,13 +43,11 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
@@ -83,20 +75,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (SortElement.SORT_ELEMENT_NAME.equals(elementName))
-				{
-					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new SortElementHtmlHandler();
-					} else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new SortElementJsonHandler();
-					}
-				}
-				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName) && JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-				{
-					return new HeaderToolbarElementJsonHandler();
-				}
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
 					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
@@ -139,14 +117,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 //					{
 //						return IconLabelElementXmlHandler.getInstance();
 //					}		
-				}
-				
-				if (JRFillCrosstab.CROSSTAB_INTERACTIVE_ELEMENT_NAME.equals(elementName))
-				{
-					if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new CrosstabInteractiveJsonHandler();
-					}
 				}
 				
 				return null;

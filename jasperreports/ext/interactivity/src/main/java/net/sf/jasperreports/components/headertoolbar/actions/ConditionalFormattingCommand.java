@@ -38,7 +38,7 @@ public class ConditionalFormattingCommand implements Command
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting";
+	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting"; //FIXME7 deprecate
 	
 	private JasperReportsContext jasperReportsContext;
 	protected ConditionalFormattingData conditionalFormattingData;

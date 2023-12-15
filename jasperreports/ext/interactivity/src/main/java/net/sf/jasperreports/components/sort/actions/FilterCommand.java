@@ -42,7 +42,7 @@ public class FilterCommand implements Command
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String DATASET_FILTER_PROPERTY = "net.sf.jasperreports.filters";
+	public static final String DATASET_FILTER_PROPERTY = "net.sf.jasperreports.filters"; //FIXME7 deprecate
 	
 	private JasperReportsContext jasperReportsContext;
 	protected JRDesignDataset dataset;

@@ -31,6 +31,7 @@ import java.util.UUID;
 import org.apache.velocity.VelocityContext;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.sort.actions.FilterAction;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.SortAction;
@@ -204,19 +205,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return true;
 	}
 	
-	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {//FIXMEJIVE put this in some util and reuse
-		if (existingFilter instanceof FieldFilter) {
-			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
-				fieldFilters.add((FieldFilter)existingFilter);
-			} 
-		} else if (existingFilter instanceof CompositeDatasetFilter) {
-			for (DatasetFilter filter : ((CompositeDatasetFilter)existingFilter).getFilters())
-			{
-				getFieldFilters(filter, fieldFilters, fieldName);
-			}
-		}
-	}
-	
 	private List<FieldFilter> getExistingFiltersForField(
 		JasperReportsContext jasperReportsContext, 
 		ReportContext reportContext, 
@@ -237,8 +225,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			// get existing filter as JSON string
 			String serializedFilters = "[]";
 			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-			if (propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY) != null) {
-				serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+			if (propertiesMap.getProperty(HeaderToolbarElement.DATASET_FILTER_PROPERTY) != null) {
+				serializedFilters = propertiesMap.getProperty(HeaderToolbarElement.DATASET_FILTER_PROPERTY);
 			}
 			
 			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);

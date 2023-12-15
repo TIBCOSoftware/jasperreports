@@ -50,6 +50,7 @@ import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
+import net.sf.jasperreports.crosstabs.CrosstabConstants;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -85,7 +86,6 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnOrderer;
-import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.crosstabs.interactive.DataColumnInfo;
 import net.sf.jasperreports.crosstabs.interactive.RowGroupInteractiveInfo;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
@@ -128,7 +128,7 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.export.AccessibilityUtil;
 import net.sf.jasperreports.export.type.AccessibilityTagEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.util.JsonLoader;
 
 /**
  * Fill-time implementation of a {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab}.
@@ -782,7 +782,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return;
 		}
 		
-		orderByColumnInfo = JacksonUtil.getInstance(filler.getJasperReportsContext()).loadObject(
+		orderByColumnInfo = JsonLoader.getInstance(filler.getJasperReportsContext()).loadObject(
 				orderByProperty, OrderByColumnInfo.class);
 	}
 	
@@ -945,7 +945,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 		if (interactive)
 		{
-			printFrame.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID, 
+			printFrame.getPropertiesMap().setProperty(CrosstabConstants.PROPERTY_CROSSTAB_ID, 
 					chunkId);
 
 			JRTemplateGenericPrintElement genericElement = createInteractiveElement(chunkId, floatingHeaders);
@@ -1001,10 +1001,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		genericElement.setWidth(1);
 		genericElement.setHeight(1);
 		
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_ID, getUUID().toString());
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID, chunkId);
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_START_COLUMN_INDEX, crosstabFiller.startColumnIndex);
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_FLOATING_HEADERS, floatingHeaders);
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_CROSSTAB_ID, getUUID().toString());
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_CROSSTAB_FRAGMENT_ID, chunkId);
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_START_COLUMN_INDEX, crosstabFiller.startColumnIndex);
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_FLOATING_HEADERS, floatingHeaders);
 
 		BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
 		List<RowGroupInteractiveInfo> rowGroups = new ArrayList<>(rowBuckets.length);
@@ -1016,7 +1016,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			groupInfo.setOrder(order);
 			rowGroups.add(groupInfo);
 		}
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_ROW_GROUPS, rowGroups);
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_ROW_GROUPS, rowGroups);
 		
 		int dataColumnCount = crosstabFiller.lastColumnIndex - crosstabFiller.startColumnIndex;
 		List<DataColumnInfo> dataColumns = new ArrayList<>(dataColumnCount);
@@ -1053,7 +1053,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			dataColumns.add(dataColumn);
 		}
-		genericElement.setParameterValue(CrosstabInteractiveJsonHandler.ELEMENT_PARAMETER_DATA_COLUMNS, dataColumns);
+		genericElement.setParameterValue(CrosstabConstants.ELEMENT_PARAMETER_DATA_COLUMNS, dataColumns);
 
 		return genericElement;
 	}
@@ -2082,7 +2082,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							// adding properties so that the text is selected as part of the row group column
 							textElement.setExpressionEvaluator(decoratedEvaluator);
-							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
+							textElement.addDynamicProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
 							textElement.addDynamicProperty(HtmlExporter.PROPERTY_HTML_CLASS, 
 									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive " + HTML_CLASS_ROW_FLOATING));
@@ -2104,7 +2104,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 								textElement, builtinExpressions);
 						if (alignedText[bucketIdx])
 						{
-							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
+							iconLabelElement.getPropertiesMap().setProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
 							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive " + HTML_CLASS_ROW_FLOATING);
 						}
@@ -2220,7 +2220,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 					if (header)
 					{
-						contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
+						contents.setPrintProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, Integer.toString(columnIdx));
 						contents.addHtmlClass("jrxtcolheader");
 						if (sortHeader)
 						{
@@ -2695,7 +2695,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				
 				if (interactive)
 				{
-					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(column));
+					contents.setPrintProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, Integer.toString(column));
 					contents.addHtmlClass("jrxtdatacell");
 				}
 								
@@ -2762,7 +2762,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				{
 					contents.addHtmlClass(HTML_CLASS_ROW_FLOATING);
 
-					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
+					contents.setPrintProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
@@ -2954,7 +2954,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				{
 					contents.addHtmlClass(HTML_CLASS_ROW_FLOATING);
 
-					contents.setPrintProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
+					contents.setPrintProperty(CrosstabConstants.PROPERTY_COLUMN_INDEX, Integer.toString(rowGroup));
 					if (cell.getDepthSpan() == 1)
 					{
 						// marking only unspanned headers for HTML selection 
