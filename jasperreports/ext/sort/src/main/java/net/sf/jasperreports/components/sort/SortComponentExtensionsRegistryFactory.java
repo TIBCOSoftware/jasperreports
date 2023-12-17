@@ -21,21 +21,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.components.sort;
 
 import java.util.HashMap;
 
-import net.sf.jasperreports.components.iconlabel.IconLabelComponentCompiler;
-import net.sf.jasperreports.components.iconlabel.IconLabelComponentDesignConverter;
-import net.sf.jasperreports.components.iconlabel.IconLabelComponentFillFactory;
-import net.sf.jasperreports.components.iconlabel.IconLabelComponentManager;
-import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
-import net.sf.jasperreports.components.list.ListComponentCompiler;
-import net.sf.jasperreports.components.list.ListDesignConverter;
-import net.sf.jasperreports.components.table.FillTableFactory;
-import net.sf.jasperreports.components.table.TableCompiler;
-import net.sf.jasperreports.components.table.TableDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -55,8 +45,7 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see ListComponent
  */
-public class ComponentsExtensionsRegistryFactory implements
-		ExtensionsRegistryFactory
+public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 
 	public static final String NAMESPACE = 
@@ -66,9 +55,7 @@ public class ComponentsExtensionsRegistryFactory implements
 	public static final String XSD_RESOURCE = 
 		"net/sf/jasperreports/components/components.xsd";
 	
-	public static final String LIST_COMPONENT_NAME = "list";
-	public static final String TABLE_COMPONENT_NAME = "table";
-	public static final String ICONLABEL_COMPONENT_NAME = "iconLabel";
+	public static final String SORT_COMPONENT_NAME = "sort";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -80,30 +67,17 @@ public class ComponentsExtensionsRegistryFactory implements
 		parser.setNamespace(NAMESPACE);
 		parser.setPublicSchemaLocation(XSD_LOCATION);
 		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new ComponentsXmlDigesterConfigurer());
+		parser.setDigesterConfigurer(new SortComponentXmlDigesterConfigurer());
 		bundle.setXmlParser(parser);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		ComponentsManager listManager = new ComponentsManager();
-		listManager.setDesignConverter(new ListDesignConverter());
-		listManager.setComponentCompiler(new ListComponentCompiler());
-		//listManager.setComponentXmlWriter(xmlHandler);
-		listManager.setComponentFillFactory(new FillListFactory());
-		componentManagers.put(LIST_COMPONENT_NAME, listManager);
-		
-		ComponentsManager tableManager = new ComponentsManager();
-		tableManager.setDesignConverter(new TableDesignConverter());
-		tableManager.setComponentCompiler(new TableCompiler());
-		//tableManager.setComponentXmlWriter(xmlHandler);
-		tableManager.setComponentFillFactory(new FillTableFactory());
-		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
-		
-		IconLabelComponentManager iconLabelManager = new IconLabelComponentManager();
-		iconLabelManager.setDesignConverter(IconLabelComponentDesignConverter.getInstance());
-		iconLabelManager.setComponentCompiler(new IconLabelComponentCompiler());
-		iconLabelManager.setComponentFillFactory(new IconLabelComponentFillFactory());
-		componentManagers.put(ICONLABEL_COMPONENT_NAME, iconLabelManager);
+		SortComponentManager sortManager = new SortComponentManager();
+		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
+		sortManager.setComponentCompiler(new SortComponentCompiler());
+		//sortManager.setComponentXmlWriter(xmlHandler);
+		sortManager.setComponentFillFactory(new SortComponentFillFactory());
+		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
 
 		bundle.setComponentManagers(componentManagers);
 		

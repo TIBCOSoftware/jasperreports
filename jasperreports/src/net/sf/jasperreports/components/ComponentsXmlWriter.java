@@ -32,8 +32,6 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
-import net.sf.jasperreports.components.sort.SortComponent;
-import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
@@ -83,11 +81,6 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		else if (component instanceof TableComponent)
 		{
 			writeTable(componentElement, reportWriter);
-		}
-		else if (component instanceof SortComponent)
-		{
-			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(jasperReportsContext);
-			sortWriter.writeToXml(componentElement, reportWriter);
 		}
 	}
 
@@ -415,17 +408,5 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 //		}
 
 		return true;
-	}
-	
-	
-	protected boolean isBarcode4jName(String name)
-	{
-		for (String barcode4jName : ComponentsExtensionsRegistryFactory.BARCODE4J_COMPONENT_NAMES)
-		{
-			if(barcode4jName.equals(name)){
-				return true;
-			}
-		}
-		return false;
 	}
 }

@@ -40,7 +40,7 @@ public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 	String METADATA_KEY_QUALIFICATION = 
 			ComponentsExtensionsRegistryFactory.NAMESPACE 
 			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ ComponentsExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
+			+ BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
 	
 	//TODO scale type, alignment
 

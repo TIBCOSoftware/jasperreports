@@ -33,7 +33,6 @@ import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.StandardListComponent;
-import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.table.DesignBaseCell;
 import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
@@ -79,7 +78,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	{
 		addListRules(digester);
 		addTableRules(digester);
-		SortComponentDigester.addSortComponentRules(digester);
 		IconLabelComponentDigester.addIconLabelComponentRules(digester);
 	}
 

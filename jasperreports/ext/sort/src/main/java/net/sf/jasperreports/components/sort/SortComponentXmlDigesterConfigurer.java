@@ -23,19 +23,23 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import org.apache.commons.digester.Digester;
+
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
-import org.apache.commons.digester.Digester;
-
 /**
- * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * XML digester for built-in component implementations.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @see SortComponentExtensionsRegistryFactory
  */
-public class SortComponentDigester implements XmlDigesterConfigurer
+public class SortComponentXmlDigesterConfigurer implements XmlDigesterConfigurer
 {
+	
 	@Override
 	public void configureDigester(Digester digester)
 	{
