@@ -3,73 +3,73 @@
 <fontFamilies>
 
 	<fontFamily name="Noto Devanagari">
-		<normal>noto/NotoSansDevanagari-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansDevanagari-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Bengali">
-		<normal>noto/NotoSansBengali-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansBengali-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Telugu">
-		<normal>noto/NotoSansTelugu-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansTelugu-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Tamil">
-		<normal>noto/NotoSansTamil-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansTamil-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Gujarati">
-		<normal>noto/NotoSansGujarati-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansGujarati-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Kannada">
-		<normal>noto/NotoSansKannada-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansKannada-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Malayalam">
-		<normal>noto/NotoSansMalayalam-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansMalayalam-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Odia">
-		<normal>noto/NotoSansOriya-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansOriya-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Gurmukhi">
-		<normal>noto/NotoSansGurmukhi-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansGurmukhi-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Sinhala">
-		<normal>noto/NotoSansSinhala-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansSinhala-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Tibetan">
-		<normal>noto/NotoSansTibetan-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansTibetan-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
 	<fontFamily name="Noto Khmer">
-		<normal>noto/NotoSansKhmer-Regular.ttf</normal>
+		<normal>fonts/noto/NotoSansKhmer-Regular.ttf</normal>
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>

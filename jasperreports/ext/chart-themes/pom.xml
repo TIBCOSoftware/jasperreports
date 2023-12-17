@@ -21,6 +21,7 @@
 	<properties>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
+		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,6 +63,12 @@
 			<version>1.4.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>

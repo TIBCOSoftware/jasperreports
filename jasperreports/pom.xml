@@ -53,14 +53,6 @@
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>7.4.0</version>
-				<configuration>
-					<suppressionFile>${basedir}/owasp-suppressions.xml</suppressionFile>
-				</configuration>
-			</plugin>			
 		</plugins>
 	</build>
 </project>
