@@ -23,10 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -56,7 +54,7 @@ public final class GenericElementHandlerEnviroment
 	public static final String EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_NAMESPACE = 
 			"export.common.handlers.not.found.for.namespace";
 	
-	private final ReferenceMap<Object, Map<String, GenericElementHandlerBundle>> handlersCache = 
+	private final ReferenceMap<Object, List<GenericElementHandlerBundle>> handlersCache = 
 		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
@@ -102,22 +100,32 @@ public final class GenericElementHandlerEnviroment
 	public GenericElementHandler getElementHandler(JRGenericElementType type,
 			String exporterKey)
 	{
-		Map<String,GenericElementHandlerBundle> handlerBundles = getBundles();
-		GenericElementHandlerBundle bundle = handlerBundles.get(type.getNamespace());
-		if (bundle == null)
+		String namespace = type.getNamespace();
+		String name = type.getName();
+		List<GenericElementHandlerBundle> handlerBundles = getBundles();
+		List<GenericElementHandler> handlers = handlerBundles.stream()
+				.filter(bundle -> bundle.getNamespace().equals(namespace))
+				.map(bundle -> bundle.getHandler(name, exporterKey))
+				.filter(handler -> handler != null)
+				.collect(Collectors.toList());
+
+		if (handlers.isEmpty())
 		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_NAMESPACE,
-					new Object[]{type.getNamespace()});
+			return null;
 		}
-		return bundle.getHandler(type.getName(), exporterKey);
+		
+		if (handlers.size() > 1)
+		{
+			log.warn("Found " + handlers.size() + " handlers for name " + type.getName()
+					+ ", namespace " + namespace + ", exporter " + exporterKey);
+		}
+		return handlers.get(0);
 	}
 
-	protected Map<String,GenericElementHandlerBundle> getBundles()
+	protected List<GenericElementHandlerBundle> getBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
-		Map<String,GenericElementHandlerBundle> handlerBundles;
+		List<GenericElementHandlerBundle> handlerBundles;
 		synchronized (handlersCache)
 		{
 			handlerBundles = handlersCache.get(cacheKey);
@@ -130,24 +138,9 @@ public final class GenericElementHandlerEnviroment
 		return handlerBundles;
 	}
 
-	protected Map<String,GenericElementHandlerBundle> loadBundles()
+	protected List<GenericElementHandlerBundle> loadBundles()
 	{
 		List<GenericElementHandlerBundle> bundleList = jasperReportsContext.getExtensions(GenericElementHandlerBundle.class);
-		Map<String,GenericElementHandlerBundle> bundles = new HashMap<>();
-		for (Iterator<GenericElementHandlerBundle> it = bundleList.iterator(); it.hasNext();)
-		{
-			GenericElementHandlerBundle bundle = it.next();
-			String namespace = bundle.getNamespace();
-			if (bundles.containsKey(namespace))
-			{
-				log.warn("Found two generic element handler bundles for namespace " 
-						+ namespace);
-			}
-			else
-			{
-				bundles.put(namespace, bundle);
-			}
-		}
-		return bundles;
+		return bundleList;
 	}
 }

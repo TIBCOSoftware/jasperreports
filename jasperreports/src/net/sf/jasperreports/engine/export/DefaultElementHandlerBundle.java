@@ -60,10 +60,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 		Map<String,GenericElementHandler> handlers = elementHandlers.get(elementName);
 		if (handlers == null)
 		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_TYPE,
-					new Object[]{namespace, elementName});
+			return null;
 		}
 		
 		GenericElementHandler handler = handlers.get(exporterKey);
