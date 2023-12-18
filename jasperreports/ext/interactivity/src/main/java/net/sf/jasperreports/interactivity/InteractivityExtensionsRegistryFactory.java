@@ -46,7 +46,7 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class InteractivyExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class InteractivityExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	private static final GenericElementHandlerBundle HANDLER_BUNDLE = 
 		new GenericElementHandlerBundle()
