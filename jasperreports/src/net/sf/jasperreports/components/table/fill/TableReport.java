@@ -36,12 +36,10 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
-import net.sf.jasperreports.components.sort.SortElementUtils;
 import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
@@ -938,7 +936,7 @@ public class TableReport implements JRReport
 					JRField field = getField(fieldOrVariableName);
 					if (field != null) 
 					{
-						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+						filterType = FilterTypesEnum.getFilterType(field.getValueClass());
 					} else 
 					{
 						throw 
@@ -955,7 +953,7 @@ public class TableReport implements JRReport
 					JRVariable variable = getVariable(fieldOrVariableName);
 					if (variable != null)
 					{
-						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+						filterType = FilterTypesEnum.getFilterType(variable.getValueClass());
 					} else
 					{
 						throw 
@@ -974,14 +972,14 @@ public class TableReport implements JRReport
 					case JRExpressionChunk.TYPE_FIELD:
 						columnType = SortFieldTypeEnum.FIELD;
 						JRField field = getField(fieldOrVariableName);
-						filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+						filterType = FilterTypesEnum.getFilterType(field.getValueClass());
 						formatTimeZone = getFormatTimeZone(sortTextField, field.getValueClass());
 						break;
 						
 					case JRExpressionChunk.TYPE_VARIABLE:
 						columnType = SortFieldTypeEnum.VARIABLE;
 						JRVariable variable = getVariable(fieldOrVariableName);
-						filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+						filterType = FilterTypesEnum.getFilterType(variable.getValueClass());
 						formatTimeZone = getFormatTimeZone(sortTextField, variable.getValueClass());
 						break;
 						
@@ -1043,7 +1041,7 @@ public class TableReport implements JRReport
 						if (existingFilters != null)
 						{
 							List<FieldFilter> fieldFilters = new ArrayList<>();
-							SortElementUtils.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
+							getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, fieldOrVariableName);
 							if (fieldFilters.size() > 0)
 							{
 								suffix += "" + propertiesUtil.getProperty(PROPERTY_FILTER_CHAR);
@@ -2447,6 +2445,19 @@ public class TableReport implements JRReport
 		public void setTableInstanceIndex(int instanceIndex)
 		{
 			propertiesMap.setProperty(propertyName, classFixedPart + instanceIndex);
+		}
+	}
+	
+	private static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {
+		if (existingFilter instanceof FieldFilter) {
+			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
+				fieldFilters.add((FieldFilter)existingFilter);
+			} 
+		} else if (existingFilter instanceof CompositeDatasetFilter) {
+			for (DatasetFilter filter : ((CompositeDatasetFilter)existingFilter).getFilters())
+			{
+				getFieldFilters(filter, fieldFilters, fieldName);
+			}
 		}
 	}
 }

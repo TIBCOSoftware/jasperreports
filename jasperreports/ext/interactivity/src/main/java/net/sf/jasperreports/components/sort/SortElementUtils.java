@@ -90,17 +90,4 @@ public class SortElementUtils {
 		}
 		return result;
 	}
-	
-	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {
-		if (existingFilter instanceof FieldFilter) {
-			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
-				fieldFilters.add((FieldFilter)existingFilter);
-			} 
-		} else if (existingFilter instanceof CompositeDatasetFilter) {
-			for (DatasetFilter filter : ((CompositeDatasetFilter)existingFilter).getFilters())
-			{
-				getFieldFilters(filter, fieldFilters, fieldName);
-			}
-		}
-	}
 }

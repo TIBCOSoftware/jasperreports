@@ -112,29 +112,11 @@ public class HeaderToolbarElementUtils
 		return sortOrderMapping.get(sortOrder);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link FilterTypesEnum#getFilterType(Class)}.
+	 */
 	public static FilterTypesEnum getFilterType(Class<?> clazz) {
-		FilterTypesEnum result = null;
-		if (Number.class.isAssignableFrom(clazz)) 
-		{
-			result = FilterTypesEnum.NUMERIC;
-		}
-		else if (String.class.isAssignableFrom(clazz))
-		{
-			result = FilterTypesEnum.TEXT;
-		}
-		else if (Time.class.isAssignableFrom(clazz))
-		{
-			result = FilterTypesEnum.TIME;
-		}
-		else if (Date.class.isAssignableFrom(clazz))
-		{
-			result = FilterTypesEnum.DATE;
-		}
-		else if (Boolean.class.isAssignableFrom(clazz))
-		{
-			result = FilterTypesEnum.BOOLEAN;
-		}
-		return result;
+		return FilterTypesEnum.getFilterType(clazz);
 	}
 
 	public static void copyOwnTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement, Locale locale) {

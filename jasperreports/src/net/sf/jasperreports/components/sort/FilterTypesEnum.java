@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.sql.Time;
+import java.util.Date;
+
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -64,5 +67,33 @@ public enum FilterTypesEnum implements NamedEnum
 	public static FilterTypesEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
+	public static FilterTypesEnum getFilterType(Class<?> clazz) {
+		FilterTypesEnum result = null;
+		if (Number.class.isAssignableFrom(clazz)) 
+		{
+			result = FilterTypesEnum.NUMERIC;
+		}
+		else if (String.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.TEXT;
+		}
+		else if (Time.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.TIME;
+		}
+		else if (Date.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.DATE;
+		}
+		else if (Boolean.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.BOOLEAN;
+		}
+		return result;
 	}
 }

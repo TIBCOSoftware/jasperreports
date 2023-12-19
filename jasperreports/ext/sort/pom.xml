@@ -23,28 +23,12 @@
 		<skipDeploy>false</skipDeploy>
 	</properties>
 	<dependencies>
-		<!--
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-annotation-processors</artifactId>
+			<artifactId>jasperreports-interactivity</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.barcode4j</groupId>
-			<artifactId>barcode4j</artifactId>
-			<version>2.1</version>
-			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>core</artifactId>
-			<version>3.4.0</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		-->
 	</dependencies>
 </project>
