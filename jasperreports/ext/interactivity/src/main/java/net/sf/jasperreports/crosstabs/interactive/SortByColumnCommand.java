@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
-import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
@@ -78,7 +77,7 @@ public class SortByColumnCommand implements Command
 		}
 		else
 		{
-			OrderByColumnInfo orderByInfo = new OrderByColumnInfo();
+			OrderByColumnInfoImpl orderByInfo = new OrderByColumnInfoImpl();
 			orderByInfo.setMeasureIndex(sortData.getMeasureIndex()); 
 			orderByInfo.setOrder(BucketOrder.toSortOrderEnum(order));
 			orderByInfo.setColumnValues(sortData.getColumnValues());

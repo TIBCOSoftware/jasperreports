@@ -28,6 +28,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
+import net.sf.jasperreports.crosstabs.interactive.OrderByColumnInfoImpl;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -51,7 +52,7 @@ public class OrderByColumnInfoDeserializationTest
 	@Test(dataProvider = "sortOrders")
 	public void sortOrderTest(String jsonText, SortOrderEnum order)
 	{
-		OrderByColumnInfo info = jacksonUtil.loadObject(jsonText, OrderByColumnInfo.class);
+		OrderByColumnInfo info = jacksonUtil.loadObject(jsonText, OrderByColumnInfoImpl.class);
 		assert info != null;
 		assert info.getOrder() == order;
 	}

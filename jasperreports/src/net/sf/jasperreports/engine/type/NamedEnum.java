@@ -23,15 +23,12 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public interface NamedEnum
 {
 
-	@JsonValue
 	String getName();
 
 }

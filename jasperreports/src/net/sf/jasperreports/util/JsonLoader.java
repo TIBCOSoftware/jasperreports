@@ -51,7 +51,7 @@ public class JsonLoader
 		Method localGetInstanceMethod = null;
 		try
 		{
-			localJacksonUtilClass = JRClassLoader.loadClassForRealName("net.sf.jasperreports.jackson.util.JacksonUtil"); //FIXME7 which class loading method to use?
+			localJacksonUtilClass = JRClassLoader.loadClassForRealName("net.sf.jasperreports.util.JacksonUtil"); //FIXME7 which class loading method to use?
 			localGetInstanceMethod = localJacksonUtilClass.getDeclaredMethod("getInstance", JasperReportsContext.class);
 		}
 		catch (ClassNotFoundException | NoSuchMethodException e)
@@ -108,7 +108,7 @@ public class JsonLoader
 			{
 				if (loadObjectMethod == null)
 				{
-					loadObjectMethod = jacksonUtilClass.getMethod("loadObject", String.class, clazz);
+					loadObjectMethod = jacksonUtilClass.getMethod("loadObject", String.class, Class.class);
 				}
 				result = (T)loadObjectMethod.invoke(jacksonUtilObject, jsonData);
 			}
@@ -133,7 +133,7 @@ public class JsonLoader
 			{
 				if (loadListMethod == null)
 				{
-					loadListMethod = jacksonUtilClass.getMethod("loadList", String.class, clazz);
+					loadListMethod = jacksonUtilClass.getMethod("loadList", String.class, Class.class);
 				}
 				result = (List<T>)loadListMethod.invoke(jacksonUtilObject, jsonData);
 			}

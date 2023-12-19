@@ -21,26 +21,59 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs.fill.calculation;
+package net.sf.jasperreports.crosstabs.interactive;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.crosstabs.fill.calculation.ColumnValueInfo;
+import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
+import net.sf.jasperreports.engine.type.NamedEnumConstantContextualDeserializer;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface OrderByColumnInfo
+public class OrderByColumnInfoImpl implements OrderByColumnInfo
 {
-	public SortOrderEnum getOrder();
 
-	//public void setOrder(SortOrderEnum order);
+	@JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
+	private SortOrderEnum order;
+	private int measureIndex;
+	private List<ColumnValueInfo> columnValues;
 
-	public List<ColumnValueInfo> getColumnValues();
+	@Override
+	public SortOrderEnum getOrder()
+	{
+		return order;
+	}
 
-	//public void setColumnValues(List<ColumnValueInfo> columnValues);
+	public void setOrder(SortOrderEnum order)
+	{
+		this.order = order;
+	}
 
-	public int getMeasureIndex();
+	@Override
+	public List<ColumnValueInfo> getColumnValues()
+	{
+		return columnValues;
+	}
 
-	//public void setMeasureIndex(int measureIndex);
+	public void setColumnValues(List<ColumnValueInfo> columnValues)
+	{
+		this.columnValues = columnValues;
+	}
+
+	@Override
+	public int getMeasureIndex()
+	{
+		return measureIndex;
+	}
+
+	public void setMeasureIndex(int measureIndex)
+	{
+		this.measureIndex = measureIndex;
+	}
+	
 }
