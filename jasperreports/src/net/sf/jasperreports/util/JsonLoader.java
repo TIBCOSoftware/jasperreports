@@ -110,7 +110,7 @@ public class JsonLoader
 				{
 					loadObjectMethod = jacksonUtilClass.getMethod("loadObject", String.class, Class.class);
 				}
-				result = (T)loadObjectMethod.invoke(jacksonUtilObject, jsonData);
+				result = (T)loadObjectMethod.invoke(jacksonUtilObject, jsonData, clazz);
 			}
 			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
 			{
@@ -135,7 +135,7 @@ public class JsonLoader
 				{
 					loadListMethod = jacksonUtilClass.getMethod("loadList", String.class, Class.class);
 				}
-				result = (List<T>)loadListMethod.invoke(jacksonUtilObject, jsonData);
+				result = (List<T>)loadListMethod.invoke(jacksonUtilObject, jsonData, clazz);
 			}
 			catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
 			{
