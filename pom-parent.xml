@@ -86,6 +86,21 @@
 		<maven.buildNumber.phase>validate</maven.buildNumber.phase>
 		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 		<owasp.suppression.file>${basedir}/owasp-suppressions.xml</owasp.suppression.file>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+		<buildnumber-maven-plugin.version>3.2.0</buildnumber-maven-plugin.version>
+		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+		<maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+		<dependency-check-maven.version>9.0.7</dependency-check-maven.version>
+		<exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
+		<maven-compiler-plugin.version>3.12.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+		<jetty-maven-plugin.version>10.0.19</jetty-maven-plugin.version>
+		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
+		<clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -108,7 +123,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
-				<version>1.1.0</version>
+				<version>${flatten-maven-plugin.version}</version>
 				<configuration>
 					<updatePomFile>true</updatePomFile>
 					<flattenMode>oss</flattenMode>
@@ -133,7 +148,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>${buildnumber-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>${maven.buildNumber.phase}</phase>
@@ -150,7 +165,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.2</version>
+				<version>${maven-deploy-plugin.version}</version>
 				<configuration>
 					<skip>${skipDeploy}</skip>
 				</configuration>
@@ -158,19 +173,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>${maven-install-plugin.version}</version>
 				<configuration>
 					<skip>${skipInstall}</skip>
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.3.2</version>
+				<version>${maven-clean-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>enforce-java-version</id>
@@ -190,7 +206,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>7.4.0</version>
+				<version>${dependency-check-maven.version}</version>
 				<configuration>
 					<suppressionFile>${owasp.suppression.file}</suppressionFile>
 				</configuration>

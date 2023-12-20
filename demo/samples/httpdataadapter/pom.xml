@@ -48,7 +48,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>10.0.15</version>
+				<version>${jetty-maven-plugin.version}</version>
 				<configuration>
 					<webAppSourceDirectory>web</webAppSourceDirectory>
 					<stopPort>9966</stopPort>
@@ -61,7 +61,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${exec-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>all</id>
