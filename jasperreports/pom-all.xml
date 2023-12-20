@@ -17,8 +17,8 @@
 		<module>tools/metadata</module>
 		<module>tools/annotation-processors</module>
 		<module>ext/fonts</module>
-		<module>pom-javaflow.xml</module>
 		<module>pom.xml</module>
+		<module>pom-javaflow.xml</module>
 		<module>ext/ant</module>
 		<module>ext/barbecue</module>
 		<module>ext/barcode4j</module>

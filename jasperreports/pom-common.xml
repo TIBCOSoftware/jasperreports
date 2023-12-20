@@ -152,37 +152,12 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>tests</testSourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.dtd</include>
-					<include>**/*.xsd</include>
-					<include>**/*.rels</include>
-					<include>**/*.xml</include>
-					<include>**/*.properties</include>
-					<include>**/*.png</include>
-					<include>**/*.GIF</include>
-					<include>**/*.gif</include>
-					<include>**/*.ico</include>
-					<include>**/*TokenTypes.txt</include>
-					<include>**/*.vm</include>
-					<include>**/*.js</include>
-					<include>**/*.css</include>
-					<include>**/*.ttf</include>
-					<include>**/*.otf</include>
-					<include>**/*.woff</include>
-					<include>**/*.eot</include>
-					<include>**/*.svg</include>
-					<include>**/*.svgz</include>
-					<include>**/*.tmpl</include>
-					<include>**/LICENSE.txt</include>
-				</includes>
+				<directory>src/main/resources</directory>
 			</resource>
 			<resource>
-				<directory>src/META-INF</directory>
+				<directory>src/main/resources/META-INF</directory>
 				<includes>
 					<include>**/*.MF</include>
 				</includes>
@@ -190,25 +165,6 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
-		<testResources>
-			<testResource>
-				<directory>tests</directory>
-				<includes>
-					<include>**/*.jrxml</include>
-					<include>**/*.sha</include>
-					<include>**/*.jrpxml</include>
-					<include>**/*.svg</include>
-					<include>**/*.jrdax</include>
-					<include>**/*.xml</include>
-					<include>**/*.csv</include>
-					<include>**/*.png</include>
-					<include>**/*.jpg</include>
-					<include>**/*.json</include>
-					<include>**/*.err</include>
-					<include>**/*.properties</include>
-				</includes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -239,7 +195,7 @@
 				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
+						<manifestFile>${project.build.directory}/classes/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>

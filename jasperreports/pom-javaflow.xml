@@ -22,6 +22,7 @@
 		<maven.test.skip>true</maven.test.skip>
 		<skipInstall>false</skipInstall>
 		<skipDeploy>false</skipDeploy>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -33,6 +34,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<directory>target/javaflow</directory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

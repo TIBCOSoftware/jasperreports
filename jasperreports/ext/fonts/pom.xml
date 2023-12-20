@@ -46,7 +46,7 @@
 				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
+						<manifestFile>${project.build.directory}/classes/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
