@@ -36,8 +36,9 @@
 		<directory>target/javaflow</directory>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>${maven-resources-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>copy-classes-to-javaflow</id>
@@ -120,7 +121,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
 					<quiet>true</quiet>
 					<doclint>none</doclint>
