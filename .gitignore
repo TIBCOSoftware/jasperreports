@@ -1,0 +1,6 @@
+**/target
+**/.flattened-pom.xml
+**/*.iml
+**/.classpath
+**/.project
+**/.settings/

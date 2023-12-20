@@ -5,7 +5,7 @@
 > major refactoring of the library, which is needed for the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee).
 > The changes help improving the dependency management by splitting the library into multiple optional artifacts (`*.jar` files) depending on
 > the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled `*.jasper` report template
-> files has been deliberately broken. Backward compatibility will be guaranteed only for source `*.jrxml` report template files.
+> files has been deliberately broken.
 
 ## JasperReports Library 7.0.0 Change Log
 - deprecated code removed;
