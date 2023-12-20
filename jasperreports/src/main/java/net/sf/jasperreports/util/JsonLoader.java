@@ -121,6 +121,46 @@ public class JsonLoader
 	}
 
 
+	
+	
+	/**
+	 *
+	 */
+	public <T> T loadObject(String jsonData, String className)
+	{
+		T result = null;
+		if (jacksonUtilObject != null && jsonData != null) 
+		{
+			Class<T> clazz = null;
+			try
+			{
+				clazz = (Class<T>)JRClassLoader.loadClassForRealName(className);
+			}
+			catch (ClassNotFoundException  e)
+			{
+				// nothing to do or maybe make this configurable
+			}
+			
+			if (clazz != null)
+			{
+				try
+				{
+					if (loadObjectMethod == null)
+					{
+						loadObjectMethod = jacksonUtilClass.getMethod("loadObject", String.class, Class.class);
+					}
+					result = (T)loadObjectMethod.invoke(jacksonUtilObject, jsonData, clazz);
+				}
+				catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
+		return result;
+	}
+
+
 	/**
 	 * 
 	 */
