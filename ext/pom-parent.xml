@@ -7,7 +7,6 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-ext-parent</artifactId>
 	<packaging>pom</packaging>
 	<properties>

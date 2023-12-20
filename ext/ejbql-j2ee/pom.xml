@@ -7,7 +7,6 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-ejbql-j2ee</artifactId>
 	<packaging>jar</packaging>
 	<name>JasperReports EJBQL Java EE (Deprecated)</name>

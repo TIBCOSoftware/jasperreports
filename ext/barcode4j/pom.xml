@@ -7,7 +7,6 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-barcode4j</artifactId>
 	<packaging>jar</packaging>
 	<name>JasperReports Barcode4J</name>
