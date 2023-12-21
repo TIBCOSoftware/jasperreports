@@ -86,7 +86,7 @@
 			<plugin>
 				<groupId>net.tascalate.javaflow</groupId>
 				<artifactId>net.tascalate.javaflow.tools.maven</artifactId>
-				<version>2.7.3</version>
+				<version>${net.tascalate.javaflow.tools.maven.version}</version>
 				<executions>
 					<execution>
 						<id>javaflow-enhance-main-classes</id> 
@@ -103,7 +103,7 @@
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
-				<version>1.5.2</version>
+				<version>${maven-replacer-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>process-classes</phase>

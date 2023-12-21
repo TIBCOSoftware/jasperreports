@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.7.1</version>
+			<version>${hsqldb.version}</version>
 			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
