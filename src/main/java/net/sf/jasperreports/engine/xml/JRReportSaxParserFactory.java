@@ -23,16 +23,21 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.InputSource;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -43,6 +48,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -96,18 +102,22 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	}
 	
 	@Override
-	protected List<String> getSchemaLocations()
+	protected List<InputSource> getSchemaLocations()
 	{
-		List<String> schemas = new ArrayList<>();
-		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
-		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
-		
 		Collection<ComponentsBundle> components = ComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
-		Set<String> schemaURIs = new HashSet<>();
+		Map<String, Set<String>> namespaces = new LinkedHashMap<>();
 		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
 			ComponentsBundle componentManager = it.next();
 			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
+			
+			String namespace = xmlParser.getNamespace();
+			Set<String> namespaceSchemas = namespaces.get(namespace);
+			if (namespaceSchemas == null)
+			{
+				namespaceSchemas = new LinkedHashSet<String>();
+				namespaces.put(namespace, namespaceSchemas);
+			}
 			
 			String schemaURI;
 			String schemaResource = xmlParser.getInternalSchemaResource();
@@ -122,16 +132,29 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 
 			if (log.isDebugEnabled())
 			{
-				log.debug("Adding components schema at " + schemaURI);
+				log.debug("Adding components schema at " + schemaURI + " for namespace " + namespace);
 			}
 			
-			if (schemaURIs.add(schemaURI))
+			boolean added = namespaceSchemas.add(schemaURI);
+			if (!added)
 			{
-				schemas.add(schemaURI);
+				log.warn("Duplicate schema URI " + schemaURI + " for namespace " + namespace);
+			}
+		}
+		
+		List<InputSource> schemas = new ArrayList<>();
+		schemas.add(new InputSource(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE)));
+		schemas.add(new InputSource(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE)));
+		for (Entry<String, Set<String>> namespaceEntry : namespaces.entrySet())
+		{
+			Set<String> namespaceSchemas = namespaceEntry.getValue();
+			if (namespaceSchemas.size() == 1)
+			{
+				schemas.add(new InputSource(namespaceSchemas.iterator().next()));
 			}
 			else
 			{
-				log.warn("Duplicate schema URI " + schemaURI);
+				schemas.add(generateIncludesSchema(namespaceEntry.getKey(), namespaceSchemas));
 			}
 		}
 		
@@ -154,15 +177,35 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 
 			if (log.isDebugEnabled())
 			{
-				log.debug("Adding components schema at " + schemaURI);
+				log.debug("Adding part components schema at " + schemaURI);
 			}
 			
-			schemas.add(schemaURI);
+			schemas.add(new InputSource(schemaURI));
 		}
 
 		return schemas;
 	}
 
+	protected InputSource generateIncludesSchema(String namespace, Set<String> namespaceSchemas)
+	{
+		StringBuilder schema = new StringBuilder();
+		schema.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		schema.append("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\"\n	targetNamespace=\"");
+		schema.append(JRStringUtil.encodeXmlAttribute(namespace));
+		schema.append("\">\n");
+		
+		for (String namespaceSchema : namespaceSchemas)
+		{
+			schema.append("<include schemaLocation=\"");
+			schema.append(JRStringUtil.encodeXmlAttribute(namespaceSchema));
+			schema.append("\"/>");
+		}
+		
+		schema.append("</schema>");
+		
+		return new InputSource(new StringReader(schema.toString()));
+	}
+	
 	@Override
 	protected ThreadLocal<ReferenceMap<Object, Object>> getGrammarPoolCache()
 	{

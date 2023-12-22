@@ -51,9 +51,9 @@ public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistr
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
 	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/components.xsd";
+		"http://jasperreports.sourceforge.net/xsd/sort.xsd";
 	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/components.xsd";
+		"net/sf/jasperreports/components/sort/sort.xsd";
 	
 	public static final String SORT_COMPONENT_NAME = "sort";
 	

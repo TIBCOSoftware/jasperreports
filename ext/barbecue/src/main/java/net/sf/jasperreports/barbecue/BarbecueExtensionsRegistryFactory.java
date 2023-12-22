@@ -51,9 +51,9 @@ public class BarbecueExtensionsRegistryFactory implements ExtensionsRegistryFact
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
 	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/components.xsd";
+		"http://jasperreports.sourceforge.net/xsd/barbecue.xsd";
 	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/components.xsd";
+		"net/sf/jasperreports/barbecue/barbecue.xsd";
 	
 	public static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.map.ReferenceMap;
+import org.xml.sax.InputSource;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -49,11 +50,11 @@ public class TemplateSaxParserFactory extends BaseSaxParserFactory
 	}
 
 	@Override
-	protected List<String> getSchemaLocations()
+	protected List<InputSource> getSchemaLocations()
 	{
-		List<String> schemas = new ArrayList<>(2);
-		schemas.add(getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_RESOURCE));
-		schemas.add(getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE));
+		List<InputSource> schemas = new ArrayList<>(2);
+		schemas.add(new InputSource((getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_RESOURCE))));
+		schemas.add(new InputSource(getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE)));
 		return schemas;
 	}
 

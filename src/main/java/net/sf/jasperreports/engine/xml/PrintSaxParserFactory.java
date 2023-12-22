@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.InputSource;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -87,11 +88,11 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	}
 
 	@Override
-	protected List<String> getSchemaLocations()
+	protected List<InputSource> getSchemaLocations()
 	{
-		List<String> schemas = new ArrayList<>();
-		schemas.add(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_RESOURCE));
-		schemas.add(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_DTD_COMPAT_RESOURCE));
+		List<InputSource> schemas = new ArrayList<>();
+		schemas.add(new InputSource(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_RESOURCE)));
+		schemas.add(new InputSource(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_DTD_COMPAT_RESOURCE)));
 		
 		List<XmlValueHandler> handlers = XmlValueHandlerUtils.instance().getHandlers();
 		for (XmlValueHandler handler : handlers)
@@ -115,7 +116,7 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 					log.debug("Adding schema at " + schemaURI);
 				}
 				
-				schemas.add(schemaURI);
+				schemas.add(new InputSource(schemaURI));
 			}
 		}
 		
