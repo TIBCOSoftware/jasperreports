@@ -17,10 +17,6 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.ant</groupId>

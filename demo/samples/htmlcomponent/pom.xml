@@ -10,8 +10,12 @@
 	<artifactId>jasperreports-samples-htmlcomponent</artifactId>
 	<packaging>jar</packaging>
 	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
+		<maven.install.skip>false</maven.install.skip>
+		<maven.source.skip>false</maven.source.skip>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
+		<maven.test.skip>false</maven.test.skip>
+		<enforcer.skip>false</enforcer.skip>
 		<sample.base.name>HtmlComponent</sample.base.name>
 	</properties>
 	<dependencies>

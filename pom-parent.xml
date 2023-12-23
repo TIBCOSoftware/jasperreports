@@ -78,11 +78,15 @@
 	</scm>
 	<properties>
 		<revision>7.0.0-SNAPSHOT</revision>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<skipInstall>true</skipInstall>
-		<skipDeploy>true</skipDeploy>
 		<scmConnection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</scmConnection>
 		<scmUrl>https://github.com/TIBCOSoftware/jasperreports</scmUrl>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.install.skip>true</maven.install.skip>
+		<maven.source.skip>true</maven.source.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		<maven.test.skip>true</maven.test.skip>
+		<enforcer.skip>true</enforcer.skip>
 		<maven.buildNumber.phase>validate</maven.buildNumber.phase>
 		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 		<owasp.suppression.file>${basedir}/owasp-suppressions.xml</owasp.suppression.file>
@@ -186,17 +190,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>${maven-deploy-plugin.version}</version>
-				<configuration>
-					<skip>${skipDeploy}</skip>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
 				<version>${maven-install-plugin.version}</version>
-				<configuration>
-					<skip>${skipInstall}</skip>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

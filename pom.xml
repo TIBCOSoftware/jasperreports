@@ -18,9 +18,12 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
+		<maven.install.skip>false</maven.install.skip>
+		<maven.source.skip>false</maven.source.skip>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
 		<maven.test.skip>true</maven.test.skip>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
+		<enforcer.skip>false</enforcer.skip>
 	</properties>
 	<build>
 		<plugins>

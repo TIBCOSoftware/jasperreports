@@ -18,11 +18,12 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<!--
-		<maven.test.skip>true</maven.test.skip>
-		-->
-		<skipInstall>true</skipInstall>
-		<skipDeploy>true</skipDeploy>
+		<maven.install.skip>true</maven.install.skip>
+		<maven.source.skip>true</maven.source.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		<maven.test.skip>false</maven.test.skip>
+		<enforcer.skip>true</enforcer.skip>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -111,17 +112,8 @@
 					<showWarnings>true</showWarnings>
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
-						<arg>-AmetadataMessagesName=metadata_messages</arg>
-						<arg>-ApropertiesDoc=docs/config.reference.xml</arg>
 						<arg>-Xlint:deprecation,-unchecked,-options</arg>
 					</compilerArgs>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>net.sf.jasperreports</groupId>
-							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>${revision}</version>
-						</path>
-					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
