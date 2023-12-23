@@ -16,10 +16,7 @@
 		<maven.deploy.skip>false</maven.deploy.skip>
 		<maven.test.skip>false</maven.test.skip>
 		<enforcer.skip>false</enforcer.skip>
-		<!--
-		<maven.buildNumber.phase>none</maven.buildNumber.phase>
-		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
-		-->
+		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 	</properties>
 	<dependencies>
 		<dependency>

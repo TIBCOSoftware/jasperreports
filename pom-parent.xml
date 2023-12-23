@@ -182,7 +182,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<!--
 					<doCheck>${maven.buildNumber.doCheck}</doCheck>
+					-->
 					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>

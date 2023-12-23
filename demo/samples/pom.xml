@@ -41,10 +41,7 @@
 	<properties>
 		<maven.install.skip>true</maven.install.skip>
 		<maven.deploy.skip>true</maven.deploy.skip>
-		<!--
-		<enforcer.skip>true</enforcer.skip>
-		<maven.buildNumber.phase>none</maven.buildNumber.phase>
-		-->
+		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
 	</properties>
 	<build>
 		<plugins>
