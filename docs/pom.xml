@@ -7,8 +7,7 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<groupId>net.sf.jasperreports</groupId>
-	<artifactId>jasperreports-documentation</artifactId>
+	<artifactId>jasperreports-docs</artifactId>
 	<packaging>pom</packaging>
 	<name>JasperReports Documentation</name>
 	<description>JasperReports Documentation</description>
@@ -19,16 +18,15 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
+		<maven.install.skip>false</maven.install.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
 	</properties>
 	<build>
-		<directory>../dist</directory>
 		<outputDirectory>${project.build.directory}/docs</outputDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>${maven-resources-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -57,8 +55,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
+					<source>8</source>
 					<quiet>true</quiet>
 					<doclint>none</doclint>
 					<docfilessubdirs>true</docfilessubdirs>
@@ -69,7 +68,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>xml-maven-plugin</artifactId>
-				<version>1.1.0</version>
+				<version>${xml-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -80,7 +79,7 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>../src/net/sf/jasperreports/engine/dtds</dir>
+							<dir>../src/main/resources/net/sf/jasperreports/engine/dtds</dir>
 							<includes>jasperreport.xsd</includes>
 							<stylesheet>schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -91,7 +90,7 @@
 						    </fileMappers>
 						</transformationSet>
 						<transformationSet>
-							<dir>../src/net/sf/jasperreports/components</dir>
+							<dir>../src/main/resources/net/sf/jasperreports/components</dir>
 							<includes>components.xsd</includes>
 							<stylesheet>components.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -102,7 +101,7 @@
 						    </fileMappers>
 						</transformationSet>
 						<transformationSet>
-							<dir>../src/net/sf/jasperreports/parts</dir>
+							<dir>../src/main/resources/net/sf/jasperreports/parts</dir>
 							<includes>parts.xsd</includes>
 							<stylesheet>parts.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>

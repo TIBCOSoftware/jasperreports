@@ -50,7 +50,6 @@
 		<module>ext/spring</module>
 		<module>ext/velocity</module>
 		<module>ext/xalan</module>
-		<module>docs</module>
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>
