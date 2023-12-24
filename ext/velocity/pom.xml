@@ -17,40 +17,13 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
-	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-annotation-processors</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
-			<version>2.3</version>
+			<version>${velocity.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-jackson</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>2.7.5</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		-->
 	</dependencies>
 </project>

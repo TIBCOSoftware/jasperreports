@@ -17,22 +17,32 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
-	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections4.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>5.3.27</version>
+			<version>${spring.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>5.3.27</version>
+			<version>${spring.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

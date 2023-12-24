@@ -10,13 +10,13 @@
 	<artifactId>jasperreports-ext-parent</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<!--
-		<skipInstall>true</skipInstall>
-		<skipDeploy>true</skipDeploy>
-		<enforcer.skip>true</enforcer.skip>
-		<maven.buildNumber.phase>none</maven.buildNumber.phase>
-		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
-		-->
+		<maven.install.skip>false</maven.install.skip>
+		<maven.source.skip>false</maven.source.skip>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
+		<maven.test.skip>false</maven.test.skip>
+		<enforcer.skip>false</enforcer.skip>
+		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +25,13 @@
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-metadata</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 	<build>
@@ -49,7 +56,20 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork><!-- TODO lucianc is this ok? -->
+					<compilerArgs>
+						<arg>-AmetadataMessagesName=metadata_messages</arg>
+						<arg>-ApropertiesDoc=${project.basedir}/../../docs/config.reference.xml</arg>
+						<arg>-Xlint:deprecation,-unchecked,-options</arg>
+					</compilerArgs>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>net.sf.jasperreports</groupId>
+							<artifactId>jasperreports-annotation-processors</artifactId>
+							<version>${revision}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -67,6 +87,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
+					<source>8</source>
 					<quiet>true</quiet>
 					<doclint>none</doclint>
 				</configuration>

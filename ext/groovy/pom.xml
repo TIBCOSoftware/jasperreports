@@ -17,15 +17,18 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
-	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.groovy</groupId>
 			<artifactId>groovy</artifactId>
-			<version>4.0.8</version>
+			<version>4.0.16</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -34,14 +37,7 @@
 			<artifactId>groovy-sandbox</artifactId>
 			<version>1.26-jaspersoft-2</version>
 			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-annotation-processors</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 </project>

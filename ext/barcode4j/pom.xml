@@ -17,17 +17,20 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
-	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-annotation-processors</artifactId>
-			<version>${revision}</version>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>${commons-digester.version}</version>
 			<scope>compile</scope>
-			<optional>true</optional>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.barcode4j</groupId>

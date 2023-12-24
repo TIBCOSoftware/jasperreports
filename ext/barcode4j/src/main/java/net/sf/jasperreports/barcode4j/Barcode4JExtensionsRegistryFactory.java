@@ -48,9 +48,9 @@ public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFac
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
 	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/components.xsd";
+		"http://jasperreports.sourceforge.net/xsd/barcode4j.xsd";
 	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/components.xsd";
+		"net/sf/jasperreports/barcode4j/barcode4j.xsd";
 	
 	public static final List<String> BARCODE4J_COMPONENT_NAMES = Collections.unmodifiableList(Arrays.asList(
 			"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",

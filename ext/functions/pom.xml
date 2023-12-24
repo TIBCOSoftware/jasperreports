@@ -18,8 +18,15 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
 		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+	</dependencies>
 </project>

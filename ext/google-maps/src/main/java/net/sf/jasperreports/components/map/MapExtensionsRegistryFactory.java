@@ -67,9 +67,9 @@ public class MapExtensionsRegistryFactory implements ExtensionsRegistryFactory
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
 	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/components.xsd";
+		"http://jasperreports.sourceforge.net/xsd/map.xsd";
 	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/components.xsd";
+		"net/sf/jasperreports/components/map/map.xsd";
 	
 	public static final String MAP_COMPONENT_NAME = "map";
 	

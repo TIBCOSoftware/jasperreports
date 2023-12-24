@@ -18,16 +18,18 @@
 		<url>${scmUrl}</url>
 	</scm>
 	<properties>
-		<maven.test.skip>true</maven.test.skip>
-		<skipInstall>false</skipInstall>
-		<skipDeploy>false</skipDeploy>
+		<maven.install.skip>false</maven.install.skip>
+		<maven.source.skip>false</maven.source.skip>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
+		<maven.test.skip>true</maven.test.skip>
+		<enforcer.skip>false</enforcer.skip>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.tascalate.javaflow</groupId>
 			<artifactId>net.tascalate.javaflow.api</artifactId>
-			<version>2.7.3</version>
+			<version>2.7.5</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -86,7 +88,7 @@
 			<plugin>
 				<groupId>net.tascalate.javaflow</groupId>
 				<artifactId>net.tascalate.javaflow.tools.maven</artifactId>
-				<version>2.7.3</version>
+				<version>${net.tascalate.javaflow.tools.maven.version}</version>
 				<executions>
 					<execution>
 						<id>javaflow-enhance-main-classes</id> 
@@ -103,7 +105,7 @@
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
-				<version>1.5.2</version>
+				<version>${maven-replacer-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>process-classes</phase>
@@ -116,15 +118,6 @@
 					<file>${project.build.directory}/classes-javaflow/default.jasperreports.properties</file>
 					<token>net.sf.jasperreports.subreport.runner.factory\=[\w\.]*</token>
 					<value>net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory</value>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven-javadoc-plugin.version}</version>
-				<configuration>
-					<quiet>true</quiet>
-					<doclint>none</doclint>
 				</configuration>
 			</plugin>
 		</plugins>

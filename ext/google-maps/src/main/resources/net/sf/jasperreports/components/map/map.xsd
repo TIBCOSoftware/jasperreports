@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://jasperreports.sourceforge.net/jasperreports/components"
+	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+	elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports" />
+
+	<element name="map" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element name="latitudeExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="longitudeExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="addressExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="zoomExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="languageExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<choice minOccurs="0" maxOccurs="1">
+							<element ref="c:markerDataset"/>
+							<sequence>
+								<element name="legendItem" type="c:item" minOccurs="0" maxOccurs="1"/>
+								<element name="resetMapItem" type="c:item" minOccurs="0" maxOccurs="1"/>
+								<element ref="c:markerData" minOccurs="0" maxOccurs="unbounded"/>
+							</sequence>						
+						</choice>
+						<element ref="c:pathStyle" minOccurs="0" maxOccurs="unbounded"/>						
+						<element ref="c:pathData" minOccurs="0" maxOccurs="unbounded"/>						
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+					<attribute name="mapType" use="optional" default="roadmap">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="roadmap"/>
+								<enumeration value="satellite"/>
+								<enumeration value="terrain"/>
+								<enumeration value="hybrid"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="mapScale" use="optional" default="1">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<enumeration value="1"/>
+								<enumeration value="2"/>
+								<enumeration value="4"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="imageType" use="optional" default="png">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="png"/>
+								<enumeration value="png8"/>
+								<enumeration value="png32"/>
+								<enumeration value="gif"/>
+								<enumeration value="jpg"/>
+								<enumeration value="jpg-baseline"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				   <attribute name="onErrorType" use="optional" default="Error">
+				    <simpleType>
+				     <restriction base="string">
+				      <enumeration value="Error"/>
+				      <enumeration value="Blank"/>
+				      <enumeration value="Icon"/>
+				     </restriction>
+				    </simpleType>
+				   </attribute>
+				   <attribute name="markerClustering" type="boolean" use="optional" default="false"/>
+				   <attribute name="markerSpidering" type="boolean" use="optional" default="false"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<complexType name="ItemData">
+		<sequence>
+			<element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+			<element name="item" type="c:item" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="ItemProperty">
+		<sequence>
+			<element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="name" type="string" use="required" />
+		<attribute name="value" type="string" use="optional" />
+	</complexType>
+
+<!--	<element name="item">-->
+		<complexType name="item">
+			<sequence>
+				<element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+<!--	</element>-->
+
+	<element name="markerData">
+		<complexType>
+			<complexContent>
+				<extension base="c:ItemData">
+					<sequence>
+						<element name="seriesNameExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="markerClusteringExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="markerSpideringExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="legendIconExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="pathStyle" type="c:ItemData"/>
+	
+	<element name="pathData" type="c:ItemData"/>
+	
+	<element name="markerDataset">
+		<annotation>
+			<documentation>Creates a dataset with one or more marker objects</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
+				<element ref="c:marker" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="marker">
+		<complexType>
+			<sequence>
+				<element name="markerProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

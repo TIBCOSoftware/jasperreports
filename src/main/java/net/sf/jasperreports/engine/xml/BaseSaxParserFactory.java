@@ -35,6 +35,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.annotations.properties.Property;
@@ -152,11 +153,11 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	protected void configureParser(SAXParser parser)
 			throws SAXException
 	{
-		List<String> schemaLocations = getSchemaLocations();
+		List<InputSource> schemaLocations = getSchemaLocations();
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
 			"http://www.w3.org/2001/XMLSchema");
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource",
-			schemaLocations.toArray(new String[schemaLocations.size()]));
+			schemaLocations.toArray(new InputSource[schemaLocations.size()]));
 		
 		boolean cache = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_CACHE_SCHEMAS);
 		if (cache)
@@ -165,7 +166,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 
-	protected abstract List<String> getSchemaLocations();
+	protected abstract List<InputSource> getSchemaLocations();
 
 	protected String getResourceURI(String resource)
 	{

@@ -54,7 +54,7 @@
 	</modules>
 	<properties>
 		<maven.clean.skip>true</maven.clean.skip>
-		<skipInstall>true</skipInstall>
-		<skipDeploy>true</skipDeploy>
+		<maven.install.skip>true</maven.install.skip>
+		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 </project>
