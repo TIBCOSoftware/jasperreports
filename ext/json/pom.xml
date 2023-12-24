@@ -54,13 +54,6 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-metadata</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
 			<version>${antlr.version}</version>

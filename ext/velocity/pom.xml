@@ -19,13 +19,6 @@
 	</scm>
 	<dependencies>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-metadata</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 			<version>${velocity.version}</version>

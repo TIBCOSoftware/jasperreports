@@ -26,6 +26,13 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-metadata</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
@@ -80,6 +87,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
+					<source>8</source>
 					<quiet>true</quiet>
 					<doclint>none</doclint>
 				</configuration>
