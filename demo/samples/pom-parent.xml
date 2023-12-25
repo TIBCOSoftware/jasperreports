@@ -83,8 +83,10 @@
 					<include>**/*.vm</include>
 					<include>**/*.js</include>
 					<include>**/*.css</include>
+					-->
 					<include>**/*.ttf</include>
 					<include>**/*.otf</include>
+					<!--
 					<include>**/*.woff</include>
 					<include>**/*.eot</include>
 					<include>**/*.svg</include>
@@ -92,6 +94,7 @@
 					<include>**/*.tmpl</include>
 					<include>**/LICENSE.txt</include>
 					-->
+					<include>**/*.txt</include>
 				</includes>
 			</resource>
 			<resource>

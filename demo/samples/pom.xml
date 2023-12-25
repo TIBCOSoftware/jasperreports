@@ -14,19 +14,26 @@
 		<module>alterdesign</module>
 		<module>barbecue</module>
 		<module>barcode4j</module>
+		<module>batchexport</module>
 		<module>book</module>
 		<module>chartcustomizers</module>
 		<module>charts</module>
 		<module>chartthemes</module>
 		<module>crosstabs</module>
 		<module>csvdatasource</module>
+		<module>customvisualization</module>
 		<module>datasource</module>
 		<module>daterange</module>
 		<module>exceldataadapter</module>
 		<module>exceldatasource</module>
 		<module>fastexceldatasource</module>
+		<module>functions</module>
+		<module>fonts</module>
+		<module>forms</module>
+		<module>genericelement</module>
 		<module>groovy</module>
 		<module>hibernate</module>
+		<module>horizontal</module>
 		<module>htmlcomponent</module>
 		<module>httpdataadapter</module>
 		<module>jasper</module>

@@ -56,6 +56,7 @@ public class FunctionsApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		html();
 	}
@@ -68,7 +69,7 @@ public class FunctionsApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JRDataSource datasource = createDataSource(DefaultJasperReportsContext.getInstance(), Locale.US);
-		JasperFillManager.fillReportToFile("build/reports/FunctionsReport.jasper", null, datasource);
+		JasperFillManager.fillReportToFile("target/reports/FunctionsReport.jasper", null, datasource);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -79,7 +80,7 @@ public class FunctionsApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/FunctionsReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/FunctionsReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	

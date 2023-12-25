@@ -53,19 +53,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven-javadoc-plugin.version}</version>
-				<configuration>
-					<source>8</source>
-					<quiet>true</quiet>
-					<doclint>none</doclint>
-					<docfilessubdirs>true</docfilessubdirs>
-					<sourcepath>../target/classes</sourcepath>
-					<outputDirectory>${project.build.directory}/docs</outputDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>xml-maven-plugin</artifactId>
 				<version>${xml-maven-plugin.version}</version>

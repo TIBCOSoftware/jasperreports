@@ -126,6 +126,7 @@
 		<antlr.version>2.7.5</antlr.version>
 		<spring.version>5.3.27</spring.version>
 		<poi.version>5.2.2</poi.version>
+		<rhino.version>1.7.14</rhino.version>
 	</properties>
 	<repositories>
 		<repository>

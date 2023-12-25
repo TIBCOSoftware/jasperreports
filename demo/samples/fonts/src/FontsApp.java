@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -48,6 +47,7 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -69,6 +69,7 @@ public class FontsApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -91,7 +92,7 @@ public class FontsApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/FontsReport.jasper", null);
+		JasperFillManager.fillReportToFile("target/reports/FontsReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -102,7 +103,7 @@ public class FontsApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/FontsReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/FontsReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -113,7 +114,7 @@ public class FontsApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/FontsReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/FontsReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -124,7 +125,7 @@ public class FontsApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/FontsReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/FontsReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -135,7 +136,7 @@ public class FontsApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/FontsReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/FontsReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -146,7 +147,7 @@ public class FontsApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/FontsReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/FontsReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -157,7 +158,7 @@ public class FontsApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -180,7 +181,7 @@ public class FontsApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -206,7 +207,7 @@ public class FontsApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -229,7 +230,7 @@ public class FontsApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -252,7 +253,7 @@ public class FontsApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -278,7 +279,7 @@ public class FontsApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -301,7 +302,7 @@ public class FontsApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -327,7 +328,7 @@ public class FontsApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FontsReport.jrprint");
+		File sourceFile = new File("target/reports/FontsReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -352,8 +353,8 @@ public class FontsApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		
 		List<FontFamily> fontFamilies = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);		
-		SimpleFontExtensionHelper.writeFontsXml("build/reports/fonts.xml", fontFamilies);
-		SimpleFontExtensionHelper.writeFontExtensionsProperties("fonts.xml","build/reports/jasperreports_extensions.properties");
+		SimpleFontExtensionHelper.writeFontsXml("target/reports/fonts.xml", fontFamilies);
+		SimpleFontExtensionHelper.writeFontExtensionsProperties("fonts.xml","target/reports/jasperreports_extensions.properties");
 		
 		System.err.println("fonts.xml creation time : " + (System.currentTimeMillis() - start));
 	}

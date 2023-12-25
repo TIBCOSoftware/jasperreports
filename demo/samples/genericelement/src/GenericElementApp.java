@@ -47,6 +47,7 @@ public class GenericElementApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		xmlEmbed();
 		xml();
@@ -60,7 +61,7 @@ public class GenericElementApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/GenericElementReport.jasper", null);
+		JasperFillManager.fillReportToFile("target/reports/GenericElementReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -71,7 +72,7 @@ public class GenericElementApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/GenericElementReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/GenericElementReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -82,7 +83,7 @@ public class GenericElementApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/GenericElementReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/GenericElementReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -93,7 +94,7 @@ public class GenericElementApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/GenericElementReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/GenericElementReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	

@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.14</version>
+			<version>${rhino.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

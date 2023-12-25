@@ -31,9 +31,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -45,10 +43,12 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.pdf.JRPdfExporter;
+import net.sf.jasperreports.pdf.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -70,6 +70,7 @@ public class BatchExportApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		html();
@@ -91,17 +92,17 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JasperFillManager.fillReportToFile(
-			"build/reports/Report1.jasper",
+			"target/reports/Report1.jasper",
 			null, 
 			new JREmptyDataSource(2)
 			);
 		JasperFillManager.fillReportToFile(
-			"build/reports/Report2.jasper",
+			"target/reports/Report2.jasper",
 			null, 
 			new JREmptyDataSource(2)
 			);
 		JasperFillManager.fillReportToFile(
-			"build/reports/Report3.jasper",
+			"target/reports/Report3.jasper",
 			null, 
 			new JREmptyDataSource(2)
 			);
@@ -116,14 +117,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRPdfExporter exporter = new JRPdfExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.pdf"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.pdf"));
 		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
 		configuration.setCreatingBatchModeBookmarks(true);
 		exporter.setConfiguration(configuration);
@@ -141,14 +142,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		HtmlExporter exporter = new HtmlExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput("build/reports/BatchExportReport.html"));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput("target/reports/BatchExportReport.html"));
 		
 		exporter.exportReport();
 		
@@ -163,14 +164,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRRtfExporter exporter = new JRRtfExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput("build/reports/BatchExportReport.rtf"));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput("target/reports/BatchExportReport.rtf"));
 		
 		exporter.exportReport();
 
@@ -185,14 +186,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRXlsExporter exporter = new JRXlsExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.xls"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.xls"));
 		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
@@ -210,14 +211,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRCsvExporter exporter = new JRCsvExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput("build/reports/BatchExportReport.csv"));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput("target/reports/BatchExportReport.csv"));
 		
 		exporter.exportReport();
 
@@ -232,14 +233,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JROdtExporter exporter = new JROdtExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.odt"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.odt"));
 		
 		exporter.exportReport();
 
@@ -254,14 +255,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JROdsExporter exporter = new JROdsExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.ods"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.ods"));
 		SimpleOdsReportConfiguration configuration = new SimpleOdsReportConfiguration();
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
@@ -279,14 +280,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRDocxExporter exporter = new JRDocxExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.docx"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.docx"));
 		
 		exporter.exportReport();
 
@@ -301,14 +302,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRXlsxExporter exporter = new JRXlsxExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.xlsx"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.xlsx"));
 		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
@@ -326,14 +327,14 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
 		
 		JRPptxExporter exporter = new JRPptxExporter();
 		
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.pptx"));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.pptx"));
 		
 		exporter.exportReport();
 
