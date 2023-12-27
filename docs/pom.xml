@@ -122,6 +122,17 @@
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
+							<includes>function.reference.xml</includes>
+							<stylesheet>function.reference.xsl</stylesheet>
+							<outputDir>${project.build.directory}/docs</outputDir>
+						    <fileMappers>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+						           <targetName>function.reference.html</targetName>
+						        </fileMapper>
+						    </fileMappers>
+						</transformationSet>
+						<transformationSet>
+							<dir>${basedir}</dir>
 							<includes>sample.reference.xml</includes>
 							<stylesheet>sample.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -173,6 +184,19 @@
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}/../</workingDirectory>           
+						</configuration>
+					</execution>
+					<execution>
+						<id>functions-reference</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>compile</argument>
+								<argument>exec:java</argument>
+								<argument>-Denforcer.skip</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>           
 						</configuration>
 					</execution>
 				</executions>

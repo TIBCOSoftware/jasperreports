@@ -69,7 +69,7 @@ ga('send', 'pageview');
 
 <br/>
 
-<xsl:copy-of select="document('../demo/samples/functions/build/reports/FunctionsReport.html')"/>
+<xsl:copy-of select="document('../demo/samples/functions/target/reports/FunctionsReport.html')"/>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
