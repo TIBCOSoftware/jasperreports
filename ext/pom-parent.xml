@@ -62,6 +62,7 @@
 						<arg>-AmetadataMessagesName=metadata_messages</arg>
 						<arg>-ApropertiesDoc=${project.basedir}/../../docs/config.reference.xml</arg>
 						<arg>-Xlint:deprecation,-unchecked,-options</arg>
+						<arg>-AconfigReferenceOut=${project.build.directory}/config.reference.xml</arg>
 					</compilerArgs>
 					<annotationProcessorPaths>
 						<path>

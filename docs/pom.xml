@@ -100,6 +100,17 @@
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
+							<includes>config.reference.merge.xml</includes>
+							<stylesheet>config.reference.merge.xsl</stylesheet>
+							<outputDir>${project.build.directory}</outputDir>
+						    <fileMappers>
+						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+						           <targetName>config.reference.xml</targetName>
+						        </fileMapper>
+						    </fileMappers>
+						</transformationSet>
+						<transformationSet>
+							<dir>${project.build.directory}</dir>
 							<includes>config.reference.xml</includes>
 							<stylesheet>config.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -137,7 +148,35 @@
 						</transformationSet>
 					</transformationSets>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>saxon</artifactId>
+						<version>8.7</version>
+					</dependency>
+				</dependencies>
 			</plugin>	
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>config-reference</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>compile</argument>
+								<argument>-f</argument>
+								<argument>pom-all.xml</argument>
+								<argument>-Denforcer.skip</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}/../</workingDirectory>           
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
