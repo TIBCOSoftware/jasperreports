@@ -77,15 +77,15 @@ ga('send', 'pageview');
     <td><br/></td>
   </tr>
   <xsl:for-each select="configReference/category">
-  <xsl:for-each select="content/property">
-    <xsl:sort select="@ref"/>
-  </xsl:for-each>
   <tr>
     <td colspan="2">
       <span class="label"><br/><xsl:value-of select="name"/></span>
     </td>
   </tr>
-  <xsl:apply-templates select="content"/>
+  <xsl:for-each select="content/property">
+    <xsl:sort select="@ref"/>
+    <xsl:apply-templates select="."/>
+  </xsl:for-each>
   </xsl:for-each>
 </table>
 
@@ -186,10 +186,6 @@ ga('send', 'pageview');
 </html>
 </xsl:template>
 
-
-<xsl:template match="content">
-  <xsl:apply-templates select="property"/>
-</xsl:template>
 
 <xsl:template match="description">
   <xsl:apply-templates/>
