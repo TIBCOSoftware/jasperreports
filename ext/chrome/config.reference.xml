@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:chrome">
+    <name>Chrome</name>
+  </category>
+  
+
+  <!-- 	net.sf.jasperreports.chrome.argument.{name} -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.argument.{name}">
+    <description>
+An arbitrary argument used when launching Chromium/Google Chrome.
+<br/>
+The {name} suffix is used as argument name, and the property value as
+argument value.
+A boolean property value is required for flags.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.enabled">
+    <description>
+Determines whether Chromium/Google Chrome is to be used to render JavaScript based components
+(such as Custom Visualization Components) for exporting to formats other than HTML.
+<br/>
+When enabled, a browser instance is launched (in headless mode by default) on the machine 
+where JasperReports is running.
+Scripts and resources needed to render the components are written to a temporary folder,
+and JasperReports communicates with the browser instance via the Chrome DevTools Protocol.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.executable.path -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.executable.path">
+    <description>
+The path of the Chromium/Google Chrome executable.
+<br/>
+If not set, a predefined list of common paths will be checked.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.headless -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.headless">
+    <description>
+Determines whether Chromium/Google Chrome is to be launched in headless mode.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.idle.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.idle.timeout">
+    <description>
+The number of milliseconds after which an idle Chromium/Google Chrome instance will be
+shut down.
+<br/>
+After shuttind down an idle instnace, a fresh browser process is launched when needed.
+<br/>
+The property can be set to 0 to repress shutting down idle instances.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.live.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.live.timeout">
+    <description>
+The number of milliseconds a Chromium/Google Chrome instance is allowed to live.
+<br/>
+The instance is shut down after the configured timeout, first waiting for the 
+ongoing component render tasks to finish.
+After shuttind down an instance, a fresh browser process is launched when needed.
+<br/>
+The property can be set to 0 to repress shutting down browser instances.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.page.isolate -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.page.isolate">
+    <description>
+Whether to create Chrome pages in isolated mode for component render tasks.
+<br/>
+Isolated pages do not share cookies and other page data.
+The implementation relies on the Chrome DevTools Protocol Target.createBrowserContext command.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.page.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.page.timeout">
+    <description>
+The number of milliseconds after which a component render task is interrupted.
+<br/>
+A component render task usually consists of loading an HTML page from a temporary
+file, running JavaScript code to render the component and retriving an SVG
+representation of the component or taking a screenshot.
+Interrupting a component render task raises an exception which in most cases
+aborts the report export process.
+<br/>
+The property can be set to 0 to repress the interrupting component render tasks
+(unless the component itself has a timeout defined).
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.chrome.tempdir.path -->
+  
+  <configProperty name="net.sf.jasperreports.chrome.tempdir.path">
+    <description>
+The path were temporary resource files used for rendering components will be written. 
+    </description>
+  </configProperty>
+  
+  
+</configReference>

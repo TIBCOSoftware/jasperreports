@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:compile">
+    <name>Report Compilation</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.javascript.class.compiler.expressions.per.script -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.expressions.per.script">
+    <description>
+Property that determines the maximum number of report expressions that will be included in a single generated Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29">org.mozilla.javascript.Context.setOptimizationLevel</a>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.script.max.size -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.script.max.size">
+    <description>
+Property that determines the maximum size of a script that will be compiled into a single Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.evaluator.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.evaluator.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29">org.mozilla.javascript.Context.setOptimizationLevel</a>
+    </description>
+  </configProperty>
+  
+  
+</configReference>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:table">
+  	<name>Table Component</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.create.sort.fields.for.groups -->
+  
+  <configProperty name="net.sf.jasperreports.create.sort.fields.for.groups">
+    <description>
+Property that specifies whether additional sort fields should be created automatically to preserve 
+the integrity of dataset groups, when interactive sorting is performed. The groups need to have simple 
+expressions using single field or single variable reference, for this feature to work properly.
+    </description>
+  </configProperty>
+
+
+</configReference>

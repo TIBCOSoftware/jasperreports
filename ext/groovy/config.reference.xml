@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:compile">
+    <name>Report Compilation</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.compiler.max.groovy.method.size -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.max.groovy.method.size">
+    <description>
+Property that determines the maximum size of a generated groovy method.
+    </description>
+  </configProperty>
+  
+  
+</configReference>
