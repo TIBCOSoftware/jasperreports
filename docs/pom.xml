@@ -47,6 +47,10 @@
 										<include>JasperReports-Ultimate-Guide-3.pdf</include>
 									</includes>
 								</resource>
+								<resource>
+									<directory>${project.build.directory}/site/apidocs</directory>
+									<targetPath>api</targetPath>
+								</resource>
 							</resources>
 						</configuration>
 					</execution>
@@ -197,6 +201,34 @@
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>           
+						</configuration>
+					</execution>
+					<execution>
+						<id>javadoc</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>site</argument>
+								<argument>-f</argument>
+								<argument>pom-javadoc.xml</argument>
+								<argument>-Denforcer.skip</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>           
+						</configuration>
+					</execution>
+					<execution>
+						<id>docs</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>exec:exec@javadoc</argument>
+								<argument>exec:exec@config-reference</argument>
+								<argument>exec:exec@functions-reference</argument>
+								<argument>xml:transform</argument>
+								<argument>resources:copy-resources@copy-resources</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>           
 						</configuration>
 					</execution>
 				</executions>
