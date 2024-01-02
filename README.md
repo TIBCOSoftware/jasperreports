@@ -69,3 +69,53 @@ visualization service built on *JasperReports Library*, designed for generating 
 modern software architectures. Just as the *JasperReports Library* offers a `Java API` to leverage a powerful and high 
 quality reporting engine inside Java applications, *JasperReports IO* offers a `REST API` to leverage the same reporting 
 engine from any other software development platform.
+
+## Building the JasperReports Library Project
+
+The JasperReports Library project consists of one core JAR artifact and a number for optional extension JAR artifacts.
+
+The build system relies entierly on the [Maven](https://maven.apache.org/) build tool.
+
+Building the core JAR artifact and the optional extension JAR artifacts can be performed from root folder of the project
+using the `pom-all.xml` file as follows:
+
+    mvn clean install source:jar javadoc:jar -f pom-all.xml
+
+Building the JAR artifacts using a JDK version later than 1.8 requires the suppression of a Java enforcer plugin,
+while building having local non-committed Git modifications requires the suppression of the build number plugin check as follows:
+
+    mvn clean install source:jar javadoc:jar -f pom-all.xml -Denforcer.skip -Dmaven.buildNumber.doCheck=false
+
+The project has a separate artifact for tests under the `/tests`, which can be run using the following command:
+
+    mvn clean test
+
+The project shows and documents many of its features using a set of samples which are themselves Maven projects that can be
+run from command line. Some of these samples make use of a demo HSQLDB data base that needs to be started before the respective
+reports are run.
+
+Starting the HSQLDB demo database containing demo data is done using the following command in the `/demo/hsqldb` folder of the project:
+
+    mvn exec:java
+
+The samples are each in a separate subfolder in the /demo/samples folder of the project and can be run either individually or all
+at once.
+To run an individual sample, the following command should be run in the respective sample folder:
+
+    mvn clean compile exec:java
+
+Some samples use additional services that need to be started before the actual sample reports are run.
+To make sure all required steps are performed in right order, an alternate way to run the sample is as follows:
+
+    mvn clean compile exec:exec@all
+
+This command is also the one that can be used to run all the samples at once, but it needs to be launched from the `/demo/samples` folder:
+
+    mvn clean compile exec:exec@all
+
+The project documentation consists of schema reference, configuration reference, samples reference, functions reference and the aggregated Javadoc.
+It can be all generated using the following command in the `/docs` folder of the project:
+
+    mvn clean exec:exec@docs
+
+The generated documentation is to be found under the `/docs/target/docs` folder of the project.
