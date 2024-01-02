@@ -70,4 +70,16 @@
 			<optional>false</optional>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>antlr-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<grammars>net/sf/jasperreports/olap/mapping/mapping.g</grammars>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
