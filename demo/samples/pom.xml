@@ -44,6 +44,7 @@
 		<module>query</module>
 		<module>scriptlet</module>
 		<module>spiderchartcomponent</module>
+		<module>xmldatasource</module>
 	</modules>
 	<properties>
 		<maven.install.skip>true</maven.install.skip>

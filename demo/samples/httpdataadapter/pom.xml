@@ -29,17 +29,10 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<version>1.2.0</version>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>2.7.5</version>
-			<scope>runtime</scope>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-jaxen</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

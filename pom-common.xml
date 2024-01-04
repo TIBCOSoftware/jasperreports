@@ -174,13 +174,6 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<version>${jaxen.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
 	</dependencies>
 	<build>
 		<resources>
