@@ -13,7 +13,7 @@
 	<target name="runManager" description="Launches the HSQLDB manager.">
 		<ivy:configure file="../../ivysettings.xml"/>
 		<ivy:cachepath pathid="lib" log="download-only" conf="hsqldb"/> 
-		<java classname="org.hsqldb.util.DatabaseManager" fork="true">
+		<java classname="org.hsqldb.util.DatabaseManagerSwing" fork="true">
 			<classpath refid="lib"/>
 		</java>
 	</target>
