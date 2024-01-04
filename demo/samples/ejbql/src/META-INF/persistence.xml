@@ -12,7 +12,7 @@
 		<properties>
 			<!-- Provider-specific connection properties -->
 			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
-			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:build/db"/>
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:target/data/db"/>
 			<property name="hibernate.connection.username" value="sa"/>
 			<property name="hibernate.connection.password" value=""/>
 			<!-- Provider-specific settings -->
