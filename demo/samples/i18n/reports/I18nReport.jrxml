@@ -45,7 +45,7 @@
 				<textFieldExpression><![CDATA[$R{text.paragraph3}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000" uuid="5d80dc10-e9b0-49ee-b760-19527151067b"/>
+				<reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="orange" uuid="5d80dc10-e9b0-49ee-b760-19527151067b"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>

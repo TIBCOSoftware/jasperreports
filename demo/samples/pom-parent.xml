@@ -77,6 +77,8 @@
 					<include>**/*.png</include>
 					<include>**/*.GIF</include>
 					<include>**/*.gif</include>
+					<include>**/*.tif</include>
+					<include>**/*.webp</include>
 					<!--
 					<include>**/*.ico</include>
 					<include>**/*TokenTypes.txt</include>
@@ -89,7 +91,9 @@
 					<!--
 					<include>**/*.woff</include>
 					<include>**/*.eot</include>
+					-->
 					<include>**/*.svg</include>
+					<!--
 					<include>**/*.svgz</include>
 					<include>**/*.tmpl</include>
 					<include>**/LICENSE.txt</include>

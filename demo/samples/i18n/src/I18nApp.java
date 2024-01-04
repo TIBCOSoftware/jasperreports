@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -50,6 +49,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 import net.sf.jasperreports.view.JasperViewer;
 
 
@@ -72,6 +72,8 @@ public class I18nApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
+		fillDefault();
 		pdf();
 		xmlEmbed();
 		xml();
@@ -101,7 +103,7 @@ public class I18nApp extends AbstractSampleApp
 			parameters.put("number", 1234567 + Math.random());
 //					parameters.put("array", aw);
 			parameters.put(JRParameter.REPORT_LOCALE, locale);
-			JasperFillManager.fillReportToFile("build/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
+			JasperFillManager.fillReportToFile("target/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
 			System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
@@ -115,7 +117,7 @@ public class I18nApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("number", 1234567 + Math.random());
-		JasperFillManager.fillReportToFile("build/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -128,7 +130,7 @@ public class I18nApp extends AbstractSampleApp
 		Locale locale = chooseLocale();
 		if (locale != null)
 		{
-			JasperViewer.viewReport("build/reports/I18nReport.jrprint", false, true, locale);
+			JasperViewer.viewReport("target/reports/I18nReport.jrprint", false, true, locale);
 		}
 	}
 
@@ -141,7 +143,7 @@ public class I18nApp extends AbstractSampleApp
 		Locale locale = chooseLocale();
 		if (locale != null)
 		{
-			JasperViewer.viewReport("build/reports/I18nReport.jrpxml", true, true, locale);
+			JasperViewer.viewReport("target/reports/I18nReport.jrpxml", true, true, locale);
 		}
 	}
 
@@ -152,7 +154,7 @@ public class I18nApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/I18nReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/I18nReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -163,7 +165,7 @@ public class I18nApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/I18nReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/I18nReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -174,7 +176,7 @@ public class I18nApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/I18nReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/I18nReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -185,7 +187,7 @@ public class I18nApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/I18nReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/I18nReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -196,7 +198,7 @@ public class I18nApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -219,7 +221,7 @@ public class I18nApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -245,7 +247,7 @@ public class I18nApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -268,7 +270,7 @@ public class I18nApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -291,7 +293,7 @@ public class I18nApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -317,7 +319,7 @@ public class I18nApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -343,7 +345,7 @@ public class I18nApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -366,7 +368,7 @@ public class I18nApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/I18nReport.jrprint");
+		File sourceFile = new File("target/reports/I18nReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

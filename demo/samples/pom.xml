@@ -24,18 +24,24 @@
 		<module>customvisualization</module>
 		<module>datasource</module>
 		<module>daterange</module>
+		<module>ejbql</module>
+		<module>ejbql-j2ee</module>
 		<module>exceldataadapter</module>
 		<module>exceldatasource</module>
 		<module>fastexceldatasource</module>
-		<module>functions</module>
 		<module>fonts</module>
 		<module>forms</module>
+		<module>functions</module>
 		<module>genericelement</module>
 		<module>groovy</module>
 		<module>hibernate</module>
 		<module>horizontal</module>
 		<module>htmlcomponent</module>
 		<module>httpdataadapter</module>
+		<module>hyperlink</module>
+		<module>i18n</module>
+		<module>iconlabel</module>
+		<module>images</module>
 		<module>jasper</module>
 		<module>javascript</module>
 		<!-- FIXME7

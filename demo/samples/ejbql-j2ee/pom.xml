@@ -7,7 +7,7 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<artifactId>jasperreports-samples-ejbql</artifactId>
+	<artifactId>jasperreports-samples-ejbql-j2ee</artifactId>
 	<packaging>jar</packaging>
 	<properties>
 		<sample.base.name>Ejbql</sample.base.name>
