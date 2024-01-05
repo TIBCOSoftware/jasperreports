@@ -1,6 +1,6 @@
-<project name="xmldatasource" default="test" basedir=".">
+<project name="jsondatasource" default="test" basedir=".">
 
-	<description>Shows how the built-in XPath-based data source could be used for reporting out of XML data.</description>
+	<description>Shows how the built-in JsonDataSource data source could be used for reporting out of XML data.</description>
 
 	<import file="../build-sample-classpath.xml"/>
 
