@@ -1,10 +1,20 @@
-<project name="antupdate" default="test" basedir=".">
+<project name="antupdate" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
 
-	<import file="../build-sample-classpath.xml"/>
-		
-	<target name="define-jru" depends="prepare-compile-classpath">
+	<path id="sample-classpath">
+		<path refid="sample-lib"/>
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../common-samples/classes"/>
+	</path>
+
+	<target name="prepare-sample-classpath">
+		<ivy:configure file="./ivysettings.xml" override="true"/>
+		<ivy:resolve file="./ivy.xml" log="download-only"/>
+		<ivy:cachepath pathid="sample-lib"/> 
+	</target>
+	
+	<target name="define-jru" depends="prepare-sample-classpath">
 		<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
 			<classpath refid="sample-classpath"/>
 		</taskdef>
@@ -40,7 +50,7 @@
 		</jru> 
 	</target> 
 
-	<target name="javac" description="Compiles the Java source files used in the report designs." depends="prepare-compile-classpath">
+	<target name="javac" description="Compiles the Java source files used in the report designs." depends="prepare-sample-classpath">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="UTF-8" includeantruntime="false">
@@ -51,9 +61,9 @@
 		</javac>
 	</target> 
 
-	<target name="define-jrc" depends="prepare-compile-classpath">
+	<target name="define-jrc" depends="prepare-sample-classpath">
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-			<classpath refid="project-classpath"/>
+			<classpath refid="sample-classpath"/>
 		</taskdef>
 	</target>
 
