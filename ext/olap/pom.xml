@@ -31,13 +31,16 @@
 			<version>3.1.1.12687</version>
 			<scope>compile</scope>
 			<optional>false</optional>
-			<!-- 
-			this exclusion is here because xerces would interfere with the tests
-			-->
 			<exclusions>
+				<!-- must exclude xerces because it interferes with JRXML parsing -->
 				<exclusion>
 					<groupId>xerces</groupId>
 					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<!-- xml-apis requires xerces, so it must be excluded -->
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

@@ -29,12 +29,12 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.pdf.JRPdfExporter;
+import net.sf.jasperreports.pdf.SimplePdfExporterConfiguration;
 
 
 /**
@@ -56,6 +56,7 @@ public class PdfEncryptApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 	}
@@ -67,7 +68,7 @@ public class PdfEncryptApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/PdfEncryptReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/PdfEncryptReport.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -78,7 +79,7 @@ public class PdfEncryptApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/PdfEncryptReport.jrprint");
+		File sourceFile = new File("target/reports/PdfEncryptReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

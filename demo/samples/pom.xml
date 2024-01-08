@@ -12,6 +12,10 @@
 	<modules>
 		<module>accessible</module>
 		<module>alterdesign</module>
+		<!--
+		<module>antcompile</module>
+		<module>antupdate</module>
+		-->
 		<module>barbecue</module>
 		<module>barcode4j</module>
 		<module>batchexport</module>
@@ -43,13 +47,47 @@
 		<module>iconlabel</module>
 		<module>images</module>
 		<module>jasper</module>
+		<module>java1.5</module>
 		<module>javascript</module>
+		<module>jfreechart</module>
+		<module>jsondatasource</module>
+		<module>jsonqldatasource</module>
+		<module>landscape</module>
+		<module>list</module>
 		<!-- FIXME7
 		<module>map</module>
 		-->
+		<module>markup</module>
+		<module>mondrian</module>
+		<module>nopagebreak</module>
+		<module>noreport</module>
+		<module>noxmldesign</module>
+		<module>paragraphs</module>
+		<module>pdfa</module>
+		<module>pdfencrypt</module>
+		<module>printservice</module>
 		<module>query</module>
+		<module>rotation</module>
 		<module>scriptlet</module>
+		<module>shapes</module>
 		<module>spiderchartcomponent</module>
+		<module>stretch</module>
+		<module>styledtext</module>
+		<module>subreport</module>
+		<module>table</module>
+		<module>tableofcontents</module>
+		<module>tabular</module>
+		<module>templates</module>
+		<module>text</module>
+		<module>unicode</module>
+		<module>virtualizer</module>
+		<!--
+		<module>webapp</module>
+		-->
+		<module>xchart</module>
+		<module>xchartcomponent</module>
+		<module>xlsfeatures</module>
+		<module>xlsformula</module>
 		<module>xmldatasource</module>
 	</modules>
 	<properties>

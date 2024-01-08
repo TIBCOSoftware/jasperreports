@@ -22,6 +22,7 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -71,6 +72,8 @@ public class PrintServiceApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
+		fill();
 	}
 	
 	
@@ -81,7 +84,9 @@ public class PrintServiceApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JasperPrint jasperPrint = getJasperPrint();
-		JRSaver.saveObject(jasperPrint, "build/reports/PrintServiceReport.jrprint");
+		File file = new File("target/reports/PrintServiceReport.jrprint");
+		file.getParentFile().mkdirs();
+		JRSaver.saveObject(jasperPrint, file);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -102,7 +107,7 @@ public class PrintServiceApp extends AbstractSampleApp
 		
 		JRPrintServiceExporter exporter = new JRPrintServiceExporter();
 		
-		exporter.setExporterInput(new SimpleExporterInput("build/reports/PrintServiceReport.jrprint"));
+		exporter.setExporterInput(new SimpleExporterInput("target/reports/PrintServiceReport.jrprint"));
 		SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
 		configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
 		configuration.setPrintServiceAttributeSet(printServiceAttributeSet);

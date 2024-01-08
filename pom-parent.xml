@@ -127,6 +127,9 @@
 		<spring.version>5.3.27</spring.version>
 		<poi.version>5.2.2</poi.version>
 		<rhino.version>1.7.14</rhino.version>
+		<ant.version>1.10.14</ant.version>
+		<openpdf.version>1.3.32</openpdf.version>
+		<xchart.version>3.2.2</xchart.version>
 	</properties>
 	<repositories>
 		<repository>

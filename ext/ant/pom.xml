@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.14</version>
+			<version>${ant.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

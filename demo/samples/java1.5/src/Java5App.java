@@ -50,6 +50,7 @@ public class Java5App extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 	}
@@ -64,7 +65,7 @@ public class Java5App extends AbstractSampleApp
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		parameters.put("greeting", Greeting.bye);
 		
-		JasperFillManager.fillReportToFile("build/reports/Java5Report.jasper", parameters, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/Java5Report.jasper", parameters, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -75,7 +76,7 @@ public class Java5App extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/Java5Report.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/Java5Report.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 

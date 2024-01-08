@@ -58,6 +58,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		xls();
 		ods();
@@ -71,7 +72,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/XlsFormulaReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/XlsFormulaReport.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -82,7 +83,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/XlsFormulaReport.jrprint");
+		File sourceFile = new File("target/reports/XlsFormulaReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -108,7 +109,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/XlsFormulaReport.jrprint");
+		File sourceFile = new File("target/reports/XlsFormulaReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -134,7 +135,7 @@ public class XlsFormulaApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/XlsFormulaReport.jrprint");
+		File sourceFile = new File("target/reports/XlsFormulaReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

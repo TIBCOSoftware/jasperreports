@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -49,6 +48,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -70,6 +70,7 @@ public class SubreportApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -93,13 +94,13 @@ public class SubreportApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
+		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ProductReport.jasper");
 
 		//Preparing parameters
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ProductsSubreport", subreport);
 		
-		JasperFillManager.fillReportToFile("build/reports/MasterReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperFillManager.fillReportToFile("target/reports/MasterReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -110,7 +111,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/MasterReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/MasterReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -121,7 +122,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/MasterReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/MasterReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -132,7 +133,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -155,7 +156,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MasterReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/MasterReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -166,7 +167,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MasterReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/MasterReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -177,7 +178,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/MasterReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/MasterReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -188,7 +189,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -214,7 +215,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -237,19 +238,19 @@ public class SubreportApp extends AbstractSampleApp
 	public void jsonMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
+		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("target/reports/ProductReport.jasper");
 
 		//Preparing parameters
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ProductsSubreport", subreport);
 		parameters.put(JRParameter.IS_IGNORE_PAGINATION, true);
 		
-		JasperPrint jasperPrint = JasperFillManager.fillReport("build/reports/MasterReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperPrint jasperPrint = JasperFillManager.fillReport("target/reports/MasterReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 		
 		start = System.currentTimeMillis();
 
-		File destFile = new File(new File("build/reports"), jasperPrint.getName() + ".json");
+		File destFile = new File(new File("target/reports"), jasperPrint.getName() + ".json");
 
 		JsonMetadataExporter exporter = new JsonMetadataExporter();
 
@@ -268,7 +269,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -291,7 +292,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -317,7 +318,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -340,7 +341,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -366,7 +367,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MasterReport.jrprint");
+		File sourceFile = new File("target/reports/MasterReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

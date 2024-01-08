@@ -58,6 +58,7 @@ public class TextApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		xml();
@@ -77,7 +78,7 @@ public class TextApp extends AbstractSampleApp
 		parameters.put("FilterClause", "'Boston', 'Chicago', 'Oslo'");
 		parameters.put("OrderClause", "City");
 
-		JasperFillManager.fillReportToFile("build/reports/TextReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperFillManager.fillReportToFile("target/reports/TextReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -88,7 +89,7 @@ public class TextApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/TextReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/TextReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -100,7 +101,7 @@ public class TextApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JRTextExporter exporter = new JRTextExporter();
-		File sourceFile = new File("build/reports/TextReport.jrprint");
+		File sourceFile = new File("target/reports/TextReport.jrprint");
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".txt");
 
@@ -118,7 +119,7 @@ public class TextApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/TextReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/TextReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -129,7 +130,7 @@ public class TextApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/TextReport.jrprint");
+		File sourceFile = new File("target/reports/TextReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

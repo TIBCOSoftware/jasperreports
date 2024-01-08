@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -59,6 +58,7 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -80,6 +80,7 @@ public class NoReportApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		fill();
 		pdf();
 		html();
 		rtf();
@@ -101,7 +102,9 @@ public class NoReportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JasperPrint jasperPrint = getJasperPrint();
-		JRSaver.saveObject(jasperPrint, "build/reports/NoReport.jrprint");
+		File file = new File("target/reports/NoReport.jrprint");
+		file.getParentFile().mkdirs();
+		JRSaver.saveObject(jasperPrint, file);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -112,7 +115,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/NoReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/NoReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -123,7 +126,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/NoReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/NoReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -134,7 +137,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -157,7 +160,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/NoReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -168,7 +171,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/NoReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -179,7 +182,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/NoReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/NoReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -190,7 +193,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -216,7 +219,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -239,7 +242,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -262,7 +265,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -288,7 +291,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -311,7 +314,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -337,7 +340,7 @@ public class NoReportApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoReport.jrprint");
+		File sourceFile = new File("target/reports/NoReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 

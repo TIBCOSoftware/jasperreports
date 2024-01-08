@@ -39,8 +39,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.engine.export.JsonMetadataExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -56,6 +54,8 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsMetadataExporter;
 
 
 /**
@@ -77,6 +77,7 @@ public class MarkupApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdf();
 		xmlEmbed();
@@ -113,7 +114,7 @@ public class MarkupApp extends AbstractSampleApp
 			parameters.put("RtfText", rtfText);
 			parameters.put("HtmlText", htmlText);
 			
-			JasperFillManager.fillReportToFile("build/reports/MarkupReport.jasper", parameters, (JRDataSource)null);
+			JasperFillManager.fillReportToFile("target/reports/MarkupReport.jasper", parameters, (JRDataSource)null);
 			System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 		}
 		catch (FileNotFoundException e)
@@ -133,7 +134,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/MarkupReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/MarkupReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -144,7 +145,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/MarkupReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/MarkupReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -155,7 +156,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 		
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -178,7 +179,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MarkupReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/MarkupReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -189,7 +190,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/MarkupReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/MarkupReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -200,7 +201,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/MarkupReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/MarkupReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -211,7 +212,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -237,7 +238,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -260,7 +261,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -283,7 +284,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -309,7 +310,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -332,7 +333,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -358,7 +359,7 @@ public class MarkupApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
+		File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -380,11 +381,11 @@ public class MarkupApp extends AbstractSampleApp
 	 */
 	public void csvMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
-			File sourceFile = new File("build/reports/MarkupReport.jrprint");
+			File sourceFile = new File("target/reports/MarkupReport.jrprint");
 
 			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -407,7 +408,7 @@ public class MarkupApp extends AbstractSampleApp
 	 */
 	public void xlsMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -434,7 +435,7 @@ public class MarkupApp extends AbstractSampleApp
 	 */
 	public void xlsxMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();
@@ -461,7 +462,7 @@ public class MarkupApp extends AbstractSampleApp
 	 */
 	public void jsonMetadata() throws JRException
 	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
+		File[] files = getFiles(new File("target/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{
 			long start = System.currentTimeMillis();

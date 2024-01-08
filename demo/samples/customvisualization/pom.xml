@@ -32,7 +32,7 @@
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>${rhino.version}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

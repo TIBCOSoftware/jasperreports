@@ -12,13 +12,4 @@
 	<properties>
 		<sample.base.name>Accessible</sample.base.name>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-json</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-	</dependencies>
 </project>

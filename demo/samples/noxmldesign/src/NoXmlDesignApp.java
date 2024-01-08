@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -68,6 +67,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 
 
 /**
@@ -89,6 +89,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		writeXml();
 		fill();
 		pdf();
@@ -106,14 +107,14 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void compile() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		JasperDesign jasperDesign = getJasperDesign();
-		JasperCompileManager.compileReportToFile(jasperDesign, "build/reports/NoXmlDesignReport.jasper");
+		File file = new File("target/reports/NoXmlDesignReport.jasper");
+		file.getParentFile().mkdirs();
+		JasperCompileManager.compileReportToFile(jasperDesign, file.getPath());
 		System.err.println("Compile time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -129,7 +130,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		parameters.put("ReportTitle", "Address Report");
 		parameters.put("OrderByClause", "ORDER BY City");
 
-		JasperFillManager.fillReportToFile("build/reports/NoXmlDesignReport.jasper", parameters, getDemoHsqldbConnection());
+		JasperFillManager.fillReportToFile("target/reports/NoXmlDesignReport.jasper", parameters, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -140,7 +141,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void print() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperPrintManager.printReport("build/reports/NoXmlDesignReport.jrprint", true);
+		JasperPrintManager.printReport("target/reports/NoXmlDesignReport.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -151,7 +152,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/NoXmlDesignReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("target/reports/NoXmlDesignReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -162,7 +163,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void rtf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -185,7 +186,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void xml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoXmlDesignReport.jrprint", false);
+		JasperExportManager.exportReportToXmlFile("target/reports/NoXmlDesignReport.jrprint", false);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -196,7 +197,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void xmlEmbed() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile("build/reports/NoXmlDesignReport.jrprint", true);
+		JasperExportManager.exportReportToXmlFile("target/reports/NoXmlDesignReport.jrprint", true);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -207,7 +208,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/NoXmlDesignReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("target/reports/NoXmlDesignReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -218,7 +219,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -244,7 +245,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -267,7 +268,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void odt() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -290,7 +291,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void ods() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -316,7 +317,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void docx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -339,7 +340,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void xlsx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -365,7 +366,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void pptx() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/NoXmlDesignReport.jrprint");
+		File sourceFile = new File("target/reports/NoXmlDesignReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -388,7 +389,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	public void writeXml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperCompileManager.writeReportToXmlFile("build/reports/NoXmlDesignReport.jasper");
+		JasperCompileManager.writeReportToXmlFile("target/reports/NoXmlDesignReport.jasper");
 		System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 	}
 

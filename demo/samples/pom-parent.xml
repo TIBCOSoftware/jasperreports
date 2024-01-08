@@ -94,6 +94,7 @@
 					<include>**/LICENSE.txt</include>
 					-->
 					<include>**/*.txt</include>
+					<include>**/*.xsd</include>
 				</includes>
 			</resource>
 			<resource>

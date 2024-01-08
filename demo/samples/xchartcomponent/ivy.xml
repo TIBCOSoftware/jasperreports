@@ -1,8 +1,0 @@
-<ivy-module version="2.0">
-	<info organisation="net.sf.jasperreports" module="jasperreports">
-		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
-	</info>
-	<dependencies>
-		<dependency org="org.knowm.xchart" name="xchart" rev="3.2.2" conf="compile->*"/>
-	</dependencies>
-</ivy-module>

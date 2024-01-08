@@ -59,6 +59,7 @@ public class VirtualizerApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		export();
 	}
 	
@@ -174,7 +175,7 @@ public class VirtualizerApp extends AbstractSampleApp
 		parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 
 		// filling the report
-		JasperPrint jasperPrint = JasperFillManager.fillReport("build/reports/VirtualizerReport.jasper", parameters, dataSource);
+		JasperPrint jasperPrint = JasperFillManager.fillReport("target/reports/VirtualizerReport.jasper", parameters, dataSource);
 		
 		virtualizer.setReadOnly(true);
 
@@ -189,7 +190,7 @@ public class VirtualizerApp extends AbstractSampleApp
 		JRCsvExporter exporter = new JRCsvExporter();
 
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput("build/reports/" + jasperPrint.getName() + ".csv"));
+		exporter.setExporterOutput(new SimpleWriterExporterOutput("target/reports/" + jasperPrint.getName() + ".csv"));
 
 		exporter.exportReport();
 
@@ -200,7 +201,7 @@ public class VirtualizerApp extends AbstractSampleApp
 	private static void exportHtml(JasperPrint jasperPrint) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, "build/reports/" + jasperPrint.getName() + ".html");
+		JasperExportManager.exportReportToHtmlFile(jasperPrint, "target/reports/" + jasperPrint.getName() + ".html");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -208,7 +209,7 @@ public class VirtualizerApp extends AbstractSampleApp
 	private static void exportXml(JasperPrint jasperPrint, boolean embedded) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToXmlFile(jasperPrint, "build/reports/" + jasperPrint.getName() + ".jrpxml", embedded);
+		JasperExportManager.exportReportToXmlFile(jasperPrint, "target/reports/" + jasperPrint.getName() + ".jrpxml", embedded);
 		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -216,7 +217,7 @@ public class VirtualizerApp extends AbstractSampleApp
 	private static void exportPdf(JasperPrint jasperPrint) throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "build/reports/" + jasperPrint.getName() + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "target/reports/" + jasperPrint.getName() + ".pdf");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 

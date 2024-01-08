@@ -27,14 +27,14 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
-import net.sf.jasperreports.export.type.PdfVersionEnum;
-import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.pdf.JRPdfExporter;
+import net.sf.jasperreports.pdf.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.pdf.type.PdfVersionEnum;
+import net.sf.jasperreports.pdf.type.PdfaConformanceEnum;
 
 
 /**
@@ -56,6 +56,7 @@ public class PdfAApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException
 	{
+		compile();
 		fill();
 		pdfa();
 	}
@@ -67,11 +68,11 @@ public class PdfAApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/PdfA1Report.jasper", null, new JREmptyDataSource());
-		JasperFillManager.fillReportToFile("build/reports/PdfA2Report.jasper", null, new JREmptyDataSource());
-		JasperFillManager.fillReportToFile("build/reports/PdfA3Report.jasper", null, new JREmptyDataSource());
-		JasperFillManager.fillReportToFile("build/reports/TaggedPdfA1Report.jasper", null, new JREmptyDataSource());
-		JasperFillManager.fillReportToFile("build/reports/TabularPdfA1Report.jasper", null, new JREmptyDataSource(10));
+		JasperFillManager.fillReportToFile("target/reports/PdfA1Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/PdfA2Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/PdfA3Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/TaggedPdfA1Report.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("target/reports/TabularPdfA1Report.jasper", null, new JREmptyDataSource(10));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 
@@ -82,11 +83,11 @@ public class PdfAApp extends AbstractSampleApp
 	public void pdfa() throws JRException
 	{
 		File[] sourceFiles = new File[] {
-			new File("build/reports/PdfA1Report.jrprint"),
-			new File("build/reports/PdfA2Report.jrprint"),
-			new File("build/reports/PdfA3Report.jrprint"),
-			new File("build/reports/TaggedPdfA1Report.jrprint"),
-			new File("build/reports/TabularPdfA1Report.jrprint")
+			new File("target/reports/PdfA1Report.jrprint"),
+			new File("target/reports/PdfA2Report.jrprint"),
+			new File("target/reports/PdfA3Report.jrprint"),
+			new File("target/reports/TaggedPdfA1Report.jrprint"),
+			new File("target/reports/TabularPdfA1Report.jrprint")
 		};
 		
 		for (int i = 0; i < sourceFiles.length; ++i) 
