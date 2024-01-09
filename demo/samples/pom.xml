@@ -81,9 +81,7 @@
 		<module>text</module>
 		<module>unicode</module>
 		<module>virtualizer</module>
-		<!--
 		<module>webapp</module>
-		-->
 		<module>xchart</module>
 		<module>xchartcomponent</module>
 		<module>xlsfeatures</module>

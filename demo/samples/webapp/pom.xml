@@ -7,25 +7,21 @@
 		<version>${revision}</version>
 		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
-	<artifactId>jasperreports-samples-httpdataadapter</artifactId>
+	<artifactId>jasperreports-samples-webapp</artifactId>
 	<packaging>war</packaging>
-	<properties>
-		<sample.base.name>HttpDataAdapter</sample.base.name>
-		<sample.report.name>JsonHttpDataAdapterReport</sample.report.name>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-data-adapters-http</artifactId>
+			<artifactId>jasperreports-servlets</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-jaxen</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${jakarta.servlet.version}</version>
+			<scope>provided</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>
@@ -39,7 +35,7 @@
 					<webAppSourceDirectory>web</webAppSourceDirectory>
 					<stopPort>9966</stopPort>
 					<stopKey>foo</stopKey>
-					<deployMode>EMBED</deployMode>
+					<deployMode>FORK</deployMode>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -53,7 +49,6 @@
 							<executable>mvn</executable>
 							<arguments>
 								<argument>jetty:start</argument>  
-								<argument>exec:java@test</argument>  
 								<argument>jetty:stop</argument>  
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>           
