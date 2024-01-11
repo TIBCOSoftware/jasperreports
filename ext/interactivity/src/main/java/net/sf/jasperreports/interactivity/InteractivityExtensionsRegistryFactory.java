@@ -27,20 +27,20 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.headertoolbar.json.HeaderToolbarElementJsonHandler;
-import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
-import net.sf.jasperreports.components.sort.SortElementJsonHandler;
-import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.interactivity.crosstabs.CrosstabInteractiveJsonHandler;
+import net.sf.jasperreports.interactivity.headertoolbar.json.HeaderToolbarElementJsonHandler;
+import net.sf.jasperreports.interactivity.sort.SortElement;
+import net.sf.jasperreports.interactivity.sort.SortElementHtmlHandler;
+import net.sf.jasperreports.interactivity.sort.SortElementJsonHandler;
+import net.sf.jasperreports.json.export.JsonExporter;
 
 
 /**

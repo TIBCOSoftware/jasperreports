@@ -751,7 +751,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 	/**
 	 * Sets a user specified chart customizer class name.
-	 * @see net.sf.jasperreports.engine.JRChartCustomizer
+	 * @see net.sf.jasperreports.charts.JRChartCustomizer
  	 */
 	public void setCustomizerClass(String customizerClass)
 	{

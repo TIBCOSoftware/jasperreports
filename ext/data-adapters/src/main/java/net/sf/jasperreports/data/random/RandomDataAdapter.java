@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.random;
 
-import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapter;
 
 /**
  * The interface of the random data adapter

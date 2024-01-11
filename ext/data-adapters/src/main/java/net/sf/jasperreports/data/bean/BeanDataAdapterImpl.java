@@ -25,7 +25,7 @@ package net.sf.jasperreports.data.bean;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
+import net.sf.jasperreports.dataadapters.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

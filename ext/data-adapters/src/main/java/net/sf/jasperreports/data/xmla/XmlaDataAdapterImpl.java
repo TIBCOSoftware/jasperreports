@@ -25,7 +25,7 @@ package net.sf.jasperreports.data.xmla;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.dataadapters.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

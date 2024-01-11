@@ -35,9 +35,9 @@ import java.util.List;
 
 import org.jfree.chart.plot.XYPlot;
 
+import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 import net.sf.jasperreports.customizers.util.ItemsCounter;
 import net.sf.jasperreports.customizers.util.SeriesNameProvider;
-import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 
 /**
  * Abstract customizer that provide the utility methods to work with shapes.

@@ -12,5 +12,7 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.jaxen
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.jaxen
+Export-Package: net.sf.jasperreports.jaxen.data,
+ net.sf.jasperreports.jaxen.query,
+ net.sf.jasperreports.jaxen.util.xml
 DynamicImport-Package: *

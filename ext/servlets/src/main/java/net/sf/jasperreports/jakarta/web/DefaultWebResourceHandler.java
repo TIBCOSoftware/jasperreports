@@ -45,9 +45,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.MessageUtil;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
 import net.sf.jasperreports.web.util.ResourcePathUtil;
 import net.sf.jasperreports.web.util.SimpleWebResource;
-import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebConstants;
 import net.sf.jasperreports.web.util.WebResource;
 

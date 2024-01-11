@@ -26,7 +26,6 @@ package net.sf.jasperreports.fastexcel;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.data.XlsxDataSourceFactory;

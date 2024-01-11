@@ -30,7 +30,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.dataadapters.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;

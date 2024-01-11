@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.olap;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataAdapterContributorFactory;
-import net.sf.jasperreports.data.DataAdapterService;
 import net.sf.jasperreports.data.mondrian.MondrianDataAdapter;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
+import net.sf.jasperreports.dataadapters.DataAdapterService;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 

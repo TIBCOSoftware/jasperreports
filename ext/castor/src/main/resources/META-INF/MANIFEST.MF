@@ -12,7 +12,8 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.castor
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.data.excel,
+Export-Package: net.sf.jasperreports.data,
+ net.sf.jasperreports.data.excel,
  net.sf.jasperreports.data.http,
  net.sf.jasperreports.data.jdbc,
  net.sf.jasperreports.data.json,

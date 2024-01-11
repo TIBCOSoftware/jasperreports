@@ -12,5 +12,6 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.annotations
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.annotations
+Export-Package: net.sf.jasperreports.annotations.documentation,
+ net.sf.jasperreports.annotations.processors.properties
 DynamicImport-Package: *

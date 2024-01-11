@@ -27,7 +27,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
+import net.sf.jasperreports.dataadapters.AbstractClasspathAwareDataAdapter;
 
 
 /**

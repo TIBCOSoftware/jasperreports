@@ -24,9 +24,9 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
-import net.sf.jasperreports.engine.export.JsonExporterContext;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.json.export.GenericElementJsonHandler;
+import net.sf.jasperreports.json.export.JsonExporterContext;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -37,7 +37,7 @@ import org.jfree.chart.JFreeChart;
  * method of this class will be called, if advanced chart customization is needed.
  * <p/>
  * If values of report parameters, variables or fields are needed in the customization, the customizer implementation
- * should extend {@link net.sf.jasperreports.engine.JRAbstractChartCustomizer AbstractChartCustomizer}
+ * should extend {@link net.sf.jasperreports.charts.JRAbstractChartCustomizer AbstractChartCustomizer}
  * to gain access to such values.
  *
  * @author Sanda Zaharia (shertage@users.sourceforge.net)

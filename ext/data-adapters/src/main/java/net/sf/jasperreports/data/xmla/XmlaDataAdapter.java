@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.xmla;
 
-import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

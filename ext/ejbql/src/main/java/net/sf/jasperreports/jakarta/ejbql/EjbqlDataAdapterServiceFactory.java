@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.jakarta.ejbql;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataAdapterContributorFactory;
-import net.sf.jasperreports.data.DataAdapterService;
 import net.sf.jasperreports.data.ejbql.EjbqlDataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
+import net.sf.jasperreports.dataadapters.DataAdapterService;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 

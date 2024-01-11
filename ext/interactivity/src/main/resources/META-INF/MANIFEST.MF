@@ -12,5 +12,15 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.interactivity
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.interactivity
+Export-Package: net.sf.jasperreports.interactivity,
+ net.sf.jasperreports.interactivity.actions,
+ net.sf.jasperreports.interactivity.commands,
+ net.sf.jasperreports.interactivity.crosstabs,
+ net.sf.jasperreports.interactivity.headertoolbar,
+ net.sf.jasperreports.interactivity.headertoolbar.actions,
+ net.sf.jasperreports.interactivity.headertoolbar.json,
+ net.sf.jasperreports.interactivity.search,
+ net.sf.jasperreports.interactivity.sort,
+ net.sf.jasperreports.interactivity.sort.actions,
+ net.sf.jasperreports.interactivity.util
 DynamicImport-Package: *

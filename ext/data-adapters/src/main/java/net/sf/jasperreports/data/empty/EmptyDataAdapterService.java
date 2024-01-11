@@ -25,7 +25,7 @@ package net.sf.jasperreports.data.empty;
 
 import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.dataadapters.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;

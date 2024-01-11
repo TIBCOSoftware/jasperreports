@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
+import net.sf.jasperreports.dataadapters.repo.DataAdapterResource;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 

@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
-import net.sf.jasperreports.data.FileDataAdapter;
-import net.sf.jasperreports.data.StandardRepositoryDataLocation;
+import net.sf.jasperreports.dataadapters.FileDataAdapter;
+import net.sf.jasperreports.dataadapters.StandardRepositoryDataLocation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -52,7 +52,7 @@ public interface XlsDataAdapter extends FileDataAdapter
 	public String getFileName();
 
 	/**
-	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.dataadapters.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Deprecated
 	@JsonProperty

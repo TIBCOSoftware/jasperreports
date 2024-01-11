@@ -27,18 +27,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataFileStream;
-import net.sf.jasperreports.data.DataFileUtils;
+import net.sf.jasperreports.dataadapters.AbstractDataAdapterService;
+import net.sf.jasperreports.dataadapters.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataFileStream;
+import net.sf.jasperreports.dataadapters.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRAbstractTextDataSource;
-import net.sf.jasperreports.engine.data.JsonDataSource;
-import net.sf.jasperreports.engine.data.JsonQLDataSource;
-import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designator;
+import net.sf.jasperreports.json.data.JsonDataSource;
+import net.sf.jasperreports.json.data.JsonQLDataSource;
+import net.sf.jasperreports.json.query.JsonQueryExecuterFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)

@@ -29,9 +29,9 @@ import java.util.TimeZone;
 
 import org.w3c.dom.Document;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.data.DataFileStream;
-import net.sf.jasperreports.data.DataFileUtils;
+import net.sf.jasperreports.dataadapters.AbstractDataAdapterService;
+import net.sf.jasperreports.dataadapters.DataFileStream;
+import net.sf.jasperreports.dataadapters.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ParameterContributorContext;

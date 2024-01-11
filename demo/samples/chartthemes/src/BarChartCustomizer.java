@@ -27,7 +27,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 import net.sf.jasperreports.charts.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
+import net.sf.jasperreports.charts.JRChartCustomizer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

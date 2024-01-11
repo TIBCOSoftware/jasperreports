@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
-import net.sf.jasperreports.data.DataAdapterContributorFactory;
+import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;

@@ -12,5 +12,8 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.chartthemes
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.chartthemes
+Export-Package: net.sf.jasperreports.chartthemes,
+ net.sf.jasperreports.chartthemes.simple,
+ net.sf.jasperreports.chartthemes.simple.handlers,
+ net.sf.jasperreports.chartthemes.spring
 DynamicImport-Package: *

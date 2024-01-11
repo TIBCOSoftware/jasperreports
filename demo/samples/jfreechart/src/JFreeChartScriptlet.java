@@ -35,7 +35,7 @@ import org.jfree.util.Rotation;
 
 import net.sf.jasperreports.engine.JRDefaultScriptlet;
 import net.sf.jasperreports.engine.JRScriptletException;
-import net.sf.jasperreports.renderers.JCommonDrawableRendererImpl;
+import net.sf.jasperreports.charts.renderers.JCommonDrawableRendererImpl;
 
 
 /**

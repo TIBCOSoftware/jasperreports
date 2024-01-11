@@ -27,12 +27,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.LevelRenderer;
 
+import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.customizers.util.CategoryCounter;
 import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
 import net.sf.jasperreports.customizers.util.CustomizerUtil;
 import net.sf.jasperreports.customizers.util.ItemsCounter;
-import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 
 /**
  * @author Marco Orlandin (dejawho2@users.sourceforge.net)

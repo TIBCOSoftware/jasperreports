@@ -29,7 +29,8 @@ import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
+
 import org.apache.velocity.VelocityContext;
 
 import java.util.HashMap;

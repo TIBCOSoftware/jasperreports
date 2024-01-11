@@ -12,5 +12,7 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.jackson
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.jackson
+Export-Package: net.sf.jasperreports.jackson.repo,
+ net.sf.jasperreports.jackson.type,
+ net.sf.jasperreports.jackson.util
 DynamicImport-Package: *

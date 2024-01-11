@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
 
 /**
  * 

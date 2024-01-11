@@ -37,12 +37,12 @@ import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.customvisualization.Processor;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.JsonExporter;
-import net.sf.jasperreports.engine.export.JsonExporterContext;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.json.export.GenericElementJsonHandler;
+import net.sf.jasperreports.json.export.JsonExporter;
+import net.sf.jasperreports.json.export.JsonExporterContext;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
 
 /**
  *

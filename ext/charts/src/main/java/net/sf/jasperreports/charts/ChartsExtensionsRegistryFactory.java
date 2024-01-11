@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts;
 
 import java.util.HashMap;
 
+import net.sf.jasperreports.charts.fill.DefaultChartTheme;
 import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponentManager;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
@@ -34,7 +35,6 @@ import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.ListExtensionsRegistry;

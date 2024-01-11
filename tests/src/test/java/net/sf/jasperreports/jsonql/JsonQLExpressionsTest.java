@@ -34,10 +34,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.json.JRJsonNode;
-import net.sf.jasperreports.engine.json.JsonNodeContainer;
-import net.sf.jasperreports.engine.util.JsonUtil;
-import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
+import net.sf.jasperreports.json.JRJsonNode;
+import net.sf.jasperreports.json.JsonNodeContainer;
+import net.sf.jasperreports.json.util.DefaultJsonQLExecuter;
+import net.sf.jasperreports.json.util.JsonUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)

@@ -29,8 +29,8 @@ import java.util.TimeZone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import net.sf.jasperreports.data.FileDataAdapter;
-import net.sf.jasperreports.data.StandardRepositoryDataLocation;
+import net.sf.jasperreports.dataadapters.FileDataAdapter;
+import net.sf.jasperreports.dataadapters.StandardRepositoryDataLocation;
 
 
 /**
@@ -46,7 +46,7 @@ public interface XmlDataAdapter extends FileDataAdapter
 	public String getFileName();
 
 	/**
-	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.dataadapters.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Deprecated
 	@JsonProperty

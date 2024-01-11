@@ -193,13 +193,13 @@ The built-in JSON query executer (see the
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) is a tool that uses the query string to produce a 
 <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> instance, 
 based on specific built-in parameters (or equivalent report properties). This query executer is registered via 
-<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html">JsonQueryExecuterFactory</api> factory class. 
+<api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html">JsonQueryExecuterFactory</api> factory class. 
 <br/>
 In order to prepare the data source, the JSON query executer looks for the 
-<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter that contains the JSON 
+<api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter that contains the JSON 
 source objects in the form of an <code>java.io.InputStream</code>. If no 
-<api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter is provided, then 
-the query executer looks for the alternate <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_SOURCE">net.sf.jasperreports.json.source</api> 
+<api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter is provided, then 
+the query executer looks for the alternate <api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_SOURCE">net.sf.jasperreports.json.source</api> 
 String parameter or report property that stores the path to the location of the JSON source file.
 <br/>
 <api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> runs the query over the input source and stores 
@@ -208,13 +208,13 @@ the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonDataS
 <br/>
 During the JsonDataSource instantiation, the query executer also looks for the following additional parameters or report properties, containing the required localization settings: 
 <ul>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_DATE_PATTERN">net.sf.jasperreports.json.date.pattern</api></li>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_NUMBER_PATTERN">net.sf.jasperreports.json.number.pattern</api></li>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE">JSON_LOCALE</api> (parameter only) of type <code>java.util.Locale</code></li>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE_CODE">net.sf.jasperreports.json.locale.code</api> of type <code>java.lang.String</code>; 
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_DATE_PATTERN">net.sf.jasperreports.json.date.pattern</api></li>
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_NUMBER_PATTERN">net.sf.jasperreports.json.number.pattern</api></li>
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_LOCALE">JSON_LOCALE</api> (parameter only) of type <code>java.util.Locale</code></li>
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_LOCALE_CODE">net.sf.jasperreports.json.locale.code</api> of type <code>java.lang.String</code>; 
 this can be used if no <code>java.util.Locale</code> parameter is available</li>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE">JSON_TIME_ZONE</api> (parameter only) of type <code>java.util.TimeZone</code></li>
-<li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>; 
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE">JSON_TIME_ZONE</api> (parameter only) of type <code>java.util.TimeZone</code></li>
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>; 
 this can be used if no <code>java.util.TimeZone</code> parameter is available</li>
 </ul>
 In the next section you can see how these additional parameters are provided in the <code>/src/JsonDataSourceApp.java</code> class.

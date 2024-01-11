@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
 
 import java.util.List;
 import java.util.Map;

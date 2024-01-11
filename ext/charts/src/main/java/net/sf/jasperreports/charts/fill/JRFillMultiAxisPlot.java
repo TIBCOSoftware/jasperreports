@@ -30,7 +30,6 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.engine.fill.JRFillBand;
-import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)

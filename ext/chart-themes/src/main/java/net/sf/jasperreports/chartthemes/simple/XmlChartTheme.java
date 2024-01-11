@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
 
 
 /**

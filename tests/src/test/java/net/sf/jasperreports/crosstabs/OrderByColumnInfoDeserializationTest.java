@@ -28,11 +28,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
-import net.sf.jasperreports.crosstabs.interactive.OrderByColumnInfoImpl;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
-import net.sf.jasperreports.util.JacksonUtil;
+import net.sf.jasperreports.interactivity.crosstabs.OrderByColumnInfoImpl;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
 
 /**
  * 

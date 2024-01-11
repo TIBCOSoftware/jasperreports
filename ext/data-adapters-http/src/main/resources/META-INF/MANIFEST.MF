@@ -3,14 +3,14 @@ Built-By: ${project.organization.name}
 Specification-Title: ${project.name}
 Specification-Version: ${project.version}
 Specification-Vendor: ${project.organization.name}
-Implementation-Title: net.sf.jasperreports.jackson
+Implementation-Title: net.sf.jasperreports.dataadapters.http
 Implementation-Version: ${project.version}-${buildNumber}
 Implementation-Vendor: ${project.organization.name}
 Bundle-ManifestVersion: 2
 Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
-Bundle-SymbolicName: net.sf.jasperreports.data.http
+Bundle-SymbolicName: net.sf.jasperreports.dataadapters.http
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.data.http
+Export-Package: net.sf.jasperreports.dataadapters.http
 DynamicImport-Package: *

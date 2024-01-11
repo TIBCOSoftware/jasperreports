@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.customizers.util;
 
-import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
+import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

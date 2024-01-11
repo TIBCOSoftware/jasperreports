@@ -37,7 +37,7 @@ import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
 
 /**
  * @author Giulio Toffoli (gt78@users.sourceforge.net)

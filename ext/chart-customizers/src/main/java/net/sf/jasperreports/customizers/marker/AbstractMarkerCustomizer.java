@@ -31,11 +31,11 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleInsets;
 
+import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 import net.sf.jasperreports.customizers.type.LayerEnum;
 import net.sf.jasperreports.customizers.type.RectangleAnchorEnum;
 import net.sf.jasperreports.customizers.type.StrokeStyleEnum;
 import net.sf.jasperreports.customizers.type.TextAnchorEnum;
-import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**

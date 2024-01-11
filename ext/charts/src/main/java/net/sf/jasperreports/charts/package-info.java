@@ -98,10 +98,10 @@
  * chart customizers because they bring enhanced capabilities in controlling chart output.
  * <br/>
  * A chart customizer is an implementation of the 
- * {@link net.sf.jasperreports.engine.JRChartCustomizer JRChartCustomizer} interface that is associated 
+ * {@link net.sf.jasperreports.charts.JRChartCustomizer JRChartCustomizer} interface that is associated 
  * with the chart element using the customizerClass attribute. The easiest way to 
  * implement this interface is by extending the 
- * {@link net.sf.jasperreports.engine.JRAbstractChartCustomizer JRAbstractChartCustomizer} class and thus 
+ * {@link net.sf.jasperreports.charts.JRAbstractChartCustomizer JRAbstractChartCustomizer} class and thus 
  * having access to parameters, fields, and variables, for more flexible chart customization 
  * based on report data.
  * <br/>

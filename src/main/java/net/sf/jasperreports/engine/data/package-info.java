@@ -240,7 +240,7 @@
  * </pre> 
  * and make sure the optional jasperreports-xalan-x.x.x.jar is in the classpath of the application.
  * To switch back to Jaxen, one would comment or remove the property line, or explicitly set the property to 
- * {@link net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory JaxenXPathExecuterFactory}. 
+ * {@link net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuterFactory JaxenXPathExecuterFactory}. 
  * </p>
  * <h3>CSV Data Sources</h3>
  * Sometimes data that users need to fill the report with is found in plain text files, in a 

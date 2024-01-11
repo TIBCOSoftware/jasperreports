@@ -12,5 +12,8 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.components.map
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.components.map
+Export-Package: net.sf.jasperreports.components.map,
+ net.sf.jasperreports.components.map.fill,
+ net.sf.jasperreports.components.map.imageprovider,
+ net.sf.jasperreports.components.map.type
 DynamicImport-Package: *

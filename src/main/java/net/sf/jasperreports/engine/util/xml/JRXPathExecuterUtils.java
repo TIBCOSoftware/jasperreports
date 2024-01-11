@@ -52,7 +52,7 @@ public final class JRXPathExecuterUtils
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory",
+			defaultValue = "net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuterFactory",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_2_0_0
 			)

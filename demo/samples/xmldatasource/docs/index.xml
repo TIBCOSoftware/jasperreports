@@ -194,7 +194,7 @@ be specified using the <code>net.sf.jasperreports.xpath.executer.factory</code> 
 <code>src/jasperreports.properties</code> file:
 <br/>
 <br/>
-<code>net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code>
+<code>net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuterFactory</code>
 <br/>
 <br/>
 Two <code>JRXmlDataSource</code> objects are necessary to store the two element types. 

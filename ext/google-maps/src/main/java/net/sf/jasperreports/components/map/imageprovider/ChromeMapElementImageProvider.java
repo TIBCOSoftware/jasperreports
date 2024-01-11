@@ -38,7 +38,8 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
-import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.velocity.util.VelocityUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;

@@ -12,5 +12,9 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.customvisualization
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.customvisualization
+Export-Package: net.sf.jasperreports.customvisualization,
+ net.sf.jasperreports.customvisualization.design,
+ net.sf.jasperreports.customvisualization.export,
+ net.sf.jasperreports.customvisualization.fill,
+ net.sf.jasperreports.customvisualization.xml
 DynamicImport-Package: *

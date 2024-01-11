@@ -25,7 +25,7 @@ package net.sf.jasperreports.data.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
+import net.sf.jasperreports.dataadapters.ClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

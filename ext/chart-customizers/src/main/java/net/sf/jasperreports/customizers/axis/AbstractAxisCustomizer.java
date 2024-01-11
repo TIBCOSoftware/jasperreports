@@ -27,7 +27,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 
-import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
+import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

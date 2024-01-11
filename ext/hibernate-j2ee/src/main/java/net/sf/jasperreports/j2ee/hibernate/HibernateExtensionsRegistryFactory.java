@@ -26,7 +26,7 @@ package net.sf.jasperreports.j2ee.hibernate;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.data.DataAdapterContributorFactory;
+import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;

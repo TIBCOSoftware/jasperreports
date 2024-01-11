@@ -12,5 +12,5 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.velocity
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.velocity
+Export-Package: net.sf.jasperreports.velocity.util
 DynamicImport-Package: *

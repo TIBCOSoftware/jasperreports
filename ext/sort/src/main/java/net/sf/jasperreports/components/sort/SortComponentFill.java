@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.interactivity.sort.SortElement;
+import net.sf.jasperreports.interactivity.sort.SortElementUtils;
 
 /**
  * 

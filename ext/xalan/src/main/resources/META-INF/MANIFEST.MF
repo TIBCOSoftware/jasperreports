@@ -12,7 +12,7 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.xalan
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.engine.data,
- net.sf.jasperreports.engine.query,
- net.sf.jasperreports.engine.xml.util
+Export-Package: net.sf.jasperreports.xalan.data,
+ net.sf.jasperreports.xalan.query,
+ net.sf.jasperreports.xalan.util
 DynamicImport-Package: *

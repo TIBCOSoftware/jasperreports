@@ -29,7 +29,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYStepRenderer;
 
 import net.sf.jasperreports.charts.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
+import net.sf.jasperreports.charts.JRChartCustomizer;
 
 /**
  * This customizer plots a line chart as spline.

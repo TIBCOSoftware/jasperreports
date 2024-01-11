@@ -38,8 +38,8 @@ import org.apache.commons.logging.LogFactory;
 import org.olap4j.OlapConnection;
 import org.olap4j.OlapDatabaseMetaData;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
+import net.sf.jasperreports.dataadapters.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;

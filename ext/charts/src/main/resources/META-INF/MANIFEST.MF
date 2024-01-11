@@ -12,5 +12,16 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.charts
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.charts
+Export-Package: net.sf.jasperreports.charts,
+ net.sf.jasperreports.charts.base,
+ net.sf.jasperreports.charts.convert,
+ net.sf.jasperreports.charts.design,
+ net.sf.jasperreports.charts.fill,
+ net.sf.jasperreports.charts.renderers,
+ net.sf.jasperreports.charts.type,
+ net.sf.jasperreports.charts.util,
+ net.sf.jasperreports.charts.xml,
+ net.sf.jasperreports.components.charts,
+ net.sf.jasperreports.components.spiderchart,
+ net.sf.jasperreports.components.spiderchart.type
 DynamicImport-Package: *

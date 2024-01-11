@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.bean;
 
-import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
+import net.sf.jasperreports.dataadapters.ClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

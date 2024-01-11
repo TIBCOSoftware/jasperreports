@@ -518,10 +518,10 @@ String property representing a valid path to the requested resource containing t
 Property specifying the 
 <api href="net/sf/jasperreports/engine/util/xml/JRXPathExecuterFactory.html">JRXPathExecuterFactory</api> XPath executer factory implementation class name. JasperReports is shipped with two implementation of this factory interface: 
 <api href="net/sf/jasperreports/engine/util/xml/XalanXPathExecuterFactory.html">XalanXPathExecuterFactory</api> and 
-<api href="net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
+<api href="net/sf/jasperreports/jaxen/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
     </description>
     <api>net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code></default>
+    <default><code>net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
   </configProperty>

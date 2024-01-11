@@ -12,5 +12,6 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.metadata
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.metadata
+Export-Package: net.sf.jasperreports.annotations.properties,
+ net.sf.jasperreports.metadata.properties
 DynamicImport-Package: *

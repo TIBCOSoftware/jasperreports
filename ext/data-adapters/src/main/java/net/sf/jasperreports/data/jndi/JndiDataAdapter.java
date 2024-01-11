@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data.jndi;
 
-import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapter;
 
 
 /**
