@@ -353,7 +353,7 @@ In order to use our new component, we will have to set the <code>background</cod
     <cvc:cvData>
       <dataset>
         <datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-          <dataSourceExpression>new net.sf.jasperreports.engine.data.JsonDataSource( 
+          <dataSourceExpression>new net.sf.jasperreports.json.data.JsonDataSource( 
                 new StringBufferInputStream( 
                     "[{ value: 20, color: 'red'}," +
                      "{ value: 35, color: 'green'}," +

@@ -41,7 +41,7 @@
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>
@@ -86,7 +86,7 @@ Antialias: off]]></text>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>
@@ -128,7 +128,7 @@ Antialias: off]]></text>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>
@@ -170,7 +170,7 @@ Antialias: off]]></text>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="a40c9410-36b0-42c8-b473-3c4ea712f45a">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>
@@ -212,7 +212,7 @@ Antialias: off]]></text>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="f3c5471c-f489-4bac-a5c0-3bcd082b2280">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>
@@ -254,7 +254,7 @@ Antialias: off]]></text>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="e34b53ac-d345-42fd-bb19-dedad0210732">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>

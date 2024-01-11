@@ -5,7 +5,7 @@
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-parent</artifactId>
 		<version>${revision}</version>
-		<relativePath>./pom-parent.xml</relativePath>
+		<relativePath>../pom-parent.xml</relativePath>
 	</parent>
 	<artifactId>jasperreports-common</artifactId>
 	<packaging>pom</packaging>
@@ -201,7 +201,7 @@
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
 						<arg>-AmetadataMessagesName=metadata_messages</arg>
-						<arg>-ApropertiesDoc=docs/config.reference.xml</arg>
+						<arg>-ApropertiesDoc=config.reference.xml</arg>
 						<arg>-Xlint:deprecation,-unchecked,-options</arg>
 						<arg>-AconfigReferenceOut=${project.build.directory}/config.reference.xml</arg>
 					</compilerArgs>

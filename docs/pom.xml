@@ -70,7 +70,7 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>../src/main/resources/net/sf/jasperreports/engine/dtds</dir>
+							<dir>../core/src/main/resources/net/sf/jasperreports/engine/dtds</dir>
 							<includes>jasperreport.xsd</includes>
 							<stylesheet>schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -81,7 +81,7 @@
 						    </fileMappers>
 						</transformationSet>
 						<transformationSet>
-							<dir>../src/main/resources/net/sf/jasperreports/components</dir>
+							<dir>../core/src/main/resources/net/sf/jasperreports/components</dir>
 							<includes>components.xsd</includes>
 							<stylesheet>components.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
@@ -92,7 +92,7 @@
 						    </fileMappers>
 						</transformationSet>
 						<transformationSet>
-							<dir>../src/main/resources/net/sf/jasperreports/parts</dir>
+							<dir>../core/src/main/resources/net/sf/jasperreports/parts</dir>
 							<includes>parts.xsd</includes>
 							<stylesheet>parts.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>

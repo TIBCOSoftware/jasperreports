@@ -23,7 +23,7 @@
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )]]></dataSourceExpression>
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
 						<cvc:item>

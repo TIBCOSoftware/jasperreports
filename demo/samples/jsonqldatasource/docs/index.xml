@@ -114,11 +114,11 @@
         </li>
       </ul>
       <br/>
-      The <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> uses the query string to produce a
-      <api href="net/sf/jasperreports/engine/data/JsonQLDataSource.html">JsonQLDataSource</api> instance,
+      The <api href="net/sf/jasperreports/json/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> uses the query string to produce a
+      <api href="net/sf/jasperreports/json/data/JsonQLDataSource.html">JsonQLDataSource</api> instance,
       based on the same built-in parameters (or equivalent report properties) as for the existing
-      <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api>. This query executer is registered via
-      <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuterFactory.html">JsonQLQueryExecuterFactory</api> factory class.
+      <api href="net/sf/jasperreports/json/data/JsonDataSource.html">JsonDataSource</api>. This query executer is registered via
+      <api href="net/sf/jasperreports/json/query/JsonQLQueryExecuterFactory.html">JsonQLQueryExecuterFactory</api> factory class.
       <br/>
       <br/>
       As in the case of the existing JSON query executer, in order to prepare the data source, the JSONQL query executer looks for the
