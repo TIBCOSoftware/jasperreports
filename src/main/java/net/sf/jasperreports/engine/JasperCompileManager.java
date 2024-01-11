@@ -85,7 +85,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * </p><p>
  * If the property is not provided, the facade first tries to see if the JDT compiler from the 
  * Eclipse Foundation is available in the application's classpath. If it is, the
- * {@link net.sf.jasperreports.engine.design.JRJdtCompiler} implementation is used.
+ * {@link net.sf.jasperreports.jdt.JRJdtCompiler} implementation is used.
  * </p><p>
  * If the JDT compiler is not available, the compilation facade then tries to locate the JDK
  * 1.3-compatible Java compiler from Sun Microsystems. This is normally found in the
@@ -166,7 +166,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @see net.sf.jasperreports.engine.JasperReport
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.design.JRCompiler
- * @see net.sf.jasperreports.engine.design.JRJdtCompiler
+ * @see net.sf.jasperreports.jdt.JRJdtCompiler
  * @see net.sf.jasperreports.engine.design.JRVerifier
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlWriter
@@ -734,7 +734,7 @@ public final class JasperCompileManager
 
 		try 
 		{
-			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.engine.design.JRJdtCompiler");
+			Class clazz = JRClassLoader.loadClassForRealName("net.sf.jasperreports.jdt.JRJdtCompiler");
 			Constructor<JRCompiler> constructor = clazz.getDeclaredConstructor(JasperReportsContext.class);
 			compiler = constructor.newInstance(jasperReportsContext);
 		}

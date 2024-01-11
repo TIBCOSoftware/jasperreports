@@ -86,7 +86,7 @@ object for use at report-filling time.
 There are several available Java report compilers, depending on the JVM compiler used 
 to compile the class that is generated on the fly:
 <ul>
-<li><api href="net/sf/jasperreports/engine/design/JRJdtCompiler.html">JRJdtCompiler</api></li>
+<li><api href="net/sf/jasperreports/jdt/JRJdtCompiler.html">JRJdtCompiler</api></li>
 <li><api href="net/sf/jasperreports/engine/design/JRJdk13Compiler.html">JRJdk13Compiler</api></li>
 <li><api href="net/sf/jasperreports/engine/design/JRJavacCompiler.html">JRJavacCompiler</api></li>
 </ul>

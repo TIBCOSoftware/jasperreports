@@ -546,7 +546,7 @@ Prefix for properties that map report compilers to expression languages.
 Properties having this prefix indicate the JRCompiler implementation to be used when compiling
 report designs that rely on the expression language specified as property suffix.
 <br/>
-For reports that use Java as expression language (which is the default), <code>net.sf.jasperreports.engine.design.JRJdtCompiler</code> is used as report compiler, if available, and <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise.
+For reports that use Java as expression language (which is the default), <code>net.sf.jasperreports.jdt.JRJdtCompiler</code> is used as report compiler, if available, and <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise.
     </description>
   </configProperty>
   

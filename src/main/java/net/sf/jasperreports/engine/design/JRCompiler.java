@@ -95,7 +95,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * The Java report compilers come in different flavors depending on the Java compiler used
  * to compile the class that is generated on the fly:
  * <ul>
- * <li>{@link net.sf.jasperreports.engine.design.JRJdtCompiler}</li>
+ * <li>{@link net.sf.jasperreports.jdt.JRJdtCompiler}</li>
  * <li>{@link net.sf.jasperreports.engine.design.JRJdk13Compiler}</li>
  * <li>{@link net.sf.jasperreports.engine.design.JRJavacCompiler}</li>
  * </ul>

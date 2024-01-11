@@ -33,7 +33,7 @@ The main purpose of this sample is to show how the Java 1.5 compiler implementat
 about various Java compiler implementations can be found <a href="../groovy/index.html#javaCompilers">here</a>.
 <br/>
 This sample contains report expressions written using Java 1.5. The 
-<api href="net/sf/jasperreports/engine/design/JRJdtCompiler.html">JRJdtCompiler</api> default implementation is Java 1.5-compatible and   
+<api href="net/sf/jasperreports/jdt/JRJdtCompiler.html">JRJdtCompiler</api> default implementation is Java 1.5-compatible and   
 is strongly recommended to use it when handling Java 1.5-related expressions. 
 <br/>
 <br/>
