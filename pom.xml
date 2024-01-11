@@ -52,9 +52,4 @@
 		<module>ext/velocity</module>
 		<module>ext/xalan</module>
 	</modules>
-	<properties>
-		<maven.clean.skip>true</maven.clean.skip>
-		<maven.install.skip>true</maven.install.skip>
-		<maven.deploy.skip>true</maven.deploy.skip>
-	</properties>
 </project>
