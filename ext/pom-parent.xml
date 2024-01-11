@@ -15,8 +15,6 @@
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
 		<maven.test.skip>false</maven.test.skip>
-		<enforcer.skip>false</enforcer.skip>
-		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -182,9 +182,6 @@
 							<executable>mvn</executable>
 							<arguments>
 								<argument>compile</argument>
-								<argument>-f</argument>
-								<argument>pom-all.xml</argument>
-								<argument>-Denforcer.skip</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}/../</workingDirectory>           

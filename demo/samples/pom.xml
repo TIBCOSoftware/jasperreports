@@ -89,8 +89,6 @@
 		<module>xmldatasource</module>
 	</modules>
 	<properties>
-		<maven.install.skip>true</maven.install.skip>
-		<maven.deploy.skip>true</maven.deploy.skip>
 		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
 	</properties>
 	<build>

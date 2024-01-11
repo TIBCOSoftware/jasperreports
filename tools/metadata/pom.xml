@@ -22,8 +22,6 @@
 		<maven.source.skip>false</maven.source.skip>
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
-		<maven.test.skip>true</maven.test.skip>
-		<enforcer.skip>false</enforcer.skip>
 		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 	<dependencies>

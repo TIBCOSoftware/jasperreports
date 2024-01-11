@@ -82,14 +82,18 @@ The JasperReports Library project consists of one core JAR artifact and a number
 The build system relies entirely on the [Maven](https://maven.apache.org/) build tool.
 
 Building the core JAR artifact and the optional extension JAR artifacts can be performed from root folder of the project
-using the `pom-all.xml` file as follows:
+using the following command:
 
-    mvn clean install source:jar javadoc:jar -f pom-all.xml
+    mvn clean install source:jar javadoc:jar
 
-Building the JAR artifacts using a JDK version later than 1.8 requires the suppression of a Java enforcer plugin,
-while building having local non-committed Git modifications requires the suppression of the build number plugin check as follows:
+Building the core and extensions JAR artifacts having local non-committed Git modifications requires the suppression of the build number plugin check as follows:
 
-    mvn clean install source:jar javadoc:jar -f pom-all.xml -Denforcer.skip -Dmaven.buildNumber.doCheck=false
+    mvn clean install -Dmaven.buildNumber.doCheck=false
+
+From time to time, verifying that the core and extensions artifacts are still compatible with JDK version 1.8 is needed and this is done by turning on the enforcer plugin
+while building these artifacts:
+
+    mvn clean install -Denforcer.skip
 
 The project has a separate artifact for tests under the `/tests`, which can be run using the following command:
 
