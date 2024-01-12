@@ -74,92 +74,92 @@
 							<includes>jasperreport.xsd</includes>
 							<stylesheet>schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>schema.reference.html</targetName>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+								   <targetName>schema.reference.html</targetName>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>../core/src/main/resources/net/sf/jasperreports/components</dir>
 							<includes>components.xsd</includes>
 							<stylesheet>components.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>components.schema.reference.html</targetName>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+								   <targetName>components.schema.reference.html</targetName>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>../core/src/main/resources/net/sf/jasperreports/parts</dir>
 							<includes>parts.xsd</includes>
 							<stylesheet>parts.schema.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>parts.schema.reference.html</targetName>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+								   <targetName>parts.schema.reference.html</targetName>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
 							<includes>config.reference.merge.xml</includes>
 							<stylesheet>config.reference.merge.xsl</stylesheet>
 							<outputDir>${project.build.directory}</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>config.reference.xml</targetName>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+								   <targetName>config.reference.xml</targetName>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>${project.build.directory}</dir>
 							<includes>config.reference.xml</includes>
 							<stylesheet>config.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-						           <targetExtension>.html</targetExtension>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+								   <targetExtension>.html</targetExtension>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
 							<includes>function.reference.xml</includes>
 							<stylesheet>function.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-						           <targetName>function.reference.html</targetName>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+								   <targetName>function.reference.html</targetName>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
 							<includes>sample.reference.xml</includes>
 							<stylesheet>sample.reference.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs</outputDir>
-						    <fileMappers>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-						           <targetExtension>.html</targetExtension>
-						        </fileMapper>
-						    </fileMappers>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+								   <targetExtension>.html</targetExtension>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 						<transformationSet>
 							<dir>../demo/samples</dir>
 							<includes>**/docs/index.xml</includes>
 							<stylesheet>sample.xsl</stylesheet>
 							<outputDir>${project.build.directory}/docs/sample.reference</outputDir>
-						    <fileMappers>
+							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
 									<pattern>\/docs\/</pattern>
 									<replacement>/</replacement>
 								</fileMapper>
-						        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-						           <targetExtension>.html</targetExtension>
-						        </fileMapper>
-						    </fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+								   <targetExtension>.html</targetExtension>
+								</fileMapper>
+							</fileMappers>
 						</transformationSet>
 					</transformationSets>
 				</configuration>
@@ -170,7 +170,7 @@
 						<version>8.7</version>
 					</dependency>
 				</dependencies>
-			</plugin>	
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -184,7 +184,7 @@
 								<argument>compile</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}/../</workingDirectory>           
+							<workingDirectory>${project.basedir}/../</workingDirectory>		   
 						</configuration>
 					</execution>
 					<execution>
@@ -197,7 +197,7 @@
 								<argument>-Denforcer.skip</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>           
+							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>		   
 						</configuration>
 					</execution>
 					<execution>
@@ -211,7 +211,7 @@
 								<argument>-Denforcer.skip</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>           
+							<workingDirectory>${project.basedir}</workingDirectory>		   
 						</configuration>
 					</execution>
 					<execution>
@@ -225,7 +225,7 @@
 								<argument>xml:transform</argument>
 								<argument>resources:copy-resources@copy-resources</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>           
+							<workingDirectory>${project.basedir}</workingDirectory>		   
 						</configuration>
 					</execution>
 				</executions>

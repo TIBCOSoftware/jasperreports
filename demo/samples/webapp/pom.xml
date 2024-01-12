@@ -51,7 +51,7 @@
 								<argument>jetty:start</argument>  
 								<argument>jetty:stop</argument>  
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>           
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 				</executions>

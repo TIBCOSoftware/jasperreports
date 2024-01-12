@@ -142,7 +142,7 @@
 							<arguments>
 								<argument>exec:java@test</argument>  
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>           
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
