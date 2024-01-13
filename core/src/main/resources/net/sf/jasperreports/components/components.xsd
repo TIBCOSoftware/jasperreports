@@ -378,4 +378,48 @@
 		</complexType>
 	</element>
 
+	<complexType name="ItemData">
+		<sequence>
+			<element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+			<element name="item" type="c:item" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="ItemProperty">
+		<sequence>
+			<element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="name" type="string" use="required" />
+		<attribute name="value" type="string" use="optional" />
+	</complexType>
+
+	<complexType name="item">
+		<sequence>
+			<element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<element name="markerData">
+		<complexType>
+			<complexContent>
+				<extension base="c:ItemData">
+					<sequence>
+						<element name="seriesNameExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="markerClusteringExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="markerSpideringExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+						<element name="legendIconExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
 </schema>
