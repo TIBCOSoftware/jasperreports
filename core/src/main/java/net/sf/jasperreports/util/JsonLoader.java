@@ -51,7 +51,7 @@ public class JsonLoader
 		Method localGetInstanceMethod = null;
 		try
 		{
-			localJacksonUtilClass = JRClassLoader.loadClassForRealName("net.sf.jasperreports.util.JacksonUtil"); //FIXME7 which class loading method to use?
+			localJacksonUtilClass = JRClassLoader.loadClassForRealName("net.sf.jasperreports.jackson.util.JacksonUtil"); //FIXME7 which class loading method to use?
 			localGetInstanceMethod = localJacksonUtilClass.getDeclaredMethod("getInstance", JasperReportsContext.class);
 		}
 		catch (ClassNotFoundException | NoSuchMethodException e)
