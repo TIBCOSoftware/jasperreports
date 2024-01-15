@@ -2079,7 +2079,7 @@ public class JRVerifier
 					{
 						addBrokenRule("Crosstabs are not allowed inside crosstab cells.", element);
 					}
-					else if (element.getClass().getName().equals("net.sf.jasperreports.engine.JRChart")) // FIXME7
+					else if (element.getClass().getName().equals("net.sf.jasperreports.charts.JRChart"))
 					{
 						addBrokenRule("Charts are not allowed inside crosstab cells.", element);
 					}

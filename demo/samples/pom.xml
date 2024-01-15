@@ -54,7 +54,7 @@
 		<module>jsonqldatasource</module>
 		<module>landscape</module>
 		<module>list</module>
-		<!-- FIXME7
+		<!--
 		<module>map</module>
 		-->
 		<module>markup</module>
