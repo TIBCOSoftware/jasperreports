@@ -21,31 +21,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
-import net.sf.jasperreports.engine.JROrigin;
-import net.sf.jasperreports.engine.type.BandTypeEnum;
+import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicReference;
 
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JROriginFactory extends JRBaseFactory
+public class PrintXmlLoader
 {
-	
 
-	@Override
-	public Object createObject(Attributes atts)
+	public JasperPrint load(InputStream is) throws JRException
 	{
-		return 
-			new JROrigin(
-				atts.getValue(JRXmlConstants.ATTRIBUTE_report),
-				atts.getValue(JRXmlConstants.ATTRIBUTE_group),
-				BandTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_band))
-				);
+		XmlLoader xmlLoader = new XmlLoader();
+		xmlLoader.open(is);
+		
+		AtomicReference<JasperPrint> jasperPrintRef = new AtomicReference<>();
+		xmlLoader.loadElements(element -> 
+		{
+			switch (element)
+			{
+			case JRXmlConstants.ELEMENT_jasperPrint:
+				JasperPrint jasperPrint = JasperPrintLoader.instance().load(xmlLoader);
+				jasperPrintRef.set(jasperPrint);
+				break;
+			default:
+				xmlLoader.unexpectedElement(element);
+				break;
+			}
+		});
+		return jasperPrintRef.get();
 	}
 	
-
 }

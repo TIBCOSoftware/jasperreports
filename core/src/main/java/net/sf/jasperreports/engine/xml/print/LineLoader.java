@@ -21,36 +21,52 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
+import java.util.function.Consumer;
+
+import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintLine;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPrintLineFactory extends JRBaseFactory
+public class LineLoader
 {
-
-	@Override
-	public Object createObject(Attributes atts)
+	
+	private static final LineLoader INSTANCE = new LineLoader();
+	
+	public static LineLoader instance()
 	{
-		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-
-		JRBasePrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
-
-		LineDirectionEnum direction = LineDirectionEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_direction));
-		if (direction != null)
-		{
-			line.setDirection(direction);
-		}
-
-		return line;
+		return INSTANCE;
 	}
 
+	public void loadLine(XmlLoader xmlLoader, JasperPrint jasperPrint, Consumer<? super JRPrintLine> consumer)
+	{
+		JRBasePrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
+		xmlLoader.setEnumAttribute(JRXmlConstants.ATTRIBUTE_direction, LineDirectionEnum::getByName, line::setDirection);
+		
+		xmlLoader.loadElements(element -> 
+		{
+			switch (element)
+			{
+			case JRXmlConstants.ELEMENT_reportElement:
+				ReportElementLoader.instance().loadReportElement(xmlLoader, jasperPrint, line);
+				break;
+			case JRXmlConstants.ELEMENT_graphicElement:
+				ReportElementLoader.instance().loadGraphicElement(xmlLoader, line);
+				break;
+			default:
+				xmlLoader.unexpectedElement(element);
+				break;
+			}
+		});
+		
+		consumer.accept(line);
+	}
 	
 }

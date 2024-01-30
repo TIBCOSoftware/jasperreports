@@ -21,48 +21,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
+
+import java.util.function.Consumer;
 
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
-
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * Factory that sets {@link JRPrintHyperlinkParameter#getValue() print hyperlink parameter values}
- * from <code>hyperlinkParameterValue</code> XML elements.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see JRPrintHyperlinkParameter#setValue(Object)
  */
-public class JRPrintHyperlinkParameterValueFactory extends JRBaseFactory
+public class HyperlinkLoader
 {
 	
-	@Override
-	public Object createObject(Attributes attrs)
-	{
-		JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter) digester.peek();
-		return new JRPrintHyperlinkParameterValue(parameter);
-	}
+	private static final HyperlinkLoader INSTANCE = new HyperlinkLoader();
 	
-	public static class JRPrintHyperlinkParameterValue
+	public static HyperlinkLoader instance()
 	{
-		private final JRPrintHyperlinkParameter parameter;
-		
-		public JRPrintHyperlinkParameterValue(JRPrintHyperlinkParameter parameter)
-		{
-			this.parameter = parameter;
-		}
-		
-		public void setData(String data)
-		{
-			if (data != null)
-			{
-				Object value = JRValueStringUtils.deserialize(parameter.getValueClass(), data);
-				parameter.setValue(value);
-			}
-		}
+		return INSTANCE;
 	}
 
+	public void loadHyperlinkParameter(XmlLoader xmlLoader, Consumer<JRPrintHyperlinkParameter> consumer)
+	{
+		JRPrintHyperlinkParameter parameter = new JRPrintHyperlinkParameter();
+		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_name, parameter::setName);
+		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_class, parameter::setValueClass);
+		
+		xmlLoader.loadElements(element -> 
+		{
+			switch (element)
+			{
+			case JRXmlConstants.ELEMENT_hyperlinkParameterValue:
+				String data = xmlLoader.loadText(true);
+				Object value = JRValueStringUtils.deserialize(parameter.getValueClass(), data);
+				parameter.setValue(value);
+				break;
+			default:
+				xmlLoader.unexpectedElement(element);
+				break;
+			}
+		});
+		
+		consumer.accept(parameter);
+	}
+	
 }

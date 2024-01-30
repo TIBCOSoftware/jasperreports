@@ -21,35 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
-import org.xml.sax.Attributes;
+import java.util.function.Consumer;
 
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
-
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPrintRectangleFactory extends JRBaseFactory
+public class RectangleLoader
 {
-
-	@Override
-	public Object createObject(Attributes atts)
+	
+	private static final RectangleLoader INSTANCE = new RectangleLoader();
+	
+	public static RectangleLoader instance()
 	{
-		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-
-		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(jasperPrint.getDefaultStyleProvider());
-		
-		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
-		if (radius != null && radius.length() > 0)
-		{
-			rectangle.setRadius(Integer.valueOf(radius));
-		}
-
-		return rectangle;
+		return INSTANCE;
 	}
 
-
+	public void loadRectangle(XmlLoader xmlLoader, JasperPrint jasperPrint, Consumer<? super JRPrintRectangle> consumer)
+	{
+		JRBasePrintRectangle rectangle = new JRBasePrintRectangle(jasperPrint.getDefaultStyleProvider());
+		xmlLoader.setIntAttribute(JRXmlConstants.ATTRIBUTE_radius, rectangle::setRadius);
+		
+		xmlLoader.loadElements(element -> 
+		{
+			switch (element)
+			{
+			case JRXmlConstants.ELEMENT_reportElement:
+				ReportElementLoader.instance().loadReportElement(xmlLoader, jasperPrint, rectangle);
+				break;
+			case JRXmlConstants.ELEMENT_graphicElement:
+				ReportElementLoader.instance().loadGraphicElement(xmlLoader, rectangle);
+				break;
+			default:
+				xmlLoader.unexpectedElement(element);
+				break;
+			}
+		});
+		
+		consumer.accept(rectangle);
+	}
+	
 }

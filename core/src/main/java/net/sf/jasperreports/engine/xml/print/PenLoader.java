@@ -21,27 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
-import net.sf.jasperreports.engine.base.JRBasePrintPage;
-
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPrintPageFactory extends JRBaseFactory
+public class PenLoader
 {
 	
-
-	@Override
-	public Object createObject(Attributes atts)
+	private static final PenLoader INSTANCE = new PenLoader();
+	
+	public static PenLoader instance()
 	{
-		JRBasePrintPage page = new JRBasePrintPage();
-		
-		return page;
+		return INSTANCE;
+	}
+
+	public void loadPen(XmlLoader xmlLoader, JRPen pen)
+	{
+		xmlLoader.setFloatAttribute(JRXmlConstants.ATTRIBUTE_lineWidth, pen::setLineWidth);
+		xmlLoader.setEnumAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, LineStyleEnum::getByName, pen::setLineStyle);
+		xmlLoader.setColorAttribute(JRXmlConstants.ATTRIBUTE_lineColor, pen::setLineColor);
+		xmlLoader.endElement();
 	}
 	
-
 }

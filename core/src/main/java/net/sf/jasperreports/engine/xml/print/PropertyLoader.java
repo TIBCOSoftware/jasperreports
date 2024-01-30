@@ -21,25 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPrintFrameFactory extends JRBaseFactory
+public class PropertyLoader
 {
-
-	@Override
-	public Object createObject(Attributes attributes)
+	
+	private static final PropertyLoader INSTANCE = new PropertyLoader();
+	
+	public static PropertyLoader instance()
 	{
-		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-
-		return new JRBasePrintFrame(jasperPrint.getDefaultStyleProvider());		
+		return INSTANCE;
 	}
 
+	public void loadProperty(XmlLoader xmlLoader, JRPropertiesHolder properties)
+	{
+		String name = xmlLoader.getAttribute(JRXmlConstants.ATTRIBUTE_name);
+		String value = xmlLoader.getAttribute(JRXmlConstants.ATTRIBUTE_value);;
+		String textValue = xmlLoader.loadText(true);
+		if (textValue != null && !textValue.isEmpty())
+		{
+			value = textValue;
+		}
+		properties.getPropertiesMap().setProperty(name, value);
+	}
+	
 }

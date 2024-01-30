@@ -21,30 +21,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.xml.print;
 
+import java.util.function.Consumer;
+
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintEllipse;
-
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPrintEllipseFactory extends JRBaseFactory
+public class EllipseLoader
 {
-
-
-	@Override
-	public Object createObject(Attributes atts)
+	
+	private static final EllipseLoader INSTANCE = new EllipseLoader();
+	
+	public static EllipseLoader instance()
 	{
-		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
-
-		JRBasePrintEllipse ellipse = new JRBasePrintEllipse(jasperPrint.getDefaultStyleProvider());
-		
-		return ellipse;
+		return INSTANCE;
 	}
 
-
+	public void loadEllipse(XmlLoader xmlLoader, JasperPrint jasperPrint, Consumer<? super JRPrintEllipse> consumer)
+	{
+		JRBasePrintEllipse ellipse = new JRBasePrintEllipse(jasperPrint.getDefaultStyleProvider());
+		
+		xmlLoader.loadElements(element -> 
+		{
+			switch (element)
+			{
+			case JRXmlConstants.ELEMENT_reportElement:
+				ReportElementLoader.instance().loadReportElement(xmlLoader, jasperPrint, ellipse);
+				break;
+			case JRXmlConstants.ELEMENT_graphicElement:
+				ReportElementLoader.instance().loadGraphicElement(xmlLoader, ellipse);
+				break;
+			default:
+				xmlLoader.unexpectedElement(element);
+				break;
+			}
+		});
+		
+		consumer.accept(ellipse);
+	}
+	
 }

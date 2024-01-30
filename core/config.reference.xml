@@ -2668,28 +2668,6 @@ was edited manually and UUIDs were duplicated by copy/paste.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xml.validation -->
-  
-  <configProperty name="net.sf.jasperreports.export.xml.validation">
-    <description>
-Property that forces the XML validation, when a document exported to XML format is loaded.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xml.parser.factory -->
-  
-  <configProperty name="net.sf.jasperreports.export.xml.parser.factory">
-    <description>
-Property that gives a parser factory class which should be used 
-for parsing XML exports.
-<br/>
-By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/PrintSaxParserFactory.html">PrintSaxParserFactory</api> 
-as report parser factory.
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.template.xml.parser.factory -->
   
   <configProperty name="net.sf.jasperreports.template.xml.parser.factory">
