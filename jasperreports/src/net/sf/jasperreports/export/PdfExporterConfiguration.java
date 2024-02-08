@@ -343,7 +343,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_21_1
+			sinceVersion = PropertyConstants.VERSION_6_21_2
 			)
 	public static final String PROPERTY_METADATA_PRODUCER = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.producer";
 	

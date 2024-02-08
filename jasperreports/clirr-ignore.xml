@@ -1,58 +1,37 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
+		<className>net/sf/jasperreports/engine/base/ElementStore</className>
 		<differenceType>7012</differenceType>
-		<method>*isIncludeElementUUID()</method>
+		<method>*deepSize()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
+		<className>net/sf/jasperreports/export/PdfExporterConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*getMetadataProducer()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/pdf/PdfDocument</className>
+		<differenceType>7012</differenceType>
+		<method>*addProducer(java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/XlsxRunHelper</className>
 		<differenceType>7009</differenceType>
-		<method>*executeTask(java.lang.String)</method>
+		<method>*exportProps(java.util.Map, java.util.Map, java.util.Locale)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
-		<differenceType>7009</differenceType>
-		<method>*usage()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillObjectFactory</className>
+		<className>net/sf/jasperreports/engine/util/JRStringUtil</className>
 		<differenceType>7002</differenceType>
-		<method>*getDatasets()</method>
+		<method>*escapeJSONString(java.lang.String)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature</className>
-		<differenceType>7006</differenceType>
-		<method>*getFreeze*Edge(net.sf.jasperreports.engine.JRPrintElement)</method>
-		<to>net.sf.jasperreports.engine.export.type.CellEdgeEnum</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRHyperlink</className>
-		<differenceType>7012</differenceType>
-		<method>*getHyperlinkTargetValue()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/MarkerStandardItemData</className>
+		<className>net/sf/jasperreports/properties/PropertyConstants</className>
 		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
+		<field>VERSION_6_20_7</field>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/charts/JRTimeSeriesDataset</className>
-		<differenceType>7012</differenceType>
-		<method>*etTimePeriod*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/charts/type/ScaleTypeEnum</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/type/NamedValueEnum</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/charts/ChartPlot</className>
-		<differenceType>7002</differenceType>
-		<method>*getOrientation()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/spiderchart/*Plot</className>
-		<differenceType>7002</differenceType>
-		<method>*getOrientation()</method>
+		<className>net/sf/jasperreports/engine/export/ooxml/XlsxRunHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*XlsxRunHelper(net.sf.jasperreports.engine.JasperReportsContext, java.io.Writer, java.lang.String)</method>
 	</difference>
 </differences>
