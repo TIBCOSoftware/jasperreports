@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class XlsxSharedStringsHelper extends BaseHelper
 {
 	private int count = 0;
-	private Map<String, Integer> sharedStrings = new ReferenceMap<>();
+	private Map<String, Integer> sharedStrings = new ReferenceMap<>(ReferenceMap.ReferenceStrength.SOFT, ReferenceMap.ReferenceStrength.HARD);
 	
 	/**
 	 * 
