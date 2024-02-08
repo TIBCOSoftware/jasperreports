@@ -64,7 +64,7 @@ public class XlsxRelsHelper extends BaseHelper
 			write(" <Relationship Id=\"rIdMc\" Type=\"http://schemas.microsoft.com/office/2006/relationships/vbaProject\" Target=\"vbaProject.bin\"/>\n");
 		}
 //		write(" <Relationship Id=\"rIdCa\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/>\n");
-//		write(" <Relationship Id=\"rIdSh\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings\" Target=\"sharedStrings.xml\"/>\n");
+		write(" <Relationship Id=\"rIdSh\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings\" Target=\"sharedStrings.xml\"/>\n");
 	}
 	
 	/**
