@@ -175,6 +175,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	protected XlsxDrawingHelper drawingHelper;
 	protected XlsxDrawingRelsHelper drawingRelsHelper;
 	protected XlsxStyleHelper styleHelper;
+	protected XlsxSharedStringsHelper sharedStringsHelper;
 	protected XlsxCellHelper cellHelper;
 	protected StringBuilder definedNames;
 	protected String firstSheetName;
@@ -187,8 +188,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 
 	protected LinkedList<Color> backcolorStack = new LinkedList<>();
 	protected Color backcolor;
-
-	private XlsxRunHelper runHelper;
 
 	protected String sheetAutoFilter;		
 	
@@ -553,7 +552,9 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	 */
 	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean isStyledText, String currentData)
 	{
-		if(currentData == null)
+		XlsxRunHelper runHelper = new XlsxRunHelper(jasperReportsContext, getExporterKey());
+
+		if (currentData == null)
 		{
 			String text = styledText.getText();
 			
@@ -585,6 +586,10 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					);
 			
 		}
+
+		String sharedString = runHelper.getSharedString();
+		int index = sharedStringsHelper.export(sharedString);
+		sheetHelper.write(String.valueOf(index));
 	}
 
 
@@ -778,13 +783,14 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 		
 		styleHelper.export();
-		
 		styleHelper.close();
+
+		sharedStringsHelper.exportFooter();
+		sharedStringsHelper.close();
 
 		try
 		{
 			wbHelper.exportFooter();
-
 			wbHelper.close();
 
 			relsHelper.exportFooter();
@@ -852,8 +858,6 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		drawingHelper = new XlsxDrawingHelper(jasperReportsContext, drawingWriter, drawingRelsHelper);
 		
 		cellHelper = new XlsxCellHelper(jasperReportsContext, sheetWriter, styleHelper);
-		
-		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, getExporterKey());
 		
 		boolean showGridlines = true;
 		if (sheetInfo.sheetShowGridlines == null)
@@ -1872,11 +1876,11 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			{
 				if (textStr != null && textStr.length() > 0)
 				{
-					sheetHelper.write("<is>");
+					sheetHelper.write("<v>");
 					String markup = text.getMarkup();
 					boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup) && !isIgnoreTextFormatting(text);
 					exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText, currentData);
-					sheetHelper.write("</is>");
+					sheetHelper.write("</v>");
 				}
 			}
 		};
@@ -2262,6 +2266,14 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					getExporterKey()
 					);
 			
+			sharedStringsHelper = 
+				new XlsxSharedStringsHelper(
+					jasperReportsContext,
+					xlsxZip.getSharedStringsEntry().getWriter(), 
+					getExporterKey()
+					);
+			sharedStringsHelper.exportHeader();
+				
 			firstPageNotSet = true;
 			firstSheetName = null;
 		}
