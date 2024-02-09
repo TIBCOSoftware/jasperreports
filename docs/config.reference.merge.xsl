@@ -5,7 +5,7 @@
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
 <xsl:output method="xml"/>
-<xsl:param name="configRefFile" select="'../target/config.reference.xml'"/>
+<xsl:param name="configRefFile" select="'../core/target/config.reference.xml'"/>
 <xsl:param name="configRef" select="document($configRefFile)"/>
 <xsl:param name="barcode4jConfigRefFile" select="'../ext/barcode4j/target/config.reference.xml'"/>
 <xsl:param name="barcode4jCR" select="document($barcode4jConfigRefFile)"/>
@@ -17,6 +17,10 @@
 <xsl:param name="dataAdaptersCR" select="document($dataAdaptersConfigRefFile)"/>
 <xsl:param name="dataAdaptersHttpConfigRefFile" select="'../ext/data-adapters-http/target/config.reference.xml'"/>
 <xsl:param name="dataAdaptersHttpCR" select="document($dataAdaptersHttpConfigRefFile)"/>
+<xsl:param name="ejbqlConfigRefFile" select="'../ext/ejbql/target/config.reference.xml'"/>
+<xsl:param name="ejbqlCR" select="document($ejbqlConfigRefFile)"/>
+<xsl:param name="ejbqlJ2eeConfigRefFile" select="'../ext/ejbql-j2ee/target/config.reference.xml'"/>
+<xsl:param name="ejbqlJ2eeCR" select="document($ejbqlJ2eeConfigRefFile)"/>
 <xsl:param name="excelPoiConfigRefFile" select="'../ext/excel-poi/target/config.reference.xml'"/>
 <xsl:param name="excelPoiCR" select="document($excelPoiConfigRefFile)"/>
 <xsl:param name="googleMapsConfigRefFile" select="'../ext/google-maps/target/config.reference.xml'"/>
@@ -36,7 +40,7 @@
 <xsl:param name="velocityConfigRefFile" select="'../ext/velocity/target/config.reference.xml'"/>
 <xsl:param name="velocityCR" select="document($velocityConfigRefFile)"/>
 
-<xsl:variable name="configReferences" select="$configRef, $barcode4jCR, $chartsCR, $chromeCR, $dataAdaptersCR, $dataAdaptersHttpCR, $excelPoiCR, $googleMapsCR, $groovyCR, $interactivityCR, $javascriptCR, $jsonCR, $olapCR, $pdfCR, $velocityCR"/>
+<xsl:variable name="configReferences" select="$configRef, $barcode4jCR, $chartsCR, $chromeCR, $dataAdaptersCR, $dataAdaptersHttpCR, $ejbqlCR, $ejbqlJ2eeCR, $excelPoiCR, $googleMapsCR, $groovyCR, $interactivityCR, $javascriptCR, $jsonCR, $olapCR, $pdfCR, $velocityCR"/>
 
 <xsl:template match="/">
 <configReference>
