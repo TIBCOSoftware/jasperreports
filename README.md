@@ -26,7 +26,7 @@ _**Documentation:**_
 <br/>
 <br/>
 
-**Jaspersoft® Studio** - *open source report designer for the JasperReports Library*
+**Jaspersoft® Studio** - *report designer for the JasperReports Library*
 
 The report templates for the *JasperReports Library* are XML files which can be edited using a powerful,
 open source, Eclipse-based report designer called [Jaspersoft Studio](https://community.jaspersoft.com/downloads/community-edition/).
@@ -37,7 +37,7 @@ and exported to a wide range of output document formats.
 <br/>
 <br/>
 
-**JasperReports Server**
+**JasperReports Server** - *reporting and analytics server*
 
 [JasperReports Server](https://www.jaspersoft.com/products/jaspersoft-commercial) is a stand-alone and embeddable 
 reporting server. It provides reporting and analytics that can be embedded into a web or mobile application as well as 
