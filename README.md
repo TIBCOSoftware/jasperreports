@@ -19,7 +19,7 @@ versions older than 5.5.2;
 
 # JasperReports® - Free Java Reporting Library
 
-The **JasperReports Library** is the world's most popular open source reporting engine. 
+The [**JasperReports Library**](https://community.jaspersoft.com/downloads/community-edition/) is the world's most popular open source reporting engine. 
 It is entirely written in Java and it is able to use data coming from any kind of data source and 
 produce pixel-perfect documents that can be viewed, printed or exported in a variety of document 
 formats including HTML, PDF, Excel, OpenOffice, MS Word and other.
@@ -39,7 +39,7 @@ _**Documentation:**_
 **Jaspersoft® Studio** - *report designer for the JasperReports Library*
 
 The report templates for the *JasperReports Library* are XML files which can be edited using a powerful,
-open source, Eclipse-based report designer called [Jaspersoft Studio](https://www.jaspersoft.com/products/jaspersoft-studio).
+open source, Eclipse-based report designer called [Jaspersoft Studio](https://community.jaspersoft.com/downloads/community-edition/).
 Using *Jaspersoft Studio*, reports can be built out of any data source and can have their look and feel 
 formatted for printing or on-screen reading, or can be deployed to a *JasperReports Server* instance, 
 *JasperReports IO* repository or to a custom application using the *JasperReports Library* implementation
@@ -49,7 +49,7 @@ and exported to a wide range of output document formats.
 
 **JasperReports Server** - *reporting and analytics server*
 
-[JasperReports Server](https://www.jaspersoft.com/products/jasperreports-server) is a stand-alone and embeddable 
+[JasperReports Server](https://www.jaspersoft.com/products/jaspersoft-commercial) is a stand-alone and embeddable 
 reporting server. It provides reporting and analytics that can be embedded into a web or mobile application as well as 
 operate as a central information hub for the enterprise by delivering mission critical information on a real-time or 
 scheduled basis to the browser, mobile device, or email inbox in a variety of file formats. *JasperReports Server* is 
@@ -59,7 +59,7 @@ optimized to share, secure, and centrally manage your Jaspersoft reports and ana
 
 **JasperReports Web Studio** - *web-based version of the desktop Jaspersoft® Studio*
 
-[JasperReports Web Studio](https://www.jaspersoft.com/products/jasperreports-web-studio) is a new web visual designer that 
+[JasperReports Web Studio](https://www.jaspersoft.com/products/jaspersoft-commercial) is a new web visual designer that 
 creates and edits report templates for the *JasperReports® Library* reporting engine and the whole *Jaspersoft®* family of 
 products that use the open-source library to produce dynamic content and rich data visualizations.
 <br/>

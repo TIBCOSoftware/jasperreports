@@ -55,6 +55,7 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	private ExportZipEntry workbookEntry;
 	private ExportZipEntry stylesEntry;
+	private ExportZipEntry sharedStringsEntry;
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
 	private ExportZipEntry appEntry;
@@ -87,6 +88,8 @@ public class XlsxZip extends FileBufferedZip
 		
 		stylesEntry = createEntry("xl/styles.xml");
 		
+		sharedStringsEntry = createEntry("xl/sharedStrings.xml");
+
 		relsEntry = createEntry("xl/_rels/workbook.xml.rels");
 		
 		contentTypesEntry = createEntry("[Content_Types].xml");
@@ -112,6 +115,14 @@ public class XlsxZip extends FileBufferedZip
 	public ExportZipEntry getStylesEntry()
 	{
 		return stylesEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getSharedStringsEntry()
+	{
+		return sharedStringsEntry;
 	}
 	
 	/**
