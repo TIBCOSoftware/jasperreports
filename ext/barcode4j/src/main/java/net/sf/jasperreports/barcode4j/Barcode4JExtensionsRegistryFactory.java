@@ -28,12 +28,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.jasperreports.components.ComponentsManager;
-import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -47,10 +45,6 @@ public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFac
 
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/barcode4j.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/barcode4j/barcode4j.xsd";
 	
 	public static final List<String> BARCODE4J_COMPONENT_NAMES = Collections.unmodifiableList(Arrays.asList(
 			"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
@@ -63,16 +57,11 @@ public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFac
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new Barcode4JXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		ComponentsManager barcode4jManager = new ComponentsManager();
+		DefaultComponentManager barcode4jManager = new DefaultComponentManager();
 		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
 		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
 		//barcode4jManager.setComponentXmlWriter(xmlHandler);

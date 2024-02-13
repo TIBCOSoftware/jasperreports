@@ -113,7 +113,7 @@ public final class PartComponentsEnvironment
 		for (Iterator<PartComponentsBundle> it = bundles.iterator(); it.hasNext();)
 		{
 			PartComponentsBundle bundle = it.next();
-			String namespace = bundle.getXmlParser().getNamespace();
+			String namespace = bundle.getNamespace();
 			if (components.containsKey(namespace))
 			{
 				log.warn("Found two components for namespace " + namespace);

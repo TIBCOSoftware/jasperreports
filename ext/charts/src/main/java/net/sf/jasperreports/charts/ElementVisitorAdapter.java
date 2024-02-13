@@ -21,28 +21,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.charts;
 
-import org.xml.sax.Attributes;
-
-import net.sf.jasperreports.charts.JRChart;
-import net.sf.jasperreports.charts.design.JRDesignChart;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
+import net.sf.jasperreports.engine.JRVisitor;
 
 /**
- * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRStackedBarChartFactory extends JRBaseFactory
+public interface ElementVisitorAdapter
 {
-	@Override
-	public Object createObject(Attributes atts)
-	{
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+	
+	ChartVisitor getChartVisitor(JRVisitor visitor);
 
-		JRDesignChart chart = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDBAR);
-
-		return chart;
-	}
 }

@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.jackson.util.JacksonUtil;
 
 
@@ -146,7 +146,7 @@ public class XmlChartTheme extends SimpleChartTheme
 	 */
 	public static void saveSettings(JasperReportsContext jasperReportsContext, ChartThemeSettings settings, Writer writer)
 	{
-		String targetVersion = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		String targetVersion = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlWriter.PROPERTY_REPORT_VERSION);
 		VersionComparator versionComparator = new VersionComparator();
 		
 		if (versionComparator.compare(targetVersion, JRConstants.VERSION_6_19_0) >= 0)

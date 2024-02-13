@@ -90,8 +90,8 @@ import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
@@ -349,7 +349,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
-		version = getPropertiesUtil().getProperty(jasperPrint, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		version = getPropertiesUtil().getProperty(jasperPrint, JRXmlWriter.PROPERTY_REPORT_VERSION);
 		
 		xmlWriter = new JRXmlWriteHelper(writer);
 		

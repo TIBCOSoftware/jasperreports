@@ -47,7 +47,6 @@ import org.apache.tools.ant.util.SourceFileScanner;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.design.JRCompiler;
-import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
 
 
 /**
@@ -232,7 +231,8 @@ public class JRAntCompileTask extends JRBaseAntTask
 
 		setCompilerClass(compiler);
 
-		jasperReportsContext.setProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION, String.valueOf(xmlvalidation));
+		//TODO legacyxml
+		jasperReportsContext.setProperty("net.sf.jasperreports.compiler.xml.validation", String.valueOf(xmlvalidation));
 
 		AntClassLoader classLoader = null;
 		if (classpath != null)

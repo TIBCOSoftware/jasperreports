@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.part;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 
 /**
  * A component bundle is a package comprising of one or several components that
@@ -38,11 +37,11 @@ public interface PartComponentsBundle
 {
 
 	/**
-	 * Returns the XML parsing information for this bundle.
+	 * Returns the namespace used by the component bundle.
 	 * 
-	 * @return the bundle XML parser
+	 * @return the component bundle namespace
 	 */
-	ComponentsXmlParser getXmlParser();
+	String getNamespace();
 
 	/**
 	 * Returns a set that contains the names of components included in this

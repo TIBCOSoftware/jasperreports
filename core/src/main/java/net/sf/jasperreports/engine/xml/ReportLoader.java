@@ -23,40 +23,23 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
+import java.io.InputStream;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPropertyObject
+public interface ReportLoader
 {
-	/**
-	 *
-	 */
-	private final JRPropertiesHolder propertiesHolder;
-	private final String propertyName;
 
+	JasperDesign loadReport(JasperReportsContext context, InputStream data) throws JRException;
 
-	/**
-	 *
-	 */
-	public JRPropertyObject(JRPropertiesHolder propertiesHolder, String propertyName)
-	{
-		this.propertiesHolder = propertiesHolder;
-		this.propertyName = propertyName;
-	}
+	JRTemplate loadTemplate(RepositoryContext context, InputStream data);
 	
-
-	/**
-	 *
-	 */
-	public void setValue(String value) throws JRException
-	{
-		if (value != null && value.length() > 0)
-		{
-			propertiesHolder.getPropertiesMap().setProperty(propertyName, value);
-		}
-	}
 }

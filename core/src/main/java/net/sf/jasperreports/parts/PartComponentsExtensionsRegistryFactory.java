@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.part.DefaultPartComponentManager;
 import net.sf.jasperreports.engine.part.DefaultPartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
@@ -52,10 +52,6 @@ public class PartComponentsExtensionsRegistryFactory implements
 
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/parts";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/parts.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/parts/parts.xsd";
 	
 	public static final String SUBREPORT_PART_COMPONENT_NAME = "subreportPart";
 	
@@ -64,19 +60,11 @@ public class PartComponentsExtensionsRegistryFactory implements
 	static
 	{
 		final DefaultPartComponentsBundle bundle = new DefaultPartComponentsBundle();
-
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new PartComponentsXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
 		
 		HashMap<String, PartComponentManager> componentManagers = new HashMap<>();
 		
-		PartComponentsManager reportManager = new PartComponentsManager();
+		DefaultPartComponentManager reportManager = new DefaultPartComponentManager();
 		reportManager.setComponentCompiler(new SubreportPartComponentCompiler());
-		//listManager.setComponentXmlWriter(xmlHandler);
 		reportManager.setComponentFillFactory(new FillSubreportPartFactory());
 		componentManagers.put(SUBREPORT_PART_COMPONENT_NAME, reportManager);
 		

@@ -142,7 +142,7 @@ public final class ComponentsEnvironment
 	public List<ComponentsBundle> getBundles(String namespace)
 	{
 		List<ComponentsBundle> components = getCachedBundles();
-		return components.stream().filter(bundle -> bundle.getXmlParser().getNamespace().equals(namespace))
+		return components.stream().filter(bundle -> bundle.getNamespace().equals(namespace))
 				.collect(Collectors.toList());
 	}
 	

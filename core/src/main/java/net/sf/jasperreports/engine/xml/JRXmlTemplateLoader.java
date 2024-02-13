@@ -36,10 +36,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -200,28 +200,18 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(InputStream data)
 	{
-		JRXmlDigester digester = JRXmlTemplateDigesterFactory.instance().createDigester(
-				repositoryContext.getJasperReportsContext());
-		try
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
+		List<ReportLoader> loaders = jasperReportsContext.getExtensions(ReportLoader.class);
+		for (ReportLoader reportLoader : loaders)
 		{
-			return (JRTemplate) digester.parse(data);
+			JRTemplate template = reportLoader.loadTemplate(repositoryContext, data);
+			if (template != null)
+			{
+				return template;
+			}
 		}
-		catch (IOException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_TEMPLATE_READING_ERROR,
-					(Object[])null,
-					e);
-		}
-		catch (SAXException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_TEMPLATE_PARSING_ERROR,
-					(Object[])null,
-					e);
-		}
+		//TODO legacyxml 
+		throw new JRRuntimeException("Unable to load template");
 	}
 	
 	/**

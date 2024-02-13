@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 
 /**
  * The default {@link PartComponentsBundle components bundle} implementation.
@@ -42,24 +41,24 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 {
 	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "engine.part.component.manager.not.found";
 	
-	private ComponentsXmlParser xmlParser;
+	private String namespace;
 	private Map<String,PartComponentManager> componentManagers;
 
 	@Override
-	public ComponentsXmlParser getXmlParser()
+	public String getNamespace()
 	{
-		return xmlParser;
+		return namespace;
 	}
 
 	/**
-	 * Sets the components XML parser implementation.
+	 * Sets the components namespace.
 	 * 
-	 * @param xmlParser the components XML parser
-	 * @see #getXmlParser()
+	 * @param namespace the components namespace 
+	 * @see #getNamespace()
 	 */
-	public void setXmlParser(ComponentsXmlParser xmlParser)
+	public void setNamespace(String namespace)
 	{
-		this.xmlParser = xmlParser;
+		this.namespace = namespace;
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
-					new Object[]{componentName, xmlParser.getNamespace()});
+					new Object[]{componentName, namespace});
 		}
 		return manager;
 	}

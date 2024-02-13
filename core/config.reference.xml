@@ -578,42 +578,6 @@ Property specifying the temporary working directory to be used by the report com
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.compiler.xml.validation -->
-  
-  <configProperty name="net.sf.jasperreports.compiler.xml.validation">
-    <description>
-Property that forces the XML validation of the report template file before compiling.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.compiler.xml.parser.cache.schemas -->
-  
-  <configProperty name="net.sf.jasperreports.compiler.xml.parser.cache.schemas">
-    <description>
-Property that determines whether XML schemas/grammars are to be cached 
-so that they are not read/initialized each time a report is compiled.
-<br/>
-Currently, setting this property is only effective when a Xerces XML 
-parser is used (either a stock one from Apache or one embedded into a 
-SUN JDK).
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.compiler.xml.parser.factory -->
-  
-  <configProperty name="net.sf.jasperreports.compiler.xml.parser.factory">
-    <description>
-Property that gives a parser factory class which should be used 
-for parsing JRXMLs.
-<br/>
-By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html">JRReportSaxParserFactory</api> 
-as report parser factory.
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.compiler.max.java.method.size -->
   
   <configProperty name="net.sf.jasperreports.compiler.max.java.method.size">
@@ -2664,18 +2628,6 @@ Property to control the writing of UUIDs for report elements and other report en
 When the UUDIs are missing in the JRXML report template definition, they will be regenerated automatically on report template loading.
 Excluding UUIDs from generated JRXML is useful for triggering their regeneration and thus ensuring they are unique again in case the report template source
 was edited manually and UUIDs were duplicated by copy/paste.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.template.xml.parser.factory -->
-  
-  <configProperty name="net.sf.jasperreports.template.xml.parser.factory">
-    <description>
-Property that gives a parser factory class which should be used for parsing style templates.
-<br/>
-By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/TemplateSaxParserFactory.html">TemplateSaxParserFactory</api> 
-as style templates parser factory.
     </description>
   </configProperty>
   

@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.ReportUpdater;
-import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -184,7 +183,8 @@ public class JRAntUpdateTask extends JRBaseAntTask
 
 		reportFilesMap = new HashMap<>();
 
-		jasperReportsContext.setProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION, String.valueOf(xmlvalidation));//FIXMECONTEXT is this needed? what about the one below?
+		//TODO legacyxml
+		jasperReportsContext.setProperty("net.sf.jasperreports.compiler.xml.validation", String.valueOf(xmlvalidation));//FIXMECONTEXT is this needed? what about the one below?
 
 		AntClassLoader classLoader = null;
 		if (classpath != null)

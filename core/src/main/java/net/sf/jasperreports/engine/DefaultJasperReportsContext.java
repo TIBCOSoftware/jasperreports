@@ -34,7 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRCompiler;
-import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -150,7 +149,6 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	protected void loadSystemProperties()
 	{
 		loadSystemProperty("jasper.reports.compiler.class", JRCompiler.COMPILER_CLASS);
-		loadSystemProperty("jasper.reports.compile.xml.validation", JRReportSaxParserFactory.COMPILER_XML_VALIDATION);
 		loadSystemProperty("jasper.reports.compile.keep.java.file", JRCompiler.COMPILER_KEEP_JAVA_FILE);
 		loadSystemProperty("jasper.reports.compile.temp", JRCompiler.COMPILER_TEMP_DIR);
 		loadSystemProperty("jasper.reports.compile.class.path", JRCompiler.COMPILER_CLASSPATH);	

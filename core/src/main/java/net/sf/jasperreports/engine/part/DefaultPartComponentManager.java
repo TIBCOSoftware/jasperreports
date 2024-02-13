@@ -34,7 +34,6 @@ public class DefaultPartComponentManager implements PartComponentManager
 {
 
 	private PartComponentCompiler componentCompiler;
-	private PartComponentXmlWriter componentXmlWriter;
 	private PartComponentFillFactory componentFillFactory;
 
 	@Override
@@ -70,23 +69,6 @@ public class DefaultPartComponentManager implements PartComponentManager
 	public void setComponentCompiler(PartComponentCompiler componentCompiler)
 	{
 		this.componentCompiler = componentCompiler;
-	}
-	
-	@Override
-	public PartComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
-	{
-		return componentXmlWriter;
-	}
-
-	/**
-	 * Sets the component XML writer implementation.
-	 * 
-	 * @param componentXmlWriter the component XML writer
-	 * @see #getComponentXmlWriter(JasperReportsContext)
-	 */
-	public void setComponentXmlWriter(PartComponentXmlWriter componentXmlWriter)
-	{
-		this.componentXmlWriter = componentXmlWriter;
 	}
 
 }

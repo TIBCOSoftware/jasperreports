@@ -29,7 +29,7 @@ import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -50,10 +50,6 @@ public class BarbecueExtensionsRegistryFactory implements ExtensionsRegistryFact
 
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/barbecue.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/barbecue/barbecue.xsd";
 	
 	public static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	
@@ -63,16 +59,11 @@ public class BarbecueExtensionsRegistryFactory implements ExtensionsRegistryFact
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new BarbecueXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		BarbecueComponentManager barbecueManager = new BarbecueComponentManager();
+		DefaultComponentManager barbecueManager = new DefaultComponentManager();
 		barbecueManager.setDesignConverter(new BarbecueDesignConverter());
 		barbecueManager.setComponentCompiler(new BarbecueCompiler());
 		//barbecueManager.setComponentXmlWriter(xmlHandler);

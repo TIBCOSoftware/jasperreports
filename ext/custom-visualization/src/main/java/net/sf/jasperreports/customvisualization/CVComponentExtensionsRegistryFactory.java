@@ -39,11 +39,10 @@ import net.sf.jasperreports.customvisualization.export.CVElementRtfHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementXlsHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementXlsxHandler;
 import net.sf.jasperreports.customvisualization.fill.CVFillFactory;
-import net.sf.jasperreports.customvisualization.xml.CVDigester;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -70,17 +69,11 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 	static
 	{
 		final CVComponentBundle bundle = new CVComponentBundle();
-
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(CVConstants.NAMESPACE);
-		parser.setPublicSchemaLocation(CVConstants.XSD_LOCATION);
-		parser.setInternalSchemaResource(CVConstants.XSD_RESOURCE);
-		parser.setDigesterConfigurer(new CVDigester());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(CVConstants.NAMESPACE);
 
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 
-		CVComponentManager componentManager = new CVComponentManager();
+		DefaultComponentManager componentManager = new DefaultComponentManager();
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());
 		componentManager.setComponentCompiler(new CVCompiler());
 		componentManager.setComponentFillFactory(new CVFillFactory());

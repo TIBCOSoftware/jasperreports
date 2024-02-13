@@ -28,7 +28,6 @@ import java.util.HashMap;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentCompiler;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentDesignConverter;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentFillFactory;
-import net.sf.jasperreports.components.iconlabel.IconLabelComponentManager;
 import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
@@ -39,7 +38,7 @@ import net.sf.jasperreports.components.table.TableDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -61,10 +60,6 @@ public class ComponentsExtensionsRegistryFactory implements
 
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/components.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/components.xsd";
 	
 	public static final String LIST_COMPONENT_NAME = "list";
 	public static final String TABLE_COMPONENT_NAME = "table";
@@ -75,31 +70,23 @@ public class ComponentsExtensionsRegistryFactory implements
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new ComponentsXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		ComponentsManager listManager = new ComponentsManager();
+		DefaultComponentManager listManager = new DefaultComponentManager();
 		listManager.setDesignConverter(new ListDesignConverter());
 		listManager.setComponentCompiler(new ListComponentCompiler());
-		//listManager.setComponentXmlWriter(xmlHandler);
 		listManager.setComponentFillFactory(new FillListFactory());
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
 		
-		ComponentsManager tableManager = new ComponentsManager();
+		DefaultComponentManager tableManager = new DefaultComponentManager();
 		tableManager.setDesignConverter(new TableDesignConverter());
 		tableManager.setComponentCompiler(new TableCompiler());
-		//tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
 		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
 		
-		IconLabelComponentManager iconLabelManager = new IconLabelComponentManager();
+		DefaultComponentManager iconLabelManager = new DefaultComponentManager();
 		iconLabelManager.setDesignConverter(IconLabelComponentDesignConverter.getInstance());
 		iconLabelManager.setComponentCompiler(new IconLabelComponentCompiler());
 		iconLabelManager.setComponentFillFactory(new IconLabelComponentFillFactory());

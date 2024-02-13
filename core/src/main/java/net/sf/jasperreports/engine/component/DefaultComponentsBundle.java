@@ -38,24 +38,24 @@ import java.util.Set;
 public class DefaultComponentsBundle implements ComponentsBundle
 {
 
-	private ComponentsXmlParser xmlParser;
+	private String namespace;
 	private Map<String,ComponentManager> componentManagers;
 
 	@Override
-	public ComponentsXmlParser getXmlParser()
+	public String getNamespace()
 	{
-		return xmlParser;
+		return namespace;
 	}
 
 	/**
-	 * Sets the components XML parser implementation.
+	 * Sets the components namespace.
 	 * 
-	 * @param xmlParser the components XML parser
-	 * @see #getXmlParser()
+	 * @param namespace the components namespace 
+	 * @see #getNamespace()
 	 */
-	public void setXmlParser(ComponentsXmlParser xmlParser)
+	public void setNamespace(String namespace)
 	{
-		this.xmlParser = xmlParser;
+		this.namespace = namespace;
 	}
 
 	@Override

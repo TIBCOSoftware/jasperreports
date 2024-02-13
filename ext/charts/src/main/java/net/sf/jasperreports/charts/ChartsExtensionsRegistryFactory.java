@@ -27,13 +27,12 @@ import java.util.HashMap;
 
 import net.sf.jasperreports.charts.fill.DefaultChartTheme;
 import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
-import net.sf.jasperreports.components.spiderchart.SpiderChartComponentManager;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -60,19 +59,13 @@ public class ChartsExtensionsRegistryFactory implements ExtensionsRegistryFactor
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new ChartsXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		SpiderChartComponentManager spiderChartManager = new SpiderChartComponentManager();
+		DefaultComponentManager spiderChartManager = new DefaultComponentManager();
 		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());
 		spiderChartManager.setComponentCompiler(new SpiderChartCompiler());
-		//spiderChartManager.setComponentXmlWriter(xmlHandler);
 		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
 		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
 		
@@ -81,6 +74,7 @@ public class ChartsExtensionsRegistryFactory implements ExtensionsRegistryFactor
 		ListExtensionsRegistry registry = new ListExtensionsRegistry();
 		registry.add(ComponentsBundle.class, bundle);
 		registry.add(ChartThemeBundle.class, DefaultChartTheme.BUNDLE);
+		registry.add(ElementVisitorAdapter.class, DefaultElementVisitorsAdapter.instance());
 		
 		REGISTRY = registry;
 	}

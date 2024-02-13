@@ -21,26 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.charts.xml;
+package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.Attributes;
+import java.io.IOException;
+import java.io.Writer;
 
-import net.sf.jasperreports.charts.JRChart;
-import net.sf.jasperreports.charts.design.JRDesignChart;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRXyAreaChartFactory extends JRBaseFactory {
+public interface ReportWriter
+{
+	
+	boolean writeReport(JasperReportsContext jasperReportsContext,
+			JRReport report, String encoding, Writer out) throws IOException;
+	
+	boolean writeTemplate(JasperReportsContext jasperReportsContext,
+			JRTemplate template, String encoding, Writer out) throws IOException;
 
-	@Override
-	public Object createObject( Attributes atts ){
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-
-		JRDesignChart chart = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYAREA);
-
-		return chart;
-	}
 }

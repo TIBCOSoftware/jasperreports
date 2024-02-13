@@ -37,11 +37,11 @@ public interface ComponentsBundle
 {
 
 	/**
-	 * Returns the XML parsing information for this bundle.
+	 * Returns the namespace used by the component bundle.
 	 * 
-	 * @return the bundle XML parser
+	 * @return the component bundle namespace
 	 */
-	ComponentsXmlParser getXmlParser();
+	String getNamespace();
 
 	/**
 	 * Returns a set that contains the names of components included in this

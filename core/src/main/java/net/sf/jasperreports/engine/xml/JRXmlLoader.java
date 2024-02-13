@@ -32,38 +32,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.digester.Digester;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.design.JRDesignElementDataset;
-import net.sf.jasperreports.engine.design.JRDesignVariable;
-import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
-import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
 
 /**
@@ -79,34 +53,22 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  */
 public class JRXmlLoader
 {
-	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET = "xml.loader.unknown.subdataset";
-	public static final String EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND = "xml.loader.subdataset.not.found";
+	
+	public static final String EXCEPTION_MESSAGE_KEY_NO_LOADER = "xml.loader.unknown.subdataset";
 
 	/**
 	 *
 	 */
 	private final JasperReportsContext jasperReportsContext;
-	private JasperDesign jasperDesign;
-	private LinkedList<XmlLoaderReportContext> contextStack = new LinkedList<>();
-	
-	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = new HashMap<>();
-	
-	//TODO use XmlGroupReference for datasets
-	private Set<JRElementDataset> groupBoundDatasets = new HashSet<>();
-	
-	private List<Exception> errors = new ArrayList<>();
-
-	private Digester digester;
 
 	private boolean ignoreConsistencyProblems;
 		
 	/**
 	 *
 	 */
-	public JRXmlLoader(JasperReportsContext jasperReportsContext, Digester digester)
+	public JRXmlLoader(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.digester = digester;
 	}
 
 	/**
@@ -115,28 +77,6 @@ public class JRXmlLoader
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return jasperReportsContext;
-	}
-
-	/**
-	 *
-	 */
-	public void setJasperDesign(JasperDesign jasperDesign)
-	{
-		this.jasperDesign = jasperDesign;
-	}
-	
-	public void addGroupReference(XmlGroupReference reference)
-	{
-		XmlLoaderReportContext reportContext = getReportContext();
-		groupReferences.put(reference, reportContext);
-	}
-
-	/**
-	*
-	*/
-	public Set<JRElementDataset> getGroupBoundDatasets()
-	{
-		return groupBoundDatasets;
 	}
 
 
@@ -203,16 +143,7 @@ public class JRXmlLoader
 	{
 		JasperDesign jasperDesign = null;
 
-		JRXmlLoader xmlLoader = null;
-
-		try 
-		{
-			xmlLoader = new JRXmlLoader(jasperReportsContext, JRXmlDigesterFactory.createDigester(jasperReportsContext));
-		}
-		catch (ParserConfigurationException | SAXException e) 
-		{
-			throw new JRException(e);
-		}
+		JRXmlLoader xmlLoader = new JRXmlLoader(jasperReportsContext);
 		
 		jasperDesign = xmlLoader.loadXML(is);
 
@@ -225,267 +156,18 @@ public class JRXmlLoader
 	 */
 	public JasperDesign loadXML(InputStream is) throws JRException
 	{
-		return loadXML(new InputSource(is));
-	}
-
-	/**
-	 *
-	 */
-	public JasperDesign loadXML(InputSource is) throws JRException
-	{
-		try
+		List<ReportLoader> loaders = jasperReportsContext.getExtensions(ReportLoader.class);
+		for (ReportLoader reportLoader : loaders)
 		{
-			digester.push(this);	
-
-			/*   */
-			digester.parse(is);
-		}
-		catch (SAXException | IOException e)
-		{
-			throw new JRException(e);
-		}
-		finally 
-		{
-			digester.clear();
-		}
-		
-		if (errors.size() > 0)
-		{
-			Exception e = errors.get(0);
-			if (e instanceof JRException)
+			//TODO legacyxml ignoreConsistencyProblems
+			JasperDesign report = reportLoader.loadReport(jasperReportsContext, is);
+			if (report != null)
 			{
-				throw (JRException)e;
-			}
-			throw new JRException(e);
-		}
-
-		/*   */
-		assignGroupsToVariables(jasperDesign.getMainDesignDataset());
-		for (Iterator<JRDataset> it = jasperDesign.getDatasetsList().iterator(); it.hasNext();)
-		{
-			JRDesignDataset dataset = (JRDesignDataset) it.next();
-			assignGroupsToVariables(dataset);
-		}
-		
-		assignGroupReferences();
-		this.assignGroupsToDatasets();
-		
-		return jasperDesign;
-	}
-
-	/**
-	 *
-	 */
-	private void assignGroupsToVariables(JRDesignDataset dataset) throws JRException
-	{
-		JRVariable[] variables = dataset.getVariables();
-		if (variables != null && variables.length > 0)
-		{
-			Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
-			for(int i = 0; i < variables.length; i++)
-			{
-				JRDesignVariable variable = (JRDesignVariable)variables[i];
-				if (variable.getResetTypeValue() == ResetTypeEnum.GROUP)
-				{
-					String groupName = null;
-					JRGroup group = variable.getResetGroup();
-					if (group != null)
-					{
-						groupName = group.getName();
-						group = groupsMap.get(groupName);
-					}
-
-					if (!ignoreConsistencyProblems && group == null)
-					{
-						throw 
-							new JRValidationException(
-								"Unknown reset group '" + groupName 
-								+ "' for variable : " + variable.getName(),
-								variable
-								);
-					}
-
-					variable.setResetGroup(group);
-				}
-				else
-				{
-					variable.setResetGroup(null);
-				}
-
-				if (variable.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
-				{
-					String groupName = null;
-					JRGroup group = variable.getIncrementGroup();
-					if (group != null)
-					{
-						groupName = group.getName();
-						group = groupsMap.get(groupName);
-					}
-
-					if (!ignoreConsistencyProblems && group == null)
-					{
-						throw 
-							new JRValidationException(
-								"Unknown increment group '" + groupName 
-								+ "' for variable : " + variable.getName(),
-								variable
-								);
-					}
-
-					variable.setIncrementGroup(group);
-				}
-				else
-				{
-					variable.setIncrementGroup(null);
-				}
+				return report;
 			}
 		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void assignGroupReferences() throws JRException
-	{
-		for (Map.Entry<XmlGroupReference, XmlLoaderReportContext> entry : 
-			groupReferences.entrySet())
-		{
-			XmlGroupReference reference = entry.getKey();
-			XmlLoaderReportContext context = entry.getValue();
-
-			String groupName = null;
-			JRGroup group = reference.getGroupReference();
-			if (group != null)
-			{
-				groupName = group.getName();
-				group = resolveGroup(groupName, context);
-			}
-
-			if (!ignoreConsistencyProblems && group == null)
-			{
-				reference.groupNotFound(groupName);
-			}
-			else
-			{
-				reference.assignGroup(group);
-			}
-		}
-	}
-	
-	protected JRGroup resolveGroup(String groupName, XmlLoaderReportContext context)
-	{
-		JRGroup group;
-		if (context == null)
-		{
-			// main dataset groups
-			Map<String,JRGroup> groupsMap = jasperDesign.getGroupsMap();
-			group = groupsMap.get(groupName);
-		}
-		else
-		{
-			String datasetName = context.getSubdatesetName();
-			JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
-			if (dataset == null)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_SUBDATASET_NOT_FOUND,
-						new Object[]{datasetName});
-			}
-			
-			group = dataset.getGroupsMap().get(groupName);
-		}
-		return group;
-	}
-
-
-	/**
-	 *
-	 */
-	private void assignGroupsToDatasets() throws JRException
-	{
-		for(Iterator<JRElementDataset> it = groupBoundDatasets.iterator(); it.hasNext();)
-		{
-			JRDesignElementDataset dataset = (JRDesignElementDataset) it.next();
-			
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			Map<String,JRGroup> groupsMap;
-			if (datasetRun == null)
-			{
-				groupsMap = jasperDesign.getGroupsMap();
-			}
-			else
-			{
-				Map<String,JRDataset> datasetMap = jasperDesign.getDatasetMap();
-				String datasetName = datasetRun.getDatasetName();
-				JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
-				if (subDataset == null)
-				{
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_UNKNOWN_SUBDATASET,
-							new Object[]{datasetName});
-				}
-				groupsMap = subDataset.getGroupsMap();
-			}
-
-			if (dataset.getIncrementTypeValue() == IncrementTypeEnum.GROUP)
-			{
-				String groupName = null;
-				JRGroup group = dataset.getIncrementGroup();
-				if (group != null)
-				{
-					groupName = group.getName();
-					group = groupsMap.get(group.getName());
-				}
-
-				if (!ignoreConsistencyProblems && group == null)
-				{
-					throw new JRValidationException("Unknown increment group '" + groupName + "' for element dataset.", dataset);
-				}
-
-				dataset.setIncrementGroup(group);
-			}
-			else
-			{
-				dataset.setIncrementGroup(null);
-			}
-
-			if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
-			{
-				String groupName = null;
-				JRGroup group = dataset.getResetGroup();
-				if (group != null)
-				{
-					groupName = group.getName();
-					group = groupsMap.get(group.getName());
-				}
-
-				if (!ignoreConsistencyProblems && group == null)
-				{
-					throw new JRValidationException("Unknown reset group '" + groupName + "' for element dataset.", dataset);
-				}
-
-				dataset.setResetGroup(group);
-			}
-			else
-			{
-				dataset.setResetGroup(null);
-			}
-		}
-	}
-
-	
-	/**
-	 *
-	 */
-	public void addError(Exception e)
-	{
-		if(!ignoreConsistencyProblems)
-		{
-			this.errors.add(e);
-		}
+		//TODO legacyxml 
+		throw new JRException("Unable to load report");
 	}
 	
 	/**
@@ -505,20 +187,5 @@ public class JRXmlLoader
 	 */
 	public void setIgnoreConsistencyProblems(boolean ignoreConsistencyProblems) {
 		this.ignoreConsistencyProblems = ignoreConsistencyProblems;
-	}
-
-	public void pushReportContext(XmlLoaderReportContext context)
-	{
-		contextStack.addFirst(context);
-	}
-	
-	public XmlLoaderReportContext popReportContext()
-	{
-		return contextStack.removeFirst();
-	}
-	
-	public XmlLoaderReportContext getReportContext()
-	{
-		return contextStack.isEmpty() ? null : contextStack.getFirst();
 	}
 }

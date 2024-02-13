@@ -29,7 +29,7 @@ import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -50,10 +50,6 @@ public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistr
 
 	public static final String NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports/components";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/sort.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/components/sort/sort.xsd";
 	
 	public static final String SORT_COMPONENT_NAME = "sort";
 	
@@ -62,20 +58,13 @@ public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistr
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(NAMESPACE);
-		parser.setPublicSchemaLocation(XSD_LOCATION);
-		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(new SortComponentXmlDigesterConfigurer());
-		bundle.setXmlParser(parser);
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		SortComponentManager sortManager = new SortComponentManager();
+		DefaultComponentManager sortManager = new DefaultComponentManager();
 		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
 		sortManager.setComponentCompiler(new SortComponentCompiler());
-		//sortManager.setComponentXmlWriter(xmlHandler);
 		sortManager.setComponentFillFactory(new SortComponentFillFactory());
 		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
 
