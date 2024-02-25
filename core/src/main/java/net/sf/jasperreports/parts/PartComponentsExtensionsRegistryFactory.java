@@ -60,6 +60,7 @@ public class PartComponentsExtensionsRegistryFactory implements
 	static
 	{
 		final DefaultPartComponentsBundle bundle = new DefaultPartComponentsBundle();
+		bundle.setNamespace(NAMESPACE);
 		
 		HashMap<String, PartComponentManager> componentManagers = new HashMap<>();
 		
