@@ -274,7 +274,7 @@ Flag property specifying if data will be stored in a cached rowset.
     <description>
 Property specifying the fetch size for the <code>java.sql.ResultSet</code> created by the
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> and the
-<api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuter.html">JRHibernateQueryExecuter</api>.
+<api href="net/sf/jasperreports/j2ee/hibernate/JRHibernateQueryExecuter.html">JRHibernateQueryExecuter</api>.
     </description>
   </configProperty>
 
@@ -495,7 +495,7 @@ String property representing a valid path to the requested resource containing t
     <description>
 Property specifying the
 <api href="net/sf/jasperreports/engine/util/xml/JRXPathExecuterFactory.html">JRXPathExecuterFactory</api> XPath executer factory implementation class name. JasperReports is shipped with two implementation of this factory interface:
-<api href="net/sf/jasperreports/engine/util/xml/XalanXPathExecuterFactory.html">XalanXPathExecuterFactory</api> and
+<api href="net/sf/jasperreports/xalan.util/XalanXPathExecuterFactory.html">XalanXPathExecuterFactory</api> and
 <api href="net/sf/jasperreports/jaxen/util/xml/JaxenXPathExecuter.html">JaxenXPathExecuter</api>.
     </description>
     <api>net/sf/jasperreports/engine/util/xml/JRXPathExecuterUtils.html#PROPERTY_XPATH_EXECUTER_FACTORY</api>
@@ -630,16 +630,16 @@ By default, this property is set to replace invalid chars with question marks. D
 <ul>
 <li>to completely remove invalid XML chars from the processed text, set an empty string as property value:
 <br/>
-&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value=""/&gt;
+<code>&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value=""/&gt;</code>
 </li>
 <li>to replace invalid XML chars with a custom char or text sequence, set the text sequence as property value. For instance:
 <br/>
-&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value="??"/&gt;
+<code>&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value="??"/&gt;</code>
 </li>
 <li>to preserve invalid chars in the processed text, either set the property with no value, or remove the property from the JasperReports context.
 Below is the property with no value set:
 <br/>
-&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars"/&gt;
+<code>&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars"/&gt;</code>
 </li>
 </ul>
     </description>
@@ -2462,7 +2462,7 @@ which is used as registry ID when instantiating. The property should have as val
 
   <configProperty name="net.sf.jasperreports.extension.{registry_id}.{property_suffix}">
     <description>
-Property that can be used to provide a registry-specific property, by appending the registry ID and then a fixed property suffix to the fixed property prefix <code>net.sf.jasperreports.extension.</code>.
+Property that can be used to provide a registry-specific property, by appending the registry ID and then a fixed property suffix to the fixed property prefix <code>&quot;net.sf.jasperreports.extension.&quot;</code>.
 <br/>
 For example:
 <br/>
@@ -2581,7 +2581,7 @@ Asynchronous report generation implies displaying report pages before the report
 
   <configProperty name="net.sf.jasperreports.viewer.render.buffer.max.size">
     <description>
-Maximum size (in pixels) of a buffered image that would be used by <api href="net/sf/jasperreports/view/JRViewer.html">JRViewer</api> to render a report page.
+Maximum size (in pixels) of a buffered image that would be used by <api href="net/sf/jasperreports/swing/JRViewer.html">JRViewer</api> to render a report page.
 If rendering a report page would require an image larger than this threshold (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
 If this property is zero or negative, buffered images will never be used to render a report page.
     </description>
@@ -3082,7 +3082,7 @@ Property whose value is used as default for the
 This property indicates whether the embeddable true type fonts used in the report should be embedded into the generated DOCX document.
 <br/>
 Its value is used as default for the
-<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isEmbedFonts()">isEmbedFonts()</api> DOCX export configuration setting.
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isEmbedFonts()">isEmbedFonts()</api> DOCX export configuration setting.
     </description>
   </configProperty>
 
@@ -3519,7 +3519,7 @@ This property indicates whether the fonts used in the report should be embedded 
 Embeddable TTF fonts should be converted into EOT format first, then placed in the classpath using the font extension mechanism.
 <br/>
 Its value is used as default for the
-<api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isEmbedFonts()">isEmbedFonts()</api> PPTX export configuration setting.
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#isEmbedFonts()">isEmbedFonts()</api> PPTX export configuration setting.
     </description>
   </configProperty>
 
@@ -3827,7 +3827,7 @@ Its value is used as default for the
   <configProperty name="net.sf.jasperreports.export.xls.column.name">
     <description>
 Represents the name for the column that should appear in the metadata-based Excel export. It must be one of the column names stored in
-<a href="#net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">net.sf.jasperreports.export.xls.column.names.{suffix}</a>, if provided.
+<a href="#net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">net.sf.jasperreports.export.xls.column.names.{arbitrary_name}</a>, if provided.
     </description>
     <api>net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_NAME</api>
   </configProperty>
@@ -3898,7 +3898,7 @@ with a float value representing the adjustment ratio. The property can be set:
 <li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
 </ul>
 Global settings are overridden by report level settings and report level settings are overridden by element level settings. If
-present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> property will override the
+present, a <api href="/net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> property will override the
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> value for that column only.
     </description>
   </configProperty>
@@ -4416,7 +4416,7 @@ other settings in the existing template will be also preserved in the generated 
 Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 <br/>
 This property is used in the Excel exporter based on Apache POI APIs
-(<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>). There's no similar property
+(<api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api>). There's no similar property
 for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.
     </description>
   </configProperty>
@@ -4462,8 +4462,8 @@ Allowed values are letters or letter combinations representing valid column name
 The property should be used when all sheets in the document have the same freeze column name.<br/>
 The property is available for:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
@@ -4491,8 +4491,8 @@ with maximum column index.
 <br/>
 The property is available for:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
@@ -4508,8 +4508,8 @@ Allowed values are represented by positive integers in the 1..65536 range. Negat
 The property should be used when all sheets in the document have the same freeze row index.<br/>
 The property is available for:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
@@ -4537,8 +4537,8 @@ with maximum row index.
 <br/>
 The property is available for:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/poi/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
@@ -5382,7 +5382,7 @@ Possible values are:
     <description>
 Specifies the default value for the <api href="net/sf/jasperreports/engine/JRParameter.html#getEvaluationTime()">getEvaluationTime()</api> property of a dataset parameter.
 <br/>
-Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterEvaluationTimeType.html">ParameterEvaluationTimeType</api> enumeration.
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterEvaluationTimeEnum.html">ParameterEvaluationTimeEnum</api> enumeration.
 <ul>
   <li><code>Early</code> - Evaluate the parameter default value expression before parameter contributors.</li>
   <li><code>Late</code> - Evaluate the parameter default value expression after parameter contributors.</li>
@@ -5397,7 +5397,7 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
     <description>
 Specifies the default value for the <api href="net/sf/jasperreports/engine/DatasetPropertyExpression.html#getEvaluationTime()">getEvaluationTime()</api> setting of a dataset property expression.
 <br/>
-Possible values are defined by the <api href="net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html">PropertyEvaluationTimeType</api> enumeration.
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/PropertyEvaluationTimeEnum.html">PropertyEvaluationTimeEnum</api> enumeration.
 <ul>
   <li><code>Early</code> - Evaluate the property expression before parameter contributors.</li>
   <li><code>Late</code> - Evaluate the property expression after parameter contributors.</li>
@@ -5625,7 +5625,7 @@ Property that determines whether loading entities that are not known to the engi
 Prefix for properties holding the namespace prefix and uri (e.g. net.sf.jasperreports.xml.namespace.{arbitrary_prefix} = uri).
 <br/>
 This property has a lower priority than
-<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api>,
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api>,
 that, if it is specified, will cause the prefixed properties not to be searched for.
 	</description>
   </configProperty>

@@ -282,7 +282,7 @@ The JSON output format organizes data hierachically in a tree structure, written
 <br/>
 Extracting relevant data from a pixel-perfect <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object, in order to generate a 
 data-oriented output, may be done by customizing the export process. Some properties are needed to tell the JR engine which elements should be exported 
-and where should they be placed within the JSON tree object. The <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and where should they be placed within the JSON tree object. The <api href="net/sf/jasperreports/json/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
 is designed to handle such kind of metadata information and to generate consistent data structures. 
 <br/>
 Before starting its export work, the JSON metadata exporter looks for the presence of an existing JSON schema by calling the 
@@ -327,7 +327,7 @@ A product is defined by its Id, Name, Quantity and Price properties, while a cus
 <br/>
 If no schema is provided at export time, then the output structure will be deduced from the elements marked for JSON export, in accordance with 
 <a href="../../config.reference.html#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> and/or 
-<a href="../../config.reference.html#net.sf.jasperreports.export.json.{type}.{path}">net.sf.jasperreports.export.json.{type}.{arbitrary_path}</a> 
+<code>net.sf.jasperreports.export.json.{type}.{arbitrary_path}</code> 
 metadata properties.
 <br/>
 Following are the metadata properties defined at element level, that are taken into account by the JSON metadata exporter:
@@ -338,7 +338,7 @@ Following are the metadata properties defined at element level, that are taken i
 present in the report, this property can be used to determine a rule in the JSON schema as well. If the JSON schema is provided, then the path 
 specified by <a href="../../config.reference.html#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> must follow the 
 rules in that schema. The current element will be placed in a node according to this path.</li>
-<li><a href="../../config.reference.html#net.sf.jasperreports.export.json.{type}.{path}">net.sf.jasperreports.export.json.{type}.{path}</a> 
+<li><code>net.sf.jasperreports.export.json.{type}.{path}</code> 
 - properties with this prefix specify both the type and a given path within the JSON tree, where the current element will be exported. 
 The exported value is the value of the property. If the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> property is not 
@@ -351,7 +351,7 @@ When working with such properties, numbers have to be written with no thousand s
 an element-level flag property indicating whether the value associated to that exported element should be repeated or not when it is missing.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.json.repeat.{path}">net.sf.jasperreports.export.json.repeat.{path}</a> - 
 an element-level flag property indicating whether the value associated to that JSON path should be repeated or not when it is missing.
-Usually this property works in conjunction with one of the <a href="#net.sf.jasperreports.export.json.{type}.{path}">net.sf.jasperreports.export.json.{type}.{path}</a> 
+Usually this property works in conjunction with one of the <code>net.sf.jasperreports.export.json.{type}.{path}</code> 
 properties.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.json.data">net.sf.jasperreports.export.json.data</a> - 
 element-level property containing the exported value for that element. By default is considered the value of the report element itself.

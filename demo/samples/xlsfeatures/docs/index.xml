@@ -413,7 +413,7 @@ binary objects will be also exported into the generated document. Templates can 
 Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 <br/>
 This property may be used in the Excel exporter based on Apache POI APIs (
-<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>). 
+<api href="net/sf/jasperreports/poi/export/JRXlsExporter.html">JRXlsExporter</api>). 
 There's no similar property for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.</li>
 <li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS">net.sf.jasperreports.export.xls.workbook.template.keep.sheets</api> 
 - specifies whether to keep the 

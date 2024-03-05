@@ -107,9 +107,9 @@ The value of this property represents the name of the class that implements the 
 producer interface for the specified alias. 
 <br/>
 Rendering the QRCode component in SVG format is registered under the <code>svg</code> alias and is used by default; 
-the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeSVGImageProducer</code>.
+the built-in property value for this alias is <code>net.sf.jasperreports.barcode4j.QRCodeSVGImageProducer</code>.
 Rendering the QRCode component as rasterized is registered under the <code>image</code> alias and 
-the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeRasterizedImageProducer</code>.
+the built-in property value for this alias is <code>net.sf.jasperreports.barcode4j.QRCodeRasterizedImageProducer</code>.
    	</description>
   </configProperty>
   

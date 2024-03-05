@@ -44,7 +44,7 @@ Such a property is supposed to specify the name of a class that implements the
 This constructor is used to instantiate a chart customizer object at report fill time and is then called to customizer the chart output.
 The <code>{arbitrary_name}</code> suffix of the property is optional and represents the name of the chart customizer. This value will be injected into 
 the chart customizer object using the setName(String) method in case the chart customizer implements the 
-<api href="net/sf/jasperreports/engine/NamedChartCustomizer.html">NamedChartCustomizer</api> interface.
+<api href="net/sf/jasperreports/charts/NamedChartCustomizer.html">NamedChartCustomizer</api> interface.
 <br/>
 The name of the chart customizer allows the chart object to identify additional custom properties at chart element level which are 
 considered to be its own and help configure it, because they contain the name as part of the full property name which have the following format:

@@ -356,7 +356,7 @@
  * </p><p>
  * Hints can also be specified statically by using report properties. The query executer treats 
  * any report property starting with 
- * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.&lt;hintName&gt;} as a hint by interpreting 
+ * net.sf.jasperreports.ejbql.query.hint.&lt;hintName&gt; as a hint by interpreting 
  * the property suffix as the hint name and the property value as the hint value. Thus, if the 
  * following property is present in the report: 
  * </p><p>

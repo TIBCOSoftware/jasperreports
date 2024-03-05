@@ -144,8 +144,8 @@ executer factory:
 &#160;&#160;<code>net.sf.jasperreports.query.executer.factory.hql=net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory</code>
 <br/>
 <br/>
-The <api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> creates 
-<api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> instances to
+The <api href="net/sf/jasperreports/j2ee/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> creates 
+<api href="net/sf/jasperreports/j2ee/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> instances to
 handle data access through Hibernate APIs. The factory automatically defines a parameter named <code>HIBERNATE_SESSION</code> of type 
 <code>org.hibernate.Session</code>, used by the query executer to create the query.
 <br/>

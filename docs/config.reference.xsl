@@ -106,7 +106,11 @@ ga('send', 'pageview');
     <td colspan="5"><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span></td>
+    <td colspan="5"><span class="name"><xsl:value-of select="@name"/>
+      <xsl:if test="@constantDeclarationClassName">
+         - in <xsl:value-of select="@constantDeclarationClassName"/>
+      </xsl:if>
+    </span></td>
   </tr>
   <!-- 
   <tr>
@@ -217,7 +221,13 @@ ga('send', 'pageview');
 <xsl:template match="property">
   <tr>
     <td></td>
-  	<td><span class="element"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:value-of select="@ref"/></xsl:element></span></td>
+  	<td><span class="element"><xsl:element name="a">
+  	  <xsl:attribute name="href">#<xsl:value-of select="@ref"/></xsl:attribute><xsl:value-of select="@ref"/>
+  	  </xsl:element>
+      <xsl:if test="@constantDeclarationClassName">
+         - in <xsl:value-of select="@constantDeclarationClassName"/>
+      </xsl:if>  	  
+  	  </span></td>
   </tr>
 </xsl:template>
 

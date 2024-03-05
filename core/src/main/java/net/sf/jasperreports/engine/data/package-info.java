@@ -232,11 +232,11 @@
  * In many cases, the Jaxen XPath executor provides better performance than the 
  * executor that uses Xalan. But if backward compatibility is required, for switching to the Xalan XPath executer, one needs to set the 
  * {@link net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils#PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property to 
- * the net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory class, which 
+ * the net.sf.jasperreports.xalan.util.XalanXPathExecuterFactory class, which 
  * is usually done by including the following line in the jasperreports.properties 
  * configuration file: 
  * <pre>
- * net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory
+ * net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.xalan.util.XalanXPathExecuterFactory
  * </pre> 
  * and make sure the optional jasperreports-xalan-x.x.x.jar is in the classpath of the application.
  * To switch back to Jaxen, one would comment or remove the property line, or explicitly set the property to 

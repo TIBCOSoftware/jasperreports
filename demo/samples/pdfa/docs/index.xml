@@ -114,7 +114,7 @@ For more information and guidance related to PDF/A conformance levels, also see 
 </ul>
 The conformance level for the generated PDF report can be set in JasperReports using the following configuration properties:
 <ul>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfaConformance()">getPdfaConformance()</api> - 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getPdfaConformance()">getPdfaConformance()</api> - 
 Exporter configuration setting used to specify the conformance level of the PDF/A document. Possible values are: 
 <br/><br/>
 <ul>
@@ -129,7 +129,7 @@ Exporter configuration setting used to specify the conformance level of the PDF/
 <li><code>none (default)</code></li>
 </ul><br/>
 </li>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDFA_CONFORMANCE">net.sf.jasperreports.export.pdfa.conformance</api> 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_PDFA_CONFORMANCE">net.sf.jasperreports.export.pdfa.conformance</api> 
 - Configuration property used as default for the <code>getPdfaConformance()</code> setting above. It can be set per context or report level.<br/><br/></li>
 </ul>
 <subtitle name="iccprofile">Color Management Guidelines</subtitle>
@@ -146,12 +146,12 @@ In order to customize the color spaces we can use the following properties:
 <ul>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.pdfa.icc.profile.path" target="_blank">net.sf.jasperreports.export.pdfa.icc.profile.path</a> - 
 Specifies the path to the ICC profile file for the PDF/A compliant documents. Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> export configuration setting. </li>
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> export configuration setting. </li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.pdfa.embed.icc.profile" target="_blank">net.sf.jasperreports.export.pdfa.embed.icc.profile</a> 
-- Specifies whether the ICC profile, which in this case must be provided by <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api>, 
+- Specifies whether the ICC profile, which in this case must be provided by <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api>, 
 is embedded into the PDF. PDFA compliance requires embedding the ICC profile, which inhibits this setting.</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.pdf.use.cmyk.colors" target="_blank">net.sf.jasperreports.export.pdf.use.cmyk.colors</a> 
-- Specifies whether the ICC profile, which in this case must be provided by <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api>, 
+- Specifies whether the ICC profile, which in this case must be provided by <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api>, 
 is used to convert colors from RGB to CMYK color space.<br/><br/></li>
 </ul>
 <subtitle name="metadata">Additional Properties for PDF/A-1a</subtitle>
@@ -161,7 +161,7 @@ There are 2 more properties to be considered in order to ensure the accessibilit
 <ul>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.pdf.metadata.title" target="_blank">net.sf.jasperreports.export.pdf.metadata.title</a> - 
 <b>Required.</b> Contains the title information to use for the generated PDF metadata. Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> export configuration setting. </li>
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> export configuration setting. </li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.components.table.accessible" target="_blank">net.sf.jasperreports.components.table.accessible</a> 
 - Property that enables/disables the automatic addition of specific custom properties to the elements that make up the table and its cells.<br/><br/></li>
 </ul>
@@ -183,17 +183,17 @@ To enable accessibility in generated documents a set of export parameters are av
 <ul>
 <li>Tagged Documents
 <ul>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isTagged()">isTagged()</api> - 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isTagged()">isTagged()</api> - 
 Exporter configuration setting used to turn on the creation of hidden structural tags. By default the feature is turned off.</li>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_TAGGED">net.sf.jasperreports.export.pdf.tagged</api> 
 - Configuration property used as default for the <code>isTagged()</code> setting above. It can be set at global or report level.<br/><br/></li>
 </ul>
 </li>
 <li>Tag Language
 <ul>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> - 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> - 
 Export configuration setting used to specify the language to be used in the language tag of the generated PDF.</li>
-<li><api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
+<li><api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_TAG_LANGUAGE">net.sf.jasperreports.export.pdf.tag.language</api> 
 - Configuration property used as default for the <code>getTagLanguage()</code> setting above. It can be set at global or report level.<br/><br/></li>
 </ul>
 </li>

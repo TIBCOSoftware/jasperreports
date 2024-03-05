@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.BreakIterator;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -76,6 +77,7 @@ public class PropertiesDocReader
 	private static final String ATTR_CATEGORY_PROPERTY_REF = "ref";
 	private static final String ELEMENT_CONFIG_PROP = "configProperty";
 	private static final String ATTR_CONFIG_PROP_NAME = "name";
+	private static final String ATTR_CONSTANT_DECLARATION_CLASS_NAME = "constantDeclarationClassName";
 	private static final String ELEMENT_DESCRIPTION = "description";
 	private static final String ELEMENT_API = "api";
 	private static final String ELEMENT_DEFAULT = "default";
@@ -83,7 +85,12 @@ public class PropertiesDocReader
 	private static final String ELEMENT_CONTEXT_UNAWARE = "contextUnaware";
 	private static final String ELEMENT_SINCE = "since";
 	private static final String ELEMENT_DEPRECATED = "deprecated";
+	
+	 
+	// This array is used for binary searches, maintain it sorted
 
+	private static final String[] SORTED_DUPLICATE_CLASSES = {"JRJpaQueryExecuter"};
+			
 	private ProcessingEnvironment environment;
 	private CompiledPropertiesMetadata properties;
 	private DocumentBuilder documentBuilder;
@@ -197,6 +204,11 @@ public class PropertiesDocReader
 			}
 			
 			Element descriptionElem = (Element) descriptionElems.item(0);
+			String constantDeclarationClassName = docPropElement.getAttribute(ATTR_CONSTANT_DECLARATION_CLASS_NAME);
+			if(Arrays.binarySearch(SORTED_DUPLICATE_CLASSES, constantDeclarationClassName.substring(constantDeclarationClassName.lastIndexOf('.')+1)) >= 0)
+			{
+				descriptionElem.setAttribute(ATTR_CONSTANT_DECLARATION_CLASS_NAME, constantDeclarationClassName);
+			}
 			propertyDocNodes.put(propName, descriptionElem);
 		}
 	}
@@ -323,7 +335,14 @@ public class PropertiesDocReader
 		for (PropertyDoc prop : category.getProperties())
 		{
 			Element propElem = refDoc.createElement(ELEMENT_CATEGORY_PROPERTY);
-			propElem.setAttribute(ATTR_CATEGORY_PROPERTY_REF, prop.getPropertyMetadata().getName());
+			CompiledPropertyMetadata propMetadata = prop.getPropertyMetadata();
+			propElem.setAttribute(ATTR_CATEGORY_PROPERTY_REF, propMetadata.getName());
+			String constantDeclarationClassName=propMetadata.getConstantDeclarationClass().trim();
+			
+			if(Arrays.binarySearch(SORTED_DUPLICATE_CLASSES, constantDeclarationClassName.substring(constantDeclarationClassName.lastIndexOf('.')+1)) >= 0)
+			{
+				propElem.setAttribute(ATTR_CONSTANT_DECLARATION_CLASS_NAME,constantDeclarationClassName);
+			}
 			content.appendChild(propElem);
 		}
 		refCategory.appendChild(content);
@@ -338,6 +357,12 @@ public class PropertiesDocReader
 		
 		Element refProp = refDoc.createElement(ELEMENT_CONFIG_PROP);
 		refProp.setAttribute(ATTR_CONFIG_PROP_NAME, propName);
+		
+		String constantDeclarationClass = propertyMetadata.getConstantDeclarationClass();
+		if(Arrays.binarySearch(SORTED_DUPLICATE_CLASSES, constantDeclarationClass.substring(constantDeclarationClass.lastIndexOf('.')+1)) >= 0)
+		{
+			refProp.setAttribute(ATTR_CONSTANT_DECLARATION_CLASS_NAME, constantDeclarationClass.trim());
+		}
 		
 		Element docNode = propertyDocNodes.get(propName);
 		if (docNode != null)

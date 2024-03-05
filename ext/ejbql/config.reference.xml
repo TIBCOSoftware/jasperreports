@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:data.source">
+    <name>Data Source / Query Executer</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.ejbql.query.hint.{hint} -->
+  
+  <configProperty name="net.sf.jasperreports.ejbql.query.hint.{hint}" constantDeclarationClassName="net.sf.jasperreports.jakarta.ejbql.JRJpaQueryExecuter">
+    <description>
+Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
+<api href="net/sf/jasperreports/jakarta/ejbql/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.ejbql.query.page.size -->
+  
+  <configProperty name="net.sf.jasperreports.ejbql.query.page.size" constantDeclarationClassName="net.sf.jasperreports.jakarta.ejbql.JRJpaQueryExecuter">
+    <description>
+Property specifying the number of result rows to be retrieved at once. Result pagination is implemented by 
+<code>jakarta.persistence.Query.setFirstResult()</code> and <code>jakarta.persistence.Query.setMaxResults()</code>.
+<br/>
+By default, all the rows are retrieved (no result pagination is performed).
+    </description>
+  </configProperty>
+    
+  
+</configReference>

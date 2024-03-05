@@ -14,7 +14,7 @@
 Property that specifies whether the encryption key is 128 bits.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#is128BitKey()">is128BitKey()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#is128BitKey()">is128BitKey()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -89,7 +89,7 @@ the bookmark will be created as a direct descendant of its nearest parent.
 Property that specifies whether the PDF document should be compressed.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isCompressed()">isCompressed()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isCompressed()">isCompressed()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -101,7 +101,7 @@ Its value is used as default for the
 Property that specifies whether the PDF document should contain an outline section.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isCreatingBatchModeBookmarks()">isCreatingBatchModeBookmarks()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isCreatingBatchModeBookmarks()">isCreatingBatchModeBookmarks()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -113,7 +113,7 @@ Its value is used as default for the
 Property that specifies whether the document title should be displayed in the title bar instead of the file name. Should be set to true for accessible documents that provide a document title.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -125,7 +125,7 @@ Its value is used as default for the
 Property that specifies  whether the final PDF document should be encrypted.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isEncrypted()">isEncrypted()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isEncrypted()">isEncrypted()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -137,7 +137,7 @@ Its value is used as default for the
 Property that specifies the X offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetX()">getEvenPageOffsetX()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#getEvenPageOffsetX()">getEvenPageOffsetX()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -149,7 +149,7 @@ Its value is used as default for the
 Property that specifies the Y offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetY()">getEvenPageOffsetY()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#getEvenPageOffsetY()">getEvenPageOffsetY()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -310,7 +310,7 @@ Property that specifies whether the PDF exporter should use a <a href="https://l
 implementation to ensure that PDF text wrap behavior is the same as in AWT.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceLineBreakPolicy()">isForceLineBreakPolicy()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#isForceLineBreakPolicy()">isForceLineBreakPolicy()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -322,7 +322,7 @@ Its value is used as default for the
 Property that specifies whether the rendering of SVG images using shapes on the PDF Graphics2D context should be forced.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceSvgShapes()">isForceSvgShapes()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#isForceSvgShapes()">isForceSvgShapes()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -344,7 +344,7 @@ This flag can be controlled at hyperlink declaration level by using the hyperlin
 Property that contains the user defined JavaScript piece of code to be inserted into the generated PDF document.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfJavaScript()">getPdfJavaScript()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getPdfJavaScript()">getPdfJavaScript()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -391,7 +391,7 @@ otherwise the additional pixel in PDF text rendering is not needed since the new
 Property that contains the author information to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -403,7 +403,7 @@ Its value is used as default for the
 Property that contains the creator information to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataCreator()">getMetadataCreator()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataCreator()">getMetadataCreator()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -415,7 +415,7 @@ Its value is used as default for the
 Property that contains the keywords to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -427,7 +427,7 @@ Its value is used as default for the
 Property that contains the producer information to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataProducer()">getMetadataProducer()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataProducer()">getMetadataProducer()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -439,7 +439,7 @@ Its value is used as default for the
 Property that contains the subject information to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -451,7 +451,7 @@ Its value is used as default for the
 Property that contains the title information to use for the generated PDF metadata.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -463,7 +463,7 @@ Its value is used as default for the
 Property that specifies the X offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetX()">getOddPageOffsetX()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#getOddPageOffsetX()">getOddPageOffsetX()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -475,7 +475,7 @@ Its value is used as default for the
 Property that specifies the Y offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetY()">getOddPageOffsetY()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfReportConfiguration.html#getOddPageOffsetY()">getOddPageOffsetY()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -488,7 +488,7 @@ Property that contains the password belonging to the owner of the document, if i
 encrypted, then the password will be a random string.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getOwnerPassword()">getOwnerPassword()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getOwnerPassword()">getOwnerPassword()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -498,7 +498,7 @@ Its value is used as default for the
   <configProperty name="net.sf.jasperreports.export.pdf.permissions.allowed">
     <description>
 Property that contains the allowed user permissions of the PDF document, if it is encrypted. Allowed values are one or many the permission names enumerated in  
-<api href="net/sf/jasperreports/export/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
+<api href="net/sf/jasperreports/pdf/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
 <ul>
 <li><code>ALL</code> - all user permissions are allowed</li>
 <li><code>ASSEMBLY</code> - assembly permission allowed</li>
@@ -512,7 +512,7 @@ Property that contains the allowed user permissions of the PDF document, if it i
 </ul>
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissions()">getAllowedPermissions()</api> PDF export configuration setting. 
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getAllowedPermissions()">getAllowedPermissions()</api> PDF export configuration setting. 
 By default no user permissions are allowed at all.
     </description>
   </configProperty>
@@ -525,7 +525,7 @@ By default no user permissions are allowed at all.
 Property that contains the denied user permissions of the PDF document, if it is encrypted. This property works in conjunction with 
 the <a href="#net.sf.jasperreports.export.pdf.permissions.allowed">net.sf.jasperreports.export.pdf.permissions.allowed</a>. If present, denied permissions 
 will be excluded from the allowed values. This property may contain one or many permission names enumerated in  
-<api href="net/sf/jasperreports/export/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
+<api href="net/sf/jasperreports/pdf/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
 <ul>
 <li><code>ALL</code> - all user permissions are denied</li>
 <li><code>ASSEMBLY</code> - assembly permission denied</li>
@@ -539,7 +539,7 @@ will be excluded from the allowed values. This property may contain one or many 
 </ul>
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getDeniedPermissions()">getDeniedPermissions()</api> PDF export configuration setting. 
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getDeniedPermissions()">getDeniedPermissions()</api> PDF export configuration setting. 
 By default there are no user permissions allowed for the document.
     </description>
   </configProperty>
@@ -552,7 +552,7 @@ By default there are no user permissions allowed for the document.
 Property that specifies the print scaling preference in the PDF print dialog.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPrintScaling()">getPrintScaling()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getPrintScaling()">getPrintScaling()</api> PDF export configuration setting.
 <br/>
 Possible values are <code>default</code> and <code>none</code>.
     </description>
@@ -638,7 +638,7 @@ Property used to associate a PDF L tag with this element.
 Property that specifies the language that the exporter should put in the language tag of the generated PDF.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -659,7 +659,7 @@ Property used to associate a PDF LI tag with this element.
 Property that specifies whether the exporter should put structure tags in the generated PDF.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isTagged()">isTagged()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isTagged()">isTagged()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -669,7 +669,7 @@ Its value is used as default for the
   <configProperty name="net.sf.jasperreports.export.pdf.use.cmyk.colors">
     <description>
 Property whose value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isUseCMYKColors()">isUseCMYKColors()</api> export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isUseCMYKColors()">isUseCMYKColors()</api> export configuration setting.
     </description>
   </configProperty>
   
@@ -681,7 +681,7 @@ Property whose value is used as default for the
 Property that contains the user password needed to open the document, if it is encrypted.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getUserPassword()">getUserPassword()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getUserPassword()">getUserPassword()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -693,7 +693,7 @@ Its value is used as default for the
 Property that contains a <code>Character</code> instance representing the version of the generated PDF.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfVersion()">getPdfVersion()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getPdfVersion()">getPdfVersion()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -702,7 +702,7 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.pdfa.conformance">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfaConformance()">getPdfaConformance()</api> 
+Property whose value is used as default for the <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getPdfaConformance()">getPdfaConformance()</api> 
 export configuration setting. It specifies the conformance level of the PDF/A document. Possible values are: <code>pdfa1a</code>, <code>pdfa1b</code> and <code>none</code>.
 <br/>
 By default, this property is set to <code>none</code>. 
@@ -715,7 +715,7 @@ By default, this property is set to <code>none</code>.
   <configProperty name="net.sf.jasperreports.export.pdfa.embed.icc.profile">
     <description>
 Property whose value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isEmbedIccProfile()">isEmbedIccProfile()</api> export configuration setting.
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isEmbedIccProfile()">isEmbedIccProfile()</api> export configuration setting.
     </description>
   </configProperty>
   
@@ -724,7 +724,7 @@ Property whose value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.pdfa.icc.profile.path">
     <description>
-Property whose value is used as default for the <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> 
+Property whose value is used as default for the <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> 
 export configuration setting. It specifies the path to the ICC profile file for the PDF/A compliant documents.
     </description>
   </configProperty>

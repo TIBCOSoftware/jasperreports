@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.jasperreports.components.ComponentsManager;
-import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;

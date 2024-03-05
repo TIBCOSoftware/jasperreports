@@ -65,7 +65,7 @@ Properties having this prefix specify the name of a class that implements the <a
 interface and has an empty constructor.
 This class will be used to instantiate a chart customizer object that will be then called to customize the chart produced by the element.
 The {arbitrary_name} suffix of the property is considered to be the name of the chart customizer instance and in case the chart customizer class
-implements the <api href="net/sf/jasperreports/engine/NamedChartCustomizer.html">NamedChartCustomizer</api> interface, this name is passed to it after instantiation 
+implements the <api href="net/sf/jasperreports/charts/NamedChartCustomizer.html">NamedChartCustomizer</api> interface, this name is passed to it after instantiation 
 using the setName(String) method.
 Named customizer implementations such as the ones extending the <api href="net/sf/jasperreports/engine/JRAbstractChartCustomizer.html">JRAbstractChartCustomizer</api> could 
 use this name to read custom chart element properties that are supposed to be their own, because they have this name as part of the full custom property name in the form of 
@@ -78,7 +78,7 @@ net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}.
   
   <configProperty name="net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}">
     <description>
-Properties having this form are usually supposed to be read by <api href="net/sf/jasperreports/engine/NamedChartCustomizer.html">NamedChartCustomizer</api> 
+Properties having this form are usually supposed to be read by <api href="net/sf/jasperreports/charts/NamedChartCustomizer.html">NamedChartCustomizer</api> 
 instances assigned to a chart element using a custom property in the form of 
 <a href="#net.sf.jasperreports.customizer.class.{arbitrary_name}" target="_blank">net.sf.jasperreports.customizer.class.{arbitrary_name}</a>. 
     </description>

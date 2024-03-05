@@ -35,6 +35,8 @@ import javax.persistence.Query;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -47,6 +49,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.EjbqlConstants;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * EJBQL query executer that uses the Java Persistence API.
@@ -64,7 +67,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * </pre>
  * </code>
  * <p/>
- * When dealing with large result sets, pagination can be used by setting the {@link net.sf.jasperreports.engine.query.EjbqlConstants#PROPERTY_JPA_QUERY_PAGE_SIZE} property in the report template.
+ * When dealing with large result sets, pagination can be used by setting the {@link net.sf.jasperreports.j2ee.ejbql.JRJpaQueryExecuter#PROPERTY_JPA_QUERY_PAGE_SIZE} property in the report template.
  * <p/>
  * Example:
  * <code>
@@ -83,7 +86,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  * &lt;property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="100"/&gt;
  * </pre>
  * </code>
- * The name of the query hint need to be prefixed with {@link net.sf.jasperreports.engine.query.EjbqlConstants#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.}.
+ * The name of the query hint need to be prefixed with {@link net.sf.jasperreports.j2ee.ejbql.JRJpaQueryExecuter#PROPERTY_JPA_QUERY_HINT_PREFIX net.sf.jasperreports.ejbql.query.hint.}.
  * Above example will set a query hint with the name <code>fetchSize</code> and the <code>String</code> value <code>100</code>.
  * <p/>
  * Example using map:
@@ -111,7 +114,36 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 	private static final Log log = LogFactory.getLog(JRJpaQueryExecuter.class);
 
 	public static final String CANONICAL_LANGUAGE = "EJBQL";
-	
+
+	/**
+	 * Property specifying the number of result rows to be retrieved at once.
+	 * <p/>
+	 * Result pagination is implemented by <code>javax.persistence.Query.setFirstResult()</code> and <code>javax.persistence.Query.setMaxResults()</code>.
+	 * <p/>
+	 * By default, all the rows are retrieved (no result pagination is performed).
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {EjbqlConstants.QUERY_EXECUTER_NAME_EJBQL},
+			sinceVersion = PropertyConstants.VERSION_1_2_3,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_JPA_QUERY_PAGE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.page.size";
+
+	/**
+	 * Property specifying the prefix for EJBQL query hints.
+	 */
+	@Property(
+			name = "net.sf.jasperreports.ejbql.query.hint.{hint}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.DATASET},
+			scopeQualifications = {EjbqlConstants.QUERY_EXECUTER_NAME_EJBQL},
+			sinceVersion = PropertyConstants.VERSION_1_2_3
+			)
+	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
+
+		
 	private final Integer reportMaxCount;
 	
 	private EntityManager em;
@@ -210,7 +242,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		// Example: net.sf.jasperreports.ejbql.query.hint.fetchSize
 		// This property will result in a query hint set with the name: fetchSize
 		List<PropertySuffix> properties = JRPropertiesUtil.getProperties(dataset, 
-				EjbqlConstants.PROPERTY_JPA_QUERY_HINT_PREFIX);
+				PROPERTY_JPA_QUERY_HINT_PREFIX);
 		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();) {
 			PropertySuffix property = it.next();
 			String queryHint = property.getSuffix();
@@ -234,7 +266,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		
 		try {
 			int pageSize = getPropertiesUtil().getIntegerProperty(dataset, 
-					EjbqlConstants.PROPERTY_JPA_QUERY_PAGE_SIZE,
+					PROPERTY_JPA_QUERY_PAGE_SIZE,
 					0);
 
 			resDatasource = new JRJpaDataSource(this, pageSize);
@@ -243,7 +275,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NUMERIC_TYPE_REQUIRED,
-					new Object[]{EjbqlConstants.PROPERTY_JPA_QUERY_PAGE_SIZE},
+					new Object[]{PROPERTY_JPA_QUERY_PAGE_SIZE},
 					e);
 		}
 		
