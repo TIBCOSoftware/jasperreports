@@ -24,9 +24,9 @@
 package net.sf.jasperreports.engine.part;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * The default {@link PartComponentsBundle components bundle} implementation.
@@ -39,55 +39,31 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class DefaultPartComponentsBundle implements PartComponentsBundle
 {
-	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "engine.part.component.manager.not.found";
 	
-	private String namespace;
-	private Map<String,PartComponentManager> componentManagers;
+	private Map<Class<? extends PartComponent>, PartComponentManager> componentManagers;
 
 	@Override
-	public String getNamespace()
-	{
-		return namespace;
-	}
-
-	/**
-	 * Sets the components namespace.
-	 * 
-	 * @param namespace the components namespace 
-	 * @see #getNamespace()
-	 */
-	public void setNamespace(String namespace)
-	{
-		this.namespace = namespace;
-	}
-
-	@Override
-	public Set<String> getComponentNames()
+	public Set<Class<? extends PartComponent>> getComponentTypes()
 	{
 		return componentManagers.keySet();
 	}
 	
 	@Override
-	public PartComponentManager getComponentManager(String componentName)
+	public Optional<PartComponentManager> getComponentManager(PartComponent component)
 	{
-		PartComponentManager manager = componentManagers.get(componentName);
-		if (manager == null)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
-					new Object[]{componentName, namespace});
-		}
-		return manager;
+		//TODO handle class hierarchies?
+		return componentManagers.entrySet().stream()
+				.filter(entry -> entry.getKey().isInstance(component))
+				.findFirst().map(Entry::getValue);
 	}
 	
 	/**
-	 * Returns the internal map of component managers, indexed by component name.
+	 * Returns the internal map of component managers, indexed by component type.
 	 * 
 	 * @return the map of component managers
 	 * @see #setComponentManagers(Map)
 	 */
-	public Map<String,PartComponentManager> getComponentManagers()
+	public Map<Class<? extends PartComponent>, PartComponentManager> getComponentManagers()
 	{
 		return componentManagers;
 	}
@@ -96,12 +72,12 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 	 * Sets the map of component managers.
 	 * 
 	 * <p>
-	 * The map needs to use component names as keys, and {@link PartComponentManager}
+	 * The map needs to use component types as keys, and {@link PartComponentManager}
 	 * instances as values.
 	 * 
 	 * @param componentManagers the map of component managers
 	 */
-	public void setComponentManagers(Map<String,PartComponentManager> componentManagers)
+	public void setComponentManagers(Map<Class<? extends PartComponent>, PartComponentManager> componentManagers)
 	{
 		this.componentManagers = componentManagers;
 	}

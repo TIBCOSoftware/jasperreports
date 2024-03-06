@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import net.sf.jasperreports.charts.ChartsExtensionsRegistryFactory;
 import net.sf.jasperreports.charts.base.ChartsBaseObjectFactory;
 import net.sf.jasperreports.components.charts.ChartComponent;
 import net.sf.jasperreports.components.charts.ChartDataset;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -42,6 +44,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@ComponentSpec(name = ChartsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME)
 public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport, JRCloneable
 {
 

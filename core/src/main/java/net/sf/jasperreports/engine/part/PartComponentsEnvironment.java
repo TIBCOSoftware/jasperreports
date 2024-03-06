@@ -24,10 +24,9 @@
 package net.sf.jasperreports.engine.part;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -35,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 /**
@@ -52,9 +51,10 @@ public final class PartComponentsEnvironment
 {
 	
 	private static final Log log = LogFactory.getLog(PartComponentsEnvironment.class);
-	public static final String EXCEPTION_MESSAGE_KEY_PART_COMPONENTS_BUNDLE_NOT_REGISTERED = "engine.part.components.bundle.not.registered";
+
+	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "engine.part.component.manager.not.found";
 	
-	private final ReferenceMap<Object, Map<String, PartComponentsBundle>> cache = 
+	private final ReferenceMap<Object, List<PartComponentsBundle>> cache = 
 		new ReferenceMap<>(
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
 			);
@@ -87,16 +87,16 @@ public final class PartComponentsEnvironment
 	 */
 	public Collection<PartComponentsBundle> getBundles()
 	{
-		Map<String, PartComponentsBundle> components = getCachedBundles();
-		return components.values();
+		List<PartComponentsBundle> components = getCachedBundles();
+		return components;
 	}
 	
-	protected Map<String, PartComponentsBundle> getCachedBundles()
+	protected List<PartComponentsBundle> getCachedBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			Map<String, PartComponentsBundle> components = cache.get(cacheKey);
+			List<PartComponentsBundle> components = cache.get(cacheKey);
 			if (components == null)
 			{
 				components = findBundles();
@@ -106,46 +106,9 @@ public final class PartComponentsEnvironment
 		}
 	}
 
-	protected Map<String, PartComponentsBundle> findBundles()
+	protected List<PartComponentsBundle> findBundles()
 	{
-		Map<String, PartComponentsBundle> components = new HashMap<>();
-		List<PartComponentsBundle> bundles = jasperReportsContext.getExtensions(PartComponentsBundle.class);
-		for (Iterator<PartComponentsBundle> it = bundles.iterator(); it.hasNext();)
-		{
-			PartComponentsBundle bundle = it.next();
-			String namespace = bundle.getNamespace();
-			if (components.containsKey(namespace))
-			{
-				log.warn("Found two components for namespace " + namespace);
-			}
-			else
-			{
-				components.put(namespace, bundle);
-			}
-		}
-		return components;
-	}
-	
-	/**
-	 * Returns a component bundle that corresponds to a namespace.
-	 * 
-	 * @param namespace a component bundle namespace
-	 * @return the corresponding component bundle
-	 * @throws JRRuntimeException if no bundle corresponding to the namespace
-	 * is found in the registry
-	 */
-	public PartComponentsBundle getBundle(String namespace)
-	{
-		Map<String, PartComponentsBundle> components = getCachedBundles();
-		PartComponentsBundle componentsBundle = components.get(namespace);
-		if (componentsBundle == null)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_PART_COMPONENTS_BUNDLE_NOT_REGISTERED,
-					new Object[]{namespace});
-		}
-		return componentsBundle;
+		return jasperReportsContext.getExtensions(PartComponentsBundle.class);
 	}
 	
 	/**
@@ -157,13 +120,45 @@ public final class PartComponentsEnvironment
 	 * @throws JRRuntimeException if the registry does not contain the specified
 	 * component type
 	 */
-	public PartComponentManager getManager(ComponentKey componentKey)
+	public PartComponentManager getManager(PartComponent component)
 	{
-		String namespace = componentKey.getNamespace();
-		PartComponentsBundle componentsBundle = getBundle(namespace);
+		List<PartComponentsBundle> bundles = getCachedBundles();
+		List<PartComponentManager> managers = bundles.stream().map(bundle -> bundle.getComponentManager(component))
+				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+		if (managers.isEmpty())
+		{
+			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
+					new Object[]{component.getClass().getName()});
+		}
 		
-		String name = componentKey.getName();
-		return componentsBundle.getComponentManager(name);
+		if (managers.size() > 1)
+		{
+			log.warn("Found " + managers.size() + " components for " + component.getClass().getName());
+		}
+		return managers.get(0);
+	}
+	
+	public String getComponentName(Class<? extends PartComponent> componentType)
+	{
+		for (Class<?> type = componentType; type != null; type = type.getSuperclass()) 
+		{
+			ComponentSpec componentSpec = type.getAnnotation(ComponentSpec.class);
+			if (componentSpec != null)
+			{
+				return componentSpec.name();
+			}
+		}
+		
+		for (Class<?> itf : componentType.getInterfaces())
+		{
+			ComponentSpec componentSpec = itf.getAnnotation(ComponentSpec.class);
+			if (componentSpec != null)
+			{
+				return componentSpec.name();
+			}
+		}
+		
+		throw new JRRuntimeException("Cannot detect name of part component of type " + componentType.getName());
 	}
 
 }

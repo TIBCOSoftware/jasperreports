@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -47,6 +48,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@ComponentSpec(name = "googlemap")
 public interface MapComponent extends Component, JRCloneable
 {
 	// properties at report element level:

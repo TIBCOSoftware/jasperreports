@@ -21,14 +21,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.customvisualization;
+package net.sf.jasperreports.engine.component;
 
-import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-public class CVComponentBundle extends DefaultComponentsBundle
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+/**
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ */
+@Retention(RUNTIME)
+@Target(TYPE)
+public @interface ComponentSpec
 {
-	public CVComponentBundle()
-	{
-		super();
-	}
+
+	String name();
+
 }

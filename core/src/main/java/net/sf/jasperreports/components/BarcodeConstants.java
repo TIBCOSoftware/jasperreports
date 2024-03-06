@@ -23,18 +23,13 @@
  */
 package net.sf.jasperreports.components;
 
-import net.sf.jasperreports.properties.PropertyConstants;
-
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface BarcodeConstants
 {
-	String METADATA_KEY_QUALIFICATION_BARBECUE = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ "barbecue";
+	String METADATA_KEY_QUALIFICATION_BARBECUE = "barbecue";
 
 	String COMPONENT_DESIGNATION_BARCODE4J = "net.sf.jasperreports.component.element:Barcode4j";
 

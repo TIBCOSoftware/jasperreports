@@ -23,12 +23,14 @@
  */
 package net.sf.jasperreports.components.list;
 
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.DatasetRunHolder;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 /**
@@ -36,6 +38,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME)
 public interface ListComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 

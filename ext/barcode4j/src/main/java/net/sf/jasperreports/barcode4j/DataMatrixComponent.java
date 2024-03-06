@@ -24,6 +24,7 @@
 package net.sf.jasperreports.barcode4j;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 
@@ -31,6 +32,7 @@ import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = "barcode4j:DataMatrix")
 public class DataMatrixComponent extends Barcode4jComponent
 {
 

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.part;
 
+import java.util.Optional;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -37,28 +38,21 @@ public interface PartComponentsBundle
 {
 
 	/**
-	 * Returns the namespace used by the component bundle.
-	 * 
-	 * @return the component bundle namespace
-	 */
-	String getNamespace();
-
-	/**
-	 * Returns a set that contains the names of components included in this
+	 * Returns a set that contains the types of components included in this
 	 * bundle.
 	 * 
-	 * @return the set of component names in this bundle
+	 * @return the set of component types in this bundle
 	 */
-	Set<String> getComponentNames();
+	Set<Class<? extends PartComponent>> getComponentTypes();
 
 	/**
 	 * Returns the manager for a component type identified by name.
 	 * 
-	 * @param componentName the component name
+	 * @param component the component
 	 * @return the manager for the corresponding component type
 	 * @throws JRRuntimeException if the bundle does not include a component type
 	 * having the specified name
 	 */
-	PartComponentManager getComponentManager(String componentName);
+	Optional<PartComponentManager> getComponentManager(PartComponent component);
 
 }

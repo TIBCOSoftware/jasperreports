@@ -30,10 +30,12 @@ import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
+@ComponentSpec(name = CVConstants.COMPONENT_NAME)
 public interface CVComponent extends Component, ContextAwareComponent, JRCloneable, Serializable
 {
 	public EvaluationTimeEnum getEvaluationTime();

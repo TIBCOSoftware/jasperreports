@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.jasperreports.customvisualization.design.CVDesignComponent;
 import net.sf.jasperreports.customvisualization.export.CVElementDocxHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementGraphics2DHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementHtmlHandler;
@@ -40,9 +41,11 @@ import net.sf.jasperreports.customvisualization.export.CVElementXlsHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementXlsxHandler;
 import net.sf.jasperreports.customvisualization.fill.CVFillFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
+import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -64,20 +67,19 @@ import net.sf.jasperreports.poi.export.JRXlsExporter;
 public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	// private static final ExtensionsRegistry REGISTRY;
-	private static CVComponentBundle COMPONENT_BUNDLE;
+	private static DefaultComponentsBundle COMPONENT_BUNDLE;
 
 	static
 	{
-		final CVComponentBundle bundle = new CVComponentBundle();
-		bundle.setNamespace(CVConstants.NAMESPACE);
+		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 
 		DefaultComponentManager componentManager = new DefaultComponentManager();
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());
 		componentManager.setComponentCompiler(new CVCompiler());
 		componentManager.setComponentFillFactory(new CVFillFactory());
-		componentManagers.put(CVConstants.COMPONENT_NAME, componentManager);
+		componentManagers.put(CVDesignComponent.class, componentManager);
 
 		bundle.setComponentManagers(componentManagers);
 

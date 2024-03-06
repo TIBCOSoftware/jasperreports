@@ -140,9 +140,7 @@ public class TableReport implements JRReport
 	public static final String EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE = "fill.table.report.unrecognized.filter.expression.type";
 	
 	public static final String METADATA_KEY_QUALIFICATION = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME;
+			ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME;
 	
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending

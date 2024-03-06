@@ -25,6 +25,7 @@ package net.sf.jasperreports.barcode4j;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 import org.krysalis.barcode4j.ChecksumMode;
@@ -33,6 +34,7 @@ import org.krysalis.barcode4j.ChecksumMode;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = "barcode4j:EAN128")
 public class EAN128Component extends Code128Component
 {
 

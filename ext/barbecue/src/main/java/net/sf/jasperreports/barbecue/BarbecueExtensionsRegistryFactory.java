@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -47,9 +48,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  */
 public class BarbecueExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/components";
 	
 	public static final String BARBECUE_COMPONENT_NAME = "barbecue";
 	
@@ -58,17 +56,14 @@ public class BarbecueExtensionsRegistryFactory implements ExtensionsRegistryFact
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultComponentManager barbecueManager = new DefaultComponentManager();
 		barbecueManager.setDesignConverter(new BarbecueDesignConverter());
 		barbecueManager.setComponentCompiler(new BarbecueCompiler());
-		//barbecueManager.setComponentXmlWriter(xmlHandler);
 		barbecueManager.setComponentFillFactory(new BarbecueFillFactory());
-		componentManagers.put(BARBECUE_COMPONENT_NAME, barbecueManager);
+		componentManagers.put(BarbecueComponent.class, barbecueManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

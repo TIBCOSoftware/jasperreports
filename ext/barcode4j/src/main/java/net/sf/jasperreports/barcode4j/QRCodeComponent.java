@@ -27,6 +27,7 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -34,6 +35,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@ComponentSpec(name = "barcode4j:QRCode")
 public class QRCodeComponent extends BarcodeComponent
 {
 	

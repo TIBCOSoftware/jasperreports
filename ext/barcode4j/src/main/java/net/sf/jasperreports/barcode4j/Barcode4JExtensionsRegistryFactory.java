@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -42,33 +43,39 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  */
 public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/components";
 	
-	public static final List<String> BARCODE4J_COMPONENT_NAMES = Collections.unmodifiableList(Arrays.asList(
-			"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
-			"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
-			"POSTNET", "PDF417", "QRCode"));
+	public static final List<Class<? extends Component>> BARCODE4J_COMPONENT_TYPES = Collections.unmodifiableList(Arrays.asList(
+			CodabarComponent.class, 
+			Code128Component.class, 
+			EAN128Component.class, 
+			DataMatrixComponent.class, 
+			Code39Component.class, 
+			Interleaved2Of5Component.class,
+			UPCAComponent.class, 
+			UPCEComponent.class, 
+			EAN13Component.class, 
+			EAN8Component.class, 
+			USPSIntelligentMailComponent.class, 
+			RoyalMailCustomerComponent.class, 
+			POSTNETComponent.class, 
+			PDF417Component.class, 
+			QRCodeComponent.class));
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultComponentManager barcode4jManager = new DefaultComponentManager();
 		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
 		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
-		//barcode4jManager.setComponentXmlWriter(xmlHandler);
 		barcode4jManager.setComponentFillFactory(new BarcodeFillFactory());
-		for (String name : BARCODE4J_COMPONENT_NAMES)
+		for (Class<? extends Component> type : BARCODE4J_COMPONENT_TYPES)
 		{
-			componentManagers.put(name, barcode4jManager);
+			componentManagers.put(type, barcode4jManager);
 		}
 		
 		bundle.setComponentManagers(componentManagers);

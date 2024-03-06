@@ -23,24 +23,22 @@
  */
 package net.sf.jasperreports.barbecue;
 
-import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME)
 public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 {
 	String METADATA_KEY_QUALIFICATION = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
+			BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
 	
 	//TODO scale type, alignment
 

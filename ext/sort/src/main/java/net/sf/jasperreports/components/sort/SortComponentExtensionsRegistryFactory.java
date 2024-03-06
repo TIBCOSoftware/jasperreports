@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -47,9 +48,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  */
 public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/components";
 	
 	public static final String SORT_COMPONENT_NAME = "sort";
 	
@@ -58,15 +56,14 @@ public class SortComponentExtensionsRegistryFactory implements ExtensionsRegistr
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultComponentManager sortManager = new DefaultComponentManager();
 		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
 		sortManager.setComponentCompiler(new SortComponentCompiler());
 		sortManager.setComponentFillFactory(new SortComponentFillFactory());
-		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
+		componentManagers.put(SortComponent.class, sortManager);
 
 		bundle.setComponentManagers(componentManagers);
 		

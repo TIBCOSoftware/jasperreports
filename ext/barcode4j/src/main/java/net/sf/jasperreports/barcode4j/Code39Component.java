@@ -24,6 +24,7 @@
 package net.sf.jasperreports.barcode4j;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 
 import org.krysalis.barcode4j.ChecksumMode;
 
@@ -31,6 +32,7 @@ import org.krysalis.barcode4j.ChecksumMode;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@ComponentSpec(name = "barcode4j:Code39")
 public class Code39Component extends Barcode4jComponent
 {
 

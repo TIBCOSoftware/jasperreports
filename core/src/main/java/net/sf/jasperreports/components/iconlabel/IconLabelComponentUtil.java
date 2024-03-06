@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.components.table.fill.TableReport;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -31,7 +30,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
@@ -77,8 +75,6 @@ public class IconLabelComponentUtil
 	public JRDesignComponentElement createIconLabelComponentElement(JRTextElement parentElement, JRTextElement textElement)
 	{
 		JRDesignComponentElement componentElement = new JRDesignComponentElement(textElement.getDefaultStyleProvider());
-		componentElement.setComponentKey(new ComponentKey(
-				ComponentsExtensionsRegistryFactory.NAMESPACE, null, ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME));
 		componentElement.setX(textElement.getX());
 		componentElement.setY(textElement.getY());
 		componentElement.setHeight(textElement.getHeight());

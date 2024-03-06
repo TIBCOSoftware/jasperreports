@@ -27,9 +27,11 @@ import java.util.HashMap;
 
 import net.sf.jasperreports.charts.fill.DefaultChartTheme;
 import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
+import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -43,13 +45,6 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  */
 public class ChartsExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/components";
-	public static final String XSD_LOCATION = 
-		"http://jasperreports.sourceforge.net/xsd/charts.xsd";
-	public static final String XSD_RESOURCE = 
-		"net/sf/jasperreports/charts/charts.xsd";
 	
 	public static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
 	
@@ -58,16 +53,14 @@ public class ChartsExtensionsRegistryFactory implements ExtensionsRegistryFactor
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultComponentManager spiderChartManager = new DefaultComponentManager();
 		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());
 		spiderChartManager.setComponentCompiler(new SpiderChartCompiler());
 		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
-		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
+		componentManagers.put(SpiderChartComponent.class, spiderChartManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

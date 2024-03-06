@@ -27,18 +27,21 @@ import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.DatasetRunHolder;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME)
 public interface TableComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 	/**

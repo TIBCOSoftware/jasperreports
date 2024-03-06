@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.iconlabel;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRImageAlignment;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -48,6 +50,7 @@ import net.sf.jasperreports.engine.util.StyleResolver;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@ComponentSpec(name = ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME)
 public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, JRImageAlignment, Serializable, JRChangeEventsSupport 
 {
 	/**

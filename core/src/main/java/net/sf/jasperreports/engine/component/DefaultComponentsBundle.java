@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.component;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -38,37 +40,21 @@ import java.util.Set;
 public class DefaultComponentsBundle implements ComponentsBundle
 {
 
-	private String namespace;
-	private Map<String,ComponentManager> componentManagers;
+	private Map<Class<? extends Component>, ComponentManager> componentManagers;
 
 	@Override
-	public String getNamespace()
-	{
-		return namespace;
-	}
-
-	/**
-	 * Sets the components namespace.
-	 * 
-	 * @param namespace the components namespace 
-	 * @see #getNamespace()
-	 */
-	public void setNamespace(String namespace)
-	{
-		this.namespace = namespace;
-	}
-
-	@Override
-	public Set<String> getComponentNames()
+	public Set<Class<? extends Component>> getComponentTypes()
 	{
 		return componentManagers.keySet();
 	}
 	
 	@Override
-	public ComponentManager getComponentManager(String componentName)
+	public Optional<ComponentManager> getComponentManager(Component component)
 	{
-		ComponentManager manager = componentManagers.get(componentName);
-		return manager;
+		//TODO handle class hierarchies?
+		return componentManagers.entrySet().stream()
+				.filter(entry -> entry.getKey().isInstance(component))
+				.findFirst().map(Entry::getValue);
 	}
 	
 	/**
@@ -77,7 +63,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * @return the map of component managers
 	 * @see #setComponentManagers(Map)
 	 */
-	public Map<String,ComponentManager> getComponentManagers()
+	public Map<Class<? extends Component>, ComponentManager> getComponentManagers()
 	{
 		return componentManagers;
 	}
@@ -91,7 +77,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * 
 	 * @param componentManagers the map of component managers
 	 */
-	public void setComponentManagers(Map<String,ComponentManager> componentManagers)
+	public void setComponentManagers(Map<Class<? extends Component>, ComponentManager> componentManagers)
 	{
 		this.componentManagers = componentManagers;
 	}

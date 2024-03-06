@@ -29,12 +29,14 @@ import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.part.DefaultPartComponentManager;
 import net.sf.jasperreports.engine.part.DefaultPartComponentsBundle;
+import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 import net.sf.jasperreports.parts.subreport.FillSubreportPartFactory;
+import net.sf.jasperreports.parts.subreport.SubreportPartComponent;
 import net.sf.jasperreports.parts.subreport.SubreportPartComponentCompiler;
 
 /**
@@ -49,9 +51,6 @@ import net.sf.jasperreports.parts.subreport.SubreportPartComponentCompiler;
 public class PartComponentsExtensionsRegistryFactory implements
 		ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/parts";
 	
 	public static final String SUBREPORT_PART_COMPONENT_NAME = "subreportPart";
 	
@@ -60,14 +59,13 @@ public class PartComponentsExtensionsRegistryFactory implements
 	static
 	{
 		final DefaultPartComponentsBundle bundle = new DefaultPartComponentsBundle();
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, PartComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends PartComponent>, PartComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultPartComponentManager reportManager = new DefaultPartComponentManager();
 		reportManager.setComponentCompiler(new SubreportPartComponentCompiler());
 		reportManager.setComponentFillFactory(new FillSubreportPartFactory());
-		componentManagers.put(SUBREPORT_PART_COMPONENT_NAME, reportManager);
+		componentManagers.put(SubreportPartComponent.class, reportManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

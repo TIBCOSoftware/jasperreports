@@ -24,11 +24,13 @@
 package net.sf.jasperreports.barcode4j;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.component.ComponentSpec;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@ComponentSpec(name = "barcode4j:PDF417")
 public class PDF417Component extends Barcode4jComponent
 {
 	

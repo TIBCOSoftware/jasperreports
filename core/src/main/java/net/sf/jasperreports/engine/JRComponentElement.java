@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
 
 /**
  * A report element that wraps an abstract component.
@@ -34,17 +33,6 @@ import net.sf.jasperreports.engine.component.ComponentKey;
 public interface JRComponentElement extends JRElement
 {
 	String PROPERTY_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.name";
-
-	/**
-	 * Returns the component type key for this element.
-	 * 
-	 * <p>
-	 * The component type key needs to be set in order to locate the
-	 * component manager. 
-	 * 
-	 * @return the component type key
-	 */
-	ComponentKey getComponentKey();
 	
 	/**
 	 * Returns the component instance wrapped by this element.

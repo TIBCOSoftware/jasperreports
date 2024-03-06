@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartEvaluationTime;
 
@@ -48,17 +47,6 @@ public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 	JRExpression getPrintWhenExpression();
 
 	JRExpression getPartNameExpression();
-		
-	/**
-	 * Returns the component type key for this part.
-	 * 
-	 * <p>
-	 * The component type key needs to be set in order to locate the
-	 * component manager. 
-	 * 
-	 * @return the component type key
-	 */
-	ComponentKey getComponentKey();
 	
 
 	/**

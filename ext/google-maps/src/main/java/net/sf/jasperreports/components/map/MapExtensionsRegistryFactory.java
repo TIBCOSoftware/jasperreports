@@ -28,6 +28,7 @@ import java.util.HashMap;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.map.fill.MapFillFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -62,9 +63,6 @@ import net.sf.jasperreports.poi.export.JRXlsExporter;
  */
 public class MapExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	public static final String NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/components";
 	
 	public static final String MAP_COMPONENT_NAME = "map";
 	
@@ -138,16 +136,14 @@ public class MapExtensionsRegistryFactory implements ExtensionsRegistryFactory
 	static
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
-
-		bundle.setNamespace(NAMESPACE);
 		
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 		
 		DefaultComponentManager mapManager = new DefaultComponentManager();
 		mapManager.setDesignConverter(MapDesignConverter.getInstance());
 		mapManager.setComponentCompiler(new MapCompiler());
 		mapManager.setComponentFillFactory(new MapFillFactory());
-		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
+		componentManagers.put(MapComponent.class, mapManager);
 
 		bundle.setComponentManagers(componentManagers);
 		

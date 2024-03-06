@@ -102,7 +102,6 @@ import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.part.PartComponent;
@@ -2355,22 +2354,16 @@ public class JRVerifier
 	{
 		verifyReportElement(element);
 		
-		ComponentKey componentKey = element.getComponentKey();
-		if (componentKey == null)
-		{
-			addBrokenRule("No component key set for component element", element);
-		}
-		
 		Component component = element.getComponent();
 		if (component == null)
 		{
 			addBrokenRule("No component set for component element", element);
 		}
 		
-		if (componentKey != null && component != null)
+		if (component != null)
 		{
 			ComponentCompiler compiler = 
-				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentCompiler(jasperReportsContext);
+				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(component).getComponentCompiler(jasperReportsContext);
 			pushCurrentComponentElement(element);
 			try
 			{
@@ -2525,30 +2518,17 @@ public class JRVerifier
 			}
 		}
 
-		ComponentKey componentKey = part.getComponentKey();
-		if (componentKey == null)
-		{
-			addBrokenRule("No component key set for part", part);
-		}
-		
 		PartComponent component = part.getComponent();
 		if (component == null)
 		{
 			addBrokenRule("No component set for part", part);
 		}
 		
-		if (componentKey != null && component != null)
+		if (component != null)
 		{
-			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
-			if (manager == null)
-			{
-				addBrokenRule("No component manager found for part component \"" + componentKey.getName() + "\"", part);
-			}
-			else
-			{
-				PartComponentCompiler compiler = manager.getComponentCompiler(jasperReportsContext);
-				compiler.verify(component, this);
-			}
+			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(component);
+			PartComponentCompiler compiler = manager.getComponentCompiler(jasperReportsContext);
+			compiler.verify(component, this);
 		}
 	}
 	
