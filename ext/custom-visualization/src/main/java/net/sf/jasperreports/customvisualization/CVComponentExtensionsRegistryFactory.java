@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.jasperreports.customvisualization.design.CVDesignComponent;
 import net.sf.jasperreports.customvisualization.export.CVElementDocxHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementGraphics2DHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementHtmlHandler;
@@ -79,7 +78,7 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());
 		componentManager.setComponentCompiler(new CVCompiler());
 		componentManager.setComponentFillFactory(new CVFillFactory());
-		componentManagers.put(CVDesignComponent.class, componentManager);
+		componentManagers.put(CVComponent.class, componentManager);
 
 		bundle.setComponentManagers(componentManagers);
 
