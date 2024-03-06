@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrphanFooterReport.51" orientation="Landscape" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1951f7e6-f9e5-481d-94a6-ddc3db1e1d41">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrphanFooterReport.51" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1951f7e6-f9e5-481d-94a6-ddc3db1e1d41">
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.jrdax"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"/>
 	<parameter name="TXT" class="java.lang.String" isForPrompting="false">
@@ -9,7 +9,7 @@
 		<groupFooter>
 			<band height="40">
 				<line>
-					<reportElement x="0" y="0" width="65" forecolor="red" height="1" uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462"/>
+					<reportElement x="0" y="0" width="65" height="1" forecolor="#FF0000" uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462"/>
 				</line>
 			</band>
 		</groupFooter>
@@ -27,7 +27,7 @@
 		</band>
 		<band height="80" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="5" width="65" height="75" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" backcolor="yellow"/>
+				<reportElement mode="Opaque" x="0" y="5" width="65" height="75" backcolor="#FFFF00" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["2ND DETAIL BAND"]]></textFieldExpression>
 			</textField>

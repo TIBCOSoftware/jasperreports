@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StylesReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="53f914b8-f951-4433-971d-6b1819430c56">
 	<template><![CDATA["styles.jrtx"]]></template>
-	<style name="Right Aligned" style="Regular" hAlign="Right"/>
+	<style name="Right Aligned" style="Regular" hTextAlign="Right" hImageAlign="Right"/>
 	<style name="More Emphasis" style="Emphasis" mode="Opaque" backcolor="#FFC800" fontSize="14"/>
 	<style name="Serif Note" style="Serif" mode="Opaque" forecolor="#FFC800" backcolor="#404040" fontSize="10"/>
 	<title>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XYChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a672a9d1-025f-43e7-8b43-800176de42bf">
-	<style name="chartStyle" backcolor="white"/>
+	<style name="chartStyle" backcolor="#FFFFFF"/>
 	<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
-		<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
+		<parameter name="xyDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 		<field name="name" class="java.lang.String"/>
 		<field name="x" class="java.lang.Integer"/>
 		<field name="y" class="java.lang.Integer"/>
 		<field name="color" class="java.lang.String"/>
 	</subDataset>
-	<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
+	<parameter name="xyDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	<summary>
 		<band height="400">
 			<line>
@@ -26,7 +26,7 @@
 			</staticText>
 			<textField hyperlinkType="Reference">
 				<reportElement x="0" y="40" width="545" height="20" uuid="d375553d-0e4d-4ee4-8a3c-67a865327f4f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>				
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["http://knowm.org/open-source/xchart"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://knowm.org/open-source/xchart"]]></hyperlinkReferenceExpression>
 			</textField>
@@ -37,8 +37,8 @@
 				<reportElement x="0" y="63" width="545" height="1" uuid="f3881688-6985-482b-9794-43755ff935e9"/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
-				<xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart http://jasperreports.sourceforge.net/dtds/xchart.xsd" evaluationTime="Now">
+				<reportElement style="chartStyle" x="0" y="80" width="545" height="320" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+				<xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart http://jasperreports.sourceforge.net/dtds/xchart.xsd">
 					<xc:XYDataset>
 						<dataset>
 							<datasetRun subDataset="xyDataset" uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714">

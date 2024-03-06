@@ -50,7 +50,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="205" width="130" height="100" uuid="e651d22c-cd25-4e94-a43e-34075fa580e6">
-					<property name="net.sf.jasperreports.text.truncate.suffix" value="&#x2026;"/>
+					<property name="net.sf.jasperreports.text.truncate.suffix" value="…"/>
 				</reportElement>
 				<textElement>
 					<font size="10"/>

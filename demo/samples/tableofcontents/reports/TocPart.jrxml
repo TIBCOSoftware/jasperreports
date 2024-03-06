@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TocPart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="47d0342f-7687-4167-8741-854ed01cfed5">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -80,7 +79,7 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[___________________________________________________]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+			<textField textAdjust="StretchHeight" evaluationTime="Auto" hyperlinkType="LocalAnchor">
 				<reportElement style="Sans_Bold" positionType="Float" x="475" y="0" width="30" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -105,7 +104,7 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+			<textField textAdjust="StretchHeight" evaluationTime="Auto" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
 					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
 				</reportElement>

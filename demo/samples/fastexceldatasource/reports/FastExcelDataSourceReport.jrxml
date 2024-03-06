@@ -93,7 +93,7 @@
 	<detail>
 		<band height="15">
 			<textField bookmarkLevel="2">
-				<reportElement x="0" y="0" width="50" height="15" uuid="71c796d9-3bb6-49e6-a6ee-64db28ed268e" stretchType="RelativeToBandHeight"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="15" uuid="71c796d9-3bb6-49e6-a6ee-64db28ed268e"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -103,7 +103,7 @@
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement positionType="Float" x="50" y="0" width="150" height="15" uuid="bf4d92ad-675a-4e6a-ad5d-ac6be4832ffd" stretchType="RelativeToBandHeight"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="50" y="0" width="150" height="15" uuid="bf4d92ad-675a-4e6a-ad5d-ac6be4832ffd"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -111,7 +111,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement positionType="Float" x="200" y="0" width="200" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b0" stretchType="RelativeToBandHeight"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="200" y="0" width="200" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b0"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -120,7 +120,7 @@
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
-				<reportElement positionType="Float" x="400" y="0" width="115" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b1" stretchType="RelativeToBandHeight"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="400" y="0" width="115" height="15" uuid="f19c1dbf-2a9e-4e16-b03b-89070823b3b1"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
