@@ -6,11 +6,10 @@
 			<band height="15">
 				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
-					<textElement markup="styled" textAlignment="Left">
+					<textElement textAlignment="Left" markup="styled">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[
-"The quick brown fox jumps over the lazy dog:"
+					<textFieldExpression><![CDATA["The quick brown fox jumps over the lazy dog:"
 + "<ul>"
 +     "<ol>"
 +         "<ul>"
@@ -39,16 +38,14 @@
 +         "</ol>"
 +     "</ol>"
 + "</ul>"
-+ "The quick brown fox jumps over the lazy dog"
-					]]></textFieldExpression>
++ "The quick brown fox jumps over the lazy dog"]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" uuid="0af66f36-af68-42bf-a68b-3e173de493a8"/>
-					<textElement markup="html" textAlignment="Left">
+					<textElement textAlignment="Left" markup="html">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[
-"The quick brown fox jumps over the lazy dog:"
+					<textFieldExpression><![CDATA["The quick brown fox jumps over the lazy dog:"
 + "<ul>"
 + "    <ol>"
 + "        <ul>"
@@ -77,8 +74,7 @@
 + "        </ol>"
 + "    </ol>"
 + "</ul>"
-+ "The quick brown fox jumps over the lazy dog"
-					]]></textFieldExpression>
++ "The quick brown fox jumps over the lazy dog"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

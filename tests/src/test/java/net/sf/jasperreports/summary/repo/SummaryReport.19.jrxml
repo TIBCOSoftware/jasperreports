@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.1.qualifier using JasperReports Library version 6.4.2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SummaryReport.19" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="250" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.10.jrdax"/>
@@ -214,7 +213,7 @@
 	<summary>
 		<band height="120">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<printWhenExpression>Boolean.FALSE</printWhenExpression>
+			<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
 			<textField>
 				<reportElement mode="Transparent" x="0" y="0" width="515" height="120" uuid="0f1bbacf-e1b5-4d67-98f5-602e866f3679">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>

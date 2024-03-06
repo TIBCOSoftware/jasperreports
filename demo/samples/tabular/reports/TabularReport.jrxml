@@ -4,7 +4,6 @@
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
 	<property name="net.sf.jasperreports.export.pdf.metadata.title" value="Tabular Report"/>
 	<property name="net.sf.jasperreports.export.pdf.display.metadata.title" value="true"/>
-	
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<title>
 		<band height="50">
