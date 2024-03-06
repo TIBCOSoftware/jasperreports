@@ -74,7 +74,7 @@
 							<box leftPadding="10">
 								<bottomPen lineWidth="0.5"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement x="0" y="0" width="90" height="15" uuid="c6a3b183-a488-4535-9187-6c4250a443b6"/>
 								<textFieldExpression><![CDATA[$V{Column1}]]></textFieldExpression>
 							</textField>

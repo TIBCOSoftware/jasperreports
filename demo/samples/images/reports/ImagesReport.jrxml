@@ -206,7 +206,7 @@
 					</box>
 					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
 				</image>
-				<image hAlign="Center" vAlign="Middle" scaleImage="Clip">
+				<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
 					<reportElement x="200" y="0" width="150" height="40" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -214,7 +214,7 @@
 					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
 				</image>
 				<image scaleImage="FillFrame">
-					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="58e3729-6b20-4761-bfef-ed371e8efad9"/>
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="058e3729-6b20-4761-bfef-ed371e8efad9"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
@@ -229,7 +229,7 @@
 					</box>
 					<imageExpression><![CDATA["marbles.tif"]]></imageExpression>
 				</image>
-				<image hAlign="Center" vAlign="Middle" scaleImage="Clip">
+				<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
 					<reportElement x="200" y="0" width="150" height="40" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -252,7 +252,7 @@
 					</box>
 					<imageExpression><![CDATA["tree.webp"]]></imageExpression>
 				</image>
-				<image hAlign="Center" vAlign="Middle" scaleImage="Clip">
+				<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
 					<reportElement x="200" y="0" width="150" height="40" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
 					<box padding="5">
 						<pen lineWidth="0.5"/>

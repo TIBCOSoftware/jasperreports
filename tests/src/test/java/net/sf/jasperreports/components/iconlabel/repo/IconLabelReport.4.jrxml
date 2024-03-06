@@ -40,7 +40,7 @@
 						</c:label>
 						<c:icon>
 							<textField textAdjust="StretchHeight">
-								<reportElement isPrintWhenDetailOverflows="true" style="Icon" x="0" y="0" width="1" height="1" uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b"/>
+								<reportElement style="Icon" x="0" y="0" width="1" height="1" isPrintWhenDetailOverflows="true" uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b"/>
 								<textFieldExpression><![CDATA["\uE001\uE002\uE004"]]></textFieldExpression>
 							</textField>
 						</c:icon>

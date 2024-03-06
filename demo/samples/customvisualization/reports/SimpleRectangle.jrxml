@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.2.0.qualifier using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SimpleRectangle" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
 	<subDataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
 		<field name="value" class="java.lang.String"/>
@@ -15,7 +14,7 @@
 				<text><![CDATA[Custom Visualization Component - Simple Rectangle]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="0" y="80" width="802" height="475" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" />
+				<reportElement x="0" y="80" width="802" height="475" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
 					<cvc:itemProperty name="module" value="simplerectangle"/>
 					<cvc:itemProperty name="script" value="simplerectangle/simplerectangle.min.js"/>

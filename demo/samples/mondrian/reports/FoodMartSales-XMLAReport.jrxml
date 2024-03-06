@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="FoodMartSales-XMLAReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FoodMartSales-XMLAReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="41bcb5c2-a6e3-4d0c-8979-4dd0c1f887be">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<queryString language="mdx">
@@ -42,19 +39,18 @@ from [Sales]]]>
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="StoreState">
-					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15"/>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA["Store " + $F{StoreState}]]></textFieldExpression>
+					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="214001f1-7cf8-4d53-95db-300ab5d167f2"/>
+					<textFieldExpression><![CDATA["Store " + $F{StoreState}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="StoreState" pattern="$#,##0.00">
-					<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15"/>
+					<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15" uuid="165e22d7-553e-4f2a-9033-d7e9814306c1"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Number"><![CDATA[$F{StoreStateUnitSales}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{StoreStateUnitSales}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="StoreState" pattern="#,###">
-					<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15"/>
+					<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15" uuid="7e72fe17-3d56-442a-b147-b72e76d0620e"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Number"><![CDATA[$F{StoreStateCustCount}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{StoreStateCustCount}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -64,9 +60,8 @@ from [Sales]]]>
 		<groupHeader>
 			<band height="16">
 				<textField evaluationTime="Group" evaluationGroup="Time">
-					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15"/>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Quarter}]]></textFieldExpression>
+					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="617a95ed-56c7-44c4-accc-cc34b73e3163"/>
+					<textFieldExpression><![CDATA[$F{Quarter}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -74,22 +69,22 @@ from [Sales]]]>
 	<pageHeader>
 		<band height="16">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0"/>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="c590b50a-599c-43c6-9e6a-58ce563fd784"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
 				<staticText>
-					<reportElement x="20" y="0" width="150" height="15"/>
+					<reportElement x="20" y="0" width="150" height="15" uuid="fb1cd3e0-820e-4d01-b2af-3cbc791d7029"/>
 					<textElement verticalAlignment="Middle"/>
 					<text><![CDATA[Store State]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="180" y="0" width="100" height="15"/>
+					<reportElement x="180" y="0" width="100" height="15" uuid="fa51cdf9-c4cb-4c8a-929d-de9ee5d8b795"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<text><![CDATA[Unit Sales ($)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="300" y="0" width="100" height="15"/>
+					<reportElement x="300" y="0" width="100" height="15" uuid="ff2b4474-3942-4957-b24b-a076a59422c1"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<text><![CDATA[# Customers]]></text>
 				</staticText>
@@ -99,43 +94,42 @@ from [Sales]]]>
 	<detail>
 		<band height="16">
 			<textField>
-				<reportElement x="20" y="0" width="150" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Customers from " + $F{CustomerState}]]></textFieldExpression>
+				<reportElement x="20" y="0" width="150" height="15" uuid="b8c65a96-8085-4e08-9202-8722ce48fbc4"/>
+				<textFieldExpression><![CDATA["Customers from " + $F{CustomerState}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$#,##0.00">
-				<reportElement x="180" y="0" width="100" height="15"/>
+				<reportElement x="180" y="0" width="100" height="15" uuid="4ed5ffdd-6721-42c9-97e9-02f3474c2286"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Number"><![CDATA[$F{UnitSales}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{UnitSales}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,###">
-				<reportElement x="300" y="0" width="100" height="15"/>
+				<reportElement x="300" y="0" width="100" height="15" uuid="d51ec317-0d17-47a4-91ae-9c69ccdd5ca6"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Number"><![CDATA[$F{CustomerCount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CustomerCount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="16">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0"/>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0" uuid="d9b17801-8a72-43db-81c2-8e63cfa1f350"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
 				<textField>
-					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15"/>
+					<reportElement style="Sans_Bold" x="10" y="0" width="150" height="15" uuid="87363c5c-6d60-4659-8318-0afbda9cd494"/>
 					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.String"><![CDATA["Totals"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Totals"]]></textFieldExpression>
 				</textField>
 				<textField pattern="$#,##0.00">
-					<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15"/>
+					<reportElement style="Sans_Bold" x="180" y="0" width="100" height="15" uuid="84ef755f-ae14-40cb-9ce0-b4bf83ddbb26"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.Number"><![CDATA[$F{TotalStoreStateUnitSales}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TotalStoreStateUnitSales}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,###">
-					<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15"/>
+					<reportElement style="Sans_Bold" x="300" y="0" width="100" height="15" uuid="e41f1a8d-0290-4504-902e-9cc553d92438"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression class="java.lang.Number"><![CDATA[$F{TotalStoreStateCustCount}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{TotalStoreStateCustCount}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

@@ -112,7 +112,9 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 
 			ZipEntry jrctxEntry = new ZipEntry(themeName + ".jrctx");
 			zipos.putNextEntry(jrctxEntry);
-			XmlChartTheme.saveSettings(jasperReportsContext, settings, new OutputStreamWriter(zipos));
+			OutputStreamWriter jrctxWriter = new OutputStreamWriter(zipos);
+			XmlChartTheme.saveSettings(jasperReportsContext, settings, jrctxWriter);
+			jrctxWriter.flush();
 
 			zipos.flush();
 			zipos.finish();

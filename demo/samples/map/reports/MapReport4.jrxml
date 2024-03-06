@@ -118,25 +118,6 @@
 							</c:itemProperty>
 						</c:item>
 					</c:pathStyle>
-					<!--c:pathStyle>
-						<c:item>
-							<c:itemProperty name="name">
-								<valueExpression><![CDATA["test"]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="strokeColor">
-								<valueExpression><![CDATA["#FF0000"]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="strokeOpacity">
-								<valueExpression><![CDATA[0.5]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="strokeWeight">
-								<valueExpression><![CDATA[8]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="draggable">
-								<valueExpression><![CDATA[true]]></valueExpression>
-							</c:itemProperty>
-						</c:item>
-					</c:pathStyle-->
 					<c:pathData>
 						<dataset>
 							<datasetRun subDataset="PathLocationDataset" uuid="b9d465b5-397d-4c65-8814-e85e757c97d0"/>
@@ -162,27 +143,6 @@
 							</c:itemProperty>
 						</c:item>
 					</c:pathData>
-					<!--c:pathData>
-						<c:item>
-							<c:itemProperty name="latitude">
-								<valueExpression><![CDATA[37.787527f]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="longitude">
-								<valueExpression><![CDATA[-122.417235f]]></valueExpression>
-							</c:itemProperty>
-						</c:item>
-						<c:item>
-							<c:itemProperty name="latitude">
-								<valueExpression><![CDATA[37.778527f]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="longitude">
-								<valueExpression><![CDATA[-122.397235f]]></valueExpression>
-							</c:itemProperty>
-							<c:itemProperty name="style">
-								<valueExpression><![CDATA["test"]]></valueExpression>
-							</c:itemProperty>
-						</c:item>
-					</c:pathData-->
 				</c:map>
 			</componentElement>
 		</band>

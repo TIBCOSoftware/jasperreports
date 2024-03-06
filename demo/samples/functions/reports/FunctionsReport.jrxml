@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 8.2.0.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FunctionsReport" pageWidth="1600" pageHeight="595" orientation="Landscape" columnWidth="1590" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="15" isIgnorePagination="true" uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d">
 	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
 	<property name="net.sf.jasperreports.export.html.header" value=""/>

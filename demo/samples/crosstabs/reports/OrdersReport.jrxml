@@ -109,29 +109,25 @@ Countries are ordered by number of orders.]]></text>
 					<cellContents mode="Transparent" style="CellStyle">
 						<box>
 							<pen lineColor="#000000"/>
-							<bottomPen lineWidth="1"/>
-							<rightPen lineWidth="1"/>
+							<bottomPen lineWidth="1.0"/>
+							<rightPen lineWidth="1.0"/>
 						</box>
 						<textField>
 							<reportElement style="OrderCountStyle" mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
-								<propertyExpression name="net.sf.jasperreports.style.backcolor">
-									<![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
+								<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
 											255, 
 											255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL})), 
-											255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]]>
-								</propertyExpression>
+											255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]]></propertyExpression>
 							</reportElement>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
 							<reportElement mode="Opaque" x="0" y="10" width="60" height="10" uuid="5c6400d4-9886-497e-a6f6-218267ba8720">
-								<propertyExpression name="net.sf.jasperreports.style.backcolor">
-									<![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
+								<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
 											255, 
 											255 - (int)Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL})), 
-											255 - (int)Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]]>
-								</propertyExpression>
+											255 - (int)Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]]></propertyExpression>
 							</reportElement>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$V{MaxDate}]]></textFieldExpression>

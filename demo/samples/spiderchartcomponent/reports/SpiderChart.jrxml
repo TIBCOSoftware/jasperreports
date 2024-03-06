@@ -39,15 +39,15 @@
 				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<c:chartSettings isShowLegend="true" backcolor="#00FF00" customizerClass="SpiderChartCustomizer">
 						<chartTitle position="Top">
-							<font size="12" isItalic="true"/>
+							<font size="12.0" isItalic="true"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
 						</chartTitle>
 						<chartSubtitle color="#0000FF">
-							<font size="6" isBold="true"/>
+							<font size="6.0" isBold="true"/>
 							<subtitleExpression><![CDATA["Chart Displaying Spider Web Contours"]]></subtitleExpression>
 						</chartSubtitle>
 						<chartLegend backgroundColor="#EEFFEE">
-							<font size="6"/>
+							<font size="6.0"/>
 						</chartLegend>
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
 					</c:chartSettings>
@@ -64,7 +64,7 @@
 					</c:spiderDataset>
 					<c:spiderPlot rotation="Anticlockwise" tableOrder="Row" startAngle="39.0" headPercent="0.01" interiorGap="0.2" axisLineColor="#FF0000" axisLineWidth="2.0" labelGap="0.05" backcolor="#FFFF00">
 						<labelFont>
-							<font size="6" isBold="true" isItalic="true"/>
+							<font size="6.0" isBold="true" isItalic="true"/>
 						</labelFont>
 						<c:maxValueExpression><![CDATA[10d]]></c:maxValueExpression>
 					</c:spiderPlot>

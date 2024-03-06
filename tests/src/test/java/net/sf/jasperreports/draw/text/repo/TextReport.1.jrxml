@@ -137,7 +137,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{MyTextNewLine}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="CutText">
+				<textField>
 					<reportElement positionType="Float" mode="Opaque" x="480" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="d479f13c-9634-44cd-b9da-a7d042f5fb5c">
 						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
 					</reportElement>
@@ -148,7 +148,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
 				</textField>
-				<textField textAdjust="CutText">
+				<textField>
 					<reportElement positionType="Float" mode="Opaque" x="610" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="c479f13c-9634-44cd-b9da-a7d042f5fb5c">
 						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
 					</reportElement>
