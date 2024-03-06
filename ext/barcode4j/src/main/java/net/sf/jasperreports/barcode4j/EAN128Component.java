@@ -35,7 +35,7 @@ import org.krysalis.barcode4j.ChecksumMode;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @ComponentSpec(name = "barcode4j:EAN128")
-public class EAN128Component extends Code128Component
+public class EAN128Component extends Barcode4jComponent
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
