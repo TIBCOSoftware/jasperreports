@@ -63,7 +63,7 @@
 					</datasetRun>
 					<c:listContents height="40" width="128">
 						<frame>
-							<reportElement style="ListCell" stretchType="RelativeToBandHeight" x="4" y="0" width="120" height="38" uuid="052ddd9f-3f08-47f0-90e0-37f38ec52807"/>
+							<reportElement style="ListCell" stretchType="ContainerHeight" x="4" y="0" width="120" height="38" uuid="052ddd9f-3f08-47f0-90e0-37f38ec52807"/>
 							<box>
 								<topPen lineWidth="0.5"/>
 								<bottomPen lineWidth="0.5"/>

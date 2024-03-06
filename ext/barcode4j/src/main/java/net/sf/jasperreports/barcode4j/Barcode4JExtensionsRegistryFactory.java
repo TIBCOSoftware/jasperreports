@@ -72,7 +72,7 @@ public class Barcode4JExtensionsRegistryFactory implements ExtensionsRegistryFac
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 		
-		ComponentsManager barcode4jManager = new ComponentsManager();
+		Barcode4jComponentManager barcode4jManager = new Barcode4jComponentManager();
 		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
 		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
 		//barcode4jManager.setComponentXmlWriter(xmlHandler);

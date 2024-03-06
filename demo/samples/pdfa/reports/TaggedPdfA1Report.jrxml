@@ -533,7 +533,7 @@
 								</jr:columnHeader>
 								<jr:detailCell height="10">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TD" stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="10" uuid="13e935bc-3fc6-420f-ad28-dc6a6eb42f9f"/>
+										<reportElement style="Table_TD" stretchType="ContainerHeight" x="0" y="0" width="30" height="10" uuid="13e935bc-3fc6-420f-ad28-dc6a6eb42f9f"/>
 										<textElement textAlignment="Right"/>
 										<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 									</textField>
@@ -658,7 +658,7 @@
 								</jr:columnHeader>
 								<jr:detailCell height="10">
 									<textField textAdjust="StretchHeight">
-										<reportElement style="Table_TD" stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="10" uuid="9cabc025-7bcf-4292-a165-a504f529076a"/>
+										<reportElement style="Table_TD" stretchType="ContainerHeight" x="0" y="0" width="30" height="10" uuid="9cabc025-7bcf-4292-a165-a504f529076a"/>
 										<textElement textAlignment="Right"/>
 										<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 									</textField>
