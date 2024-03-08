@@ -57,7 +57,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 		SimplePrintPageFormat pageFormat = new SimplePrintPageFormat();
 		pageFormat.setPageWidth(partJasperPrint.getPageWidth());
 		pageFormat.setPageHeight(partJasperPrint.getPageHeight());
-		pageFormat.setOrientation(partJasperPrint.getOrientationValue());
+		pageFormat.setOrientation(partJasperPrint.getOrientation());
 		pageFormat.setLeftMargin(partJasperPrint.getLeftMargin());
 		pageFormat.setTopMargin(partJasperPrint.getTopMargin());
 		pageFormat.setRightMargin(partJasperPrint.getRightMargin());

@@ -25,6 +25,8 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseHighLowPlot;
@@ -84,6 +86,13 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	public static final String PROPERTY_VALUE_AXIS_TICK_LABEL_MASK = "valueAxisTickLabelMask";
 	
 	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
+
+
+	@JsonCreator
+	private JRDesignHighLowPlot()
+	{
+		this(null, null);
+	}
 
 
 	/**

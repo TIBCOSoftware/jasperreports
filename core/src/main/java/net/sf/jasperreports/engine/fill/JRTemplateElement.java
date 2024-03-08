@@ -60,7 +60,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 *
 	 */
 	private String key;
-	private ModeEnum modeValue;
+	private ModeEnum mode;
 	private Color forecolor;
 	private Color backcolor;
 
@@ -106,7 +106,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		
 		key = element.getKey();
 		
-		modeValue = element.getOwnModeValue();
+		mode = element.getOwnMode();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
 	}
@@ -172,21 +172,21 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	}
 		
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return modeValue;
+		return mode;
 	}
 
 	@Override
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
-		this.modeValue = modeValue;
+		this.mode = mode;
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		hash.addIdentity(parentStyle);
 		hash.add(origin);
 		hash.add(key);
-		hash.add(modeValue);
+		hash.add(mode);
 		hash.add(forecolor);
 		hash.add(backcolor);
 		hash.add(propertiesMap);
@@ -311,7 +311,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 				&& ObjectUtils.equalsIdentity(parentStyle, template.parentStyle)
 				&& ObjectUtils.equals(origin, template.origin)
 				&& ObjectUtils.equals(key, template.key)
-				&& ObjectUtils.equals(modeValue, template.modeValue)
+				&& ObjectUtils.equals(mode, template.mode)
 				&& ObjectUtils.equals(forecolor, template.forecolor)
 				&& ObjectUtils.equals(backcolor, template.backcolor)
 				&& ObjectUtils.equals(propertiesMap, template.propertiesMap);
@@ -319,7 +319,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	
 	public void populateStyle()
 	{
-		modeValue = getModeValue();
+		mode = getMode();
 		forecolor = getForecolor();
 		backcolor = getBackcolor();
 	}

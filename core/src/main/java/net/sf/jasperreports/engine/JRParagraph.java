@@ -23,16 +23,24 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRBaseParagraph.class)
 public interface JRParagraph extends JRStyleContainer
 {
 	/**
@@ -143,6 +151,7 @@ public interface JRParagraph extends JRStyleContainer
 	 * Gets the text line spacing.
 	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
+	@JsonIgnore
 	public JRParagraphContainer getParagraphContainer();
 
 	/**
@@ -156,133 +165,169 @@ public interface JRParagraph extends JRStyleContainer
 	 * Gets the text line spacing.
 	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
+	@JsonIgnore
 	public LineSpacingEnum getLineSpacing();
 	
 	/**
 	 * Gets the text own line spacing.
 	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
+	@JsonGetter("lineSpacing")
+	@JacksonXmlProperty(localName = "lineSpacing", isAttribute = true)
 	public LineSpacingEnum getOwnLineSpacing();
 	
 	/**
 	 * Sets the text line spacing.
 	 * @param lineSpacing a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
+	@JsonSetter
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
 	
 	/**
 	 * Gets the text line spacing size to be used in combination with the line spacing type.
 	 */
+	@JsonIgnore
 	public Float getLineSpacingSize();
 	
 	/**
 	 * Gets the text own line spacing size to be used in combination with the line spacing type.
 	 */
+	@JsonGetter("lineSpacingSize")
+	@JacksonXmlProperty(localName = "lineSpacingSize", isAttribute = true)
 	public Float getOwnLineSpacingSize();
 	
 	/**
 	 * Sets the text line spacing size to be used in combination with the line spacing type.
 	 */
+	@JsonSetter
 	public void setLineSpacingSize(Float lineSpacingSize);
 	
 	/**
 	 * Gets the text left indent.
 	 */
+	@JsonIgnore
 	public Integer getLeftIndent();
 	
 	/**
 	 * Gets the text own left indent.
 	 */
+	@JsonGetter("leftIndent")
+	@JacksonXmlProperty(localName = "leftIndent", isAttribute = true)
 	public Integer getOwnLeftIndent();
 	
 	/**
 	 * Sets the text own left indent.
 	 */
+	@JsonSetter
 	public void setLeftIndent(Integer leftIndent);
 	
 	/**
 	 * Gets the text first line indent.
 	 */
+	@JsonIgnore
 	public Integer getFirstLineIndent();
 	
 	/**
 	 * Gets the text own first line indent.
 	 */
+	@JsonGetter("firstLineIndent")
+	@JacksonXmlProperty(localName = "firstLineIndent", isAttribute = true)
 	public Integer getOwnFirstLineIndent();
 	
 	/**
 	 * Sets the text own first line indent.
 	 */
+	@JsonSetter
 	public void setFirstLineIndent(Integer firstLineIndent);
 	
 	/**
 	 * Gets the text right indent.
 	 */
+	@JsonIgnore
 	public Integer getRightIndent();
 	
 	/**
 	 * Gets the text own right indent.
 	 */
+	@JsonGetter("rightIndent")
+	@JacksonXmlProperty(localName = "rightIndent", isAttribute = true)
 	public Integer getOwnRightIndent();
 	
 	/**
 	 * Sets the text own right indent.
 	 */
+	@JsonSetter
 	public void setRightIndent(Integer rightIndent);
 
 	/**
 	 * Gets the text spacing before.
 	 */
+	@JsonIgnore
 	public Integer getSpacingBefore();
 	
 	/**
 	 * Gets the text own spacing before.
 	 */
+	@JsonGetter("spacingBefore")
+	@JacksonXmlProperty(localName = "spacingBefore", isAttribute = true)
 	public Integer getOwnSpacingBefore();
 	
 	/**
 	 * Sets the text own spacing before.
 	 */
+	@JsonSetter
 	public void setSpacingBefore(Integer spacingBefore);
 	
 	/**
 	 * Gets the text spacing after.
 	 */
+	@JsonIgnore
 	public Integer getSpacingAfter();
 	
 	/**
 	 * Gets the text own spacing after.
 	 */
+	@JsonGetter("spacingAfter")
+	@JacksonXmlProperty(localName = "spacingAfter", isAttribute = true)
 	public Integer getOwnSpacingAfter();
 	
 	/**
 	 * Sets the text own spacing after.
 	 */
+	@JsonSetter
 	public void setSpacingAfter(Integer spacingAfter);
 	
 	/**
 	 * Gets the text tab stop width.
 	 */
+	@JsonIgnore
 	public Integer getTabStopWidth();
 	
 	/**
 	 * Gets the text own tab stop width.
 	 */
+	@JsonGetter("tabStopWidth")
+	@JacksonXmlProperty(localName = "tabStopWidth", isAttribute = true)
 	public Integer getOwnTabStopWidth();
 	
 	/**
 	 * Sets the text own tab stop width.
 	 */
+	@JsonSetter
 	public void setTabStopWidth(Integer tabStopWidth);
 
 	/**
 	 * Gets the custom tab stops.
 	 */
+	@JsonIgnore
 	public TabStop[] getTabStops();
 
 	/**
 	 * Gets the custom tab stops.
 	 */
+	@JsonGetter("tabStops")
+	@JacksonXmlProperty(localName = "tabStop")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public TabStop[] getOwnTabStops();
 	
 	/**

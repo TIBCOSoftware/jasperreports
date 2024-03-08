@@ -62,4 +62,12 @@ public enum BreakTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static BreakTypeEnum getValueOrDefault(BreakTypeEnum value)
+	{
+		return value == null ? PAGE : value;
+	}
 }

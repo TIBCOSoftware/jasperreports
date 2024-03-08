@@ -93,7 +93,7 @@ public class ListComponentCompiler implements ComponentCompiler
 		}
 		else
 		{
-			PrintOrderEnum listPrintOrder = listComponent.getPrintOrderValue() == null ? PrintOrderEnum.VERTICAL : listComponent.getPrintOrderValue();
+			PrintOrderEnum listPrintOrder = listComponent.getPrintOrder() == null ? PrintOrderEnum.VERTICAL : listComponent.getPrintOrder();
 			
 			Boolean listIgnoreWidth = listComponent.getIgnoreWidth();
 			boolean ignoreWidth = listIgnoreWidth != null && listIgnoreWidth;

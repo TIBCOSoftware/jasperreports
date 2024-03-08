@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 
@@ -46,18 +45,16 @@ public class JRBaseComponentElement extends JRBaseElement implements
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private ComponentKey componentKey;
 	private Component component;
 	
 	public JRBaseComponentElement(JRComponentElement element, JRBaseObjectFactory factory)
 	{
 		super(element, factory);
 		
-		componentKey = element.getComponentKey();
-		
-		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
+		Component elementComponent = element.getComponent();
+		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(elementComponent);
 		component = manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).toCompiledComponent(
-				element.getComponent(), factory);
+				elementComponent, factory);
 	}
 
 	@Override
@@ -67,15 +64,9 @@ public class JRBaseComponentElement extends JRBaseElement implements
 	}
 
 	@Override
-	public ComponentKey getComponentKey()
-	{
-		return componentKey;
-	}
-
-	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(component);
 		manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).collectExpressions(component, collector);
 	}
 

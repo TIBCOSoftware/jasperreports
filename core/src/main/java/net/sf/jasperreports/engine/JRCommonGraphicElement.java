@@ -23,7 +23,14 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.FillEnum;
+import net.sf.jasperreports.jackson.util.PenSerializer;
 
 
 /**
@@ -53,19 +60,24 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 	/**
 	 *
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRPen getLinePen();
 
 	/**
 	 * Indicates the fill type used for this element.
 	 * @return a value representing one of the fill type constants in {@link FillEnum}
 	 */
-	public FillEnum getFillValue();
+	@JsonIgnore
+	public FillEnum getFill();
 	
 	/**
 	 * Indicates the own fill type used for this element.
 	 * @return a value representing one of the fill type constants in {@link FillEnum}
 	 */
-	public FillEnum getOwnFillValue();
+	@JsonGetter("fill")
+	@JacksonXmlProperty(localName = "fill", isAttribute = true)
+	public FillEnum getOwnFill();
 	
 	/**
 	 * Sets the fill type used for this element.

@@ -160,12 +160,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 			for (JRFillElement element : ySortedElements)
 			{
-				if (element.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
+				if (element.getPositionType() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
 				{
 					bandBottomElemsList.add(element);
 				}
 
-				if (element.getStretchTypeValue() != StretchTypeEnum.NO_STRETCH)
+				if (element.getStretchType() != StretchTypeEnum.NO_STRETCH)
 				{
 					stretchElemsList.add(element);
 				}
@@ -238,7 +238,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 					int right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
 					
 					if (
-						((isBreakElem && jElem.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_TOP) || jElem.getPositionTypeValue() == PositionTypeEnum.FLOAT) &&
+						((isBreakElem && jElem.getPositionType() == PositionTypeEnum.FIX_RELATIVE_TO_TOP) || jElem.getPositionType() == PositionTypeEnum.FLOAT) &&
 						iElem.getY() + iElem.getHeight() <= jElem.getY() &&
 						iElem.getWidth() + jElem.getWidth() > right - left // FIXME band bottom elements should not have dependent elements
 						)

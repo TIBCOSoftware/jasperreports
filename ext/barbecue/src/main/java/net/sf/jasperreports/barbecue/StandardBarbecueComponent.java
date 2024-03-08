@@ -25,6 +25,11 @@ package net.sf.jasperreports.barbecue;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -64,10 +69,9 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	private Integer barWidth;
 	private Integer barHeight;
 	
-//	private RotationEnum rotation = RotationEnum.NONE;
 	private RotationEnum rotation;
 	
-	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	
 	private ComponentContext context;
@@ -89,7 +93,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.checksumRequired = barcode.isChecksumRequired();
 		this.barWidth = barcode.getBarWidth();
 		this.barHeight = barcode.getBarHeight();
-		this.evaluationTimeValue= barcode.getEvaluationTimeValue();
+		this.evaluationTime= barcode.getEvaluationTime();
 		this.evaluationGroup = barcode.getEvaluationGroup();
 		this.rotation = barcode.getOwnRotation();
 		
@@ -128,6 +132,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		return type;
 	}
 
+	@JsonSetter("format")
 	public void setType(String type)
 	{
 		Object old = this.type;
@@ -180,16 +185,20 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	}
 	
 	@Override
-	public RotationEnum getRotation(){
-		return BarbecueStyleResolver.getRotationValue(getContext().getComponentElement());
+	public RotationEnum getRotation()
+	{
+		return BarbecueStyleResolver.getRotation(getContext().getComponentElement());
 	}
 	
 	@Override
-	public RotationEnum getOwnRotation(){
+	public RotationEnum getOwnRotation()
+	{
 		return rotation;
 	}
 	
-	public void setRotation(RotationEnum rotation){
+	@JsonSetter
+	public void setRotation(RotationEnum rotation)
+	{
 		Object old = this.rotation;
 		this.rotation = rotation;
 		getEventSupport().firePropertyChange(PROPERTY_ROTATION, 
@@ -225,17 +234,17 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	}
 	
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 
-	public void setEvaluationTimeValue(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTimeValue);
+				old, this.evaluationTime);
 	}
 
 	@Override

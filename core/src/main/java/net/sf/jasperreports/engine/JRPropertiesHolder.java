@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonMerge;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.jackson.util.PropertiesMapDeserializer;
+import net.sf.jasperreports.jackson.util.PropertiesMapSerializer;
 
 /**
  * Interface to be implemented by objects that have properties attached.
@@ -44,6 +51,10 @@ public interface JRPropertiesHolder
 	 *  
 	 * @return this object's properties map
 	 */
+	@JsonProperty("property")
+	@JsonSerialize(using = PropertiesMapSerializer.class)
+	@JsonDeserialize(using = PropertiesMapDeserializer.class)
+	@JsonMerge
 	public JRPropertiesMap getPropertiesMap();
 
 	/**

@@ -67,7 +67,7 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 	 */
 	private HorizontalTextAlignEnum horizontalTextAlign;
 	private VerticalTextAlignEnum verticalTextAlign;
-	private RotationEnum rotationValue;
+	private RotationEnum rotation;
 	private String markup;
 	private String linkType;
 	private String linkTarget;
@@ -83,7 +83,7 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Float fontsize;
+	protected Float fontSize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -161,14 +161,14 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 		isItalic = textElement.isOwnItalic();
 		isUnderline = textElement.isOwnUnderline();
 		isStrikeThrough = textElement.isOwnStrikeThrough();
-		fontsize = textElement.getOwnFontsize();
+		fontSize = textElement.getOwnFontSize();
 		pdfFontName = textElement.getOwnPdfFontName();
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
 
 		horizontalTextAlign = textElement.getOwnHorizontalTextAlign();
 		verticalTextAlign = textElement.getOwnVerticalTextAlign();
-		rotationValue = textElement.getOwnRotationValue();
+		rotation = textElement.getOwnRotation();
 		markup = textElement.getOwnMarkup();
 	}
 
@@ -206,7 +206,7 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 
 	
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -248,21 +248,21 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 	}
 
 	@Override
-	public RotationEnum getRotationValue()
+	public RotationEnum getRotation()
 	{
-		return getStyleResolver().getRotationValue(this);
+		return getStyleResolver().getRotation(this);
 	}
 
 	@Override
-	public RotationEnum getOwnRotationValue()
+	public RotationEnum getOwnRotation()
 	{
-		return this.rotationValue;
+		return this.rotation;
 	}
 
 	/**
 	 * Sets the text rotation.
 	 * 
-	 * @param rotationValue one of
+	 * @param rotation one of
 	 * 	<ul>
 	 * 		<li>{@link RotationEnum#NONE}</li>
 	 * 		<li>{@link RotationEnum#LEFT}</li>
@@ -273,9 +273,9 @@ public class JRTemplateText extends JRTemplateElement implements JRTextAlignment
 	 * should not specify a rotation attribute of its own
 	 */
 	@Override
-	public void setRotation(RotationEnum rotationValue)
+	public void setRotation(RotationEnum rotation)
 	{
-		this.rotationValue = rotationValue;
+		this.rotation = rotation;
 	}
 
 	@Override
@@ -326,9 +326,9 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 	
 	/**
@@ -342,9 +342,9 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * @return one of the hyperlink target name constants
 	 * @see #getLinkTarget()
 	 */
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 	
 	@Override
@@ -456,15 +456,15 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return getStyleResolver().getFontsize(this);
+		return getStyleResolver().getFontSize(this);
 	}
 
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return fontsize;
+		return fontSize;
 	}
 
 	/**
@@ -473,7 +473,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setFontSize(Float fontSize)
 	{
-		this.fontsize = fontSize;
+		this.fontSize = fontSize;
 	}
 
 	@Override
@@ -675,7 +675,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		addTemplateHash(hash);
 		hash.add(horizontalTextAlign);
 		hash.add(verticalTextAlign);
-		hash.add(rotationValue);
+		hash.add(rotation);
 		hash.add(markup);
 		hash.add(linkType);
 		hash.add(linkTarget);
@@ -686,7 +686,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		hash.add(isItalic);
 		hash.add(isUnderline);
 		hash.add(isStrikeThrough);
-		hash.add(fontsize);
+		hash.add(fontSize);
 		hash.add(pdfFontName);
 		hash.add(pdfEncoding);
 		hash.add(isPdfEmbedded);
@@ -715,7 +715,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		return templateIdentical(template)
 				&& ObjectUtils.equals(horizontalTextAlign, template.horizontalTextAlign)
 				&& ObjectUtils.equals(verticalTextAlign, template.verticalTextAlign)
-				&& ObjectUtils.equals(rotationValue, template.rotationValue)
+				&& ObjectUtils.equals(rotation, template.rotation)
 				&& ObjectUtils.equals(markup, template.markup)
 				&& ObjectUtils.equals(linkType, template.linkType)
 				&& ObjectUtils.equals(linkTarget, template.linkTarget)
@@ -726,7 +726,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 				&& ObjectUtils.equals(isItalic, template.isItalic)
 				&& ObjectUtils.equals(isUnderline, template.isUnderline)
 				&& ObjectUtils.equals(isStrikeThrough, template.isStrikeThrough)
-				&& ObjectUtils.equals(fontsize, template.fontsize)
+				&& ObjectUtils.equals(fontSize, template.fontSize)
 				&& ObjectUtils.equals(pdfFontName, template.pdfFontName)
 				&& ObjectUtils.equals(pdfEncoding, template.pdfEncoding)
 				&& ObjectUtils.equals(isPdfEmbedded, template.isPdfEmbedded)
@@ -747,14 +747,14 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		isItalic = isItalic();
 		isUnderline = isUnderline();
 		isStrikeThrough = isStrikeThrough();
-		fontsize = getFontsize();
+		fontSize = getFontSize();
 		pdfFontName = getPdfFontName();
 		pdfEncoding = getPdfEncoding();
 		isPdfEmbedded = isPdfEmbedded();
 
 		horizontalTextAlign = getHorizontalTextAlign();
 		verticalTextAlign = getVerticalTextAlign();
-		rotationValue = getRotationValue();
+		rotation = getRotation();
 		markup = getMarkup();
 		
 		if (paragraph != null)

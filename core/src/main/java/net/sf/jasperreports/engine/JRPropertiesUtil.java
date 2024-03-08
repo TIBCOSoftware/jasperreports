@@ -151,6 +151,23 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Returns the value of the property.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the value to return when the property is not set
+	 * @return the property value
+	 */
+	public String getProperty(String key, String defaultValue)
+	{
+		String value = getProperty(key);
+		if (value == null)
+		{
+			value = defaultValue;
+		}
+		return value;
+	}
+	
+	/**
 	 * 
 	 */
 	public void setProperty(String key, String value)

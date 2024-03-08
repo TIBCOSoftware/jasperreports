@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 public interface DataMeasure extends JRCloneable
 {
 
-	String getName();
+	String getName(); //FIXMEJACK annotations missing; how to test?
 	
 	JRExpression getLabelExpression();
 	

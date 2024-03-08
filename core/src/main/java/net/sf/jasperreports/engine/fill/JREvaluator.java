@@ -425,7 +425,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	protected String handleMissingResource(String key, Exception e) throws JRRuntimeException
 	{
 		String str;
-		switch (whenResourceMissingType)
+		switch (WhenResourceMissingTypeEnum.getValueOrDefault(whenResourceMissingType))
 		{
 			case EMPTY:
 			{

@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignValueDataset;
 import net.sf.jasperreports.engine.JRExpression;
 
 
@@ -33,6 +37,8 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonTypeName("value")
+@JsonDeserialize(as = JRDesignValueDataset.class)
 public interface JRValueDataset extends JRChartDataset
 {
 	

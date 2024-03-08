@@ -29,6 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -164,8 +167,21 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		return removed;
 	}
 
+	@JsonIgnore
 	public List<JRStyle> getStylesList() {
 		return styles;
+	}
+
+	@JsonSetter
+	private void setStyles(List<JRStyle> styles) throws JRException
+	{
+		if (styles != null)
+		{
+			for (JRStyle style : styles)
+			{
+				addStyle(style);
+			}
+		}
 	}
 
 	@Override
@@ -255,8 +271,31 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		return includedTemplates.toArray(new JRTemplateReference[includedTemplates.size()]);
 	}
 
+	@JsonIgnore
 	public List<JRTemplateReference> getIncludedTemplatesList() {
 		return includedTemplates;
+	}
+
+	/*
+	 * JACKSON-TIP
+	 * This is the setter for "templates" (json) and "template" (xml) fields,
+	 * but the matching is done by Jackson from the annotations of the getter with the similar name in the interface;
+	 * Without such method name matching, Jackson would instead fall back to using the includedTemplates List field directly.
+	 * And if that one would have a different name or would be marked with JsonIgnore, Jackons would not be able to deserialize
+	 * these templates because the getter returns an array and Jackons cannot add to the arrays returned by getters.
+	 * It can add to List objects returned by getters, such is the case with cellsList in JRCrosstab.
+	 * A similar case with this one here is with the tabStops field in the JRParagraph interface.
+	 */
+	@JsonSetter
+	private void setIncludedTemplates(List<JRTemplateReference> templates)
+	{
+		if (templates != null)
+		{
+			for (JRTemplateReference template : templates)
+			{
+				addIncludedTemplate(template);
+			}
+		}
 	}
 
 }

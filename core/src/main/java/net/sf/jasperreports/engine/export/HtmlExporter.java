@@ -625,7 +625,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		startCell(text, cell);
 		
-		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (text.getRunDirection() == RunDirectionEnum.RTL)
 		{
 			writer.write(" dir=\"rtl\"");
 		}
@@ -702,10 +702,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent() + "px; ");
 
-		String rotationValue = null;
+		String rotation = null;
 		StringBuilder spanStyleBuffer = new StringBuilder();
 		StringBuilder divStyleBuffer = new StringBuilder();
-		if (text.getRotationValue() == RotationEnum.NONE)
+		if (text.getRotation() == RotationEnum.NONE)
 		{
 			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 			{
@@ -722,7 +722,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		else
 		{
-			rotationValue = setRotationStyles(text, horizontalAlignment, 
+			rotation = setRotationStyles(text, horizontalAlignment, 
 					spanStyleBuffer, divStyleBuffer);
 		}
 		
@@ -744,13 +744,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("\"></a>"); // <a> tags must have content (be closed with separate closing tag), otherwise browsers will make them wrap around the next tag
 		}
 
-		if (rotationValue != null)
+		if (rotation != null)
 		{
 			writer.write("<div style=\"position: relative; overflow: hidden; ");
 			writer.write(divStyleBuffer.toString());
 			writer.write("\">\n");
 			writer.write("<span class=\"rotated\" data-rotation=\"");
-			writer.write(rotationValue);
+			writer.write(rotation);
 			writer.write("\" style=\"position: absolute; display: table; ");
 			writer.write(spanStyleBuffer.toString());
 			writer.write("\">");
@@ -776,7 +776,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		endHeading(headingTag);
 		
-		if (rotationValue != null)
+		if (rotation != null)
 		{
 			writer.write("</span></span></div>");
 		}
@@ -787,7 +787,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected String setRotationStyles(JRPrintText text, String horizontalAlignment, 
 			StringBuilder spanStyleBuffer, StringBuilder divStyleBuffer)
 	{
-		String rotationValue;
+		String rotation;
 		int textWidth = text.getWidth() - text.getLineBox().getLeftPadding() - text.getLineBox().getRightPadding();
 		int textHeight = text.getHeight() - text.getLineBox().getTopPadding() - text.getLineBox().getBottomPadding();
 		int rotatedWidth;
@@ -797,7 +797,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		int rotationAngle;
 		int translateX;
 		int translateY;
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT : 
 			{
@@ -807,7 +807,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				rotatedHeight = textWidth;
 				rotationIE = 3;
 				rotationAngle = -90;
-				rotationValue = "left";
+				rotation = "left";
 				break;
 			}
 			case RIGHT : 
@@ -818,7 +818,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				rotatedHeight = textWidth;
 				rotationIE = 1;
 				rotationAngle = 90;
-				rotationValue = "right";
+				rotation = "right";
 				break;
 			}
 			case UPSIDE_DOWN : 
@@ -829,7 +829,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				rotatedHeight = textHeight;
 				rotationIE = 2;
 				rotationAngle = 180;
-				rotationValue = "upsideDown";
+				rotation = "upsideDown";
 				break;
 			}
 			case NONE :
@@ -838,7 +838,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_UNEXPECTED_ROTATION_VALUE,  
-						new Object[]{text.getRotationValue()}
+						new Object[]{text.getRotation()}
 						);
 			}
 		}
@@ -859,7 +859,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		spanStyleBuffer.append("-o-transform: translate(" + translateX + "px," + translateY + "px) ");
 		spanStyleBuffer.append("rotate(" + rotationAngle + "deg); ");
 		spanStyleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
-		return rotationValue;
+		return rotation;
 	}
 
 	protected void appendSizeStyle(int width, int height, StringBuilder styleBuffer)
@@ -894,7 +894,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		String verticalAlignment = getImageVerticalAlignmentStyle(image);
 
 		StringBuilder styleBuffer = new StringBuilder();
-		ScaleImageEnum scaleImage = image.getScaleImageValue();
+		ScaleImageEnum scaleImage = image.getScaleImage();
 		if (scaleImage != ScaleImageEnum.CLIP)
 		{
 			// clipped images are absolutely positioned within a div
@@ -1041,7 +1041,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1496,7 +1496,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									imageRenderersCache,
 									renderer,
 									dim,
-									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 									);
 						}
 						else
@@ -1505,7 +1505,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								getRendererUtil().getDataRenderable(
 									renderer,
 									dim,
-									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 									);
 						}
 						
@@ -1587,7 +1587,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 										imageRenderersCache,
 										renderer,
 										dim,
-										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 										);
 							}
 							else
@@ -1596,7 +1596,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									getRendererUtil().getDataRenderable(
 										renderer,
 										dim,
-										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 										);
 							}
 
@@ -1726,7 +1726,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("/>\n");
 		}
 		
-		if (image.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
+		if (image.getHyperlinkType() != HyperlinkTypeEnum.NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaCoordinates(new int[]{0, 0, image.getWidth(), image.getHeight()});//for IE
@@ -1855,7 +1855,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		writer.write("stroke:" + JRColorUtil.getCssColor(element.getLinePen().getLineColor()) + ";");
 		writer.write("stroke-width:" + element.getLinePen().getLineWidth() + ";");
 
-		switch (element.getLinePen().getLineStyleValue())
+		switch (element.getLinePen().getLineStyle())
 		{
 			case DOTTED :
 			{
@@ -1886,7 +1886,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 			int width = line.getWidth();
 			int height = line.getHeight();
-			LineDirectionEnum lineDirection = line.getDirectionValue();
+			LineDirectionEnum lineDirection = line.getDirection();
 			int y1 = lineDirection == LineDirectionEnum.BOTTOM_UP ? height : 0;
 			int y2 = lineDirection == LineDirectionEnum.BOTTOM_UP ? 0 : height;
 			
@@ -1906,7 +1906,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			float ratio = line.getWidth() / line.getHeight();
 			if (ratio > 1)
 			{
-				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+				if (line.getDirection() == LineDirectionEnum.TOP_DOWN)
 				{
 					side = "top";
 				}
@@ -1917,7 +1917,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			else
 			{
-				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+				if (line.getDirection() == LineDirectionEnum.TOP_DOWN)
 				{
 					side = "left";
 				}
@@ -2289,10 +2289,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (box != null)
 		{
-			LineStyleEnum tps = box.getTopPen().getLineStyleValue();
-			LineStyleEnum lps = box.getLeftPen().getLineStyleValue();
-			LineStyleEnum bps = box.getBottomPen().getLineStyleValue();
-			LineStyleEnum rps = box.getRightPen().getLineStyleValue();
+			LineStyleEnum tps = box.getTopPen().getLineStyle();
+			LineStyleEnum lps = box.getLeftPen().getLineStyle();
+			LineStyleEnum bps = box.getBottomPen().getLineStyle();
+			LineStyleEnum rps = box.getRightPen().getLineStyle();
 			
 			float tpw = box.getTopPen().getLineWidth();
 			float lpw = box.getLeftPen().getLineWidth();
@@ -2368,7 +2368,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 
 		String borderStyle = null;
-		switch (pen.getLineStyleValue())
+		switch (pen.getLineStyle())
 		{
 			case DOUBLE :
 			{
@@ -2621,7 +2621,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{
@@ -2691,7 +2691,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		JRHyperlinkTargetProducer producer = targetProducerFactory.getHyperlinkTargetProducer(link.getLinkTarget());		
 		if (producer == null)
 		{
-			switch(link.getHyperlinkTargetValue())
+			switch(link.getHyperlinkTarget())
 			{
 				case BLANK :
 				{

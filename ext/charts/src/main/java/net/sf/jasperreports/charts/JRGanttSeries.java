@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignGanttSeries;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 
@@ -31,6 +34,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * 
  * @author Peter Risko (peter@risko.hu)
  */
+@JsonDeserialize(as = JRDesignGanttSeries.class)
 public interface JRGanttSeries {
 
 	/**

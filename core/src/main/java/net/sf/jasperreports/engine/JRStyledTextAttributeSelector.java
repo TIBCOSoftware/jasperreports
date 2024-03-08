@@ -113,7 +113,7 @@ public abstract class JRStyledTextAttributeSelector
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-			if (printText.getModeValue() == ModeEnum.OPAQUE)
+			if (printText.getMode() == ModeEnum.OPAQUE)
 			{
 				attributes.put(TextAttribute.BACKGROUND, printText.getBackcolor());
 			}

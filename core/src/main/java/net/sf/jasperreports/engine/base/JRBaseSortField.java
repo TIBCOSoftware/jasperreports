@@ -50,7 +50,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	 *
 	 */
 	protected String name;
-	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
+	protected SortOrderEnum order = SortOrderEnum.ASCENDING;
 	protected SortFieldTypeEnum type = SortFieldTypeEnum.FIELD;
 
 
@@ -70,7 +70,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		factory.put(sortField, this);
 		
 		name = sortField.getName();
-		orderValue = sortField.getOrderValue();
+		order = sortField.getOrder();
 		type = sortField.getType();
 	}
 		
@@ -82,19 +82,19 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	}
 		
 	@Override
-	public SortOrderEnum getOrderValue()
+	public SortOrderEnum getOrder()
 	{
-		return orderValue;
+		return order;
 	}
 		
 	/**
 	 *
 	 */
-	public void setOrder(SortOrderEnum orderValue)
+	public void setOrder(SortOrderEnum order)
 	{
-		Object old = this.orderValue;
-		this.orderValue = orderValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
+		Object old = this.order;
+		this.order = order;
+		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.order);
 	}
 	
 	@Override

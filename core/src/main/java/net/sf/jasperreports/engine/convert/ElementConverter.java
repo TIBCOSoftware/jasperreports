@@ -71,7 +71,7 @@ public abstract class ElementConverter
 		
 		printElement.copyPen(element.getLinePen());
 		
-		printElement.setFill(element.getOwnFillValue());
+		printElement.setFill(element.getOwnFill());
 	}
 
 

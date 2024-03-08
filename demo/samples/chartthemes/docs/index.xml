@@ -201,7 +201,7 @@ Then each field above is described in its own class. For example, the LegendSett
     <field name="showLegend" type="java.lang.Boolean">
       <bind-xml node="attribute"/>
     </field>
-    <field name="positionValue" type="net.sf.jasperreports.charts.type.EdgeEnum" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+    <field name="position" type="net.sf.jasperreports.charts.type.EdgeEnum" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
       <bind-xml node="attribute"/>
     </field>
     <field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">

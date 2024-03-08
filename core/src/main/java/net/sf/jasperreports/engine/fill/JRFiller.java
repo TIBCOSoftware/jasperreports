@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -239,7 +240,7 @@ public final class JRFiller
 	{
 		JRBaseFiller filler = null;
 
-		switch (reportSource.getReport().getPrintOrderValue())
+		switch (PrintOrderEnum.getValueOrDefault(reportSource.getReport().getPrintOrder()))
 		{
 			case HORIZONTAL :
 			{
@@ -264,8 +265,7 @@ public final class JRFiller
 			JasperReportSource reportSource) throws JRException
 	{
 		ReportFiller filler;
-		SectionTypeEnum sectionType = reportSource.getReport().getSectionType();
-		sectionType = sectionType == null ? SectionTypeEnum.BAND : sectionType;
+		SectionTypeEnum sectionType = SectionTypeEnum.getValueOrDefault(reportSource.getReport().getSectionType());
 		switch (sectionType)
 		{
 		case BAND:
@@ -280,7 +280,7 @@ public final class JRFiller
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE,  
-					new Object[]{reportSource.getReport().getSectionType()} 
+					new Object[]{sectionType} 
 					);
 		}
 		return filler;

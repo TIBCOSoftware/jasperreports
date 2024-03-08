@@ -23,7 +23,13 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
 
 /**
  * Type of plot 
@@ -34,12 +40,15 @@ package net.sf.jasperreports.charts;
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
+@JsonTypeName("bar3D")
+@JsonDeserialize(as = JRDesignBar3DPlot.class)
 public interface JRBar3DPlot extends JRCategoryPlot
 {
 
 	/**
 	 * @return the x offset
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getXOffsetDouble();
 	
 	/**
@@ -57,6 +66,7 @@ public interface JRBar3DPlot extends JRCategoryPlot
 	/**
 	 * @return the y offset
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getYOffsetDouble();
 	
 	/**
@@ -68,6 +78,8 @@ public interface JRBar3DPlot extends JRCategoryPlot
 	/**
 	 * @return a flag that specifies whether the labels are to be shown or not
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
 
 	/**

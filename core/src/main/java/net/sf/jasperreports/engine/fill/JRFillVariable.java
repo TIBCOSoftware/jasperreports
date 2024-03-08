@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -46,8 +45,8 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	private JRGroup resetGroup;
-	private JRGroup incrementGroup;
+	private String resetGroup;
+	private String incrementGroup;
 
 	/**
 	 *
@@ -81,8 +80,8 @@ public class JRFillVariable implements JRVariable, JRCalculable
 
 		parent = variable;
 		
-		resetGroup = factory.getGroup(variable.getResetGroup());
-		incrementGroup = factory.getGroup(variable.getIncrementGroup());
+		resetGroup = variable.getResetGroup();
+		incrementGroup = variable.getIncrementGroup();
 		
 		helperVariables = new JRFillVariable[JRCalculable.HELPER_SIZE];
 	}
@@ -158,21 +157,21 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 		
 	@Override
-	public ResetTypeEnum getResetTypeValue()
+	public ResetTypeEnum getResetType()
 	{
-		return parent.getResetTypeValue();
+		return ResetTypeEnum.getValueOrDefault(parent.getResetType());
 	}
 		
 	@Override
-	public IncrementTypeEnum getIncrementTypeValue()
+	public IncrementTypeEnum getIncrementType()
 	{
-		return parent.getIncrementTypeValue();
+		return IncrementTypeEnum.getValueOrDefault(parent.getIncrementType());
 	}
 		
 	@Override
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
-		return parent.getCalculationValue();
+		return CalculationEnum.getValueOrDefault(parent.getCalculation());
 	}
 		
 	@Override
@@ -182,13 +181,13 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 
 	@Override
-	public JRGroup getResetGroup()
+	public String getResetGroup()
 	{
 		return resetGroup;
 	}
 		
 	@Override
-	public JRGroup getIncrementGroup()
+	public String getIncrementGroup()
 	{
 		return incrementGroup;
 	}
@@ -301,7 +300,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 				incrementerFactory = JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculationValue());
+			incrementer = incrementerFactory.getIncrementer(getCalculation());
 		}
 		
 		return incrementer;

@@ -25,8 +25,18 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.charts.design.JRDesignChart;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBoxContainer;
@@ -45,6 +55,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * its own dataset and characteristics. This interface only defines the common properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("chart")
+@JsonDeserialize(as = JRDesignChart.class)
 public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink, JRBoxContainer
 {
 
@@ -110,6 +122,8 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLegend();
 
 	/**
@@ -132,7 +146,8 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 * Gets the title position relative to the chart.
 	 */
-	public EdgeEnum getTitlePositionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public EdgeEnum getTitlePosition();
 
 
 	/**
@@ -144,18 +159,22 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Color getTitleColor();
 
 
 	/**
 	 *
 	 */
+	@JsonGetter("titleColor")
+	@JacksonXmlProperty(localName = "titleColor", isAttribute = true)
 	public Color getOwnTitleColor();
 
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setTitleColor(Color titleColor);
 
 	
@@ -174,47 +193,59 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Color getSubtitleColor();
 
 	/**
 	 *
 	 */
+	@JsonGetter("subtitleColor")
+	@JacksonXmlProperty(localName = "subtitleColor", isAttribute = true)
 	public Color getOwnSubtitleColor();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setSubtitleColor(Color subtitleColor);
 
 	
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getLegendColor();
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("legendColor")
+	@JacksonXmlProperty(localName = "legendColor", isAttribute = true)
 	public Color getOwnLegendColor();
 	
 	/**
 	 * 
 	 */
+	@JsonSetter
 	public void setLegendColor(Color legendColor);
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("legendBackgroundColor")
+	@JacksonXmlProperty(localName = "legendBackgroundColor", isAttribute = true)
 	public Color getOwnLegendBackgroundColor();
 	
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getLegendBackgroundColor();
 	
 	/**
 	 * 
 	 */
+	@JsonSetter
 	public void setLegendBackgroundColor(Color legendBackgroundColor);
 	
 	/**
@@ -226,7 +257,8 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 *
 	 */
-	public EdgeEnum getLegendPositionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public EdgeEnum getLegendPosition();
 
 
 	/**
@@ -244,24 +276,28 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 * Gets the chart plot. Plots are used to define various chart visual properties, such as colors and transparency.
 	 */
+	@JsonGetter
 	public JRChartPlot getPlot();
 
 
 	/**
 	 * Gets the chart type. It must be one of the chart type constants in this class.
 	 */ 
-	public byte getChartType();
+	@JacksonXmlProperty(isAttribute = true)
+	public byte getChartType(); //FIXMEJACK maybe introduce enum
 	
 	/**
 	 * Gets a user specified chart customizer class name.
 	 * @see JRChartCustomizer
  	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getCustomizerClass();
 
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getRenderType();
 
 
@@ -273,6 +309,7 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getTheme();
 
 

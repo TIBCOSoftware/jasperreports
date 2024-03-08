@@ -61,7 +61,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	 *
 	 */
 	protected int height;
-	protected SplitTypeEnum splitTypeValue;
+	protected SplitTypeEnum splitType;
 
 	/**
 	 *
@@ -80,7 +80,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		super(band, factory);
 		
 		height = band.getHeight();
-		splitTypeValue = band.getSplitTypeValue();
+		splitType = band.getSplitType();
 
 		printWhenExpression = factory.getExpression(band.getPrintWhenExpression());
 		this.propertiesMap = JRPropertiesMap.getPropertiesClone(band);
@@ -105,17 +105,17 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	}
 
 	@Override
-	public SplitTypeEnum getSplitTypeValue()
+	public SplitTypeEnum getSplitType()
 	{
-		return splitTypeValue;
+		return splitType;
 	}
 
 	@Override
-	public void setSplitType(SplitTypeEnum splitTypeValue)
+	public void setSplitType(SplitTypeEnum splitType)
 	{
-		SplitTypeEnum old = this.splitTypeValue;
-		this.splitTypeValue = splitTypeValue;
-		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitTypeValue);
+		SplitTypeEnum old = this.splitType;
+		this.splitType = splitType;
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitType);
 	}
 
 	@Override

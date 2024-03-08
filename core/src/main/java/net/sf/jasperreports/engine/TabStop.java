@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
@@ -40,7 +42,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 	 * 
 	 */
 	private int position;
-	private TabStopAlignEnum alignment = TabStopAlignEnum.LEFT;
+	private TabStopAlignEnum alignment;
 
 	/**
 	 * 
@@ -61,6 +63,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 	/**
 	 * Gets the tab stop alignment.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public TabStopAlignEnum getAlignment()
 	{
 		return alignment;
@@ -77,6 +80,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 	/**
 	 * Gets the tab stop position.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getPosition()
 	{
 		return position;

@@ -195,7 +195,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 			text.getLineSpacingFactor(),
 			horizontalAlignment == PdfTextAlignment.JUSTIFIED && (isLastParagraph && justifyLastLine) 
 				? PdfTextAlignment.JUSTIFIED_ALL : horizontalAlignment,
-			text.getRunDirectionValue() == RunDirectionEnum.LTR
+			text.getRunDirection() == RunDirectionEnum.LTR
 				? TextDirection.LTR : TextDirection.RTL
 			);
 		

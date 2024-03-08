@@ -40,7 +40,6 @@
 		<module>groovy</module>
 		<module>hibernate</module>
 		<module>horizontal</module>
-		<module>htmlcomponent</module>
 		<module>httpdataadapter</module>
 		<module>hyperlink</module>
 		<module>i18n</module>

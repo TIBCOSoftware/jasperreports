@@ -39,6 +39,7 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
@@ -49,7 +50,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRPropertiesMap implements Serializable, Cloneable
+public class JRPropertiesMap implements Serializable, Cloneable, JRChangeEventsSupport
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -476,6 +477,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		return eventSupport != null;
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

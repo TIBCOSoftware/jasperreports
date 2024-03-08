@@ -63,7 +63,7 @@ public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 		int width = rectangle.getWidth();
 		int height = rectangle.getHeight();
 		
-		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
+		if (rectangle.getMode() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(rectangle.getBackcolor());
 			if (rectangle.getRadius() > 0)
@@ -98,7 +98,7 @@ public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 			
 			AffineTransform oldTx = grx.getTransform();
 
-			if (rectangle.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (rectangle.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float lineWidth = rectangle.getLinePen().getLineWidth();
 				

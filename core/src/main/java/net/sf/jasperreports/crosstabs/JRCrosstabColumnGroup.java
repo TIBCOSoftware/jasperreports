@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 
 /**
@@ -30,6 +34,7 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignCrosstabColumnGroup.class)
 public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 {
 	/**
@@ -39,6 +44,7 @@ public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 	 * @see JRCrosstabGroup#getHeader()
 	 * @see JRCrosstabGroup#getTotalHeader()
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getHeight();
 	
 	
@@ -56,7 +62,8 @@ public interface JRCrosstabColumnGroup extends JRCrosstabGroup
 	 * 
 	 * @return the position of the header contents for header stretching
 	 */
-	public CrosstabColumnPositionEnum getPositionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public CrosstabColumnPositionEnum getPosition();
 	
 	/**
 	 * Returns the crosstab header cell of the column group.

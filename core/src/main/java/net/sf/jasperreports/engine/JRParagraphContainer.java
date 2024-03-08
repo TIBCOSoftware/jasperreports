@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import net.sf.jasperreports.jackson.util.ParagraphSerializer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,6 +37,8 @@ public interface JRParagraphContainer extends JRStyleContainer
 	/**
 	 *
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = ParagraphSerializer.class)
 	public JRParagraph getParagraph();
 
 }

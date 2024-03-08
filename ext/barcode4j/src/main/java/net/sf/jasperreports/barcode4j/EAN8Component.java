@@ -23,14 +23,18 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.krysalis.barcode4j.ChecksumMode;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("barcode4j:EAN8")
 public class EAN8Component extends Barcode4jComponent
 {
 
@@ -40,6 +44,7 @@ public class EAN8Component extends Barcode4jComponent
 
 	private String checksumMode;
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;

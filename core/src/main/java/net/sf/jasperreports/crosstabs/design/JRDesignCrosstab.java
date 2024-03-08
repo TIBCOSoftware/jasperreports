@@ -39,6 +39,12 @@ import java.util.TimeZone;
 
 import org.apache.commons.collections4.map.LinkedMap;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -74,6 +80,7 @@ import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -134,7 +141,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected int columnBreakOffset = DEFAULT_COLUMN_BREAK_OFFSET;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
-	protected RunDirectionEnum runDirectionValue;
+	protected RunDirectionEnum runDirection;
 	protected HorizontalPosition horizontalPosition;
 	protected List<JRCrosstabCell> cellsList;
 	protected Map<Pair<String,String>,JRCrosstabCell> cellsMap;
@@ -266,6 +273,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the crosstab dataset design object
 	 */
+	@JsonIgnore
 	public JRDesignCrosstabDataset getDesignDataset()
 	{
 		return dataset;
@@ -279,6 +287,18 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return groups;
 	}
 
+	@JsonSetter
+	private void setRowGroups(List<JRDesignCrosstabRowGroup> groups) throws JRException
+	{
+		if (groups != null)
+		{
+			for (JRDesignCrosstabRowGroup group : groups)
+			{
+				addRowGroup(group);
+			}
+		}
+	}
+
 	@Override
 	public JRCrosstabColumnGroup[] getColumnGroups()
 	{
@@ -287,12 +307,36 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return groups;
 	}
 
+	@JsonSetter
+	private void setColumnGroups(List<JRDesignCrosstabColumnGroup> groups) throws JRException
+	{
+		if (groups != null)
+		{
+			for (JRDesignCrosstabColumnGroup group : groups)
+			{
+				addColumnGroup(group);
+			}
+		}
+	}
+
 	@Override
 	public JRCrosstabMeasure[] getMeasures()
 	{
 		JRCrosstabMeasure[] measureArray = new JRCrosstabMeasure[measures.size()];
 		measures.toArray(measureArray);
 		return measureArray;
+	}
+
+	@JsonSetter
+	private void setMeasures(List<JRDesignCrosstabMeasure> measures) throws JRException
+	{
+		if (measures != null)
+		{
+			for (JRDesignCrosstabMeasure measure : measures)
+			{
+				addMeasure(measure);
+			}
+		}
 	}
 
 	@Override
@@ -888,11 +932,35 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @return the data cells list
 	 * @see #addCell(JRDesignCrosstabCell)
 	 */
+	@JsonGetter("cells")
+	@JacksonXmlProperty(localName = "cell")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<JRCrosstabCell> getCellsList()
 	{
 		return cellsList;
 	}
 	
+	
+	/*
+	 * JACKSON-TIP
+	 * The name of this setter method here needs to match the name of the corresponding getter in order for Jackson to be able to use the json and xml
+	 * specific annotations of the getter.
+	 * It is a case similar to the tabStops in JRParagraph and the includedTemplates in JRTemplate, the only different being the fact that here the field type is List and not array.
+	 * Without the setter method matching the getter name, Jackson will fall back to using the cellsList field of this class, and if that one would be marked as JsonIgnore,
+	 * it would add to the List object returned by the getter.
+	 */
+	@JsonSetter
+	private void setCellsList(List<JRDesignCrosstabCell> cells) throws JRException
+	{
+		if (cells != null)
+		{
+			for (JRDesignCrosstabCell cell : cells)
+			{
+				addCell(cell);
+			}
+		}
+	}
+
 	
 	/**
 	 * Returns the crosstab cells indexed by corresponding row total group/
@@ -902,6 +970,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @see JRCrosstabCell#getRowTotalGroup()
 	 * @see JRCrosstabCell#getColumnTotalGroup()
 	 */
+	@JsonIgnore
 	public Map<Pair<String,String>,JRCrosstabCell> getCellsMap()
 	{
 		return cellsMap;
@@ -1002,17 +1071,32 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the paremeters list
 	 */
+	@JsonIgnore
 	public List<JRCrosstabParameter> getParametersList()
 	{
 		return parametersList;
 	}
 	
 	
+	@JsonSetter
+	private void setParameters(List<JRCrosstabParameter> parameters) throws JRException
+	{
+		if (parameters != null)
+		{
+			for (JRCrosstabParameter parameter : parameters)
+			{
+				addParameter(parameter);
+			}
+		}
+	}
+
+
 	/**
 	 * Returns the parameters indexed by names.
 	 * 
 	 * @return the parameters indexed by names
 	 */
+	@JsonIgnore
 	public Map<String, JRCrosstabParameter> getParametersMap()
 	{
 		return parametersMap;
@@ -1133,6 +1217,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the variables of this crosstab indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRVariable> getVariablesMap()
 	{
 		JRVariable[] variables = getVariables();
@@ -1552,7 +1637,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -1645,17 +1730,17 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	
 	@Override
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
-		return this.runDirectionValue;
+		return this.runDirection;
 	}
 
 	@Override
-	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	public void setRunDirection(RunDirectionEnum runDirection)
 	{
-		RunDirectionEnum old = this.runDirectionValue;
-		this.runDirectionValue = runDirectionValue;
-		getEventSupport().firePropertyChange(JRBaseCrosstab.PROPERTY_RUN_DIRECTION, old, this.runDirectionValue);
+		RunDirectionEnum old = this.runDirection;
+		this.runDirection = runDirection;
+		getEventSupport().firePropertyChange(JRBaseCrosstab.PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
 
 	@Override
@@ -1857,31 +1942,37 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			);
 	}
 	
+	@JsonIgnore
 	public List<JRCrosstabRowGroup> getRowGroupsList()
 	{
 		return rowGroups;
 	}
 	
+	@JsonIgnore
 	public Map<String, Integer> getRowGroupIndicesMap()
 	{
 		return rowGroupsMap;
 	}
 	
+	@JsonIgnore
 	public List<JRCrosstabColumnGroup> getColumnGroupsList()
 	{
 		return columnGroups;
 	}
 	
+	@JsonIgnore
 	public Map<String, Integer> getColumnGroupIndicesMap()
 	{
 		return columnGroupsMap;
 	}
 	
+	@JsonIgnore
 	public List<JRCrosstabMeasure> getMesuresList()
 	{
 		return measures;
 	}
 	
+	@JsonIgnore
 	public Map<String, Integer> getMeasureIndicesMap()
 	{
 		return measuresMap;
@@ -1912,5 +2003,11 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
+	}
+
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
+	private void setLineBox(JRLineBox lineBox)
+	{
+		this.lineBox = lineBox == null ? null : lineBox.clone(this);
 	}
 }

@@ -419,7 +419,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -560,7 +560,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			
 			double angle = 0;
 
-			switch (imageElement.getScaleImageValue())
+			switch (imageElement.getScaleImage())
 			{
 				case FILL_FRAME :
 				{
@@ -916,7 +916,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				documentBuilder.getImagePath(
 					renderer, 
 					new Dimension(imageWidth, imageHeight),
-					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
+					ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null,
 					cell,
 //					isLazy,
 					imageRenderersCache
@@ -1012,7 +1012,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getTopPen();
 			}
@@ -1023,7 +1023,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getLeftPen();
 			}
@@ -1033,7 +1033,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -1412,7 +1412,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 //		JRLineBox box = new JRBaseLineBox(null);
 //		JRPen pen = box.getPen();
 //		pen.setLineColor(ellipse.getLinePen().getLineColor());
-//		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
+//		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
 //		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
 //
 //		gridCell.setBox(box);//CAUTION: only some exporters set the cell box

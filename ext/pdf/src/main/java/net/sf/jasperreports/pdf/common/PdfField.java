@@ -55,7 +55,7 @@ public interface PdfField
 
 	void setFont(Map<Attribute,Object> attributes, Locale locale);
 	
-	void setFontSize(float fontsize);
+	void setFontSize(float fontSize);
 
 	void setRotation(int rotation);
 

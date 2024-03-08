@@ -169,7 +169,7 @@ public class Tabulator
 				&& elementOrigin != null && elementOrigin.getReportName() == null
 				// master background element
 				// TODO lucianc do something for subreport background bands as well
-				&& elementOrigin.getBandTypeValue() == BandTypeEnum.BACKGROUND)
+				&& elementOrigin.getBandType() == BandTypeEnum.BACKGROUND)
 		{
 			// create a layer as big as the table for the master background band
 			SortedSet<Column> userColumns = table.columns.getUserEntries();
@@ -1135,7 +1135,7 @@ public class Tabulator
 			}
 			
 			JRPrintElement element = getCellElement(cell);
-			if (element.getModeValue() == ModeEnum.OPAQUE)
+			if (element.getMode() == ModeEnum.OPAQUE)
 			{
 				return element.getBackcolor();
 			}

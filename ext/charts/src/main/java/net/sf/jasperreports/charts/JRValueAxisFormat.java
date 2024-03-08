@@ -25,6 +25,12 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRFont;
 
 /**
@@ -41,11 +47,14 @@ public interface JRValueAxisFormat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getValueAxisLabelColor();
 
 	/**
 	 * 
 	 */
+	@JsonGetter("valueAxisLabelColor")
+	@JacksonXmlProperty(localName = "valueAxisLabelColor", isAttribute = true)
 	public Color getOwnValueAxisLabelColor();
 
 	/**
@@ -56,30 +65,39 @@ public interface JRValueAxisFormat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getValueAxisTickLabelColor();
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("valueAxisTickLabelColor")
+	@JacksonXmlProperty(localName = "valueAxisTickLabelColor", isAttribute = true)
 	public Color getOwnValueAxisTickLabelColor();
 	
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getValueAxisTickLabelMask();
 	
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getValueAxisVerticalTickLabels();
 	
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getValueAxisLineColor();
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("valueAxisLineColor")
+	@JacksonXmlProperty(localName = "valueAxisLineColor", isAttribute = true)
 	public Color getOwnValueAxisLineColor();
 }

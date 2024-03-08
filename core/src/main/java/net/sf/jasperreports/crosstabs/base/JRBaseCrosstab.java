@@ -24,8 +24,13 @@
 package net.sf.jasperreports.crosstabs.base;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
@@ -81,7 +86,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected int columnBreakOffset;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
-	protected RunDirectionEnum runDirectionValue;
+	protected RunDirectionEnum runDirection;
 	protected HorizontalPosition horizontalPosition;
 	protected JRCrosstabCell[][] cells;
 	protected JRCellContents whenNoDataCell;
@@ -99,7 +104,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		this.columnBreakOffset = crosstab.getColumnBreakOffset();
 		this.repeatColumnHeaders = crosstab.isRepeatColumnHeaders();
 		this.repeatRowHeaders = crosstab.isRepeatRowHeaders();
-		this.runDirectionValue = crosstab.getRunDirectionValue();
+		this.runDirection = crosstab.getRunDirection();
 		this.horizontalPosition = crosstab.getHorizontalPosition();
 		this.ignoreWidth = crosstab.getIgnoreWidth();
 		
@@ -119,7 +124,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -278,6 +283,28 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		return cells;
 	}
 
+	@JsonGetter("cells")
+	@JacksonXmlProperty(localName = "cell")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	private List<JRCrosstabCell> getCellsList()
+	{
+		if (cells != null)
+		{
+			List<JRCrosstabCell> cellsList = new ArrayList<JRCrosstabCell>();
+
+			for (int i = cells.length - 1; i >= 0 ; --i)
+			{
+				for (int j = cells[i].length - 1; j >= 0 ; --j)
+				{
+					cellsList.add(cells[i][j]);
+				}
+			}
+			
+			return cellsList;
+		}
+		return null;
+	}
+
 	@Override
 	public JRCrosstabParameter[] getParameters()
 	{
@@ -416,17 +443,17 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 
 	
 	@Override
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
-		return this.runDirectionValue;
+		return this.runDirection;
 	}
 
 	@Override
-	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	public void setRunDirection(RunDirectionEnum runDirection)
 	{
-		RunDirectionEnum old = this.runDirectionValue;
-		this.runDirectionValue = runDirectionValue;
-		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirectionValue);
+		RunDirectionEnum old = this.runDirection;
+		this.runDirection = runDirection;
+		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.runDirection);
 	}
 
 	@Override

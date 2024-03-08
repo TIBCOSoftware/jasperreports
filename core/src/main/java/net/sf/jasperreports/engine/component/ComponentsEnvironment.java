@@ -25,11 +25,14 @@ package net.sf.jasperreports.engine.component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -49,7 +52,6 @@ public final class ComponentsEnvironment
 {
 	
 	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
-	public static final String EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED = "components.bundle.not.registered";
 	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "components.component.manager.not.found";
 	
 	private final ReferenceMap<Object, List<ComponentsBundle>> cache = 
@@ -108,74 +110,54 @@ public final class ComponentsEnvironment
 	{
 		return jasperReportsContext.getExtensions(ComponentsBundle.class);
 	}
-	
+
 	/**
-	 * Returns a component bundle that corresponds to a namespace.
-	 * 
-	 * @param namespace a component bundle namespace
-	 * @return the corresponding component bundle
-	 * @throws JRRuntimeException if no bundle corresponding to the namespace
-	 * is found in the registry
-	 */
-	public ComponentsBundle getBundle(String namespace)
-	{
-		List<ComponentsBundle> bundles = getBundles(namespace);
-		if (bundles.isEmpty())
-		{
-			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED,
-				new Object[]{namespace});
-		}
-		
-		if (bundles.size() > 1)
-		{
-			log.warn("Found " + bundles.size() + " component bundles for namespace " + namespace);
-		}
-		return bundles.get(0);
-	}
-	
-	/**
-	 * Returns the component bundles that correspond to a namespace.
-	 * 
-	 * @param namespace a component bundle namespace
-	 * @return the corresponding component bundles
-	 */
-	public List<ComponentsBundle> getBundles(String namespace)
-	{
-		List<ComponentsBundle> components = getCachedBundles();
-		return components.stream().filter(bundle -> bundle.getXmlParser().getNamespace().equals(namespace))
-				.collect(Collectors.toList());
-	}
-	
-	/**
-	 * Returns a component manager that corresponds to a particular component
+	 * Returns a component manager that corresponds to a particular component.
 	 * type key.
 	 * 
-	 * @param componentKey the component type key
+	 * @param component the component
 	 * @return the manager for the component type
 	 * @throws JRRuntimeException if the registry does not contain the specified
-	 * component type
+	 * component
 	 */
-	public ComponentManager getManager(ComponentKey componentKey)
+	public ComponentManager getManager(Component component)
 	{
-		String namespace = componentKey.getNamespace();
-		List<ComponentsBundle> bundles = getBundles(namespace);
-		String name = componentKey.getName();
-		List<ComponentManager> managers = bundles.stream()
-				.map(bundle -> bundle.getComponentManager(name))
-				.filter(manager -> manager != null)
-				.collect(Collectors.toList());
-
+		List<ComponentsBundle> bundles = getCachedBundles();
+		List<ComponentManager> managers = bundles.stream().map(bundle -> bundle.getComponentManager(component))
+				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 		if (managers.isEmpty())
 		{
 			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
-				new Object[]{name, namespace});
+				new Object[]{component.getClass().getName()});
 		}
 		
 		if (managers.size() > 1)
 		{
-			log.warn("Found " + managers.size() + " components for name " + name 
-					+ ", namespace " + namespace);			
+			log.warn("Found " + managers.size() + " components for " + component.getClass().getName());
 		}
 		return managers.get(0);
+	}
+	
+	public String getComponentName(Class<? extends Component> componentType)
+	{
+		for (Class<?> type = componentType; type != null; type = type.getSuperclass()) 
+		{
+			JsonTypeName componentSpec = type.getAnnotation(JsonTypeName.class);
+			if (componentSpec != null)
+			{
+				return componentSpec.value();
+			}
+		}
+		
+		for (Class<?> itf : componentType.getInterfaces())
+		{
+			JsonTypeName componentSpec = itf.getAnnotation(JsonTypeName.class);
+			if (componentSpec != null)
+			{
+				return componentSpec.value();
+			}
+		}
+		
+		throw new JRRuntimeException("Cannot detect name of component of type " + componentType.getName());
 	}
 }

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
 import net.sf.jasperreports.engine.JRConstants;
@@ -47,6 +49,12 @@ public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEvents
 	
 	public static final String PROPERTY_LOW_EXPRESSION = "lowExpression";
 
+
+	@JsonCreator
+	private JRDesignDataRange()
+	{
+		this(null);
+	}
 
 	/**
 	 * Constructs a new data range that is a copy of an existing one.

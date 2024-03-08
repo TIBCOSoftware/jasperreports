@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -47,10 +46,10 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected DatasetResetTypeEnum datasetResetType = DatasetResetTypeEnum.REPORT;
-	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
-	protected JRGroup resetGroup;
-	protected JRGroup incrementGroup;
+	protected DatasetResetTypeEnum datasetResetType;
+	protected IncrementTypeEnum incrementType;
+	protected String resetGroup;
+	protected String incrementGroup;
 	
 	protected JRDatasetRun datasetRun;
 	protected JRExpression incrementWhenExpression;
@@ -68,7 +67,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	{
 		if (dataset != null) {
 			datasetResetType = dataset.getDatasetResetType();
-			incrementTypeValue = dataset.getIncrementTypeValue();
+			incrementType = dataset.getIncrementType();
 			resetGroup = dataset.getResetGroup();
 			incrementGroup = dataset.getIncrementGroup();
 			datasetRun = dataset.getDatasetRun();
@@ -85,9 +84,9 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 		factory.put(dataset, this);
 
 		datasetResetType = dataset.getDatasetResetType();
-		incrementTypeValue = dataset.getIncrementTypeValue();
-		resetGroup = factory.getGroup(dataset.getResetGroup());
-		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+		incrementType = dataset.getIncrementType();
+		resetGroup = dataset.getResetGroup();
+		incrementGroup = dataset.getIncrementGroup();
 		
 		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 		incrementWhenExpression = factory.getExpression(dataset.getIncrementWhenExpression());
@@ -101,19 +100,19 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	}
 		
 	@Override
-	public IncrementTypeEnum getIncrementTypeValue()
+	public IncrementTypeEnum getIncrementType()
 	{
-		return this.incrementTypeValue;
+		return this.incrementType;
 	}
 		
 	@Override
-	public JRGroup getResetGroup()
+	public String getResetGroup()
 	{
 		return resetGroup;
 	}
 		
 	@Override
-	public JRGroup getIncrementGroup()
+	public String getIncrementGroup()
 	{
 		return incrementGroup;
 	}

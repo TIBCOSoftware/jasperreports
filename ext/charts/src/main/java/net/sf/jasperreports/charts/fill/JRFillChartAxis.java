@@ -77,9 +77,9 @@ public class JRFillChartAxis implements JRChartAxis
 	}
 
 	@Override
-	public AxisPositionEnum getPositionValue()
+	public AxisPositionEnum getPosition()
 	{
-		return parent.getPositionValue();
+		return parent.getPosition();
 	}
 
 	@Override

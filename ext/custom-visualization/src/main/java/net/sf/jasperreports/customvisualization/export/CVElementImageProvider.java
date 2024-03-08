@@ -99,7 +99,7 @@ public class CVElementImageProvider
 		printImage.setWidth(element.getWidth());
 		printImage.setHeight(element.getHeight());
 		printImage.setStyle(element.getStyle());
-		printImage.setMode(element.getModeValue());
+		printImage.setMode(element.getMode());
 		printImage.setBackcolor(element.getBackcolor());
 		printImage.setForecolor(element.getForecolor());
 

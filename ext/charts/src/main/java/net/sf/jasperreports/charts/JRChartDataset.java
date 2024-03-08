@@ -23,9 +23,13 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 import net.sf.jasperreports.charts.design.ChartsVerifier;
 import net.sf.jasperreports.engine.JRElementDataset;
-import net.sf.jasperreports.engine.JRExpressionCollector;
 
 
 /**
@@ -33,6 +37,18 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
  * is the superinterface for all datasets and contains common dataset properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = JRCategoryDataset.class),
+	@JsonSubTypes.Type(value = JRGanttDataset.class),
+	@JsonSubTypes.Type(value = JRHighLowDataset.class),
+	@JsonSubTypes.Type(value = JRPieDataset.class),
+	@JsonSubTypes.Type(value = JRTimePeriodDataset.class),
+	@JsonSubTypes.Type(value = JRTimeSeriesDataset.class),
+	@JsonSubTypes.Type(value = JRValueDataset.class),
+	@JsonSubTypes.Type(value = JRXyDataset.class),
+	@JsonSubTypes.Type(value = JRXyzDataset.class)
+})
 public interface JRChartDataset extends JRElementDataset
 {
 	public static final byte PIE_DATASET = 1;

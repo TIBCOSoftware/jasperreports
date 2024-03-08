@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.crosstabs.base.BaseCrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
@@ -47,6 +49,7 @@ public class DesignCrosstabColumnCell extends BaseCrosstabColumnCell implements 
 		cellContents = new JRDesignCellContents();
 	}
 
+	@JsonIgnore
 	public JRDesignCellContents getDesignCellContents()
 	{
 		return (JRDesignCellContents) getCellContents();

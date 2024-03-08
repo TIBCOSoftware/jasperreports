@@ -23,6 +23,12 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignTimeSeriesDataset;
 import net.sf.jasperreports.charts.type.TimePeriodEnum;
 
 /**
@@ -32,6 +38,8 @@ import net.sf.jasperreports.charts.type.TimePeriodEnum;
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
+@JsonTypeName("timeSeries")
+@JsonDeserialize(as = JRDesignTimeSeriesDataset.class)
 public interface JRTimeSeriesDataset extends JRChartDataset {
 	
 	/**
@@ -39,6 +47,7 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * series for the Time Series chart
 	 * @see JRTimeSeries
 	 */
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRTimeSeries[] getSeries();
 	
 	/**
@@ -48,7 +57,8 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * days, months, years, or other predefined time periods.
 	 * @see net.sf.jasperreports.charts.type.TimePeriodEnum
 	 */
-	public TimePeriodEnum getTimePeriodValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public TimePeriodEnum getTimePeriod();
 
 	/**
 	 * 

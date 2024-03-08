@@ -25,6 +25,10 @@ package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.components.charts.ChartPlot;
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
@@ -53,59 +57,75 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public SpiderRotationEnum getRotation();
 
 	
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public TableOrderEnum getTableOrder();
 
 	
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getWebFilled();
 	
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getStartAngle();
 	
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getHeadPercent();
 	
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getInteriorGap();
 	
 
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getAxisLineColor();
 	
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Float getAxisLineWidth();
 	
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getLabelGap();
 	
 
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getLabelColor();
 }

@@ -47,8 +47,8 @@ public class JRBaseGenericElement extends JRBaseElement implements JRGenericElem
 	
 	private JRGenericElementType genericType;
 	private List<JRGenericElementParameter> parameters;
-	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
-	private String evaluationGroupName;
+	private EvaluationTimeEnum evaluationTime;
+	private String evaluationGroup;
 	
 	/**
 	 * Creates a generic element by copying an existing element.
@@ -62,8 +62,8 @@ public class JRBaseGenericElement extends JRBaseElement implements JRGenericElem
 		super(element, factory);
 
 		this.genericType = element.getGenericType();
-		this.evaluationTimeValue = element.getEvaluationTimeValue();
-		this.evaluationGroupName = element.getEvaluationGroupName();
+		this.evaluationTime = element.getEvaluationTime();
+		this.evaluationGroup = element.getEvaluationGroup();
 		
 		JRGenericElementParameter[] elementParameters = element.getParameters();
 		this.parameters = new ArrayList<>(elementParameters.length);
@@ -101,14 +101,14 @@ public class JRBaseGenericElement extends JRBaseElement implements JRGenericElem
 	}
 
 	@Override
-	public String getEvaluationGroupName()
+	public String getEvaluationGroup()
 	{
-		return evaluationGroupName;
+		return evaluationGroup;
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 }

@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignHyperlink;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
@@ -52,7 +59,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * There are five standard types of hyperlinks supported by JasperReports by default. These
  * are described below.
  * <h3>Hyperlink Type</h3>
- * The <code>hyperlinkType</code> attribute (see {@link #getHyperlinkTypeValue()}) attribute 
+ * The <code>hyperlinkType</code> attribute (see {@link #getHyperlinkType()}) attribute 
  * can hold any text value, but by default, the engine recognizes the following standard hyperlink types:
  * <ul>
  * <li><code>None</code> - By default, neither the text fields nor the images represent
@@ -91,7 +98,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * use the Boolean expression <code>&lt;hyperlinkWhenExpression&gt;</code> (see {@link #getHyperlinkWhenExpression()}).
  * <h3>Hyperlink Target</h3>
  * All hyperlink elements, like textfields, images, and charts, also expose an attribute
- * called <code>hyperlinkTarget</code> (see {@link #getHyperlinkTargetValue()}). Its purpose is to 
+ * called <code>hyperlinkTarget</code> (see {@link #getHyperlinkTarget()}). Its purpose is to 
  * help customize the behavior of the specified link when it is clicked in the viewer.
  * <p/>
  * Possible values for this attribute:
@@ -196,6 +203,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * @see net.sf.jasperreports.view.JRHyperlinkListener
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignHyperlink.class)
 public interface JRHyperlink extends JRCloneable
 {
 
@@ -211,7 +219,8 @@ public interface JRHyperlink extends JRCloneable
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public HyperlinkTypeEnum getHyperlinkTypeValue();
+	@JsonIgnore
+	public HyperlinkTypeEnum getHyperlinkType();
 
 
 	/**
@@ -225,7 +234,8 @@ public interface JRHyperlink extends JRCloneable
 	 * @return one of the hyperlink target constants
 	 * @see #getLinkTarget()
 	 */
-	public HyperlinkTargetEnum getHyperlinkTargetValue();
+	@JsonIgnore
+	public HyperlinkTargetEnum getHyperlinkTarget();
 
 	
 	/**
@@ -264,6 +274,7 @@ public interface JRHyperlink extends JRCloneable
 	 * </p>
 	 * @return the hyperlink type
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLinkType();
 	
 	/**
@@ -275,6 +286,7 @@ public interface JRHyperlink extends JRCloneable
 	 * </p>
 	 * @return the hyperlink target name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLinkTarget();
 	
 	
@@ -286,6 +298,8 @@ public interface JRHyperlink extends JRCloneable
 	 * </p>
 	 * @return the list of hyperlink parameters
 	 */
+	@JacksonXmlProperty(localName = "hyperlinkParameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRHyperlinkParameter[] getHyperlinkParameters();
 	
 	

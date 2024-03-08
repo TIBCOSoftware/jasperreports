@@ -23,9 +23,10 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -87,6 +88,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
+	@JsonSetter("class")
 	public void setValueClassName(String className)
 	{
 		Object old = this.valueClassName;
@@ -107,6 +109,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
+	@JsonSetter("incrementerFactoryClass")
 	public void setIncrementerFactoryClassName(String className)
 	{
 		Object old = this.incrementerFactoryClassName;
@@ -119,31 +122,31 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	public void setResetType(ResetTypeEnum resetTypeValue)
+	public void setResetType(ResetTypeEnum resetType)
 	{
-		Object old = this.resetTypeValue;
-		this.resetTypeValue = resetTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetTypeValue);
+		Object old = this.resetType;
+		this.resetType = resetType;
+		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetType);
 	}
 		
 	/**
 	 *
 	 */
-	public void setIncrementType(IncrementTypeEnum incrementTypeValue)
+	public void setIncrementType(IncrementTypeEnum incrementType)
 	{
-		Object old = this.incrementTypeValue;
-		this.incrementTypeValue = incrementTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementTypeValue);
+		Object old = this.incrementType;
+		this.incrementType = incrementType;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementType);
 	}
 		
 	/**
 	 *
 	 */
-	public void setCalculation(CalculationEnum calculationValue)
+	public void setCalculation(CalculationEnum calculation)
 	{
-		CalculationEnum old = this.calculationValue;
-		this.calculationValue = calculationValue;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
+		CalculationEnum old = this.calculation;
+		this.calculation = calculation;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 
 	/**
@@ -179,7 +182,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	public void setResetGroup(JRGroup group)
+	public void setResetGroup(String group)
 	{
 		Object old = this.resetGroup;
 		this.resetGroup = group;
@@ -189,7 +192,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	public void setIncrementGroup(JRGroup group)
+	public void setIncrementGroup(String group)
 	{
 		Object old = this.incrementGroup;
 		this.incrementGroup = group;

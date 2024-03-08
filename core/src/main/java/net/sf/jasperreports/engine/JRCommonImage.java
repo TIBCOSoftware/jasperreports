@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
@@ -37,7 +42,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * creating the report template. The dimensions of the image element specified at design
  * time may differ from the actual image loaded at runtime. One must define how the image
  * should adapt to the original image element dimensions specified in the report template.
- * The <code>scaleImage</code> attribute (see {@link #getScaleImageValue()}) allows users 
+ * The <code>scaleImage</code> attribute (see {@link #getScaleImage()}) allows users 
  * to choose one of the following values:
  * <dl>
  * <dt><code>Clip</code></dt>
@@ -123,24 +128,29 @@ public interface JRCommonImage extends JRImageAlignment, JRCommonGraphicElement,
 	 * Gets the image scale type.
 	 * @return a value representing one of the scale type constants in {@link ScaleImageEnum}
 	 */
-	public ScaleImageEnum getScaleImageValue();
+	@JsonIgnore
+	public ScaleImageEnum getScaleImage();
 	
 	/**
 	 * Gets the image own scale type.
 	 * @return a value representing one of the scale type constants in {@link ScaleImageEnum}
 	 */
-	public ScaleImageEnum getOwnScaleImageValue();
+	@JsonGetter("scaleImage")
+	@JacksonXmlProperty(localName = "scaleImage", isAttribute = true)
+	public ScaleImageEnum getOwnScaleImage();
 	
 	/**
 	 * Sets the image scale type.
 	 * @param scaleImageEnum a value representing one of the scale type constants in {@link ScaleImageEnum}
 	 */
+	@JsonSetter
 	public void setScaleImage(ScaleImageEnum scaleImageEnum);
 
 	/**
 	 * Gets the image rotation.
 	 * @return a value representing one of the image rotation constants in {@link RotationEnum}
 	 */
+	@JsonIgnore
 	public RotationEnum getRotation();
 	
 	/**

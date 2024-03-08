@@ -91,4 +91,12 @@ public enum OrientationEnum implements NamedValueEnum<Integer>
 	{
 		return EnumUtil.getByValue(values(), value);
 	}
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getValueOrDefault(OrientationEnum value)
+	{
+		return value == null ? UP : value;
+	}
 }

@@ -368,7 +368,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -381,7 +381,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		for (int i = 0; i < groups.length; ++i)
 		{
 			JRFillCrosstabRowGroup group = factory.getCrosstabRowGroup(groups[i]);
-			group.getFillHeader().setVerticalPositionType(groups[i].getPositionValue());
+			group.getFillHeader().setVerticalPositionType(groups[i].getPosition());
 
 			rowGroups[i] = group;
 			rowGroupsMap.put(group.getName(), i);
@@ -591,7 +591,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		BucketOrderer orderer = createOrderer(group, groupIndex, comparator);
 		BucketDefinition bucketDefinition = new BucketDefinition(bucket.getValueClass(),
 				orderer, comparator, bucket.getOrder(), 
-				group.getTotalPositionValue());
+				group.getTotalPosition());
 		
 		Boolean mergeHeaderCells = group.getMergeHeaderCells();
 		// by default the header cells are merged
@@ -636,7 +636,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		return new MeasureDefinition(
 				measure.getValueClass(), 
-				measure.getCalculationValue(), 
+				measure.getCalculation(), 
 				measure.getIncrementerFactory()); 
 	}
 
@@ -910,7 +910,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		case RIGHT:
 			// the position does not apply when the crosstab is bigger than the element (ignoreWidth is set)
 			// still, it applies if the crosstab is RTL
-			if (width < getWidth() || getRunDirectionValue() == RunDirectionEnum.RTL)
+			if (width < getWidth() || getRunDirection() == RunDirectionEnum.RTL)
 			{
 				// move to the right
 				printFrame.setX(getWidth() - width);
@@ -933,7 +933,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		int height = yLimit + lineBox.getTopPadding() + lineBox.getBottomPadding();
 		printFrame.setHeight(height);
 		
-		if (getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (getRunDirection() == RunDirectionEnum.RTL)
 		{
 			mirrorPrintElements(elements, xLimit);
 		}
@@ -983,7 +983,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		HorizontalPosition position = getHorizontalPosition();
 		if (position == null)
 		{
-			position = getRunDirectionValue() == RunDirectionEnum.RTL 
+			position = getRunDirection() == RunDirectionEnum.RTL 
 					? HorizontalPosition.RIGHT : HorizontalPosition.LEFT;
 		}
 		return position;
@@ -2180,11 +2180,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				setGroupVariables(columnGroups, cell.getBucketValues());
 				setGroupMeasureVariables(cell, false);
 				
-				contents = contents.getTransformedContents(width, height, group.getPositionValue(), CrosstabRowPositionEnum.TOP);
+				contents = contents.getTransformedContents(width, height, group.getPosition(), CrosstabRowPositionEnum.TOP);
 				boolean firstOnRow = columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null);
 				contents = contents.getBoxContents(
-						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
-						firstOnRow && getRunDirectionValue() == RunDirectionEnum.RTL,
+						firstOnRow && getRunDirection() == RunDirectionEnum.LTR,
+						firstOnRow && getRunDirection() == RunDirectionEnum.RTL,
 						false);
 				
 				// check if the column is sorted
@@ -2685,8 +2685,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				
 				boolean firstOnRow = leftEmpty && column == startColumnIndex;
 				contents = contents.getBoxContents(
-						firstOnRow && getRunDirectionValue() == RunDirectionEnum.LTR,
-						firstOnRow && getRunDirectionValue() == RunDirectionEnum.RTL,
+						firstOnRow && getRunDirection() == RunDirectionEnum.LTR,
+						firstOnRow && getRunDirection() == RunDirectionEnum.RTL,
 						topEmpty && rowIdx == 0);
 				contents = contents.getWorkingClone();
 				
@@ -2737,7 +2737,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			int rowHeight = spanHeight + preparedRowHeight;
 			
-			boolean stretchContents = group.getPositionValue() == CrosstabRowPositionEnum.STRETCH;
+			boolean stretchContents = group.getPosition() == CrosstabRowPositionEnum.STRETCH;
 			int contentsHeight = stretchContents ? rowHeight : contents.getHeight();
 			
 			boolean headerOverflow = availableHeight <  headerY + contentsHeight || rowHeight < contents.getHeight();
@@ -2929,7 +2929,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			JRFillCrosstabRowGroup group = rowGroups[rowGroup];
 			JRFillCellContents contents = cell.isTotal() ? group.getFillTotalHeader() : group.getFillHeader();
 			
-			boolean stretchContents = group.getPositionValue() == CrosstabRowPositionEnum.STRETCH;
+			boolean stretchContents = group.getPosition() == CrosstabRowPositionEnum.STRETCH;
 			int contentsHeight = stretchContents ? headerHeight : contents.getHeight();
 			
 			boolean headerOverflow = availableHeight < headerY + contentsHeight || headerHeight < contents.getHeight();
@@ -3204,9 +3204,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	}
 
 	@Override
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
-		return parentCrosstab.getRunDirectionValue();
+		return parentCrosstab.getRunDirection();
 	}
 
 	@Override

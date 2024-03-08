@@ -25,6 +25,11 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignValueDisplay;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRFont;
 
@@ -36,11 +41,13 @@ import net.sf.jasperreports.engine.JRFont;
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignValueDisplay.class)
 public interface JRValueDisplay extends JRCloneable
 {
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public JRChart getChart();
 	
 	/**
@@ -48,6 +55,7 @@ public interface JRValueDisplay extends JRCloneable
 	 *
 	 * @return the color to use when writing the value
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getColor();
 
 	/**
@@ -57,6 +65,7 @@ public interface JRValueDisplay extends JRCloneable
 	 *
 	 * @return the formatting mask to use when writing the value
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getMask();
 
 	/**

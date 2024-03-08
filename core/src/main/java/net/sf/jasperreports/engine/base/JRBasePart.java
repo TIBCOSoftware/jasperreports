@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitable;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.part.PartComponent;
@@ -63,7 +62,6 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 	protected JRExpression printWhenExpression;
 	protected JRExpression partNameExpression;
 
-	protected ComponentKey componentKey;
 	protected PartComponent component;
 	
 	protected PartEvaluationTime evaluationTime;
@@ -82,12 +80,11 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		this.printWhenExpression = factory.getExpression(part.getPrintWhenExpression());
 		this.partNameExpression = factory.getExpression(part.getPartNameExpression());
 		this.evaluationTime = part.getEvaluationTime();
-
-		componentKey = part.getComponentKey();
 		
-		PartComponentManager manager = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
+		PartComponent partComponent = part.getComponent();
+		PartComponentManager manager = PartComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(partComponent);
 		component = manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).toCompiledComponent(
-				part.getComponent(), factory);
+				partComponent, factory);
 
 		if (component instanceof JRVisitable)
 		{
@@ -109,12 +106,6 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 	public PartComponent getComponent()
 	{
 		return component;
-	}
-
-	@Override
-	public ComponentKey getComponentKey()
-	{
-		return componentKey;
 	}
 
 	@Override

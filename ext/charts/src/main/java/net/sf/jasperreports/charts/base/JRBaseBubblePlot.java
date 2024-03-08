@@ -67,7 +67,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot
 	protected JRExpression domainAxisMaxValueExpression;
 	protected JRExpression rangeAxisMinValueExpression;
 	protected JRExpression rangeAxisMaxValueExpression;
-	protected ScaleTypeEnum scaleTypeValue;
+	protected ScaleTypeEnum scaleType;
 	
 	
 	/**
@@ -97,7 +97,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot
 		
 		JRBaseObjectFactory parentFactory = factory.getParent();
 
-		scaleTypeValue = bubblePlot.getScaleTypeValue();
+		scaleType = bubblePlot.getScaleType();
 		
 		xAxisLabelExpression = parentFactory.getExpression( bubblePlot.getXAxisLabelExpression() );
 		xAxisLabelFont = parentFactory.getFont(chart, bubblePlot.getXAxisLabelFont());
@@ -254,8 +254,8 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot
 	}
 	
 	@Override
-	public ScaleTypeEnum getScaleTypeValue(){
-		return scaleTypeValue;
+	public ScaleTypeEnum getScaleType(){
+		return scaleType;
 	}
 	
 	@Override
@@ -279,10 +279,10 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot
 	}
 
 	@Override
-	public void setScaleType( ScaleTypeEnum scaleTypeValue ){
-		ScaleTypeEnum old = this.scaleTypeValue;
-		this.scaleTypeValue = scaleTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleTypeValue);
+	public void setScaleType( ScaleTypeEnum scaleType ){
+		ScaleTypeEnum old = this.scaleType;
+		this.scaleType = scaleType;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleType);
 	}
 
 	@Override

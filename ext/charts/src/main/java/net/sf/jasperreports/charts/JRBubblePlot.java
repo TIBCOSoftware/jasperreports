@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignBubblePlot;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -49,6 +54,8 @@ import net.sf.jasperreports.engine.JRExpression;
  *
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
+@JsonTypeName("bubble")
+@JsonDeserialize(as = JRDesignBubblePlot.class)
 public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 {
 	
@@ -71,7 +78,8 @@ public interface JRBubblePlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat
 	 * </ul>
 	 * @see net.sf.jasperreports.charts.type.ScaleTypeEnum
 	 */
-	public ScaleTypeEnum getScaleTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public ScaleTypeEnum getScaleType();
 
 	/**
 	 * Sets the scale type.

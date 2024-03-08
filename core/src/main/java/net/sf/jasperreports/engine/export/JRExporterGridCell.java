@@ -120,7 +120,7 @@ public abstract class JRExporterGridCell
 	{
 		Color color;
 		JRPrintElement element = getElement();
-		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+		if (element != null && element.getMode() == ModeEnum.OPAQUE)
 		{
 			color = element.getBackcolor();
 		}

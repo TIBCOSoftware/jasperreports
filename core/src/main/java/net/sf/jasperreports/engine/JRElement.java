@@ -23,10 +23,19 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.jackson.util.BooleanTrueAsEmptySerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -244,13 +253,15 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * Returns the string value that uniquely identifies the element.
 	 */
 	@Override
+	@JacksonXmlProperty(isAttribute = true)
 	public String getKey();
 
 	/**
 	 * Returns the position type for the element
 	 * @return the position type
 	 */
-	public PositionTypeEnum getPositionTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public PositionTypeEnum getPositionType();
 
 	/**
 	 * Sets the position type for the element.
@@ -262,7 +273,8 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * Indicates the stretch type for the element
 	 * @return a value representing one of the stretch type constants in {@link StretchTypeEnum}
 	 */
-	public StretchTypeEnum getStretchTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public StretchTypeEnum getStretchType();
 	
 	/**
 	 * Specifies how the engine should treat a missing image.
@@ -275,6 +287,9 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * @see JRElement#isRemoveLineWhenBlank()
 	 * @see JRElement#isPrintInFirstWholeBand()
 	 */
+	@JsonSerialize(using = BooleanTrueAsEmptySerializer.class)
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPrintRepeatedValues();
 	
 	/**
@@ -286,6 +301,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	/**
 	 * Gets the the section relative horizontal offset of the element top left corner.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getX();
 	
 	/**
@@ -296,6 +312,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	/**
 	 * Gets the the section relative vertical offset of the element top left corner.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getY();
 	
 	/**
@@ -309,6 +326,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * space reserved for the current element remains empty. If this method returns true, it means the engine will try
 	 * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isRemoveLineWhenBlank();
 	
 	/**
@@ -324,6 +342,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * new page or column that is not an overflow from a previous page or column.
 	 * @see JRElement#isPrintRepeatedValues()
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPrintInFirstWholeBand();
 	
 	/**
@@ -338,6 +357,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
 	 * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPrintWhenDetailOverflows();
 	
 	/**
@@ -358,13 +378,15 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * even if the value has not changed.
 	 * @see JRElement#isPrintRepeatedValues()
 	 */
-	public JRGroup getPrintWhenGroupChanges();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getPrintWhenGroupChanges();
 	
 	/**
 	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to make some of them stretch
 	 * relative to the height of their parent group.
 	 * @see StretchTypeEnum
 	 */
+	@JsonIgnore
 	public JRElementGroup getElementGroup();
 
 	/**
@@ -384,6 +406,8 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * 
 	 * @return an array containing the expression-based properties of this report element
 	 */
+	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPropertyExpression[] getPropertyExpressions();
 	
 	public JRElement clone(JRElementGroup parentGroup, int y);

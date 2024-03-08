@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
@@ -71,14 +70,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected ScaleImageEnum scaleImageValue;
+	protected ScaleImageEnum scaleImage;
 	protected RotationEnum rotation;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
 	protected Boolean isUsingCache;
 	protected boolean isLazy;
-	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
-	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	protected OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
+	protected EvaluationTimeEnum evaluationTime;
 	protected String linkType;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
@@ -91,7 +90,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup;
+	protected String evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression bookmarkLevelExpression;
@@ -128,21 +127,21 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	{
 		super(image, factory);
 		
-		scaleImageValue = image.getOwnScaleImageValue();
+		scaleImage = image.getOwnScaleImage();
 		rotation = image.getOwnRotation();
 		horizontalImageAlign = image.getOwnHorizontalImageAlign();
 		verticalImageAlign = image.getOwnVerticalImageAlign();
 		isUsingCache = image.getUsingCache();
 		isLazy = image.isLazy();
-		onErrorTypeValue = image.getOnErrorTypeValue();
-		evaluationTimeValue = image.getEvaluationTimeValue();
+		onErrorType = image.getOnErrorType();
+		evaluationTime = image.getEvaluationTime();
 		linkType = image.getLinkType();
 		linkTarget = image.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(image, factory);
 
 		lineBox = image.getLineBox().clone(this);
 
-		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
+		evaluationGroup = image.getEvaluationGroup();
 		expression = factory.getExpression(image.getExpression());
 		anchorNameExpression = factory.getExpression(image.getAnchorNameExpression());
 		bookmarkLevelExpression = factory.getExpression(image.getBookmarkLevelExpression());
@@ -156,29 +155,29 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return getStyleResolver().getScaleImageValue(this);
+		return getStyleResolver().getScaleImage(this);
 	}
 
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return this.scaleImageValue;
+		return this.scaleImage;
 	}
 
 	@Override
-	public void setScaleImage(ScaleImageEnum scaleImageValue)
+	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
-		Object old = this.scaleImageValue;
-		this.scaleImageValue = scaleImageValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
+		Object old = this.scaleImage;
+		this.scaleImage = scaleImage;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImage);
 	}
 
 	@Override
@@ -270,23 +269,23 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	@Override
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return this.onErrorTypeValue;
+		return this.onErrorType;
 	}
 
 	@Override
-	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
-		OnErrorTypeEnum old = this.onErrorTypeValue;
-		this.onErrorTypeValue = onErrorTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorTypeValue);
+		OnErrorTypeEnum old = this.onErrorType;
+		this.onErrorType = onErrorType;
+		getEventSupport().firePropertyChange(PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 		
 	@Override
@@ -296,19 +295,19 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}

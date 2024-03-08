@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.util.StyleResolver;
 
 /**
@@ -37,11 +39,13 @@ public interface JRDefaultStyleProvider
 	/**
 	 * Returns a default style.
 	 */
+	@JsonIgnore
 	public JRStyle getDefaultStyle();
 	
 	/**
 	 * Returns a style resolver.
 	 */
+	@JsonIgnore
 	public StyleResolver getStyleResolver();
 
 

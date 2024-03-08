@@ -25,6 +25,10 @@ package net.sf.jasperreports.components.items;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
@@ -32,6 +36,7 @@ import net.sf.jasperreports.engine.JRCloneable;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardItem.class)
 public interface Item extends JRCloneable 
 {
 
@@ -42,6 +47,8 @@ public interface Item extends JRCloneable
 	 * @return a list of item properties
 	 * @see ItemProperty
 	 */
+	@JacksonXmlProperty(localName = "property")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemProperty> getProperties();
 
 }

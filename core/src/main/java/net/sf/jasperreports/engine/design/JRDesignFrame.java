@@ -27,6 +27,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -233,7 +235,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	
 	
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -247,6 +249,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	/**
 	 *
 	 */
+	@JsonSetter("box")
 	public void copyBox(JRLineBox lineBox)
 	{
 		this.lineBox = lineBox.clone(this);

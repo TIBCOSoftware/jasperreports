@@ -57,7 +57,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	 */
 	protected String name;
 	protected String description;
-	protected String valueClassName = java.lang.String.class.getName();
+	protected String valueClassName = java.lang.String.class.getName(); //FIXMEJACK check all
 	protected String valueClassRealName;
 	protected String nestedTypeName;
 	protected boolean isSystemDefined;

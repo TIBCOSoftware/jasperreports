@@ -113,7 +113,7 @@ public class PptxCellHelper extends BaseHelper
 	 */
 	public void exportAlignmentAndRotation(JRPrintText text)
 	{
-		RotationEnum rotation = text == null ? null : text.getRotationValue();
+		RotationEnum rotation = text == null ? null : text.getRotation();
 		
 		String verticalAlignment = 
 			getVerticalAlignment(

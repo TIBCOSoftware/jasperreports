@@ -23,8 +23,17 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -78,7 +87,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * current report section is generated.
  * <p/>
  * The <code>evaluationTime</code> attribute can have one of the following values 
- * (see {@link net.sf.jasperreports.engine.JREvaluation#getEvaluationTimeValue()}):
+ * (see {@link net.sf.jasperreports.engine.JREvaluation#getEvaluationTime()}):
  * <ul>
  * <li><code>Now</code> - The text field expression is evaluated when the current band is filled.</li>
  * <li><code>Report</code> - The text field expression is evaluated when the end of the report is reached.</li>
@@ -135,6 +144,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JREvaluation
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("textField")
+@JsonDeserialize(as = JRDesignTextField.class)
 public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHyperlink
 {
 
@@ -269,6 +280,7 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * Gets the text adjust type.
 	 * @return a value representing one of the text adjust constants in {@link TextAdjustEnum}
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public TextAdjustEnum getTextAdjust();
 
 	/**
@@ -283,8 +295,12 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * formatting rules, as specified in the JDK API docs.
 	 * @return a string containing the pattern.
 	 */
+	@JsonIgnore
 	public String getPattern();
 		
+	@JsonGetter("pattern")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "pattern", isAttribute = true)
 	public String getOwnPattern();
 
 	/**
@@ -293,22 +309,26 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * formatting rules, as specified in the JDK API docs. If the pattern is incorrect, the exception thrown by formatter
 	 * classes will be rethrown by the JasperReports fill engine.
 	 */
+	@JsonSetter
 	public void setPattern(String pattern);
 		
 	/**
 	 * Indicates whether an empty string will be displayed if the field's expression evaluates to <code>null</code>.
 	 * @return true if an empty string will be displayed instead of null values, false otherwise
 	 */
+	@JsonIgnore
 	public boolean isBlankWhenNull();
 
+	@JsonGetter("blankWhenNull")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "blankWhenNull", isAttribute = true)
 	public Boolean isOwnBlankWhenNull();
 
 	/**
-	 * Specifies whether an empty string sholuld be displayed if the field's expression evaluates to <code>null</code>.
+	 * Specifies whether an empty string should be displayed if the field's expression evaluates to <code>null</code>.
 	 * @param isBlank true if an empty string will be displayed instead of null values, false otherwise
 	 */
-	public void setBlankWhenNull(boolean isBlank);
-
+	@JsonSetter
 	public void setBlankWhenNull(Boolean isBlank);
 
 	/**

@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPart;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
@@ -64,7 +63,6 @@ public class FillPart
 		this.expressionEvaluator = fillFactory.getExpressionEvaluator();
 		reportFiller = (PartReportFiller) fillFactory.getReportFiller();//FIXMEBOOK
 		
-		ComponentKey componentKey = part.getComponentKey();
 		PartComponent component = part.getComponent();
 		
 		JasperReportsContext jasperReportsContext = fillFactory.getReportFiller().getJasperReportsContext();
@@ -78,7 +76,7 @@ public class FillPart
 			: new ArrayList<>(Arrays.asList(partPropertyExpressions));
 		
 		PartComponentsEnvironment partsEnv = PartComponentsEnvironment.getInstance(jasperReportsContext);
-		PartComponentManager componentManager = partsEnv.getManager(componentKey);
+		PartComponentManager componentManager = partsEnv.getManager(component);
 		PartComponentFillFactory componentFactory = componentManager.getComponentFillFactory(jasperReportsContext);
 		
 		//fillFactory.trackDatasetRuns();FIXMEBOOK
@@ -148,7 +146,7 @@ public class FillPart
 	public PartEvaluationTime getEvaluationTime()
 	{
 		PartEvaluationTime evaluationTime = reportPart.getEvaluationTime();
-		return evaluationTime == null ? StandardPartEvaluationTime.EVALUATION_NOW : evaluationTime;
+		return evaluationTime == null || evaluationTime.getEvaluationTimeType() == null ? StandardPartEvaluationTime.EVALUATION_NOW : evaluationTime;
 	}
 
 	public String getPartName()

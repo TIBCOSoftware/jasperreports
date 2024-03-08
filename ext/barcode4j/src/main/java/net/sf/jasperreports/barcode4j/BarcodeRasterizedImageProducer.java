@@ -36,8 +36,8 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
-import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
 
 /**
  * 
@@ -103,7 +103,9 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 			BitmapCanvasProvider provider = 
 				new BitmapCanvasProvider(
 					out, "image/x-png", resolution, imageType, antiAlias, 
-					((Barcode4jComponent)componentElement.getComponent()).getOrientationValue().getValue()
+					OrientationEnum.getValueOrDefault(
+						((Barcode4jComponent)componentElement.getComponent()).getOrientation()
+						).getValue()
 					);
 			barcode.generateBarcode(provider, message);
 			provider.finish();

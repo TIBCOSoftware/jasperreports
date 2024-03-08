@@ -40,13 +40,6 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>${commons-digester.version}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-chrome</artifactId>
 			<version>${revision}</version>
@@ -77,13 +70,6 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-excel-poi</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-jackson</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>false</optional>

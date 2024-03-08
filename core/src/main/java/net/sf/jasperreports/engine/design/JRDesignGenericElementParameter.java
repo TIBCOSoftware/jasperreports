@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseGenericElementParameter;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
@@ -34,7 +37,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRDesignGenericElementParameter extends JRBaseGenericElementParameter
+public class JRDesignGenericElementParameter extends JRBaseGenericElementParameter implements JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -53,6 +56,7 @@ public class JRDesignGenericElementParameter extends JRBaseGenericElementParamet
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -85,6 +89,7 @@ public class JRDesignGenericElementParameter extends JRBaseGenericElementParamet
 	 * @param valueExpression the value expression.
 	 * @see #getValueExpression()
 	 */
+	@JsonSetter("expression")
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		Object old = this.valueExpression;

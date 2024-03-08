@@ -79,7 +79,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	private Boolean showLegend;
 
 	@JacksonXmlProperty(localName = "position", isAttribute = true)
-	private EdgeEnum positionValue;
+	private EdgeEnum position;
 	
 	@JacksonXmlProperty(localName = "foreground-paint")
 	private PaintProvider foregroundPaint;
@@ -199,17 +199,17 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the position
 	 */
-	public EdgeEnum getPositionValue() {
-		return positionValue;
+	public EdgeEnum getPosition() {
+		return position;
 	}
 
 	/**
-	 * @param positionValue the position to set
+	 * @param position the position to set
 	 */
-	public void setPosition(EdgeEnum positionValue) {
-		EdgeEnum old = this.positionValue ;
-		this.positionValue = positionValue;
-		getEventSupport().firePropertyChange(PROPERTY_position, old, this.positionValue);
+	public void setPosition(EdgeEnum position) {
+		EdgeEnum old = this.position ;
+		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_position, old, this.position);
 	}
 
 

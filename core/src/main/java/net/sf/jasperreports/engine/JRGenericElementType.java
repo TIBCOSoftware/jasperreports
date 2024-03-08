@@ -25,6 +25,10 @@ package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 /**
  * A key identifying a generic element type.
  * 
@@ -52,7 +56,11 @@ public class JRGenericElementType implements Serializable
 	 * @param namespace the type namespace
 	 * @param name the type name
 	 */
-	public JRGenericElementType(String namespace, String name)
+	@JsonCreator
+	public JRGenericElementType(
+		@JsonProperty("namespace") String namespace, 
+		@JsonProperty("name") String name
+		)
 	{
 		this.name = name;
 		this.namespace = namespace;
@@ -63,6 +71,7 @@ public class JRGenericElementType implements Serializable
 	 * 
 	 * @return the type namespace
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getNamespace()
 	{
 		return namespace;
@@ -73,6 +82,7 @@ public class JRGenericElementType implements Serializable
 	 * 
 	 * @return the type name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName()
 	{
 		return name;

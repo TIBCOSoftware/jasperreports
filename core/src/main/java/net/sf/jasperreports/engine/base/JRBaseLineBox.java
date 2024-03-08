@@ -26,6 +26,10 @@ package net.sf.jasperreports.engine.base;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRConstants;
@@ -95,6 +99,14 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		leftPen = new JRBaseBoxLeftPen(this);
 		bottomPen = new JRBaseBoxBottomPen(this);
 		rightPen = new JRBaseBoxRightPen(this);
+	}
+	
+	
+	
+	@JsonCreator
+	private JRBaseLineBox()
+	{
+		this(null);
 	}
 	
 	
@@ -169,6 +181,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
+	@JsonSetter("pen")
+	@JsonDeserialize(as = JRBaseBoxPen.class)
 	public void copyPen(JRBoxPen pen)
 	{
 		this.pen = pen.clone(this);
@@ -181,6 +195,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
+	@JsonSetter("topPen")
+	@JsonDeserialize(as = JRBaseBoxPen.class)
 	public void copyTopPen(JRBoxPen topPen)
 	{
 		this.topPen = topPen.clone(this);
@@ -193,6 +209,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
+	@JsonSetter("leftPen")
+	@JsonDeserialize(as = JRBaseBoxPen.class)
 	public void copyLeftPen(JRBoxPen leftPen)
 	{
 		this.leftPen = leftPen.clone(this);
@@ -205,6 +223,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
+	@JsonSetter("bottomPen")
+	@JsonDeserialize(as = JRBaseBoxPen.class)
 	public void copyBottomPen(JRBoxPen bottomPen)
 	{
 		this.bottomPen = bottomPen.clone(this);
@@ -217,6 +237,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
+	@JsonSetter("rightPen")
+	@JsonDeserialize(as = JRBaseBoxPen.class)
 	public void copyRightPen(JRBoxPen rightPen)
 	{
 		this.rightPen = rightPen.clone(this);

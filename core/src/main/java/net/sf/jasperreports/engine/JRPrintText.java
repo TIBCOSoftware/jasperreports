@@ -179,7 +179,7 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	 * Gets the text run direction.
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
 	 */
-	public RunDirectionEnum getRunDirectionValue();
+	public RunDirectionEnum getRunDirection();
 	
 	/**
 	 * Sets the text run direction.

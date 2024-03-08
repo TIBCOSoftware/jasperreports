@@ -154,11 +154,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected boolean isFloatColumnFooter;
 
-	/**
-	 * the resource missing handling type
-	 */
-	protected WhenResourceMissingTypeEnum whenResourceMissingType;
-
 	protected JRFillReportTemplate[] reportTemplates;
 	
 	protected List<ReportTemplateSource> templates;
@@ -318,25 +313,25 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	@Override
 	protected void jasperReportSet()
 	{
-		SectionTypeEnum sectionType = jasperReport.getSectionType();
-		if (sectionType != null && sectionType != SectionTypeEnum.BAND)
+		SectionTypeEnum sectionType = SectionTypeEnum.getValueOrDefault(jasperReport.getSectionType());
+		if (sectionType != SectionTypeEnum.BAND)
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()} 
+					new Object[]{sectionType} 
 					);
 		}
 
 		/*   */
 		name = jasperReport.getName();
 		columnCount = jasperReport.getColumnCount();
-		printOrder = jasperReport.getPrintOrderValue();
+		printOrder = PrintOrderEnum.getValueOrDefault(jasperReport.getPrintOrder());
 		columnDirection = jasperReport.getColumnDirection();
 		pageWidth = jasperReport.getPageWidth();
 		pageHeight = jasperReport.getPageHeight();
-		orientation = jasperReport.getOrientationValue();
-		whenNoDataType = jasperReport.getWhenNoDataTypeValue();
+		orientation = jasperReport.getOrientation();
+		whenNoDataType = jasperReport.getWhenNoDataType();
 		columnWidth = jasperReport.getColumnWidth();
 		columnSpacing = jasperReport.getColumnSpacing();
 		leftMargin = jasperReport.getLeftMargin();
@@ -347,7 +342,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		isSummaryNewPage = jasperReport.isSummaryNewPage();
 		isSummaryWithPageHeaderAndFooter = jasperReport.isSummaryWithPageHeaderAndFooter();
 		isFloatColumnFooter = jasperReport.isFloatColumnFooter();
-		whenResourceMissingType = jasperReport.getWhenResourceMissingTypeValue();
 	}
 
 	@Override
@@ -604,7 +598,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			jasperPrint.setLeftMargin(leftMargin);
 			jasperPrint.setBottomMargin(bottomMargin);
 			jasperPrint.setRightMargin(rightMargin);
-			jasperPrint.setOrientation(orientation);
+			jasperPrint.setOrientation(OrientationEnum.getValueOrDefault(orientation));
 
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
@@ -1464,7 +1458,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return mainDataset.whenResourceMissingType;
+		return mainDataset.getWhenResourceMissingType();
 	}
 
 
@@ -1535,7 +1529,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
-	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, 
+	public void addBoundElement(JRFillElement element, JRPrintElement printElement, 
 			EvaluationTimeEnum evaluationType, String groupName, JRFillBand band)
 	{
 		JRFillGroup group = groupName == null ? null : getGroup(groupName);

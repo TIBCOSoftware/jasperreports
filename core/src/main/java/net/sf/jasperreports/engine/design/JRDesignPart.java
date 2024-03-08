@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.base.JRBasePart;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -171,20 +170,6 @@ public class JRDesignPart extends JRBasePart
 		Object old = this.partNameExpression;
 		this.partNameExpression = expression;
 		getEventSupport().firePropertyChange(PROPERTY_PART_NAME_EXPRESSION, old, this.partNameExpression);
-	}
-	
-
-	/**
-	 * Sets the component type key that corresponds to the component instance.
-	 * 
-	 * @param componentKey the component type key
-	 * @see #getComponentKey()
-	 */
-	public void setComponentKey(ComponentKey componentKey)
-	{
-		Object old = this.componentKey;
-		this.componentKey = componentKey;
-		getEventSupport().firePropertyChange(PROPERTY_COMPONENT_KEY, old, this.componentKey);
 	}
 
 

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -53,9 +52,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	private static final Log log = LogFactory.getLog(JRDesignComponentElement.class);
 	
 	public static final String PROPERTY_COMPONENT = "component";
-	public static final String PROPERTY_COMPONENT_KEY = "componentKey";
 	
-	private ComponentKey componentKey;
 	private Component component;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -139,25 +136,6 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 			context.setComponentElement(this);
 			contextAwareComponent.setContext(context);
 		}
-	}
-
-	@Override
-	public ComponentKey getComponentKey()
-	{
-		return componentKey;
-	}
-
-	/**
-	 * Sets the component type key that corresponds to the component instance.
-	 * 
-	 * @param componentKey the component type key
-	 * @see #getComponentKey()
-	 */
-	public void setComponentKey(ComponentKey componentKey)
-	{
-		Object old = this.componentKey;
-		this.componentKey = componentKey;
-		getEventSupport().firePropertyChange(PROPERTY_COMPONENT_KEY, old, this.componentKey);
 	}
 
 	@Override

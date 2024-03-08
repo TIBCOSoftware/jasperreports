@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.charts;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
@@ -39,7 +41,9 @@ public interface ChartComponent extends ContextAwareComponent, Serializable
 
 	public ChartPlot getPlot();
 
+	@JacksonXmlProperty(isAttribute = true)
 	public EvaluationTimeEnum getEvaluationTime();
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getEvaluationGroup();
 }

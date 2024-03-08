@@ -133,4 +133,12 @@ public enum CalculationEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static CalculationEnum getValueOrDefault(CalculationEnum value)
+	{
+		return value == null ? NOTHING : value;
+	}
 }

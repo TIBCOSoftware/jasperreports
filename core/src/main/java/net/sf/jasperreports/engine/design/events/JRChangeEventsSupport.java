@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.design.events;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Interface implemented by classes that offer propery change events support.
@@ -37,6 +38,7 @@ public interface JRChangeEventsSupport
 	 * 
 	 * @return the property change support object for this instance
 	 */
+	@JsonIgnore
 	JRPropertyChangeSupport getEventSupport();
 	
 }

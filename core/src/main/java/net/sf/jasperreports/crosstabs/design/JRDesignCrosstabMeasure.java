@@ -26,6 +26,8 @@ package net.sf.jasperreports.crosstabs.design;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRConstants;
@@ -77,14 +79,14 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	/**
 	 * Sets the calculation type.
 	 * 
-	 * @param calculationValue the calculation type
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getCalculationValue()
+	 * @param calculation the calculation type
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getCalculation()
 	 */
-	public void setCalculation(CalculationEnum calculationValue)
+	public void setCalculation(CalculationEnum calculation)
 	{
-		Object old = this.calculationValue;
-		this.calculationValue = calculationValue;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
+		Object old = this.calculation;
+		this.calculation = calculation;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 
 	
@@ -94,6 +96,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param expression the measure value expression.
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getValueExpression()
 	 */
+	@JsonSetter("expression")
 	public void setValueExpression(JRExpression expression)
 	{
 		Object old = this.expression;
@@ -108,6 +111,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param incrementerFactoryClassName the incrementer factory class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getIncrementerFactoryClassName()
 	 */
+	@JsonSetter("incrementerFactoryClass")
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;
@@ -153,6 +157,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param percentageCalculatorClassName the percentage calculator class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getPercentageCalculatorClassName()
 	 */
+	@JsonSetter("percentageCalculatorClass")
 	public void setPercentageCalculatorClassName(String percentageCalculatorClassName)
 	{
 		Object old = this.percentageCalculatorClassName;
@@ -169,6 +174,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param valueClassName the measure value class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getValueClassName()
 	 */
+	@JsonSetter("class")
 	public void setValueClassName(String valueClassName)
 	{
 		String old = this.valueClassName;

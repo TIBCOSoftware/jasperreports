@@ -23,12 +23,20 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
+import net.sf.jasperreports.charts.design.JRDesignGanttDataset;
+
 /**
  * This dataset accommodates one or more data series consisting of values associated with 
  * tasks and subtasks. It is used to render the Gantt chart.
  * 
  * @author Peter Risko (peter@risko.hu)
  */
+@JsonTypeName("gantt")
+@JsonDeserialize(as = JRDesignGanttDataset.class)
 public interface JRGanttDataset extends JRChartDataset {
 
 	/**
@@ -36,6 +44,7 @@ public interface JRGanttDataset extends JRChartDataset {
 	 * series for the Gantt chart
 	 * @see JRGanttSeries
 	 */
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRGanttSeries[] getSeries();
 
 

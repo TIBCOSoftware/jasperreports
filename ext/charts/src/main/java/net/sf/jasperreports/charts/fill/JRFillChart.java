@@ -98,7 +98,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -154,11 +153,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	protected final JRLineBox initLineBox;
 	protected JRLineBox lineBox;
-
-	/**
-	 *
-	 */
-	protected JRGroup evaluationGroup;
 
 	protected JRFillChartDataset dataset;
 	protected JRChartPlot plot;
@@ -309,8 +303,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		
 		initLineBox = chart.getLineBox().clone(this);
 
-		evaluationGroup = parentFactory.getGroup(chart.getEvaluationGroup());
-
 		chartCustomizers = new ArrayList<>();
 		JRChartCustomizer chartCustomizer = createAndInitCustomizer(chart.getCustomizerClass(), null);
 		if (chartCustomizer != null)
@@ -422,7 +414,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -461,15 +453,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return ((JRChart)parent).getEvaluationTimeValue();
+		return EvaluationTimeEnum.getValueOrDefault(((JRChart)this.parent).getEvaluationTime());
 	}
 
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
-		return evaluationGroup;
+		return ((JRChart)parent).getEvaluationGroup();
 	}
 
 	@Override
@@ -485,9 +477,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	@Override
-	public EdgeEnum getTitlePositionValue()
+	public EdgeEnum getTitlePosition()
 	{
-		return ((JRChart)parent).getTitlePositionValue();
+		return ((JRChart)parent).getTitlePosition();
 	}
 
 	@Override
@@ -612,9 +604,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	@Override
-	public EdgeEnum getLegendPositionValue()
+	public EdgeEnum getLegendPosition()
 	{
-		return ((JRChart)parent).getLegendPositionValue();
+		return ((JRChart)parent).getLegendPosition();
 	}
 
 	@Override
@@ -636,15 +628,15 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return ((JRChart)parent).getHyperlinkTypeValue();
+		return ((JRChart)parent).getHyperlinkType();
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return ((JRChart)parent).getHyperlinkTargetValue();
+		return ((JRChart)parent).getHyperlinkTarget();
 	}
 
 	@Override
@@ -805,7 +797,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 
-			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW) //FIXME should use isEvaluateNow() ?
+			if (getEvaluationTime() == EvaluationTimeEnum.NOW) //FIXMEJACK should use isEvaluateNow() ?
 			{
 				evaluateProperties(evaluation);
 				evaluateStyle(evaluation);
@@ -917,7 +909,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		boolean isToPrint = true;
 		boolean isReprinted = false;
 
-		if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
+		if (getEvaluationTime() == EvaluationTimeEnum.NOW)
 		{
 			if (isOverflow && isAlreadyPrinted() && !isPrintWhenDetailOverflows())
 			{
@@ -999,7 +991,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setBookmarkLevel(getBookmarkLevel());
 		HtmlReportConfiguration.forceEmbedImage(filler.getPropertiesUtil(), this, printImage);
 
-		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
+		EvaluationTimeEnum evaluationTime = getEvaluationTime();
 		if (evaluationTime == EvaluationTimeEnum.NOW)
 		{
 			copy(printImage);
@@ -1418,7 +1410,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 	protected AxisLocation getChartAxisLocation(JRFillChartAxis chartAxis)
 	{
-		return chartAxis.getPositionValue() != null && chartAxis.getPositionValue() == AxisPositionEnum.RIGHT_OR_BOTTOM
+		return chartAxis.getPosition() != null && chartAxis.getPosition() == AxisPositionEnum.RIGHT_OR_BOTTOM
 				? AxisLocation.BOTTOM_OR_RIGHT 
 				: AxisLocation.TOP_OR_LEFT;
 	}

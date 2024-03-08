@@ -27,6 +27,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRDataRange;
@@ -79,6 +82,12 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	public static final String PROPERTY_TICK_LABEL_FONT = "tickLabelFont";
 	
 
+	@JsonCreator
+	private JRDesignMeterPlot()
+	{
+		this(null, null);
+	}
+
 	/**
 	 * Construct a new meter plot by copying an existing one.
 	 *
@@ -124,9 +133,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setShape(MeterShapeEnum shape) throws JRException
 	{
-		MeterShapeEnum old = this.shapeValue;
-		this.shapeValue = shape;
-		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shapeValue);
+		MeterShapeEnum old = this.shape;
+		this.shape = shape;
+		getEventSupport().firePropertyChange(PROPERTY_SHAPE, old, this.shape);
 	}
 
 	/**
@@ -155,6 +164,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 * @param intervals the list of meter intervals ({@link JRMeterInterval} instances)
 	 * @see #addInterval(JRMeterInterval)
 	 */
+	@JsonSetter
 	public void setIntervals(Collection<JRMeterInterval> intervals)
 	{
 		Object old = new ArrayList<JRMeterInterval>(this.intervals);
@@ -201,9 +211,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 */
 	public void setTickInterval(Double tickInterval)
 	{
-		Double old = this.tickIntervalDouble;
-		this.tickIntervalDouble = tickInterval;
-		getEventSupport().firePropertyChange(PROPERTY_TICK_INTERVAL, old, this.tickIntervalDouble);
+		Double old = this.tickInterval;
+		this.tickInterval = tickInterval;
+		getEventSupport().firePropertyChange(PROPERTY_TICK_INTERVAL, old, this.tickInterval);
 	}
 
 	/**
@@ -211,6 +221,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 *
 	 * @param meterBackgroundColor the color to use for the meter face
 	 */
+	@JsonSetter("meterColor")
 	public void setMeterBackgroundColor(Color meterBackgroundColor)
 	{
 		Object old = this.meterBackgroundColor;

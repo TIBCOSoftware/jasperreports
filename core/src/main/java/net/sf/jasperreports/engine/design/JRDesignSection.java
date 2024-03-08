@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JROrigin;
@@ -57,6 +60,13 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 * 
 	 */
+	public JRDesignSection() 
+	{
+	}
+	
+	/**
+	 * 
+	 */
 	public JRDesignSection(JROrigin origin) 
 	{
 		this.origin = origin;
@@ -72,6 +82,7 @@ public class JRDesignSection extends JRBaseSection
 	 * 
 	 * @return the section origin
 	 */
+	@JsonIgnore
 	public JROrigin getOrigin()
 	{
 		return origin;
@@ -80,6 +91,7 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 *
 	 */
+	@JsonIgnore
 	protected void setOrigin(JROrigin origin)
 	{
 		this.origin = origin;
@@ -107,11 +119,24 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 * Gets a list of all bands within the current section.
 	 */
+	@JsonIgnore
 	public List<JRBand> getBandsList()
 	{
 		return bandsList;
 	}
 		
+	@JsonSetter
+	private void setBands(List<JRBand> bands)
+	{
+		if (bands != null)
+		{
+			for (JRBand band : bands)
+			{
+				addBand(band);
+			}
+		}
+	}
+	
 	/**
 	 * Adds a band to the section.
 
@@ -190,11 +215,24 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 * Gets a list of all parts within the current section.
 	 */
+	@JsonIgnore
 	public List<JRPart> getPartsList()
 	{
 		return partsList;
 	}
 		
+	@JsonSetter
+	private void setParts(List<JRPart> parts)
+	{
+		if (parts != null)
+		{
+			for (JRPart part : parts)
+			{
+				addPart(part);
+			}
+		}
+	}
+	
 	/**
 	 * Adds a part to the section.
 

@@ -25,6 +25,14 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.jackson.util.LineBoxSerializer;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -35,11 +43,15 @@ public interface JRBoxContainer extends JRStyleContainer
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Color getDefaultLineColor();
 
 	/**
 	 *
 	 */
+	@JsonGetter(JRXmlConstants.ELEMENT_box)
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = LineBoxSerializer.class) //FIXMEJACK does not have localName?
 	public JRLineBox getLineBox();
 
 }

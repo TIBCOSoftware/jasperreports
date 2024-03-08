@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 
 
@@ -44,6 +46,7 @@ public interface Deduplicable
 	 * 
 	 * @return deduplication hash code
 	 */
+	@JsonIgnore
 	int getHashCode();
 	
 	/**

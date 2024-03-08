@@ -23,14 +23,18 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("barcode4j:DataMatrix")
 public class DataMatrixComponent extends Barcode4jComponent
 {
 
@@ -54,6 +58,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 		visitor.visitDataMatrix(this);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getShape()
 	{
 		return shape;
@@ -71,6 +76,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 		setShape(shape == null ? null : shape.getName());
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMinSymbolWidth() 
 	{
 		return minSymbolWidth;
@@ -83,6 +89,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_MIN_SYMBOL_WIDTH, old, this.minSymbolWidth);
 	}
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMaxSymbolWidth() 
 	{
 		return maxSymbolWidth;
@@ -95,6 +102,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_MAX_SYMBOL_WIDTH, old, this.maxSymbolWidth);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMinSymbolHeight() 
 	{
 		return minSymbolHeight;
@@ -107,6 +115,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_MIN_SYMBOL_HEIGHT, old, this.minSymbolHeight);
 	}
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMaxSymbolHeight() 
 	{
 		return maxSymbolHeight;

@@ -66,7 +66,7 @@ public class JRFontSerializer extends StdSerializer<JRFont>
 			jgen.writeStringField("font-name", fontName);
 		}
 
-		Float fontSize = value.getOwnFontsize();
+		Float fontSize = value.getOwnFontSize();
 		if (fontSize != null)
 		{
 			jgen.writeNumberField("font-size", fontSize);

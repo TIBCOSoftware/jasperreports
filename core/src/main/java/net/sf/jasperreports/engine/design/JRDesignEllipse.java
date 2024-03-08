@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.util.ReportDeserializer;
 
 
 /**
@@ -43,6 +46,13 @@ public class JRDesignEllipse extends JRDesignGraphicElement implements JREllipse
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
+	@JsonCreator
+	private JRDesignEllipse()
+	{
+		this(ReportDeserializer.getDefaultStyleProvider());
+	}
+
+	
 	/**
 	 *
 	 */

@@ -48,7 +48,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	/**
 	 *
 	 */
-	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
+	protected LineDirectionEnum direction = LineDirectionEnum.TOP_DOWN;
 
 	/**
 	 *
@@ -83,23 +83,23 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	{
 		super.setGraphicElement(line);
 
-		setDirection(line.getDirectionValue());
+		setDirection(line.getDirection());
 	}
 
 	/**
 	 * 
 	 */
-	public LineDirectionEnum getDirectionValue()
+	public LineDirectionEnum getDirection()
 	{
-		return this.directionValue;
+		return this.direction;
 	}
 
 	/**
 	 * 
 	 */
-	public void setDirection(LineDirectionEnum directionValue)
+	public void setDirection(LineDirectionEnum direction)
 	{
-		this.directionValue = directionValue;
+		this.direction = direction;
 	}
 
 
@@ -108,7 +108,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		addGraphicHash(hash);
-		hash.add(directionValue);
+		hash.add(direction);
 		return hash.getHashCode();
 	}
 
@@ -127,7 +127,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 		}
 		
 		JRTemplateLine template = (JRTemplateLine) object;
-		return graphicIdentical(template) && ObjectUtils.equals(directionValue, template.directionValue);
+		return graphicIdentical(template) && ObjectUtils.equals(direction, template.direction);
 	}
 
 }

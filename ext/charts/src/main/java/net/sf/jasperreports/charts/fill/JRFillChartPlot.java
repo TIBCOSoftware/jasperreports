@@ -107,9 +107,9 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 
 	@Override
-	public PlotOrientationEnum getOrientationValue()
+	public PlotOrientationEnum getOrientation()
 	{
-		return parent.getOrientationValue();
+		return PlotOrientationEnum.getValueOrDefault(parent.getOrientation());
 	}
 		
 	@Override
@@ -119,9 +119,9 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 		
 	@Override
-	public Float getBackgroundAlphaFloat()
+	public Float getBackgroundAlpha()
 	{
-		return parent.getBackgroundAlphaFloat();
+		return parent.getBackgroundAlpha();
 	}
 	
 	@Override
@@ -130,9 +130,9 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 	
 	@Override
-	public Float getForegroundAlphaFloat()
+	public Float getForegroundAlpha()
 	{
-		return parent.getForegroundAlphaFloat();
+		return parent.getForegroundAlpha();
 	}
 	
 	@Override
@@ -144,9 +144,9 @@ public class JRFillChartPlot implements JRChartPlot
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
 	@Override
-	public Double getLabelRotationDouble()
+	public Double getLabelRotation()
 	{
-		return parent.getLabelRotationDouble();
+		return parent.getLabelRotation();
 	}
 	
 	/**

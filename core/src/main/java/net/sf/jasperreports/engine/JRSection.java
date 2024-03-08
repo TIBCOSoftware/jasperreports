@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.design.JRDesignSection;
 
 /**
  * Implementations of this interface represent various sections in the report template. 
@@ -125,17 +130,22 @@ package net.sf.jasperreports.engine;
  * @see JRBand
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignSection.class)
 public interface JRSection extends JRCloneable
 {
 	
 	/**
 	 * Returns the bands within the current section.
 	 */
+	@JacksonXmlProperty(localName = "band")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRBand[] getBands();
 	
 	/**
 	 * Returns the parts within the current section.
 	 */
+	@JacksonXmlProperty(localName = "part")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPart[] getParts();
 		
 }

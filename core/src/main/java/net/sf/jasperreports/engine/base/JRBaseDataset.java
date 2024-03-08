@@ -69,7 +69,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	protected JRVariable[] variables;
 	protected JRGroup[] groups;
 	protected String resourceBundle;
-	protected WhenResourceMissingTypeEnum whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.NULL;
+	protected WhenResourceMissingTypeEnum whenResourceMissingType;
 	protected JRPropertiesMap propertiesMap;
 	protected JRExpression filterExpression;
 
@@ -90,7 +90,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		name = dataset.getName();
 		scriptletClass = dataset.getScriptletClass();
 		resourceBundle = dataset.getResourceBundle();
-		whenResourceMissingTypeValue = dataset.getWhenResourceMissingTypeValue();
+		whenResourceMissingType = dataset.getWhenResourceMissingType();
 
 		/*   */
 		this.propertiesMap = dataset.getPropertiesMap().cloneProperties();
@@ -247,17 +247,17 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	}
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return whenResourceMissingTypeValue;
+		return whenResourceMissingType;
 	}
 
 	@Override
-	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingTypeValue)
+	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
-		Object old = this.whenResourceMissingTypeValue;
-		this.whenResourceMissingTypeValue = whenResourceMissingTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingTypeValue);
+		Object old = this.whenResourceMissingType;
+		this.whenResourceMissingType = whenResourceMissingType;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingType);
 	}
 
 	@Override

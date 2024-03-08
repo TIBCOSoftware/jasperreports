@@ -69,15 +69,15 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 		
 
 	@Override
-	public FillEnum getFillValue()
+	public FillEnum getFill()
 	{
-		return ((JRTemplateGraphicElement)this.template).getFillValue();
+		return ((JRTemplateGraphicElement)this.template).getFill();
 	}
 
 	@Override
-	public FillEnum getOwnFillValue()
+	public FillEnum getOwnFill()
 	{
-		return ((JRTemplateGraphicElement)this.template).getOwnFillValue();
+		return ((JRTemplateGraphicElement)this.template).getOwnFill();
 	}
 
 	@Override

@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
@@ -39,28 +44,36 @@ public interface JRImageAlignment extends JRStyleContainer
 	 * Gets the image horizontal alignment.
 	 * @return a value representing one of the horizontal image alignment constants in {@link HorizontalImageAlignEnum}
 	 */
+	@JsonIgnore
 	public HorizontalImageAlignEnum getHorizontalImageAlign();
 
+	@JsonGetter("horizontalImageAlign")
+	@JacksonXmlProperty(localName = "horizontalImageAlign", isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign();
 
 	/**
 	 * Sets the image horizontal alignment.
 	 * @param horizontalAlignment a value representing one of the horizontal image alignment constants in {@link HorizontalImageAlignEnum}
 	 */
+	@JsonSetter
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment);
 
 	/**
 	 * Gets the image vertical alignment.
 	 * @return a value representing one of the vertical image alignment constants in {@link VerticalImageAlignEnum}
 	 */
+	@JsonIgnore
 	public VerticalImageAlignEnum getVerticalImageAlign();
 	
+	@JsonGetter("verticalImageAlign")
+	@JacksonXmlProperty(localName = "verticalImageAlign", isAttribute = true)
 	public VerticalImageAlignEnum getOwnVerticalImageAlign();
 
 	/**
 	 * Gets the image vertical alignment.
 	 * @param verticalAlignment a value representing one of the vertical image alignment constants in {@link VerticalImageAlignEnum}
 	 */
+	@JsonSetter
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment);
 
 }

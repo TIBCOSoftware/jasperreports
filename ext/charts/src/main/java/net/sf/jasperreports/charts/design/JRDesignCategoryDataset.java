@@ -26,6 +26,10 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
@@ -33,7 +37,6 @@ import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-
 
 
 /**
@@ -51,6 +54,13 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
 
 	private List<JRCategorySeries> categorySeriesList = new ArrayList<>();
+
+
+	@JsonCreator
+	private JRDesignCategoryDataset()
+	{
+		this(null);
+	}
 
 
 	/**
@@ -76,9 +86,23 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public List<JRCategorySeries> getSeriesList()
 	{
 		return categorySeriesList;
+	}
+
+	
+	@JsonSetter
+	private void setSeries(List<JRCategorySeries> series)
+	{
+		if (series != null)
+		{
+			for (JRCategorySeries s : series)
+			{
+				addCategorySeries(s);
+			}
+		}
 	}
 
 	

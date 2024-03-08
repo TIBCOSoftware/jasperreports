@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * A value copied from a subdataset into a variable of the parent report.
@@ -37,6 +38,7 @@ public interface VariableReturnValue extends CommonReturnValue
 	 * 
 	 * @return the name of the variable whose value should be copied.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getFromVariable();
 
 }

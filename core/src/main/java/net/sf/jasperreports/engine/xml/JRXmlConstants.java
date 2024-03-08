@@ -30,39 +30,12 @@ package net.sf.jasperreports.engine.xml;
  */
 public final class JRXmlConstants
 {
-	/**
-	 *
-	 */
-	public static final String JASPERREPORT_PUBLIC_ID = "-//JasperReports//DTD JasperReport//EN";//FIXME align with samples
-	public static final String JASPERREPORT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd";
-	public static final String JASPERREPORT_DTD = "net/sf/jasperreports/engine/dtds/jasperreport.dtd";
-	public static final String JASPERPRINT_PUBLIC_ID = "-//JasperReports//DTD JasperPrint//EN";
-	public static final String JASPERPRINT_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jasperprint.dtd";
-	public static final String JASPERPRINT_DTD = "net/sf/jasperreports/engine/dtds/jasperprint.dtd";
 	
 	/**
 	 * The namespace used by the JRXML XML schema.
 	 */
 	public static final String JASPERREPORTS_NAMESPACE = 
 		"http://jasperreports.sourceforge.net/jasperreports";
-	
-	/**
-	 * The system location of the JRXML XML schema.
-	 */
-	public static final String JASPERREPORT_XSD_SYSTEM_ID = 
-		"http://jasperreports.sourceforge.net/xsd/jasperreport.xsd";
-	
-	/**
-	 * The internal location/resource name of the JRXML XML schema.
-	 */
-	public static final String JASPERREPORT_XSD_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jasperreport.xsd";
-	
-	/**
-	 * The internal location/resource name of the JRXML DTD compatibility XML schema.
-	 */
-	public static final String JASPERREPORT_XSD_DTD_COMPAT_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jasperreport-dtd-compat.xsd";
 	
 	/**
 	 * The namespace used by the XML export schema.
@@ -75,57 +48,6 @@ public final class JRXmlConstants
 	 */
 	public static final String JASPERPRINT_XSD_SYSTEM_ID = 
 		"http://jasperreports.sourceforge.net/xsd/jasperprint.xsd";
-	
-	/**
-	 * The internal location/resource name of the XML export schema.
-	 */
-	public static final String JASPERPRINT_XSD_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jasperprint.xsd";
-	
-	/**
-	 * The internal location/resource name of the DTD compatibility XML export schema.
-	 */
-	public static final String JASPERPRINT_XSD_DTD_COMPAT_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jasperprint-dtd-compat.xsd";
-
-	/**
-	 * Template XML public ID.
-	 */
-	public static final String JASPERTEMPLATE_PUBLIC_ID = "-//JasperReports//DTD Template//EN";
-
-	/**
-	 * Template XML system ID.
-	 */
-	public static final String JASPERTEMPLATE_SYSTEM_ID = "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd";
-
-	/**
-	 * DTD location for template XMLs.
-	 */
-	public static final String JASPERTEMPLATE_DTD = "net/sf/jasperreports/engine/dtds/jaspertemplate.dtd";
-	
-	/**
-	 * The namespace used by the template schema.
-	 */
-	public static final String JASPERTEMPLATE_NAMESPACE = 
-		"http://jasperreports.sourceforge.net/jasperreports/template";
-	
-	/**
-	 * The system location of the template schema.
-	 */
-	public static final String JASPERTEMPLATE_XSD_SYSTEM_ID = 
-		"http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd";
-	
-	/**
-	 * The internal location/resource name of the template schema.
-	 */
-	public static final String JASPERTEMPLATE_XSD_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jaspertemplate.xsd";
-	
-	/**
-	 * The internal location/resource name of the DTD compatibility template schema.
-	 */
-	public static final String JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE = 
-		"net/sf/jasperreports/engine/dtds/jaspertemplate-dtd-compat.xsd";
 
 	/**
 	 *	JasperDesignFactory associated constants

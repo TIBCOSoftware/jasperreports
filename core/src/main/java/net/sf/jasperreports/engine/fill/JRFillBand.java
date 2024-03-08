@@ -70,7 +70,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	private boolean isNewPageColumn;
 	private boolean isFirstWholeOnPageColumn;
-	private Map<JRGroup,Boolean> isNewGroupMap = new HashMap<>();
+	private Map<String,Boolean> isNewGroupMap = new HashMap<>();
 
 	private Set<JREvaluationTime> nowEvaluationTimes;
 	
@@ -214,14 +214,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected void setNewGroup(JRGroup group, boolean isNew)
 	{
-		isNewGroupMap.put(group, isNew);
+		isNewGroupMap.put(group.getName(), isNew);
 	}
 
 
 	/**
 	 *
 	 */
-	protected boolean isNewGroup(JRGroup group)
+	protected boolean isNewGroup(String group)
 	{
 		Boolean value = isNewGroupMap.get(group);
 
@@ -250,7 +250,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		{
 			breakHeight = getHeight();
 			if (
-				SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
+				SplitTypeEnum.IMMEDIATE == getSplitType()
 				&& elements != null && elements.length > 0
 				)
 			{
@@ -267,13 +267,13 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 	@Override
-	public SplitTypeEnum getSplitTypeValue()
+	public SplitTypeEnum getSplitType()
 	{
 		// needs to be lazy loaded because in JRFillBand constructor above, the filler.getMainDataset() is not yet set, 
 		// when the band is a group band
 		if (splitType == null)
 		{
-			splitType = (parent == null ? null : parent.getSplitTypeValue());
+			splitType = (parent == null ? null : parent.getSplitType());
 			if (splitType == null)
 			{
 				splitType = 
@@ -303,7 +303,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected boolean isSplitPrevented()
 	{
-		return SplitTypeEnum.PREVENT == getSplitTypeValue();
+		return SplitTypeEnum.PREVENT == getSplitType();
 	}
 
 	/**
@@ -569,7 +569,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 	protected boolean isColumnBand()
 	{
-		BandTypeEnum bandType = origin.getBandTypeValue();
+		BandTypeEnum bandType = origin.getBandType();
 		
 		return
 			bandType == BandTypeEnum.GROUP_HEADER

@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -54,6 +56,13 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 		this.lineBox = box;
 	}
 	
+	
+	@JsonCreator
+	private JRBaseBoxPen()
+	{
+		this(null);
+	}
+	
 	@Override
 	public JRLineBox getBox() 
 	{
@@ -76,18 +85,18 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	}
 
 	@Override
-	public LineStyleEnum getLineStyleValue()
+	public LineStyleEnum getLineStyle()
 	{
-		if (lineStyleValue != null)
+		if (lineStyle != null)
 		{
-			return lineStyleValue;
+			return lineStyle;
 		}
-		LineStyleEnum penLineStyle = lineBox.getPen().getOwnLineStyleValue();
+		LineStyleEnum penLineStyle = lineBox.getPen().getOwnLineStyle();
 		if (penLineStyle != null)
 		{
 			return penLineStyle;
 		}
-		return getStyleResolver().getParentLineStyleValue(this);
+		return getStyleResolver().getParentLineStyle(this);
 	}
 
 	@Override

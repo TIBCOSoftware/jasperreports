@@ -141,7 +141,7 @@ public class ComplexTextLineWrapper implements TextLineWrapper
 	{
 		return maxFontSizeFinder.findMaxFontSize(
 				new AttributedString(paragraph, start, end).getIterator(),
-				context.getElement().getFontsize());
+				context.getElement().getFontSize());
 	}
 	
 	@Override

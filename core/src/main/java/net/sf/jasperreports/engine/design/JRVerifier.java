@@ -102,7 +102,6 @@ import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.part.PartComponent;
@@ -281,7 +280,7 @@ public class JRVerifier
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.jasperDesign = jasperDesign;
-		this.sectionType = jasperDesign.getSectionType() == null ? SectionTypeEnum.BAND : jasperDesign.getSectionType();
+		this.sectionType = SectionTypeEnum.getValueOrDefault(jasperDesign.getSectionType());
 		brokenRules = new ArrayList<>();
 
 		if (expressionCollector != null)
@@ -1083,7 +1082,7 @@ public class JRVerifier
 					addBrokenRule(e, variable);
 				}
 
-				ResetTypeEnum resetType = variable.getResetTypeValue();
+				ResetTypeEnum resetType = variable.getResetType();
 				if (resetType == ResetTypeEnum.GROUP)
 				{
 					if (variable.getResetGroup() == null)
@@ -1094,14 +1093,14 @@ public class JRVerifier
 					{
 						Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 
-						if (!groupsMap.containsKey(variable.getResetGroup().getName()))
+						if (!groupsMap.containsKey(variable.getResetGroup()))
 						{
-							addBrokenRule("Reset group \"" + variable.getResetGroup().getName() + "\" not found for variable : " + variable.getName(), variable);
+							addBrokenRule("Reset group \"" + variable.getResetGroup() + "\" not found for variable : " + variable.getName(), variable);
 						}
 					}
 				}
 
-				IncrementTypeEnum incrementType = variable.getIncrementTypeValue();
+				IncrementTypeEnum incrementType = variable.getIncrementType();
 				if (incrementType == IncrementTypeEnum.GROUP)
 				{
 					if (variable.getIncrementGroup() == null)
@@ -1112,9 +1111,9 @@ public class JRVerifier
 					{
 						Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 
-						if (!groupsMap.containsKey(variable.getIncrementGroup().getName()))
+						if (!groupsMap.containsKey(variable.getIncrementGroup()))
 						{
-							addBrokenRule("Increment group \"" + variable.getIncrementGroup().getName() + "\" not found for variable : " + variable.getName(), variable);
+							addBrokenRule("Increment group \"" + variable.getIncrementGroup() + "\" not found for variable : " + variable.getName(), variable);
 						}
 					}
 				}
@@ -1741,7 +1740,7 @@ public class JRVerifier
 	protected void verifyCrosstabNextGroup(JRCrosstabGroup group, JRCrosstabGroup nextGroup)
 	{
 		if (Boolean.FALSE.equals(group.getMergeHeaderCells())
-				&& nextGroup.getTotalPositionValue() != CrosstabTotalPositionEnum.NONE)
+				&& nextGroup.getTotalPosition() != CrosstabTotalPositionEnum.NONE)
 		{
 			addBrokenRule("Row crosstab group has repeating header cells but the next group has a total row",
 					group);
@@ -1928,7 +1927,7 @@ public class JRVerifier
 			addBrokenRule("Measure name missing.", measure);
 		}
 
-		CalculationEnum calculation = measure.getCalculationValue();
+		CalculationEnum calculation = measure.getCalculation();
 		if (calculation == CalculationEnum.SYSTEM)
 		{
 			addBrokenRule("Crosstab mesures cannot have system calculation", measure);
@@ -2049,7 +2048,7 @@ public class JRVerifier
 					{
 						JRTextField textField = (JRTextField) element;
 
-						if (textField.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
+						if (EvaluationTimeEnum.getValueOrDefault(textField.getEvaluationTime()) != EvaluationTimeEnum.NOW)
 						{
 							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", textField);
 						}
@@ -2060,7 +2059,7 @@ public class JRVerifier
 					{
 						JRImage image = (JRImage) element;
 
-						if (image.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
+						if (EvaluationTimeEnum.getValueOrDefault(image.getEvaluationTime()) != EvaluationTimeEnum.NOW)
 						{
 							addBrokenRule("Elements with delayed evaluation time are not supported inside crosstab cells.", image);
 						}
@@ -2097,7 +2096,7 @@ public class JRVerifier
 
 		if (datasetRun != null)
 		{
-			IncrementTypeEnum incrementType = dataset.getIncrementTypeValue();
+			IncrementTypeEnum incrementType = dataset.getIncrementType();
 			if (incrementType == IncrementTypeEnum.PAGE || incrementType == IncrementTypeEnum.COLUMN)
 			{
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page increment type.", dataset);
@@ -2355,22 +2354,16 @@ public class JRVerifier
 	{
 		verifyReportElement(element);
 		
-		ComponentKey componentKey = element.getComponentKey();
-		if (componentKey == null)
-		{
-			addBrokenRule("No component key set for component element", element);
-		}
-		
 		Component component = element.getComponent();
 		if (component == null)
 		{
 			addBrokenRule("No component set for component element", element);
 		}
 		
-		if (componentKey != null && component != null)
+		if (component != null)
 		{
 			ComponentCompiler compiler = 
-				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentCompiler(jasperReportsContext);
+				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(component).getComponentCompiler(jasperReportsContext);
 			pushCurrentComponentElement(element);
 			try
 			{
@@ -2416,9 +2409,9 @@ public class JRVerifier
 	{
 		verifyReportElement(element);
 
-		if (element.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
+		if (element.getEvaluationTime() == EvaluationTimeEnum.GROUP)
 		{
-			String groupName = element.getEvaluationGroupName();
+			String groupName = element.getEvaluationGroup();
 			if (groupName == null)
 			{
 				addBrokenRule("Evaluation group not set for generic element", element);
@@ -2472,7 +2465,7 @@ public class JRVerifier
 			breakHeight = band.getHeight();
 			JRElement[] elements = band.getElements();
 			if (
-				SplitTypeEnum.IMMEDIATE == band.getSplitTypeValue()
+				SplitTypeEnum.IMMEDIATE == band.getSplitType()
 				&& elements != null && elements.length > 0
 				)
 			{
@@ -2525,30 +2518,17 @@ public class JRVerifier
 			}
 		}
 
-		ComponentKey componentKey = part.getComponentKey();
-		if (componentKey == null)
-		{
-			addBrokenRule("No component key set for part", part);
-		}
-		
 		PartComponent component = part.getComponent();
 		if (component == null)
 		{
 			addBrokenRule("No component set for part", part);
 		}
 		
-		if (componentKey != null && component != null)
+		if (component != null)
 		{
-			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
-			if (manager == null)
-			{
-				addBrokenRule("No component manager found for part component \"" + componentKey.getName() + "\"", part);
-			}
-			else
-			{
-				PartComponentCompiler compiler = manager.getComponentCompiler(jasperReportsContext);
-				compiler.verify(component, this);
-			}
+			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(component);
+			PartComponentCompiler compiler = manager.getComponentCompiler(jasperReportsContext);
+			compiler.verify(component, this);
 		}
 	}
 	

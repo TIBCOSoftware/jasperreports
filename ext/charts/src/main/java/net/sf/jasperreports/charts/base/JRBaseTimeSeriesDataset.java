@@ -48,7 +48,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
 	
 	private JRTimeSeries[] timeSeries;
-	private TimePeriodEnum timePeriodValue;
+	private TimePeriodEnum timePeriod;
 	
 	protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){
 		super( dataset );
@@ -57,7 +57,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset, ChartsBaseObjectFactory factory ){
 		super( dataset, factory );
 		
-		timePeriodValue = dataset.getTimePeriodValue();
+		timePeriod = dataset.getTimePeriod();
 		JRTimeSeries[] srcTimeSeries = dataset.getSeries();
 		
 		if( srcTimeSeries != null && srcTimeSeries.length > 0 ){
@@ -75,15 +75,15 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 
 	
 	@Override
-	public TimePeriodEnum getTimePeriodValue(){
-		return timePeriodValue;
+	public TimePeriodEnum getTimePeriod(){
+		return timePeriod;
 	}
 	
 	@Override
-	public void setTimePeriod( TimePeriodEnum timePeriodValue ){
-		Object old = this.timePeriodValue;
-		this.timePeriodValue = timePeriodValue;
-		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriodValue);
+	public void setTimePeriod( TimePeriodEnum timePeriod ){
+		Object old = this.timePeriod;
+		this.timePeriod = timePeriod;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
 	}
 
 

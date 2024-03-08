@@ -72,4 +72,12 @@ public enum WhenResourceMissingTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static WhenResourceMissingTypeEnum getValueOrDefault(WhenResourceMissingTypeEnum value)
+	{
+		return value == null ? NULL : value;
+	}
 }

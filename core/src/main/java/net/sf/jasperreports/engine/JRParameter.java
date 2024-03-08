@@ -23,7 +23,18 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.jackson.util.BooleanTrueAsEmptySerializer;
 import net.sf.jasperreports.repo.RepositoryContext;
 
 
@@ -96,6 +107,7 @@ import net.sf.jasperreports.repo.RepositoryContext;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignParameter.class)
 public interface JRParameter extends JRPropertiesHolder, JRCloneable
 {
 
@@ -324,6 +336,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 		
 	/**
@@ -339,26 +352,34 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Class<?> getValueClass();
 
 	/**
 	 *
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	public String getValueClassName();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isSystemDefined();
 
 	/**
 	 *
 	 */
+	@JsonSerialize(using = BooleanTrueAsEmptySerializer.class)
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isForPrompting();
 
 	/**
 	 * Specifies when the default value expression of a parameter is evaluated.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public ParameterEvaluationTimeEnum getEvaluationTime();
 
 	/**
@@ -381,6 +402,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @see #getValueClass()
 	 */
+	@JsonIgnore
 	public Class<?> getNestedType();
 
 	/**
@@ -391,6 +413,8 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @see #getNestedType()
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_nestedType) //FIXMEJACK use xml constants everywhere?
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_nestedType, isAttribute = true)
 	public String getNestedTypeName();
 
 }

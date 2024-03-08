@@ -149,7 +149,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}

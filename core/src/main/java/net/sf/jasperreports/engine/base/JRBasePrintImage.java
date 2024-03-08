@@ -58,12 +58,12 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 *
 	 */
 	protected Renderable renderable;
-	protected ScaleImageEnum scaleImageValue;
+	protected ScaleImageEnum scaleImage;
 	protected RotationEnum rotation;
 	protected Boolean isUsingCache = Boolean.TRUE;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
-	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
+	protected OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
 	protected JRLineBox lineBox;
 	protected String anchorName;
 	protected String linkType;
@@ -93,7 +93,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -111,21 +111,21 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return getStyleResolver().getScaleImageValue(this);
+		return getStyleResolver().getScaleImage(this);
 	}
 
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return this.scaleImageValue;
+		return this.scaleImage;
 	}
 
 	@Override
-	public void setScaleImage(ScaleImageEnum scaleImageValue)
+	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
-		this.scaleImageValue = scaleImageValue;
+		this.scaleImage = scaleImage;
 	}
 
 	@Override
@@ -195,15 +195,15 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	@Override
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return this.onErrorTypeValue;
+		return this.onErrorType;
 	}
 
 	@Override
-	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
-		this.onErrorTypeValue = onErrorTypeValue;
+		this.onErrorType = onErrorType;
 	}
 
 	@Override
@@ -239,9 +239,9 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 		
 	@Override
@@ -251,9 +251,9 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 		
 	@Override

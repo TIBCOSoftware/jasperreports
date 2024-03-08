@@ -40,7 +40,6 @@ import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
-import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;
@@ -56,7 +55,6 @@ import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.interactivity.commands.CommandTarget;
 import net.sf.jasperreports.interactivity.sort.actions.FilterAction;
-import net.sf.jasperreports.interactivity.sort.actions.FilterCommand;
 import net.sf.jasperreports.interactivity.sort.actions.SortAction;
 import net.sf.jasperreports.interactivity.sort.actions.SortData;
 import net.sf.jasperreports.jackson.util.JacksonUtil;
@@ -206,7 +204,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 				for (JRSortField field: existingFields) {
 					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
 						sortField = sortColumnName + SortElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + SortElement.SORT_COLUMN_TOKEN_SEPARATOR;
-						switch (field.getOrderValue()) {
+						switch (field.getOrder()) {
 							case ASCENDING:
 								sortField += SortElement.SORT_ORDER_ASC;
 								break;

@@ -23,28 +23,22 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 
 /**
  * A report element that wraps an abstract component.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("component")
+@JsonDeserialize(as = JRDesignComponentElement.class)
 public interface JRComponentElement extends JRElement
 {
 	String PROPERTY_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.name";
-
-	/**
-	 * Returns the component type key for this element.
-	 * 
-	 * <p>
-	 * The component type key needs to be set in order to locate the
-	 * component manager. 
-	 * 
-	 * @return the component type key
-	 */
-	ComponentKey getComponentKey();
 	
 	/**
 	 * Returns the component instance wrapped by this element.

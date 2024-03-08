@@ -140,9 +140,7 @@ public class TableReport implements JRReport
 	public static final String EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE = "fill.table.report.unrecognized.filter.expression.type";
 	
 	public static final String METADATA_KEY_QUALIFICATION = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME;
+			ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME;
 	
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
@@ -1015,9 +1013,9 @@ public class TableReport implements JRReport
 							{
 								suffix += 
 									"" 
-									+ (sortField.getOrderValue() == SortOrderEnum.ASCENDING 
+									+ (sortField.getOrder() == SortOrderEnum.ASCENDING 
 										? propertiesUtil.getProperty(PROPERTY_UP_ARROW_CHAR)
-										: (sortField.getOrderValue() == SortOrderEnum.DESCENDING 
+										: (sortField.getOrder() == SortOrderEnum.DESCENDING 
 											? propertiesUtil.getProperty(PROPERTY_DOWN_ARROW_CHAR)
 											: ""));
 							}
@@ -2120,7 +2118,7 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public OrientationEnum getOrientationValue()
+	public OrientationEnum getOrientation()
 	{
 		return OrientationEnum.PORTRAIT;
 	}
@@ -2156,7 +2154,7 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public PrintOrderEnum getPrintOrderValue()
+	public PrintOrderEnum getPrintOrder()
 	{
 		return PrintOrderEnum.VERTICAL;
 	}
@@ -2267,7 +2265,7 @@ public class TableReport implements JRReport
 	}
 	
 	@Override
-	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
+	public WhenNoDataTypeEnum getWhenNoDataType()
 	{
 		WhenNoDataTypeTableEnum whenNoDataType = table.getWhenNoDataType(); 
 		if (whenNoDataType == null)
@@ -2306,9 +2304,9 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return mainDataset.getWhenResourceMissingTypeValue();
+		return mainDataset.getWhenResourceMissingType();
 	}
 
 	@Override

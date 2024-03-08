@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -36,6 +40,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.ReportDeserializer;
 
 
 /**
@@ -53,15 +58,21 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 
-	public static final String PROPERTY_EVALUATION_GROUP_NAME = "evaluationGroupName";
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
 	private JRGenericElementType genericType;
 	private List<JRGenericElementParameter> parameters = new ArrayList<>();
-	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
-	private String evaluationGroupName;
+	private EvaluationTimeEnum evaluationTime;
+	private String evaluationGroup;
 	
+	@JsonCreator
+	private JRDesignGenericElement()
+	{
+		super(ReportDeserializer.getDefaultStyleProvider());
+	}
+
 	/**
 	 * Creates a generic report element.
 	 * 
@@ -84,9 +95,22 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 	 * @return the list of element parameters
 	 * @see #getParameters()
 	 */
+	@JsonIgnore
 	public List<JRGenericElementParameter> getParametersList()
 	{
 		return parameters;
+	}
+	
+	@JsonSetter
+	private void setParameters(List<JRGenericElementParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRGenericElementParameter parameter : parameters)
+			{
+				addParameter(parameter);
+			}
+		}
 	}
 	
 	/**
@@ -177,9 +201,9 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 
 	/**
@@ -188,7 +212,7 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 	 * <p>
 	 * The default evaluation time is {@link EvaluationTimeEnum#NOW}.
 	 * 
-	 * @param evaluationTimeValue the element's evaluation time, one of
+	 * @param evaluationTime the element's evaluation time, one of
 	 * <ol>
 	 * 	<li>{@link EvaluationTimeEnum#NOW}
 	 * 	<li>{@link EvaluationTimeEnum#BAND}
@@ -198,34 +222,34 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 	 * 	<li>{@link EvaluationTimeEnum#REPORT}
 	 * 	<li>{@link EvaluationTimeEnum#AUTO}
 	 * </ul>
-	 * @see #getEvaluationTimeValue()
+	 * @see #getEvaluationTime()
 	 */
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTimeValue);
+				old, this.evaluationTime);
 	}
 
 	@Override
-	public String getEvaluationGroupName()
+	public String getEvaluationGroup()
 	{
-		return evaluationGroupName;
+		return evaluationGroup;
 	}
 	
 	/**
 	 * Sets the name of the evaluation group.
 	 * 
 	 * @param evaluationGroupName the evaluation group's name
-	 * @see #getEvaluationGroupName()
+	 * @see #getEvaluationGroup()
 	 */
-	public void setEvaluationGroupName(String evaluationGroupName)
+	public void setEvaluationGroup(String evaluationGroup)
 	{
-		Object old = this.evaluationGroupName;
-		this.evaluationGroupName = evaluationGroupName;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP_NAME, 
-				old, this.evaluationGroupName);
+		Object old = this.evaluationGroup;
+		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, 
+				old, this.evaluationGroup);
 	}
 	
 	@Override

@@ -50,7 +50,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	protected JRStyle style;
 	protected String styleNameReference;
 	
-	protected ModeEnum modeValue;
+	protected ModeEnum mode;
 	protected Color backcolor;
 	protected JRLineBox lineBox;
 	protected int width;
@@ -65,7 +65,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		this.defaultStyleProvider = factory.getDefaultStyleProvider();
 		style = factory.getStyle(cell.getStyle());
 		styleNameReference = cell.getStyleNameReference();
-		modeValue = cell.getModeValue();
+		mode = cell.getMode();
 		backcolor = cell.getBackcolor();
 		lineBox = cell.getLineBox().clone(this);
 		width = cell.getWidth();
@@ -110,9 +110,9 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
-		return modeValue;
+		return mode;
 	}
 
 	@Override

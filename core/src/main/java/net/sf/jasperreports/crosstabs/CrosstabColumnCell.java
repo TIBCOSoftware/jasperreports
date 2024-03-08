@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 
@@ -32,8 +34,10 @@ import net.sf.jasperreports.engine.JRCloneable;
 public interface CrosstabColumnCell extends JRCloneable
 {
 
+	@JacksonXmlProperty(isAttribute = true)
 	int getHeight();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	CrosstabColumnPositionEnum getContentsPosition();
 	
 	JRCellContents getCellContents();

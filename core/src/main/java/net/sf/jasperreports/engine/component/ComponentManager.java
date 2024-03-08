@@ -42,13 +42,6 @@ public interface ComponentManager
 	 * @return the component compiler
 	 */
 	ComponentCompiler getComponentCompiler(JasperReportsContext jasperReportsContext);
-
-	/**
-	 * Returns the component XML writer.
-	 * 
-	 * @return the component XML writer
-	 */
-	ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext);
 	
 	/**
 	 * Returns the factory of fill component instances.

@@ -25,6 +25,10 @@ package net.sf.jasperreports.engine;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -35,6 +39,8 @@ public interface JRIdentifiable
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public UUID getUUID();
 	
 }

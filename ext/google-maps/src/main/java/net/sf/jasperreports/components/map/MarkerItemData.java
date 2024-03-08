@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.components.map;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardMarkerItemData.class)
 public interface MarkerItemData extends ItemData {
 
     /**

@@ -470,7 +470,7 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		jrParagraph = textElement.getParagraph();
 
-		switch (textElement.getRotationValue())
+		switch (textElement.getRotation())
 		{
 			case LEFT :
 			{

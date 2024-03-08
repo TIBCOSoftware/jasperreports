@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 
@@ -58,8 +57,8 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	protected JRElementDataset parent;
 	private final JRBaseFiller filler;
 
-	protected JRGroup resetGroup;
-	protected JRGroup incrementGroup;
+	protected String resetGroup;
+	protected String incrementGroup;
 
 	private boolean isIncremented = true;
 
@@ -79,8 +78,8 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		parent = dataset;
 		filler = factory.getFiller();//FIXMEBOOK
 		
-		resetGroup = factory.getGroup(dataset.getResetGroup());
-		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
+		resetGroup = dataset.getResetGroup();
+		incrementGroup = dataset.getIncrementGroup();
 		
 		datasetRun = factory.getDatasetRun(dataset.getDatasetRun());
 	}
@@ -112,19 +111,19 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	}
 		
 	@Override
-	public IncrementTypeEnum getIncrementTypeValue()
+	public IncrementTypeEnum getIncrementType()
 	{
-		return parent.getIncrementTypeValue();
+		return IncrementTypeEnum.getValueOrDefault(parent.getIncrementType());
 	}
 		
 	@Override
-	public JRGroup getResetGroup()
+	public String getResetGroup()
 	{
 		return resetGroup;
 	}
 		
 	@Override
-	public JRGroup getIncrementGroup()
+	public String getIncrementGroup()
 	{
 		return incrementGroup;
 	}

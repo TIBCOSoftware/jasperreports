@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
+import net.sf.jasperreports.jackson.util.ReportTemplateDeserializer;
+import net.sf.jasperreports.jackson.util.ReportTemplateSerializer;
 
 
 /**
@@ -35,6 +40,8 @@ import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRReport#getTemplates()
  */
+@JsonSerialize(using = ReportTemplateSerializer.class)
+@JsonDeserialize(using = ReportTemplateDeserializer.class)
 public interface JRReportTemplate
 {
 

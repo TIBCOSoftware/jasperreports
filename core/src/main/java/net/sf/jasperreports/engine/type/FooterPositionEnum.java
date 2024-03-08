@@ -79,4 +79,12 @@ public enum FooterPositionEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static FooterPositionEnum getValueOrDefault(FooterPositionEnum value)
+	{
+		return value == null ? NORMAL : value;
+	}
 }

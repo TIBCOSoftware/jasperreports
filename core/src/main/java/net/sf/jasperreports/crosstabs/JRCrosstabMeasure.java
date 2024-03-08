@@ -23,11 +23,18 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Crosstab measure interface.
@@ -37,6 +44,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignCrosstabMeasure.class)
 public interface JRCrosstabMeasure extends JRCloneable
 {
 	
@@ -46,6 +54,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @return the name of the measure
 	 * @see #getVariable()
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 	
 	
@@ -54,6 +63,8 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the name of the value class for this measure
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	public String getValueClassName();
 	
 	
@@ -62,6 +73,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the value class of this measure
 	 */
+	@JsonIgnore
 	public Class<?> getValueClass();
 	
 	
@@ -70,6 +82,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the measure expression
 	 */
+	@JsonGetter("expression")
 	public JRExpression getValueExpression();
 	
 	
@@ -80,7 +93,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * an incrementer which will sum the measure values.
 	 * <p>
 	 * The possible calculation type are the same as the ones used for variables
-	 * (see {@link JRVariable#getCalculationValue() JRVariable.getCalculationValue()} with
+	 * (see {@link JRVariable#getCalculation() JRVariable.getCalculation()} with
 	 * the exception of {@link CalculationEnum#SYSTEM CalculationEnum.SYSTEM}.
 	 * 
 	 * @return the calculation type which will be performed on the measure values
@@ -88,7 +101,8 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementer
 	 */
-	public CalculationEnum getCalculationValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public CalculationEnum getCalculation();
 	
 	
 	/**
@@ -100,6 +114,8 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the incrementer factory class name
 	 */
+	@JsonGetter("incrementerFactoryClass")
+	@JacksonXmlProperty(localName = "incrementerFactoryClass", isAttribute = true)
 	public String getIncrementerFactoryClassName();
 	
 	
@@ -130,6 +146,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @see net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory#hasBuiltInCalculator(Class)
 	 * @see #getPercentageCalculatorClassName()
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public CrosstabPercentageEnum getPercentageType();
 	
 	
@@ -138,6 +155,8 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the percentage calculator class name
 	 */
+	@JsonGetter("percentageCalculatorClass")
+	@JacksonXmlProperty(localName = "percentageCalculatorClass", isAttribute = true)
 	public String getPercentageCalculatorClassName();
 	
 	
@@ -146,6 +165,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the percentage calculator class
 	 */
+	@JsonIgnore
 	public Class<?> getPercentageCalculatorClass();
 	
 	
@@ -158,5 +178,6 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the variable associated with this measure
 	 */
+	@JsonIgnore
 	public JRVariable getVariable();
 }

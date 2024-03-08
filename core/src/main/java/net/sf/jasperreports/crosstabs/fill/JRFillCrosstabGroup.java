@@ -62,9 +62,9 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 	}
 
 	@Override
-	public CrosstabTotalPositionEnum getTotalPositionValue()
+	public CrosstabTotalPositionEnum getTotalPosition()
 	{
-		return parentGroup.getTotalPositionValue();
+		return parentGroup.getTotalPosition();
 	}
 
 	@Override

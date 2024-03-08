@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
@@ -81,10 +80,10 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	protected UUID uuid;
 	protected String key;
-	protected PositionTypeEnum positionTypeValue;
-	protected StretchTypeEnum stretchTypeValue = StretchTypeEnum.NO_STRETCH;
+	protected PositionTypeEnum positionType;
+	protected StretchTypeEnum stretchType;
 	protected boolean isPrintRepeatedValues = true;
-	protected ModeEnum modeValue;
+	protected ModeEnum mode;
 	protected int x;
 	protected int y;
 	protected int width;
@@ -99,7 +98,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 *
 	 */
 	protected JRExpression printWhenExpression;
-	protected JRGroup printWhenGroupChanges;
+	protected String printWhenGroupChanges;
 	protected JRElementGroup elementGroup;
 
 	protected final JRDefaultStyleProvider defaultStyleProvider;
@@ -139,10 +138,10 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 
 		uuid = element.getUUID();
 		key = element.getKey();
-		positionTypeValue = element.getPositionTypeValue();
-		stretchTypeValue = element.getStretchTypeValue();
+		positionType = element.getPositionType();
+		stretchType = element.getStretchType();
 		isPrintRepeatedValues = element.isPrintRepeatedValues();
-		modeValue = element.getOwnModeValue();
+		mode = element.getOwnMode();
 		x = element.getX();
 		y = element.getY();
 		width = element.getWidth();
@@ -154,7 +153,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		backcolor = element.getOwnBackcolor();
 
 		printWhenExpression = factory.getExpression(element.getPrintWhenExpression());
-		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+		printWhenGroupChanges = element.getPrintWhenGroupChanges();
 		elementGroup = (JRElementGroup)factory.getVisitResult(element.getElementGroup());
 		
 		propertiesMap = JRPropertiesMap.getPropertiesClone(element);
@@ -218,31 +217,31 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	@Override
-	public PositionTypeEnum getPositionTypeValue()
+	public PositionTypeEnum getPositionType()
 	{
-		return positionTypeValue;
+		return positionType;
 	}
 
 	@Override
-	public void setPositionType(PositionTypeEnum positionTypeValue)
+	public void setPositionType(PositionTypeEnum positionType)
 	{
-		PositionTypeEnum old = this.positionTypeValue;
-		this.positionTypeValue = positionTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionTypeValue);
+		PositionTypeEnum old = this.positionType;
+		this.positionType = positionType;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionType);
 	}
 
 	@Override
-	public StretchTypeEnum getStretchTypeValue()
+	public StretchTypeEnum getStretchType()
 	{
-		return stretchTypeValue;
+		return stretchType;
 	}
 
 	@Override
-	public void setStretchType(StretchTypeEnum stretchTypeValue)
+	public void setStretchType(StretchTypeEnum stretchType)
 	{
-		StretchTypeEnum old = this.stretchTypeValue;
-		this.stretchTypeValue = stretchTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_STRETCH_TYPE, old, this.stretchTypeValue);
+		StretchTypeEnum old = this.stretchType;
+		this.stretchType = stretchType;
+		getEventSupport().firePropertyChange(PROPERTY_STRETCH_TYPE, old, this.stretchType);
 	}
 
 	@Override
@@ -260,23 +259,23 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return modeValue;
+		return mode;
 	}
 
 	@Override
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
-		Object old = this.modeValue;
-		this.modeValue = modeValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
+		Object old = this.mode;
+		this.mode = mode;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
 	}
 
 	@Override
@@ -408,7 +407,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	@Override
-	public JRGroup getPrintWhenGroupChanges()
+	public String getPrintWhenGroupChanges()
 	{
 		return this.printWhenGroupChanges;
 	}

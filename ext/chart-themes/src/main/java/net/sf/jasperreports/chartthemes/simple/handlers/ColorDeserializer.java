@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ColorDeserializer extends StdDeserializer<Color>
+public class ColorDeserializer extends StdDeserializer<Color> //FIXMEJACK remove
 {
 	private static final long serialVersionUID = 1L;
 

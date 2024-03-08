@@ -59,7 +59,7 @@ public class XlsxFontInfo
 		if (font != null)
 		{
 			this.fontName = fontName;
-			this.fontSize = font.getFontsize() + (isFontSizeFixEnabled ? -1 : 0);
+			this.fontSize = font.getFontSize() + (isFontSizeFixEnabled ? -1 : 0);
 			this.isBold = font.isBold();
 			this.isItalic = font.isItalic();
 			this.isUnderline = font.isUnderline();

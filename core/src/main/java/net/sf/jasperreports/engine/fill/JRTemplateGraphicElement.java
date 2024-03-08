@@ -53,7 +53,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	 *
 	 */
 	protected JRPen linePen;
-	private FillEnum fillValue;
+	private FillEnum fill;
 
 
 	/**
@@ -84,7 +84,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		
 		copyLinePen(graphicElement.getLinePen());
 		
-		setFill(graphicElement.getOwnFillValue());
+		setFill(graphicElement.getOwnFill());
 	}
 
 	/**
@@ -105,21 +105,21 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		
 
 	@Override
-	public FillEnum getFillValue()
+	public FillEnum getFill()
 	{
-		return getStyleResolver().getFillValue(this);
+		return getStyleResolver().getFill(this);
 	}
 
 	@Override
-	public FillEnum getOwnFillValue()
+	public FillEnum getOwnFill()
 	{
-		return this.fillValue;
+		return this.fill;
 	}
 	
 	@Override
-	public void setFill(FillEnum fillValue)
+	public void setFill(FillEnum fill)
 	{
-		this.fillValue = fillValue;
+		this.fill = fill;
 	}
 
 	@Override
@@ -138,14 +138,14 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	{
 		addTemplateHash(hash);
 		hash.addIdentical(linePen);
-		hash.add(fillValue);
+		hash.add(fill);
 	}
 
 	protected boolean graphicIdentical(JRTemplateGraphicElement template)
 	{
 		return templateIdentical(template)
 				&& ObjectUtils.identical(linePen, template.linePen)
-				&& ObjectUtils.equals(fillValue, template.fillValue);
+				&& ObjectUtils.equals(fill, template.fill);
 	}
 	
 	@Override
@@ -158,6 +158,6 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 			linePen.populateStyle();
 		}
 		
-		fillValue = getFillValue();
+		fill = getFill();
 	}
 }

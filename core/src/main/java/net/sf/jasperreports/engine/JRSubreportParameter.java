@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.JRDesignSubreportParameter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignSubreportParameter.class)
 public interface JRSubreportParameter extends JRDatasetParameter
 {
 }

@@ -39,11 +39,12 @@ import net.sf.jasperreports.customvisualization.export.CVElementRtfHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementXlsHandler;
 import net.sf.jasperreports.customvisualization.export.CVElementXlsxHandler;
 import net.sf.jasperreports.customvisualization.fill.CVFillFactory;
-import net.sf.jasperreports.customvisualization.xml.CVDigester;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
+import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -65,26 +66,19 @@ import net.sf.jasperreports.poi.export.JRXlsExporter;
 public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	// private static final ExtensionsRegistry REGISTRY;
-	private static CVComponentBundle COMPONENT_BUNDLE;
+	private static DefaultComponentsBundle COMPONENT_BUNDLE;
 
 	static
 	{
-		final CVComponentBundle bundle = new CVComponentBundle();
+		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
-		parser.setNamespace(CVConstants.NAMESPACE);
-		parser.setPublicSchemaLocation(CVConstants.XSD_LOCATION);
-		parser.setInternalSchemaResource(CVConstants.XSD_RESOURCE);
-		parser.setDigesterConfigurer(new CVDigester());
-		bundle.setXmlParser(parser);
+		HashMap<Class<? extends Component>, ComponentManager> componentManagers = new HashMap<>();
 
-		HashMap<String, ComponentManager> componentManagers = new HashMap<>();
-
-		CVComponentManager componentManager = new CVComponentManager();
+		DefaultComponentManager componentManager = new DefaultComponentManager();
 		componentManager.setDesignConverter(CVDesignConverter.getInstance());
 		componentManager.setComponentCompiler(new CVCompiler());
 		componentManager.setComponentFillFactory(new CVFillFactory());
-		componentManagers.put(CVConstants.COMPONENT_NAME, componentManager);
+		componentManagers.put(CVComponent.class, componentManager);
 
 		bundle.setComponentManagers(componentManagers);
 

@@ -43,7 +43,7 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected BreakTypeEnum typeValue = BreakTypeEnum.PAGE;
+	protected BreakTypeEnum type;
 
 	/**
 	 *
@@ -75,17 +75,17 @@ public class JRDesignBreak extends JRDesignElement implements JRBreak
 	}
 
 	@Override
-	public BreakTypeEnum getTypeValue()
+	public BreakTypeEnum getType()
 	{
-		return this.typeValue;
+		return this.type;
 	}
 
 	@Override
-	public void setType(BreakTypeEnum typeValue)
+	public void setType(BreakTypeEnum type)
 	{
-		Object old = this.typeValue;
-		this.typeValue = typeValue;
-		getEventSupport().firePropertyChange(JRBaseBreak.PROPERTY_TYPE, old, this.typeValue);
+		Object old = this.type;
+		this.type = type;
+		getEventSupport().firePropertyChange(JRBaseBreak.PROPERTY_TYPE, old, this.type);
 	}
 
 	@Override

@@ -25,6 +25,9 @@ package net.sf.jasperreports.engine.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
@@ -53,7 +56,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 *
 	 */
 	protected JRPen linePen;
-	protected FillEnum fillValue;
+	protected FillEnum fill;
 
 
 	/**
@@ -73,25 +76,31 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 		return linePen;
 	}
 
-
-	@Override
-	public FillEnum getFillValue()
+	@JsonSetter
+	@JsonDeserialize(as = JRBasePen.class)
+	private void setLinePen(JRPen linePen)
 	{
-		return getStyleResolver().getFillValue(this);
+		this.linePen = linePen.clone(this);
 	}
 
 	@Override
-	public FillEnum getOwnFillValue()
+	public FillEnum getFill()
 	{
-		return this.fillValue;
+		return getStyleResolver().getFill(this);
+	}
+
+	@Override
+	public FillEnum getOwnFill()
+	{
+		return this.fill;
 	}
 	
 	@Override
-	public void setFill(FillEnum fillValue)
+	public void setFill(FillEnum fill)
 	{
-		FillEnum old = this.fillValue;
-		this.fillValue = fillValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
+		FillEnum old = this.fill;
+		this.fill = fill;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fill);
 	}
 
 	@Override

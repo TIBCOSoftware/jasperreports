@@ -48,7 +48,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 *
 	 */
 	protected JRPen linePen;
-	protected FillEnum fillValue;
+	protected FillEnum fill;
 
 
 	/**
@@ -74,7 +74,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		
 		linePen = graphicElement.getLinePen().clone(this);
 		
-		fillValue = graphicElement.getOwnFillValue();
+		fill = graphicElement.getOwnFill();
 	}
 		
 
@@ -85,23 +85,23 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	}
 
 	@Override
-	public FillEnum getFillValue()
+	public FillEnum getFill()
 	{
-		return getStyleResolver().getFillValue(this);
+		return getStyleResolver().getFill(this);
 	}
 
 	@Override
-	public FillEnum getOwnFillValue()
+	public FillEnum getOwnFill()
 	{
-		return this.fillValue;
+		return this.fill;
 	}
 	
 	@Override
-	public void setFill(FillEnum fillValue)
+	public void setFill(FillEnum fill)
 	{
-		FillEnum old = this.fillValue;
-		this.fillValue = fillValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
+		FillEnum old = this.fill;
+		this.fill = fill;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fill);
 	}
 
 	@Override

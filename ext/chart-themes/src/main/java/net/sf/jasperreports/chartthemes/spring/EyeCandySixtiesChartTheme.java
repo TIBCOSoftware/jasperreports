@@ -562,7 +562,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.DIAL : jrPlot.getShapeValue();
+		MeterShapeEnum shape = jrPlot.getShape() == null ? MeterShapeEnum.DIAL : jrPlot.getShape();
 		
 		switch(shape)
 		{
@@ -588,7 +588,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
 		// implies I am changing the size of the tick, not the spacing between them.
-		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble();
+		double tickInterval = jrPlot.getTickInterval() == null ? 10.0 : jrPlot.getTickInterval();
 		chartPlot.setTickSize(tickInterval);
 		
 		JRFont tickLabelFont = jrPlot.getTickLabelFont();
@@ -810,7 +810,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		ValueLocationEnum valueLocation = jrPlot.getValueLocationValue();
+		ValueLocationEnum valueLocation = jrPlot.getValueLocation();
 		switch (valueLocation)
 		{
 		  case NONE:

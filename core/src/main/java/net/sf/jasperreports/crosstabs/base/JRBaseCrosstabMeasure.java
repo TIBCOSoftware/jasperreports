@@ -55,7 +55,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 	protected String valueClassRealName;
 	protected transient Class<?> valueClass;
 	protected JRExpression expression;
-	protected CalculationEnum calculationValue = CalculationEnum.COUNT;
+	protected CalculationEnum calculation = CalculationEnum.COUNT;
 	protected String incrementerFactoryClassName;
 	protected String incrementerFactoryClassRealName;
 	protected Class<?> incrementerFactoryClass;
@@ -76,7 +76,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		this.name = measure.getName();
 		this.valueClassName = measure.getValueClassName();
 		this.expression = factory.getExpression(measure.getValueExpression());
-		this.calculationValue = measure.getCalculationValue();
+		this.calculation = measure.getCalculation();
 		this.incrementerFactoryClassName = measure.getIncrementerFactoryClassName();
 		this.percentageType = measure.getPercentageType();		
 		this.percentageCalculatorClassName = measure.getPercentageCalculatorClassName();
@@ -102,9 +102,9 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 	}
 
 	@Override
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
-		return calculationValue;
+		return calculation;
 	}
 
 	@Override

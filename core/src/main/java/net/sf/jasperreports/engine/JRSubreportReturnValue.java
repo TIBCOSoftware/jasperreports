@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
+
 /**
  * A value copied from a subreport into a variable of the master report.
  * <p/>
@@ -67,6 +71,7 @@ package net.sf.jasperreports.engine;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignSubreportReturnValue.class)
 public interface JRSubreportReturnValue extends VariableReturnValue
 {
 }

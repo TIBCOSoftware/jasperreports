@@ -30,6 +30,10 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
@@ -69,10 +73,10 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	
 	protected JRChart chart;
 	protected Color backcolor;
-	protected PlotOrientationEnum orientationValue = PlotOrientationEnum.VERTICAL;
-	protected Float backgroundAlphaFloat;
-	protected Float foregroundAlphaFloat;
-	protected Double labelRotationDouble;
+	protected PlotOrientationEnum orientation;
+	protected Float backgroundAlpha;
+	protected Float foregroundAlpha;
+	protected Double labelRotation;
 	protected SortedSet<JRSeriesColor>  seriesColors;
 
 
@@ -87,16 +91,23 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		if (plot != null) 
 		{
 			backcolor = plot.getOwnBackcolor();
-			orientationValue = plot.getOrientationValue();
-			backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
-			foregroundAlphaFloat = plot.getForegroundAlphaFloat();
-			labelRotationDouble = plot.getLabelRotationDouble();
+			orientation = plot.getOrientation();
+			backgroundAlpha = plot.getBackgroundAlpha();
+			foregroundAlpha = plot.getForegroundAlpha();
+			labelRotation = plot.getLabelRotation();
 			seriesColors = new TreeSet<>(plot.getSeriesColors());
 		}
 		else
 		{
 			seriesColors = new TreeSet<>();
 		}
+	}
+	
+	
+	@JsonIgnore
+	private void setType(String type)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -112,10 +123,10 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		chart = (JRChart)parentFactory.getVisitResult(plot.getChart());
 
 		backcolor = plot.getOwnBackcolor();
-		orientationValue = plot.getOrientationValue();
-		backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
-		foregroundAlphaFloat = plot.getForegroundAlphaFloat();
-		labelRotationDouble = plot.getLabelRotationDouble();
+		orientation = plot.getOrientation();
+		backgroundAlpha = plot.getBackgroundAlpha();
+		foregroundAlpha = plot.getForegroundAlpha();
+		labelRotation = plot.getLabelRotation();
 		seriesColors = new TreeSet<>(plot.getSeriesColors());
 	}
 
@@ -156,45 +167,45 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 
 	@Override
-	public PlotOrientationEnum getOrientationValue()
+	public PlotOrientationEnum getOrientation()
 	{
-		return orientationValue;
+		return orientation;
 	}
 
 	@Override
-	public void setOrientation(PlotOrientationEnum orientationValue)
+	public void setOrientation(PlotOrientationEnum orientation)
 	{
-		Object old = this.orientationValue;
-		this.orientationValue = orientationValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
+		Object old = this.orientation;
+		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
 	@Override
-	public Float getBackgroundAlphaFloat()
+	public Float getBackgroundAlpha()
 	{
-		return backgroundAlphaFloat;
+		return backgroundAlpha;
 	}
 
 	@Override
 	public void setBackgroundAlpha(Float backgroundAlpha)
 	{
-		Float old = this.backgroundAlphaFloat;
-		this.backgroundAlphaFloat = backgroundAlpha;
-		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlphaFloat);
+		Float old = this.backgroundAlpha;
+		this.backgroundAlpha = backgroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlpha);
 	}
 
 	@Override
-	public Float getForegroundAlphaFloat()
+	public Float getForegroundAlpha()
 	{
-		return foregroundAlphaFloat;
+		return foregroundAlpha;
 	}
 
 	@Override
 	public void setForegroundAlpha(Float foregroundAlpha)
 	{
-		Float old = this.foregroundAlphaFloat;
-		this.foregroundAlphaFloat = foregroundAlpha;
-		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlphaFloat);
+		Float old = this.foregroundAlpha;
+		this.foregroundAlpha = foregroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
 	}
 
 	/**
@@ -204,9 +215,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
 	@Override
-	public Double getLabelRotationDouble()
+	public Double getLabelRotation()
 	{
-		return labelRotationDouble;
+		return labelRotation;
 	}
 	
 	/**
@@ -218,9 +229,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	@Override
 	public void setLabelRotation(Double labelRotation)
 	{
-		Double old = this.labelRotationDouble;
-		this.labelRotationDouble = labelRotation;
-		getEventSupport().firePropertyChange(PROPERTY_LABEL_ROTATION, old, this.labelRotationDouble);
+		Double old = this.labelRotation;
+		this.labelRotation = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_ROTATION, old, this.labelRotation);
 	}
 	
 	
@@ -276,7 +287,11 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		protected int seriesOrder = -1;
 		protected Color color;
 		
-		public JRBaseSeriesColor(int seriesOrder, Color color)
+		@JsonCreator
+		public JRBaseSeriesColor(
+			@JsonProperty("seriesOrder") int seriesOrder, 
+			@JsonProperty("color") Color color
+			)
 		{
 			this.seriesOrder = seriesOrder;
 			this.color = color;

@@ -62,7 +62,9 @@ public class BarcodeSVGImageProducer implements BarcodeImageProducer
 			SVGCanvasProvider provider = 
 				new SVGCanvasProvider(
 					false, 
-					((Barcode4jComponent)componentElement.getComponent()).getOrientationValue().getValue()
+					OrientationEnum.getValueOrDefault(
+						((Barcode4jComponent)componentElement.getComponent()).getOrientation()
+						).getValue()
 					);
 			barcode.generateBarcode(provider, message);
 			Document svgDoc = provider.getDOM();

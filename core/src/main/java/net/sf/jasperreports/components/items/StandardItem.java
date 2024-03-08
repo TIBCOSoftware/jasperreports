@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -91,6 +93,18 @@ public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 		return properties;
 	}
 	
+	@JsonSetter
+	private void setProperties(List<ItemProperty> properties)
+	{
+		if (properties != null)
+		{
+			for (ItemProperty property : properties)
+			{
+				addItemProperty(property);
+			}
+		}
+	}
+
 	public void addItemProperty(ItemProperty property)
 	{
 		properties.add(property);

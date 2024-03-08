@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -30,6 +32,7 @@ package net.sf.jasperreports.engine.util;
 public interface Designated
 {
 
+	@JsonIgnore
 	String getDesignation();
 	
 }

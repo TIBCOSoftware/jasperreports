@@ -73,8 +73,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 	
 	protected boolean isEvaluateNow()
 	{
-		return barcodeComponent.getEvaluationTimeValue() 
-				== EvaluationTimeEnum.NOW;
+		return EvaluationTimeEnum.getValueOrDefault(barcodeComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 
 	protected void evaluateBarcode(byte evaluation)
@@ -117,7 +116,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		else
 		{
 			fillContext.registerDelayedEvaluation(image, 
-					barcodeComponent.getEvaluationTimeValue(), 
+					barcodeComponent.getEvaluationTime(), 
 					barcodeComponent.getEvaluationGroup());
 		}
 		

@@ -95,7 +95,7 @@ public final class JRPenUtil
 		
 		if (lineWidth > 0f)
 		{
-			LineStyleEnum lineStyle = pen.getLineStyleValue();
+			LineStyleEnum lineStyle = pen.getLineStyle();
 			
 			switch (lineStyle)
 			{
@@ -186,6 +186,15 @@ public final class JRPenUtil
 		}
 		
 		return null;
+	}
+	
+	
+	public static boolean hasOwnValues(JRPen pen)
+	{
+		return 
+			pen.getOwnLineColor() != null 
+			|| pen.getOwnLineStyle() != null 
+			|| pen.getOwnLineWidth() != null;
 	}
 	
 	

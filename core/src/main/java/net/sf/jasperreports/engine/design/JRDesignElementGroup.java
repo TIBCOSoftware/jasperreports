@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -56,6 +61,28 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 		Object old = this.elementGroup;
 		this.elementGroup = elementGroup;
 		getEventSupport().firePropertyChange(PROPERTY_ELEMENT_GROUP, old, this.elementGroup);
+	}
+
+	/**
+	 *
+	 */
+	@JsonSetter
+	private void setChildren(List<JRChild> children)
+	{
+		if (children != null)
+		{
+			for (JRChild child : children)
+			{
+				if (child instanceof JRDesignElement)
+				{
+					addElement((JRDesignElement)child);
+				}
+				else
+				{
+					addElementGroup((JRDesignElementGroup)child);
+				}
+			}
+		}
 	}
 
 	/**

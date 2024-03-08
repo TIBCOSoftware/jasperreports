@@ -41,6 +41,9 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -204,6 +207,12 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.IS_IGNORE_PAGINATION, Boolean.class };
 
 	
+	@JsonCreator
+	private JRDesignDataset()
+	{
+		this(false);
+	}
+
 	/**
 	 * Create a dataset.
 	 * 
@@ -461,9 +470,16 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRScriptlet JRScriptlet} objects
 	 */
+	@JsonIgnore
 	public List<JRScriptlet> getScriptletsList()
 	{
 		return scriptletsList;
+	}
+
+	
+	protected void setScriptlets(List<JRScriptlet> scriptlets)
+	{
+		this.scriptletsList = scriptlets;
 	}
 
 	
@@ -472,6 +488,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRScriptlet JRScriptlet} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRScriptlet> getScriptletsMap()
 	{
 		return scriptletsMap;
@@ -576,9 +593,22 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRParameter JRParameter} objects
 	 */
+	@JsonIgnore
 	public List<JRParameter> getParametersList()
 	{
 		return parametersList;
+	}
+
+	
+	protected void setParameters(List<JRParameter> parameters) throws JRException
+	{
+		if (parameters != null)
+		{
+			for (JRParameter parameter : parameters)
+			{
+				addParameter(parameter);
+			}
+		}
 	}
 
 	
@@ -587,6 +617,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRParameter JRParameter} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
@@ -731,9 +762,22 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRField JRField} objects
 	 */
+	@JsonIgnore
 	public List<JRField> getFieldsList()
 	{
 		return fieldsList;
+	}
+
+	
+	protected void setFields(List<JRField> fields) throws JRException
+	{
+		if (fields != null)
+		{
+			for (JRField field : fields)
+			{
+				addField(field);
+			}
+		}
 	}
 
 	
@@ -742,6 +786,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRField JRField} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRField> getFieldsMap()
 	{
 		return fieldsMap;
@@ -836,9 +881,22 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRSortField JRSortField} objects
 	 */
+	@JsonIgnore
 	public List<JRSortField> getSortFieldsList()
 	{
 		return sortFieldsList;
+	}
+
+	
+	protected void setSortFields(List<JRSortField> sortFields) throws JRException
+	{
+		if (sortFields != null)
+		{
+			for (JRSortField sortField : sortFields)
+			{
+				addSortField(sortField);
+			}
+		}
 	}
 
 	
@@ -847,6 +905,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRField JRField} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRSortField> getSortFieldsMap()
 	{
 		return sortFieldsMap;
@@ -929,10 +988,22 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRVariable JRVariable} objects
 	 */
-	
+	@JsonIgnore
 	public List<JRVariable> getVariablesList()
 	{
 		return variablesList;
+	}
+
+	
+	protected void setVariables(List<JRDesignVariable> variables) throws JRException
+	{
+		if (variables != null)
+		{
+			for (JRDesignVariable variable : variables)
+			{
+				addVariable(variable);
+			}
+		}
 	}
 
 	
@@ -941,6 +1012,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRVariable JRVariable} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRVariable> getVariablesMap()
 	{
 		return variablesMap;
@@ -1083,9 +1155,22 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRGroup JRGroup} objects
 	 */
+	@JsonIgnore
 	public List<JRGroup> getGroupsList()
 	{
 		return groupsList;
+	}
+
+	
+	protected void setGroups(List<JRDesignGroup> groups) throws JRException
+	{
+		if (groups != null)
+		{
+			for (JRDesignGroup group : groups)
+			{
+				addGroup(group);
+			}
+		}
 	}
 
 	
@@ -1094,12 +1179,11 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRGroup JRGroup} objects indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRGroup> getGroupsMap()
 	{
 		return groupsMap;
 	}
-
-	
 	/**
 	 * Adds a group to the dataset.
 	 * @param group the group to add
@@ -1133,7 +1217,7 @@ public class JRDesignDataset extends JRBaseDataset
 		countVariable.setName(group.getName() + "_COUNT");
 		countVariable.setValueClass(Integer.class);
 		countVariable.setResetType(ResetTypeEnum.GROUP);
-		countVariable.setResetGroup(group);
+		countVariable.setResetGroup(group.getName());
 		countVariable.setCalculation(CalculationEnum.COUNT);
 		countVariable.setSystemDefined(true);
 		JRDesignExpression expression = new JRDesignExpression();
@@ -1345,6 +1429,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * @return the list of property expressions ({@link DatasetPropertyExpression} instances)
 	 * @see #addPropertyExpression(DatasetPropertyExpression)
 	 */
+	@JsonIgnore
 	public List<DatasetPropertyExpression> getPropertyExpressionsList()
 	{
 		return propertyExpressions;
@@ -1366,6 +1451,18 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 
+	protected void setPropertyExpressions(List<DatasetPropertyExpression> properties)
+	{
+		if (properties != null)
+		{
+			for (DatasetPropertyExpression property : properties)
+			{
+				addPropertyExpression(property);
+			}
+		}
+	}
+
+	
 	/**
 	 * Sets the dataset filter expression.
 	 * <p>

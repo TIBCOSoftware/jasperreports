@@ -23,11 +23,19 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.design.JRDesignScriptlet;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignScriptlet.class)
 public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 {
 
@@ -36,6 +44,7 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 		
 	/**
@@ -51,11 +60,14 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Class<?> getValueClass();
 
 	/**
 	 *
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	public String getValueClassName();
 
 	/**
@@ -63,6 +75,8 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @return an array containing the expression-based properties of this scriptlet
 	 */
+	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPropertyExpression[] getPropertyExpressions();
 
 }

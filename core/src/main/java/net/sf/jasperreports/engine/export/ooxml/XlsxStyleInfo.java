@@ -134,7 +134,7 @@ public class XlsxStyleInfo
 		
 		if (!isIgnoreTextFormatting)
 		{
-			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			if (element != null && element.getMode() == ModeEnum.OPAQUE)
 			{
 				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 			}
@@ -182,7 +182,7 @@ public class XlsxStyleInfo
 		
 		if (!isIgnoreTextFormatting)
 		{
-			if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+			if (element != null && element.getMode() == ModeEnum.OPAQUE)
 			{
 				this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
 			}

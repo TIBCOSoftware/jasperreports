@@ -26,6 +26,10 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
@@ -44,6 +48,13 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	public static final String PROPERTY_XYZ_SERIES = "xyzSeries";
 	
 	private List<JRXyzSeries> xyzSeriesList = new ArrayList<>();
+
+
+	@JsonCreator
+	private JRDesignXyzDataset()
+	{
+		this(null);
+	}
 
 
 	/**
@@ -67,9 +78,22 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public List<JRXyzSeries> getSeriesList()
 	{
 		return xyzSeriesList;
+	}
+
+	@JsonSetter
+	private void setSeries(List<JRXyzSeries> series)
+	{
+		if (series != null)
+		{
+			for (JRXyzSeries s : series)
+			{
+				addXyzSeries(s);
+			}
+		}
 	}
 
 	/**

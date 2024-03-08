@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryContext;
@@ -129,7 +130,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 
 	protected boolean isEvaluateNow()
 	{
-		return getComponent().getEvaluationTime() == EvaluationTimeEnum.NOW;
+		return EvaluationTimeEnum.getValueOrDefault(getComponent().getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 
 	protected CVComponent getComponent()
@@ -287,7 +288,10 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 
 		// configuration.put(Processor.CONF_FILL_CONTEXT, this.fillContext);
 		configuration.put(Processor.CONF_PRINT_ELEMENT, element);
-		element.setParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE, this.component.getOnErrorType().getName());
+		element.setParameterValue(
+			CVPrintElement.PARAMETER_ON_ERROR_TYPE, 
+			this.component.getOnErrorType() == null ? OnErrorTypeEnum.ERROR.getName() : this.component.getOnErrorType().getName()
+			);
 
 		List<List<Map<String, Object>>> savedDatasetsData = new ArrayList<>();
 

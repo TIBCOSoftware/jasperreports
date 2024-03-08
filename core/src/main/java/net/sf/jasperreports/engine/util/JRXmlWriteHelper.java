@@ -583,9 +583,9 @@ public class JRXmlWriteHelper
 		writeAttribute(name, String.valueOf(value));
 	}
 	
-	public void addAttribute(String name, boolean value, boolean defaultValue)
+	public void addAttribute(String name, Boolean value, boolean defaultValue)
 	{
-		if (value != defaultValue)
+		if (value != null && value != defaultValue)
 		{
 			addAttribute(name, value);
 		}

@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
@@ -38,6 +41,7 @@ import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report design.
@@ -156,6 +160,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 * @param datasetName the sub dataset name
 	 * @see net.sf.jasperreports.engine.JRDatasetRun#getDatasetName()
 	 */
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_subDataset)
 	public void setDatasetName(String datasetName)
 	{
 		Object old = this.datasetName;
@@ -199,12 +204,35 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		return params;
 	}
 
+	@JsonSetter
+	private void setParameters(List<JRDatasetParameter> parameters) throws JRException
+	{
+		if (parameters != null)
+		{
+			for (JRDatasetParameter parameter : parameters)
+			{
+				addParameter(parameter);
+			}
+		}
+	}
+
 	public void setUUID(UUID uuid)
 	{
 		this.uuid = uuid;
 	}
 	
-	
+	@JsonSetter
+	private void setReturnValues(List<ReturnValue> returnValues) throws JRException
+	{
+		if (returnValues != null)
+		{
+			for (ReturnValue returnValue : returnValues)
+			{
+				addReturnValue(returnValue);
+			}
+		}
+	}
+
 	/**
 	 * Adds a return value to the subdataset run.
 	 * 
@@ -223,6 +251,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 * 
 	 * @return list of {@link ReturnValue ReturnValue} objects
 	 */
+	@JsonIgnore
 	public List<ReturnValue> getReturnValuesList()
 	{
 		return returnValues;

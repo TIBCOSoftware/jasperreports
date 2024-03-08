@@ -26,6 +26,8 @@ package xchart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
@@ -63,5 +65,17 @@ public class DesignXYDataset extends JRDesignElementDataset implements XYDataset
 			return xySeriesList.toArray(new XYSeries[xySeriesList.size()]);
 		}
 		return null;
+	}
+
+	@JsonSetter
+	private void setSeries(List<XYSeries> series)
+	{
+		if (series != null)
+		{
+			for (XYSeries s : series)
+			{
+				addXYSeries(s);
+			}
+		}
 	}
 }

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
@@ -51,7 +53,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * avoiding the default behavior in which the expression is evaluated immediately when the
  * current report section is generated.
  * <p/>
- * The <code>evaluationTime</code> attribute can have one of the following values (see {@link #getEvaluationTimeValue()}):
+ * The <code>evaluationTime</code> attribute can have one of the following values (see {@link #getEvaluationTime()}):
  * <ul>
  * <li><code>Now</code> - The expression is evaluated when the current band is filled.</li>
  * <li><code>Report</code> - The expression is evaluated when the end of the report is reached.</li>
@@ -77,12 +79,14 @@ public interface JREvaluation
 	 * Gets the evaluation time for this text field.
 	 * @return one of the evaluation time constants in {@link JRExpression}
 	 */
-	public EvaluationTimeEnum getEvaluationTimeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public EvaluationTimeEnum getEvaluationTime();
 
 	/**
 	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
 	 * @see EvaluationTimeEnum#GROUP
 	 */
-	public JRGroup getEvaluationGroup();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getEvaluationGroup();
 
 }
