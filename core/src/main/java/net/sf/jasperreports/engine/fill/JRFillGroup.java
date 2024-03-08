@@ -209,9 +209,9 @@ public class JRFillGroup implements JRGroup
 	}
 	
 	@Override
-	public FooterPositionEnum getFooterPositionValue()
+	public FooterPositionEnum getFooterPosition()
 	{
-		return parent.getFooterPositionValue();
+		return FooterPositionEnum.getValueOrDefault(parent.getFooterPosition());
 	}
 		
 	@Override

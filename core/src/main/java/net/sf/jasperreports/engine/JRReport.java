@@ -23,14 +23,31 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.jackson.util.ParameterSerializer;
+import net.sf.jasperreports.jackson.util.SectionSerializer;
+import net.sf.jasperreports.jackson.util.VariableSerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -278,6 +295,72 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.util.FormatFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonPropertyOrder({
+	JRXmlConstants.ATTRIBUTE_name,
+	JRXmlConstants.ATTRIBUTE_language,
+	JRXmlConstants.ATTRIBUTE_columnCount,
+	JRXmlConstants.ATTRIBUTE_printOrder,
+	JRXmlConstants.ATTRIBUTE_columnDirection,
+	JRXmlConstants.ATTRIBUTE_pageWidth,
+	JRXmlConstants.ATTRIBUTE_pageHeight,
+	JRXmlConstants.ATTRIBUTE_orientation,
+	JRXmlConstants.ATTRIBUTE_whenNoDataType,
+	JRXmlConstants.ATTRIBUTE_sectionType,
+	JRXmlConstants.ATTRIBUTE_columnWidth,
+	JRXmlConstants.ATTRIBUTE_columnSpacing,
+	JRXmlConstants.ATTRIBUTE_leftMargin,
+	JRXmlConstants.ATTRIBUTE_rightMargin,
+	JRXmlConstants.ATTRIBUTE_topMargin,
+	JRXmlConstants.ATTRIBUTE_bottomMargin,
+	JRXmlConstants.ATTRIBUTE_isTitleNewPage,
+	JRXmlConstants.ATTRIBUTE_isSummaryNewPage,
+	JRXmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter,
+	JRXmlConstants.ATTRIBUTE_isFloatColumnFooter,
+	JRXmlConstants.ATTRIBUTE_scriptletClass,
+	JRXmlConstants.ATTRIBUTE_formatFactoryClass,
+	JRXmlConstants.ATTRIBUTE_resourceBundle,
+	JRXmlConstants.ATTRIBUTE_whenResourceMissingType,
+	JRXmlConstants.ATTRIBUTE_isIgnorePagination,
+	JRXmlConstants.ATTRIBUTE_uuid,
+	"properties",
+	JRXmlConstants.ELEMENT_property,
+	"propertyExpressions",
+	JRXmlConstants.ELEMENT_propertyExpression,
+	"imports",
+	JRXmlConstants.ELEMENT_import,
+	"templates",
+	JRXmlConstants.ELEMENT_template,
+	"styles", // for JSON 
+	JRXmlConstants.ATTRIBUTE_style, // for XML
+	"datasets",
+	JRXmlConstants.ELEMENT_dataset,
+	"scriptlets",
+	JRXmlConstants.ELEMENT_scriptlet,
+	"parameters", // for JSON 
+	JRXmlConstants.ELEMENT_parameter, // for XML
+	"query",
+	"fields", // for JSON 
+	JRXmlConstants.ELEMENT_field, // for XML
+	"sortFields", // for JSON 
+	JRXmlConstants.ELEMENT_sortField, // for XML
+	"variables", // for JSON 
+	JRXmlConstants.ELEMENT_variable, // for XML
+	JRXmlConstants.ELEMENT_filterExpression,
+	"groups", // for JSON 
+	JRXmlConstants.ATTRIBUTE_group, // for XML
+	JRXmlConstants.ELEMENT_background,
+	JRXmlConstants.ELEMENT_title,
+	JRXmlConstants.ELEMENT_pageHeader,
+	JRXmlConstants.ELEMENT_columnHeader,
+	JRXmlConstants.ELEMENT_detail,
+	JRXmlConstants.ELEMENT_columnFooter,
+	JRXmlConstants.ELEMENT_pageFooter,
+	JRXmlConstants.ELEMENT_lastPageFooter,
+	JRXmlConstants.ELEMENT_summary,
+	JRXmlConstants.ELEMENT_noData
+	})
+@JsonRootName("jasperReport")
+@JsonDeserialize(as = JasperDesign.class)
 public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JRIdentifiable
 {
 
@@ -307,50 +390,59 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	/**
 	 * Gets the report name.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 
 	/**
 	 * Gets the report language. Should be Java or Groovy.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLanguage();
 
 	/**
 	 * Gets the number of columns on each page
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getColumnCount();
 
 	/**
 	 * Specifies whether columns will be filled horizontally or vertically.
 	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
 	 */
-	public PrintOrderEnum getPrintOrderValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public PrintOrderEnum getPrintOrder();
 	
 	/**
 	 * Specifies whether columns will be filled from left to right or from right to left.
 	 * @return a value representing one of the column direction constants in {@link RunDirectionEnum}
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public RunDirectionEnum getColumnDirection();
 	
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getPageWidth();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getPageHeight();
 
 	/**
 	 * Specifies whether document pages will be rendered in a portrait or landscape layout.
 	 * @return a value representing one of the orientation constants in {@link OrientationEnum}
 	 */
-	public OrientationEnum getOrientationValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public OrientationEnum getOrientation();
 
 	/**
 	 * Specifies the report behavior in case of empty datasources.
 	 */
-	public WhenNoDataTypeEnum getWhenNoDataTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public WhenNoDataTypeEnum getWhenNoDataType();
 
 	/**
 	 * Sets the report behavior in case of empty datasources.
@@ -361,51 +453,67 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 * Specifies whether report sections are made of bands or of parts.
 	 * @return a value representing one of the section type constants in {@link SectionTypeEnum}
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public SectionTypeEnum getSectionType();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getColumnWidth();
 
 	/**
 	 * Specifies the space between columns on the same page.
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getColumnSpacing();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getLeftMargin();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getRightMargin();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getTopMargin();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public int getBottomMargin();
 
 	/**
 	 * Specifies if the title section will be printed on a separate initial page.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isTitleNewPage();
 
 	/**
 	 * Specifies if the summary section will be printed on a separate last page.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isSummaryNewPage();
 
 	/**
 	 * Specifies if the summary section will be accompanied by the page header and footer.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isSummaryWithPageHeaderAndFooter();
 
 	/**
@@ -413,27 +521,32 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 * will immediately follow the last detail or group footer printed on the current column.
 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isFloatColumnFooter();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getScriptletClass();
 
 	/**
 	 * Gets the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
 	 * interface to use with this report.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getFormatFactoryClass();
 
 	/**
 	 * Gets the base name of the report associated resource bundle.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getResourceBundle();
 
 	/**
 	 * Gets an array of report properties names.
 	 */
+	@JsonIgnore
 	public String[] getPropertyNames();
 
 	/**
@@ -457,26 +570,37 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 * 
 	 * @return an array containing the expression-based properties of this report
 	 */
+	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public DatasetPropertyExpression[] getPropertyExpressions();
 	
 	/**
 	 * Gets an array of imports (needed if report expression require additional classes in order to compile).
 	 */
+	@JacksonXmlProperty(localName = "import")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public String[] getImports();
 
 	/**
 	 * Gets an array of report styles.
 	 */
+	@JacksonXmlProperty(localName = "style")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRStyle[] getStyles();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "scriptlet")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRScriptlet[] getScriptlets();
 
 	/**
 	 *
 	 */
+	@JsonSerialize(contentUsing = ParameterSerializer.class)
+	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRParameter[] getParameters();
 
 	/**
@@ -487,21 +611,30 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "field")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRField[] getFields();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "sortField")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSortField[] getSortFields();
 
 	/**
 	 *
 	 */
+	@JsonSerialize(contentUsing = VariableSerializer.class)
+	@JacksonXmlProperty(localName = "variable")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRVariable[] getVariables();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "group")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRGroup[] getGroups();
 
 	/**
@@ -527,6 +660,9 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	/**
 	 *
 	 */
+	@JsonProperty("detail")
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonSerialize(using = SectionSerializer.class)
 	public JRSection getDetailSection();
 
 	/**
@@ -557,7 +693,8 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	/**
 	 * Returns the resource missing handling type.
 	 */
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType();
 
 	/**
 	 * Sets the resource missing handling type.
@@ -573,6 +710,7 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 *
 	 * @return the main report dataset
 	 */
+	@JsonIgnore
 	public JRDataset getMainDataset();
 
 
@@ -581,6 +719,8 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 *
 	 * @return the datasets of this report
 	 */
+	@JacksonXmlProperty(localName = "dataset")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRDataset[] getDatasets();
 
 
@@ -594,6 +734,7 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 *
 	 * @return whether to use pagination when filling the report
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isIgnorePagination();
 
 
@@ -614,6 +755,8 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	 * @see JRTemplate
 	 * @see JRParameter#REPORT_TEMPLATES
 	 */
+	@JacksonXmlProperty(localName = "template")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRReportTemplate[] getTemplates();
 
 }

@@ -23,13 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.io.InputStream;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * 
@@ -38,8 +35,8 @@ import net.sf.jasperreports.repo.RepositoryContext;
 public interface ReportLoader
 {
 
-	JasperDesign loadReport(JasperReportsContext context, InputStream data) throws JRException;
+	JasperDesign loadReport(JasperReportsContext context, byte[] data) throws JRException;
 
-	JRTemplate loadTemplate(RepositoryContext context, InputStream data);
+	JRTemplate loadTemplate(JasperReportsContext context, byte[] data);
 	
 }

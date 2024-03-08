@@ -103,7 +103,7 @@ class JRDistinctCountIncrementer implements JRIncrementer
 			lastHolder = holder;
 		}
 		
-		if (variable.getResetTypeValue() == ResetTypeEnum.REPORT || variable.isInitialized())
+		if (variable.getResetType() == ResetTypeEnum.REPORT || variable.isInitialized())
 		{
 			holder.addLastValue();
 		}

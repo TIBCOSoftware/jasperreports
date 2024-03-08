@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignDataRange;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -32,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignDataRange.class)
 public interface JRDataRange extends JRCloneable
 {
 	/**

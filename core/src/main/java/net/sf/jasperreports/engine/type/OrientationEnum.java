@@ -62,4 +62,12 @@ public enum OrientationEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static OrientationEnum getValueOrDefault(OrientationEnum value)
+	{
+		return value == null ? PORTRAIT : value;
+	}
 }

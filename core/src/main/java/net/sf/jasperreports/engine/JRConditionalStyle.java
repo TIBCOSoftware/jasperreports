@@ -23,10 +23,20 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.JRDesignConditionalStyle;
+
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignConditionalStyle.class)
 public interface JRConditionalStyle extends JRStyle
 {
+	@Override
+	@JsonIgnore
+	public boolean isDefault(); // override just for the sake of the json annotation
+
 	public JRExpression getConditionExpression();
 }

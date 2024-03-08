@@ -424,7 +424,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 						PageFormat pageFormat = printerJob.defaultPage();
 						Paper paper = pageFormat.getPaper();
 						
-						switch (jasperPrint.getOrientationValue())
+						switch (jasperPrint.getOrientation())
 						{
 							case LANDSCAPE :
 							{
@@ -529,7 +529,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 		{
 			int printableWidth;
 			int printableHeight;
-			switch (jPrint.getOrientationValue())
+			switch (jPrint.getOrientation())
 			{
 				case LANDSCAPE:
 					printableWidth = jPrint.getPageHeight();
@@ -555,7 +555,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 		if (!printRequestAttributeSet.containsKey(OrientationRequested.class))
 		{
 			OrientationRequested orientation;
-			switch (jPrint.getOrientationValue())
+			switch (jPrint.getOrientation())
 			{
 				case LANDSCAPE:
 					orientation = OrientationRequested.LANDSCAPE;

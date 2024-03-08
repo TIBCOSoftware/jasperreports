@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
 
@@ -61,6 +65,9 @@ public class JRTemplateReference
 	 * 
 	 * @return the template location
 	 */
+	@JsonValue //FIXMEJACK this inhibits the CDATA in XML
+	@JacksonXmlText
+	@JacksonXmlCData
 	public String getLocation()
 	{
 		return location;

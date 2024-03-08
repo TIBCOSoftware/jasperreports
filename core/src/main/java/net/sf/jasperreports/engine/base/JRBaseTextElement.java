@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
@@ -53,7 +55,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	protected HorizontalTextAlignEnum horizontalTextAlign;
 	protected VerticalTextAlignEnum verticalTextAlign;
-	protected RotationEnum rotationValue;
+	protected RotationEnum rotation;
 	
 	protected String markup;
 
@@ -68,7 +70,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Float fontsize;
+	protected Float fontSize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -88,7 +90,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 
 		horizontalTextAlign = textElement.getOwnHorizontalTextAlign();
 		verticalTextAlign = textElement.getOwnVerticalTextAlign();
-		rotationValue = textElement.getOwnRotationValue();
+		rotation = textElement.getOwnRotation();
 		markup = textElement.getOwnMarkup();
 
 		lineBox = textElement.getLineBox().clone(this);
@@ -99,7 +101,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		isItalic = textElement.isOwnItalic();
 		isUnderline = textElement.isOwnUnderline();
 		isStrikeThrough = textElement.isOwnStrikeThrough();
-		fontsize = textElement.getOwnFontsize();
+		fontSize = textElement.getOwnFontSize();
 		pdfFontName = textElement.getOwnPdfFontName();
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
@@ -147,23 +149,23 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	@Override
-	public RotationEnum getRotationValue()
+	public RotationEnum getRotation()
 	{
-		return getStyleResolver().getRotationValue(this);
+		return getStyleResolver().getRotation(this);
 	}
 
 	@Override
-	public RotationEnum getOwnRotationValue()
+	public RotationEnum getOwnRotation()
 	{
-		return this.rotationValue;
+		return this.rotation;
 	}
 
 	@Override
-	public void setRotation(RotationEnum rotationValue)
+	public void setRotation(RotationEnum rotation)
 	{
-		Object old = this.rotationValue;
-		this.rotationValue = rotationValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ROTATION, old, this.rotationValue);
+		Object old = this.rotation;
+		this.rotation = rotation;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	@Override
@@ -198,8 +200,14 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		return paragraph;
 	}
 
+	@JsonSetter
+	private void setParagraph(JRParagraph paragraph)
+	{
+		this.paragraph = paragraph;
+	}
+
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -323,15 +331,15 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return getStyleResolver().getFontsize(this);
+		return getStyleResolver().getFontSize(this);
 	}
 
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return fontsize;
+		return fontSize;
 	}
 
 	/**
@@ -340,9 +348,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	@Override
 	public void setFontSize(Float fontSize)
 	{
-		Object old = this.fontsize;
-		this.fontsize = fontSize;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FONT_SIZE, old, this.fontsize);
+		Object old = this.fontSize;
+		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	@Override

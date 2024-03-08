@@ -77,7 +77,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}

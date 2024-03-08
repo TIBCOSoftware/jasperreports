@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -156,11 +157,12 @@ public class JRXmlLoader
 	 */
 	public JasperDesign loadXML(InputStream is) throws JRException
 	{
+		byte[] data = JRLoader.loadBytes(is);
 		List<ReportLoader> loaders = jasperReportsContext.getExtensions(ReportLoader.class);
 		for (ReportLoader reportLoader : loaders)
 		{
 			//TODO legacyxml ignoreConsistencyProblems
-			JasperDesign report = reportLoader.loadReport(jasperReportsContext, is);
+			JasperDesign report = reportLoader.loadReport(jasperReportsContext, data);
 			if (report != null)
 			{
 				return report;

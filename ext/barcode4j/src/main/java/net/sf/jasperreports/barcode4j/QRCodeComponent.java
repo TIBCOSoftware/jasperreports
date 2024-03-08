@@ -23,11 +23,13 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -35,7 +37,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:QRCode")
+@JsonTypeName("barcode4j:QRCode")
 public class QRCodeComponent extends BarcodeComponent
 {
 	
@@ -77,6 +79,7 @@ public class QRCodeComponent extends BarcodeComponent
 		visitor.visitQRCode(this);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMargin()
 	{
 		return margin;
@@ -89,9 +92,10 @@ public class QRCodeComponent extends BarcodeComponent
 		getEventSupport().firePropertyChange(PROPERTY_MARGIN, old, this.margin);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public ErrorCorrectionLevelEnum getErrorCorrectionLevel()
 	{
-		return errorCorrectionLevel == null ? ErrorCorrectionLevelEnum.L : errorCorrectionLevel;
+		return errorCorrectionLevel;
 	}
 	
 	public void setErrorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel)
@@ -102,6 +106,7 @@ public class QRCodeComponent extends BarcodeComponent
 				old, this.errorCorrectionLevel);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getQrVersion() 
 	{
 		return qrVersion;

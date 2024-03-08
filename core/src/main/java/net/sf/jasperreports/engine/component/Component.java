@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRComponentElement;
 
@@ -37,6 +41,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRComponentElement
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
 public interface Component
 {
 	

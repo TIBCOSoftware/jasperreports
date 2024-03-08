@@ -50,7 +50,7 @@ public class BaseCommonReturnValue implements CommonReturnValue, Serializable
 	/**
 	 * The calculation type.
 	 */
-	protected CalculationEnum calculation = CalculationEnum.NOTHING;
+	protected CalculationEnum calculation;
 	
 	/**
 	 * The incrementer factory class name.

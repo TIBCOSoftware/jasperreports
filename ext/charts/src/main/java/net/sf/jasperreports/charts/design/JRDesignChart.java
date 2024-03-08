@@ -28,6 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonMerge;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartVisitorFactory;
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChart;
@@ -42,7 +48,6 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -56,6 +61,8 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.ReportDeserializer;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -109,7 +116,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 *
 	 */
 	protected Boolean showLegend;
-	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	protected EvaluationTimeEnum evaluationTime;
 	protected String linkType;
 	protected String linkTarget;
 	protected Color titleColor;
@@ -125,15 +132,15 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRFont titleFont;
 	protected JRFont subtitleFont;
 	protected JRFont legendFont;
-	protected EdgeEnum legendPositionValue;
-	protected EdgeEnum titlePositionValue;
+	protected EdgeEnum legendPosition;
+	protected EdgeEnum titlePosition;
 
 	protected String customizerClass;
 
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup;
+	protected String evaluationGroup;
 	protected JRExpression titleExpression;
 	protected JRExpression subtitleExpression;
 	protected JRExpression anchorNameExpression;
@@ -146,6 +153,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	private List<JRHyperlinkParameter> hyperlinkParameters;
 
 	protected JRChartDataset dataset;
+	@JsonMerge
 	protected JRChartPlot plot;
 
 	/**
@@ -159,6 +167,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	protected int bookmarkLevel = JRAnchor.NO_BOOKMARK;
 
+
+	@JsonCreator
+	private JRDesignChart(@JsonProperty("chartType") byte chartType)
+	{
+		this(ReportDeserializer.getDefaultStyleProvider(), chartType);
+	}
 
 	/**
 	 *
@@ -177,6 +191,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public ChartsStyleResolver getChartsStyleResolver()
 	{
 		return new ChartsStyleResolver(getStyleResolver()); //FIXME7
@@ -226,23 +241,23 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 		
 	/**
 	 *
 	 */
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
@@ -250,7 +265,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public void setEvaluationGroup(JRGroup group)
+	public void setEvaluationGroup(String group)
 	{
 		Object old = this.evaluationGroup;
 		this.evaluationGroup = group;
@@ -263,6 +278,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		return lineBox;
 	}
 
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
+	private void setLineBox(JRLineBox lineBox)
+	{
+		this.lineBox = lineBox == null ? null : lineBox.clone(this);
+	}
+	
 	@Override
 	public JRFont getTitleFont()
 	{
@@ -280,17 +301,17 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	@Override
-	public EdgeEnum getTitlePositionValue()
+	public EdgeEnum getTitlePosition()
 	{
-		return titlePositionValue;
+		return titlePosition;
 	}
 
 	@Override
-	public void setTitlePosition(EdgeEnum titlePositionValue)
+	public void setTitlePosition(EdgeEnum titlePosition)
 	{
-		EdgeEnum old = this.titlePositionValue;
-		this.titlePositionValue = titlePositionValue;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePositionValue);
+		EdgeEnum old = this.titlePosition;
+		this.titlePosition = titlePosition;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_TITLE_POSITION, old, this.titlePosition);
 	}
 
 	@Override
@@ -406,23 +427,23 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	@Override
-	public EdgeEnum getLegendPositionValue()
+	public EdgeEnum getLegendPosition()
 	{
-		return legendPositionValue;
+		return legendPosition;
 	}
 
 	@Override
-	public void setLegendPosition(EdgeEnum legendPositionValue)
+	public void setLegendPosition(EdgeEnum legendPosition)
 	{
-		EdgeEnum old = this.legendPositionValue;
-		this.legendPositionValue = legendPositionValue;
-		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPositionValue);
+		EdgeEnum old = this.legendPosition;
+		this.legendPosition = legendPosition;
+		getEventSupport().firePropertyChange(JRBaseChart.PROPERTY_LEGEND_POSITION, old, this.legendPosition);
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	/**
@@ -437,9 +458,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	/**
@@ -762,7 +783,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -831,11 +852,25 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	}
 	
 	
+	@JsonSetter
+	private void setHyperlinkParameters(List<JRHyperlinkParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRHyperlinkParameter parameter : parameters)
+			{
+				addHyperlinkParameter(parameter);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Returns the list of custom hyperlink parameters.
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
+	@JsonIgnore
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;

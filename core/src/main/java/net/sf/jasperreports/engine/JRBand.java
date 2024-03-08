@@ -25,8 +25,14 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -95,6 +101,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JRSection
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NONE) // this is needed because JRBand extends JRChild, which has subtypes annotations
+@JsonDeserialize(as = JRDesignBand.class)
 public interface JRBand extends JRElementGroup, JRPropertiesHolder
 {
 	
@@ -115,12 +123,14 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getHeight();
 
 	/**
 	 * Specifies the band split behavior.
 	 */
-	public SplitTypeEnum getSplitTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public SplitTypeEnum getSplitType();
 
 	/**
 	 *

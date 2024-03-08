@@ -146,7 +146,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				
 				RegularTimePeriod tp = 
 					RegularTimePeriod.createInstance(
-						ChartUtil.getTimePeriod(getTimePeriodValue()), 
+						ChartUtil.getTimePeriod(getTimePeriod()), 
 						crtTimeSeries.getTimePeriod(), 
 						getTimeZone()
 						);
@@ -196,8 +196,8 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 
 
 	@Override
-	public TimePeriodEnum getTimePeriodValue() {
-		return ((JRTimeSeriesDataset)parent).getTimePeriodValue();
+	public TimePeriodEnum getTimePeriod() {
+		return ((JRTimeSeriesDataset)parent).getTimePeriod();
 	}
 
 	@Override

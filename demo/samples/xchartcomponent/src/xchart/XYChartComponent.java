@@ -25,6 +25,9 @@ package xchart;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -35,6 +38,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@JsonTypeName("XYChart")
 public class XYChartComponent implements Component, Serializable
 {
 
@@ -73,6 +77,7 @@ public class XYChartComponent implements Component, Serializable
 		this.dataset = dataset;
 	}
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public EvaluationTimeEnum getEvaluationTime()
 	{
 		return evaluationTime;
@@ -83,6 +88,7 @@ public class XYChartComponent implements Component, Serializable
 		this.evaluationTime = evaluationTime;
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;

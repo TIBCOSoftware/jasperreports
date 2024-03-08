@@ -60,9 +60,9 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	@Override
-	public ValueLocationEnum getValueLocationValue()
+	public ValueLocationEnum getValueLocation()
 	{
-		return ((JRThermometerPlot)parent).getValueLocationValue();
+		return ((JRThermometerPlot)parent).getValueLocation();
 	}
 
 	@Override

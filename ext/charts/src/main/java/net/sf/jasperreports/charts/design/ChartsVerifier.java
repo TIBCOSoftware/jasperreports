@@ -74,7 +74,7 @@ public class ChartsVerifier implements ChartVisitor // extends JRVerifier
 	{
 		parent.verifyReportElement(chart);
 		
-		if (chart.getEvaluationTimeValue() == EvaluationTimeEnum.AUTO)
+		if (chart.getEvaluationTime() == EvaluationTimeEnum.AUTO)
 		{
 			parent.addBrokenRule("Charts do not support Auto evaluation time.", chart);
 		}

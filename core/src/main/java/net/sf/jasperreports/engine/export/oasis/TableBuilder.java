@@ -299,7 +299,7 @@ public class TableBuilder
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -318,7 +318,7 @@ public class TableBuilder
 
 		double x1, y1, x2, y2;
 
-		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+		if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 		{
 			x1 = 0;
 			y1 = 0;
@@ -660,7 +660,7 @@ public class TableBuilder
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTargetValue())
+		switch(link.getHyperlinkTarget())
 		{
 			case SELF :
 			{

@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
@@ -200,11 +201,21 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(InputStream data)
 	{
+		byte[] bytes;
+		try
+		{
+			bytes = JRLoader.loadBytes(data);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
 		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
 		List<ReportLoader> loaders = jasperReportsContext.getExtensions(ReportLoader.class);
 		for (ReportLoader reportLoader : loaders)
 		{
-			JRTemplate template = reportLoader.loadTemplate(repositoryContext, data);
+			JRTemplate template = reportLoader.loadTemplate(jasperReportsContext, bytes);
 			if (template != null)
 			{
 				return template;

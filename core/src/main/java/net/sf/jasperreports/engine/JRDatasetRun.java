@@ -25,6 +25,14 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
 /**
  * Interface of an sub dataset instantiation.
  * <p/>
@@ -53,6 +61,7 @@ import java.util.List;
  * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetRun()
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignDatasetRun.class)
 public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesHolder
 {
 	/**
@@ -60,6 +69,8 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 * 
 	 * @return the sub dataset name
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_subDataset)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_subDataset, isAttribute = true)
 	public String getDatasetName();
 	
 	
@@ -78,6 +89,8 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 * 
 	 * @return the list of parameter values
 	 */
+	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRDatasetParameter[] getParameters();
 
 	
@@ -105,6 +118,8 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 *
 	 * @return the list of copied values.
 	 */
+	@JacksonXmlProperty(localName = "returnValue")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ReturnValue> getReturnValues();
 
 }

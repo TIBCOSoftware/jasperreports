@@ -34,7 +34,6 @@ import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
-import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -54,7 +53,6 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.interactivity.commands.CommandTarget;
 import net.sf.jasperreports.interactivity.sort.actions.FilterAction;
-import net.sf.jasperreports.interactivity.sort.actions.FilterCommand;
 import net.sf.jasperreports.interactivity.sort.actions.SortAction;
 import net.sf.jasperreports.jackson.util.JacksonUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
@@ -117,9 +115,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
-			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontsize());
+			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
 			
-			if (element.getModeValue() == ModeEnum.OPAQUE)
+			if (element.getMode() == ModeEnum.OPAQUE)
 			{
 				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
@@ -183,7 +181,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				for (JRSortField field: existingFields) {
 					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
 						sortField = sortColumnName + SortElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + SortElement.SORT_COLUMN_TOKEN_SEPARATOR;
-						switch (field.getOrderValue()) {
+						switch (field.getOrder()) {
 							case ASCENDING:
 								sortField += SortElement.SORT_ORDER_ASC;
 								break;

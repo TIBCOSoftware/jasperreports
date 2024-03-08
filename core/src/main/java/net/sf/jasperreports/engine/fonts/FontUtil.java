@@ -117,9 +117,9 @@ public final class FontUtil
 			{
 				destFont.setStrikeThrough(srcFont.isOwnStrikeThrough());
 			}
-			if (srcFont.getOwnFontsize() != null)
+			if (srcFont.getOwnFontSize() != null)
 			{
-				destFont.setFontSize(srcFont.getOwnFontsize());
+				destFont.setFontSize(srcFont.getOwnFontSize());
 			}
 			if (srcFont.getOwnPdfFontName() != null)
 			{
@@ -144,7 +144,7 @@ public final class FontUtil
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
 
-		attributes.put(TextAttribute.SIZE, font.getFontsize());
+		attributes.put(TextAttribute.SIZE, font.getFontSize());
 
 		if (font.isBold())
 		{
@@ -603,7 +603,7 @@ public final class FontUtil
 			getAwtFontFromBundles(
 				font.getFontName(), 
 				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
-				font.getFontsize(),
+				font.getFontSize(),
 				locale,
 				true
 				);

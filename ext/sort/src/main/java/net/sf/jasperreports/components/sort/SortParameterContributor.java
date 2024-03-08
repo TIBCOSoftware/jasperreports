@@ -208,14 +208,14 @@ public class SortParameterContributor implements ParameterContributor
 		int indexOfExistingSortField = sortFields.indexOf(newSortField);
 		if (indexOfExistingSortField != -1) {
 			// remove sortfield if previos order was 'Descending'
-			boolean mustRemove = (sortFields.get(indexOfExistingSortField)).getOrderValue().equals(SortOrderEnum.DESCENDING);
+			boolean mustRemove = (sortFields.get(indexOfExistingSortField)).getOrder().equals(SortOrderEnum.DESCENDING);
 			if (mustRemove) {
 				sortFields.remove(indexOfExistingSortField);
 			} else {
-				((JRDesignSortField)sortFields.get(indexOfExistingSortField)).setOrder(newSortField.getOrderValue());
+				((JRDesignSortField)sortFields.get(indexOfExistingSortField)).setOrder(newSortField.getOrder());
 			}
 			
-		} else if (newSortField.getOrderValue() != null) { // this is necessary because a dummy order - None - is introduced
+		} else if (newSortField.getOrder() != null) { // this is necessary because a dummy order - None - is introduced
 			sortFields.add(newSortField);
 		}
 	}

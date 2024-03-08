@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignAreaPlot;
 
 /**
  * Area charts and Stacked Area charts rely on this plot to render their axes and items. This 
@@ -31,6 +35,8 @@ package net.sf.jasperreports.charts;
  * 
  * @author Flavus Sana (flavius_sana@users.sourceforge.net) 
  */
+@JsonTypeName("area")
+@JsonDeserialize(as = JRDesignAreaPlot.class)
 public interface JRAreaPlot extends JRCategoryPlot
 {
 }

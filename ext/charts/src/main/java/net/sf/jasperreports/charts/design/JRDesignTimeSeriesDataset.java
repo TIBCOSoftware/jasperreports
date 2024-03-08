@@ -26,6 +26,10 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRTimeSeries;
@@ -50,8 +54,14 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	public static final String PROPERTY_TIME_SERIES = "timeSeries";
 	
 	private List<JRTimeSeries> timeSeriesList = new ArrayList<>();
-	private TimePeriodEnum timePeriodValue;
+	private TimePeriodEnum timePeriod;
 	
+
+	@JsonCreator
+	private JRDesignTimeSeriesDataset()
+	{
+		this(null);
+	}
 
 	/**
 	 * 
@@ -73,9 +83,22 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public List<JRTimeSeries> getSeriesList()
 	{
 		return timeSeriesList;
+	}
+
+	@JsonSetter
+	private void setSeries(List<JRTimeSeries> series)
+	{
+		if (series != null)
+		{
+			for (JRTimeSeries s : series)
+			{
+				addTimeSeries(s);
+			}
+		}
 	}
 
 	/**
@@ -117,17 +140,17 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	}
 
 	@Override
-	public TimePeriodEnum getTimePeriodValue() 
+	public TimePeriodEnum getTimePeriod() 
 	{
-		return timePeriodValue;
+		return timePeriod;
 	}
 	
 	@Override
-	public void setTimePeriod(TimePeriodEnum timePeriodValue)
+	public void setTimePeriod(TimePeriodEnum timePeriod)
 	{
-		Object old = this.timePeriodValue;
-		this.timePeriodValue = timePeriodValue;
-		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriodValue);
+		Object old = this.timePeriod;
+		this.timePeriod = timePeriod;
+		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
 	}
 
 	@Override

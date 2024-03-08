@@ -67,7 +67,7 @@ products that use the open-source library to produce dynamic content and rich da
 
 **JasperReports IO** - *reporting and data visualization in a world of cloud, microservices, and DevOps*
 
-[JasperReports IO](https://www.jaspersoft.com/products/jasperreports-io) is a RESTful reporting and data 
+[JasperReports IO](https://www.jaspersoft.com/products/jaspersoft-commercial) is a RESTful reporting and data 
 visualization service built on *JasperReports Library*, designed for generating reports and data visualizations in 
 modern software architectures. Just as the *JasperReports Library* offers a `Java API` to leverage a powerful and high 
 quality reporting engine inside Java applications, *JasperReports IO* offers a `REST API` to leverage the same reporting 

@@ -640,7 +640,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTargetValue())
+		switch(link.getHyperlinkTarget())
 		{
 			case SELF :
 			{
@@ -678,7 +678,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			{
 				boolean includeAnchors = !Boolean.TRUE.equals(configuration.isIgnoreAnchors());
 				boolean onePagePerSheet = Boolean.TRUE.equals(configuration.isOnePagePerSheet());
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{
@@ -1032,7 +1032,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1048,7 +1048,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				
 				int angle = 0;
 
-				switch (image.getScaleImageValue())
+				switch (image.getScaleImage())
 				{
 					case FILL_FRAME :
 					{
@@ -1493,7 +1493,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 				int hashCode = image.hashCode();
 				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (hashCode > 0 ? hashCode : -hashCode) + "\" name=\"Picture\"" + altText + ">\n");
 
-				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
+				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkType()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkType()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)
 				{
 					drawingHelper.exportHyperlink(href);
@@ -1547,7 +1547,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			this.imageElement = imageElement;
 			this.colIndex = colIndex;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			this.needDimension = imageElement.getScaleImage() != ScaleImageEnum.FILL_FRAME; 
 			if (
 				imageElement.getRotation() == RotationEnum.LEFT
 				|| imageElement.getRotation() == RotationEnum.RIGHT
@@ -1597,7 +1597,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						imageRenderersCache,
 						renderer,
 						new Dimension(availableImageWidth, availableImageHeight),
-						ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+						ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 						);
 
 				byte[] imageData = imageRenderer.getData(jasperReportsContext);
@@ -1647,12 +1647,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		float ratio = line.getWidth() / (float)line.getHeight();
 		if (ratio > 1)
 		{
-			if(line.getHeight() > 1)
+			if (line.getHeight() > 1)
 			{
-				direction = line.getDirectionValue();
+				direction = line.getDirection();
 				pen = box.getPen();
 			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			else if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getTopPen();
 			}
@@ -1663,12 +1663,12 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		}
 		else
 		{
-			if(line.getWidth() > 1)
+			if (line.getWidth() > 1)
 			{
-				direction = line.getDirectionValue();
+				direction = line.getDirection();
 				pen = box.getPen();
 			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			else if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getLeftPen();
 			}
@@ -1678,7 +1678,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		cellHelper.exportHeader(box,
@@ -1705,7 +1705,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		cellHelper.exportHeader(box,
@@ -1772,7 +1772,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 			isCellLocked(text),
 			isShrinkToFit(text), 
 			isIgnoreTextFormatting(text),
-			text.getRotationValue(),
+			text.getRotation(),
 			sheetInfo,
 			null,
 			parentStyle);
@@ -1801,7 +1801,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 					colIndex,
 					maxColumnIndex,
 					href, 
-					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkTypeValue()));
+					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkType()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkType()));
 		}
 
 		

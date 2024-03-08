@@ -100,7 +100,7 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 		categoryAxisTickLabelMask = areaPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = areaPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = areaPlot.getOwnCategoryAxisLineColor();
-		labelRotationDouble = areaPlot.getCategoryAxisTickLabelRotation();
+		labelRotation = areaPlot.getCategoryAxisTickLabelRotation();
 		
 		valueAxisLabelExpression = parentFactory.getExpression( areaPlot.getValueAxisLabelExpression() );
 		domainAxisMinValueExpression = parentFactory.getExpression( areaPlot.getDomainAxisMinValueExpression() );
@@ -172,15 +172,15 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 	@Override
 	public Double getCategoryAxisTickLabelRotation()
 	{
-		return labelRotationDouble;
+		return labelRotation;
 	}
 
 	@Override
-	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
+	public void setCategoryAxisTickLabelRotation(Double labelRotation)
 	{
-		Object old = this.labelRotationDouble;
-		this.labelRotationDouble = labelRotationDouble;
-		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
+		Object old = this.labelRotation;
+		this.labelRotation = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotation);
 	}
 
 	@Override

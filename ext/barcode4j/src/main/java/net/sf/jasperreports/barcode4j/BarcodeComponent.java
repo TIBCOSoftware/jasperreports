@@ -25,6 +25,8 @@ package net.sf.jasperreports.barcode4j;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -59,7 +61,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
-	private EvaluationTimeEnum evaluationTimeValue;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	
 	private JRExpression codeExpression;
@@ -68,19 +70,21 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	{
 	}
 	
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	@JacksonXmlProperty(isAttribute = true)
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue == null ? EvaluationTimeEnum.NOW : evaluationTimeValue;
+		return evaluationTime;
 	}
 
-	public void setEvaluationTimeValue(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, 
-				old, this.evaluationTimeValue);
+				old, this.evaluationTime);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;

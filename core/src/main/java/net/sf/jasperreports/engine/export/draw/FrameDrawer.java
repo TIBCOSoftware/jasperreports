@@ -135,7 +135,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 				);
 		}
 		
-		if (frame.getModeValue() == ModeEnum.OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(frame.getBackcolor());
 			grx.fillRect(

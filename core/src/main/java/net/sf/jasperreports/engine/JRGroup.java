@@ -23,7 +23,17 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.jackson.util.SectionSerializer;
 
 
 /**
@@ -136,6 +146,7 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
  * might be wrong after they are moved.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignGroup.class)
 public interface JRGroup extends JRCloneable
 {
 
@@ -143,11 +154,13 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the group name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 	
 	/**
 	 * Gets the flag that signals if the group header should be printed always on a new column.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isStartNewColumn();
 		
 	/**
@@ -158,6 +171,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group header should be printed always on a new page.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isStartNewPage();
 		
 	/**
@@ -169,6 +183,7 @@ public interface JRGroup extends JRCloneable
 	 * Gets the flag that signals if the group header should be printed always on a new page, along with the
 	 * re-initialization of the page number.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isResetPageNumber();
 		
 	/**
@@ -180,11 +195,13 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group header should be reprinted at the beginning of each page.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isReprintHeaderOnEachPage();
 		
 	/**
 	 * Gets the flag that signals if the group header should be reprinted at the beginning of each column, in vertically filled reports only.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isReprintHeaderOnEachColumn();
 		
 	/**
@@ -201,6 +218,7 @@ public interface JRGroup extends JRCloneable
 	 * Gets the minimum amount of vertical space needed at the bottom of the column in order to place the
 	 * group header on the current column.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getMinHeightToStartNewPage();
 
 	/**
@@ -212,6 +230,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the minimum number of details to be rendered on the current column, to avoid starting the group on a new column.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getMinDetailsToStartFromTop();
 
 	/**
@@ -222,7 +241,8 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Specifies how the group footer section behaves with regards to its position on the current page.
 	 */
-	public FooterPositionEnum getFooterPositionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public FooterPositionEnum getFooterPosition();
 
 	/**
 	 * Specifies the group footer section behavior with regards to its position on the current page.
@@ -232,6 +252,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group should be prevented from splitting on first break attempt.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isKeepTogether();
 		
 	/**
@@ -242,6 +263,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group footer should be prevented from appearing without a detail at the top of a new page/column.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPreventOrphanFooter();
 		
 	/**
@@ -257,16 +279,23 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the header section created for this group.
 	 */
+	@JsonProperty("groupHeader")
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonSerialize(using = SectionSerializer.class)
 	public JRSection getGroupHeaderSection();
 		
 	/**
 	 * Gets the footer section created for this group.
 	 */
+	@JsonProperty("groupFooter")
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonSerialize(using = SectionSerializer.class)
 	public JRSection getGroupFooterSection();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRVariable getCountVariable();
 
 

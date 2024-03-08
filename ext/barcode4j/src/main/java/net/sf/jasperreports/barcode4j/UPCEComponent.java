@@ -23,16 +23,18 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.component.ComponentSpec;
-
 import org.krysalis.barcode4j.ChecksumMode;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:UPCE")
+@JsonTypeName("barcode4j:UPCE")
 public class UPCEComponent extends Barcode4jComponent
 {
 
@@ -42,6 +44,7 @@ public class UPCEComponent extends Barcode4jComponent
 
 	private String checksumMode;
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;

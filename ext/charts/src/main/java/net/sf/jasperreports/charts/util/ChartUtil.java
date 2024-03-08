@@ -453,14 +453,14 @@ public final class ChartUtil
 		return plotOrientation;
 	}
 	
-	public static final PlotOrientationEnum getPlotOrientation(PlotOrientation plotOrientationValue)
+	public static final PlotOrientationEnum getPlotOrientation(PlotOrientation jfcPlotOrientation)
 	{
 		PlotOrientationEnum plotOrientation = null;
-		if (plotOrientationValue == PlotOrientation.VERTICAL)
+		if (jfcPlotOrientation == PlotOrientation.VERTICAL)
 		{
 			plotOrientation = PlotOrientationEnum.VERTICAL;
 		}
-		else if (plotOrientationValue == PlotOrientation.HORIZONTAL)
+		else if (jfcPlotOrientation == PlotOrientation.HORIZONTAL)
 		{
 			plotOrientation = PlotOrientationEnum.HORIZONTAL;
 		}
@@ -487,36 +487,6 @@ public final class ChartUtil
 				case ON_BOTH_AXES : 
 				{
 					scaleType = XYBubbleRenderer.SCALE_ON_BOTH_AXES;
-					break;
-				}
-				default :
-				{
-				}
-			}
-		}
-		return scaleType;
-	}
-	
-	public static final ScaleTypeEnum getScaleType(Integer scaleTypeValue)
-	{
-		ScaleTypeEnum scaleType = null;
-		if (scaleTypeValue != null)
-		{
-			switch (scaleTypeValue)
-			{
-				case XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS : 
-				{
-					scaleType = ScaleTypeEnum.ON_DOMAIN_AXIS;
-					break;
-				}
-				case XYBubbleRenderer.SCALE_ON_RANGE_AXIS : 
-				{
-					scaleType = ScaleTypeEnum.ON_RANGE_AXIS;
-					break;
-				}
-				case XYBubbleRenderer.SCALE_ON_BOTH_AXES : 
-				{
-					scaleType = ScaleTypeEnum.ON_BOTH_AXES;
 					break;
 				}
 				default :

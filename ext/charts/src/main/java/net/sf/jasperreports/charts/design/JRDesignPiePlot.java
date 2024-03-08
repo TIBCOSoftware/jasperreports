@@ -23,11 +23,12 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBasePiePlot;
 import net.sf.jasperreports.engine.JRConstants;
-
 
 
 /**
@@ -35,14 +36,19 @@ import net.sf.jasperreports.engine.JRConstants;
  */
 public class JRDesignPiePlot extends JRBasePiePlot
 {
-
-
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
+	@JsonCreator
+	private JRDesignPiePlot()
+	{
+		this(null, null);
+	}
+
+	
 	/**
 	 *
 	 */

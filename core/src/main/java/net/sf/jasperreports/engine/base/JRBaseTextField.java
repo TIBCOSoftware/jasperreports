@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
@@ -57,8 +56,8 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected TextAdjustEnum textAdjust = TextAdjustEnum.CUT_TEXT;
-	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	protected TextAdjustEnum textAdjust;
+	protected EvaluationTimeEnum evaluationTime;
 	protected String pattern;
 	protected Boolean isBlankWhenNull;
 	protected String linkType;
@@ -68,7 +67,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup;
+	protected String evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
@@ -93,14 +92,14 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		super(textField, factory);
 		
 		textAdjust = textField.getTextAdjust();
-		evaluationTimeValue = textField.getEvaluationTimeValue();
+		evaluationTime = textField.getEvaluationTime();
 		pattern = textField.getOwnPattern();
 		isBlankWhenNull = textField.isOwnBlankWhenNull();
 		linkType = textField.getLinkType();
 		linkTarget = textField.getLinkTarget();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(textField, factory);
 
-		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
+		evaluationGroup = textField.getEvaluationGroup();
 		expression = factory.getExpression(textField.getExpression());
 		patternExpression = factory.getExpression(textField.getPatternExpression());
 		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
@@ -129,9 +128,9 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 		
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return this.evaluationTimeValue;
+		return this.evaluationTime;
 	}
 		
 	@Override
@@ -175,25 +174,19 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 
 	@Override
-	public void setBlankWhenNull(boolean isBlank)
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		setBlankWhenNull((Boolean)isBlank);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
-	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
-	}
-		
-	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
 		return this.evaluationGroup;
 	}

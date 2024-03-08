@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -80,8 +83,15 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	protected Integer spacingBefore;
 	protected Integer spacingAfter;
 	protected Integer tabStopWidth;
-	protected List<TabStop> tabStops;
+	protected List<TabStop> tabStopsList;
 
+	
+	@JsonCreator
+	private JRBaseParagraph()
+	{
+		this(null);
+	}
+	
 	
 	/**
 	 *
@@ -310,36 +320,54 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	@Override
 	public TabStop[] getOwnTabStops()
 	{
-		if (tabStops == null || tabStops.size() == 0)
+		if (tabStopsList == null || tabStopsList.size() == 0)
 		{
 			return null;
 		}
 		
-		return tabStops.toArray(new TabStop[tabStops.size()]);
+		return tabStopsList.toArray(new TabStop[tabStopsList.size()]);
+	}
+	
+	/*
+	 * JACKSON-TIP
+	 * The name of this setter is important here because it needs to match the name of the getter in the interface
+	 * so that Jackson can match up json and xml field names from the annotations of that getter.
+	 * A similar case exists with the includedTemplates field in the JRTemplate interface.
+	 */
+	@JsonSetter
+	private void setOwnTabStops(List<TabStop> tabStops)
+	{
+		if (tabStops != null)
+		{
+			for (TabStop tabStop : tabStops)
+			{
+				addTabStop(tabStop);
+			}
+		}
 	}
 	
 	@Override
 	public void addTabStop(TabStop tabStop)
 	{
-		if (tabStops == null)
+		if (tabStopsList == null)
 		{
-			tabStops = new ArrayList<>();
+			tabStopsList = new ArrayList<>();
 		}
 		
-		tabStops.add(tabStop);
+		tabStopsList.add(tabStop);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, tabStops.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, tabStopsList.size() - 1);
 	}
 	
 	@Override
 	public void addTabStop(int index, TabStop tabStop)
 	{
-		if (tabStops == null)
+		if (tabStopsList == null)
 		{
-			tabStops = new ArrayList<>();
+			tabStopsList = new ArrayList<>();
 		}
 		
-		tabStops.add(index, tabStop);
+		tabStopsList.add(index, tabStop);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, index);
 	}
@@ -347,12 +375,12 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	@Override
 	public void removeTabStop(TabStop tabStop)
 	{
-		if (tabStops != null)
+		if (tabStopsList != null)
 		{
-			int index = tabStops.indexOf(tabStop);
+			int index = tabStopsList.indexOf(tabStop);
 			if (index >= 0)
 			{
-				tabStops.remove(index);
+				tabStopsList.remove(index);
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TAB_STOPS, tabStop, index);
 			}
 		}
@@ -361,11 +389,11 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	@Override
 	public void removeTabStop(int index)
 	{
-		if (tabStops != null)
+		if (tabStopsList != null)
 		{
-			if (index >= 0 && index < tabStops.size())
+			if (index >= 0 && index < tabStopsList.size())
 			{
-				TabStop tabStop = tabStops.remove(index);
+				TabStop tabStop = tabStopsList.remove(index);
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TAB_STOPS, tabStop, index);
 			}
 		}
@@ -387,7 +415,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		}
 		
 		clone.paragraphContainer = paragraphContainer;
-		clone.tabStops = JRCloneUtils.cloneList(tabStops);
+		clone.tabStopsList = JRCloneUtils.cloneList(tabStopsList);
 		clone.eventSupport = null;
 
 		return clone;
@@ -422,7 +450,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		hash.add(spacingBefore);
 		hash.add(spacingAfter);
 		hash.add(tabStopWidth);
-		hash.addIdentical(tabStops);
+		hash.addIdentical(tabStopsList);
 		return hash.getHashCode();
 	}
 
@@ -451,7 +479,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 				&& ObjectUtils.equals(spacingBefore, para.spacingBefore)
 				&& ObjectUtils.equals(spacingAfter, para.spacingAfter)
 				&& ObjectUtils.equals(tabStopWidth, para.tabStopWidth)
-				&& ObjectUtils.identical(tabStops, para.tabStops);
+				&& ObjectUtils.identical(tabStopsList, para.tabStopsList);
 	}
 
 	@Override
@@ -469,7 +497,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		TabStop[] tabStopArray = getTabStops();
 		if (tabStopArray != null)
 		{
-			tabStops = new ArrayList<>(Arrays.asList(tabStopArray));
+			tabStopsList = new ArrayList<>(Arrays.asList(tabStopArray));
 		}
 	}
 

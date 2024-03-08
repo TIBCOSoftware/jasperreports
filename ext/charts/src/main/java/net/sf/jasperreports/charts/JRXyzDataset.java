@@ -23,12 +23,20 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
+import net.sf.jasperreports.charts.design.JRDesignXyzDataset;
+
 /**
  * The XYZ dataset wraps series consisting of (x, y, z) items. 
  * It is used only by the Bubble chart
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
+@JsonTypeName("xyz")
+@JsonDeserialize(as = JRDesignXyzDataset.class)
 public interface JRXyzDataset extends JRChartDataset {
 	
 	/**
@@ -36,6 +44,7 @@ public interface JRXyzDataset extends JRChartDataset {
 	 * series for the XYZ charts.
 	 * @see JRXyzSeries
 	 */
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRXyzSeries[] getSeries();
 
 }

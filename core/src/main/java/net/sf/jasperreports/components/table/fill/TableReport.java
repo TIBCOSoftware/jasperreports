@@ -1013,9 +1013,9 @@ public class TableReport implements JRReport
 							{
 								suffix += 
 									"" 
-									+ (sortField.getOrderValue() == SortOrderEnum.ASCENDING 
+									+ (sortField.getOrder() == SortOrderEnum.ASCENDING 
 										? propertiesUtil.getProperty(PROPERTY_UP_ARROW_CHAR)
-										: (sortField.getOrderValue() == SortOrderEnum.DESCENDING 
+										: (sortField.getOrder() == SortOrderEnum.DESCENDING 
 											? propertiesUtil.getProperty(PROPERTY_DOWN_ARROW_CHAR)
 											: ""));
 							}
@@ -2118,7 +2118,7 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public OrientationEnum getOrientationValue()
+	public OrientationEnum getOrientation()
 	{
 		return OrientationEnum.PORTRAIT;
 	}
@@ -2154,7 +2154,7 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public PrintOrderEnum getPrintOrderValue()
+	public PrintOrderEnum getPrintOrder()
 	{
 		return PrintOrderEnum.VERTICAL;
 	}
@@ -2265,7 +2265,7 @@ public class TableReport implements JRReport
 	}
 	
 	@Override
-	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
+	public WhenNoDataTypeEnum getWhenNoDataType()
 	{
 		WhenNoDataTypeTableEnum whenNoDataType = table.getWhenNoDataType(); 
 		if (whenNoDataType == null)
@@ -2304,9 +2304,9 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return mainDataset.getWhenResourceMissingTypeValue();
+		return mainDataset.getWhenResourceMissingType();
 	}
 
 	@Override

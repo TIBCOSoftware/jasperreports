@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -38,6 +39,7 @@ public interface ContextAwareComponent extends Component
 	/**
 	 *
 	 */
+	@JsonIgnore
 	ComponentContext getContext();
 
 }

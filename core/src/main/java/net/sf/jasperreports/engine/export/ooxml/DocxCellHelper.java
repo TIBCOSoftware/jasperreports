@@ -120,7 +120,7 @@ public class DocxCellHelper extends BaseHelper
 		if (align != null)
 		{
 			JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
-			RotationEnum rotation = text == null ? null : text.getRotationValue();
+			RotationEnum rotation = text == null ? null : text.getRotation();
 			
 			String verticalAlignment = 
 				getVerticalAlignment(

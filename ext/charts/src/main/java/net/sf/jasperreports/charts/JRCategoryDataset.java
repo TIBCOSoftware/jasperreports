@@ -23,6 +23,12 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
+import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
+
 /**
  * This dataset accommodates one or more data series consisting of values associated with 
  * categories. It is used to render Bar, Bar 3D, Stacked Bar, Line, Area, and Stacked Area 
@@ -30,6 +36,8 @@ package net.sf.jasperreports.charts;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("category")
+@JsonDeserialize(as = JRDesignCategoryDataset.class)
 public interface JRCategoryDataset extends JRChartDataset
 {
 	
@@ -39,6 +47,7 @@ public interface JRCategoryDataset extends JRChartDataset
 	 * 
 	 * @see JRCategorySeries
 	 */
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCategorySeries[] getSeries();
 
 }

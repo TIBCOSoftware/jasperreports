@@ -145,13 +145,13 @@ public class ReadOnlyPartJasperPrint extends JasperPrint
 	}
 
 	@Override
-	public OrientationEnum getOrientationValue()
+	public OrientationEnum getOrientation()
 	{
-		return part == null ? parentJasperPrint.getOrientationValue() : part.getPageFormat().getOrientation();
+		return part == null ? parentJasperPrint.getOrientation() : part.getPageFormat().getOrientation();
 	}
 		
 	@Override
-	public void setOrientation(OrientationEnum orientationValue)
+	public void setOrientation(OrientationEnum orientation)
 	{
 		throw new UnsupportedOperationException();
 	}

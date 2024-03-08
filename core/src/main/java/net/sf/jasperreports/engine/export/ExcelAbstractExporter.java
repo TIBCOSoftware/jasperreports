@@ -766,7 +766,7 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement) {
-		JRStyledTextAttributeSelector selector = textElement.getModeValue() == ModeEnum.OPAQUE ? allSelector
+		JRStyledTextAttributeSelector selector = textElement.getMode() == ModeEnum.OPAQUE ? allSelector
 				: noBackcolorSelector;
 		return textElement.getFullStyledText(selector);
 	}
@@ -777,9 +777,9 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 	public static TextAlignHolder getTextAlignHolder(JRPrintText textElement) {
 		HorizontalTextAlignEnum horizontalAlignment;
 		VerticalTextAlignEnum verticalAlignment;
-		RotationEnum rotation = textElement.getRotationValue();
+		RotationEnum rotation = textElement.getRotation();
 
-		switch (textElement.getRotationValue()) {
+		switch (textElement.getRotation()) {
 		case LEFT: {
 			switch (textElement.getHorizontalTextAlign()) {
 			case JUSTIFIED: {

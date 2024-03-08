@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.DatasetPropertyExpression;
@@ -275,11 +278,11 @@ public class JasperDesign extends JRBaseReport
 	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum VERTICAL,
 	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum HORIZONTAL
 	 */
-	public void setPrintOrder(PrintOrderEnum printOrderValue)
+	public void setPrintOrder(PrintOrderEnum printOrder)
 	{
-		Object old = this.printOrderValue;
-		this.printOrderValue = printOrderValue;
-		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrderValue);
+		Object old = this.printOrder;
+		this.printOrder = printOrder;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
 	}
 
 
@@ -321,11 +324,11 @@ public class JasperDesign extends JRBaseReport
 	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_PORTRAIT,
 	 * @see net.sf.jasperreports.engine.JRReport ORIENTATION_LANDSCAPE
 	 */
-	public void setOrientation(OrientationEnum orientationValue)
+	public void setOrientation(OrientationEnum orientation)
 	{
-		Object old = this.orientationValue;
-		this.orientationValue = orientationValue;
-		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
+		Object old = this.orientation;
+		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
 
@@ -601,6 +604,19 @@ public class JasperDesign extends JRBaseReport
 		}
 	}
 
+	
+	@JsonSetter
+	private void setImports(List<String> imports)
+	{
+		if (imports != null)
+		{
+			for (String imp : imports)
+			{
+				addImport(imp);
+			}
+		}
+	}
+
 
 	/**
 	 * Removes an import.
@@ -663,15 +679,30 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report level styles. These styles can be referenced by report elements.
 	 */
+	@JsonIgnore
 	public List<JRStyle> getStylesList()
 	{
 		return stylesList;
 	}
 
 
+	@JsonSetter
+	private void setStyles(List<JRStyle> styles) throws JRException
+	{
+		if (styles != null)
+		{
+			for (JRStyle style : styles)
+			{
+				addStyle(style);
+			}
+		}
+	}
+
+
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Map<String, JRStyle> getStylesMap()
 	{
 		return stylesMap;
@@ -749,15 +780,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report scriptlets (excluding the one specified by scriptletClass).
 	 */
+	@JsonIgnore
 	public List<JRScriptlet> getScriptletsList()
 	{
 		return mainDesignDataset.getScriptletsList();
 	}
 
 
+	@JsonSetter
+	private void setScriptlets(List<JRScriptlet> scriptlets)
+	{
+		mainDesignDataset.setScriptlets(scriptlets);
+	}
+
+	
 	/**
 	 * Gets a map of report scriptlets (excluding the one specified by scriptletClass).
 	 */
+	@JsonIgnore
 	public Map<String, JRScriptlet> getScriptletsMap()
 	{
 		return mainDesignDataset.getScriptletsMap();
@@ -779,6 +819,13 @@ public class JasperDesign extends JRBaseReport
 	public JRScriptlet removeScriptlet(String scriptletName)
 	{
 		return mainDesignDataset.removeScriptlet(scriptletName);
+	}
+
+
+	@JsonSetter
+	private void setPropertyExpressions(List<DatasetPropertyExpression> properties) throws JRException
+	{
+		mainDesignDataset.setPropertyExpressions(properties);
 	}
 
 
@@ -812,6 +859,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public List<DatasetPropertyExpression> getPropertyExpressionsList()
 	{
 		return mainDesignDataset.getPropertyExpressionsList();
@@ -830,15 +878,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report parameters (including built-in ones).
 	 */
+	@JsonIgnore
 	public List<JRParameter> getParametersList()
 	{
 		return mainDesignDataset.getParametersList();
 	}
 
 
+	@JsonSetter
+	private void setParameters(List<JRParameter> parameters) throws JRException
+	{
+		mainDesignDataset.setParameters(parameters);
+	}
+
+
 	/**
 	 * Gets a map of report parameters (including built-in ones).
 	 */
+	@JsonIgnore
 	public Map<String, JRParameter> getParametersMap()
 	{
 		return mainDesignDataset.getParametersMap();
@@ -884,15 +941,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report fields.
 	 */
+	@JsonIgnore
 	public List<JRField> getFieldsList()
 	{
 		return mainDesignDataset.getFieldsList();
 	}
 
 
+	@JsonSetter
+	private void setFields(List<JRField> fields) throws JRException
+	{
+		mainDesignDataset.setFields(fields);
+	}
+
+
 	/**
 	 * Gets a map of report fields.
 	 */
+	@JsonIgnore
 	public Map<String, JRField> getFieldsMap()
 	{
 		return mainDesignDataset.getFieldsMap();
@@ -929,9 +995,17 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of sort report fields.
 	 */
+	@JsonIgnore
 	public List<JRSortField> getSortFieldsList()
 	{
 		return mainDesignDataset.getSortFieldsList();
+	}
+
+
+	@JsonSetter
+	private void setSortFields(List<JRSortField> sortFields) throws JRException
+	{
+		mainDesignDataset.setSortFields(sortFields);
 	}
 
 
@@ -956,15 +1030,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report variables.
 	 */
+	@JsonIgnore
 	public List<JRVariable> getVariablesList()
 	{
 		return mainDesignDataset.getVariablesList();
 	}
 
 
+	@JsonSetter
+	private void setVariables(List<JRDesignVariable> variables) throws JRException
+	{
+		mainDesignDataset.setVariables(variables);
+	}
+
+
 	/**
 	 * Gets a map of report variables.
 	 */
+	@JsonIgnore
 	public Map<String, JRVariable> getVariablesMap()
 	{
 		return mainDesignDataset.getVariablesMap();
@@ -1001,15 +1084,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets an array of report groups.
 	 */
+	@JsonIgnore
 	public List<JRGroup> getGroupsList()
 	{
 		return mainDesignDataset.getGroupsList();
 	}
 
 
+	@JsonSetter
+	private void setGroups(List<JRDesignGroup> groups) throws JRException
+	{
+		mainDesignDataset.setGroups(groups);
+	}
+
+
 	/**
 	 * Gets a list of report groups.
 	 */
+	@JsonIgnore
 	public Map<String, JRGroup> getGroupsMap()
 	{
 		return mainDesignDataset.getGroupsMap();
@@ -1046,6 +1138,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Returns a collection of all report expressions.
 	 */
+	@JsonIgnore
 	public Collection<JRExpression> getExpressions()
 	{
 		return JRExpressionCollector.collectExpressions(DefaultJasperReportsContext.getInstance(), this);
@@ -1061,12 +1154,25 @@ public class JasperDesign extends JRBaseReport
 	}
 
 
+	@JsonSetter
+	private void setDatasets(List<JRDesignDataset> datasets) throws JRException
+	{
+		if (datasets != null)
+		{
+			for (JRDesignDataset dataset : datasets)
+			{
+				addDataset(dataset);
+			}
+		}
+	}
+
 
 	/**
 	 * Returns the list of report sub datasets.
 	 *
 	 * @return list of {@link JRDesignDataset JRDesignDataset} objects
 	 */
+	@JsonIgnore
 	public List<JRDataset> getDatasetsList()
 	{
 		return datasetList;
@@ -1078,6 +1184,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return the sub datasets of the report indexed by name
 	 */
+	@JsonIgnore
 	public Map<String, JRDataset> getDatasetMap()
 	{
 		return datasetMap;
@@ -1160,6 +1267,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return the main report dataset
 	 */
+	@JsonIgnore
 	public JRDesignDataset getMainDesignDataset()
 	{
 		return mainDesignDataset;
@@ -1304,9 +1412,22 @@ public class JasperDesign extends JRBaseReport
 	 * @see #getTemplates()
 	 * @see #addTemplate(JRReportTemplate)
 	 */
+	@JsonIgnore
 	public List<JRReportTemplate> getTemplatesList()
 	{
 		return templateList;
+	}
+	
+	@JsonSetter
+	private void setTemplates(List<JRReportTemplate> templates)
+	{
+		if (templates != null)
+		{
+			for (JRReportTemplate template : templates)
+			{
+				addTemplate(template);
+			}
+		}
 	}
 	
 	protected void setBandOrigin(JRBand band, BandTypeEnum type)

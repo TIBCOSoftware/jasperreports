@@ -23,8 +23,19 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
@@ -33,6 +44,8 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.jackson.util.BooleanTrueAsEmptySerializer;
+import net.sf.jasperreports.jackson.util.ParameterSerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -40,6 +53,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("crosstab")
+@JsonDeserialize(as = JRDesignCrosstab.class)
 public interface JRCrosstab extends JRElement, JRBoxContainer
 {
 	/**
@@ -106,6 +121,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the ID of the crosstab
 	 */
+	@JsonIgnore
 	public int getId();
 	
 	/**
@@ -120,6 +136,8 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the row groups
 	 */
+	@JacksonXmlProperty(localName = "rowGroup")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabRowGroup[] getRowGroups();
 		
 	/**
@@ -127,6 +145,8 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the column groups
 	 */
+	@JacksonXmlProperty(localName = "columnGroup")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabColumnGroup[] getColumnGroups();
 	
 	/**
@@ -134,6 +154,8 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the crosstab measures
 	 */
+	@JacksonXmlProperty(localName = "measure")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabMeasure[] getMeasures();
 
 	/**
@@ -146,6 +168,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the column break offset
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getColumnBreakOffset();
 	
 	/**
@@ -153,6 +176,9 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return whether to repeat the column headers after a row break
 	 */
+	@JsonSerialize(using = BooleanTrueAsEmptySerializer.class)
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isRepeatColumnHeaders();
 	
 	/**
@@ -160,6 +186,9 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return whether to repeat the row headers after a column break
 	 */
+	@JsonSerialize(using = BooleanTrueAsEmptySerializer.class)
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isRepeatRowHeaders();
 	
 	/**
@@ -224,6 +253,10 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the data cell matrix
 	 */
+	@JsonIgnore
+//	@JsonGetter("cells")
+//	@JacksonXmlProperty(localName = "cell")
+//	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabCell[][] getCells();
 	
 	/**
@@ -238,6 +271,9 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * 
 	 * @return the crosstab parameters
 	 */
+	@JsonSerialize(contentUsing = ParameterSerializer.class)
+	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabParameter[] getParameters();
 	
 	/**
@@ -294,6 +330,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @see #VARIABLE_COLUMN_COUNT
 	 * @see #VARIABLE_IS_EVEN_COLUMN
 	 */
+	@JsonIgnore
 	public JRVariable[] getVariables();
 	
 	
@@ -301,7 +338,8 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * Retrieves the run direction of this crosstab
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
 	 */
-	public RunDirectionEnum getRunDirectionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public RunDirectionEnum getRunDirection();
 	
 	/**
 	 * Sets the run direction of the crosstab.
@@ -320,6 +358,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * does not specify a flag value
 	 * @see #setIgnoreWidth(Boolean)
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getIgnoreWidth();
 	
 	/**
@@ -355,6 +394,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @return the position of the crosstab within its element box, 
 	 * <code>null</code> if no position is specified
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public HorizontalPosition getHorizontalPosition();
 	
 	/**

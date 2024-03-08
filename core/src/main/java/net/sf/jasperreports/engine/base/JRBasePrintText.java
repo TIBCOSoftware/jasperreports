@@ -73,8 +73,8 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected float leadingOffset;
 	protected HorizontalTextAlignEnum horizontalTextAlign;
 	protected VerticalTextAlignEnum verticalTextAlign;
-	protected RotationEnum rotationValue;
-	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
+	protected RotationEnum rotation;
+	protected RunDirectionEnum runDirection = RunDirectionEnum.LTR;
 	protected float textHeight;
 	protected String markup;
 	protected TextFormat textFormat;
@@ -104,7 +104,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Float fontsize;
+	protected Float fontSize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -128,7 +128,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -285,33 +285,33 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	@Override
-	public RotationEnum getRotationValue()
+	public RotationEnum getRotation()
 	{
-		return getStyleResolver().getRotationValue(this);
+		return getStyleResolver().getRotation(this);
 	}
 		
 	@Override
-	public RotationEnum getOwnRotationValue()
+	public RotationEnum getOwnRotation()
 	{
-		return rotationValue;
+		return rotation;
 	}
 
 	@Override
-	public void setRotation(RotationEnum rotationValue)
+	public void setRotation(RotationEnum rotation)
 	{
-		this.rotationValue = rotationValue;
+		this.rotation = rotation;
 	}
 
 	@Override
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
-		return this.runDirectionValue;
+		return this.runDirection;
 	}
 
 	@Override
-	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	public void setRunDirection(RunDirectionEnum runDirection)
 	{
-		this.runDirectionValue = runDirectionValue;
+		this.runDirection = runDirection;
 	}
 	@Override
 	public float getTextHeight()
@@ -381,7 +381,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		isItalic = font.isOwnItalic();
 		isUnderline = font.isOwnUnderline();
 		isStrikeThrough = font.isOwnStrikeThrough();
-		fontsize = font.getOwnFontsize();
+		fontSize = font.getOwnFontSize();
 		pdfFontName = font.getOwnPdfFontName();
 		pdfEncoding = font.getOwnPdfEncoding();
 		isPdfEmbedded = font.isOwnPdfEmbedded();
@@ -406,9 +406,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 		
 	@Override
@@ -418,9 +418,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 		
 	@Override
@@ -596,15 +596,15 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return getStyleResolver().getFontsize(this);
+		return getStyleResolver().getFontSize(this);
 	}
 
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return fontsize;
+		return fontSize;
 	}
 
 	/**
@@ -613,7 +613,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	@Override
 	public void setFontSize(Float fontSize)
 	{
-		this.fontsize = fontSize;
+		this.fontSize = fontSize;
 	}
 
 	@Override

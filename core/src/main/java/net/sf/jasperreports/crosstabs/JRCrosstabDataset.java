@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabDataset;
 import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
@@ -30,6 +34,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignCrosstabDataset.class)
 public interface JRCrosstabDataset extends JRElementDataset
 {
 	/**
@@ -44,5 +49,6 @@ public interface JRCrosstabDataset extends JRElementDataset
 	 * 
 	 * @return whether the crosstab data is pre-sorted
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isDataPreSorted();
 }

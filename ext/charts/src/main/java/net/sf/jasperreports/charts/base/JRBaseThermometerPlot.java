@@ -120,7 +120,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 
 		valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), factory);
 
-		valueLocationObject = thermoPlot.getValueLocationValue();
+		valueLocationObject = thermoPlot.getValueLocation();
 
 		mercuryColor = thermoPlot.getMercuryColor();
 
@@ -151,7 +151,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	}
 
 	@Override
-	public ValueLocationEnum getValueLocationValue()
+	public ValueLocationEnum getValueLocation()
 	{
 		return valueLocationObject;
 	}

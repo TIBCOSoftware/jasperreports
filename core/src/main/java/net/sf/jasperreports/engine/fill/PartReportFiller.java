@@ -140,12 +140,13 @@ public class PartReportFiller extends BaseReportFiller
 	@Override
 	protected void jasperReportSet()
 	{
-		if (jasperReport.getSectionType() != SectionTypeEnum.PART)
+		SectionTypeEnum sectionType = SectionTypeEnum.getValueOrDefault(jasperReport.getSectionType());
+		if (sectionType != SectionTypeEnum.PART)
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE,
-					new Object[]{jasperReport.getSectionType()});
+					new Object[]{sectionType});
 		}
 	}
 
@@ -199,7 +200,7 @@ public class PartReportFiller extends BaseReportFiller
 			jasperPrint.setLeftMargin(jasperReport.getLeftMargin());
 			jasperPrint.setBottomMargin(jasperReport.getBottomMargin());
 			jasperPrint.setRightMargin(jasperReport.getRightMargin());
-			jasperPrint.setOrientation(jasperReport.getOrientationValue());
+			jasperPrint.setOrientation(jasperReport.getOrientation());
 
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));

@@ -201,7 +201,11 @@ public class DocxParagraphHelper extends BaseHelper
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				write("   <w:tab w:pos=\"" + LengthUtil.twip(tabStop.getPosition()) + "\" w:val=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\"/>\n");
+				write(
+					"   <w:tab w:pos=\"" + LengthUtil.twip(tabStop.getPosition()) 
+					+ "\" w:val=\"" + getTabStopAlignment(TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment())) 
+					+ "\"/>\n"
+					);
 			}
 			write("   </w:tabs>\n");
 		}
@@ -356,20 +360,16 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public static String getTabStopAlignment(TabStopAlignEnum alignment)
 	{
-		if (alignment != null)
+		switch (alignment)
 		{
-			switch (alignment)
-			{
-				case RIGHT :
-					return TAB_STOP_ALIGN_RIGHT;
-				case CENTER :
-					return TAB_STOP_ALIGN_CENTER;
-				case LEFT :
-				default :
-					return TAB_STOP_ALIGN_LEFT;
-			}
+			case RIGHT :
+				return TAB_STOP_ALIGN_RIGHT;
+			case CENTER :
+				return TAB_STOP_ALIGN_CENTER;
+			case LEFT :
+			default :
+				return TAB_STOP_ALIGN_LEFT;
 		}
-		return null;
 	}
 	
 	/**

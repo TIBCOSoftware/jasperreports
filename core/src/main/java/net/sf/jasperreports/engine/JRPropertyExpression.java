@@ -23,12 +23,20 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.jackson.util.PropertyExpressionDeserializer;
+import net.sf.jasperreports.jackson.util.PropertyExpressionSerializer;
+
 /**
  * Report property with a value based on an expression.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRElement#getPropertyExpressions()
  */
+@JsonSerialize(using = PropertyExpressionSerializer.class)
+@JsonDeserialize(using = PropertyExpressionDeserializer.class)
 public interface JRPropertyExpression extends JRCloneable
 {
 	

@@ -23,12 +23,18 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignLinePlot;
 
 /**
  * Type of plot used to render Line charts.
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
+@JsonTypeName("line")
+@JsonDeserialize(as = JRDesignLinePlot.class)
 public interface JRLinePlot extends JRCategoryPlot, JRCommonLinePlot
 {
 }

@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
-
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -31,10 +33,10 @@ package net.sf.jasperreports.engine;
 public interface JRStyleContainer
 {
 
-
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRDefaultStyleProvider getDefaultStyleProvider();
 
 	/**
@@ -42,6 +44,7 @@ public interface JRStyleContainer
 	 * 
 	 * @return this object's style
 	 */
+	@JsonIgnore
 	public JRStyle getStyle();
 
 	/**
@@ -54,6 +57,19 @@ public interface JRStyleContainer
 	 * 
 	 * @return the name of an external style
 	 */
+	@JsonIgnore
 	public String getStyleNameReference();
+
+	@JsonGetter("style")
+	@JacksonXmlProperty(localName = "style", isAttribute = true)
+	public default String getStyleName()
+	{
+		if (getStyle() != null)
+		{
+			return getStyle().getName();
+		}
+		
+		return getStyleNameReference();
+	}
 
 }

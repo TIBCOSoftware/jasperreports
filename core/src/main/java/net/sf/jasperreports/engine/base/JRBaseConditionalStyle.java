@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
@@ -56,16 +58,16 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	{
 		this.parentStyle = parentStyle;
 
-		modeValue = style.getOwnModeValue();
+		mode = style.getOwnMode();
 		forecolor = style.getOwnForecolor();
 		backcolor = style.getOwnBackcolor();
 
 		linePen = style.getLinePen().clone(this);
-		fillValue = style.getOwnFillValue();
+		fill = style.getOwnFill();
 
 		radius = style.getOwnRadius();
 
-		scaleImageValue = style.getOwnScaleImageValue();
+		scaleImage = style.getOwnScaleImage();
 		horizontalTextAlign = style.getOwnHorizontalTextAlign();
 		verticalTextAlign = style.getOwnVerticalTextAlign();
 		horizontalImageAlign = style.getOwnHorizontalImageAlign();
@@ -74,7 +76,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		lineBox = style.getLineBox().clone(this);
 		paragraph = style.getParagraph().clone(this);
 
-		rotationValue = style.getOwnRotationValue();
+		rotation = style.getOwnRotation();
 		markup = style.getOwnMarkup();
 
 		pattern = style.getOwnPattern();
@@ -84,7 +86,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		isItalic = style.isOwnItalic();
 		isUnderline = style.isOwnUnderline();
 		isStrikeThrough = style.isOwnStrikeThrough();
-		fontsize = style.getOwnFontsize();
+		fontSize = style.getOwnFontSize();
 		pdfFontName = style.getOwnPdfFontName();
 		pdfEncoding = style.getOwnPdfEncoding();
 		isPdfEmbedded = style.isOwnPdfEmbedded();
@@ -92,6 +94,12 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		conditionExpression = factory.getExpression(style.getConditionExpression(), true);
 	}
 
+	@Override
+	@JsonIgnore
+	public String getStyleName() // override just for the sake of the json annotation
+	{
+		return super.getStyleName();
+	}
 
 	@Override
 	public JRExpression getConditionExpression()

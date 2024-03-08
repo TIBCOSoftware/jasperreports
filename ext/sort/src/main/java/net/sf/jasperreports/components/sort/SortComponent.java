@@ -26,11 +26,12 @@ package net.sf.jasperreports.components.sort;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -43,7 +44,7 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-@ComponentSpec(name = SortComponentExtensionsRegistryFactory.SORT_COMPONENT_NAME)
+@JsonTypeName(SortComponentExtensionsRegistryFactory.SORT_COMPONENT_NAME)
 public class SortComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport 
 {
 	/**

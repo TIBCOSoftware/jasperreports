@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.list;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.DatasetRunHolder;
@@ -30,7 +33,6 @@ import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 
 /**
@@ -38,7 +40,8 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@ComponentSpec(name = ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME)
+@JsonTypeName(ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME)
+@JsonDeserialize(as = StandardListComponent.class)
 public interface ListComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 
@@ -85,7 +88,7 @@ public interface ListComponent extends Component, JRCloneable, JRVisitable, Data
 	 * </ul>
 	 * @see ListContents#getWidth()
 	 */
-	public PrintOrderEnum getPrintOrderValue();
+	public PrintOrderEnum getPrintOrder();
 	
 	/**
 	 * Returns the flag that determines whether the element width is to be ignored
@@ -100,7 +103,7 @@ public interface ListComponent extends Component, JRCloneable, JRVisitable, Data
 	 * By default, the flag is not set.
 	 * </p>
 	 * 
-	 * @see #getPrintOrderValue()
+	 * @see #getPrintOrder()
 	 * @see JRCrosstab#setIgnoreWidth(Boolean)
 	 */
 	public Boolean getIgnoreWidth();

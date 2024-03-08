@@ -85,11 +85,11 @@ public class ParagraphStyle extends Style
 		horizontalAlignment = getHorizontalAlignment(
 				text.getHorizontalTextAlign(), 
 				text.getVerticalTextAlign(), 
-				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotation()));
 		verticalAlignment = getVerticalAlignment(
 				text.getHorizontalTextAlign(), 
 				text.getVerticalTextAlign(), 
-				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotationValue()));
+				(isIgnoreTextFormatting ? RotationEnum.NONE : text.getRotation()));
 		
 		if(isIgnoreTextFormatting)
 		{
@@ -97,7 +97,7 @@ public class ParagraphStyle extends Style
 		}
 		else 
 		{
-			switch(text.getRotationValue())
+			switch(text.getRotation())
 			{
 				case LEFT:
 				{
@@ -119,7 +119,7 @@ public class ParagraphStyle extends Style
 		}
 
 		runDirection = null;
-		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (text.getRunDirection() == RunDirectionEnum.RTL)
 		{
 			runDirection = "rl";
 		}
@@ -282,7 +282,8 @@ public class ParagraphStyle extends Style
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				sb.append("|").append(tabStop.getPosition()).append("|").append(tabStop.getAlignment().getName());
+				sb.append("|").append(tabStop.getPosition())
+					.append("|").append(TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment()).getName());
 			}
 		}
 		
@@ -354,7 +355,13 @@ public class ParagraphStyle extends Style
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				styleWriter.write("<style:tab-stop style:type=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\" style:position=\"" + LengthUtil.inchFloor4Dec(tabStop.getPosition()) + "in\"/>");
+				styleWriter.write(
+					"<style:tab-stop style:type=\"" 
+						+ getTabStopAlignment(TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment())) 
+						+ "\" style:position=\"" 
+						+ LengthUtil.inchFloor4Dec(tabStop.getPosition()) 
+						+ "in\"/>"
+					);
 			}
 			styleWriter.write("</style:tab-stops>");
 		}

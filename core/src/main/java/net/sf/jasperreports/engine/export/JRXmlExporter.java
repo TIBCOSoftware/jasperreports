@@ -363,7 +363,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_leftMargin, jasperPrint.getLeftMargin());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_bottomMargin, jasperPrint.getBottomMargin());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rightMargin, jasperPrint.getRightMargin());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, jasperPrint.getOrientationValue(), OrientationEnum.PORTRAIT);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, jasperPrint.getOrientation(), OrientationEnum.PORTRAIT);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_formatFactoryClass, jasperPrint.getFormatFactoryClass());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_locale, jasperPrint.getLocaleCode());		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_timezone, jasperPrint.getTimeZoneId());
@@ -509,12 +509,12 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			}
 		}
 	
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnMode());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, style.getOwnBackcolor());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFillValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, style.getOwnFill());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_radius, style.getOwnRadius());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImage());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hTextAlign, style.getOwnHorizontalTextAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hImageAlign, style.getOwnHorizontalImageAlign());
 		VerticalTextAlignEnum vTextAlign = style.getOwnVerticalTextAlign();
@@ -524,13 +524,13 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		}
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, vTextAlign);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vImageAlign, style.getOwnVerticalImageAlign());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotation());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		//xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());//FIXME if pattern in text field is equal to this, then it should be removed there (inheritance)
 		//xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
 		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, style.getOwnFontName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontsize(), true);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fontSize, style.getOwnFontSize(), true);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, style.isOwnBold());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, style.isOwnItalic());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, style.isOwnUnderline());
@@ -555,7 +555,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_origin);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_report, origin.getReportName());
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_group, origin.getGroupName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_band, origin.getBandTypeValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_band, origin.getBandType());
 		xmlWriter.closeElement();
 	}
 
@@ -688,7 +688,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected void exportLine(JRPrintLine line) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_line);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_direction, line.getDirectionValue(), LineDirectionEnum.TOP_DOWN);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_direction, line.getDirection(), LineDirectionEnum.TOP_DOWN);
 
 		exportReportElement(line);
 		exportGraphicElement(line);
@@ -711,7 +711,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getName());
 		}
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnMode());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_x, element.getX() + getOffsetX());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_y, element.getY() + getOffsetY());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_width, element.getWidth());
@@ -749,7 +749,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected void exportGraphicElement(JRPrintGraphicElement element) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_graphicElement);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, element.getOwnFillValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, element.getOwnFill());
 		exportPen(element.getLinePen());
 		xmlWriter.closeElement(true);
 	}
@@ -773,7 +773,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	{
 		xmlWriter.startElement(element);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineWidth, pen.getOwnLineWidth());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyleValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineStyle, pen.getOwnLineStyle());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineColor, pen.getOwnLineColor());
 		xmlWriter.closeElement(true);
 	}
@@ -818,7 +818,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	public void exportImage(JRPrintImage image) throws JRException, IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_image);
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImage());
 		if(isNewerVersionOrEqual(JRConstants.VERSION_6_10_0))
 		{
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, image.getOwnRotation());
@@ -831,7 +831,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, isLazy, false);
 
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorType(), OnErrorTypeEnum.ERROR);
 		
 		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
 		if (hyperlinkProducerFactory == null)
@@ -901,7 +901,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 									Math.max(image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding(), 0), 
 									Math.max(image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding(), 0)
 									),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								ModeEnum.OPAQUE == image.getMode() ? image.getBackcolor() : null
 								);
 							
 						try
@@ -935,7 +935,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 										Math.max(image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding(), 0), 
 										Math.max(image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding(), 0)
 										),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+									ModeEnum.OPAQUE == image.getMode() ? image.getBackcolor() : null
 									);
 
 							String imageName = IMAGE_PREFIX + getNextImageId();
@@ -982,8 +982,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		}
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, vTextAlign);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, text.getRunDirectionValue(), RunDirectionEnum.LTR);
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, text.getOwnRotation());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, text.getRunDirection(), RunDirectionEnum.LTR);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_markup, text.getOwnMarkup());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacingFactor, text.getLineSpacingFactor(), 0f);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_leadingOffset, text.getLeadingOffset(), 0f);
@@ -1150,7 +1150,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		{
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_font);
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontsize(), true);
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize(), true);
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());

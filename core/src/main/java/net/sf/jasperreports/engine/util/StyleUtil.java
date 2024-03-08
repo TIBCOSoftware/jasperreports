@@ -56,7 +56,7 @@ public final class StyleUtil
 		JRStyle style = styleContainer.getStyle();
 		if (style != null)
 		{
-			ModeEnum styleMode = style.getOwnModeValue();
+			ModeEnum styleMode = style.getOwnMode();
 			if (styleMode != null)
 			{
 				JRConditionalStyle[] conditionalStyles = style.getConditionalStyles();
@@ -64,7 +64,7 @@ public final class StyleUtil
 				{
 					for (JRConditionalStyle conditionalStyle : conditionalStyles)
 					{
-						ModeEnum conditionalMode = conditionalStyle.getOwnModeValue();
+						ModeEnum conditionalMode = conditionalStyle.getOwnMode();
 						if (conditionalMode != null && conditionalMode != styleMode)
 						{
 							// a conditional style overrides the style mode
@@ -93,7 +93,7 @@ public final class StyleUtil
 	
 	public ModeEnum resolveElementMode(JRElement element)
 	{
-		ModeEnum elementMode = element.getOwnModeValue();
+		ModeEnum elementMode = element.getOwnMode();
 		if (elementMode != null)
 		{
 			return elementMode;
@@ -248,9 +248,9 @@ public final class StyleUtil
 	 */
 	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)
 	{
-		if (srcStyle.getOwnModeValue() != null)
+		if (srcStyle.getOwnMode() != null)
 		{
-			destStyle.setMode(srcStyle.getOwnModeValue());
+			destStyle.setMode(srcStyle.getOwnMode());
 		}
 		if (srcStyle.getOwnForecolor() != null)
 		{
@@ -262,17 +262,17 @@ public final class StyleUtil
 		}
 		appendPen(destStyle.getLinePen(), srcStyle.getLinePen());
 		
-		if (srcStyle.getOwnFillValue() != null)
+		if (srcStyle.getOwnFill() != null)
 		{
-			destStyle.setFill(srcStyle.getOwnFillValue());
+			destStyle.setFill(srcStyle.getOwnFill());
 		}
 		if (srcStyle.getOwnRadius() != null)
 		{
 			destStyle.setRadius(srcStyle.getOwnRadius());
 		}
-		if (srcStyle.getOwnScaleImageValue() != null)
+		if (srcStyle.getOwnScaleImage() != null)
 		{
-			destStyle.setScaleImage(srcStyle.getOwnScaleImageValue());
+			destStyle.setScaleImage(srcStyle.getOwnScaleImage());
 		}
 		if (srcStyle.getOwnHorizontalTextAlign() != null)
 		{
@@ -293,9 +293,9 @@ public final class StyleUtil
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
 		appendParagraph(destStyle.getParagraph(), srcStyle.getParagraph());
 
-		if (srcStyle.getOwnRotationValue() != null)
+		if (srcStyle.getOwnRotation() != null)
 		{
-			destStyle.setRotation(srcStyle.getOwnRotationValue());
+			destStyle.setRotation(srcStyle.getOwnRotation());
 		}
 		if (srcStyle.getOwnMarkup() != null)
 		{
@@ -325,9 +325,9 @@ public final class StyleUtil
 		{
 			destStyle.setStrikeThrough(srcStyle.isOwnStrikeThrough());
 		}
-		if (srcStyle.getOwnFontsize() != null)
+		if (srcStyle.getOwnFontSize() != null)
 		{
-			destStyle.setFontSize(srcStyle.getOwnFontsize());
+			destStyle.setFontSize(srcStyle.getOwnFontSize());
 		}
 		if (srcStyle.getOwnPdfFontName() != null)
 		{
@@ -357,9 +357,9 @@ public final class StyleUtil
 		{
 			destPen.setLineWidth(srcPen.getOwnLineWidth());
 		}
-		if (srcPen.getOwnLineStyleValue() != null)
+		if (srcPen.getOwnLineStyle() != null)
 		{
-			destPen.setLineStyle(srcPen.getOwnLineStyleValue());
+			destPen.setLineStyle(srcPen.getOwnLineStyle());
 		}
 		if (srcPen.getOwnLineColor() != null)
 		{

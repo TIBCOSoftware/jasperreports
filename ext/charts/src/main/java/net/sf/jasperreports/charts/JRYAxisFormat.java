@@ -25,6 +25,10 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRFont;
 
 /**
@@ -41,11 +45,14 @@ public interface JRYAxisFormat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getYAxisLabelColor();
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("yAxisLabelColor")
+	@JacksonXmlProperty(localName = "yAxisLabelColor", isAttribute = true)
 	public Color getOwnYAxisLabelColor();
 	
 	/**
@@ -56,11 +63,14 @@ public interface JRYAxisFormat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getYAxisTickLabelColor();
 
 	/**
 	 * 
 	 */
+	@JsonGetter("yAxisTickLabelColor")
+	@JacksonXmlProperty(localName = "yAxisTickLabelColor", isAttribute = true)
 	public Color getOwnYAxisTickLabelColor();
 
 	/**
@@ -76,11 +86,14 @@ public interface JRYAxisFormat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public Color getYAxisLineColor();
 	
 	/**
 	 * 
 	 */
+	@JsonGetter("yAxisLineColor")
+	@JacksonXmlProperty(localName = "yAxisLineColor", isAttribute = true)
 	public Color getOwnYAxisLineColor();
 	
 }

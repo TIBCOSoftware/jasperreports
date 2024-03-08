@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
@@ -50,6 +53,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("frame")
+@JsonDeserialize(as = JRDesignFrame.class)
 public interface JRFrame extends JRElement, JRElementGroup, JRBoxContainer
 {
 	

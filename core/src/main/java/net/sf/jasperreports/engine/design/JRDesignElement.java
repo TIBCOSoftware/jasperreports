@@ -29,15 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
-import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -85,8 +88,6 @@ public abstract class JRDesignElement extends JRBaseElement
 	protected JRDesignElement(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
-		
-		positionTypeValue = PositionTypeEnum.FIX_RELATIVE_TO_TOP;
 	}
 
 
@@ -135,7 +136,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	 * Specifies the group for which an element with a <i>printRepeatedValues</i> attribute set to true will be redisplayed
 	 * even if the value has not changed.
 	 */
-	public void setPrintWhenGroupChanges(JRGroup group)
+	public void setPrintWhenGroupChanges(String group)
 	{
 		Object old = this.printWhenGroupChanges;
 		this.printWhenGroupChanges = group;
@@ -171,6 +172,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
+	@JsonSetter("style")
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.parentStyleNameReference;
@@ -262,11 +264,26 @@ public abstract class JRDesignElement extends JRBaseElement
 	 * @return the list of property expressions ({@link JRPropertyExpression} instances)
 	 * @see #addPropertyExpression(JRPropertyExpression)
 	 */
+	@JsonIgnore
 	public List<JRPropertyExpression> getPropertyExpressionsList()
 	{
 		return propertyExpressions;
 	}
-	
+
+
+	@JsonSetter
+	private void setPropertyExpressions(List<JRPropertyExpression> propertyExpressions)
+	{
+		if (propertyExpressions != null)
+		{
+			for (JRPropertyExpression propertyExpression : propertyExpressions)
+			{
+				addPropertyExpression(propertyExpression);
+			}
+		}
+	}
+
+
 	@Override
 	public JRPropertyExpression[] getPropertyExpressions()
 	{

@@ -94,7 +94,7 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			
 			Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
 			BarbecueRendererImpl renderer = new BarbecueRendererImpl(barcode);
-			renderer.setRotation(BarbecueStyleResolver.getRotationValue(element));
+			renderer.setRotation(BarbecueStyleResolver.getRotation(element));
 			image.setRenderer(renderer);
 			return image;
 		}

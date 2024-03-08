@@ -90,4 +90,12 @@ public enum ResetTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static ResetTypeEnum getValueOrDefault(ResetTypeEnum value)
+	{
+		return value == null ? REPORT : value;
+	}
 }

@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.DesignReturnValue;
 
 /**
  * A value copied from a subdataset into a variable of the parent report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignReturnValue.class)
 public interface ReturnValue extends VariableReturnValue
 {
 }

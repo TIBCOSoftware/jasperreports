@@ -1310,7 +1310,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				if (line.getHeight() != 1)
 				{
 					//Vertical line
-					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+					if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 					{
 						pdfContent.strokeLine(
 							line.getX() + lcOffsetX + 0.5f - lineWidth / 3,
@@ -1342,7 +1342,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				if (line.getHeight() == 1)
 				{
 					//Horizontal line
-					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+					if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 					{
 						pdfContent.strokeLine(
 							line.getX() + lcOffsetX,
@@ -1371,9 +1371,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				else
 				{
 					//Oblique line
-					if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+					if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 					{
-						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+						if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -1404,7 +1404,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					}
 					else
 					{
-						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+						if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -1455,7 +1455,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		int lcOffsetX = getOffsetX();
 		int lcOffsetY = getOffsetY();
 		
-		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
+		if (rectangle.getMode() == ModeEnum.OPAQUE)
 		{
 			pdfContent.fillRoundRectangle(
 				rectangle.getX() + lcOffsetX,
@@ -1468,7 +1468,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		if (lineWidth > 0f)
 		{
-			if (rectangle.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (rectangle.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				pdfContent.strokeRoundRectangle(
 					rectangle.getX() + lcOffsetX - lineWidth / 3,
@@ -1516,7 +1516,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		int lcOffsetX = getOffsetX();
 		int lcOffsetY = getOffsetY();
 		
-		if (ellipse.getModeValue() == ModeEnum.OPAQUE)
+		if (ellipse.getMode() == ModeEnum.OPAQUE)
 		{
 			pdfContent.fillEllipse(
 				ellipse.getX() + lcOffsetX,
@@ -1528,7 +1528,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		if (lineWidth > 0f)
 		{
-			if (ellipse.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (ellipse.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				pdfContent.strokeEllipse(
 					ellipse.getX() + lcOffsetX - lineWidth / 3,
@@ -1567,7 +1567,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	public void exportImage(JRPrintImage printImage) throws IOException,  JRException
 	{
-		if (printImage.getModeValue() == ModeEnum.OPAQUE)
+		if (printImage.getMode() == ModeEnum.OPAQUE)
 		{
 			pdfContent.setFillColor(printImage.getBackcolor());
 			pdfContent.fillRectangle(
@@ -1598,7 +1598,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1711,7 +1711,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				}
 				else
 				{
-					switch(printImage.getScaleImageValue())
+					switch(printImage.getScaleImage())
 					{
 						case CLIP :
 						{
@@ -2052,7 +2052,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			InternalImageProcessorResult imageProcessorResult = null;
 
-			switch(printImage.getScaleImageValue())
+			switch(printImage.getScaleImage())
 			{
 				case CLIP :
 				{
@@ -2115,7 +2115,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			if (!ignoreHyperlink)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{
@@ -2192,7 +2192,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	{
 		if (referenceURL != null)
 		{
-			switch(link.getHyperlinkTargetValue())
+			switch(link.getHyperlinkTarget())
 			{
 				case BLANK :
 				{
@@ -2248,7 +2248,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 			
 			JRPrintHyperlink hyperlink = textElement;
-			if (hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.NONE)
+			if (hyperlink.getHyperlinkType() == HyperlinkTypeEnum.NONE)
 			{
 				hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
 			}
@@ -2440,7 +2440,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				pdfFontName,
 				pdfEncoding,
 				isPdfEmbedded,
-				jrFont.getFontsize() * fontSizeScale,
+				jrFont.getFontSize() * fontSizeScale,
 				pdfFontStyle,
 				forecolor
 				);
@@ -2468,7 +2468,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 
 			recipient.setFont(pdfFontName, pdfEncoding, isPdfEmbedded, 
-					jrFont.getFontsize() * fontSizeScale, pdfFontStyle, forecolor, bytes);
+					jrFont.getFontSize() * fontSizeScale, pdfFontStyle, forecolor, bytes);
 		}
 	}
 
@@ -2490,7 +2490,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 		double angle = 0;
 
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT :
 			{
@@ -2517,7 +2517,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		atrans.rotate(angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());
 		pdfContent.transform(atrans);
 
-		if (text.getModeValue() == ModeEnum.OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE)
 		{
 			Color backcolor = text.getBackcolor();
 			pdfContent.setFillColor(backcolor);
@@ -2627,7 +2627,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			throw new JRRuntimeException("Unknown field type " + fieldType);
 		}
 		
-		if (ModeEnum.OPAQUE == text.getModeValue())
+		if (ModeEnum.OPAQUE == text.getMode())
 		{
 			pdfTextField.setBackgroundColor(text.getBackcolor());
 		}
@@ -2661,7 +2661,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
 				if (borderStyle == null)
 				{
-					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+					borderStyle = pen.getLineStyle() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
 				}
 				pdfTextField.setBorderStyle(borderStyle);
 			}
@@ -2681,7 +2681,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Map<Attribute,Object> attributes = new HashMap<>();
 		fontUtil.getAttributesWithoutAwtFont(attributes, text);
 		pdfTextField.setFont(attributes, getLocale());
-		pdfTextField.setFontSize(text.getFontsize());
+		pdfTextField.setFontSize(text.getFontSize());
 //		pdfTextField.setExtensionFont(pdfFont.getBaseFont());
 		
 		boolean isMultiLine = JRPropertiesUtil.asBoolean(text.getPropertiesMap().getProperty(PDF_FIELD_TEXT_MULTILINE), false);
@@ -2740,7 +2740,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			checkField.setCheckType(checkType);
 		}
 
-		if (ModeEnum.OPAQUE == element.getModeValue())
+		if (ModeEnum.OPAQUE == element.getMode())
 		{
 			checkField.setBackgroundColor(element.getBackcolor());
 		}
@@ -2758,7 +2758,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
 				if (borderStyle == null)
 				{
-					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+					borderStyle = pen.getLineStyle() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
 				}
 				checkField.setBorderStyle(borderStyle);
 			}
@@ -2804,7 +2804,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			radioField.setCheckType(checkType);
 		}
 
-		if (ModeEnum.OPAQUE == element.getModeValue())
+		if (ModeEnum.OPAQUE == element.getMode())
 		{
 			radioField.setBackgroundColor(element.getBackcolor());
 		}
@@ -2822,7 +2822,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
 				if (borderStyle == null)
 				{
-					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+					borderStyle = pen.getLineStyle() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
 				}
 				radioField.setBorderStyle(borderStyle);
 			}
@@ -2873,7 +2873,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					pen = new JRBasePen(box);
 					pen.setLineWidth(box.getTopPen().getLineWidth());
 					pen.setLineColor(box.getTopPen().getLineColor());
-					pen.setLineStyle(box.getTopPen().getLineStyleValue());
+					pen.setLineStyle(box.getTopPen().getLineStyle());
 				}
 			}
 			else
@@ -2881,7 +2881,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				pen = new JRBasePen(box);
 				pen.setLineWidth(lineWidth);
 				pen.setLineColor(box.getPen().getLineColor());
-				pen.setLineStyle(box.getPen().getLineStyleValue());
+				pen.setLineStyle(box.getPen().getLineStyle());
 			}
 		}
 
@@ -2945,7 +2945,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			preparePen(topPen, LineCapStyle.BUTT);
 			
-			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (topPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float topOffset = topPen.getLineWidth();
 
@@ -2992,7 +2992,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			preparePen(leftPen, LineCapStyle.BUTT);
 
-			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (leftPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float leftOffset = leftPen.getLineWidth();
 
@@ -3039,7 +3039,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			preparePen(bottomPen, LineCapStyle.BUTT);
 			
-			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (bottomPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float bottomOffset = bottomPen.getLineWidth();
 
@@ -3086,7 +3086,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			preparePen(rightPen, LineCapStyle.BUTT);
 
-			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (rightPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float rightOffset = rightPen.getLineWidth();
 
@@ -3138,7 +3138,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Color color = pen.getLineColor();
 		pdfContent.setStrokeColor(color);
 
-		switch (pen.getLineStyleValue())
+		switch (pen.getLineStyle())
 		{
 			case DOUBLE :
 			{
@@ -3320,9 +3320,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				parent = emptyBookmark;
 			}
 		}
-		int height = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
-				? pageFormat.getPageHeight() - y 
-				: y;
+		int height = OrientationEnum.LANDSCAPE.equals(pageFormat.getOrientation()) 
+				? y 
+				: pageFormat.getPageHeight() - y;
 		Bookmark bookmark = new Bookmark(parent, x, height, title);
 		bookmarkStack.push(bookmark);
 	}
@@ -3345,12 +3345,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
 			}
 			
-			int x = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
-					? getOffsetX() + element.getX() 
-					: getOffsetY() + element.getY();
-			int y = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
-					? getOffsetY() + element.getY() 
-					: getOffsetX() + element.getX();
+			int x = OrientationEnum.LANDSCAPE.equals(pageFormat.getOrientation()) 
+					? getOffsetY() + element.getY()
+					: getOffsetX() + element.getX(); 
+			int y = OrientationEnum.LANDSCAPE.equals(pageFormat.getOrientation()) 
+					? getOffsetX() + element.getX()
+					: getOffsetY() + element.getY(); 
 			addBookmark(anchor.getBookmarkLevel(), anchorName, x, y);
 		}
 	}
@@ -3358,7 +3358,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	public void exportFrame(JRPrintFrame frame) throws IOException, JRException
 	{
-		if (frame.getModeValue() == ModeEnum.OPAQUE)
+		if (frame.getMode() == ModeEnum.OPAQUE)
 		{
 			int x = frame.getX() + getOffsetX();
 			int y = frame.getY() + getOffsetY();

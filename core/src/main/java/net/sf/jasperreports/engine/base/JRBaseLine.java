@@ -46,7 +46,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
+	protected LineDirectionEnum direction;
 
 	/**
 	 * Initializes properties that are specific to lines. Common properties are initialized by its
@@ -60,7 +60,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	{
 		super(line, factory);
 		
-		directionValue = line.getDirectionValue();
+		direction = line.getDirection();
 	}
 		
 
@@ -76,17 +76,17 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	}
 
 	@Override
-	public LineDirectionEnum getDirectionValue()
+	public LineDirectionEnum getDirection()
 	{
-		return directionValue;
+		return direction;
 	}
 
 	@Override
-	public void setDirection(LineDirectionEnum directionValue)
+	public void setDirection(LineDirectionEnum direction)
 	{
-		LineDirectionEnum old = this.directionValue;
-		this.directionValue = directionValue;
-		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.directionValue);
+		LineDirectionEnum old = this.direction;
+		this.direction = direction;
+		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.direction);
 	}
 
 	@Override

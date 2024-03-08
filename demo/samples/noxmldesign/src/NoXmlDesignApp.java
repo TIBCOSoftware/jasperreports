@@ -491,7 +491,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		variable.setResetType(ResetTypeEnum.GROUP);
 		JRDesignGroup group = new JRDesignGroup();
 		group.setName("CityGroup");
-		variable.setResetGroup(group);
+		variable.setResetGroup(group.getName());
 		variable.setCalculation(CalculationEnum.SYSTEM);
 		variable.setInitialValueExpression(new JRDesignExpression("$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)"));
 		jasperDesign.addVariable(variable);

@@ -142,7 +142,7 @@ public class PptxRunHelper extends BaseHelper
 		Map<Attribute,Object> textAttributes = new HashMap<>(); 
 		fontUtil.getAttributesWithoutAwtFont(textAttributes, text);
 		textAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getModeValue() == null || text.getModeValue() == ModeEnum.OPAQUE)
+		if (text.getMode() == null || text.getMode() == ModeEnum.OPAQUE)
 		{
 			textAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}
@@ -284,7 +284,7 @@ public class PptxRunHelper extends BaseHelper
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		fontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getModeValue() == ModeEnum.OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}

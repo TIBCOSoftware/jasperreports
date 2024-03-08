@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignHighLowPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 
@@ -38,6 +45,8 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonTypeName("highLow")
+@JsonDeserialize(as = JRDesignHighLowPlot.class)
 public interface JRHighLowPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat
 {
 
@@ -74,11 +83,15 @@ public interface JRHighLowPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxi
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowOpenTicks();
 
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowCloseTicks();
 	
 }

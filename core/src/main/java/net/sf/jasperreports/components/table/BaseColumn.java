@@ -25,6 +25,14 @@ package net.sf.jasperreports.components.table;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRIdentifiable;
@@ -36,6 +44,11 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = Column.class),
+	@JsonSubTypes.Type(value = ColumnGroup.class)
+})
 public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifiable
 {
 
@@ -45,10 +58,14 @@ public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifia
 	
 	Cell getTableFooter();
 	
+	@JacksonXmlProperty(localName = "groupHeader")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupCell> getGroupHeaders();
 	
 	Cell getGroupHeader(String groupName);
 	
+	@JacksonXmlProperty(localName = "groupFooter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupCell> getGroupFooters();
 	
 	Cell getGroupFooter(String groupName);
@@ -57,6 +74,7 @@ public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifia
 	
 	Cell getColumnFooter();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	Integer getWidth();
 
 	<R> R visitColumn(ColumnVisitor<R> visitor);

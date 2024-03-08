@@ -580,7 +580,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				elementIndex = i;
 					
 				if (
-					(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+					(isBackgroundAsSlideMaster && element.getOrigin().getBandType() == BandTypeEnum.BACKGROUND)
 					|| getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false)
 					)
 				{
@@ -616,7 +616,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				elementIndex = i;
 				
 				if (
-					!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+					!(isBackgroundAsSlideMaster && element.getOrigin().getBandType() == BandTypeEnum.BACKGROUND)
 					&& !(hasToSlideMasterElements && getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false))
 					)
 				{
@@ -777,11 +777,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("    <p:nvPr/>\n");
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm" + (line.getDirectionValue() == LineDirectionEnum.BOTTOM_UP ? " flipV=\"1\"" : "") + ">\n");
+		slideHelper.write("    <a:xfrm" + (line.getDirection() == LineDirectionEnum.BOTTOM_UP ? " flipV=\"1\"" : "") + ">\n");
 		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(x) + "\" y=\"" + LengthUtil.emu(y) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"line\"><a:avLst/></a:prstGeom>\n");
-		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
+		if (line.getMode() == ModeEnum.OPAQUE && line.getBackcolor() != null)
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
@@ -808,14 +808,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		if (pen != null && pen.getLineWidth() > 0)
 		{
 			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
+			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyle()))
 			{
 				slideHelper.write(" cmpd=\"dbl\"");
 			}
 			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
-			switch (pen.getLineStyleValue())
+			switch (pen.getLineStyle())
 			{
 				case DASHED :
 				{
@@ -878,7 +878,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:avLst/></a:prstGeom>\n");
 		}
-		if (rectangle.getModeValue() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
+		if (rectangle.getMode() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
@@ -915,7 +915,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(ellipse.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(ellipse.getY() + getOffsetY()) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(ellipse.getWidth()) + "\" cy=\"" + LengthUtil.emu(ellipse.getHeight()) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"ellipse\"><a:avLst/></a:prstGeom>\n");
-		if (ellipse.getModeValue() == ModeEnum.OPAQUE && ellipse.getBackcolor() != null)
+		if (ellipse.getMode() == ModeEnum.OPAQUE && ellipse.getBackcolor() != null)
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
@@ -959,7 +959,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int rightPadding = text.getLineBox().getRightPadding();
 		int bottomPadding = text.getLineBox().getBottomPadding();
 
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT:
 			{
@@ -1037,7 +1037,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(x) + "\" y=\"" + LengthUtil.emu(y) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
+		if (text.getMode() == ModeEnum.OPAQUE && text.getBackcolor() != null)
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
@@ -1279,7 +1279,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer, imageIndex);
@@ -1301,7 +1301,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				
 				int angle = 0;
 
-				switch (image.getScaleImageValue())
+				switch (image.getScaleImage())
 				{
 					case FILL_FRAME :
 					{
@@ -1557,7 +1557,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding + xoffset) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding + yoffset) + "\"/>\n");
 				slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>\n");
 				slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
+				if (image.getMode() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 				{
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 				}
@@ -1596,7 +1596,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			this.needDimension = imageElement.getScaleImage() != ScaleImageEnum.FILL_FRAME;
 			// at this point, we do not yet have the exifOrientation, but we do not need it because the available width and height
 			// are used only for non data renderers, which need to produce their data for the image and have nothing to do with exif metadata anyway
 			if (
@@ -1657,7 +1657,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								imageRenderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+								ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 								);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
@@ -1754,7 +1754,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			writer.write("/>\n");
 		}
 
-		if (mainHyperlink.getHyperlinkTypeValue() != NONE)
+		if (mainHyperlink.getHyperlinkType() != NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaHyperlink(mainHyperlink);
@@ -1896,7 +1896,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(frame.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(frame.getY() + getOffsetY()) + "\"/>\n");
 			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(frame.getWidth()) + "\" cy=\"" + LengthUtil.emu(frame.getHeight()) + "\"/>\n");
 			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-			if (frame.getModeValue() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
+			if (frame.getMode() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
 			{
 				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
 			}
@@ -2143,7 +2143,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getTopPen();
 			}
@@ -2154,7 +2154,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getLeftPen();
 			}
@@ -2164,7 +2164,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -2210,7 +2210,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -2291,7 +2291,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer, imageIndex);
@@ -2310,7 +2310,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				// - padding does not work well on all sides of a clipped image inside a pptx table; it only works on the alignment sides 
 				// - there is no way to set both an image as background and also a solid color as background in a pptx table cell, so image cells will always have white background
 				
-				switch (image.getScaleImageValue())
+				switch (image.getScaleImage())
 				{
 					case FILL_FRAME :
 					{
@@ -2440,7 +2440,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		String rotation = null;
 		
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT:
 			{
@@ -2673,7 +2673,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTargetValue())
+		switch(link.getHyperlinkTarget())
 		{
 			case SELF :
 			{
@@ -2706,7 +2706,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{
@@ -2844,7 +2844,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				pen = new JRBasePen(box);
 				pen.setLineWidth(box.getTopPen().getLineWidth());
 				pen.setLineColor(box.getTopPen().getLineColor());
-				pen.setLineStyle(box.getTopPen().getLineStyleValue());
+				pen.setLineStyle(box.getTopPen().getLineStyle());
 			}
 		}
 		else
@@ -2852,7 +2852,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			pen = new JRBasePen(box);
 			pen.setLineWidth(lineWidth);
 			pen.setLineColor(box.getPen().getLineColor());
-			pen.setLineStyle(box.getPen().getLineStyleValue());
+			pen.setLineStyle(box.getPen().getLineStyle());
 		}
 		return pen;
 	}

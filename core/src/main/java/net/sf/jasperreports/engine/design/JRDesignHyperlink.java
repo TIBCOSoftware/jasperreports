@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -96,7 +99,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * <li>{@link HyperlinkTargetEnum#SELF HyperlinkTargetEnum.SELF}</li>
 	 * <li>{@link HyperlinkTargetEnum#BLANK HyperlinkTargetEnum.BLANK}</li>
 	 * </ul>
-	 * @see #getHyperlinkTargetValue()
+	 * @see #getHyperlinkTarget()
 	 */
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
@@ -227,11 +230,25 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	}
 	
 	
+	@JsonSetter
+	private void setHyperlinkParameters(List<JRHyperlinkParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRHyperlinkParameter parameter : parameters)
+			{
+				addHyperlinkParameter(parameter);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Returns the list of custom hyperlink parameters.
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
+	@JsonIgnore
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParametersList;

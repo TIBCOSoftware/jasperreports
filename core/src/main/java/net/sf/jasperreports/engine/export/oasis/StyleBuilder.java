@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 
 
 /**
@@ -117,14 +118,13 @@ public class StyleBuilder
 			writer.write(" fo:margin-left=\"0in\"");
 			writer.write(" fo:margin-right=\"0in\"");
 
-			switch (pageFormat.getOrientation())
+			if (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE)
 			{
-				case LANDSCAPE:
-					writer.write(" style:print-orientation=\"landscape\"");
-					break;
-				default:
-					writer.write(" style:print-orientation=\"portrait\"");
-					break;
+				writer.write(" style:print-orientation=\"landscape\"");
+			}
+			else
+			{
+				writer.write(" style:print-orientation=\"portrait\"");
 			}
 			
 			writer.write("/>\n");

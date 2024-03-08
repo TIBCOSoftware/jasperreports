@@ -103,7 +103,7 @@ public class SortComponentFill extends BaseFillComponent {
 					fillContext.getDefaultStyleProvider(),
 					SortElement.SORT_ELEMENT_TYPE);
 		
-			template.setMode(sortComponent.getContext().getComponentElement().getModeValue());
+			template.setMode(sortComponent.getContext().getComponentElement().getMode());
 			template.setBackcolor(sortComponent.getContext().getComponentElement().getBackcolor());
 			template.setForecolor(sortComponent.getContext().getComponentElement().getForecolor());
 			
@@ -151,7 +151,7 @@ public class SortComponentFill extends BaseFillComponent {
 		printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT, sortComponent.getSymbolFont());
 		
 		if (sortComponent.getSymbolFont() != null ) {
-			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontsize()));
+			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE, String.valueOf(sortComponent.getSymbolFont().getFontSize()));
 		} 
 		if (sortComponent.getHandlerHorizontalImageAlign() != null) 
 		{

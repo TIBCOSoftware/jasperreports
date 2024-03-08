@@ -111,7 +111,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 		super.setElement(subreport);
 
 		// don't want to inherit mode because of different defaults for rectangles and subreports
-		setMode(subreport.getModeValue());
+		setMode(subreport.getMode());
 		
 		linePen = new JRBasePen(this);
 		

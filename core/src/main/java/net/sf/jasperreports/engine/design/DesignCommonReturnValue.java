@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.BaseCommonReturnValue;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.ReturnValue ReturnValue}
@@ -64,13 +67,13 @@ public class DesignCommonReturnValue extends BaseCommonReturnValue implements JR
 	/**
 	 * Sets the calculation type.
 	 * 
-	 * @param calculationValue the calculation type
+	 * @param calculation the calculation type
 	 * @see net.sf.jasperreports.engine.ReturnValue#getCalculation()
 	 */
-	public void setCalculation(CalculationEnum calculationValue)
+	public void setCalculation(CalculationEnum calculation)
 	{
 		CalculationEnum old = this.calculation;
-		this.calculation = calculationValue;
+		this.calculation = calculation;
 		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 	
@@ -80,6 +83,7 @@ public class DesignCommonReturnValue extends BaseCommonReturnValue implements JR
 	 * @param incrementerFactoryClassName the name of the incrementer factory class
 	 * @see net.sf.jasperreports.engine.ReturnValue#getIncrementerFactoryClassName()
 	 */
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;

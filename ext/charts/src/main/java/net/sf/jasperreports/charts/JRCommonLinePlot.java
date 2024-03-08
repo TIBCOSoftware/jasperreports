@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * Type of the plot used to render Line, XY Line and Scatter charts.
@@ -40,6 +43,8 @@ public interface JRCommonLinePlot
 	/**
 	 * @return the show lines flag
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLines();
 	
 	/**
@@ -51,6 +56,8 @@ public interface JRCommonLinePlot
 	/**
 	 * @return the show shapes flag
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowShapes();
 
 	/**

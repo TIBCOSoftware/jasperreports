@@ -23,6 +23,14 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
+
 /**
  * Type of plot used for rendering Pie 3D charts.
  * <br/>
@@ -37,6 +45,8 @@ package net.sf.jasperreports.charts;
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("pie3D")
+@JsonDeserialize(as = JRDesignPie3DPlot.class)
 public interface JRPie3DPlot extends JRChartPlot
 {
 
@@ -46,11 +56,14 @@ public interface JRPie3DPlot extends JRChartPlot
 	 * @return a numeric value ranging from 0 to 1 that represents the depth of the pie as 
 	 * a percentage of the height of the plot area.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getDepthFactorDouble();
 	
 	/**
 	 * @return a flag that specifies a circular form for the 3D pie
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getCircular();
 	
 	/**

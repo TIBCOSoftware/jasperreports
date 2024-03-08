@@ -771,7 +771,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getTopPen();
 			}
@@ -782,7 +782,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getLeftPen();
 			}
@@ -792,7 +792,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -816,7 +816,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -840,7 +840,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(ellipse.getLinePen().getLineColor());
-		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
+		pen.setLineStyle(ellipse.getLinePen().getLineStyle());
 		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -1044,7 +1044,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1066,7 +1066,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				
 				int angle = 0;
 				
-				switch (image.getScaleImageValue())
+				switch (image.getScaleImage())
 				{
 					case FILL_FRAME :
 					{
@@ -1350,7 +1350,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				if (url != null)
 				{
 					String targetMode = "";
-					switch(image.getHyperlinkTypeValue())
+					switch(image.getHyperlinkType())
 					{
 						case LOCAL_PAGE:
 						case LOCAL_ANCHOR:
@@ -1405,7 +1405,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			this.imageElement = imageElement;
 			this.cell = cell;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			this.needDimension = imageElement.getScaleImage() != ScaleImageEnum.FILL_FRAME; 
 			if (
 				imageElement.getRotation() == RotationEnum.LEFT
 				|| imageElement.getRotation() == RotationEnum.RIGHT
@@ -1464,7 +1464,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							imageRenderersCache,
 							renderer,
 							new Dimension(availableImageWidth, availableImageHeight),
-							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+							ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
@@ -1540,7 +1540,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			writer.write("/>\n");
 		}
 
-		if (mainHyperlink.getHyperlinkTypeValue() != NONE)
+		if (mainHyperlink.getHyperlinkType() != NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaHyperlink(mainHyperlink);
@@ -1625,7 +1625,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //		tableHelper.getCellHelper().exportProps(gridCell);
 
 		boolean appendBackcolor =
-			frame.getModeValue() == ModeEnum.OPAQUE
+			frame.getMode() == ModeEnum.OPAQUE
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)
@@ -1724,8 +1724,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //			docHelper.write(">\n");
 
 			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			String localType = (HyperlinkTypeEnum.LOCAL_ANCHOR == link.getHyperlinkTypeValue() || 
-					HyperlinkTypeEnum.LOCAL_PAGE == link.getHyperlinkTypeValue()) ? "\\l " : "";
+			String localType = (HyperlinkTypeEnum.LOCAL_ANCHOR == link.getHyperlinkType() || 
+					HyperlinkTypeEnum.LOCAL_PAGE == link.getHyperlinkType()) ? "\\l " : "";
 					
 			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK " + localType +"\"" + JRStringUtil.xmlEncode(href,invalidCharReplacement) + "\"");
 
@@ -1752,7 +1752,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTargetValue())
+		switch(link.getHyperlinkTarget())
 		{
 			case SELF :
 			{
@@ -1785,7 +1785,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{

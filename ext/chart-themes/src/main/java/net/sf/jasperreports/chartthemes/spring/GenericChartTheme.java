@@ -490,7 +490,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false);
@@ -526,7 +526,7 @@ public class GenericChartTheme implements ChartTheme
 					evaluateTextExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
 					evaluateTextExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
 					(CategoryDataset)getDataset(),
-					ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+					ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 					isShowLegend(),
 					true,
 					false );
@@ -615,7 +615,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -668,7 +668,7 @@ public class GenericChartTheme implements ChartTheme
 					{
 						float rangeAxisMaxRatio = 1f;
 						
-						if (barPlot.getOrientationValue() == PlotOrientationEnum.HORIZONTAL)
+						if (barPlot.getOrientation() == PlotOrientationEnum.HORIZONTAL)
 						{
 							rangeAxisMaxRatio = 
 								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
@@ -736,7 +736,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression()),
 				evaluateTextExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression()),
 				 (XYZDataset)getDataset(),
-				 ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				 ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				 isShowLegend(),
 				 true,
 				 false);
@@ -745,7 +745,7 @@ public class GenericChartTheme implements ChartTheme
 
 		XYPlot xyPlot = (XYPlot)jfreeChart.getPlot();
 		JRBubblePlot bubblePlot = (JRBubblePlot)getPlot();
-		ScaleTypeEnum scaleType = bubblePlot.getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS : bubblePlot.getScaleTypeValue();
+		ScaleTypeEnum scaleType = bubblePlot.getScaleType() == null ? ScaleTypeEnum.ON_RANGE_AXIS : bubblePlot.getScaleType();
 		XYBubbleRenderer bubbleRenderer = new XYBubbleRenderer( ChartUtil.getScaleType(scaleType) );
 		xyPlot.setRenderer( bubbleRenderer );
 
@@ -866,7 +866,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false);
@@ -1105,7 +1105,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRScatterPlot)getPlot()).getXAxisLabelExpression()),
 				evaluateTextExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression()),
 				(XYDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false);
@@ -1152,7 +1152,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -1244,7 +1244,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -1280,7 +1280,7 @@ public class GenericChartTheme implements ChartTheme
 					{
 						float rangeAxisMaxRatio = 1f;
 						
-						if (barPlot.getOrientationValue() == PlotOrientationEnum.HORIZONTAL)
+						if (barPlot.getOrientation() == PlotOrientationEnum.HORIZONTAL)
 						{
 							rangeAxisMaxRatio = 
 								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
@@ -1370,7 +1370,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -1409,7 +1409,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(XYDataset)getDataset(),
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -1458,7 +1458,7 @@ public class GenericChartTheme implements ChartTheme
 				isDate,
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				tmpDataset,
-				ChartUtil.getPlotOrientation(getPlot().getOrientationValue()),
+				ChartUtil.getPlotOrientation(getPlot().getOrientation()),
 				isShowLegend(),
 				true,
 				false
@@ -1522,7 +1522,7 @@ public class GenericChartTheme implements ChartTheme
 				evaluateTextExpression(linePlot.getCategoryAxisLabelExpression()),
 				evaluateTextExpression(linePlot.getValueAxisLabelExpression()),
 				(XYDataset)getDataset(),
-				ChartUtil.getPlotOrientation(linePlot.getOrientationValue()),
+				ChartUtil.getPlotOrientation(linePlot.getOrientation()),
 				isShowLegend(),
 				true,
 				false);
@@ -1712,7 +1712,7 @@ public class GenericChartTheme implements ChartTheme
 		JRMeterPlot jrPlot = (JRMeterPlot)getPlot();
 
 		// Set the shape
-		MeterShapeEnum shape = jrPlot.getShapeValue() == null ? MeterShapeEnum.PIE : jrPlot.getShapeValue();
+		MeterShapeEnum shape = jrPlot.getShape() == null ? MeterShapeEnum.PIE : jrPlot.getShape();
 		
 		switch(shape)
 		{
@@ -1744,7 +1744,7 @@ public class GenericChartTheme implements ChartTheme
 
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
 		// implies I am changing the size of the tick, not the spacing between them.
-		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble();
+		double tickInterval = jrPlot.getTickInterval() == null ? 10.0 : jrPlot.getTickInterval();
 		chartPlot.setTickSize(tickInterval);
 
 		// Set all the colors we support
@@ -1876,7 +1876,7 @@ public class GenericChartTheme implements ChartTheme
 		}
 
 		// Set the location of where the value is displayed
-		ValueLocationEnum valueLocation = jrPlot.getValueLocationValue();
+		ValueLocationEnum valueLocation = jrPlot.getValueLocation();
 		switch (valueLocation)
 		{
 		  case NONE:
@@ -2077,9 +2077,9 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	protected AxisLocation getChartAxisLocation(JRChartAxis chartAxis)
 	{
-		if (chartAxis.getPositionValue() != null)
+		if (chartAxis.getPosition() != null)
 		{
-			switch (chartAxis.getPositionValue())
+			switch (chartAxis.getPosition())
 			{
 				case RIGHT_OR_BOTTOM :
 					return AxisLocation.BOTTOM_OR_RIGHT;
@@ -2145,9 +2145,9 @@ public class GenericChartTheme implements ChartTheme
 		Integer defaultBackgroundImageAlignment = (Integer)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT);
 		Float defaultBackgroundImageAlpha = (Float)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.BACKGROUND_IMAGE_ALPHA);
 
-		if (getChart().getOwnModeValue() != null)
+		if (getChart().getOwnMode() != null)
 		{
-			if (getChart().getOwnModeValue() == ModeEnum.OPAQUE)
+			if (getChart().getOwnMode() == ModeEnum.OPAQUE)
 			{
 				if (getChart().getOwnBackcolor() == null && defaultBackgroundPaint != null)
 				{
@@ -2241,7 +2241,7 @@ public class GenericChartTheme implements ChartTheme
 					title.setBackgroundPaint(titleBackcolor);
 				
 				RectangleEdge defaultTitlePosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.TITLE_POSITION);
-				titleEdge = getEdge(getChart().getTitlePositionValue(), defaultTitlePosition);
+				titleEdge = getEdge(getChart().getTitlePosition(), defaultTitlePosition);
 				if (titleEdge != null)
 					title.setPosition(titleEdge);
 			}
@@ -2358,8 +2358,8 @@ public class GenericChartTheme implements ChartTheme
 				legend.setPadding(legendPadding);
 
 			RectangleEdge defaultLegendPosition = (RectangleEdge)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.LEGEND_POSITION);
-			if (getEdge(getChart().getLegendPositionValue(), defaultLegendPosition) != null)
-				legend.setPosition(getEdge(getChart().getLegendPositionValue(), defaultLegendPosition));
+			if (getEdge(getChart().getLegendPosition(), defaultLegendPosition) != null)
+				legend.setPosition(getEdge(getChart().getLegendPosition(), defaultLegendPosition));
 			
 		}
 	}
@@ -2407,14 +2407,14 @@ public class GenericChartTheme implements ChartTheme
 			p.setBackgroundPaint(backgroundPaint);
 		}
 		
-		Float backgroundAlpha = jrPlot.getBackgroundAlphaFloat() != null ? 
-				jrPlot.getBackgroundAlphaFloat() : 
+		Float backgroundAlpha = jrPlot.getBackgroundAlpha() != null ? 
+				jrPlot.getBackgroundAlpha() : 
 				defaultBackgroundAlpha;
 		if (backgroundAlpha != null)
 			p.setBackgroundAlpha(backgroundAlpha);
 		
-		Float foregroundAlpha = jrPlot.getForegroundAlphaFloat() != null ? 
-				jrPlot.getForegroundAlphaFloat() : 
+		Float foregroundAlpha = jrPlot.getForegroundAlpha() != null ? 
+				jrPlot.getForegroundAlpha() : 
 				defaultForegroundAlpha;
 		if (foregroundAlpha != null)
 			p.setForegroundAlpha(foregroundAlpha);
@@ -2440,11 +2440,11 @@ public class GenericChartTheme implements ChartTheme
 		PlotOrientation defaultPlotOrientation = (PlotOrientation)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_ORIENTATION);
 		// Handle rotation of the category labels.
 		CategoryAxis axis = p.getDomainAxis();
-		boolean hasRotation = jrPlot.getLabelRotationDouble() != null || defaultPlotLabelRotation != null;
+		boolean hasRotation = jrPlot.getLabelRotation() != null || defaultPlotLabelRotation != null;
 		if(hasRotation)
 		{
-			double labelRotation = jrPlot.getLabelRotationDouble() != null ? 
-					jrPlot.getLabelRotationDouble() :
+			double labelRotation = jrPlot.getLabelRotation() != null ? 
+					jrPlot.getLabelRotation() :
 					defaultPlotLabelRotation;
 			
 			if (labelRotation == 90)
@@ -2930,7 +2930,7 @@ public class GenericChartTheme implements ChartTheme
 	protected Font getFont(JRFont themeFont, JRFont ownFont, Integer baseFontSize)
 	{
 		JRBaseFont font = new JRBaseFont();
-		if (themeFont != null && themeFont.getFontsize() <= 0 && baseFontSize != null && baseFontSize > 0)
+		if (themeFont != null && themeFont.getFontSize() <= 0 && baseFontSize != null && baseFontSize > 0)
 		{
 			themeFont.setFontSize((float)baseFontSize);
 		}

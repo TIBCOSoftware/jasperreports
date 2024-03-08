@@ -42,7 +42,7 @@ public class BaseCrosstabColumnCell implements CrosstabColumnCell, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected int height;
-	protected CrosstabColumnPositionEnum contentsPosition = CrosstabColumnPositionEnum.LEFT;
+	protected CrosstabColumnPositionEnum contentsPosition;
 	protected JRCellContents cellContents;
 
 	// used by the design implementation

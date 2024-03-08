@@ -60,7 +60,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 		parentStyle = cell.getStyle();
 		
 		setBackcolor(cell.getBackcolor());
-		setMode(cell.getModeValue());
+		setMode(cell.getMode());
 		copyBox(cell.getLineBox());
 	}
 	
@@ -108,7 +108,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}

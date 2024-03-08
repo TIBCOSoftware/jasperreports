@@ -48,7 +48,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	private static final long serialVersionUID = 7685014062058258277L;//it's OK to have calculated UID here, because we missed it when first releasing this class
 	
 	protected String name;
-	protected CrosstabTotalPositionEnum totalPositionValue = CrosstabTotalPositionEnum.NONE;
+	protected CrosstabTotalPositionEnum totalPosition = CrosstabTotalPositionEnum.NONE;
 	protected JRCrosstabBucket bucket;
 	
 	protected JRCellContents header;
@@ -66,7 +66,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		factory.put(group, this);
 		
 		this.name = group.getName();
-		this.totalPositionValue = group.getTotalPositionValue();
+		this.totalPosition = group.getTotalPosition();
 		this.bucket = factory.getCrosstabBucket(group.getBucket());
 		
 		this.header = factory.getCell(group.getHeader());
@@ -89,15 +89,15 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	}
 
 	@Override
-	public CrosstabTotalPositionEnum getTotalPositionValue()
+	public CrosstabTotalPositionEnum getTotalPosition()
 	{
-		return totalPositionValue;
+		return totalPosition;
 	}
 
 	@Override
 	public boolean hasTotal()
 	{
-		return totalPositionValue != CrosstabTotalPositionEnum.NONE;
+		return totalPosition != CrosstabTotalPositionEnum.NONE;
 	}
 
 	@Override

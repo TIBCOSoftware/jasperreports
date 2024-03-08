@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
@@ -86,13 +88,13 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected String name;
 	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
-	protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
-	protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
+	protected PrintOrderEnum printOrder;
+	protected RunDirectionEnum columnDirection;
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
-	protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
-	protected WhenNoDataTypeEnum whenNoDataTypeValue;
-	protected SectionTypeEnum sectionType = SectionTypeEnum.BAND;
+	protected OrientationEnum orientation;
+	protected WhenNoDataTypeEnum whenNoDataType;
+	protected SectionTypeEnum sectionType;
 	protected int columnWidth = 555;
 	protected int columnSpacing;
 	protected int leftMargin = 20;
@@ -165,12 +167,12 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		name = report.getName();
 		language = report.getLanguage();
 		columnCount = report.getColumnCount();
-		printOrderValue = report.getPrintOrderValue();
+		printOrder = report.getPrintOrder();
 		columnDirection = report.getColumnDirection();
 		pageWidth = report.getPageWidth();
 		pageHeight = report.getPageHeight();
-		orientationValue = report.getOrientationValue();
-		whenNoDataTypeValue = report.getWhenNoDataTypeValue();
+		orientation = report.getOrientation();
+		whenNoDataType = report.getWhenNoDataType();
 		sectionType = report.getSectionType();
 		columnWidth = report.getColumnWidth();
 		columnSpacing = report.getColumnSpacing();
@@ -288,9 +290,9 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	@Override
-	public PrintOrderEnum getPrintOrderValue()
+	public PrintOrderEnum getPrintOrder()
 	{
-		return printOrderValue;
+		return printOrder;
 	}
 
 	@Override
@@ -312,23 +314,23 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	@Override
-	public OrientationEnum getOrientationValue()
+	public OrientationEnum getOrientation()
 	{
-		return orientationValue;
+		return orientation;
 	}
 
 	@Override
-	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
+	public WhenNoDataTypeEnum getWhenNoDataType()
 	{
-		return whenNoDataTypeValue;
+		return whenNoDataType;
 	}
 
 	@Override
-	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataTypeValue)
+	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataType)
 	{
-		Object old = this.whenNoDataTypeValue;
-		this.whenNoDataTypeValue = whenNoDataTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataTypeValue);
+		Object old = this.whenNoDataType;
+		this.whenNoDataType = whenNoDataType;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataType);
 	}
 
 	@Override
@@ -596,9 +598,9 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return mainDataset.getWhenResourceMissingTypeValue();
+		return mainDataset.getWhenResourceMissingType();
 	}
 
 	@Override
@@ -663,6 +665,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRBand[] getAllBands()
 	{
 		List<JRBand> bands = new ArrayList<>();

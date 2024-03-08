@@ -49,7 +49,7 @@ public interface JRPrintHyperlink
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public HyperlinkTypeEnum getHyperlinkTypeValue();
+	public HyperlinkTypeEnum getHyperlinkType();
 
 	/**
 	 * Sets the link type as a built-in hyperlink type.
@@ -62,7 +62,7 @@ public interface JRPrintHyperlink
 	/**
 	 *
 	 */
-	public HyperlinkTargetEnum getHyperlinkTargetValue();
+	public HyperlinkTargetEnum getHyperlinkTarget();
 		
 	/**
 	 *

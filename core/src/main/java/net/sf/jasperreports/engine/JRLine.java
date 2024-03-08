@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignLine;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
@@ -33,7 +38,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  * rectangle represented by the <code>x</code>, <code>y</code>, <code>width</code>, and 
  * <code>height</code> attributes specified for this element.
  * <p/>
- * The <code>direction</code> attribute (see {@link #getDirectionValue()}) determines which 
+ * The <code>direction</code> attribute (see {@link #getDirection()}) determines which 
  * one of the two diagonals of the rectangle  should be drawn:
  * <ul>
  * <li><code>TopDown</code> - draws a diagonal line from the top-left corner of the
@@ -49,6 +54,8 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("line")
+@JsonDeserialize(as = JRDesignLine.class)
 public interface JRLine extends JRGraphicElement
 {
 
@@ -57,12 +64,13 @@ public interface JRLine extends JRGraphicElement
 	 * Gets the line direction.
 	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
 	 */
-	public LineDirectionEnum getDirectionValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public LineDirectionEnum getDirection();
 	
 	/**
 	 * Sets the line direction.
-	 * @param lineDirectionEnum a value representing one of the line direction constants in {@link LineDirectionEnum}
+	 * @param lineDirection a value representing one of the line direction constants in {@link LineDirectionEnum}
 	 */
-	public void setDirection(LineDirectionEnum lineDirectionEnum);
+	public void setDirection(LineDirectionEnum lineDirection);
 
 }

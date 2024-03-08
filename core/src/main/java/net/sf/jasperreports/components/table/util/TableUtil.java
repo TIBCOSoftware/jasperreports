@@ -345,7 +345,7 @@ public class TableUtil
 	{
 		if (textField != null)
 		{
-			return EvaluationTimeEnum.NOW.equals(textField.getEvaluationTimeValue());
+			return EvaluationTimeEnum.getValueOrDefault(textField.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 		}
 		
 		return false;

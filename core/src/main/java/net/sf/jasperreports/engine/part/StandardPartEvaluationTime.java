@@ -25,9 +25,13 @@ package net.sf.jasperreports.engine.part;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -81,7 +85,11 @@ public class StandardPartEvaluationTime implements PartEvaluationTime, Serializa
 	private final PartEvaluationTimeType type;
 	private final String groupName;
 	
-	protected StandardPartEvaluationTime(PartEvaluationTimeType type, String groupName)
+	@JsonCreator
+	protected StandardPartEvaluationTime(
+		@JsonProperty(JRXmlConstants.ATTRIBUTE_evaluationTime) PartEvaluationTimeType type, 
+		@JsonProperty(JRXmlConstants.ATTRIBUTE_evaluationGroup) String groupName
+		)
 	{
 		this.type = type;
 		this.groupName = groupName;

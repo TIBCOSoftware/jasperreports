@@ -79,4 +79,12 @@ public enum IncrementTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static IncrementTypeEnum getValueOrDefault(IncrementTypeEnum value)
+	{
+		return value == null ? NONE : value;
+	}
 }

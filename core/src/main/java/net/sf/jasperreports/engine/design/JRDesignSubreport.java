@@ -29,6 +29,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
@@ -42,6 +46,7 @@ import net.sf.jasperreports.engine.base.JRBaseSubreport;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.ReportDeserializer;
 
 
 /**
@@ -97,6 +102,13 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	protected JRExpression expression;
 
 
+	@JsonCreator
+	private JRDesignSubreport()
+	{
+		this(ReportDeserializer.getDefaultStyleProvider());
+	}
+		
+
 	/**
 	 *
 	 */
@@ -107,7 +119,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -142,9 +154,22 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Map<String, JRSubreportParameter> getParametersMap()
 	{
 		return this.parametersMap;
+	}
+	
+	@JsonSetter
+	private void setParameters(List<JRSubreportParameter> parameters) throws JRException
+	{
+		if (parameters != null)
+		{
+			for (JRSubreportParameter parameter : parameters)
+			{
+				addParameter(parameter);
+			}
+		}
 	}
 	
 	/**
@@ -281,9 +306,23 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 * 
 	 * @return list of {@link JRSubreportReturnValue JRSubreportReturnValue} objects
 	 */
+	@JsonIgnore
 	public List<JRSubreportReturnValue> getReturnValuesList()
 	{
 		return returnValues;
+	}
+
+	
+	@JsonSetter
+	private void setReturnValues(List<JRSubreportReturnValue> returnValues)
+	{
+		if (returnValues != null)
+		{
+			for (JRSubreportReturnValue returnValue : returnValues)
+			{
+				addReturnValue(returnValue);
+			}
+		}
 	}
 
 	

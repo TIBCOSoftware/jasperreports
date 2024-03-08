@@ -718,9 +718,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
-		return parentCell.getModeValue();
+		return parentCell.getMode();
 	}
 
 	@Override

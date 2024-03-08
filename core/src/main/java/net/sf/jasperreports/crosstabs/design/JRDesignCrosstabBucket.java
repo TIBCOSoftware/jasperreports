@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabBucket;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -132,6 +134,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	 * @param valueClassName the bucket value class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getValueClassName()
 	 */
+	@JsonSetter("class")
 	public void setValueClassName(String valueClassName)
 	{
 		String old = this.valueClassName;

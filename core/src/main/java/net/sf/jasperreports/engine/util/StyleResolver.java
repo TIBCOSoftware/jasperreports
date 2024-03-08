@@ -230,7 +230,7 @@ public class StyleResolver
 	 */
 	public ModeEnum getMode(JRCommonElement element, ModeEnum defaultMode)
 	{
-		ModeEnum ownMode = element.getOwnModeValue();
+		ModeEnum ownMode = element.getOwnMode();
 		if (ownMode != null) 
 		{
 			return ownMode;
@@ -238,7 +238,7 @@ public class StyleResolver
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
-			ModeEnum mode = style.getModeValue();
+			ModeEnum mode = style.getMode();
 			if (mode != null)
 			{
 				return mode;
@@ -252,7 +252,7 @@ public class StyleResolver
 	 */
 	public ModeEnum getModeValue(JRStyle style)
 	{
-		ModeEnum ownMode = style.getOwnModeValue();
+		ModeEnum ownMode = style.getOwnMode();
 		if (ownMode != null)
 		{
 			return ownMode;
@@ -260,7 +260,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
-			return baseStyle.getModeValue();
+			return baseStyle.getMode();
 		}
 		return null;
 	}
@@ -402,9 +402,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public LineStyleEnum getLineStyleValue(JRPen pen)
+	public LineStyleEnum getLineStyle(JRPen pen)
 	{
-		LineStyleEnum ownLineStyle = pen.getOwnLineStyleValue();
+		LineStyleEnum ownLineStyle = pen.getOwnLineStyle();
 		if (ownLineStyle != null)
 		{
 			return ownLineStyle;
@@ -412,7 +412,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(pen);
 		if (baseStyle != null)
 		{
-			LineStyleEnum lineStyle = baseStyle.getLinePen().getLineStyleValue();
+			LineStyleEnum lineStyle = baseStyle.getLinePen().getLineStyle();
 			if (lineStyle != null)
 			{
 				return lineStyle;
@@ -424,27 +424,27 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public LineStyleEnum getLineStyleValue(JRBoxPen boxPen)
+	public LineStyleEnum getLineStyle(JRBoxPen boxPen)
 	{
-		LineStyleEnum ownLineStyle = boxPen.getOwnLineStyleValue();
+		LineStyleEnum ownLineStyle = boxPen.getOwnLineStyle();
 		if (ownLineStyle != null)
 		{
 			return ownLineStyle;
 		}
-		LineStyleEnum penLineStyle = boxPen.getBox().getPen().getOwnLineStyleValue();
+		LineStyleEnum penLineStyle = boxPen.getBox().getPen().getOwnLineStyle();
 		if (penLineStyle != null)
 		{
 			return penLineStyle;
 		}
-		return getParentLineStyleValue(boxPen);
+		return getParentLineStyle(boxPen);
 	}
 
-	public LineStyleEnum getParentLineStyleValue(JRBoxPen boxPen)
+	public LineStyleEnum getParentLineStyle(JRBoxPen boxPen)
 	{
 		JRStyle baseStyle = getBaseStyle(boxPen);
 		if (baseStyle != null)
 		{
-			LineStyleEnum lineStyle = boxPen.getPen(baseStyle.getLineBox()).getLineStyleValue();
+			LineStyleEnum lineStyle = boxPen.getPen(baseStyle.getLineBox()).getLineStyle();
 			if (lineStyle != null)
 			{
 				return lineStyle;
@@ -512,9 +512,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public FillEnum getFillValue(JRCommonGraphicElement element)
+	public FillEnum getFill(JRCommonGraphicElement element)
 	{
-		FillEnum ownFill = element.getOwnFillValue();
+		FillEnum ownFill = element.getOwnFill();
 		if (ownFill != null)
 		{
 			return ownFill;
@@ -522,7 +522,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(element);
 		if (baseStyle != null)
 		{
-			FillEnum fill = baseStyle.getFillValue();
+			FillEnum fill = baseStyle.getFill();
 			if (fill != null)
 			{
 				return fill;
@@ -534,9 +534,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public FillEnum getFillValue(JRStyle style)
+	public FillEnum getFill(JRStyle style)
 	{
-		FillEnum ownFill = style.getOwnFillValue();
+		FillEnum ownFill = style.getOwnFill();
 		if (ownFill != null)
 		{
 			return ownFill;
@@ -544,7 +544,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
-			return baseStyle.getFillValue();
+			return baseStyle.getFill();
 		}
 		return null;
 	}
@@ -592,9 +592,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public ScaleImageEnum getScaleImageValue(JRCommonImage image)
+	public ScaleImageEnum getScaleImage(JRCommonImage image)
 	{
-		ScaleImageEnum ownScaleImage = image.getOwnScaleImageValue();
+		ScaleImageEnum ownScaleImage = image.getOwnScaleImage();
 		if (ownScaleImage != null)
 		{
 			return ownScaleImage;
@@ -602,7 +602,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(image);
 		if (baseStyle != null)
 		{
-			ScaleImageEnum scaleImage = baseStyle.getScaleImageValue();
+			ScaleImageEnum scaleImage = baseStyle.getScaleImage();
 			if (scaleImage != null)
 			{
 				return scaleImage;
@@ -614,9 +614,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public ScaleImageEnum getScaleImageValue(JRStyle style)
+	public ScaleImageEnum getScaleImage(JRStyle style)
 	{
-		ScaleImageEnum ownScaleImage = style.getOwnScaleImageValue();
+		ScaleImageEnum ownScaleImage = style.getOwnScaleImage();
 		if (ownScaleImage != null)
 		{
 			return ownScaleImage;
@@ -624,7 +624,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null )
 		{
-			return baseStyle.getScaleImageValue();
+			return baseStyle.getScaleImage();
 		}
 		return null;
 	}
@@ -968,9 +968,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public RotationEnum getRotationValue(JRCommonText element)
+	public RotationEnum getRotation(JRCommonText element)
 	{
-		RotationEnum ownRotation = element.getOwnRotationValue();
+		RotationEnum ownRotation = element.getOwnRotation();
 		if (ownRotation != null)
 		{
 			return ownRotation;
@@ -978,7 +978,7 @@ public class StyleResolver
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
-			RotationEnum rotation = style.getRotationValue();
+			RotationEnum rotation = style.getRotation();
 			if (rotation != null)
 			{
 				return rotation;
@@ -1000,7 +1000,7 @@ public class StyleResolver
 		JRStyle style = getBaseStyle(element);
 		if (style != null)
 		{
-			RotationEnum rotation = style.getRotationValue();
+			RotationEnum rotation = style.getRotation();
 			if (rotation != null)
 			{
 				return rotation;
@@ -1012,9 +1012,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public RotationEnum getRotationValue(JRStyle style)
+	public RotationEnum getRotation(JRStyle style)
 	{
-		RotationEnum ownRotation = style.getOwnRotationValue();
+		RotationEnum ownRotation = style.getOwnRotation();
 		if (ownRotation != null)
 		{
 			return ownRotation;
@@ -1022,7 +1022,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
-			return baseStyle.getRotationValue();
+			return baseStyle.getRotation();
 		}
 		return null;
 	}
@@ -1371,9 +1371,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public float getFontsize(JRFont font)
+	public float getFontSize(JRFont font)
 	{
-		Float ownFontSize = font.getOwnFontsize();
+		Float ownFontSize = font.getOwnFontSize();
 		if (ownFontSize != null)
 		{
 			return ownFontSize;
@@ -1381,7 +1381,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
-			Float fontSize = baseStyle.getFontsize();
+			Float fontSize = baseStyle.getFontSize();
 			if (fontSize != null)
 			{
 				return fontSize;
@@ -1393,9 +1393,9 @@ public class StyleResolver
 	/**
 	 *
 	 */
-	public Float getFontsize(JRStyle style)
+	public Float getFontSize(JRStyle style)
 	{
-		Float ownFontSize = style.getOwnFontsize();
+		Float ownFontSize = style.getOwnFontSize();
 		if (ownFontSize != null)
 		{
 			return ownFontSize;
@@ -1403,7 +1403,7 @@ public class StyleResolver
 		JRStyle baseStyle = getBaseStyle(style);
 		if (baseStyle != null)
 		{
-			return baseStyle.getFontsize();
+			return baseStyle.getFontSize();
 		}
 		return null;
 	}

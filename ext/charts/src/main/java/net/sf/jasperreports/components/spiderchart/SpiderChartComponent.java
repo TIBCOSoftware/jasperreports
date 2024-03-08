@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.charts.ChartsExtensionsRegistryFactory;
 import net.sf.jasperreports.charts.base.ChartsBaseObjectFactory;
 import net.sf.jasperreports.components.charts.ChartComponent;
@@ -34,7 +37,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -44,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-@ComponentSpec(name = ChartsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME)
+@JsonTypeName(ChartsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME)
 public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport, JRCloneable
 {
 
@@ -60,7 +62,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	
-	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	
 	private ChartSettings chartSettings;
@@ -118,12 +120,14 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		return this.plot;
 	}
 
+	@JsonDeserialize(as = StandardSpiderDataset.class)
 	public void setDataset(ChartDataset dataset) {
 		Object old = this.dataset;
 		this.dataset = (SpiderDataset)dataset;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 
+	@JsonDeserialize(as = StandardSpiderPlot.class)
 	public void setPlot(ChartPlot plot) {
 		Object old = this.plot;
 		this.plot = (SpiderPlot)plot;

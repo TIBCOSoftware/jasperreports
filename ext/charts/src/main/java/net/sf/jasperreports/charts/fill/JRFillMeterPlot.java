@@ -60,9 +60,9 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public MeterShapeEnum getShapeValue()
+	public MeterShapeEnum getShape()
 	{
-		return ((JRMeterPlot)parent).getShapeValue();
+		return ((JRMeterPlot)parent).getShape();
 	}
 
 	@Override
@@ -83,9 +83,9 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public Double getTickIntervalDouble()
+	public Double getTickInterval()
 	{
-		return ((JRMeterPlot)parent).getTickIntervalDouble();
+		return ((JRMeterPlot)parent).getTickInterval();
 	}
 
 	@Override

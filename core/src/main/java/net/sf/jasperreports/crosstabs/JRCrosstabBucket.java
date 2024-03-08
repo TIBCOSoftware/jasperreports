@@ -23,9 +23,16 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Crosstab groups bucketing information interface.
@@ -37,17 +44,21 @@ import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignCrosstabBucket.class)
 public interface JRCrosstabBucket extends JRCloneable
 {
 	/**
 	 * Returns the class of the bucket value. Any class is allowed as long as it is in the classpath at compile and run time.
 	 * @return a <tt>Class</tt> instance representing the bucket value class
 	 */
+	@JsonIgnore
 	public Class<?> getValueClass();
 		
 	/**
 	 * Returns the string name of the bucket value class.
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	public String getValueClassName();
 		
 	/**
@@ -63,6 +74,7 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * @return the bucket sorting type
 	 * @see #getComparatorExpression()
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public BucketOrder getOrder();
 	
 	

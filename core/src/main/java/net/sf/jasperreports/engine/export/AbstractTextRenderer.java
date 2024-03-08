@@ -228,7 +228,7 @@ public abstract class AbstractTextRenderer
 		bottomPadding = text.getLineBox().getBottomPadding();
 		rightPadding = text.getLineBox().getRightPadding();
 		
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT :
 			{

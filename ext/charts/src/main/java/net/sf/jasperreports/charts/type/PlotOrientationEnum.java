@@ -66,4 +66,12 @@ public enum PlotOrientationEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static PlotOrientationEnum getValueOrDefault(PlotOrientationEnum value)
+	{
+		return value == null ? VERTICAL : value;
+	}
 }

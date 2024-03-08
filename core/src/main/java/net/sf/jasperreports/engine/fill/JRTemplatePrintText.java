@@ -80,7 +80,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private Object value;
 	private float lineSpacingFactor;
 	private float leadingOffset;
-	private RunDirectionEnum runDirectionValue;
+	private RunDirectionEnum runDirection;
 	private float textHeight;
 	
 	// we're no longer setting this at fill time, all format attributes are in the template.
@@ -269,15 +269,15 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	@Override
-	public RotationEnum getRotationValue()
+	public RotationEnum getRotation()
 	{
-		return ((JRTemplateText)this.template).getRotationValue();
+		return ((JRTemplateText)this.template).getRotation();
 	}
 		
 	@Override
-	public RotationEnum getOwnRotationValue()
+	public RotationEnum getOwnRotation()
 	{
-		return ((JRTemplateText)this.template).getOwnRotationValue();
+		return ((JRTemplateText)this.template).getOwnRotation();
 	}
 		
 	@Override
@@ -288,15 +288,15 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		
 	
 	@Override
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
-		return this.runDirectionValue;
+		return this.runDirection;
 	}
 
 	@Override
-	public void setRunDirection(RunDirectionEnum runDirectionValue)
+	public void setRunDirection(RunDirectionEnum runDirection)
 	{
-		this.runDirectionValue = runDirectionValue;
+		this.runDirection = runDirection;
 	}
 
 	@Override
@@ -365,9 +365,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateText)this.template).getHyperlinkTypeValue();
+		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateText)this.template).getHyperlinkType();
 	}
 		
 	@Override
@@ -377,9 +377,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return ((JRTemplateText)this.template).getHyperlinkTargetValue();
+		return ((JRTemplateText)this.template).getHyperlinkTarget();
 	}
 		
 	@Override
@@ -559,15 +559,15 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return ((JRTemplateText)template).getFontsize();
+		return ((JRTemplateText)template).getFontSize();
 	}
 
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return ((JRTemplateText)template).getOwnFontsize();
+		return ((JRTemplateText)template).getOwnFontSize();
 	}
 
 	/**
@@ -750,7 +750,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		{
 			flags |= SERIALIZATION_FLAG_HAS_VALUE;
 		}
-		if (runDirectionValue == RunDirectionEnum.RTL)
+		if (runDirection == RunDirectionEnum.RTL)
 		{
 			flags |= SERIALIZATION_FLAG_RTL;
 		}
@@ -871,7 +871,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 			hyperlinkParameters = (JRPrintHyperlinkParameters) in.readJRObject();
 		}
 		
-		runDirectionValue = (flags & SERIALIZATION_FLAG_RTL) != 0 ? RunDirectionEnum.RTL : RunDirectionEnum.LTR;
+		runDirection = (flags & SERIALIZATION_FLAG_RTL) != 0 ? RunDirectionEnum.RTL : RunDirectionEnum.LTR;
 		
 		// keep this commented just in case we'll need it again sometime in the future
 		//PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID;

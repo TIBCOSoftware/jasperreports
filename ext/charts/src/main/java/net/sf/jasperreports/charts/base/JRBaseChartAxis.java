@@ -45,7 +45,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * Where to position the axis.
 	 */
-	protected AxisPositionEnum positionValue;
+	protected AxisPositionEnum position;
 
 	/**
 	 * The Chart object containing the dataset and plot to use with this axis.
@@ -64,7 +64,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		JRBaseObjectFactory parentFactory = factory.getParent();
 		parentFactory.put(axis, this);
 
-		this.positionValue = axis.getPositionValue();
+		this.position = axis.getPosition();
 		this.chart = (JRChart)parentFactory.getVisitResult(axis.getChart());
 	}
 
@@ -74,9 +74,9 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 * @return the position of this axis
 	 */
 	@Override
-	public AxisPositionEnum getPositionValue()
+	public AxisPositionEnum getPosition()
 	{
-		return positionValue;
+		return position;
 	}
 
 	/**

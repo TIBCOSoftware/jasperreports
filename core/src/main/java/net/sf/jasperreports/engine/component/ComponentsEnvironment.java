@@ -32,6 +32,8 @@ import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
@@ -140,19 +142,19 @@ public final class ComponentsEnvironment
 	{
 		for (Class<?> type = componentType; type != null; type = type.getSuperclass()) 
 		{
-			ComponentSpec componentSpec = type.getAnnotation(ComponentSpec.class);
+			JsonTypeName componentSpec = type.getAnnotation(JsonTypeName.class);
 			if (componentSpec != null)
 			{
-				return componentSpec.name();
+				return componentSpec.value();
 			}
 		}
 		
 		for (Class<?> itf : componentType.getInterfaces())
 		{
-			ComponentSpec componentSpec = itf.getAnnotation(ComponentSpec.class);
+			JsonTypeName componentSpec = itf.getAnnotation(JsonTypeName.class);
 			if (componentSpec != null)
 			{
-				return componentSpec.name();
+				return componentSpec.value();
 			}
 		}
 		

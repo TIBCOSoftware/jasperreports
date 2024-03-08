@@ -26,6 +26,10 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -66,6 +70,13 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	protected JRExpression otherKeyExpression;
 	protected JRExpression otherLabelExpression;
 	private JRHyperlink otherSectionHyperlink;
+
+
+	@JsonCreator
+	private JRDesignPieDataset()
+	{
+		this(null);
+	}
 
 
 	/**
@@ -119,9 +130,23 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public List<JRPieSeries> getSeriesList()
 	{
 		return pieSeriesList;
+	}
+
+	
+	@JsonSetter
+	private void setSeries(List<JRPieSeries> series)
+	{
+		if (series != null)
+		{
+			for (JRPieSeries s : series)
+			{
+				addPieSeries(s);
+			}
+		}
 	}
 
 	

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseChartAxis;
@@ -51,6 +53,12 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	@JsonCreator
+	private JRDesignChartAxis()
+	{
+		this(null);
+	}
+
 	/**
 	 * Construct a new axis that will be added to the specified chart.
 	 *
@@ -65,13 +73,13 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	 * Sets the position of this axis' value line relative to the multiple
 	 * axis chart.
 	 *
-	 * @param positionValue the position of this axis
+	 * @param position the position of this axis
 	 */
-	public void setPosition(AxisPositionEnum positionValue)
+	public void setPosition(AxisPositionEnum position)
 	{
-		AxisPositionEnum old = this.positionValue;
-		this.positionValue = positionValue;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
+		AxisPositionEnum old = this.position;
+		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
 	}
 
 	/**
@@ -83,23 +91,26 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	 */
 	public void setChart(JRDesignChart chart)
 	{
-		// Override the chart elements that we are going to ignore, as they
-		// are supposed to be controlled by the multi chart's settings.
-		chart.setBackcolor(parentChart.getBackcolor());
-		chart.setShowLegend(parentChart.getShowLegend());
-		chart.setTitleExpression(parentChart.getTitleExpression());
-		chart.setTitleFont(parentChart.getTitleFont());
-		chart.setTitlePosition(parentChart.getTitlePositionValue());
-		chart.setTitleColor(parentChart.getTitleColor());
-		chart.setSubtitleExpression(parentChart.getSubtitleExpression());
-		chart.setSubtitleFont(parentChart.getSubtitleFont());
-		chart.setSubtitleColor(parentChart.getSubtitleColor());
-		chart.setLegendColor(parentChart.getLegendColor());
-		chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
-		chart.setLegendFont(parentChart.getLegendFont());
-		chart.setLegendPosition(parentChart.getLegendPositionValue());
-		chart.setRenderType(parentChart.getRenderType());
-		chart.setTheme(parentChart.getTheme());
+		if (parentChart != null) //FIXMEJACK
+		{
+			// Override the chart elements that we are going to ignore, as they
+			// are supposed to be controlled by the multi chart's settings.
+			chart.setBackcolor(parentChart.getBackcolor());
+			chart.setShowLegend(parentChart.getShowLegend());
+			chart.setTitleExpression(parentChart.getTitleExpression());
+			chart.setTitleFont(parentChart.getTitleFont());
+			chart.setTitlePosition(parentChart.getTitlePosition());
+			chart.setTitleColor(parentChart.getTitleColor());
+			chart.setSubtitleExpression(parentChart.getSubtitleExpression());
+			chart.setSubtitleFont(parentChart.getSubtitleFont());
+			chart.setSubtitleColor(parentChart.getSubtitleColor());
+			chart.setLegendColor(parentChart.getLegendColor());
+			chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
+			chart.setLegendFont(parentChart.getLegendFont());
+			chart.setLegendPosition(parentChart.getLegendPosition());
+			chart.setRenderType(parentChart.getRenderType());
+			chart.setTheme(parentChart.getTheme());
+		}
 		
 		Object old = this.chart;
 		this.chart = chart;

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -66,7 +68,9 @@ public abstract class JRDesignChartDataset extends JRDesignElementDataset implem
 	}
 
 	@Override
-	public byte getDatasetType() {
+	@JsonIgnore
+	public byte getDatasetType() 
+	{
 		return -1;
 	}
 }

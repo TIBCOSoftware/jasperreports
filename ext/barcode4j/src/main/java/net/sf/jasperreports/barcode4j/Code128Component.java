@@ -23,14 +23,15 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:Code128")
+@JsonTypeName("barcode4j:Code128")
 public class Code128Component extends Barcode4jComponent
 {
 

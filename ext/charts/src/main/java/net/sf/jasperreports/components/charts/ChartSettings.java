@@ -26,7 +26,13 @@ package net.sf.jasperreports.components.charts;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.components.spiderchart.StandardChartSettings;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
@@ -36,17 +42,21 @@ import net.sf.jasperreports.engine.JRHyperlink;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardChartSettings.class)
 public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 {
 
 	/**
 	 * 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLegend();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getBackcolor();
 
 	/**
@@ -57,11 +67,13 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public EdgeEnum getTitlePosition();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getTitleColor();
 
 	/**
@@ -72,16 +84,19 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getSubtitleColor();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getLegendBackgroundColor(); 
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getLegendColor();
 	
 	/**
@@ -92,6 +107,7 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public EdgeEnum getLegendPosition();
 
 
@@ -108,19 +124,14 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
-	public byte getChartType();
-
-	/**
-	 *
-	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getRenderType();
 	
 	/**
 	 * Gets a user specified chart customizer class name.
 	 * @see ChartCustomizer
  	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getCustomizerClass();
-
-	
 
 }

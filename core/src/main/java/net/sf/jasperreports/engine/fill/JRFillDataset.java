@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.query.SimpleQueryExecutionContext;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -187,6 +188,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 * The dataset groups.
 	 */
 	protected JRFillGroup[] groups;
+	
+	/**
+	 * The dataset groups indexed by name.
+	 */
+	protected Map<String,JRFillGroup> groupsMap;
 
 	/**
 	 * The resource bundle base name.
@@ -289,7 +295,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		scriptletClassName = dataset.getScriptletClass();
 		resourceBundleBaseName = dataset.getResourceBundle();
-		whenResourceMissingType = dataset.getWhenResourceMissingTypeValue();
+		whenResourceMissingType = dataset.getWhenResourceMissingType();
 		
 		query = dataset.getQuery();
 		
@@ -340,9 +346,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (jrGroups != null && jrGroups.length > 0)
 		{
 			groups = new JRFillGroup[jrGroups.length];
+			groupsMap = new HashMap<>();
 			for (int i = 0; i < groups.length; i++)
 			{
 				groups[i] = factory.getGroup(jrGroups[i]);
+				groupsMap.put(groups[i].getName(), groups[i]);
 			}
 		}
 	}
@@ -370,7 +378,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		JRFillVariable variable = factory.getVariable(parentVariable);
 
-		CalculationEnum calculation = variable.getCalculationValue();
+		CalculationEnum calculation = variable.getCalculation();
 		switch (calculation)
 		{
 			case AVERAGE:
@@ -415,9 +423,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		helper.setName(variable.getName() + nameSuffix);
 		helper.setValueClassName(variable.getValueClassName());
 		helper.setIncrementerFactoryClassName(variable.getIncrementerFactoryClassName());
-		helper.setResetType(variable.getResetTypeValue());
+		helper.setResetType(variable.getResetType());
 		helper.setResetGroup(variable.getResetGroup());
-		helper.setIncrementType(variable.getIncrementTypeValue());
+		helper.setIncrementType(variable.getIncrementType());
 		helper.setIncrementGroup(variable.getIncrementGroup());
 		helper.setCalculation(calculation);
 		helper.setSystemDefined(true);
@@ -434,7 +442,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		helper.setIncrementerFactoryClassName(JRDistinctCountIncrementerFactory.class.getName());
 		helper.setResetType(ResetTypeEnum.REPORT);
 
-		switch (variable.getIncrementTypeValue())
+		switch (IncrementTypeEnum.getValueOrDefault(variable.getIncrementType()))
 		{
 			case REPORT :
 			{
@@ -539,7 +547,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (resourceBundleBaseName == null && !isMain)
 		{
 			resourceBundleBaseName = filler.jasperReport.getResourceBundle();
-			whenResourceMissingType = filler.jasperReport.getWhenResourceMissingTypeValue();
+			whenResourceMissingType = filler.jasperReport.getWhenResourceMissingType();
 		}
 	}
 	
@@ -1994,7 +2002,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
 		return whenResourceMissingType;
 	}

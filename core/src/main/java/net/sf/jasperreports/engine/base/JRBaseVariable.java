@@ -27,7 +27,6 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -64,9 +63,9 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 	protected String valueClassRealName;
 	protected String incrementerFactoryClassName;
 	protected String incrementerFactoryClassRealName;
-	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
-	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
-	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
+	protected ResetTypeEnum resetType;
+	protected IncrementTypeEnum incrementType;
+	protected CalculationEnum calculation;
 	protected boolean isSystemDefined;
 
 	protected transient Class<?> valueClass;
@@ -77,8 +76,8 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 	 */
 	protected JRExpression expression;
 	protected JRExpression initialValueExpression;
-	protected JRGroup resetGroup;
-	protected JRGroup incrementGroup;
+	protected String resetGroup;
+	protected String incrementGroup;
 
 
 	/**
@@ -100,16 +99,16 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		description = variable.getDescription();
 		valueClassName = variable.getValueClassName();
 		incrementerFactoryClassName = variable.getIncrementerFactoryClassName();
-		resetTypeValue = variable.getResetTypeValue();
-		incrementTypeValue = variable.getIncrementTypeValue();
-		calculationValue = variable.getCalculationValue();
+		resetType = variable.getResetType();
+		incrementType = variable.getIncrementType();
+		calculation = variable.getCalculation();
 		isSystemDefined = variable.isSystemDefined();
 		
 		expression = factory.getExpression(variable.getExpression());
 		initialValueExpression = factory.getExpression(variable.getInitialValueExpression());
 
-		resetGroup = factory.getGroup(variable.getResetGroup());
-		incrementGroup = factory.getGroup(variable.getIncrementGroup());
+		resetGroup = variable.getResetGroup();
+		incrementGroup = variable.getIncrementGroup();
 	}
 		
 
@@ -216,21 +215,21 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 	}
 
 	@Override
-	public ResetTypeEnum getResetTypeValue()
+	public ResetTypeEnum getResetType()
 	{
-		return this.resetTypeValue;
+		return this.resetType;
 	}
 		
 	@Override
-	public IncrementTypeEnum getIncrementTypeValue()
+	public IncrementTypeEnum getIncrementType()
 	{
-		return this.incrementTypeValue;
+		return this.incrementType;
 	}
 		
 	@Override
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
-		return this.calculationValue;
+		return this.calculation;
 	}
 
 	@Override
@@ -252,13 +251,13 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 	}
 		
 	@Override
-	public JRGroup getResetGroup()
+	public String getResetGroup()
 	{
 		return this.resetGroup;
 	}
 		
 	@Override
-	public JRGroup getIncrementGroup()
+	public String getIncrementGroup()
 	{
 		return this.incrementGroup;
 	}
@@ -290,8 +289,6 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		JRBaseVariable clone = (JRBaseVariable) clone();
 		//early store for circular dependencies
 		cloneStore.store(this, clone);
-		clone.resetGroup = cloneStore.clone(resetGroup);
-		clone.incrementGroup = cloneStore.clone(incrementGroup);
 		return clone;
 	}
 

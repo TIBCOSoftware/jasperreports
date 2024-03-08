@@ -25,6 +25,9 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseLinePlot;
@@ -70,6 +73,13 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
 
 
+	@JsonCreator
+	private JRDesignLinePlot()
+	{
+		this(null, null);
+	}
+
+
 	/**
 	 *
 	 */
@@ -100,6 +110,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setCategoryAxisLabelColor(Color categoryAxisLabelColor)
 	{
 		Object old = this.categoryAxisLabelColor;
@@ -120,6 +131,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setCategoryAxisTickLabelColor(Color categoryAxisTickLabelColor)
 	{
 		Object old = this.categoryAxisTickLabelColor;
@@ -150,6 +162,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setCategoryAxisLineColor(Color categoryAxisLineColor)
 	{
 		Object old = this.categoryAxisLineColor;
@@ -210,6 +223,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisLabelColor(Color valueAxisLabelColor)
 	{
 		Object old = this.valueAxisLabelColor;
@@ -230,6 +244,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisTickLabelColor(Color valueAxisTickLabelColor)
 	{
 		Object old = this.valueAxisTickLabelColor;
@@ -260,6 +275,7 @@ public class JRDesignLinePlot extends JRBaseLinePlot implements JRDesignCategory
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
 		Object old = this.valueAxisLineColor;

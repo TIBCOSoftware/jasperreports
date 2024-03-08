@@ -23,13 +23,19 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 
 /**
  * A report element that wraps an abstract component.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("component")
+@JsonDeserialize(as = JRDesignComponentElement.class)
 public interface JRComponentElement extends JRElement
 {
 	String PROPERTY_COMPONENT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.name";

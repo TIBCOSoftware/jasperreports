@@ -63,17 +63,24 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 *
 	 */
 	protected Float lineWidth;
-	protected LineStyleEnum lineStyleValue;
+	protected LineStyleEnum lineStyle;
 	protected Color lineColor;
 
 	
 	/**
 	 *
 	 */
+	public JRBasePen()
+	{
+		this(null);
+	}
+	
+	
+	/**
+	 *
+	 */
 	public JRBasePen(JRPenContainer penContainer)
 	{
-		super();
-		
 		this.penContainer = penContainer;
 	}
 	
@@ -117,23 +124,23 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 	@Override
-	public LineStyleEnum getLineStyleValue()
+	public LineStyleEnum getLineStyle()
 	{
-		return getStyleResolver().getLineStyleValue(this);
+		return getStyleResolver().getLineStyle(this);
 	}
 
 	@Override
-	public LineStyleEnum getOwnLineStyleValue()
+	public LineStyleEnum getOwnLineStyle()
 	{
-		return lineStyleValue;
+		return lineStyle;
 	}
 
 	@Override
-	public void setLineStyle(LineStyleEnum lineStyleValue)
+	public void setLineStyle(LineStyleEnum lineStyle)
 	{
-		Object old = this.lineStyleValue;
-		this.lineStyleValue = lineStyleValue;
-		getEventSupport().firePropertyChange(PROPERTY_LINE_STYLE, old, this.lineStyleValue);
+		Object old = this.lineStyle;
+		this.lineStyle = lineStyle;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_STYLE, old, this.lineStyle);
 	}
 
 	@Override
@@ -203,7 +210,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		hash.add(lineWidth);
-		hash.add(lineStyleValue);
+		hash.add(lineStyle);
 		hash.add(lineColor);
 		return hash.getHashCode();
 	}
@@ -226,7 +233,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 
 		return 
 				ObjectUtils.equals(lineWidth, pen.lineWidth)
-				&& ObjectUtils.equals(lineStyleValue, pen.lineStyleValue)
+				&& ObjectUtils.equals(lineStyle, pen.lineStyle)
 				&& ObjectUtils.equals(lineColor, pen.lineColor);
 	}
 
@@ -235,7 +242,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	public void populateStyle()
 	{
 		lineWidth = getLineWidth();
-		lineStyleValue = getLineStyleValue();
+		lineStyle = getLineStyle();
 		lineColor = getLineColor();
 	}
 }

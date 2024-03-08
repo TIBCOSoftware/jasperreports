@@ -46,7 +46,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	 *
 	 */
 	protected JRPen linePen;
-	protected FillEnum fillValue;
+	protected FillEnum fill;
 
 
 	/**
@@ -75,22 +75,22 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	}
 
 	@Override
-	public FillEnum getFillValue()
+	public FillEnum getFill()
 	{
-		return getStyleResolver().getFillValue(this);
+		return getStyleResolver().getFill(this);
 	}
 
 	@Override
-	public FillEnum getOwnFillValue()
+	public FillEnum getOwnFill()
 	{
-		return this.fillValue;
+		return this.fill;
 	}
 
 
 	@Override
-	public void setFill(FillEnum fillValue)
+	public void setFill(FillEnum fill)
 	{
-		this.fillValue = fillValue;
+		this.fill = fill;
 	}
 		
 

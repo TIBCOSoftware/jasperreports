@@ -82,11 +82,11 @@ public class IconLabelComponentUtil
 		componentElement.setStyle(textElement.getStyle());
 		componentElement.setStyleNameReference(textElement.getStyleNameReference());
 		componentElement.setStyleExpression(textElement.getStyleExpression());
-		componentElement.setMode(parentElement.getOwnModeValue());
+		componentElement.setMode(parentElement.getOwnMode());
 		componentElement.setForecolor(parentElement.getOwnForecolor());
 		componentElement.setBackcolor(parentElement.getOwnBackcolor());
-		componentElement.setStretchType(parentElement.getStretchTypeValue());
-		componentElement.setPositionType(parentElement.getPositionTypeValue());
+		componentElement.setStretchType(parentElement.getStretchType());
+		componentElement.setPositionType(parentElement.getPositionType());
 		componentElement.setKey(parentElement.getKey());
 		componentElement.setPrintWhenExpression(parentElement.getPrintWhenExpression());//FIXMEICONLABEL make this and the ones below work
 		componentElement.setPrintInFirstWholeBand(parentElement.isPrintInFirstWholeBand());
@@ -165,8 +165,8 @@ public class IconLabelComponentUtil
 		labelTextField.setStyle(textElement.getStyle());
 		labelTextField.setStyleNameReference(textElement.getStyleNameReference());
 		labelTextField.setStyleExpression(textElement.getStyleExpression());
-		labelTextField.setMode(parentElement.getOwnModeValue());
-		labelTextField.setFontSize(parentElement.getOwnFontsize());
+		labelTextField.setMode(parentElement.getOwnMode());
+		labelTextField.setFontSize(parentElement.getOwnFontSize());
 		labelTextField.setFontName(parentElement.getOwnFontName());
 		labelTextField.setForecolor(parentElement.getOwnForecolor());
 		labelTextField.setBackcolor(parentElement.getOwnBackcolor());
@@ -176,7 +176,7 @@ public class IconLabelComponentUtil
 		labelTextField.setStrikeThrough(parentElement.isOwnStrikeThrough());
 		labelTextField.setHorizontalTextAlign(parentElement.getOwnHorizontalTextAlign());
 		labelTextField.setVerticalTextAlign(parentElement.getOwnVerticalTextAlign());
-		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
+		labelTextField.setRotation(parentElement.getOwnRotation());//FIXMEICONLABEL how does it work?
 		labelTextField.setMarkup(parentElement.getMarkup());
 
 		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
@@ -220,7 +220,7 @@ public class IconLabelComponentUtil
 			labelTextField.setBookmarkLevel(textField.getBookmarkLevel());
 			labelTextField.setAnchorNameExpression(textField.getAnchorNameExpression());
 			labelTextField.setBookmarkLevelExpression(textField.getBookmarkLevelExpression());
-			labelTextField.setEvaluationTime(textField.getEvaluationTimeValue());
+			labelTextField.setEvaluationTime(textField.getEvaluationTime());
 			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
 		}
 
@@ -247,9 +247,9 @@ public class IconLabelComponentUtil
 		iconTextField.setStyle(textElement.getStyle());
 		iconTextField.setStyleNameReference(textElement.getStyleNameReference());
 		iconTextField.setStyleExpression(textElement.getStyleExpression());
-		iconTextField.setMode(parentElement.getOwnModeValue());
+		iconTextField.setMode(parentElement.getOwnMode());
 		iconTextField.setFontName(JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(TableReport.PROPERTY_ICON_FONT));
-		iconTextField.setFontSize(parentElement.getOwnFontsize());
+		iconTextField.setFontSize(parentElement.getOwnFontSize());
 		iconTextField.setForecolor(parentElement.getOwnForecolor());
 		iconTextField.setBackcolor(parentElement.getOwnBackcolor());
 		iconTextField.setBold(Boolean.FALSE);//parentElement.isOwnBold());

@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignTimeSeries;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -33,6 +36,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignTimeSeries.class)
 public interface JRTimeSeries extends JRCloneable
 {
 	
@@ -47,7 +51,7 @@ public interface JRTimeSeries extends JRCloneable
 	 * @return a <code>java.util.Date</code> expression from which the engine 
 	 * will extract the corresponding time period depending on the value set 
 	 * for the <code>timePeriod</code> attribute.
-	 * @see JRTimeSeriesDataset#getTimePeriodValue()
+	 * @see JRTimeSeriesDataset#getTimePeriod()
 	 */
 	public JRExpression getTimePeriodExpression();
 

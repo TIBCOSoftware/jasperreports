@@ -27,6 +27,17 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.base.JRBaseChartPlot.JRBaseSeriesColor;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 
@@ -37,6 +48,24 @@ import net.sf.jasperreports.engine.JRCloneable;
  * properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = JRBubblePlot.class),
+	@JsonSubTypes.Type(value = JRCandlestickPlot.class),
+	@JsonSubTypes.Type(value = JRCategoryPlot.class),
+	@JsonSubTypes.Type(value = JRAreaPlot.class),
+	@JsonSubTypes.Type(value = JRBarPlot.class),
+	@JsonSubTypes.Type(value = JRBar3DPlot.class),
+	@JsonSubTypes.Type(value = JRLinePlot.class),
+	@JsonSubTypes.Type(value = JRHighLowPlot.class),
+	@JsonSubTypes.Type(value = JRMeterPlot.class),
+	@JsonSubTypes.Type(value = JRMultiAxisPlot.class),
+	@JsonSubTypes.Type(value = JRPie3DPlot.class),
+	@JsonSubTypes.Type(value = JRPiePlot.class),
+	@JsonSubTypes.Type(value = JRScatterPlot.class),
+	@JsonSubTypes.Type(value = JRThermometerPlot.class),
+	@JsonSubTypes.Type(value = JRTimeSeriesPlot.class)
+})
 public interface JRChartPlot extends JRCloneable
 {
 
@@ -47,28 +76,34 @@ public interface JRChartPlot extends JRCloneable
 	 * is reused by multiple charts, which is not recommended since it prevents style properties 
 	 * inheritence from parent chart.
 	 */
+	@JsonIgnore
 	public JRChart getChart();
 	
 	/**
 	 * Gets the chart background color.
 	 */
+	@JsonIgnore
 	public Color getBackcolor();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("backcolor")
+	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
 	public Color getOwnBackcolor();
 	
 	/**
 	 * Sets the chart background color.
 	 */
+	@JsonSetter
 	public void setBackcolor(Color backcolor);
 
 
 	/**
 	 * Gets the plot orientation (horizontal or vertical).
 	 */
-	public PlotOrientationEnum getOrientationValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public PlotOrientationEnum getOrientation();
 
 	/**
 	 * Sets the plot orientation (horizontal or vertical).
@@ -80,7 +115,8 @@ public interface JRChartPlot extends JRCloneable
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
-	public Float getBackgroundAlphaFloat();
+	@JacksonXmlProperty(isAttribute = true)
+	public Float getBackgroundAlpha();
 	
 	/**
 	 * Sets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
@@ -93,7 +129,8 @@ public interface JRChartPlot extends JRCloneable
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
-	public Float getForegroundAlphaFloat();
+	@JacksonXmlProperty(isAttribute = true)
+	public Float getForegroundAlpha();
 	
 	/**
 	 * Sets the transparency factor for this plot foreground. The range is from 0 to 1, where 0 means transparent and 1
@@ -107,7 +144,8 @@ public interface JRChartPlot extends JRCloneable
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
-	public Double getLabelRotationDouble();
+	@JacksonXmlProperty(isAttribute = true)
+	public Double getLabelRotation();
 	
 	/**
 	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
@@ -145,6 +183,7 @@ public interface JRChartPlot extends JRCloneable
 	 */
 	public void collectExpressions(ChartsExpressionCollector collector);
 
+	@JsonDeserialize(as = JRBaseSeriesColor.class)
 	public interface JRSeriesColor extends JRCloneable
 	{
 		/**
@@ -157,6 +196,7 @@ public interface JRChartPlot extends JRCloneable
 		/**
 		 * Returns the color to use for this series.
 		 */
+		@JacksonXmlProperty(isAttribute = true)
 		public Color getColor();
 	}
 	

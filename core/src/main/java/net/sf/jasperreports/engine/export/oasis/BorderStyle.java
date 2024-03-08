@@ -141,7 +141,7 @@ public abstract class BorderStyle extends Style
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyleValue())//FIXMEBORDER is this working? deal with double border too.
+			switch (pen.getLineStyle())//FIXMEBORDER is this working? deal with double border too.
 			{
 				case DOTTED :
 				{

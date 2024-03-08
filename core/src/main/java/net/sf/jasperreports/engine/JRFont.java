@@ -23,8 +23,16 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.design.JRDesignFont;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -37,6 +45,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * "underline" attribute). All the "own" methods in this class actually return the override values of font properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignFont.class)
 public interface JRFont extends JRStyleContainer
 {
 
@@ -85,136 +94,177 @@ public interface JRFont extends JRStyleContainer
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getFontName();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("fontName")
+	@JacksonXmlProperty(localName = "fontName", isAttribute = true)
 	public String getOwnFontName();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setFontName(String fontName);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public boolean isBold();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("bold")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "bold", isAttribute = true)
 	public Boolean isOwnBold();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBold(Boolean isBold);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public boolean isItalic();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("italic")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "italic", isAttribute = true)
 	public Boolean isOwnItalic();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setItalic(Boolean isItalic);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public boolean isUnderline();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("underline")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "underline", isAttribute = true)
 	public Boolean isOwnUnderline();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setUnderline(Boolean isUnderline);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public boolean isStrikeThrough();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("strikeThrough")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "strikeThrough", isAttribute = true)
 	public Boolean isOwnStrikeThrough();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setStrikeThrough(Boolean isStrikeThrough);
 
 	/**
 	 *
 	 */
-	public float getFontsize();
+	@JsonIgnore
+	public float getFontSize();
 	
 	/**
 	 *
 	 */
-	public Float getOwnFontsize();
+	@JsonGetter("fontSize")
+	@JacksonXmlProperty(localName = "fontSize", isAttribute = true)
+	public Float getOwnFontSize();
 
 	/**
 	 *
 	 */
+	@JsonSetter("fontSize")
 	public void setFontSize(Float size);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getPdfFontName();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("pdfFontName")
+	@JacksonXmlProperty(localName = "pdfFontName", isAttribute = true)
 	public String getOwnPdfFontName();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfFontName(String pdfFontName);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getPdfEncoding();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("pdfEncoding")
+	@JacksonXmlProperty(localName = "pdfEncoding", isAttribute = true)
 	public String getOwnPdfEncoding();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfEncoding(String pdfEncoding);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public boolean isPdfEmbedded();
 
 	/**
 	 *
 	 */
+	@JsonGetter("pdfEmbedded")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "pdfEmbedded", isAttribute = true)
 	public Boolean isOwnPdfEmbedded();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfEmbedded(Boolean isPdfEmbedded);
 
 }

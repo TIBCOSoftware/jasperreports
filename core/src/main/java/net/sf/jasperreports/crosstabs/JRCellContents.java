@@ -25,8 +25,15 @@ package net.sf.jasperreports.crosstabs;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -48,6 +55,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NONE) // this is needed because JRCellContents extends JRChild, which has subtypes annotations
+@JsonDeserialize(as = JRDesignCellContents.class)
 public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {
 
@@ -160,6 +169,7 @@ public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRProper
 	 * 
 	 * @return the cell backcolor
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getBackcolor();
 	
 	
@@ -169,6 +179,7 @@ public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRProper
 	 * @return the computed cell width
 	 * @see #NOT_CALCULATED
 	 */
+	@JsonIgnore
 	public int getWidth();
 	
 		
@@ -178,6 +189,7 @@ public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRProper
 	 * @return the computed cell height
 	 * @see #NOT_CALCULATED
 	 */
+	@JsonIgnore
 	public int getHeight();
 	
 	
@@ -187,5 +199,6 @@ public interface JRCellContents extends JRElementGroup, JRBoxContainer, JRProper
 	 * @return {@link ModeEnum#OPAQUE}
 	 * or {@link ModeEnum#TRANSPARENT}
 	 */
-	public ModeEnum getModeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public ModeEnum getMode();
 }

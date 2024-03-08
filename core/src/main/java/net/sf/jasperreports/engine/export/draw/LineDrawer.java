@@ -74,7 +74,7 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 				if (line.getHeight() != 1)
 				{
 					//Vertical line
-					if (line.getLinePen().getLineStyleValue() ==LineStyleEnum.DOUBLE)
+					if (line.getLinePen().getLineStyle() ==LineStyleEnum.DOUBLE)
 					{
 						grx.translate(0.5 - lineWidth / 3, 0);
 						grx.drawLine(
@@ -110,7 +110,7 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 				if (line.getHeight() == 1)
 				{
 					//Horizontal line
-					if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+					if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 					{
 						grx.translate(0, 0.5 - lineWidth / 3);
 						grx.drawLine(
@@ -143,9 +143,9 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 				else
 				{
 					//Oblique line
-					if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+					if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 					{
-						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+						if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
@@ -177,7 +177,7 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 					}
 					else
 					{
-						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+						if (line.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 						{
 							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
 							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 

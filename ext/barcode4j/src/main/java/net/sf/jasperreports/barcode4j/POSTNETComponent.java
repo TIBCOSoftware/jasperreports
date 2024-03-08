@@ -23,14 +23,16 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:POSTNET")
+@JsonTypeName("barcode4j:POSTNET")
 public class POSTNETComponent extends Barcode4jComponent
 {
 
@@ -54,6 +56,7 @@ public class POSTNETComponent extends Barcode4jComponent
 		visitor.visitPostnet(this);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getBaselinePosition()
 	{
 		return baselinePosition;
@@ -67,6 +70,7 @@ public class POSTNETComponent extends Barcode4jComponent
 				old, this.baselinePosition);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;
@@ -80,6 +84,7 @@ public class POSTNETComponent extends Barcode4jComponent
 				old, this.checksumMode);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getDisplayChecksum()
 	{
 		return displayChecksum;
@@ -93,6 +98,7 @@ public class POSTNETComponent extends Barcode4jComponent
 				old, this.displayChecksum);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getIntercharGapWidth()
 	{
 		return intercharGapWidth;
@@ -106,6 +112,7 @@ public class POSTNETComponent extends Barcode4jComponent
 				old, this.intercharGapWidth);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getShortBarHeight()
 	{
 		return shortBarHeight;

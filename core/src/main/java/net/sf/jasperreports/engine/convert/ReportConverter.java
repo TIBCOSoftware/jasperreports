@@ -165,7 +165,7 @@ public class ReportConverter
 		//jasperPrint.setLocaleCode(report.getProperty(JRPropertiesUtil.PROPERTY_PREFIX + "locale"));
 		//JRStyledTextAttributeSelector.setLocale(locale);
 		jasperPrint.setName(report.getName());
-		jasperPrint.setOrientation(report.getOrientationValue());
+		jasperPrint.setOrientation(report.getOrientation());
 		jasperPrint.setPageWidth(report.getPageWidth());
 		jasperPrint.setPageHeight(report.getPageHeight());
 		jasperPrint.setTopMargin(report.getTopMargin());
@@ -191,7 +191,7 @@ public class ReportConverter
 			addBand(report.getColumnHeader(), true);
 			downColumnHeader = offsetY;
 
-			boolean isColumnGroupBands = report.getPrintOrderValue() == PrintOrderEnum.VERTICAL;
+			boolean isColumnGroupBands = PrintOrderEnum.getValueOrDefault(report.getPrintOrder()) == PrintOrderEnum.VERTICAL;
 			
 			JRGroup[] groups = report.getGroups();
 			if (groups != null)
@@ -447,7 +447,7 @@ public class ReportConverter
 	 */
 	private void addColumnSeparator(int colX)
 	{
-		if (report.getPrintOrderValue() == PrintOrderEnum.HORIZONTAL)
+		if (PrintOrderEnum.getValueOrDefault(report.getPrintOrder()) == PrintOrderEnum.HORIZONTAL)
 		{
 			if (downColumnHeader > upColumnHeader)
 			{
@@ -589,7 +589,7 @@ public class ReportConverter
 		converted.setBackcolor(source.getOwnBackcolor());
 		converted.setForecolor(source.getOwnForecolor());
 		//printElement.setKey(element.getKey());
-		converted.setMode(source.getOwnModeValue());
+		converted.setMode(source.getOwnMode());
 		converted.setStyle(resolveStyle(source));
 	}
 

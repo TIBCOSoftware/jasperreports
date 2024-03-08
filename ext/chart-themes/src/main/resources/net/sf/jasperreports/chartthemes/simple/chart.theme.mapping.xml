@@ -69,7 +69,7 @@
 		<field name="showTitle" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler" get-method="getPositionValue" set-method="setPosition">
+		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
@@ -97,7 +97,7 @@
 		<field name="showLegend" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler" get-method="getPositionValue" set-method="setPosition">
+		<field name="position" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
@@ -282,7 +282,7 @@
 		<field name="fontName" type="java.lang.String" get-method="getOwnFontName" set-method="setFontName">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="fontSize" type="java.lang.Float" get-method="getOwnFontsize" set-method="setFontSize">
+		<field name="fontSize" type="java.lang.Float" get-method="getOwnFontSize" set-method="setFontSize">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="bold" type="java.lang.Boolean" get-method="isOwnBold" set-method="setBold">

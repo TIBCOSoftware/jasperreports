@@ -26,6 +26,9 @@ package net.sf.jasperreports.engine.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -144,9 +147,25 @@ public class JRDesignStyle extends JRBaseStyle
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public List<JRConditionalStyle> getConditionalStyleList()
 	{
 		return conditionalStylesList;
+	}
+
+	/**
+	 *
+	 */
+	@JsonSetter
+	private void setConditionalStyles(List<JRConditionalStyle> conditionalStyles)
+	{
+		if (conditionalStyles != null)
+		{
+			for (JRConditionalStyle conditonalStyle : conditionalStyles)
+			{
+				addConditionalStyle(conditonalStyle);
+			}
+		}
 	}
 
 	/**
@@ -159,6 +178,7 @@ public class JRDesignStyle extends JRBaseStyle
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
+	@JsonSetter("style")
 	public void setParentStyleNameReference(String styleName)
 	{
 		Object old = this.parentStyleNameReference;

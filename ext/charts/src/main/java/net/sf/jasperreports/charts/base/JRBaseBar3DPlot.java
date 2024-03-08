@@ -127,7 +127,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = barPlot.getCategoryAxisVerticalTickLabels();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
-		labelRotationDouble = barPlot.getCategoryAxisTickLabelRotation();
+		labelRotation = barPlot.getCategoryAxisTickLabelRotation();
 		
 		valueAxisLabelExpression = parentFactory.getExpression( barPlot.getValueAxisLabelExpression() );
 		domainAxisMinValueExpression = parentFactory.getExpression( barPlot.getDomainAxisMinValueExpression() );
@@ -200,15 +200,15 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	@Override
 	public Double getCategoryAxisTickLabelRotation()
 	{
-		return labelRotationDouble;
+		return labelRotation;
 	}
 
 	@Override
-	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
+	public void setCategoryAxisTickLabelRotation(Double labelRotation)
 	{
-		Object old = this.labelRotationDouble;
-		this.labelRotationDouble = labelRotationDouble;
-		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
+		Object old = this.labelRotation;
+		this.labelRotation = labelRotation;
+		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotation);
 	}
 
 	@Override

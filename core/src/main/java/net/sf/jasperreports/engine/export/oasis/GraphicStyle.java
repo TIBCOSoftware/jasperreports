@@ -75,7 +75,7 @@ public class GraphicStyle extends Style
 		this.cropBottom = cropBottom;
 		this.cropRight = cropRight;
 		
-		if (element.getModeValue() == ModeEnum.OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE)
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
@@ -94,7 +94,7 @@ public class GraphicStyle extends Style
 		}
 		else
 		{
-			switch (element.getLinePen().getLineStyleValue())
+			switch (element.getLinePen().getLineStyle())
 			{
 				case DOTTED : //FIXMEBORDER
 				case DASHED :

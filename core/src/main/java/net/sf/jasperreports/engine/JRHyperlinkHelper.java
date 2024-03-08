@@ -47,9 +47,9 @@ public final class JRHyperlinkHelper
 	 * @param hyperlink the hyperlink object
 	 * @return the hyperlink type
 	 */
-	public static HyperlinkTypeEnum getHyperlinkTypeValue(JRHyperlink hyperlink)
+	public static HyperlinkTypeEnum getHyperlinkType(JRHyperlink hyperlink)
 	{
-		return getHyperlinkTypeValue(hyperlink.getLinkType());
+		return getHyperlinkType(hyperlink.getLinkType());
 	}
 	
 	
@@ -60,7 +60,7 @@ public final class JRHyperlinkHelper
 	 * @param linkType the link type
 	 * @return the hyperlink type
 	 */
-	public static HyperlinkTypeEnum getHyperlinkTypeValue(String linkType)
+	public static HyperlinkTypeEnum getHyperlinkType(String linkType)
 	{
 		HyperlinkTypeEnum type;
 		if (linkType == null)
@@ -90,9 +90,9 @@ public final class JRHyperlinkHelper
 	 * @param hyperlink the hyperlink object
 	 * @return the hyperlink target
 	 */
-	public static HyperlinkTargetEnum getHyperlinkTargetValue(JRHyperlink hyperlink)
+	public static HyperlinkTargetEnum getHyperlinkTarget(JRHyperlink hyperlink)
 	{
-		return getHyperlinkTargetValue(hyperlink.getLinkTarget());
+		return getHyperlinkTarget(hyperlink.getLinkTarget());
 	}
 	
 
@@ -103,7 +103,7 @@ public final class JRHyperlinkHelper
 	 * @param linkTarget the link target type
 	 * @return the hyperlink target
 	 */
-	public static HyperlinkTargetEnum getHyperlinkTargetValue(String linkTarget)
+	public static HyperlinkTargetEnum getHyperlinkTarget(String linkTarget)
 	{
 		HyperlinkTargetEnum target;
 		if (linkTarget == null)
@@ -215,7 +215,7 @@ public final class JRHyperlinkHelper
 	public static boolean isEmpty(JRHyperlink hyperlink)
 	{
 		return hyperlink == null
-			|| (hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.NONE
+			|| (hyperlink.getHyperlinkType() == HyperlinkTypeEnum.NONE
 				&& hyperlink.getHyperlinkTooltipExpression() == null);
 	}
 	

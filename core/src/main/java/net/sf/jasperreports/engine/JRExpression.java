@@ -23,7 +23,15 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
+import net.sf.jasperreports.jackson.util.ExpressionDeserializer;
+import net.sf.jasperreports.jackson.util.ExpressionSerializer;
 
 /**
  * Provides the JasperReports expressions functionality.
@@ -145,6 +153,9 @@ import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
  * @see net.sf.jasperreports.engine.fill.JRCalculator
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonSerialize(using = ExpressionSerializer.class)
+@JsonDeserialize(using = ExpressionDeserializer.class)
+// jackson annotations in this interface are redundant because the custom serializer/deserializer is doing a better job for the json format
 public interface JRExpression extends JRCloneable
 {
 
@@ -169,21 +180,25 @@ public interface JRExpression extends JRCloneable
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public int getId();
 			
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRExpressionChunk[] getChunks();
 
 	/**
 	 *
 	 */
+	@JacksonXmlText
 	public String getText();
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public ExpressionTypeEnum getType();
 
 	default boolean isInterpreted()

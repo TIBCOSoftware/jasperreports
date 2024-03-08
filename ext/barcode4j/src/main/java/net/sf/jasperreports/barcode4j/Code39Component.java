@@ -23,16 +23,18 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.component.ComponentSpec;
-
 import org.krysalis.barcode4j.ChecksumMode;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:Code39")
+@JsonTypeName("barcode4j:Code39")
 public class Code39Component extends Barcode4jComponent
 {
 
@@ -52,6 +54,7 @@ public class Code39Component extends Barcode4jComponent
 	private Double intercharGapWidth;
 	private Double wideFactor;
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;
@@ -69,6 +72,7 @@ public class Code39Component extends Barcode4jComponent
 		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean isDisplayChecksum()
 	{
 		return displayChecksum;
@@ -84,6 +88,7 @@ public class Code39Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_DISPLAY_CHECKSUM, old, this.displayChecksum);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean isDisplayStartStop()
 	{
 		return displayStartStop;
@@ -99,6 +104,7 @@ public class Code39Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_DISPLAY_START_STOP, old, this.displayStartStop);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean isExtendedCharSetEnabled()
 	{
 		return extendedCharSetEnabled;
@@ -114,6 +120,7 @@ public class Code39Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_EXTENDED_CHARSET_ENABLED, old, this.extendedCharSetEnabled);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getIntercharGapWidth()
 	{
 		return intercharGapWidth;
@@ -129,6 +136,7 @@ public class Code39Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_INTERCHAR_GAP_WIDTH, old, this.intercharGapWidth);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getWideFactor()
 	{
 		return wideFactor;

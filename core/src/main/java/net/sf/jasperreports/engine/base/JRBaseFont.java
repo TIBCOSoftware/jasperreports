@@ -84,7 +84,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	protected Boolean isItalic;
 	protected Boolean isUnderline;
 	protected Boolean isStrikeThrough;
-	protected Float fontsize;
+	protected Float fontSize;
 	protected String pdfFontName;
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
@@ -185,7 +185,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 			isItalic = font.isOwnItalic();
 			isUnderline = font.isOwnUnderline();
 			isStrikeThrough = font.isOwnStrikeThrough();
-			fontsize = font.getOwnFontsize();
+			fontSize = font.getOwnFontSize();
 			pdfFontName = font.getOwnPdfFontName();
 			pdfEncoding = font.getOwnPdfEncoding();
 			isPdfEmbedded = font.isOwnPdfEmbedded();
@@ -210,7 +210,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		isItalic = font.isOwnItalic();
 		isUnderline = font.isOwnUnderline();
 		isStrikeThrough = font.isOwnStrikeThrough();
-		fontsize = font.getOwnFontsize();
+		fontSize = font.getOwnFontSize();
 		pdfFontName = font.getOwnPdfFontName();
 		pdfEncoding = font.getOwnPdfEncoding();
 		isPdfEmbedded = font.isOwnPdfEmbedded();
@@ -366,15 +366,15 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return getStyleResolver().getFontsize(this);
+		return getStyleResolver().getFontSize(this);
 	}
 	
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return fontsize;
+		return fontSize;
 	}
 	
 	/**
@@ -383,9 +383,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setFontSize(Float fontSize) 
 	{
-		Object old = this.fontsize;
-		this.fontsize = fontSize;
-		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontsize);
+		Object old = this.fontSize;
+		this.fontSize = fontSize;
+		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontSize);
 	}
 
 	@Override

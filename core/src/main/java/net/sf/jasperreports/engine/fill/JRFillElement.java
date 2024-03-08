@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -101,7 +100,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected JRGroup printWhenGroupChanges;
+	protected String printWhenGroupChanges;
 	protected JRFillElementGroup elementGroup;
 
 	/**
@@ -193,7 +192,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		printElementOriginator = filler.assignElementId(this);
 
 		/*   */
-		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+		printWhenGroupChanges = element.getPrintWhenGroupChanges();
 		elementGroup = (JRFillElementGroup)factory.getVisitResult(element.getElementGroup());
 		
 		x = element.getX();
@@ -344,9 +343,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	@Override
-	public PositionTypeEnum getPositionTypeValue()
+	public PositionTypeEnum getPositionType()
 	{
-		return parent.getPositionTypeValue();//FIXME optimize this by consolidating style properties
+		return PositionTypeEnum.getValueOrDefault(parent.getPositionType());//FIXME optimize this by consolidating style properties
 	}
 
 	@Override
@@ -356,9 +355,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	@Override
-	public StretchTypeEnum getStretchTypeValue()
+	public StretchTypeEnum getStretchType()
 	{
-		return parent.getStretchTypeValue();
+		return StretchTypeEnum.getValueOrDefault(parent.getStretchType());
 	}
 
 	@Override
@@ -379,19 +378,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return providerStyle == null || providerStyle.getOwnModeValue() == null ? parent.getOwnModeValue() : providerStyle.getOwnModeValue();
+		return providerStyle == null || providerStyle.getOwnMode() == null ? parent.getOwnMode() : providerStyle.getOwnMode();
 	}
 
 	@Override
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
 	}
 
@@ -527,7 +526,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	@Override
-	public JRGroup getPrintWhenGroupChanges()
+	public String getPrintWhenGroupChanges()
 	{
 		return printWhenGroupChanges;
 	}
@@ -1011,7 +1010,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected boolean stretchElement(int containerStretch)
 	{
 		boolean applied = false;
-		switch (getStretchTypeValue())
+		switch (getStretchType())
 		{
 			case CONTAINER_HEIGHT :
 			case CONTAINER_BOTTOM :
@@ -1041,7 +1040,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected boolean stretchElementToContainer(int containerStretch)//TODO subtract firstY?
 	{
 		boolean applied = false;
-		switch (getStretchTypeValue())
+		switch (getStretchType())
 		{
 			case CONTAINER_HEIGHT :
 			{
@@ -1067,7 +1066,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		boolean applied = false;
 		if (elementGroup != null)
 		{
-			switch (getStretchTypeValue())
+			switch (getStretchType())
 			{
 				case ELEMENT_GROUP_HEIGHT :
 				{
@@ -1259,7 +1258,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 	
 	// default for elements not supporting evaluationTime
-	protected EvaluationTimeEnum getEvaluationTimeValue()
+	protected EvaluationTimeEnum getEvaluationTime()
 	{
 		return EvaluationTimeEnum.NOW;
 	}
@@ -1273,7 +1272,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void resolveElement(JRPrintElement element, byte evaluation, JREvaluationTime evaluationTime) throws JRException
 	{
-		EvaluationTimeEnum evaluationTimeType = getEvaluationTimeValue();
+		EvaluationTimeEnum evaluationTimeType = getEvaluationTime();
 		switch (evaluationTimeType)
 		{
 			case NOW:
@@ -1303,7 +1302,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	protected void initDelayedEvaluations()
 	{
-		if (getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
+		if (getEvaluationTime() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
 		{
 			delayedEvaluationsMap = new HashMap<>();
 			collectDelayedEvaluations();
@@ -1434,7 +1433,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		JRFillVariable variable = getVariable(variableName);
 		JREvaluationTime evaluationTime;
-		switch (variable.getResetTypeValue())
+		switch (variable.getResetType())
 		{
 			case REPORT:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_REPORT;
@@ -1449,7 +1448,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_COLUMN;
 				break;
 			case GROUP:
-				evaluationTime = JREvaluationTime.getGroupEvaluationTime(variable.getResetGroup().getName());
+				evaluationTime = JREvaluationTime.getGroupEvaluationTime(variable.getResetGroup());
 				break;
 			default:
 				evaluationTime = JREvaluationTime.EVALUATION_TIME_NOW;
@@ -1462,7 +1461,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			evaluationTime = JREvaluationTime.EVALUATION_TIME_NOW;
 		}
 		
-		if (variable.getCalculationValue() == CalculationEnum.SYSTEM &&
+		if (variable.getCalculation() == CalculationEnum.SYSTEM &&
 				evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW) &&
 				band.isVariableUsedInReturns(variableName))
 		{
@@ -1667,7 +1666,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected boolean isEvaluateNow()
 	{
 		boolean evaluateNow;
-		switch (getEvaluationTimeValue())
+		switch (getEvaluationTime())
 		{
 			case NOW:
 				evaluateNow = true;
@@ -1695,7 +1694,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected boolean isEvaluateAuto()
 	{
-		return getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && !isAutoEvaluateNow();
+		return getEvaluationTime() == EvaluationTimeEnum.AUTO && !isAutoEvaluateNow();
 	}
 
 	@Override

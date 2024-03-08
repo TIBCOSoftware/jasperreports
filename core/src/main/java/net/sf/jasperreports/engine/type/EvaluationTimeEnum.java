@@ -108,4 +108,12 @@ public enum EvaluationTimeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static EvaluationTimeEnum getValueOrDefault(EvaluationTimeEnum value)
+	{
+		return value == null ? NOW : value;
+	}
 }

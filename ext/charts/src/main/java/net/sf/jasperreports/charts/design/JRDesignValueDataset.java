@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRValueDataset;
@@ -56,7 +58,12 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 */
 	protected JRExpression valueExpression;
 
-
+	@JsonCreator
+	private JRDesignValueDataset()
+	{
+		this(null);
+	}
+	
 	/**
 	 * Construct a new dataset that is a copy of an existing one.
 	 *

@@ -25,6 +25,9 @@ package net.sf.jasperreports.crosstabs.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -36,6 +39,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -58,7 +62,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	protected JRStyle style;
 	protected String styleNameReference;
 	
-	protected ModeEnum modeValue;
+	protected ModeEnum mode;
 	private Color backcolor;
 	private JRLineBox lineBox;
 	private int width = JRCellContents.NOT_CALCULATED;
@@ -104,6 +108,11 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		return lineBox;
 	}
 	
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
+	private void setLineBox(JRLineBox lineBox)
+	{
+		this.lineBox = lineBox == null ? null : lineBox.clone(this);
+	}
 	
 	@Override
 	public int getHeight()
@@ -174,22 +183,22 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
-		return modeValue;
+		return mode;
 	}
 	
 	/**
 	 * Sets the cell transparency mode.
 	 * 
-	 * @param modeValue the transparency mode
-	 * @see JRCellContents#getModeValue()
+	 * @param mode the transparency mode
+	 * @see JRCellContents#getMode()
 	 */
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
-		Object old = this.modeValue;
-		this.modeValue = modeValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
+		Object old = this.mode;
+		this.mode = mode;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.mode);
 	}
 
 	@Override
@@ -209,6 +218,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
+	@JsonSetter("style")
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.styleNameReference;
@@ -216,11 +226,13 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(PROPERTY_STYLE_NAME_REFERENCE, old, this.styleNameReference);
 	}
 	
+	@JsonIgnore
 	public JRCrosstabOrigin getOrigin()
 	{
 		return origin;
 	}
 	
+	@JsonIgnore
 	public void setOrigin(JRCrosstabOrigin origin)
 	{
 		this.origin = origin;

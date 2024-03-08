@@ -23,11 +23,17 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignDatasetParameter;
+
 /**
  * Dataset parameter value interface.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignDatasetParameter.class)
 public interface JRDatasetParameter extends JRCloneable
 {
 
@@ -36,6 +42,7 @@ public interface JRDatasetParameter extends JRCloneable
 	 * 
 	 * @return the name of the dataset parameter
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 
 	/**

@@ -56,7 +56,7 @@ public class DatasetSortInfo
 		
 		public boolean isDescending()
 		{
-			return SortOrderEnum.DESCENDING == sortField.getOrderValue();
+			return SortOrderEnum.DESCENDING == sortField.getOrder();
 		}
 
 		public boolean useCollator()

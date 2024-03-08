@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * An interface providing anchor functionality. It must be implemented by elements that can contain anchors for
@@ -63,6 +64,7 @@ public interface JRAnchor
 	 * @return the level of the bookmark corresponding to the anchor (starting from 1)
 	 * or {@link #NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created for this anchor
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public int getBookmarkLevel();
 
 }

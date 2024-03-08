@@ -25,6 +25,11 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignThermometerPlot;
 import net.sf.jasperreports.charts.type.ValueLocationEnum;
 
 /**
@@ -35,6 +40,8 @@ import net.sf.jasperreports.charts.type.ValueLocationEnum;
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonTypeName("thermometer")
+@JsonDeserialize(as = JRDesignThermometerPlot.class)
 public interface JRThermometerPlot extends JRChartPlot
 {
 	/**
@@ -60,7 +67,8 @@ public interface JRThermometerPlot extends JRChartPlot
 	 *
 	 * @return the location where the value of the thermometer will be shown
 	 */
-	public ValueLocationEnum getValueLocationValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public ValueLocationEnum getValueLocation();
 
 	/**
 	 * Returns the color of the "mercury" in the thermometer when the value is
@@ -68,6 +76,7 @@ public interface JRThermometerPlot extends JRChartPlot
 	 *
 	 * @return the default color of the mercury in the thermometer
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getMercuryColor();
 
 	/**

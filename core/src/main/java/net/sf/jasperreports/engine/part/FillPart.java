@@ -146,7 +146,7 @@ public class FillPart
 	public PartEvaluationTime getEvaluationTime()
 	{
 		PartEvaluationTime evaluationTime = reportPart.getEvaluationTime();
-		return evaluationTime == null ? StandardPartEvaluationTime.EVALUATION_NOW : evaluationTime;
+		return evaluationTime == null || evaluationTime.getEvaluationTimeType() == null ? StandardPartEvaluationTime.EVALUATION_NOW : evaluationTime;
 	}
 
 	public String getPartName()

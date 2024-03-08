@@ -25,12 +25,9 @@ package net.sf.jasperreports.interactivity.crosstabs;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import net.sf.jasperreports.crosstabs.fill.calculation.ColumnValueInfo;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
-import net.sf.jasperreports.jackson.type.NamedEnumConstantContextualDeserializer;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -38,7 +35,6 @@ import net.sf.jasperreports.jackson.type.NamedEnumConstantContextualDeserializer
 public class OrderByColumnInfoImpl implements OrderByColumnInfo
 {
 
-	@JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
 	private SortOrderEnum order;
 	private int measureIndex;
 	private List<ColumnValueInfo> columnValues;

@@ -64,7 +64,7 @@ public class IconLabelElementRtfHandler implements GenericElementRtfHandler
 		frame.setStyle(element.getStyle());
 		frame.setBackcolor(element.getBackcolor());
 		frame.setForecolor(element.getForecolor());
-		frame.setMode(element.getModeValue());
+		frame.setMode(element.getMode());
 		JRLineBox lineBox = (JRLineBox)element.getParameterValue(IconLabelElement.PARAMETER_LINE_BOX);
 		if (lineBox != null)
 		{

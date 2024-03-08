@@ -23,14 +23,16 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.component.ComponentSpec;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@ComponentSpec(name = "barcode4j:PDF417")
+@JsonTypeName("barcode4j:PDF417")
 public class PDF417Component extends Barcode4jComponent
 {
 	
@@ -56,6 +58,7 @@ public class PDF417Component extends Barcode4jComponent
 		visitor.visitPDF417(this);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMinColumns()
 	{
 		return minColumns;
@@ -69,6 +72,7 @@ public class PDF417Component extends Barcode4jComponent
 				old, this.minColumns);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMaxColumns()
 	{
 		return maxColumns;
@@ -82,6 +86,7 @@ public class PDF417Component extends Barcode4jComponent
 				old, this.maxColumns);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMinRows()
 	{
 		return minRows;
@@ -95,6 +100,7 @@ public class PDF417Component extends Barcode4jComponent
 				old, this.minRows);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMaxRows()
 	{
 		return maxRows;
@@ -108,6 +114,7 @@ public class PDF417Component extends Barcode4jComponent
 				old, this.maxRows);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getWidthToHeightRatio()
 	{
 		return widthToHeightRatio;
@@ -121,6 +128,7 @@ public class PDF417Component extends Barcode4jComponent
 				old, this.widthToHeightRatio);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getErrorCorrectionLevel()
 	{
 		return errorCorrectionLevel;

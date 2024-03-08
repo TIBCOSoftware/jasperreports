@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.components.items;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -33,6 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardItemProperty.class)
 public interface ItemProperty extends JRCloneable
 {
 
@@ -40,6 +45,7 @@ public interface ItemProperty extends JRCloneable
 	 * Returns the name of the item property (required).
 	 * @return the property name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	String getName();
 	
 	/**
@@ -47,6 +53,7 @@ public interface ItemProperty extends JRCloneable
 	 * <code>java.lang.String</code> values are allowed for this attribute.
 	 * @return the <code>value</code> attribute
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	String getValue();
 	
 	/**
@@ -56,6 +63,7 @@ public interface ItemProperty extends JRCloneable
 	 * 
 	 * @return the value expression
 	 */
+	@JsonGetter("expression")
 	JRExpression getValueExpression();
 	
 }

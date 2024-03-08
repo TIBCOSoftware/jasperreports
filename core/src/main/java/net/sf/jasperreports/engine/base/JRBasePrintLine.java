@@ -43,7 +43,7 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	/**
 	 *
 	 */
-	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
+	protected LineDirectionEnum direction = LineDirectionEnum.TOP_DOWN;
 
 
 	/**
@@ -78,15 +78,15 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	}
 
 	@Override
-	public LineDirectionEnum getDirectionValue()
+	public LineDirectionEnum getDirection()
 	{
-		return this.directionValue;
+		return this.direction;
 	}
 
 	@Override
-	public void setDirection(LineDirectionEnum directionValue)
+	public void setDirection(LineDirectionEnum direction)
 	{
-		this.directionValue = directionValue;
+		this.direction = direction;
 	}
 
 	@Override

@@ -26,6 +26,13 @@ package net.sf.jasperreports.charts;
 import java.awt.Color;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignMeterPlot;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRFont;
@@ -39,6 +46,8 @@ import net.sf.jasperreports.engine.JRFont;
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonTypeName("meter")
+@JsonDeserialize(as = JRDesignMeterPlot.class)
 public interface JRMeterPlot extends JRChartPlot
 {
 	/**
@@ -67,7 +76,8 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return a description of how the value of the Meter is displayed.
 	 */
-	public MeterShapeEnum getShapeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public MeterShapeEnum getShape();
 
 	/**
 	 * Returns a list of all the intervals contained in this Meter.  The return value is never
@@ -76,6 +86,8 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return a list of all the intervals contained in this Meter
 	 */
+	@JacksonXmlProperty(localName = "interval")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<JRMeterInterval> getIntervals();
 
 	/**
@@ -84,6 +96,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the size of the Meter face in degrees
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMeterAngleInteger();
 
 	/**
@@ -92,6 +105,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the name of the units that the Meter is displaying
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getUnits();
 
 	/**
@@ -101,13 +115,15 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the spacing between the ticks on the face of the meter
 	 */
-	public Double getTickIntervalDouble();
+	@JacksonXmlProperty(isAttribute = true)
+	public Double getTickInterval();
 	
 	/**
 	 * Returns the number of major ticks on the meter scale.
 	 *
 	 * @return the spacing between the ticks on the face of the meter
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getTickCount();
 
 	/**
@@ -115,6 +131,8 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the background color of the meter.
 	 */
+	@JsonGetter("meterColor")
+	@JacksonXmlProperty(localName = "meterColor", isAttribute = true)
 	public Color getMeterBackgroundColor();
 
 	/**
@@ -122,6 +140,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the color used when drawing the meter's pointer
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getNeedleColor();
 
 	/**
@@ -129,6 +148,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return the color used when drawing tick marks on the meter
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getTickColor();
 	
 	/**

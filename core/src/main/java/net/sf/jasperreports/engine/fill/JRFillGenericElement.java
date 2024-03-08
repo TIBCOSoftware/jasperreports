@@ -180,7 +180,7 @@ public class JRFillGenericElement extends JRFillElement implements
 			else
 			{
 				filler.addBoundElement(this, printElement, 
-						getEvaluationTimeValue(), getEvaluationGroupName(), band);
+						getEvaluationTime(), getEvaluationGroup(), band);
 			}
 		}
 		return printElement;
@@ -268,15 +268,15 @@ public class JRFillGenericElement extends JRFillElement implements
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return ((JRGenericElement) parent).getEvaluationTimeValue();
+		return EvaluationTimeEnum.getValueOrDefault(((JRGenericElement)this.parent).getEvaluationTime());
 	}
 	
 	@Override
-	public String getEvaluationGroupName()
+	public String getEvaluationGroup()
 	{
-		return ((JRGenericElement) parent).getEvaluationGroupName();
+		return ((JRGenericElement) parent).getEvaluationGroup();
 	}
 
 }

@@ -139,7 +139,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 				barcodeBean.setFontName(fontName);
 			}
 			
-			Float fontSize = style.getFontsize();
+			Float fontSize = style.getFontSize();
 			if (fontSize != null)
 			{
 				double barFontSize = UnitConv.pt2mm(fontSize.floatValue());
@@ -153,7 +153,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 			barcodeBean.setModuleWidth(UnitConv.pt2mm(moduleWidth));
 		}
 		
-		TextPositionEnum textPlacement = barcodeComponent.getTextPositionValue();
+		TextPositionEnum textPlacement = barcodeComponent.getTextPosition();
 		if (textPlacement != null)
 		{
 			barcodeBean.setMsgPosition(

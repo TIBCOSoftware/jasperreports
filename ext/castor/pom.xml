@@ -36,13 +36,6 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-jackson</artifactId>
-			<version>${revision}</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-core</artifactId>
 			<version>${castor.version}</version>

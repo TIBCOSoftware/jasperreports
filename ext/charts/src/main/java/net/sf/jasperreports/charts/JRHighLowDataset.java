@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignHighLowDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 
@@ -34,6 +38,8 @@ import net.sf.jasperreports.engine.JRHyperlink;
  * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonTypeName("highLow")
+@JsonDeserialize(as = JRDesignHighLowDataset.class)
 public interface JRHighLowDataset extends JRChartDataset
 {
 	/**

@@ -167,7 +167,7 @@ public final class CrosstabConverter extends FrameConverter
 			crosstabElements
 			);
 		
-		if (crosstab.getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (crosstab.getRunDirection() == RunDirectionEnum.RTL)
 		{
 			mirrorElements(crosstabElements, crosstab.getX(), crosstab.getWidth());
 		}
@@ -208,7 +208,7 @@ public final class CrosstabConverter extends FrameConverter
 		frame.setWidth(cell.getWidth());
 		frame.setHeight(cell.getHeight());
 		
-		frame.setMode(cell.getModeValue());
+		frame.setMode(cell.getMode());
 		frame.setBackcolor(cell.getBackcolor());
 		frame.setStyle(reportConverter.resolveStyle(cell));
 		
@@ -282,7 +282,7 @@ public final class CrosstabConverter extends FrameConverter
 		{
 			JRCrosstabColumnGroup group = groups[i];
 			
-			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
+			if (group.getTotalPosition() == CrosstabTotalPositionEnum.START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -294,8 +294,8 @@ public final class CrosstabConverter extends FrameConverter
 							totalHeader, 
 							rowHeadersXOffset + x, 
 							y, 
-							firstOnRow && crosstab.getRunDirectionValue() != RunDirectionEnum.RTL, //LTR or null
-							firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
+							firstOnRow && crosstab.getRunDirection() != RunDirectionEnum.RTL, //LTR or null
+							firstOnRow && crosstab.getRunDirection() == RunDirectionEnum.RTL,
 							false
 							));
 	
@@ -314,13 +314,13 @@ public final class CrosstabConverter extends FrameConverter
 						header, 
 						rowHeadersXOffset + x, 
 						y, 
-						firstOnRow && crosstab.getRunDirectionValue() != RunDirectionEnum.RTL, //LTR or null
-						firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
+						firstOnRow && crosstab.getRunDirection() != RunDirectionEnum.RTL, //LTR or null
+						firstOnRow && crosstab.getRunDirection() == RunDirectionEnum.RTL,
 						false
 						));
 			}
 			
-			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
+			if (group.getTotalPosition() == CrosstabTotalPositionEnum.END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -360,7 +360,7 @@ public final class CrosstabConverter extends FrameConverter
 		{
 			JRCrosstabRowGroup group = groups[i];
 			
-			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
+			if (group.getTotalPosition() == CrosstabTotalPositionEnum.START)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -415,7 +415,7 @@ public final class CrosstabConverter extends FrameConverter
 					);				
 			}
 			
-			if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
+			if (group.getTotalPosition() == CrosstabTotalPositionEnum.END)
 			{
 				JRCellContents totalHeader = group.getTotalHeader();
 				if (totalHeader.getWidth() != 0 && totalHeader.getHeight() != 0)
@@ -469,7 +469,7 @@ public final class CrosstabConverter extends FrameConverter
 			{
 				JRCrosstabColumnGroup group = colGroups[i];
 				
-				if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.START)
+				if (group.getTotalPosition() == CrosstabTotalPositionEnum.START)
 				{
 					JRCrosstabCell cell = cells[rowIndex][i];
 					if (cell != null)
@@ -514,7 +514,7 @@ public final class CrosstabConverter extends FrameConverter
 					}
 				}
 				
-				if (group.getTotalPositionValue() == CrosstabTotalPositionEnum.END)
+				if (group.getTotalPosition() == CrosstabTotalPositionEnum.END)
 				{
 					JRCrosstabCell cell = cells[rowIndex][i];
 					if (cell != null)

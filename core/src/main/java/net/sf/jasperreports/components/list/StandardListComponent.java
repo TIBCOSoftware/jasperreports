@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.list;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -51,7 +53,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	
 	private JRDatasetRun datasetRun;
 	private ListContents contents;
-	private PrintOrderEnum printOrderValue;
+	private PrintOrderEnum printOrder;
 	private Boolean ignoreWidth;
 
 	public StandardListComponent()
@@ -62,7 +64,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	{
 		this.datasetRun = baseFactory.getDatasetRun(list.getDatasetRun());
 		this.contents = new BaseListContents(list.getContents(), baseFactory);
-		this.printOrderValue = list.getPrintOrderValue();
+		this.printOrder = list.getPrintOrder();
 		this.ignoreWidth = list.getIgnoreWidth();
 	}
 	
@@ -122,26 +124,27 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	}
 
 	@Override
-	public PrintOrderEnum getPrintOrderValue()
+	@JacksonXmlProperty(isAttribute = true)
+	public PrintOrderEnum getPrintOrder()
 	{
-		return printOrderValue;
+		return printOrder;
 	}
 
 	/**
 	 * Sets the list cell print order.
 	 * 
-	 * @param printOrderValue the cell print oder, null or one of
+	 * @param printOrder the cell print oder, null or one of
 	 * <ul>
 	 * <li>{@link PrintOrderEnum#VERTICAL}</li>
 	 * <li>{@link PrintOrderEnum#HORIZONTAL}</li>
 	 * </ul>
-	 * @see #getPrintOrderValue()
+	 * @see #getPrintOrder()
 	 */
-	public void setPrintOrderValue(PrintOrderEnum printOrderValue)
+	public void setPrintOrder(PrintOrderEnum printOrder)
 	{
-		Object old = this.printOrderValue;
-		this.printOrderValue = printOrderValue;
-		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrderValue);
+		Object old = this.printOrder;
+		this.printOrder = printOrder;
+		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrder);
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;

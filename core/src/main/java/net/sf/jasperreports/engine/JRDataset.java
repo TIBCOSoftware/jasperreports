@@ -23,7 +23,19 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.jackson.util.ParameterSerializer;
+import net.sf.jasperreports.jackson.util.VariableSerializer;
 
 /**
  * Interface representing a data set that can be used in a report.
@@ -76,6 +88,32 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * @see net.sf.jasperreports.engine.JRReport#getDatasets()
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonPropertyOrder({
+	JRXmlConstants.ATTRIBUTE_name,
+	JRXmlConstants.ATTRIBUTE_scriptletClass,
+	JRXmlConstants.ATTRIBUTE_resourceBundle,
+	JRXmlConstants.ATTRIBUTE_whenResourceMissingType,
+	JRXmlConstants.ATTRIBUTE_uuid,
+	"properties",
+	JRXmlConstants.ELEMENT_property,
+	"propertyExpressions",
+	JRXmlConstants.ELEMENT_propertyExpression,
+	"scriptlets",
+	JRXmlConstants.ELEMENT_scriptlet,
+	"parameters", // for JSON 
+	JRXmlConstants.ELEMENT_parameter, // for XML
+	"query",
+	"fields", // for JSON 
+	JRXmlConstants.ELEMENT_field, // for XML
+	"sortFields", // for JSON 
+	JRXmlConstants.ELEMENT_sortField, // for XML
+	"variables", // for JSON 
+	JRXmlConstants.ELEMENT_variable, // for XML
+	JRXmlConstants.ELEMENT_filterExpression,
+	"groups", // for JSON 
+	JRXmlConstants.ATTRIBUTE_group // for XML
+	})
+@JsonDeserialize(as = JRDesignDataset.class)
 public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 {
 
@@ -85,6 +123,7 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the name of the dataset 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 
 	
@@ -93,6 +132,7 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the scriplet class name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getScriptletClass();
 
 	
@@ -101,6 +141,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's scriptlets
 	 */
+	@JacksonXmlProperty(localName = "scriptlet")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRScriptlet[] getScriptlets();
 
 
@@ -109,6 +151,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return an array containing the expression-based properties of this dataset
 	 */
+	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public DatasetPropertyExpression[] getPropertyExpressions();
 
 
@@ -117,6 +161,9 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's parameters
 	 */
+	@JsonSerialize(contentUsing = ParameterSerializer.class)
+	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRParameter[] getParameters();
 
 	
@@ -135,6 +182,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's fields
 	 */
+	@JacksonXmlProperty(localName = "field")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRField[] getFields();
 
 	
@@ -143,6 +192,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's sort fields
 	 */
+	@JacksonXmlProperty(localName = "sortField")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSortField[] getSortFields();
 
 	
@@ -151,6 +202,9 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's variables
 	 */
+	@JsonSerialize(contentUsing = VariableSerializer.class)
+	@JacksonXmlProperty(localName = "variable")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRVariable[] getVariables();
 
 	
@@ -159,6 +213,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the dataset's groups
 	 */
+	@JacksonXmlProperty(localName = "group")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRGroup[] getGroups();
 	
 	
@@ -167,6 +223,7 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return <code>true</code> if and only if this dataset is the main report dataset
 	 */
+	@JsonIgnore
 	public boolean isMainDataset();
 
 
@@ -177,6 +234,7 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the resource bundle base name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getResourceBundle();
 
 
@@ -185,7 +243,8 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 * 
 	 * @return the resource missing handling type
 	 */
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType();
 	
 	
 	/**

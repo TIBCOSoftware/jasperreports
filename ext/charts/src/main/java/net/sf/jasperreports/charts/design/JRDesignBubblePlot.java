@@ -25,6 +25,9 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseBubblePlot;
@@ -81,6 +84,13 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	public static final String PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION = "rangeAxisMaxValueExpression";
 	
 
+	@JsonCreator
+	private JRDesignBubblePlot()
+	{
+		this(null, null);
+	}
+
+
 	/**
 	 *
 	 */
@@ -112,6 +122,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setXAxisLabelColor(Color xAxisLabelColor)
 	{
 		Object old = this.xAxisLabelColor;
@@ -132,6 +143,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setXAxisTickLabelColor(Color xAxisTickLabelColor)
 	{
 		Object old = this.xAxisTickLabelColor;
@@ -162,6 +174,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setXAxisLineColor(Color xAxisLineColor)
 	{
 		Object old = this.xAxisLineColor;
@@ -191,6 +204,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setYAxisLabelColor(Color yAxisLabelColor)
 	{
 		Object old = this.yAxisLabelColor;
@@ -211,6 +225,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setYAxisTickLabelColor(Color yAxisTickLabelColor)
 	{
 		Object old = this.yAxisTickLabelColor;
@@ -241,6 +256,7 @@ public class JRDesignBubblePlot extends JRBaseBubblePlot {
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setYAxisLineColor(Color yAxisLineColor)
 	{
 		Object old = this.yAxisLineColor;

@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.table;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.design.DesignStyleContainer;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * 
@@ -81,6 +84,12 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 		return box;
 	}
 
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
+	private void setLineBox(JRLineBox box)
+	{
+		this.box = box == null ? null : box.clone(this);
+	}
+
 	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
@@ -119,6 +128,7 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 	}
 
 	@Override
+	@JsonSetter("style")
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.styleNameReference;

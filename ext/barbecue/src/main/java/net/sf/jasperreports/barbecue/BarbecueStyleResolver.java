@@ -58,7 +58,7 @@ public final class BarbecueStyleResolver {
 	/**
 	 * 
 	 */
-	public static RotationEnum getRotationValue(JRComponentElement element)
+	public static RotationEnum getRotation(JRComponentElement element)
 	{
 		RotationEnum ownRotation = ((BarbecueComponent)element.getComponent()).getOwnRotation();
 		if (ownRotation != null) {
@@ -66,7 +66,7 @@ public final class BarbecueStyleResolver {
 		}
 		JRStyle style = getStyleResolver(element).getBaseStyle(element);
 		if (style != null) {
-			RotationEnum rotation = style.getRotationValue();
+			RotationEnum rotation = style.getRotation();
 			if (rotation != null) {
 				return rotation;
 			}

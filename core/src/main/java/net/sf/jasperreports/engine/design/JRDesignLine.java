@@ -46,7 +46,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	/**
 	 *
 	 */
-	protected LineDirectionEnum directionValue = LineDirectionEnum.TOP_DOWN;
+	protected LineDirectionEnum direction;
 
 
 	/**
@@ -89,17 +89,17 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	}
 
 	@Override
-	public LineDirectionEnum getDirectionValue()
+	public LineDirectionEnum getDirection()
 	{
-		return directionValue;
+		return direction;
 	}
 
 	@Override
-	public void setDirection(LineDirectionEnum directionValue)
+	public void setDirection(LineDirectionEnum direction)
 	{
-		LineDirectionEnum old = this.directionValue;
-		this.directionValue = directionValue;
-		getEventSupport().firePropertyChange(JRBaseLine.PROPERTY_DIRECTION, old, this.directionValue);
+		LineDirectionEnum old = this.direction;
+		this.direction = direction;
+		getEventSupport().firePropertyChange(JRBaseLine.PROPERTY_DIRECTION, old, this.direction);
 	}
 
 	@Override

@@ -25,6 +25,8 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRDataRange;
@@ -62,6 +64,11 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	
 	public static final String PROPERTY_VALUE_LOCATION = "valueLocation";
 
+//	@JsonCreator
+//	private JRDesignThermometerPlot()
+//	{
+//		this(null, null);
+//	}
 
 	/**
 	 * Constructs a new plot that is a copy of an existing one.
@@ -118,6 +125,7 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 *
 	 * @param mercuryColor the default color of the mercury
 	 */
+	@JsonSetter
 	public void setMercuryColor(Color mercuryColor)
 	{
 		Object old = this.mercuryColor;

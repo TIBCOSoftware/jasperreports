@@ -42,7 +42,7 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	public static final String PROPERTY_WIDTH = "width";
 
 	protected int width;
-	protected CrosstabRowPositionEnum positionValue = CrosstabRowPositionEnum.TOP;
+	protected CrosstabRowPositionEnum position = CrosstabRowPositionEnum.TOP;
 
 	public JRDesignCrosstabRowGroup()
 	{
@@ -50,23 +50,23 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 	}
 
 	@Override
-	public CrosstabRowPositionEnum getPositionValue()
+	public CrosstabRowPositionEnum getPosition()
 	{
-		return positionValue;
+		return position;
 	}
 	
 	
 	/**
 	 * Sets the header contents stretch position.
 	 * 
-	 * @param positionValue the header contents stretch position
-	 * @see JRCrosstabRowGroup#getPositionValue()
+	 * @param position the header contents stretch position
+	 * @see JRCrosstabRowGroup#getPosition()
 	 */
-	public void setPosition(CrosstabRowPositionEnum positionValue)
+	public void setPosition(CrosstabRowPositionEnum position)
 	{
-		Object old = this.positionValue;
-		this.positionValue = positionValue;
-		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
+		Object old = this.position;
+		this.position = position;
+		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.position);
 	}
 
 	@Override

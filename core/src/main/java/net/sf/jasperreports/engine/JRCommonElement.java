@@ -25,6 +25,11 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.ModeEnum;
 
 
@@ -76,25 +81,22 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * <code>forecolor="16711680"</code>
  * <p/>
  * The default fore color is <code>black</code> and the default background color is <code>white</code>.
- * 
- * 
- * 
- * 
- * 
- * 
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface JRCommonElement extends JRStyleContainer
 {
 
+	@JacksonXmlProperty(isAttribute = true)
 	public int getWidth();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public int getHeight();
 	
 	/**
 	 * Returns the string value that uniquely identifies the element.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getKey();
 
 	/**
@@ -103,44 +105,56 @@ public interface JRCommonElement extends JRStyleContainer
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
 	 * by default, and so are the subreport elements.
 	 */
-	public ModeEnum getModeValue();
+	@JsonIgnore
+	public ModeEnum getMode();
 	
-	public ModeEnum getOwnModeValue();
+	@JsonGetter("mode")
+	@JacksonXmlProperty(localName = "mode", isAttribute = true)
+	public ModeEnum getOwnMode();
 
 	/**
 	 * Sets the element transparency mode.
 	 */
+	@JsonSetter
 	public void setMode(ModeEnum mode);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Color getForecolor();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("forecolor")
+	@JacksonXmlProperty(localName = "forecolor", isAttribute = true)
 	public Color getOwnForecolor();
 
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setForecolor(Color forecolor);
 	
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Color getBackcolor();
 	
 	/**
 	 *
 	 */
+	@JsonGetter("backcolor")
+	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
 	public Color getOwnBackcolor();
 	
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBackcolor(Color backcolor);
 
 }

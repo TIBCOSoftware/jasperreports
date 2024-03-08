@@ -38,7 +38,7 @@ public class JROrigin implements JRCloneable, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private BandTypeEnum bandTypeValue = BandTypeEnum.UNKNOWN;
+	private BandTypeEnum bandType = BandTypeEnum.UNKNOWN;
 	private String groupName;
 	private String reportName;
 	
@@ -71,12 +71,12 @@ public class JROrigin implements JRCloneable, Serializable
 	public JROrigin(
 		String reportName,
 		String groupName,
-		BandTypeEnum bandTypeValue
+		BandTypeEnum bandType
 		)
 	{
 		this.reportName = reportName;
 		this.groupName = groupName;
-		this.bandTypeValue = bandTypeValue;
+		this.bandType = bandType;
 	}
 
 	/**
@@ -98,9 +98,9 @@ public class JROrigin implements JRCloneable, Serializable
 	/**
 	 * 
 	 */
-	public BandTypeEnum getBandTypeValue()
+	public BandTypeEnum getBandType()
 	{
-		return bandTypeValue;
+		return bandType;
 	}
 	
 	@Override
@@ -112,7 +112,7 @@ public class JROrigin implements JRCloneable, Serializable
 			String groupName2 = origin.getGroupName();
 			String reportName2 = origin.getReportName();
 			return
-				origin.getBandTypeValue() == bandTypeValue
+				origin.getBandType() == bandType
 				&& (groupName == null ? groupName2 == null : groupName2 != null && groupName.equals(groupName2))
 				&& (reportName == null ? reportName2 == null : reportName2 != null && reportName.equals(reportName2));
 		}
@@ -127,7 +127,7 @@ public class JROrigin implements JRCloneable, Serializable
 			int hash = 17;
 			hash = 31 * hash + (reportName == null ? 0 : reportName.hashCode());
 			hash = 31 * hash + (groupName == null ? 0 : groupName.hashCode());
-			hash = 31 * hash + bandTypeValue.hashCode();
+			hash = 31 * hash + bandType.hashCode();
 			hashCode = hash;
 		}
 		return hashCode;
@@ -152,6 +152,6 @@ public class JROrigin implements JRCloneable, Serializable
 	{
 		return "{reportName: " + reportName 
 				+ ", groupName: " + groupName 
-				+ ",bandType: " + bandTypeValue + "}";
+				+ ",bandType: " + bandType + "}";
 	}
 }

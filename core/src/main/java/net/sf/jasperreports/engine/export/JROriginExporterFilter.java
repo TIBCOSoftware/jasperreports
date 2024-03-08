@@ -209,7 +209,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		String groupName2 = origin.getGroupName();
 		String reportName2 = origin.getReportName();
 		return (
-			originToExclude.getBandTypeValue() == origin.getBandTypeValue()
+			originToExclude.getBandType() == origin.getBandType()
 			&& (("*".equals(groupName1) && groupName2 != null) || (groupName1 == null ? groupName2 == null : groupName2 != null && groupName1.equals(groupName2)))
 			&& (("*".equals(reportName1) && reportName2 != null) || (reportName1 == null ? reportName2 == null : reportName2 != null && reportName1.equals(reportName2)))
 			);

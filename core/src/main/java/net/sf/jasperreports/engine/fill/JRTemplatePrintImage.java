@@ -109,15 +109,15 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return ((JRTemplateImage)this.template).getScaleImageValue();
+		return ((JRTemplateImage)this.template).getScaleImage();
 	}
 
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return ((JRTemplateImage)this.template).getOwnScaleImageValue();
+		return ((JRTemplateImage)this.template).getOwnScaleImage();
 	}
 
 	@Override
@@ -192,9 +192,9 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	@Override
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return ((JRTemplateImage)this.template).getOnErrorTypeValue();
+		return ((JRTemplateImage)this.template).getOnErrorType();
 	}
 		
 	@Override
@@ -227,9 +227,9 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateImage)this.template).getHyperlinkTypeValue();
+		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateImage)this.template).getHyperlinkType();
 	}
 		
 	@Override
@@ -239,9 +239,9 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return ((JRTemplateImage)this.template).getHyperlinkTargetValue();
+		return ((JRTemplateImage)this.template).getHyperlinkTarget();
 	}
 		
 	@Override

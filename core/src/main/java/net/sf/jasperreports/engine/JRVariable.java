@@ -23,10 +23,17 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -192,6 +199,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignVariable.class)
 public interface JRVariable extends JRCloneable
 {
 	/**
@@ -250,6 +258,7 @@ public interface JRVariable extends JRCloneable
 	 * Returns the name of the variable. Since all variables are stored in a map, the variable names are the keys in the map.
 	 * @return a string containing the variable name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 
 
@@ -267,11 +276,14 @@ public interface JRVariable extends JRCloneable
 	 * Returns the class of the variable value. Any class is allowed as long as it is in the classpath at compile and run time.
 	 * @return a <tt>Class</tt> instance representing the variable value class
 	 */
+	@JsonIgnore
 	public Class<?> getValueClass();
 		
 	/**
 	 * Returns the string name of the variable value class.
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	public String getValueClassName();
 		
 	/**
@@ -280,35 +292,42 @@ public interface JRVariable extends JRCloneable
 	 * @see net.sf.jasperreports.engine.fill.JRIncrementer
 	 * @see net.sf.jasperreports.engine.fill.JRIncrementerFactory
 	 */
+	@JsonIgnore
 	public Class<?> getIncrementerFactoryClass();
 		
 	/**
 	 * Returns the string name of the variable value class.
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, isAttribute = true)
 	public String getIncrementerFactoryClassName();
 		
 	/**
 	 * Gets the variable reset type.
 	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
 	 */
-	public ResetTypeEnum getResetTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public ResetTypeEnum getResetType();
 	
 	/**
 	 * Gets the variable increment type.
 	 * @return a value representing one of the reset type constants in {@link IncrementTypeEnum}
 	 */
-	public IncrementTypeEnum getIncrementTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public IncrementTypeEnum getIncrementType();
 	
 	/**
 	 * Gets the variable calculation type.
 	 * @return a value representing one of the calculation type constants in {@link CalculationEnum}
 	 */
-	public CalculationEnum getCalculationValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public CalculationEnum getCalculation();
 
 	/**
 	 * Returns <code>true</code> if the variable calculation type is system defined.
 	 * @see CalculationEnum#SYSTEM
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isSystemDefined();
 
 	/**
@@ -324,15 +343,17 @@ public interface JRVariable extends JRCloneable
 	public JRExpression getInitialValueExpression();
 		
 	/**
-	 * Returns the group whose break triggers the variable reset. Only used when {@link JRVariable#getResetTypeValue()} returns
+	 * Returns the group whose break triggers the variable reset. Only used when {@link JRVariable#getResetType()} returns
 	 * {@link ResetTypeEnum#GROUP}.
 	 */
-	public JRGroup getResetGroup();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getResetGroup();
 		
 	/**
-	 * Returns the group whose break triggers the variable increment. Only used when {@link JRVariable#getIncrementTypeValue()} returns
+	 * Returns the group whose break triggers the variable increment. Only used when {@link JRVariable#getIncrementType()} returns
 	 * {@link IncrementTypeEnum#GROUP}.
 	 */
-	public JRGroup getIncrementGroup();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getIncrementGroup();
 		
 }

@@ -58,7 +58,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
