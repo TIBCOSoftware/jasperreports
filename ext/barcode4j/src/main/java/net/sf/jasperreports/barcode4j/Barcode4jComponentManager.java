@@ -21,45 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties;
+package net.sf.jasperreports.barcode4j;
 
-import java.util.HashMap;
-
-import org.testng.annotations.Test;
-
-import net.sf.jasperreports.Report;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.component.ComponentXmlWriter;
+import net.sf.jasperreports.engine.component.DefaultComponentManager;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class TextPropertiesTest
+public class Barcode4jComponentManager extends DefaultComponentManager
 {
 
-	@Test
-	public void keepFullText()
+	@Override
+	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextProperty");
-		report.init();
-		
-		report.runReport(new HashMap<>());
+		return new Barcode4JXmlWriter(jasperReportsContext);
 	}
 
-	@Test
-	public void keepFullTextExpression()
-	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyExpression");
-		report.init();
-		
-		report.runReport(new HashMap<>());
-	}
-
-	@Test
-	public void keepFullTextGroup()
-	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyGroup");
-		report.init();
-		
-		report.runReport(new HashMap<>());
-	}
-	
 }

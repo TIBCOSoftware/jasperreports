@@ -36,7 +36,7 @@
 			</line>
 			<componentElement>
 				<reportElement mode="Opaque" x="50" y="90" width="400" height="400" uuid="38296859-009f-4f19-bdbe-55df1d9b26d8"/>
-				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/charts.xsd">
 					<c:chartSettings isShowLegend="true" backcolor="#00FF00" customizerClass="SpiderChartCustomizer">
 						<chartTitle position="Top">
 							<font size="12.0" isItalic="true"/>

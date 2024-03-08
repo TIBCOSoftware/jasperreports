@@ -114,7 +114,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="160" height="20" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10">
+								<reportElement style="TableDetail" stretchType="ContainerHeight" x="0" y="0" width="160" height="20" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10">
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 								</reportElement>
 								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
@@ -135,7 +135,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="440" height="20" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027"/>
+								<reportElement style="TableDetail" stretchType="ContainerHeight" x="0" y="0" width="440" height="20" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027"/>
 								<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -150,7 +150,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="20">
 							<textField textAdjust="StretchHeight">
-								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="220" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
+								<reportElement style="TableDetail" stretchType="ContainerHeight" x="0" y="0" width="220" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
 								<textFieldExpression><![CDATA[$F{returnType}.getCanonicalName()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -225,7 +225,7 @@
 										<jr:detailCell height="20">
 											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="170" height="20" uuid="0de3f34f-364c-4119-b40e-e99c340024a2">
+												<reportElement stretchType="ContainerHeight" x="0" y="0" width="170" height="20" uuid="0de3f34f-364c-4119-b40e-e99c340024a2">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
@@ -254,7 +254,7 @@
 										<jr:detailCell height="20">
 											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="140" height="20" uuid="02159a17-4380-483d-a7ad-317e13bf5b98">
+												<reportElement stretchType="ContainerHeight" x="0" y="0" width="140" height="20" uuid="02159a17-4380-483d-a7ad-317e13bf5b98">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>
@@ -267,7 +267,7 @@
 										<jr:detailCell height="20">
 											<property name="com.jaspersoft.studio.unit.width" value="px"/>
 											<textField textAdjust="StretchHeight">
-												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="70" height="20" uuid="40690340-8dac-4372-885f-08649c29a803">
+												<reportElement stretchType="ContainerHeight" x="0" y="0" width="70" height="20" uuid="40690340-8dac-4372-885f-08649c29a803">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
 												</reportElement>

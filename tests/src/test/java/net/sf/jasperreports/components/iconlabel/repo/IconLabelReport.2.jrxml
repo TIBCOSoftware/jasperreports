@@ -24,7 +24,7 @@
 		<groupHeader>
 			<band height="15">
 				<componentElement>
-					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="15" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c"/>
+					<reportElement style="Component" stretchType="ContainerHeight" x="0" y="0" width="200" height="15" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c"/>
 					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Vertical" horizontalAlignment="Right" verticalAlignment="Bottom">
 						<c:label>
 							<textField textAdjust="StretchHeight">
@@ -52,7 +52,7 @@
 	<title>
 		<band height="640">
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Main" stretchType="RelativeToBandHeight" x="0" y="0" width="515" height="640" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22"/>
+				<reportElement style="Main" stretchType="ContainerHeight" x="0" y="0" width="515" height="640" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22"/>
 				<textFieldExpression><![CDATA["TITLE"]]></textFieldExpression>
 			</textField>
 		</band>
