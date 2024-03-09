@@ -101,7 +101,7 @@ public interface JRBreak extends JRElement
 	 * Gets the break type.
 	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
 	 */
-	@JsonGetter("kind")
+	@JsonGetter("breakType")
 	@JacksonXmlProperty(isAttribute = true)
 	public BreakTypeEnum getType();
 	
@@ -109,7 +109,7 @@ public interface JRBreak extends JRElement
 	 * Sets the break type.
 	 * @param breakTypeEnum a value representing one of the break type constants in {@link BreakTypeEnum}
 	 */
-	@JsonSetter("kind")
+	@JsonSetter("breakType")
 	public void setType(BreakTypeEnum breakTypeEnum);
 	
 
