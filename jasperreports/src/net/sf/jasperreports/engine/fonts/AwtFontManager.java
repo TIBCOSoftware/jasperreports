@@ -50,17 +50,19 @@ public class AwtFontManager
 	
 	private static final Log log = LogFactory.getLog(AwtFontManager.class);
 
-	private static final AwtFontManager INSTANCE = new AwtFontManager();
-	
+	private static class InstanceHolder {
+		private static final AwtFontManager INSTANCE = new AwtFontManager();
+	}
+
 	public static AwtFontManager instance()
 	{
-		return INSTANCE;
+		return InstanceHolder.INSTANCE;
 	}
-	
-	private Map<FontFileReference, Object> fontFileReferences;
-	private ReferenceQueue<Font> fontFilesQueue;
-	
-	public AwtFontManager()
+
+	private final Map<FontFileReference, Object> fontFileReferences;
+	private final ReferenceQueue<Font> fontFilesQueue;
+
+	private AwtFontManager()
 	{
 		fontFileReferences = new ConcurrentHashMap<>();
 		fontFilesQueue = new ReferenceQueue<>();
@@ -117,17 +119,18 @@ public class AwtFontManager
 		FontFileReference fontFileRef;
 		while ((fontFileRef = (FontFileReference) fontFilesQueue.poll()) != null)
 		{
-			fontFileReferences.remove(fontFileRef);
-			
 			try
 			{
-				Files.deleteIfExists(fontFileRef.fontFile);
+				if (Files.deleteIfExists(fontFileRef.fontFile)) {
+					log.debug("Font file '" + fontFileRef.fontFile + "' successfully deleted.");
+				}
+				fontFileReferences.remove(fontFileRef);
 			}
 			catch (IOException e)
 			{
 				if (log.isDebugEnabled())
 				{
-					log.debug("Failed to delete font file " + fontFileRef.fontFile);
+					log.debug("Failed to delete font file '" + fontFileRef.fontFile + "' due to IOException " + e.getMessage());
 				}
 			}
 		}
