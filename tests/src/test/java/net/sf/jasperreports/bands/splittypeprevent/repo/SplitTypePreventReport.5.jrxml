@@ -3,7 +3,7 @@
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
   <parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
   <title height="25">
-    <element type="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" width="515" height="25">
+    <element kind="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" width="515" height="25">
       <expression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.5.subreport.1.jrxml")]]></expression>
     </element>
   </title>

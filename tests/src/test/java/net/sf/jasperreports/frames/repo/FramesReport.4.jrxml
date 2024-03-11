@@ -3,18 +3,18 @@
   <group name="dummy">
     <groupHeader>
       <band height="742">
-        <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
+        <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
           <expression><![CDATA["This report shows that when remaining white space at the bottom of a band does not fit, the band would eventually overflow, if it contains bottom elements." + "\nblah\nblah\nblah."]]></expression>
         </element>
-        <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" positionType="FixRelativeToBottom" mode="Opaque" y="592" width="260" height="25" backcolor="#00FFFF">
+        <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" positionType="FixRelativeToBottom" mode="Opaque" y="592" width="260" height="25" backcolor="#00FFFF">
           <expression><![CDATA["BOTTOM1"]]></expression>
         </element>
-        <element type="textField" uuid="19ce6e87-e50b-44a3-9e11-be52254d221c" positionType="FixRelativeToBottom" mode="Opaque" x="260" y="617" width="255" height="25" backcolor="#00FFFF">
+        <element kind="textField" uuid="19ce6e87-e50b-44a3-9e11-be52254d221c" positionType="FixRelativeToBottom" mode="Opaque" x="260" y="617" width="255" height="25" backcolor="#00FFFF">
           <expression><![CDATA["BOTTOM2"]]></expression>
         </element>
       </band>
       <band height="1">
-        <element type="line" uuid="20df6e87-e50b-44a3-9e11-be52254d221c" width="515" height="1" forecolor="#FF0000"/>
+        <element kind="line" uuid="20df6e87-e50b-44a3-9e11-be52254d221c" width="515" height="1" forecolor="#FF0000"/>
       </band>
     </groupHeader>
   </group>

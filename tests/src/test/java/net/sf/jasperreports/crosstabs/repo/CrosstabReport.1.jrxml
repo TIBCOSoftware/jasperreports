@@ -3,7 +3,7 @@
   <property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="10.0" default="true"/>
   <summary height="50" splitType="Stretch">
-    <element type="crosstab" uuid="261e4a5e-10ff-4206-be94-2147125a3514" mode="Opaque" width="1560" height="10" backcolor="#FEFFFF" columnBreakOffset="40" runDirection="LTR">
+    <element kind="crosstab" uuid="261e4a5e-10ff-4206-be94-2147125a3514" mode="Opaque" width="1560" height="10" backcolor="#FEFFFF" columnBreakOffset="40" runDirection="LTR">
       <dataset/>
       <rowGroup name="pYear" totalPosition="None" width="1" position="Top">
         <bucket order="Ascending" class="java.lang.String">
@@ -24,7 +24,7 @@
       </measure>
       <cell width="90" height="25">
         <contents mode="Opaque" backcolor="#FFFF00">
-          <element type="textField" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8" mode="Transparent" width="90" height="25" removeLineWhenBlank="true">
+          <element kind="textField" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8" mode="Transparent" width="90" height="25" removeLineWhenBlank="true">
             <printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
             <expression><![CDATA["blah"]]></expression>
           </element>
@@ -34,7 +34,7 @@
         </contents>
       </cell>
     </element>
-    <element type="staticText" uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" positionType="Float" mode="Opaque" y="10" width="90" height="30" backcolor="#00FFFF">
+    <element kind="staticText" uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" positionType="Float" mode="Opaque" y="10" width="90" height="30" backcolor="#00FFFF">
       <text><![CDATA[END]]></text>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
     </element>

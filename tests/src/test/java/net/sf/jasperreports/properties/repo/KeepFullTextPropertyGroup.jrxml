@@ -4,7 +4,7 @@
   <group name="foo">
     <groupHeader>
       <band height="20">
-        <element type="textField" uuid="20ab6259-18d6-4408-ac20-bd44b292f64f" width="50" height="20">
+        <element kind="textField" uuid="20ab6259-18d6-4408-ac20-bd44b292f64f" width="50" height="20">
           <expression><![CDATA["this is a fairly long text"]]></expression>
         </element>
       </band>

@@ -45,7 +45,7 @@
   </variable>
   <background splitType="Stretch"/>
   <title height="60" splitType="Stretch">
-    <element type="textField" uuid="24731f07-d115-4be4-a22c-aa9a4c3fc786" width="515" height="40" style="Title">
+    <element kind="textField" uuid="24731f07-d115-4be4-a22c-aa9a4c3fc786" width="515" height="40" style="Title">
       <expression><![CDATA["Table of Contents"]]></expression>
       <property name="local_mesure_unitwidth" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -56,7 +56,7 @@
   <detail>
     <band height="25" splitType="Stretch">
       <printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
-      <element type="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" y="5" width="470" height="20" linkType="LocalAnchor" style="HeadingLabel1">
+      <element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" y="5" width="470" height="20" linkType="LocalAnchor" style="HeadingLabel1">
         <expression><![CDATA[$F{label}]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
@@ -64,7 +64,7 @@
         <property name="local_mesure_unity" value="pixel"/>
         <property name="com.jaspersoft.studio.unit.y" value="px"/>
       </element>
-      <element type="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex1">
+      <element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex1">
         <expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
@@ -76,21 +76,21 @@
     </band>
     <band height="25" splitType="Stretch">
       <printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
-      <element type="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="60" y="5" width="410" height="20" linkType="LocalAnchor" style="HeadingLabel2">
+      <element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="60" y="5" width="410" height="20" linkType="LocalAnchor" style="HeadingLabel2">
         <expression><![CDATA[$F{label}]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
         <property name="com.jaspersoft.studio.unit.height" value="px"/>
         <property name="com.jaspersoft.studio.unit.y" value="px"/>
       </element>
-      <element type="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex2">
+      <element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex2">
         <expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
         <property name="com.jaspersoft.studio.unit.height" value="px"/>
         <property name="com.jaspersoft.studio.unit.y" value="px"/>
       </element>
-      <element type="textField" uuid="ae12cafd-22e8-45ae-a1a7-8e00a8208cf0" x="20" y="5" width="40" height="20" linkType="LocalAnchor" style="HeadingLabel2">
+      <element kind="textField" uuid="ae12cafd-22e8-45ae-a1a7-8e00a8208cf0" x="20" y="5" width="40" height="20" linkType="LocalAnchor" style="HeadingLabel2">
         <expression><![CDATA[$V{level2Index} + "."]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
@@ -103,13 +103,13 @@
     </band>
     <band height="15" splitType="Stretch">
       <printWhenExpression><![CDATA[$F{level} == 3]]></printWhenExpression>
-      <element type="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="40" width="430" height="15" linkType="LocalAnchor" style="HeadingLabel3">
+      <element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="40" width="430" height="15" linkType="LocalAnchor" style="HeadingLabel3">
         <expression><![CDATA[$F{label}]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>
         <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </element>
-      <element type="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" width="45" height="15" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex3">
+      <element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" width="45" height="15" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex3">
         <expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
         <hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
         <property name="local_mesure_unitheight" value="pixel"/>

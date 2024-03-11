@@ -3,7 +3,7 @@
   <property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
   <summary height="30">
-    <element type="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" y="10" width="555" height="20" columnBreakOffset="10" repeatColumnHeaders="false" runDirection="LTR">
+    <element kind="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" y="10" width="555" height="20" columnBreakOffset="10" repeatColumnHeaders="false" runDirection="LTR">
       <dataset/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
       <rowGroup name="Outer" totalPosition="None" width="50" position="Stretch">
@@ -11,7 +11,7 @@
           <expression><![CDATA["R"]]></expression>
         </bucket>
         <header>
-          <element type="textField" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" width="40" height="37">
+          <element kind="textField" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" width="40" height="37">
             <expression><![CDATA["Outer"]]></expression>
           </element>
           <box>
@@ -25,7 +25,7 @@
           <expression><![CDATA[$V{REPORT_COUNT}]]></expression>
         </bucket>
         <header>
-          <element type="textField" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" width="60" height="16" verticalTextAlign="Middle">
+          <element kind="textField" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" width="60" height="16" verticalTextAlign="Middle">
             <expression><![CDATA[$V{Inner}]]></expression>
           </element>
           <box>
@@ -33,7 +33,7 @@
           </box>
         </header>
         <totalHeader mode="Opaque" backcolor="#E0FFFF">
-          <element type="staticText" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" width="60" height="21" verticalTextAlign="Middle">
+          <element kind="staticText" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" width="60" height="21" verticalTextAlign="Middle">
             <text><![CDATA[Total]]></text>
           </element>
           <box>
@@ -53,7 +53,7 @@
       </measure>
       <cell width="45" height="16">
         <contents mode="Opaque" backcolor="#FFFFFF">
-          <element type="textField" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" textAdjust="StretchHeight" pattern="#0" fontSize="15.0">
+          <element kind="textField" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" textAdjust="StretchHeight" pattern="#0" fontSize="15.0">
             <expression><![CDATA["V"]]></expression>
           </element>
           <box>
@@ -63,7 +63,7 @@
       </cell>
       <cell height="21" rowTotalGroup="Inner">
         <contents mode="Opaque" backcolor="#E0FFFF">
-          <element type="textField" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" width="40" height="21" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
+          <element kind="textField" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" width="40" height="21" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
             <expression><![CDATA["T"]]></expression>
           </element>
           <box>

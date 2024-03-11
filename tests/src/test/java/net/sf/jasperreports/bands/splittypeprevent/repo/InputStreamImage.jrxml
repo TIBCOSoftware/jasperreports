@@ -3,11 +3,11 @@
   <field name="image" class="java.io.InputStream"/>
   <detail>
     <band height="55" splitType="Prevent">
-      <element type="textField" uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" width="160" height="25" textAdjust="StretchHeight">
+      <element kind="textField" uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" width="160" height="25" textAdjust="StretchHeight">
         <expression><![CDATA["record " + $V{REPORT_COUNT} + " on page " + $V{PAGE_NUMBER}
 					+ " aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd"]]></expression>
       </element>
-      <element type="image" uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" positionType="Float" y="30" width="60" height="25" onErrorType="Error">
+      <element kind="image" uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" positionType="Float" y="30" width="60" height="25" onErrorType="Error">
         <expression><![CDATA[$F{image}]]></expression>
       </element>
     </band>

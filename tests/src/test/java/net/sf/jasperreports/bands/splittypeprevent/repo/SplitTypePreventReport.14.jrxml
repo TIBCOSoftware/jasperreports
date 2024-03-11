@@ -5,13 +5,13 @@
   <detail>
     <band height="25">
       <printWhenExpression><![CDATA[$V{REPORT_COUNT} != 35]]></printWhenExpression>
-      <element type="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
+      <element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
         <expression><![CDATA["Master Detail " + $V{REPORT_COUNT}]]></expression>
       </element>
     </band>
     <band height="25">
       <printWhenExpression><![CDATA[$V{REPORT_COUNT} == 35]]></printWhenExpression>
-      <element type="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" width="170" height="25" backcolor="#C8DBFA">
+      <element kind="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" width="170" height="25" backcolor="#C8DBFA">
         <expression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.14.subreport.1.jrxml")]]></expression>
       </element>
     </band>

@@ -5,7 +5,7 @@
   </variable>
   <detail>
     <band height="20">
-      <element type="textField" uuid="c475c968-5a05-4331-8147-5fc24a48070b" width="555" height="20">
+      <element kind="textField" uuid="c475c968-5a05-4331-8147-5fc24a48070b" width="555" height="20">
         <expression><![CDATA["subreport " + $V{VariableForReturn}]]></expression>
       </element>
     </band>

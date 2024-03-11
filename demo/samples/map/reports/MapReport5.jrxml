@@ -19,14 +19,14 @@
     <defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
   </parameter>
   <summary height="692">
-    <element type="textField" uuid="741c3e7b-5e7c-42d3-a7e9-f09339ffa198" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
+    <element kind="textField" uuid="741c3e7b-5e7c-42d3-a7e9-f09339ffa198" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
       <expression><![CDATA["San Francisco - Hybrid Map with Custom Icons and Info Windows"]]></expression>
     </element>
-    <element type="textField" uuid="6b0f535d-2879-404c-8b74-1cefc3610115" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+    <element kind="textField" uuid="6b0f535d-2879-404c-8b74-1cefc3610115" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
       <expression><![CDATA["A road map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled. Clicking on a marker icon will open an info window with related information.\nIf present, the info window takes precedence over the marker hyperlink."]]></expression>
     </element>
-    <element type="component" uuid="787c3880-17ed-44af-8068-e3f120e66bad" positionType="Float" y="150" width="515" height="326">
-      <component type="googlemap" mapType="hybrid" imageType="jpg" onErrorType="Icon">
+    <element kind="component" uuid="787c3880-17ed-44af-8068-e3f120e66bad" positionType="Float" y="150" width="515" height="326">
+      <component kind="googlemap" mapType="hybrid" imageType="jpg" onErrorType="Icon">
         <latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
         <longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
         <zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>

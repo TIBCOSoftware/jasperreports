@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
  * is the superinterface for all datasets and contains common dataset properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = JRCategoryDataset.class),
 	@JsonSubTypes.Type(value = JRGanttDataset.class),

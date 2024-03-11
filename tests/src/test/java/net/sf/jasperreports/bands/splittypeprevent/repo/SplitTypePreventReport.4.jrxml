@@ -6,7 +6,7 @@
   </group>
   <detail>
     <band height="25" splitType="Prevent">
-      <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="25" textAdjust="StretchHeight">
+      <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="25" textAdjust="StretchHeight">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT} + ($V{REPORT_COUNT} == 2 ? "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore." : "")]]></expression>
         <box>
           <pen lineWidth="1.0"/>

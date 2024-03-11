@@ -5,7 +5,7 @@
   <group name="dummy" reprintHeaderOnEachPage="true">
     <groupHeader>
       <band height="25">
-        <element type="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
+        <element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
           <expression><![CDATA["Group Header"]]></expression>
         </element>
       </band>
@@ -14,13 +14,13 @@
   <detail>
     <band height="25">
       <printWhenExpression><![CDATA[$V{REPORT_COUNT} != 29]]></printWhenExpression>
-      <element type="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
+      <element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
       </element>
     </band>
     <band height="25" splitType="Prevent">
       <printWhenExpression><![CDATA[$V{REPORT_COUNT} == 29]]></printWhenExpression>
-      <element type="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25" textAdjust="StretchHeight">
+      <element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" width="170" height="25" textAdjust="StretchHeight">
         <expression><![CDATA["Detail\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></expression>
       </element>
     </band>

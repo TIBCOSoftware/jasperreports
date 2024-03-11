@@ -34,11 +34,11 @@
   <group name="Charts">
     <groupHeader>
       <band height="400">
-        <element type="chart" chartType="3" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="3" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Bar Chart"]]></hyperlinkTooltipExpression>
-          <dataset type="category" incrementType="Group" incrementGroup="salesState">
+          <dataset kind="category" incrementType="Group" incrementGroup="salesState">
             <datasetRun uuid="86fd8270-c311-4ebd-beaa-37a7fda52cd0" subDataset="categoryDataset"/>
             <series>
               <seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
@@ -46,7 +46,7 @@
               <valueExpression><![CDATA[$V{personAmount}]]></valueExpression>
             </series>
           </dataset>
-          <plot type="bar">
+          <plot>
             <categoryAxisLabelExpression><![CDATA["Name"]]></categoryAxisLabelExpression>
             <valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
             <itemLabel color="#000000" backgroundColor="#FFFFFF"/>
@@ -66,11 +66,11 @@
         </element>
       </band>
       <band height="400">
-        <element type="chart" chartType="15" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="15" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["XY Line Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Lines"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["XY Line Chart"]]></hyperlinkTooltipExpression>
-          <dataset type="xy" incrementType="Group" incrementGroup="probability">
+          <dataset kind="xy" incrementType="Group" incrementGroup="probability">
             <datasetRun uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714" subDataset="xyDataset"/>
             <series>
               <seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
@@ -78,7 +78,7 @@
               <xvalueExpression><![CDATA[$F{probability}]]></xvalueExpression>
             </series>
           </dataset>
-          <plot type="line" showShapes="false">
+          <plot showShapes="false">
             <categoryAxisLabelExpression><![CDATA["Probability"]]></categoryAxisLabelExpression>
             <valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
           </plot>

@@ -10,21 +10,21 @@
   </dataset>
   <variable name="MainVariable" class="java.lang.String"/>
   <title height="100">
-    <element type="component" uuid="fa4d7ce4-64e1-4727-8318-542214293e24" width="555" height="50">
-      <component type="list" printOrder="Vertical">
+    <element kind="component" uuid="fa4d7ce4-64e1-4727-8318-542214293e24" width="555" height="50">
+      <component kind="list" printOrder="Vertical">
         <datasetRun uuid="57aa4845-7eb7-46a6-b06d-694a9abbe701" subDataset="ListData">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
           <returnValue toVariable="MainVariable" fromVariable="ReturnedVariable"/>
         </datasetRun>
         <contents height="30">
-          <element type="component" uuid="1d7a8ffd-f810-4f0c-b483-b80e87aacba5" width="555" height="30">
-            <component type="list" printOrder="Vertical">
+          <element kind="component" uuid="1d7a8ffd-f810-4f0c-b483-b80e87aacba5" width="555" height="30">
+            <component kind="list" printOrder="Vertical">
               <datasetRun uuid="7836e8cb-1069-443e-bfc6-31313b000e3d" subDataset="InnerListData">
                 <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
                 <returnValue toVariable="ReturnedVariable" fromVariable="Variable"/>
               </datasetRun>
               <contents height="30">
-                <element type="textField" uuid="0a57d1fe-1d28-4fd3-8830-881afb78d191" width="200" height="30">
+                <element kind="textField" uuid="0a57d1fe-1d28-4fd3-8830-881afb78d191" width="200" height="30">
                   <expression><![CDATA["inner list " + $V{Variable}]]></expression>
                 </element>
               </contents>
@@ -34,7 +34,7 @@
       </component>
       <property name="net.sf.jasperreports.components.table.name" value="table"/>
     </element>
-    <element type="textField" uuid="7436036b-466b-4690-be48-33aad33f8c85" y="50" width="555" height="30" evaluationTime="Band">
+    <element kind="textField" uuid="7436036b-466b-4690-be48-33aad33f8c85" y="50" width="555" height="30" evaluationTime="Band">
       <expression><![CDATA["main " + $V{MainVariable}]]></expression>
     </element>
   </title>

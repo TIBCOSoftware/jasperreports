@@ -16,14 +16,14 @@
     <defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
   </parameter>
   <summary height="692">
-    <element type="textField" uuid="566c33aa-ae97-4616-b78f-6cc3d45aeff2" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
+    <element kind="textField" uuid="566c33aa-ae97-4616-b78f-6cc3d45aeff2" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
       <expression><![CDATA["San Francisco - Satellite Map with Default Marker Icons"]]></expression>
     </element>
-    <element type="textField" uuid="0823119a-3904-4438-93be-ad33282c05cf" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+    <element kind="textField" uuid="0823119a-3904-4438-93be-ad33282c05cf" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
       <expression><![CDATA["A satellite map sample. Five markers with default icons are placed on the map. Marker tooltips are enabled."]]></expression>
     </element>
-    <element type="component" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276" positionType="Float" y="150" width="515" height="326">
-      <component type="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
+    <element kind="component" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276" positionType="Float" y="150" width="515" height="326">
+      <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
         <latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
         <longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
         <zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>

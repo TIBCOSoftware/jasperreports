@@ -4,11 +4,11 @@
   <field name="lat" class="java.lang.String"/>
   <field name="long" class="java.lang.String"/>
   <title height="555" splitType="Stretch">
-    <element type="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" width="802" height="20" horizontalTextAlign="Center" fontSize="16.0">
+    <element kind="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" width="802" height="20" horizontalTextAlign="Center" fontSize="16.0">
       <text><![CDATA[Custom Visualization Component - Leaflet Markers]]></text>
     </element>
-    <element type="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
-      <component type="customvisualization" evaluationTime="Report">
+    <element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+      <component kind="customvisualization" evaluationTime="Report">
         <itemData>
           <dataset/>
           <item>

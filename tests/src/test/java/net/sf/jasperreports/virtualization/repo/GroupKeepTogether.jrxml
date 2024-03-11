@@ -8,10 +8,10 @@
     <expression><![CDATA[$V{groupVar}]]></expression>
     <groupHeader>
       <band height="25">
-        <element type="textField" uuid="53146e09-fb4d-465e-b27e-1a4f1a6fa260" width="200" height="25" evaluationTime="Group" evaluationGroup="group">
+        <element kind="textField" uuid="53146e09-fb4d-465e-b27e-1a4f1a6fa260" width="200" height="25" evaluationTime="Group" evaluationGroup="group">
           <expression><![CDATA["group header " + $V{groupVar}]]></expression>
         </element>
-        <element type="textField" uuid="9e0275f6-2f06-4a7e-b8c1-466e84479a1b" x="200" width="200" height="25" evaluationTime="Report">
+        <element kind="textField" uuid="9e0275f6-2f06-4a7e-b8c1-466e84479a1b" x="200" width="200" height="25" evaluationTime="Report">
           <expression><![CDATA["total records " + $V{REPORT_COUNT}]]></expression>
         </element>
       </band>
@@ -19,7 +19,7 @@
   </group>
   <detail>
     <band height="25" splitType="Stretch">
-      <element type="textField" uuid="c9f73fa4-33bd-45ee-a50e-f08ced428ed9" width="300" height="25">
+      <element kind="textField" uuid="c9f73fa4-33bd-45ee-a50e-f08ced428ed9" width="300" height="25">
         <expression><![CDATA["record " + $V{REPORT_COUNT}]]></expression>
       </element>
     </band>

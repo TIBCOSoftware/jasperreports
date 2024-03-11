@@ -7,15 +7,15 @@
   </dataset>
   <variable name="ReturnedVariable" class="java.lang.String"/>
   <title height="130">
-    <element type="component" uuid="c0b7929e-a7d2-4fd8-953d-786e51206938" width="555" height="100">
-      <component type="table">
+    <element kind="component" uuid="c0b7929e-a7d2-4fd8-953d-786e51206938" width="555" height="100">
+      <component kind="table">
         <datasetRun uuid="35b504c6-1416-40fe-a2b8-748fead7f816" subDataset="TableData">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
           <returnValue toVariable="ReturnedVariable" fromVariable="Variable"/>
         </datasetRun>
-        <column type="single" uuid="b6570951-c61b-497c-9fcc-e4a7b1103c13" width="555">
+        <column kind="single" uuid="b6570951-c61b-497c-9fcc-e4a7b1103c13" width="555">
           <detailCell height="30">
-            <element type="textField" uuid="6d11f434-8056-411e-afc8-fd98bd6d83d0" width="555" height="30">
+            <element kind="textField" uuid="6d11f434-8056-411e-afc8-fd98bd6d83d0" width="555" height="30">
               <expression><![CDATA["table " + $V{Variable}]]></expression>
             </element>
           </detailCell>
@@ -23,7 +23,7 @@
       </component>
       <property name="net.sf.jasperreports.components.table.name" value="table"/>
     </element>
-    <element type="textField" uuid="1632cadd-cbfc-41d7-a8af-018ef1881467" y="100" width="555" height="30" evaluationTime="Band">
+    <element kind="textField" uuid="1632cadd-cbfc-41d7-a8af-018ef1881467" y="100" width="555" height="30" evaluationTime="Band">
       <expression><![CDATA["main " + $V{ReturnedVariable}]]></expression>
     </element>
   </title>

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import net.sf.jasperreports.charts.design.JRDesignChartAxis;
@@ -55,6 +57,7 @@ public interface JRChartAxis extends JRCloneable
 	 *
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
+	@JsonTypeInfo(use = Id.NONE)
 	public JRChart getChart();
 	
 	public JRChartAxis clone(JRChart parentChart);

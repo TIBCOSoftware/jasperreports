@@ -8,7 +8,7 @@
     <expression><![CDATA[$V{groupVar}]]></expression>
     <groupHeader>
       <band height="25">
-        <element type="textField" uuid="0d8e587f-e376-4d31-864b-5f3acc4f745e" width="300" height="25" evaluationTime="Group" evaluationGroup="group">
+        <element kind="textField" uuid="0d8e587f-e376-4d31-864b-5f3acc4f745e" width="300" height="25" evaluationTime="Group" evaluationGroup="group">
           <expression><![CDATA["group header " + $V{groupVar}]]></expression>
         </element>
       </band>
@@ -16,7 +16,7 @@
   </group>
   <detail>
     <band height="25" splitType="Stretch">
-      <element type="textField" uuid="f5fb616b-bb5b-4da7-8c1b-f9421a407b22" width="300" height="25">
+      <element kind="textField" uuid="f5fb616b-bb5b-4da7-8c1b-f9421a407b22" width="300" height="25">
         <expression><![CDATA["record " + $V{REPORT_COUNT}]]></expression>
       </element>
     </band>

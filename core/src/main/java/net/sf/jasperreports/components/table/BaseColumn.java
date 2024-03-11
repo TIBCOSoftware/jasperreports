@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = Column.class),
 	@JsonSubTypes.Type(value = ColumnGroup.class)

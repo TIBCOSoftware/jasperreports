@@ -3,7 +3,7 @@
   <group name="dummy">
     <groupHeader>
       <band height="742">
-        <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
+        <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
           <expression><![CDATA["This report shows that \"the column bands\" such as the detail and group headers and footers, do not trigger a page/column break when they overflow with white space. And if they don't, then there should be no extra blank space after this." + "\nblah\nblah\nblah."]]></expression>
         </element>
       </band>

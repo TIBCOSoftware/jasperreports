@@ -4,7 +4,7 @@
   <group name="dummy" preventOrphanFooter="true">
     <groupFooter>
       <band height="30" splitType="Prevent">
-        <element type="textField" uuid="496fdc4a-0496-4280-ae7f-121e7fe529a6" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
+        <element kind="textField" uuid="496fdc4a-0496-4280-ae7f-121e7fe529a6" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
           <expression><![CDATA["Group Footer \nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></expression>
           <box>
             <pen lineWidth="1.0"/>
@@ -14,7 +14,7 @@
     </groupFooter>
   </group>
   <title height="30">
-    <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
+    <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
       <expression><![CDATA["Title"]]></expression>
       <box>
         <pen lineWidth="1.0"/>
@@ -23,7 +23,7 @@
   </title>
   <detail>
     <band height="30">
-      <element type="textField" uuid="91bd5fa4-27a3-427e-b0e8-020b35480b36" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
+      <element kind="textField" uuid="91bd5fa4-27a3-427e-b0e8-020b35480b36" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
         <box>
           <pen lineWidth="1.0"/>

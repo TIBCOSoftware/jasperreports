@@ -5,10 +5,10 @@
   <parameter name="VirtualizedFramesSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
   <detail>
     <band height="80">
-      <element type="textField" uuid="260ac409-8659-488b-8be0-bb89a41fad97" width="500" height="20">
+      <element kind="textField" uuid="260ac409-8659-488b-8be0-bb89a41fad97" width="500" height="20">
         <expression><![CDATA["parent report " + $V{REPORT_COUNT}]]></expression>
       </element>
-      <element type="subreport" uuid="317338c1-c770-4557-96fa-87eebfeb2966" y="30" width="500" height="50">
+      <element kind="subreport" uuid="317338c1-c770-4557-96fa-87eebfeb2966" y="30" width="500" height="50">
         <expression><![CDATA[$P{VirtualizedFramesSubreport}]]></expression>
       </element>
     </band>

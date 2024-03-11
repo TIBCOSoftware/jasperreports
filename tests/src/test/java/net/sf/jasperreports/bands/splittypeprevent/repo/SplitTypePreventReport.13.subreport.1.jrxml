@@ -3,7 +3,7 @@
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
   <detail>
     <band height="30" splitType="Prevent">
-      <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="55" height="30" textAdjust="StretchHeight">
+      <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="55" height="30" textAdjust="StretchHeight">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT} + ($V{REPORT_COUNT} == 21 ?  "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore." : "")]]></expression>
         <box>
           <pen lineWidth="1.0"/>

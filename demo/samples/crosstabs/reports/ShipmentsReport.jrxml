@@ -20,10 +20,10 @@
   <field name="ShipCountry" class="java.lang.String"/>
   <detail>
     <band height="50">
-      <element type="textField" uuid="e244777e-9061-43da-8d1a-8a17b72c96ed" width="500" height="15" fontSize="10.0" style="Sans_Bold">
+      <element kind="textField" uuid="e244777e-9061-43da-8d1a-8a17b72c96ed" width="500" height="15" fontSize="10.0" style="Sans_Bold">
         <expression><![CDATA["Shipments to " + $F{ShipCountry}]]></expression>
       </element>
-      <element type="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" y="20" width="812" height="20" columnBreakOffset="10" repeatColumnHeaders="false" runDirection="LTR">
+      <element kind="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" y="20" width="812" height="20" columnBreakOffset="10" repeatColumnHeaders="false" runDirection="LTR">
         <dataset>
           <datasetRun uuid="ecb060f4-4299-435f-9623-f879eeed8e62" subDataset="Country_Orders">
             <parameter name="Country">
@@ -32,7 +32,7 @@
           </datasetRun>
         </dataset>
         <headerCell>
-          <element type="staticText" uuid="e4bccd69-3639-49f9-a52f-cb9d215556a0" x="4" y="4" width="112" height="42" horizontalTextAlign="Center" verticalTextAlign="Middle" style="Sans_Large">
+          <element kind="staticText" uuid="e4bccd69-3639-49f9-a52f-cb9d215556a0" x="4" y="4" width="112" height="42" horizontalTextAlign="Center" verticalTextAlign="Middle" style="Sans_Large">
             <text><![CDATA[Shipments total freight]]></text>
           </element>
           <box>
@@ -44,7 +44,7 @@
             <expression><![CDATA[$F{ShipRegion}]]></expression>
           </bucket>
           <header>
-            <element type="textField" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" y="5" width="40" height="26">
+            <element kind="textField" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" y="5" width="40" height="26">
               <expression><![CDATA[$V{Region} == null ? "No region" : $V{Region}]]></expression>
             </element>
             <box>
@@ -52,7 +52,7 @@
             </box>
           </header>
           <totalHeader mode="Opaque" backcolor="#60FFFF">
-            <element type="textField" uuid="a521bf3b-215a-4f6e-9f12-c8cfce6f4281" x="5" width="110" height="22" verticalTextAlign="Middle">
+            <element kind="textField" uuid="a521bf3b-215a-4f6e-9f12-c8cfce6f4281" x="5" width="110" height="22" verticalTextAlign="Middle">
               <expression><![CDATA[$P{Country} + " Total"]]></expression>
             </element>
             <box>
@@ -65,7 +65,7 @@
             <expression><![CDATA[$F{ShipCity}]]></expression>
           </bucket>
           <header>
-            <element type="textField" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" width="60" height="16" verticalTextAlign="Middle">
+            <element kind="textField" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" width="60" height="16" verticalTextAlign="Middle">
               <expression><![CDATA[$V{City}]]></expression>
             </element>
             <box>
@@ -73,7 +73,7 @@
             </box>
           </header>
           <totalHeader mode="Opaque" backcolor="#E0FFFF">
-            <element type="staticText" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" width="60" height="20" verticalTextAlign="Middle">
+            <element kind="staticText" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" width="60" height="20" verticalTextAlign="Middle">
               <text><![CDATA[Total]]></text>
             </element>
             <box>
@@ -86,10 +86,10 @@
             <expression><![CDATA[CrosstabApp.truncateToYear($F{ShippedDate})]]></expression>
           </bucket>
           <header>
-            <element type="rectangle" uuid="31d153a1-cb57-463d-85a2-559c651c5da2" x="4" y="4" width="82" height="17" radius="10">
+            <element kind="rectangle" uuid="31d153a1-cb57-463d-85a2-559c651c5da2" x="4" y="4" width="82" height="17" radius="10">
               <linePen lineWidth="1.0"/>
             </element>
-            <element type="textField" uuid="8be9f789-5480-4b50-aaa0-1fae5c3b9847" x="5" y="5" width="80" height="15" horizontalTextAlign="Center" verticalTextAlign="Middle" pattern="yyyy">
+            <element kind="textField" uuid="8be9f789-5480-4b50-aaa0-1fae5c3b9847" x="5" y="5" width="80" height="15" horizontalTextAlign="Center" verticalTextAlign="Middle" pattern="yyyy">
               <expression><![CDATA[$V{ShipYear}]]></expression>
             </element>
             <box>
@@ -97,7 +97,7 @@
             </box>
           </header>
           <totalHeader mode="Opaque" backcolor="#FFFF60">
-            <element type="staticText" uuid="837e75c7-0cc4-433d-84b2-2e75e91675dd" x="5" y="5" width="35" height="15">
+            <element kind="staticText" uuid="837e75c7-0cc4-433d-84b2-2e75e91675dd" x="5" y="5" width="35" height="15">
               <text><![CDATA[Total]]></text>
             </element>
             <box>
@@ -110,7 +110,7 @@
             <expression><![CDATA[CrosstabApp.truncateToMonth($F{ShippedDate})]]></expression>
           </bucket>
           <header>
-            <element type="textField" uuid="84361608-be80-40df-be22-6877b39fb61a" x="5" y="2" width="35" height="21" horizontalTextAlign="Center" pattern="MMM">
+            <element kind="textField" uuid="84361608-be80-40df-be22-6877b39fb61a" x="5" y="2" width="35" height="21" horizontalTextAlign="Center" pattern="MMM">
               <expression><![CDATA[$V{ShipMonth}]]></expression>
             </element>
             <box>
@@ -118,7 +118,7 @@
             </box>
           </header>
           <totalHeader mode="Opaque" backcolor="#FFFFC0">
-            <element type="textField" uuid="e0938dfe-5528-4f8b-93fe-33390d618be5" x="5" y="2" width="35" height="21" horizontalTextAlign="Center">
+            <element kind="textField" uuid="e0938dfe-5528-4f8b-93fe-33390d618be5" x="5" y="2" width="35" height="21" horizontalTextAlign="Center">
               <expression><![CDATA[msg("{0,date,yyyy} Total", $V{ShipYear})]]></expression>
             </element>
             <box>
@@ -131,7 +131,7 @@
         </measure>
         <cell width="45" height="16">
           <contents mode="Opaque" backcolor="#FFFFFF">
-            <element type="textField" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
+            <element kind="textField" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -141,7 +141,7 @@
         </cell>
         <cell width="45" columnTotalGroup="ShipMonth">
           <contents mode="Opaque" backcolor="#FFFFC0">
-            <element type="textField" uuid="ab41e42a-30d5-48a8-b382-c8fcdf62db40" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="ab41e42a-30d5-48a8-b382-c8fcdf62db40" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -151,7 +151,7 @@
         </cell>
         <cell width="45" columnTotalGroup="ShipYear">
           <contents mode="Opaque" backcolor="#FFFF60">
-            <element type="textField" uuid="79002120-927d-4454-8fa4-2c29494d0dcf" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="79002120-927d-4454-8fa4-2c29494d0dcf" width="40" height="16" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -161,7 +161,7 @@
         </cell>
         <cell height="20" rowTotalGroup="City">
           <contents mode="Opaque" backcolor="#E0FFFF">
-            <element type="textField" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
+            <element kind="textField" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -171,7 +171,7 @@
         </cell>
         <cell rowTotalGroup="City" columnTotalGroup="ShipMonth">
           <contents mode="Opaque" backcolor="#E0FFC0">
-            <element type="textField" uuid="551368ea-e128-413f-9791-5533d0d75cab" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="551368ea-e128-413f-9791-5533d0d75cab" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -181,7 +181,7 @@
         </cell>
         <cell rowTotalGroup="City" columnTotalGroup="ShipYear">
           <contents mode="Opaque" backcolor="#E0FF60">
-            <element type="textField" uuid="c0c84867-2554-4593-8617-61cf78cab83a" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="c0c84867-2554-4593-8617-61cf78cab83a" width="40" height="20" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
             <box>
@@ -191,10 +191,10 @@
         </cell>
         <cell height="24" rowTotalGroup="Region">
           <contents mode="Opaque" backcolor="#60FFFF">
-            <element type="textField" uuid="8c707b60-3bf6-47da-88e9-037a21612539" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="8c707b60-3bf6-47da-88e9-037a21612539" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
-            <element type="textField" uuid="d80bb123-0551-4c3a-aa01-b2408f07beb7" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
+            <element kind="textField" uuid="d80bb123-0551-4c3a-aa01-b2408f07beb7" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
               <expression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></expression>
             </element>
             <box>
@@ -204,10 +204,10 @@
         </cell>
         <cell rowTotalGroup="Region" columnTotalGroup="ShipMonth">
           <contents mode="Opaque" backcolor="#60FFC0">
-            <element type="textField" uuid="1eca9e09-651a-43bb-b1e7-efbd71a1db2e" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="1eca9e09-651a-43bb-b1e7-efbd71a1db2e" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
-            <element type="textField" uuid="9de656c8-003b-4030-aa0d-3007a3a67a72" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
+            <element kind="textField" uuid="9de656c8-003b-4030-aa0d-3007a3a67a72" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
               <expression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></expression>
             </element>
             <box>
@@ -217,10 +217,10 @@
         </cell>
         <cell rowTotalGroup="Region" columnTotalGroup="ShipYear">
           <contents mode="Opaque" backcolor="#60FF60">
-            <element type="textField" uuid="cba887c5-3b70-400f-a3d1-d225d17171b8" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
+            <element kind="textField" uuid="cba887c5-3b70-400f-a3d1-d225d17171b8" width="40" height="12" horizontalTextAlign="Right" verticalTextAlign="Bottom" pattern="#0.0" style="Sans_Bold">
               <expression><![CDATA[$V{FreightSum}]]></expression>
             </element>
-            <element type="textField" uuid="3e99be05-6903-49bf-ae14-4a164730b4b1" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
+            <element kind="textField" uuid="3e99be05-6903-49bf-ae14-4a164730b4b1" y="12" width="40" height="12" horizontalTextAlign="Right" style="Sans_Bold">
               <expression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></expression>
             </element>
             <box>

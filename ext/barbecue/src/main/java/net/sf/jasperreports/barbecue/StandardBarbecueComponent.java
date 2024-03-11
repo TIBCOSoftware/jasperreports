@@ -25,10 +25,7 @@ package net.sf.jasperreports.barbecue;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -132,7 +129,6 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		return type;
 	}
 
-	@JsonSetter("format")
 	public void setType(String type)
 	{
 		Object old = this.type;

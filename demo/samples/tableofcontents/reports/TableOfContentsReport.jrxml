@@ -13,7 +13,7 @@
       <part uuid="1fadcc2f-31c1-49be-bd52-f8b69e38cd83" evaluationTime="Report">
         <property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
         <partNameExpression><![CDATA["Table of Contents"]]></partNameExpression>
-        <component type="subreportPart" usingCache="true">
+        <component kind="subreportPart" usingCache="true">
           <expression><![CDATA["TocPart.jasper"]]></expression>
           <parameter name="ReportTitle">
             <expression><![CDATA[$P{ReportTitle}]]></expression>
@@ -22,7 +22,7 @@
       </part>
       <part uuid="3f63c482-39b2-43f1-a623-15fb046605a5">
         <partNameExpression><![CDATA["Countries"]]></partNameExpression>
-        <component type="subreportPart" usingCache="true">
+        <component kind="subreportPart" usingCache="true">
           <expression><![CDATA["TablePart.jasper"]]></expression>
           <parameter name="REPORT_CONNECTION">
             <expression><![CDATA[$P{REPORT_CONNECTION}]]></expression>

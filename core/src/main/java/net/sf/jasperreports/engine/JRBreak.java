@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -101,7 +99,6 @@ public interface JRBreak extends JRElement
 	 * Gets the break type.
 	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
 	 */
-	@JsonGetter("breakType")
 	@JacksonXmlProperty(isAttribute = true)
 	public BreakTypeEnum getType();
 	
@@ -109,7 +106,6 @@ public interface JRBreak extends JRElement
 	 * Sets the break type.
 	 * @param breakTypeEnum a value representing one of the break type constants in {@link BreakTypeEnum}
 	 */
-	@JsonSetter("breakType")
 	public void setType(BreakTypeEnum breakTypeEnum);
 	
 

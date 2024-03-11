@@ -3,15 +3,15 @@
     <field name="value" class="java.lang.String"/>
   </dataset>
   <title height="801" splitType="Stretch">
-    <element type="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" width="555" height="20" horizontalTextAlign="Center" fontSize="16.0">
+    <element kind="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" width="555" height="20" horizontalTextAlign="Center" fontSize="16.0">
       <text><![CDATA[Custom Visualization Component - Sparkline]]></text>
     </element>
-    <element type="staticText" uuid="cfc83a6f-2a6f-47b6-b308-145ebe1644c9" x="20" y="60" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="cfc83a6f-2a6f-47b6-b308-145ebe1644c9" x="20" y="60" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: linear
 ]]></text>
     </element>
-    <element type="component" uuid="9faf27c1-ee9e-4df7-8146-887159ffa206" x="20" y="83" width="240" height="50">
-      <component type="customvisualization">
+    <element kind="component" uuid="9faf27c1-ee9e-4df7-8146-887159ffa206" x="20" y="83" width="240" height="50">
+      <component kind="customvisualization">
         <itemData>
           <dataset>
             <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
@@ -42,16 +42,16 @@
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="72"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="false"/>
     </element>
-    <element type="staticText" uuid="dd2a1c3c-4256-4f9d-9760-312117942d1d" x="20" y="133" width="240" height="27" markup="styled">
+    <element kind="staticText" uuid="dd2a1c3c-4256-4f9d-9760-312117942d1d" x="20" y="133" width="240" height="27" markup="styled">
       <text><![CDATA[PNG export quality (<sup>*</sup>): 72dpi.
 Antialias: off]]></text>
     </element>
-    <element type="staticText" uuid="7879f87e-4224-4b98-9fa0-299020b691b2" x="280" y="60" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="7879f87e-4224-4b98-9fa0-299020b691b2" x="280" y="60" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: basis
 ]]></text>
     </element>
-    <element type="component" uuid="5cbaa6c3-0cfe-4c1c-8a4a-afa0b3faeb9b" x="280" y="83" width="240" height="50">
-      <component type="customvisualization">
+    <element kind="component" uuid="5cbaa6c3-0cfe-4c1c-8a4a-afa0b3faeb9b" x="280" y="83" width="240" height="50">
+      <component kind="customvisualization">
         <itemData>
           <dataset>
             <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
@@ -80,11 +80,11 @@ Antialias: off]]></text>
         <itemProperty name="interpolation" value="basis"/>
       </component>
     </element>
-    <element type="staticText" uuid="b877e3e8-89d7-4b50-be40-f17e2d2ac2e9" x="20" y="200" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="b877e3e8-89d7-4b50-be40-f17e2d2ac2e9" x="20" y="200" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: monotone]]></text>
     </element>
-    <element type="component" uuid="b5e05a49-a338-4915-971f-00a4494fa6bd" x="20" y="223" width="240" height="50">
-      <component type="customvisualization" onErrorType="Icon">
+    <element kind="component" uuid="b5e05a49-a338-4915-971f-00a4494fa6bd" x="20" y="223" width="240" height="50">
+      <component kind="customvisualization" onErrorType="Icon">
         <itemData>
           <dataset>
             <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
@@ -116,11 +116,11 @@ Antialias: off]]></text>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
     </element>
-    <element type="staticText" uuid="9b22b1d4-6c4f-4788-b8a4-bbfc251126c4" x="280" y="200" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="9b22b1d4-6c4f-4788-b8a4-bbfc251126c4" x="280" y="200" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: cardinal]]></text>
     </element>
-    <element type="component" uuid="a59c4d81-10d9-4c7a-8770-9d114eeea840" x="280" y="223" width="240" height="50">
-      <component type="customvisualization" onErrorType="Icon">
+    <element kind="component" uuid="a59c4d81-10d9-4c7a-8770-9d114eeea840" x="280" y="223" width="240" height="50">
+      <component kind="customvisualization" onErrorType="Icon">
         <itemData>
           <dataset>
             <datasetRun uuid="a40c9410-36b0-42c8-b473-3c4ea712f45a" subDataset="Sample Dataset">
@@ -152,11 +152,11 @@ Antialias: off]]></text>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
     </element>
-    <element type="staticText" uuid="cf6a1933-4c1e-451d-b461-6aa23cbc89ac" x="20" y="330" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="cf6a1933-4c1e-451d-b461-6aa23cbc89ac" x="20" y="330" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: step-before]]></text>
     </element>
-    <element type="component" uuid="524bd873-8121-47cb-890b-3c6eddd3498d" x="20" y="353" width="240" height="50">
-      <component type="customvisualization" onErrorType="Icon">
+    <element kind="component" uuid="524bd873-8121-47cb-890b-3c6eddd3498d" x="20" y="353" width="240" height="50">
+      <component kind="customvisualization" onErrorType="Icon">
         <itemData>
           <dataset>
             <datasetRun uuid="f3c5471c-f489-4bac-a5c0-3bcd082b2280" subDataset="Sample Dataset">
@@ -188,11 +188,11 @@ Antialias: off]]></text>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
     </element>
-    <element type="staticText" uuid="fb172fe7-aab8-4514-864e-a1d5209fd9e6" x="280" y="330" width="240" height="20" fontSize="12.0">
+    <element kind="staticText" uuid="fb172fe7-aab8-4514-864e-a1d5209fd9e6" x="280" y="330" width="240" height="20" fontSize="12.0">
       <text><![CDATA[Interpolation: step-after]]></text>
     </element>
-    <element type="component" uuid="f08503bd-0e1f-4be3-9b25-89a61f158624" x="280" y="353" width="240" height="50">
-      <component type="customvisualization" onErrorType="Icon">
+    <element kind="component" uuid="f08503bd-0e1f-4be3-9b25-89a61f158624" x="280" y="353" width="240" height="50">
+      <component kind="customvisualization" onErrorType="Icon">
         <itemData>
           <dataset>
             <datasetRun uuid="e34b53ac-d345-42fd-bb19-dedad0210732" subDataset="Sample Dataset">
@@ -224,10 +224,10 @@ Antialias: off]]></text>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
     </element>
-    <element type="staticText" uuid="33e39fab-5f04-49b8-83c6-a82d2bcc6e7e" x="280" y="133" width="240" height="27" markup="styled">
+    <element kind="staticText" uuid="33e39fab-5f04-49b8-83c6-a82d2bcc6e7e" x="280" y="133" width="240" height="27" markup="styled">
       <text><![CDATA[PNG default export settings (<sup>*</sup>)]]></text>
     </element>
-    <element type="staticText" uuid="44c3c6cc-916c-443f-9d7a-910b14cf21cb" positionType="FixRelativeToBottom" y="760" width="555" height="41" horizontalTextAlign="Left" verticalTextAlign="Bottom">
+    <element kind="staticText" uuid="44c3c6cc-916c-443f-9d7a-910b14cf21cb" positionType="FixRelativeToBottom" y="760" width="555" height="41" horizontalTextAlign="Left" verticalTextAlign="Bottom">
       <text><![CDATA[(*) PNG export quality and antialias can be set by using at report or element level the properties:
 com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi (default 300)
 com.jaspersoft.jasperreports.components.customvisualization.png.antialias (default: true)]]></text>

@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRComponentElement
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
 public interface Component
 {
 	

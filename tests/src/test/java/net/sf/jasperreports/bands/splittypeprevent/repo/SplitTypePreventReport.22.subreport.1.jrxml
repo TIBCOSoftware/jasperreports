@@ -2,7 +2,7 @@
   <property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.jrdax"/>
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
   <title height="30" splitType="Prevent">
-    <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
+    <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="30" textAdjust="StretchHeight">
       <expression><![CDATA["Title\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></expression>
       <box>
         <pen lineWidth="1.0"/>

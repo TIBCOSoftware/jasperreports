@@ -3,13 +3,13 @@
   <parameter name="RtfText" class="java.lang.String"/>
   <parameter name="HtmlText" class="java.lang.String"/>
   <title height="350">
-    <element type="staticText" uuid="ad41424d-75ee-4d62-8819-890139cc26bd" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
+    <element kind="staticText" uuid="ad41424d-75ee-4d62-8819-890139cc26bd" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
       <text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for the <style isBold="true" forecolor="magenta">textElement</style> tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></text>
     </element>
-    <element type="textField" uuid="6061e7da-5309-4074-bcb1-811c11c5a864" positionType="Float" mode="Opaque" y="120" width="555" height="110" backcolor="#C0C0C0" markup="rtf" textAdjust="StretchHeight" fontSize="16.0">
+    <element kind="textField" uuid="6061e7da-5309-4074-bcb1-811c11c5a864" positionType="Float" mode="Opaque" y="120" width="555" height="110" backcolor="#C0C0C0" markup="rtf" textAdjust="StretchHeight" fontSize="16.0">
       <expression><![CDATA[$P{RtfText}]]></expression>
     </element>
-    <element type="textField" uuid="4db40b8d-d3cc-4f53-be82-c5aeb3ce5452" positionType="Float" mode="Opaque" y="240" width="555" height="110" backcolor="#C0C0C0" markup="html" textAdjust="StretchHeight" fontSize="16.0">
+    <element kind="textField" uuid="4db40b8d-d3cc-4f53-be82-c5aeb3ce5452" positionType="Float" mode="Opaque" y="240" width="555" height="110" backcolor="#C0C0C0" markup="html" textAdjust="StretchHeight" fontSize="16.0">
       <expression><![CDATA[$P{HtmlText}]]></expression>
     </element>
   </title>

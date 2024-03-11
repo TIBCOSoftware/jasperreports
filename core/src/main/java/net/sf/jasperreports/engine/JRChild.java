@@ -36,7 +36,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = JRStaticText.class),
 	@JsonSubTypes.Type(value = JRTextField.class),

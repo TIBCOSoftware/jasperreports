@@ -15,7 +15,7 @@
     <expression><![CDATA[$V{PAGE_COUNT} <= 5]]></expression>
   </group>
   <pageHeader height="30">
-    <element type="textField" uuid="13164b79-12a8-4fc9-a251-484b7e90d1e2" mode="Opaque" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="13164b79-12a8-4fc9-a251-484b7e90d1e2" mode="Opaque" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Sheet data"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -29,7 +29,7 @@
   </pageHeader>
   <detail>
     <band height="30" splitType="Stretch">
-      <element type="textField" uuid="1b0e5ce0-5b6c-476a-87f1-ec58a55964f3" width="100" height="30" horizontalTextAlign="Right">
+      <element kind="textField" uuid="1b0e5ce0-5b6c-476a-87f1-ec58a55964f3" width="100" height="30" horizontalTextAlign="Right">
         <expression><![CDATA[$V{REPORT_COUNT} + 1]]></expression>
         <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
         <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -44,7 +44,7 @@
     </band>
   </detail>
   <pageFooter height="360" splitType="Stretch">
-    <element type="textField" uuid="c63b761b-892c-454f-83ab-839bcc9fbfc3" x="400" y="270" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
+    <element kind="textField" uuid="c63b761b-892c-454f-83ab-839bcc9fbfc3" x="400" y="270" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
       <expression><![CDATA[0]]></expression>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
       <propertyExpression name="net.sf.jasperreports.export.xls.formula"><![CDATA["the_sum_"+$V{PAGE_NUMBER}]]></propertyExpression>
@@ -55,7 +55,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="eba3fa9e-283e-421a-b6b0-3aa7546caf68" x="400" y="300" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
+    <element kind="textField" uuid="eba3fa9e-283e-421a-b6b0-3aa7546caf68" x="400" y="300" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
       <expression><![CDATA[0]]></expression>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -67,7 +67,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="e51e8649-7077-4d78-b733-cc51917236bb" x="400" y="240" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
+    <element kind="textField" uuid="e51e8649-7077-4d78-b733-cc51917236bb" x="400" y="240" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
       <expression><![CDATA[0]]></expression>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -79,7 +79,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="6470c197-4e77-4d6b-9d80-bd63c451e9c7" x="400" y="330" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
+    <element kind="textField" uuid="6470c197-4e77-4d6b-9d80-bd63c451e9c7" x="400" y="330" width="100" height="30" horizontalTextAlign="Right" verticalTextAlign="Middle">
       <expression><![CDATA[0]]></expression>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -91,13 +91,13 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="81bbf26c-6f2c-4085-b256-d516bae17325" width="500" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+    <element kind="textField" uuid="81bbf26c-6f2c-4085-b256-d516bae17325" width="500" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true" fontSize="12.0">
       <expression><![CDATA["Names visible in sheet   'Test " + $V{PAGE_NUMBER} + "':"]]></expression>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
       <propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["Test "+$V{PAGE_NUMBER}]]></propertyExpression>
     </element>
-    <element type="textField" uuid="683946c6-4e4b-434a-b51b-d113a4b50b61" mode="Opaque" y="30" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="683946c6-4e4b-434a-b51b-d113a4b50b61" mode="Opaque" y="30" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Name"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -107,7 +107,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="8ba8216c-e309-40d4-83f2-84774044ab81" mode="Opaque" x="100" y="30" width="300" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="8ba8216c-e309-40d4-83f2-84774044ab81" mode="Opaque" x="100" y="30" width="300" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Name expression"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -120,7 +120,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="8899aab2-9042-40f8-bad0-f526d6872173" mode="Opaque" x="400" y="30" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="8899aab2-9042-40f8-bad0-f526d6872173" mode="Opaque" x="400" y="30" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Visibility"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -132,7 +132,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="6dc9e7b2-a319-4fae-8d15-cb1644e711c9" y="60" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="6dc9e7b2-a319-4fae-8d15-cb1644e711c9" y="60" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["the_range_" + $V{PAGE_NUMBER}]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -142,7 +142,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="dd946f9d-60f7-432d-b6eb-2f14a6f91065" x="100" y="60" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="dd946f9d-60f7-432d-b6eb-2f14a6f91065" x="100" y="60" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["'Test " + $V{PAGE_NUMBER} + "'!$B$3:$B$7|Test " + $V{PAGE_NUMBER}]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -155,7 +155,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="eafa24cb-7b6c-4196-9647-bc4639297d2f" x="400" y="60" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="eafa24cb-7b6c-4196-9647-bc4639297d2f" x="400" y="60" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["sheet   'Test " + $V{PAGE_NUMBER} +"'"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -167,7 +167,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="8fc0d771-f8c3-4fe5-9882-347d4ea06d92" y="90" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="8fc0d771-f8c3-4fe5-9882-347d4ea06d92" y="90" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["the_sum_" + $V{PAGE_NUMBER}]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -179,7 +179,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="13804bcf-f899-4fbd-a240-3c8b69786564" x="100" y="90" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="13804bcf-f899-4fbd-a240-3c8b69786564" x="100" y="90" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["SUM('Test " + $V{PAGE_NUMBER} + "'!$B$3:$B$7)"+ ($V{PAGE_NUMBER} == 1 ? "+1" : "")+ "|Test " + $V{PAGE_NUMBER}]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -190,7 +190,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="f9624402-3611-42b8-aa89-338bb6c86691" x="400" y="90" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="f9624402-3611-42b8-aa89-338bb6c86691" x="400" y="90" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["sheet   'Test " + $V{PAGE_NUMBER} +"'"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -200,7 +200,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="65428c85-f211-4d6b-8a72-5a705c1ef5a3" y="120" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="65428c85-f211-4d6b-8a72-5a705c1ef5a3" y="120" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["the_sum_123"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -210,7 +210,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="fb81e3ff-8716-440b-bcdc-36c8d8581fab" x="100" y="120" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="fb81e3ff-8716-440b-bcdc-36c8d8581fab" x="100" y="120" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["SUM('Test 3'!$B$3:$B$7)"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -223,7 +223,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="8fbdfcbc-7623-470a-9597-8cf4d90f4e97" x="400" y="120" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="8fbdfcbc-7623-470a-9597-8cf4d90f4e97" x="400" y="120" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["entire workbook"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -235,7 +235,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="f864b7c6-eb01-409a-bae5-591a574be9f9" y="150" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="f864b7c6-eb01-409a-bae5-591a574be9f9" y="150" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["eight"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -247,7 +247,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="c6184a21-69b0-405c-80bc-7c2e566871bd" x="100" y="150" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="c6184a21-69b0-405c-80bc-7c2e566871bd" x="100" y="150" width="300" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["3+5"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -258,7 +258,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="9059b774-5137-4884-88a5-f70c68586071" x="400" y="150" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="9059b774-5137-4884-88a5-f70c68586071" x="400" y="150" width="100" height="30" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["entire workbook"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -268,7 +268,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="5f1edfc3-9d39-4b56-ab22-728024a32dd4" mode="Opaque" y="210" width="400" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="5f1edfc3-9d39-4b56-ab22-728024a32dd4" mode="Opaque" y="210" width="400" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Formula expressions using available names"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -279,7 +279,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="8af4a97a-0d7d-4368-a7b6-537b48549008" mode="Opaque" x="400" y="210" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
+    <element kind="textField" uuid="8af4a97a-0d7d-4368-a7b6-537b48549008" mode="Opaque" x="400" y="210" width="100" height="30" backcolor="#DFDFDF" horizontalTextAlign="Left" verticalTextAlign="Middle" bold="true">
       <expression><![CDATA["Value"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <box leftPadding="3" rightPadding="3">
@@ -289,7 +289,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="a333122d-5ae4-4bb9-ba91-fc5f2358a46f" mode="Transparent" y="240" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="a333122d-5ae4-4bb9-ba91-fc5f2358a46f" mode="Transparent" y="240" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["eight"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -300,7 +300,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="7e3d2a40-de7d-4485-ac00-47172c71c31e" mode="Transparent" y="270" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="7e3d2a40-de7d-4485-ac00-47172c71c31e" mode="Transparent" y="270" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["the_sum_" + $V{PAGE_NUMBER}]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -313,7 +313,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="45fcb8b4-cf97-4379-874f-6b651d0ca113" mode="Transparent" y="300" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="45fcb8b4-cf97-4379-874f-6b651d0ca113" mode="Transparent" y="300" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["the_sum_123"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -324,7 +324,7 @@
         <rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
       </box>
     </element>
-    <element type="textField" uuid="f6bb2043-6094-434e-a367-85b99dd543a5" mode="Transparent" y="330" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
+    <element kind="textField" uuid="f6bb2043-6094-434e-a367-85b99dd543a5" mode="Transparent" y="330" width="400" height="30" backcolor="#FFFFFF" horizontalTextAlign="Left" verticalTextAlign="Middle">
       <expression><![CDATA["AVERAGE(the_range_"+$V{PAGE_NUMBER}+")"]]></expression>
       <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <property name="com.jaspersoft.studio.unit.width" value="pixel"/>

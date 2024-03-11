@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -48,7 +47,7 @@ import net.sf.jasperreports.engine.JRCloneable;
  * properties.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = Id.NAME)//, include = As.PROPERTY, property = "kind")
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = JRBubblePlot.class),
 	@JsonSubTypes.Type(value = JRCandlestickPlot.class),

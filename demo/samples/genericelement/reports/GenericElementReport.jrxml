@@ -4,17 +4,17 @@
     <defaultValueExpression><![CDATA["jasperreports"]]></defaultValueExpression>
   </parameter>
   <title height="495">
-    <element type="textField" uuid="efcf3893-700b-4dba-b420-b94ced37bd15" width="820" height="70" horizontalTextAlign="Center" linkType="Reference" linkTarget="Blank" fontSize="18.0">
+    <element kind="textField" uuid="efcf3893-700b-4dba-b420-b94ced37bd15" width="820" height="70" horizontalTextAlign="Center" linkType="Reference" linkTarget="Blank" fontSize="18.0">
       <expression><![CDATA["JasperReports project information courtesy of http://ohloh.net"]]></expression>
       <hyperlinkReferenceExpression><![CDATA["http://ohloh.net/projects/jasperreports"]]></hyperlinkReferenceExpression>
     </element>
-    <element type="generic" uuid="b789f226-475d-4a88-90c3-b18c44f70391" y="100" width="400" height="200" style="widget1">
+    <element kind="generic" uuid="b789f226-475d-4a88-90c3-b18c44f70391" y="100" width="400" height="200" style="widget1">
       <genericType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="languages"/>
       <parameter name="ProjectID">
         <expression><![CDATA[$P{JRProjectID}]]></expression>
       </parameter>
     </element>
-    <element type="generic" uuid="6a8b2a26-8311-438b-8657-e9f8b9d9dc83" x="420" y="100" width="400" height="200">
+    <element kind="generic" uuid="6a8b2a26-8311-438b-8657-e9f8b9d9dc83" x="420" y="100" width="400" height="200">
       <genericType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="stats"/>
       <parameter name="ProjectID">
         <expression><![CDATA[$P{JRProjectID}]]></expression>

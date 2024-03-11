@@ -19,14 +19,14 @@
     <defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
   </parameter>
   <summary height="692">
-    <element type="textField" uuid="99ffce33-ba26-477f-a7bb-dead427aac0d" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
+    <element kind="textField" uuid="99ffce33-ba26-477f-a7bb-dead427aac0d" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
       <expression><![CDATA["San Francisco - Terrain Map with Custom Marker Icons"]]></expression>
     </element>
-    <element type="textField" uuid="33c8fdd6-a31b-45b1-bbb3-fc3f31819821" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+    <element kind="textField" uuid="33c8fdd6-a31b-45b1-bbb3-fc3f31819821" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
       <expression><![CDATA["A terrain map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled."]]></expression>
     </element>
-    <element type="component" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063" positionType="Float" y="150" width="515" height="326">
-      <component type="googlemap" mapType="terrain" imageType="jpg" onErrorType="Icon">
+    <element kind="component" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063" positionType="Float" y="150" width="515" height="326">
+      <component kind="googlemap" mapType="terrain" imageType="jpg" onErrorType="Icon">
         <latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
         <longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
         <zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>

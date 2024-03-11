@@ -9,26 +9,26 @@
     </variable>
   </dataset>
   <title height="100">
-    <element type="component" uuid="60c0da33-dc98-49ba-aec1-3f681c899020" width="555" height="100">
-      <component type="table">
+    <element kind="component" uuid="60c0da33-dc98-49ba-aec1-3f681c899020" width="555" height="100">
+      <component kind="table">
         <datasetRun uuid="daad7d2d-0be0-4b7d-a6d4-3f5e801d22fe" subDataset="TableData">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
         </datasetRun>
-        <column type="single" uuid="b4d6ac58-4b29-47ee-9468-e912aab976d8" width="555">
+        <column kind="single" uuid="b4d6ac58-4b29-47ee-9468-e912aab976d8" width="555">
           <columnFooter height="30">
-            <element type="textField" uuid="58864383-a6d6-43a1-bfbf-e33daea5e0aa" width="555" height="30">
+            <element kind="textField" uuid="58864383-a6d6-43a1-bfbf-e33daea5e0aa" width="555" height="30">
               <expression><![CDATA["table " + $V{ReturnedVariable}]]></expression>
             </element>
           </columnFooter>
           <detailCell height="30">
-            <element type="component" uuid="b17e981b-2cd6-46d1-b322-c05fa1c3862f" width="555" height="30">
-              <component type="list" printOrder="Vertical">
+            <element kind="component" uuid="b17e981b-2cd6-46d1-b322-c05fa1c3862f" width="555" height="30">
+              <component kind="list" printOrder="Vertical">
                 <datasetRun uuid="400beaac-bba1-41cc-b33d-819f18da2294" subDataset="ListData">
                   <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
                   <returnValue toVariable="ReturnedVariable" fromVariable="Variable"/>
                 </datasetRun>
                 <contents height="30">
-                  <element type="textField" uuid="88a74ad2-7380-48f7-bffc-6d3ee6438d07" width="200" height="30">
+                  <element kind="textField" uuid="88a74ad2-7380-48f7-bffc-6d3ee6438d07" width="200" height="30">
                     <expression><![CDATA["list " + $V{Variable}]]></expression>
                   </element>
                 </contents>

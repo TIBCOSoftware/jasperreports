@@ -39,21 +39,21 @@
     <expression><![CDATA[$F{City}]]></expression>
     <groupHeader>
       <band height="16">
-        <element type="textField" uuid="dca598fd-175a-40e9-b1c0-c74238f2639a" x="10" width="150" height="15" evaluationTime="Group" evaluationGroup="City" style="Sans_Bold">
+        <element kind="textField" uuid="dca598fd-175a-40e9-b1c0-c74238f2639a" x="10" width="150" height="15" evaluationTime="Group" evaluationGroup="City" style="Sans_Bold">
           <expression><![CDATA[$F{City}]]></expression>
         </element>
       </band>
     </groupHeader>
     <groupFooter>
       <band height="16">
-        <element type="frame" uuid="08529bed-ceb9-4445-b7a6-2d47c1e45531" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-          <element type="textField" uuid="e80b4d0c-9417-421b-bd68-8bdd81821c0d" x="10" width="150" height="15" verticalTextAlign="Middle" evaluationTime="Group" evaluationGroup="City" style="Sans_Bold">
+        <element kind="frame" uuid="08529bed-ceb9-4445-b7a6-2d47c1e45531" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
+          <element kind="textField" uuid="e80b4d0c-9417-421b-bd68-8bdd81821c0d" x="10" width="150" height="15" verticalTextAlign="Middle" evaluationTime="Group" evaluationGroup="City" style="Sans_Bold">
             <expression><![CDATA["City Totals: " + $F{City}]]></expression>
           </element>
-          <element type="textField" uuid="5c961bad-74c4-4236-b33a-55024b44e8f6" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" evaluationTime="Group" pattern="#,###" evaluationGroup="City" style="Sans_Bold">
+          <element kind="textField" uuid="5c961bad-74c4-4236-b33a-55024b44e8f6" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" evaluationTime="Group" pattern="#,###" evaluationGroup="City" style="Sans_Bold">
             <expression><![CDATA[$F{CityQuantity}]]></expression>
           </element>
-          <element type="textField" uuid="c94a3e50-29f1-47c8-90a4-d64ed63c00e1" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" evaluationTime="Group" pattern="$#,##0.00" evaluationGroup="City" style="Sans_Bold">
+          <element kind="textField" uuid="c94a3e50-29f1-47c8-90a4-d64ed63c00e1" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" evaluationTime="Group" pattern="$#,##0.00" evaluationGroup="City" style="Sans_Bold">
             <expression><![CDATA[$F{CityUnitPrice}]]></expression>
           </element>
           <box>
@@ -64,14 +64,14 @@
     </groupFooter>
   </group>
   <pageHeader height="16">
-    <element type="frame" uuid="8fed2c2d-fab9-4e86-a5c0-8b310ea46f45" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-      <element type="staticText" uuid="13d397e4-dab4-4458-abcb-affcacbc057b" x="20" width="150" height="15" verticalTextAlign="Middle">
+    <element kind="frame" uuid="8fed2c2d-fab9-4e86-a5c0-8b310ea46f45" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
+      <element kind="staticText" uuid="13d397e4-dab4-4458-abcb-affcacbc057b" x="20" width="150" height="15" verticalTextAlign="Middle">
         <text><![CDATA[Address]]></text>
       </element>
-      <element type="staticText" uuid="92f978c3-fbb2-4a07-a0b8-66518ab9cd1e" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
+      <element kind="staticText" uuid="92f978c3-fbb2-4a07-a0b8-66518ab9cd1e" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
         <text><![CDATA[Quantity]]></text>
       </element>
-      <element type="staticText" uuid="c83a0d8b-c17c-45e0-88df-0362489fb473" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
+      <element kind="staticText" uuid="c83a0d8b-c17c-45e0-88df-0362489fb473" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
         <text><![CDATA[Average price]]></text>
       </element>
       <box>
@@ -81,29 +81,29 @@
   </pageHeader>
   <detail>
     <band height="32">
-      <element type="textField" uuid="2ec9efff-8352-473f-af0d-db2362bf389d" x="20" width="150" height="15">
+      <element kind="textField" uuid="2ec9efff-8352-473f-af0d-db2362bf389d" x="20" width="150" height="15">
         <expression><![CDATA[$F{Name} + ", " + $F{Street}]]></expression>
       </element>
-      <element type="textField" uuid="6ad3b651-e14f-4989-b8cd-fdcdded22757" x="180" width="100" height="15" horizontalTextAlign="Right" pattern="#,###">
+      <element kind="textField" uuid="6ad3b651-e14f-4989-b8cd-fdcdded22757" x="180" width="100" height="15" horizontalTextAlign="Right" pattern="#,###">
         <expression><![CDATA[$F{Quantity}]]></expression>
       </element>
-      <element type="textField" uuid="38c50244-9f7b-4f66-b699-0a7d312d9914" x="300" width="100" height="15" horizontalTextAlign="Right" pattern="$#,##0.00">
+      <element kind="textField" uuid="38c50244-9f7b-4f66-b699-0a7d312d9914" x="300" width="100" height="15" horizontalTextAlign="Right" pattern="$#,##0.00">
         <expression><![CDATA[$F{UnitPrice}]]></expression>
       </element>
-      <element type="textField" uuid="2ac1908c-f60a-4f67-a62f-dfd61cef3794" x="40" y="17" width="250" height="15">
+      <element kind="textField" uuid="2ac1908c-f60a-4f67-a62f-dfd61cef3794" x="40" y="17" width="250" height="15">
         <expression><![CDATA[$F{AddressMember}.toString()]]></expression>
       </element>
     </band>
   </detail>
   <summary height="16">
-    <element type="frame" uuid="f66feef0-9c74-40c1-831d-29b2c9c6f267" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-      <element type="textField" uuid="67364fa9-1715-41da-99d3-daa9453aea9a" x="10" width="165" height="15" verticalTextAlign="Middle" style="Sans_Bold">
+    <element kind="frame" uuid="f66feef0-9c74-40c1-831d-29b2c9c6f267" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
+      <element kind="textField" uuid="67364fa9-1715-41da-99d3-daa9453aea9a" x="10" width="165" height="15" verticalTextAlign="Middle" style="Sans_Bold">
         <expression><![CDATA["Grand Totals (formatted text from query result)"]]></expression>
       </element>
-      <element type="textField" uuid="1e7af650-36bc-40d6-9e0f-1b5eb930432a" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" style="Sans_Bold">
+      <element kind="textField" uuid="1e7af650-36bc-40d6-9e0f-1b5eb930432a" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" style="Sans_Bold">
         <expression><![CDATA[$F{TotalQuantity}]]></expression>
       </element>
-      <element type="textField" uuid="2f71798c-de57-4acc-baa4-7cc41f83effd" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" style="Sans_Bold">
+      <element kind="textField" uuid="2f71798c-de57-4acc-baa4-7cc41f83effd" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" style="Sans_Bold">
         <expression><![CDATA[$F{TotalUnitPrice}]]></expression>
       </element>
       <box>

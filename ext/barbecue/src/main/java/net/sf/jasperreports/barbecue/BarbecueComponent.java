@@ -48,7 +48,7 @@ public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 	
 	//TODO scale type, alignment
 
-	@JacksonXmlProperty(localName = "format", isAttribute = true)
+	@JacksonXmlProperty(isAttribute = true)
 	String getType();
 
 	JRExpression getApplicationIdentifierExpression();

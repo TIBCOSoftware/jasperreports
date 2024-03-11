@@ -15,7 +15,7 @@
   </group>
   <detail>
     <band height="30" splitType="Prevent">
-      <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="80" height="30" textAdjust="StretchHeight">
+      <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="80" height="30" textAdjust="StretchHeight">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
         <box>
           <pen lineWidth="1.0"/>
@@ -24,7 +24,7 @@
     </band>
   </detail>
   <columnFooter height="30" splitType="Prevent">
-    <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="80" height="30" backcolor="#5BB5F5" textAdjust="StretchHeight">
+    <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="80" height="30" backcolor="#5BB5F5" textAdjust="StretchHeight">
       <expression><![CDATA["Column Footer"]]></expression>
       <box>
         <pen lineWidth="1.0"/>

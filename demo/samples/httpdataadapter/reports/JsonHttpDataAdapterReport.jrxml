@@ -25,16 +25,16 @@
     <property name="net.sf.jasperreports.jsonql.field.expression" value="totalResults"/>
   </field>
   <title height="79" splitType="Stretch">
-    <element type="line" uuid="d50b9e25-6694-498a-974d-18a5b81b9ac2" width="515" height="1"/>
-    <element type="textField" uuid="5894de4f-25db-48b0-965f-d30db16abf34" y="10" width="515" height="30" horizontalTextAlign="Center" bookmarkLevel="1" blankWhenNull="true" fontSize="22.0">
+    <element kind="line" uuid="d50b9e25-6694-498a-974d-18a5b81b9ac2" width="515" height="1"/>
+    <element kind="textField" uuid="5894de4f-25db-48b0-965f-d30db16abf34" y="10" width="515" height="30" horizontalTextAlign="Center" bookmarkLevel="1" blankWhenNull="true" fontSize="22.0">
       <expression><![CDATA["HTTP Data Adapter Report"]]></expression>
     </element>
-    <element type="textField" uuid="823dfcca-53db-4d93-9de4-f11b18188e95" y="40" width="515" height="20" horizontalTextAlign="Center" blankWhenNull="true" fontSize="14.0">
+    <element kind="textField" uuid="823dfcca-53db-4d93-9de4-f11b18188e95" y="40" width="515" height="20" horizontalTextAlign="Center" blankWhenNull="true" fontSize="14.0">
       <expression><![CDATA["List of Animals"]]></expression>
     </element>
   </title>
   <pageHeader height="35" splitType="Stretch">
-    <element type="textField" uuid="3d060769-58a9-49df-bfd3-9ba8c027b0e7" mode="Opaque" y="10" width="515" height="15" backcolor="#E6E6E6" horizontalTextAlign="Left">
+    <element kind="textField" uuid="3d060769-58a9-49df-bfd3-9ba8c027b0e7" mode="Opaque" y="10" width="515" height="15" backcolor="#E6E6E6" horizontalTextAlign="Left">
       <expression><![CDATA["Current HTTP request for JSON data returned " + $F{totalResults} + " results."]]></expression>
       <box>
         <bottomPen lineWidth="1.0"/>
@@ -43,37 +43,37 @@
   </pageHeader>
   <detail>
     <band height="65" splitType="Stretch">
-      <element type="component" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d" width="170" height="65">
-        <component type="list" printOrder="Vertical">
+      <element kind="component" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d" width="170" height="65">
+        <component kind="list" printOrder="Vertical">
           <datasetRun uuid="61c31d0f-e3b3-46c6-a11a-8c5d8b7016cf" subDataset="FetchDataset">
             <dataSourceExpression><![CDATA[new JREmptyDataSource((int)(Math.ceil($F{totalResults} / 10d)))]]></dataSourceExpression>
           </datasetRun>
           <contents height="65" width="170">
-            <element type="component" uuid="ef2ce737-0796-45e1-b7cb-7d595e8f6c7e" width="170" height="65">
-              <component type="list" printOrder="Vertical">
+            <element kind="component" uuid="ef2ce737-0796-45e1-b7cb-7d595e8f6c7e" width="170" height="65">
+              <component kind="list" printOrder="Vertical">
                 <datasetRun uuid="134b029e-9e8b-401f-9bd1-2a6087ea1242" subDataset="MoviesDataset">
                   <parameter name="page">
                     <expression><![CDATA[$V{REPORT_COUNT}]]></expression>
                   </parameter>
                 </datasetRun>
                 <contents height="65" width="170">
-                  <element type="textField" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b81" width="50" height="60" blankWhenNull="true">
+                  <element kind="textField" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b81" width="50" height="60" blankWhenNull="true">
                     <printWhenExpression><![CDATA[$F{image} == null || "N/A".equals($F{image})]]></printWhenExpression>
                     <box>
                       <pen lineWidth="0.1"/>
                     </box>
                   </element>
-                  <element type="image" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b80" width="50" height="60" onErrorType="Error">
+                  <element kind="image" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b80" width="50" height="60" onErrorType="Error">
                     <printWhenExpression><![CDATA[$F{image} != null && !"N/A".equals($F{image})]]></printWhenExpression>
                     <expression><![CDATA["http://localhost:8080/image.jsp?name=" + $F{image}]]></expression>
                   </element>
-                  <element type="textField" uuid="01569877-14f7-446d-b7bc-822f76698abe" x="55" width="114" height="12" textAdjust="StretchHeight" bold="true">
+                  <element kind="textField" uuid="01569877-14f7-446d-b7bc-822f76698abe" x="55" width="114" height="12" textAdjust="StretchHeight" bold="true">
                     <expression><![CDATA[$F{name}]]></expression>
                   </element>
-                  <element type="textField" uuid="eeea0d4c-cb97-4fd3-91cf-b72b3dde0107" positionType="Float" x="55" y="14" width="114" height="12">
+                  <element kind="textField" uuid="eeea0d4c-cb97-4fd3-91cf-b72b3dde0107" positionType="Float" x="55" y="14" width="114" height="12">
                     <expression><![CDATA[$F{size} + "kb"]]></expression>
                   </element>
-                  <element type="textField" uuid="a531e713-3704-4712-bf86-28420338e08c" positionType="Float" x="55" y="26" width="114" height="12">
+                  <element kind="textField" uuid="a531e713-3704-4712-bf86-28420338e08c" positionType="Float" x="55" y="26" width="114" height="12">
                     <expression><![CDATA[$F{type}]]></expression>
                   </element>
                 </contents>
@@ -85,11 +85,11 @@
     </band>
   </detail>
   <pageFooter height="54" splitType="Stretch">
-    <element type="line" uuid="af562ddd-d9cd-460a-b30a-5e2497bc8617" y="10" width="515" height="1"/>
-    <element type="textField" uuid="d34ea5a3-d3ad-43e6-b661-1436d5764114" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+    <element kind="line" uuid="af562ddd-d9cd-460a-b30a-5e2497bc8617" y="10" width="515" height="1"/>
+    <element kind="textField" uuid="d34ea5a3-d3ad-43e6-b661-1436d5764114" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
       <expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
     </element>
-    <element type="textField" uuid="a67f1a25-9a92-499f-abc3-6f939da5fa60" x="280" y="20" width="75" height="15" evaluationTime="Report">
+    <element kind="textField" uuid="a67f1a25-9a92-499f-abc3-6f939da5fa60" x="280" y="20" width="75" height="15" evaluationTime="Report">
       <expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
     </element>
   </pageFooter>

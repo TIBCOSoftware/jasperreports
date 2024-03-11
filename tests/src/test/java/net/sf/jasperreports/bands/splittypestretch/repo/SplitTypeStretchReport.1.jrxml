@@ -6,7 +6,7 @@
   </parameter>
   <detail>
     <band height="20" splitType="Stretch">
-      <element type="textField" uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" width="65" height="20" horizontalTextAlign="Justified" textAdjust="StretchHeight">
+      <element kind="textField" uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" width="65" height="20" horizontalTextAlign="Justified" textAdjust="StretchHeight">
         <expression><![CDATA[$P{TXT}]]></expression>
         <box>
           <pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -14,10 +14,10 @@
       </element>
     </band>
     <band height="80" splitType="Stretch">
-      <element type="textField" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" y="5" width="65" height="30" backcolor="#FFFF00" horizontalTextAlign="Center" verticalTextAlign="Middle">
+      <element kind="textField" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" y="5" width="65" height="30" backcolor="#FFFF00" horizontalTextAlign="Center" verticalTextAlign="Middle">
         <expression><![CDATA["2ND DETAIL BAND"]]></expression>
       </element>
-      <element type="textField" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" positionType="Float" mode="Opaque" y="40" width="65" height="35" backcolor="#00FFFF" horizontalTextAlign="Center" verticalTextAlign="Middle">
+      <element kind="textField" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" positionType="Float" mode="Opaque" y="40" width="65" height="35" backcolor="#00FFFF" horizontalTextAlign="Center" verticalTextAlign="Middle">
         <expression><![CDATA["2ND DETAIL BAND"]]></expression>
       </element>
     </band>

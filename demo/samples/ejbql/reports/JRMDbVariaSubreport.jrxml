@@ -14,25 +14,25 @@
     <property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_2"/>
   </field>
   <title height="14">
-    <element type="staticText" uuid="eb271100-cfb0-45f7-8f6c-27a1709d7bd1" y="2" width="240" height="10" style="Sans_Italic">
+    <element kind="staticText" uuid="eb271100-cfb0-45f7-8f6c-27a1709d7bd1" y="2" width="240" height="10" style="Sans_Italic">
       <text><![CDATA[Varia]]></text>
     </element>
   </title>
   <columnHeader height="14">
-    <element type="rectangle" uuid="cc056fcd-b9d2-4e3a-9cec-fbdfcd92ff05" y="2" width="240" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF"/>
-    <element type="staticText" uuid="5e4dde06-3e08-4e56-865e-c04675a676c8" mode="Opaque" y="2" width="70" height="10" backcolor="#CCFFFF" style="Sans_Bold">
+    <element kind="rectangle" uuid="cc056fcd-b9d2-4e3a-9cec-fbdfcd92ff05" y="2" width="240" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF"/>
+    <element kind="staticText" uuid="5e4dde06-3e08-4e56-865e-c04675a676c8" mode="Opaque" y="2" width="70" height="10" backcolor="#CCFFFF" style="Sans_Bold">
       <text><![CDATA[Type]]></text>
     </element>
-    <element type="staticText" uuid="69ddbaec-b2e3-4d83-8176-53f423bdebbb" mode="Opaque" x="75" y="2" width="170" height="10" backcolor="#CCFFFF" style="Sans_Bold">
+    <element kind="staticText" uuid="69ddbaec-b2e3-4d83-8176-53f423bdebbb" mode="Opaque" x="75" y="2" width="170" height="10" backcolor="#CCFFFF" style="Sans_Bold">
       <text><![CDATA[Description]]></text>
     </element>
   </columnHeader>
   <detail>
     <band height="14">
-      <element type="textField" uuid="4f71d00b-b602-45f3-a611-b536ff1fb200" positionType="Float" y="2" width="70" height="10" textAdjust="StretchHeight">
+      <element kind="textField" uuid="4f71d00b-b602-45f3-a611-b536ff1fb200" positionType="Float" y="2" width="70" height="10" textAdjust="StretchHeight">
         <expression><![CDATA[$F{type}]]></expression>
       </element>
-      <element type="textField" uuid="0c3eb459-b24c-4a36-8519-83c770097bd6" positionType="Float" x="75" y="2" width="170" height="10" textAdjust="StretchHeight">
+      <element kind="textField" uuid="0c3eb459-b24c-4a36-8519-83c770097bd6" positionType="Float" x="75" y="2" width="170" height="10" textAdjust="StretchHeight">
         <expression><![CDATA[$F{description}]]></expression>
       </element>
     </band>

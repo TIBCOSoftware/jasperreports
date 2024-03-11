@@ -22,8 +22,8 @@
   <group name="Dummy">
     <groupHeader>
       <band height="15">
-        <element type="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" width="200" height="15" style="Component">
-          <component type="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
+        <element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" width="200" height="15" style="Component">
+          <component kind="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
             <labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" verticalTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
               <expression><![CDATA["Text."]]></expression>
               <box padding="5" style="Label">
@@ -39,7 +39,7 @@
     </groupHeader>
   </group>
   <title height="640">
-    <element type="textField" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22" stretchType="ContainerHeight" width="515" height="640" textAdjust="StretchHeight" style="Main">
+    <element kind="textField" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22" stretchType="ContainerHeight" width="515" height="640" textAdjust="StretchHeight" style="Main">
       <expression><![CDATA["TITLE"]]></expression>
     </element>
   </title>

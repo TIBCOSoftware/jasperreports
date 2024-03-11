@@ -3,12 +3,12 @@
   <group name="dummy">
     <groupHeader>
       <band height="1">
-        <element type="line" uuid="19ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="1" forecolor="#FF0000"/>
+        <element kind="line" uuid="19ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="1" forecolor="#FF0000"/>
       </band>
     </groupHeader>
   </group>
   <title height="741">
-    <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
+    <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="25" backcolor="#00FFFF" textAdjust="StretchHeight">
       <expression><![CDATA["This report shows that, historically, unlike frames, bands do not preserve their remaining white space on the next page/column during white space overflows." + "\nblah\nblah\nblah."]]></expression>
     </element>
   </title>

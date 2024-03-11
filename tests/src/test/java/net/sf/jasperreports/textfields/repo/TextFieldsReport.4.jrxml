@@ -3,7 +3,7 @@
   <group name="Dummy">
     <groupHeader>
       <band height="80">
-        <element type="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="80" backcolor="#00FFFF" textAdjust="StretchHeight" fontSize="64.0">
+        <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" width="515" height="80" backcolor="#00FFFF" textAdjust="StretchHeight" fontSize="64.0">
           <expression><![CDATA["blah\nblah\nblah.\n"]]></expression>
         </element>
         <property name="com.jaspersoft.studio.unit.height" value="px"/>
