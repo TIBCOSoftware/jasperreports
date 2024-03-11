@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
@@ -62,12 +63,12 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 		ObjectCodec oc = p.getCodec();
 		JsonNode node = oc.readTree(p);
 		
-		JRDesignPropertyExpression propertyExpression = null;
+		JRPropertyExpression propertyExpression = null;
 		
 		FromXmlParser xp = p instanceof FromXmlParser ? (FromXmlParser)p : null;
 		if (xp == null)
 		{
-			propertyExpression = new JRDesignPropertyExpression();
+			propertyExpression = getPropertyExpression();
 			propertyExpression.setName(node.get("name").asText());
 			
 			JRDesignExpression expression = new JRDesignExpression(node.get("text").asText());
@@ -77,11 +78,11 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 				expression.setType(ExpressionTypeEnum.getByName(typeNode.asText()));
 			}
 
-			propertyExpression.setValueExpression(expression);
+			setValueExpression(propertyExpression, expression);
 		}
 		else
 		{
-			propertyExpression = new JRDesignPropertyExpression();
+			propertyExpression = getPropertyExpression();
 			propertyExpression.setName(node.get("name").asText());
 
 			JRDesignExpression expression = new JRDesignExpression(node.get("").asText()); //FIXMEJACK isn't there a better way to get tag content?
@@ -91,9 +92,19 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 				expression.setType(ExpressionTypeEnum.getByName(typeNode.asText()));
 			}
 			
-			propertyExpression.setValueExpression(expression);
+			setValueExpression(propertyExpression, expression);
 		}
 		
 		return propertyExpression;
-    }
+	}
+	
+	protected JRPropertyExpression getPropertyExpression()
+	{
+		return new JRDesignPropertyExpression();
+	}
+	
+	protected void setValueExpression(JRPropertyExpression propetyExpression, JRExpression expression)
+	{
+		((JRDesignPropertyExpression)propetyExpression).setValueExpression(expression);;
+	}
 }
