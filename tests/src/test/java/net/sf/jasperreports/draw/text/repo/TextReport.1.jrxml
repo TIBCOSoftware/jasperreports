@@ -40,7 +40,6 @@
           <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
           <box topPadding="10"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
       <band height="310">
         <element kind="textField" uuid="932b53c2-1c76-4fe6-ada0-e7062b64618e" mode="Opaque" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" horizontalTextAlign="Left" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight">
@@ -100,7 +99,6 @@ Paragraph     to     show     how     they     impact     text     alignment.</s
           <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
           <box leftPadding="5" rightPadding="5"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
       <band height="40">
         <element kind="textField" uuid="7aaae350-fbe8-4dcc-bf9e-276344b8c630" mode="Opaque" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" horizontalTextAlign="Left" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight">
@@ -135,7 +133,6 @@ Paragraph     to     show     how     they     impact     text     alignment.</s
           <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
           <box leftPadding="5" rightPadding="5"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
     </groupHeader>
   </group>

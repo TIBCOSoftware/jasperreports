@@ -8,24 +8,14 @@
       <band height="40">
         <element kind="textField" uuid="5e6f64bc-a822-4ba3-b80c-edd7d8fdd382" mode="Opaque" width="515" height="40" forecolor="#FFFFFF" backcolor="#0000FF">
           <expression><![CDATA["First Group Header"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupHeader>
     <groupFooter>
       <band height="40">
         <element kind="textField" uuid="7d0c8ed3-62aa-4bb1-a5fd-63f7cd173f16" mode="Opaque" width="515" height="40" backcolor="#6699FF">
           <expression><![CDATA["First Group Footer"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupFooter>
   </group>
@@ -34,24 +24,14 @@
       <band height="40">
         <element kind="textField" uuid="080f6cd4-258a-479b-b22e-602f23d7e4ca" mode="Opaque" width="515" height="40" forecolor="#FFFFFF" backcolor="#009900">
           <expression><![CDATA["Second Group Header"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupHeader>
     <groupFooter>
       <band height="40">
         <element kind="textField" uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451" mode="Opaque" width="515" height="40" backcolor="#00FFCC">
           <expression><![CDATA["Second Group Footer"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupFooter>
   </group>
@@ -60,48 +40,29 @@
       <band height="40">
         <element kind="textField" uuid="e75a4e94-c0f7-4f36-90a9-dee8b2f00db7" mode="Opaque" width="515" height="40" forecolor="#FFFFFF" backcolor="#CC0000">
           <expression><![CDATA["Third Group Header"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupHeader>
     <groupFooter>
       <band height="40">
         <element kind="textField" uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" width="515" height="40" backcolor="#FFCCCC">
           <expression><![CDATA["Third Group Footer"]]></expression>
-          <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-          <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       </band>
     </groupFooter>
   </group>
   <title height="130">
     <element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" width="515" height="130">
       <expression><![CDATA["Title"]]></expression>
-      <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-      <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-      <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-      <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
       <box>
         <pen lineWidth="1.0"/>
       </box>
     </element>
-    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
   </title>
   <detail>
     <band height="25">
       <element kind="textField" uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" width="360" height="25">
         <expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
-        <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         <box>
           <pen lineWidth="1.0"/>
           <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,10 +73,6 @@
       </element>
       <element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="360" width="154" height="25" horizontalTextAlign="Right" evaluationTime="Page">
         <expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
-        <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-        <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
         <box>
           <pen lineWidth="1.0"/>
           <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -124,7 +81,6 @@
           <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
         </box>
       </element>
-      <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
     </band>
   </detail>
 </jasperReport>

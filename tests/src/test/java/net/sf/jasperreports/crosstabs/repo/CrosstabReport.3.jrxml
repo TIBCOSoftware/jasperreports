@@ -5,7 +5,6 @@
   <summary height="51" splitType="Stretch">
     <element kind="crosstab" uuid="261e4a5e-10ff-4206-be94-2147125a3514" mode="Opaque" width="1560" height="1" backcolor="#FEFFFF" columnBreakOffset="40" runDirection="LTR">
       <dataset/>
-      <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
       <rowGroup name="pYear" totalPosition="None" width="1" position="Top">
         <bucket order="Ascending" class="java.lang.String">
           <expression><![CDATA["2017"]]></expression>
@@ -44,8 +43,6 @@
     </element>
     <element kind="staticText" uuid="82e67080-00ab-4784-9a7b-c65e06bf1421" positionType="Float" mode="Opaque" y="1" width="90" height="30" backcolor="#00FFFF">
       <text><![CDATA[END]]></text>
-      <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
     </element>
-    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
   </summary>
 </jasperReport>

@@ -5,7 +5,6 @@
   <summary height="30">
     <element kind="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" y="10" width="555" height="20" columnBreakOffset="10" repeatColumnHeaders="false" runDirection="LTR">
       <dataset/>
-      <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
       <rowGroup name="Outer" totalPosition="None" width="50" position="Stretch">
         <bucket order="Ascending" class="java.lang.String">
           <expression><![CDATA["R"]]></expression>

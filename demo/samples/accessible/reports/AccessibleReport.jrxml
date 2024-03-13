@@ -66,8 +66,6 @@
     </box>
   </style>
   <dataset name="CrosstabDataset" uuid="8d840d56-f9c3-4fc9-9b27-68f869d1946c">
-    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
     <property name="net.sf.jasperreports.data.adapter" value="data/ProductsCsvDataAdapter.jrdax"/>
     <field name="Category" class="java.lang.String"/>
     <field name="Type" class="java.lang.String"/>
@@ -75,8 +73,6 @@
     <field name="Quantity" class="java.lang.Integer"/>
   </dataset>
   <dataset name="TableDataset" uuid="585654d1-206d-4bd4-a0cf-2be100953a97">
-    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
     <property name="net.sf.jasperreports.data.adapter" value="data/PersonsCsvDataAdapter.jrdax"/>
     <field name="id" class="java.lang.Integer">
       <description>id</description>
@@ -203,7 +199,6 @@
           <dataset>
             <datasetRun uuid="40791c66-0992-4fdc-94b8-0d5a7f337145" subDataset="CrosstabDataset"/>
           </dataset>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
           <rowGroup name="Category" totalPosition="End" width="70" position="Top">
             <bucket order="Ascending" class="java.lang.String">
               <expression><![CDATA[$F{Category}]]></expression>
@@ -295,7 +290,6 @@
             </contents>
           </cell>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
       <band height="20">
         <element kind="textField" uuid="a98a7704-439e-45ee-af84-a3cfb2b4ab17" width="500" height="10" textAdjust="StretchHeight" style="Description">
@@ -315,7 +309,6 @@
               <expression><![CDATA["Type"]]></expression>
             </element>
           </headerCell>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
           <rowGroup name="Category" totalPosition="End" width="70" position="Top">
             <bucket order="Ascending" class="java.lang.String">
               <expression><![CDATA[$F{Category}]]></expression>
@@ -407,7 +400,6 @@
             </contents>
           </cell>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
       <band height="20">
         <element kind="textField" uuid="533e9a7f-78a8-4c12-b306-92ae7b8fda38" width="500" height="10" textAdjust="StretchHeight" style="Description">
@@ -419,7 +411,6 @@
           <component kind="table" whenNoDataType="AllSectionsNoDetail">
             <datasetRun uuid="4e7e3d4f-0bbd-4571-9185-140f57552165" subDataset="TableDataset"/>
             <column kind="group" uuid="d07b8e92-41a5-4595-93a2-e58dda291354" width="500">
-              <property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
               <column kind="single" uuid="139e4257-c1e0-4fec-9810-8f4dfcc0d462" width="30">
                 <columnHeader height="20" rowSpan="2" style="Table_TH">
                   <element kind="textField" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d" stretchType="ContainerHeight" width="30" height="20" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
@@ -431,7 +422,6 @@
                     <expression><![CDATA[$F{id}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
               </column>
               <column kind="single" uuid="3e29a52e-a43a-4f78-9338-442b5c4ccf52" width="100">
                 <columnHeader height="20" rowSpan="2" style="Table_TH">
@@ -439,36 +429,30 @@
                     <expression><![CDATA["Name"]]></expression>
                     <box topPadding="2" leftPadding="3" bottomPadding="2" rightPadding="3" style="Table_TH_Text"/>
                   </element>
-                  <property name="com.jaspersoft.studio.unit.width" value="px"/>
                 </columnHeader>
                 <detailCell height="10">
                   <element kind="textField" uuid="bec5d55d-c6b5-4352-961e-e5eb8b258746" width="100" height="10" textAdjust="StretchHeight" style="Table_TD">
                     <expression><![CDATA[$F{name}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
               </column>
               <column kind="group" uuid="6e249030-faab-40e1-a25c-a80ee5be404e" width="190">
                 <columnHeader height="10" style="Table_TH">
                   <element kind="textField" uuid="0c5a981e-93de-4f47-8872-cafaa817166a" width="190" height="10" textAdjust="StretchHeight" style="Table_TH_Text">
                     <expression><![CDATA["Address"]]></expression>
                   </element>
-                  <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </columnHeader>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
                 <column kind="single" uuid="c8a14c10-28be-4ede-937c-44e0cb8c6f3b" width="120">
                   <columnHeader height="10" rowSpan="1" style="Table_TH">
                     <element kind="textField" uuid="8bacb782-c042-4db5-a844-0b8bc5ef9af2" stretchType="ContainerHeight" width="120" height="10" textAdjust="StretchHeight" style="Table_TH_Text">
                       <expression><![CDATA["Street"]]></expression>
                     </element>
-                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
                   </columnHeader>
                   <detailCell height="10">
                     <element kind="textField" uuid="b60098ff-15f7-422d-a834-1664f4b42356" width="120" height="10" textAdjust="StretchHeight" style="Table_TD">
                       <expression><![CDATA[$F{address}]]></expression>
                     </element>
                   </detailCell>
-                  <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
                 </column>
                 <column kind="single" uuid="94e0ac43-3866-4a08-828a-02f4f673ee8c" width="70">
                   <columnHeader height="10" style="Table_TH">
@@ -480,9 +464,7 @@
                     <element kind="textField" uuid="1929e684-b617-4974-b409-72c5b7de42ec" width="70" height="10" textAdjust="StretchHeight" style="Table_TD">
                       <expression><![CDATA[$F{city}]]></expression>
                     </element>
-                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
                   </detailCell>
-                  <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
                 </column>
               </column>
               <column kind="single" uuid="3c815a04-14db-4271-a533-38e8aff35aaa" width="100">
@@ -496,7 +478,6 @@
                     <expression><![CDATA[$F{state}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
               </column>
               <column kind="single" uuid="195ef0da-f000-49e0-b5e0-c4001a22dbcf" width="80">
                 <columnHeader height="20" rowSpan="2" style="Table_TH">
@@ -509,7 +490,6 @@
                     <expression><![CDATA[$F{moveInDate}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
               </column>
             </column>
           </component>
@@ -525,7 +505,6 @@
           <component kind="table" whenNoDataType="AllSectionsNoDetail">
             <datasetRun uuid="9db061bf-fbfa-4dd2-ac8d-70ba803aa5a5" subDataset="TableDataset"/>
             <column kind="group" uuid="e89c0428-93ba-43c9-ac36-caaf311d1c23" width="500">
-              <property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
               <column kind="single" uuid="bbdb515a-0d6d-46cc-84d3-d22c1fbd8781" width="30">
                 <columnHeader height="10" style="Table_TH">
                   <element kind="textField" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274" stretchType="ContainerHeight" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
@@ -537,35 +516,30 @@
                     <expression><![CDATA[$F{id}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
               </column>
               <column kind="single" uuid="9b577d40-88c0-4ecc-a51c-eab910a80d0a" width="100">
                 <columnHeader height="10" style="Table_TH">
                   <element kind="textField" uuid="9df76cf5-3a52-4389-9efc-6bc42cf88486" stretchType="ContainerHeight" width="100" height="10" textAdjust="StretchHeight" style="Table_TH_Text">
                     <expression><![CDATA["Name"]]></expression>
                   </element>
-                  <property name="com.jaspersoft.studio.unit.width" value="px"/>
                 </columnHeader>
                 <detailCell height="10">
                   <element kind="textField" uuid="252757ed-7648-4643-bb41-b5d50e6e359b" width="100" height="10" textAdjust="StretchHeight" style="Table_TD">
                     <expression><![CDATA[$F{name}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
               </column>
               <column kind="single" uuid="bb948094-4211-4122-8fc1-ee7e5990f30b" width="120">
                 <columnHeader height="10" rowSpan="1" style="Table_TH">
                   <element kind="textField" uuid="c7199a0a-e57b-4759-834b-4f7c2406849a" stretchType="ContainerHeight" width="120" height="10" textAdjust="StretchHeight" style="Table_TH_Text">
                     <expression><![CDATA["Street"]]></expression>
                   </element>
-                  <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </columnHeader>
                 <detailCell height="10">
                   <element kind="textField" uuid="ee227a8c-c78b-419f-8671-cb9e89fee28e" width="120" height="10" textAdjust="StretchHeight" style="Table_TD">
                     <expression><![CDATA[$F{address}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
               </column>
               <column kind="single" uuid="1e3a3e84-c651-4402-bfab-5b24f78a2236" width="70">
                 <columnHeader height="10" style="Table_TH">
@@ -577,9 +551,7 @@
                   <element kind="textField" uuid="67e5e9d8-c3b3-4ee5-bec3-abef6e19f220" width="70" height="10" textAdjust="StretchHeight" style="Table_TD">
                     <expression><![CDATA[$F{city}]]></expression>
                   </element>
-                  <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
               </column>
               <column kind="single" uuid="eacd8541-0c7b-4627-a554-61966379e947" width="100">
                 <columnHeader height="10" style="Table_TH">
@@ -592,7 +564,6 @@
                     <expression><![CDATA[$F{state}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
               </column>
               <column kind="single" uuid="cbdb4bbc-b7e2-4d2b-a6c9-ab5ae5957bbf" width="80">
                 <columnHeader height="10" style="Table_TH">
@@ -605,7 +576,6 @@
                     <expression><![CDATA[$F{moveInDate}]]></expression>
                   </element>
                 </detailCell>
-                <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
               </column>
             </column>
           </component>

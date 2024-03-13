@@ -7,7 +7,6 @@
           <expression><![CDATA["blah\nblah\nblah."]]></expression>
           <propertyExpression name="net.sf.jasperreports.consume.space.on.overflow"><![CDATA[Boolean.FALSE.toString()]]></propertyExpression>
         </element>
-        <property name="com.jaspersoft.studio.unit.height" value="px"/>
       </band>
     </groupHeader>
   </group>

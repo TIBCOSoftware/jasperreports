@@ -20,7 +20,6 @@
             <expression><![CDATA["A"]]></expression>
           </element>
           <box padding="0"/>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </header>
         <totalHeader/>
       </rowGroup>
@@ -40,7 +39,6 @@
             <expression><![CDATA["B"]]></expression>
           </element>
           <box padding="0"/>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </header>
         <totalHeader mode="Opaque" backcolor="#F78B0F">
           <element kind="textField" uuid="6ecf5467-c819-4ad1-b795-8cc5af03e3e0" mode="Opaque" x="5" width="95" height="15" forecolor="#FFFFFF" backcolor="#0000FF" blankWhenNull="false" removeLineWhenBlank="true">
@@ -53,7 +51,6 @@
           <element kind="textField" uuid="db0f9cd9-cd65-4cc4-96d5-261118d4c74a" mode="Opaque" x="5" y="30" width="95" height="15" forecolor="#FFFFFF" backcolor="#0000FF" blankWhenNull="false" removeLineWhenBlank="true">
             <expression><![CDATA["TB:" + $V{MyMeasure}]]></expression>
           </element>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </totalHeader>
       </rowGroup>
       <rowGroup name="RowGroupC" totalPosition="None" width="50" position="Top">
@@ -72,7 +69,6 @@
             <expression><![CDATA["C"]]></expression>
           </element>
           <box padding="0"/>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </header>
         <totalHeader mode="Opaque" backcolor="#AE6BB0">
           <element kind="textField" uuid="69913f85-a9c2-42c8-bafa-76f4feb49416" mode="Opaque" x="5" width="45" height="15" forecolor="#FFFFFF" backcolor="#0000FF" blankWhenNull="false" removeLineWhenBlank="true">
@@ -85,7 +81,6 @@
           <element kind="textField" uuid="547101ba-a47f-4cb3-afd0-a1d6d97cc063" mode="Opaque" x="5" y="30" width="45" height="15" forecolor="#FFFFFF" backcolor="#0000FF" blankWhenNull="false" removeLineWhenBlank="true">
             <expression><![CDATA["TC:" + $V{MyMeasure}]]></expression>
           </element>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </totalHeader>
       </rowGroup>
       <columnGroup name="ColGroupX" totalPosition="None" position="Left">
@@ -110,7 +105,6 @@
           <element kind="textField" uuid="37cfd0c2-36e7-4443-886c-5fab7b30f5f5" mode="Opaque" x="5" y="30" width="95" height="15" forecolor="#FFFFFF" backcolor="#0000FF" blankWhenNull="false" removeLineWhenBlank="true">
             <expression><![CDATA[$V{MyMeasure}]]></expression>
           </element>
-          <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
         </contents>
       </cell>
       <cell height="45" rowTotalGroup="RowGroupC">

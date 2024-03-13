@@ -36,8 +36,6 @@
     </element>
     <element kind="staticText" uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" positionType="Float" mode="Opaque" y="10" width="90" height="30" backcolor="#00FFFF">
       <text><![CDATA[END]]></text>
-      <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
     </element>
-    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
   </summary>
 </jasperReport>

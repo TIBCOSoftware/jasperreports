@@ -6,6 +6,5 @@
         <expression><![CDATA["This report shows that when frames overflow (even with white space), they will be rendered on the next page at their design height, not the remaining white space height." + "\nblah\nblah\nblah."]]></expression>
       </element>
     </element>
-    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
   </title>
 </jasperReport>
