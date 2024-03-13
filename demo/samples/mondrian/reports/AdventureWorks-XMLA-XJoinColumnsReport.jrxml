@@ -99,7 +99,4 @@ WHERE ( [Sales Territory].[Southwest] )]]></query>
       </element>
     </band>
   </detail>
-  <summary>
-    <property name="local_mesure_unitheight" value="pixel"/>
-  </summary>
 </jasperReport>

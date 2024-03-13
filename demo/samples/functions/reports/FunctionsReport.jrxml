@@ -122,15 +122,12 @@
               </element>
               <element kind="staticText" uuid="f1d8fbed-1623-420b-8e67-445e66871e49" x="170" y="20" width="380" height="20" style="TableHeader">
                 <text><![CDATA[Description]]></text>
-                <property name="local_mesure_unitwidth" value="pixel"/>
               </element>
               <element kind="staticText" uuid="69448285-192e-42ad-9655-6d5c18567dca" positionType="FixRelativeToBottom" x="550" y="20" width="140" height="20" style="TableHeader">
                 <text><![CDATA[Type]]></text>
-                <property name="local_mesure_unitwidth" value="pixel"/>
               </element>
               <element kind="staticText" uuid="5be7cdf3-1691-4698-9ab5-1f7278a6f43e" x="690" y="20" width="70" height="20" style="TableHeader">
                 <text><![CDATA[Required]]></text>
-                <property name="local_mesure_unitwidth" value="pixel"/>
               </element>
             </columnHeader>
             <detailCell height="20" style="TableDetail">
@@ -143,40 +140,32 @@
                     <detailCell height="20">
                       <element kind="textField" uuid="0de3f34f-364c-4119-b40e-e99c340024a2" stretchType="ContainerHeight" width="170" height="20" textAdjust="StretchHeight">
                         <expression><![CDATA[$F{name}]]></expression>
-                        <property name="local_mesure_unitwidth" value="pixel"/>
                         <box>
                           <leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
                         </box>
                       </element>
                     </detailCell>
-                    <property name="local_mesure_unitwidth" value="pixel"/>
                   </column>
                   <column kind="single" uuid="9ea1ab31-d4e3-45ea-bf8a-db8aadea8a00" width="380">
                     <detailCell height="20">
                       <element kind="textField" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d" width="380" height="20" textAdjust="StretchHeight">
                         <expression><![CDATA[$F{description}]]></expression>
-                        <property name="local_mesure_unitwidth" value="pixel"/>
                       </element>
                     </detailCell>
-                    <property name="local_mesure_unitwidth" value="pixel"/>
                   </column>
                   <column kind="single" uuid="d8bb3e16-e8d1-4b6d-b0c1-6158e99e9959" width="140">
                     <detailCell height="20">
                       <element kind="textField" uuid="02159a17-4380-483d-a7ad-317e13bf5b98" stretchType="ContainerHeight" width="140" height="20" textAdjust="StretchHeight">
                         <expression><![CDATA[$F{type}.getCanonicalName()]]></expression>
-                        <property name="local_mesure_unitwidth" value="pixel"/>
                       </element>
                     </detailCell>
-                    <property name="local_mesure_unitwidth" value="pixel"/>
                   </column>
                   <column kind="single" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955" width="70">
                     <detailCell height="20">
                       <element kind="textField" uuid="40690340-8dac-4372-885f-08649c29a803" stretchType="ContainerHeight" width="70" height="20" horizontalTextAlign="Center" textAdjust="StretchHeight">
                         <expression><![CDATA[$F{required} ? "Yes" : "No"]]></expression>
-                        <property name="local_mesure_unitwidth" value="pixel"/>
                       </element>
                     </detailCell>
-                    <property name="local_mesure_unitheight" value="pixel"/>
                   </column>
                 </component>
               </element>
