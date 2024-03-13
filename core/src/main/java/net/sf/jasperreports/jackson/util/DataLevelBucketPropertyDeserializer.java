@@ -21,53 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple.handlers;
+package net.sf.jasperreports.jackson.util;
 
-import java.awt.Color;
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
-import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucketProperty;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ColorDeserializer extends StdDeserializer<Color> //FIXMEJACK remove
+public class DataLevelBucketPropertyDeserializer extends ItemPropertyDeserializer
 {
 	private static final long serialVersionUID = 1L;
 
-	public ColorDeserializer()
+	public DataLevelBucketPropertyDeserializer()
 	{
 		this(null);
 	}
 	
-	public ColorDeserializer(Class<?> vc)
+	public DataLevelBucketPropertyDeserializer(Class<?> vc)
 	{
 		super(vc);
 	}
-
+	
 	@Override
-	public Color deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException 
+	protected ItemProperty getItemProperty()
 	{
-		ObjectCodec oc = p.getCodec();
-		JsonNode node = oc.readTree(p);
-		
-		return convert(node.textValue());
-    }
-
-	public static Color convert(String value)
+		return new DesignDataLevelBucketProperty();
+	}
+	
+	@Override
+	protected void setName(ItemProperty itemProperty, String name)
 	{
-		if (value == null)
-		{
-			return null;
-		}
-		return JRColorUtil.getColor(value, null);
+		((DesignDataLevelBucketProperty)itemProperty).setName(name);;
+	}
+	
+	@Override
+	protected void setValue(ItemProperty itemProperty, String value)
+	{
+		((DesignDataLevelBucketProperty)itemProperty).setValue(value);;
+	}
+	
+	@Override
+	protected void setValueExpression(ItemProperty itemProperty, JRExpression expression)
+	{
+		((DesignDataLevelBucketProperty)itemProperty).setValueExpression(expression);;
 	}
 }

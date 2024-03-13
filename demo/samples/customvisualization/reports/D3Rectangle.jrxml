@@ -16,17 +16,13 @@
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
-            <property name="color" value="0">
-              <expression><![CDATA[$F{color}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
+            <property name="color" value="0"><![CDATA[$F{color}]]></property>
           </item>
         </itemData>
-        <itemProperty name="module" value="d3rectangle"/>
-        <itemProperty name="script" value="d3rectangle/d3rectangle.min.js"/>
-        <itemProperty name="background" value="#eeeeee"/>
+        <property name="module" value="d3rectangle"/>
+        <property name="script" value="d3rectangle/d3rectangle.min.js"/>
+        <property name="background" value="#eeeeee"/>
       </component>
     </element>
   </title>

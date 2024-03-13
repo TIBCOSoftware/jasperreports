@@ -5,46 +5,46 @@
     </element>
     <element kind="component" uuid="055461ec-db73-49cc-a1ee-afa947fc8255" x="20" y="80" width="200" height="200">
       <component kind="customvisualization">
-        <itemProperty name="script" value="radialprogress/radialprogress.min.js"/>
-        <itemProperty name="css" value="radialprogress/radialprogress.css"/>
-        <itemProperty name="module" value="radialprogress"/>
-        <itemProperty name="value" value="90"/>
-        <itemProperty name="target" value="100"/>
-        <itemProperty name="valueFormat" value=".1%"/>
-        <itemProperty name="autoFit" value="true"/>
-        <itemProperty name="fgColor" value="#000000"/>
-        <itemProperty name="fgOpacity" value="1"/>
-        <itemProperty name="showBackground" value="true"/>
-        <itemProperty name="bgColor" value="#000000"/>
-        <itemProperty name="bgOpacity" value="0.2"/>
-        <itemProperty name="ringThickness" value="4.0"/>
-        <itemProperty name="ringPadding" value="4.0"/>
-        <itemProperty name="maxRings" value="0"/>
-        <itemProperty name="hPadding" value="10"/>
-        <itemProperty name="vPadding" value="10"/>
-        <itemProperty name="animation" value="true"/>
+        <property name="script" value="radialprogress/radialprogress.min.js"/>
+        <property name="css" value="radialprogress/radialprogress.css"/>
+        <property name="module" value="radialprogress"/>
+        <property name="value" value="90"/>
+        <property name="target" value="100"/>
+        <property name="valueFormat" value=".1%"/>
+        <property name="autoFit" value="true"/>
+        <property name="fgColor" value="#000000"/>
+        <property name="fgOpacity" value="1"/>
+        <property name="showBackground" value="true"/>
+        <property name="bgColor" value="#000000"/>
+        <property name="bgOpacity" value="0.2"/>
+        <property name="ringThickness" value="4.0"/>
+        <property name="ringPadding" value="4.0"/>
+        <property name="maxRings" value="0"/>
+        <property name="hPadding" value="10"/>
+        <property name="vPadding" value="10"/>
+        <property name="animation" value="true"/>
       </component>
     </element>
     <element kind="component" uuid="3f275638-ba0a-4d97-8767-887edd421c33" x="330" y="80" width="200" height="200">
       <component kind="customvisualization">
-        <itemProperty name="script" value="radialprogress/radialprogress.min.js"/>
-        <itemProperty name="css" value="radialprogress/radialprogress.css"/>
-        <itemProperty name="module" value="radialprogress"/>
-        <itemProperty name="value" value="540"/>
-        <itemProperty name="target" value="100"/>
-        <itemProperty name="valueFormat" value=".1%"/>
-        <itemProperty name="autoFit" value="true"/>
-        <itemProperty name="fgColor" value="#000000"/>
-        <itemProperty name="fgOpacity" value="1"/>
-        <itemProperty name="showBackground" value="true"/>
-        <itemProperty name="bgColor" value="#000000"/>
-        <itemProperty name="bgOpacity" value="0.2"/>
-        <itemProperty name="ringThickness" value="4.0"/>
-        <itemProperty name="ringPadding" value="4.0"/>
-        <itemProperty name="maxRings" value="0"/>
-        <itemProperty name="hPadding" value="10"/>
-        <itemProperty name="vPadding" value="10"/>
-        <itemProperty name="animation" value="true"/>
+        <property name="script" value="radialprogress/radialprogress.min.js"/>
+        <property name="css" value="radialprogress/radialprogress.css"/>
+        <property name="module" value="radialprogress"/>
+        <property name="value" value="540"/>
+        <property name="target" value="100"/>
+        <property name="valueFormat" value=".1%"/>
+        <property name="autoFit" value="true"/>
+        <property name="fgColor" value="#000000"/>
+        <property name="fgOpacity" value="1"/>
+        <property name="showBackground" value="true"/>
+        <property name="bgColor" value="#000000"/>
+        <property name="bgOpacity" value="0.2"/>
+        <property name="ringThickness" value="4.0"/>
+        <property name="ringPadding" value="4.0"/>
+        <property name="maxRings" value="0"/>
+        <property name="hPadding" value="10"/>
+        <property name="vPadding" value="10"/>
+        <property name="animation" value="true"/>
       </component>
     </element>
   </title>

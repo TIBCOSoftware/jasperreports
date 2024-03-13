@@ -1430,7 +1430,7 @@ public class JRExpressionCollector
 		{
 			for (DataLevelBucketProperty bucketProperty : bucketProperties)
 			{
-				datasetCollector.addExpression(bucketProperty.getExpression());
+				datasetCollector.addExpression(bucketProperty.getValueExpression());
 			}
 		}
 	}

@@ -12,26 +12,20 @@
         <itemData>
           <dataset/>
           <item>
-            <property name="lon">
-              <expression><![CDATA[$F{long}]]></expression>
-            </property>
-            <property name="label" value="0">
-              <expression><![CDATA[$F{store_name}]]></expression>
-            </property>
-            <property name="lat" value="0">
-              <expression><![CDATA[$F{lat}]]></expression>
-            </property>
+            <property name="lon"><![CDATA[$F{long}]]></property>
+            <property name="label" value="0"><![CDATA[$F{store_name}]]></property>
+            <property name="lat" value="0"><![CDATA[$F{lat}]]></property>
           </item>
         </itemData>
-        <itemProperty name="module" value="leafletmarkers"/>
-        <itemProperty name="css" value="leafletmarkers/leaflet.css"/>
-        <itemProperty name="script" value="leafletmarkers/leafletmarkers.min.js"/>
-        <itemProperty name="renderAsPng" value="true"/>
-        <itemProperty name="render-timeout" value="15000"/>
-        <itemProperty name="render-zoom-factor" value="1"/>
-        <itemProperty name="lat" value="39.8282"/>
-        <itemProperty name="lon" value="-98.5795"/>
-        <itemProperty name="zoom" value="4"/>
+        <property name="module" value="leafletmarkers"/>
+        <property name="css" value="leafletmarkers/leaflet.css"/>
+        <property name="script" value="leafletmarkers/leafletmarkers.min.js"/>
+        <property name="renderAsPng" value="true"/>
+        <property name="render-timeout" value="15000"/>
+        <property name="render-zoom-factor" value="1"/>
+        <property name="lat" value="39.8282"/>
+        <property name="lon" value="-98.5795"/>
+        <property name="zoom" value="4"/>
       </component>
       <property name="cv.keepTemporaryFiles" value="true"/>
     </element>

@@ -26,6 +26,7 @@ package net.sf.jasperreports.customvisualization;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -53,7 +54,8 @@ public interface CVComponent extends Component, ContextAwareComponent, JRCloneab
 	@JacksonXmlProperty(isAttribute = true)
 	public String getProcessingClass();
 
-	@JacksonXmlProperty(localName = "itemProperty")
+	@JsonGetter("properties")
+	@JacksonXmlProperty(localName = "property")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemProperty> getItemProperties();
 

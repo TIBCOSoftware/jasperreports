@@ -19,25 +19,23 @@
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="linear"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="linear"/>
       </component>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="72"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="false"/>
@@ -59,25 +57,23 @@ Antialias: off]]></text>
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="basis"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="basis"/>
       </component>
     </element>
     <element kind="staticText" uuid="b877e3e8-89d7-4b50-be40-f17e2d2ac2e9" x="20" y="200" width="240" height="20" fontSize="12.0">
@@ -92,25 +88,23 @@ Antialias: off]]></text>
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="monotone"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="monotone"/>
       </component>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
@@ -128,25 +122,23 @@ Antialias: off]]></text>
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="cardinal"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="cardinal"/>
       </component>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
@@ -164,25 +156,23 @@ Antialias: off]]></text>
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="step-before"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="step-before"/>
       </component>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
@@ -200,25 +190,23 @@ Antialias: off]]></text>
             </datasetRun>
           </dataset>
           <item>
-            <property name="value" value="0">
-              <expression><![CDATA[$F{value}]]></expression>
-            </property>
+            <property name="value" value="0"><![CDATA[$F{value}]]></property>
           </item>
           <item>
             <property name="value" value="35"/>
           </item>
         </itemData>
-        <itemProperty name="module" value="sparkline"/>
-        <itemProperty name="script" value="sparkline/sparkline.min.js"/>
-        <itemProperty name="lineColor" value="#000000"/>
-        <itemProperty name="lineOpacity" value="1"/>
-        <itemProperty name="lineStroke" value="3"/>
-        <itemProperty name="fillColor" value="#0000FF"/>
-        <itemProperty name="fillOpacity" value="0.1"/>
-        <itemProperty name="circleColor" value="#FF0400"/>
-        <itemProperty name="circleOpacity" value="1"/>
-        <itemProperty name="circleRadius" value="4"/>
-        <itemProperty name="interpolation" value="step-after"/>
+        <property name="module" value="sparkline"/>
+        <property name="script" value="sparkline/sparkline.min.js"/>
+        <property name="lineColor" value="#000000"/>
+        <property name="lineOpacity" value="1"/>
+        <property name="lineStroke" value="3"/>
+        <property name="fillColor" value="#0000FF"/>
+        <property name="fillOpacity" value="0.1"/>
+        <property name="circleColor" value="#FF0400"/>
+        <property name="circleOpacity" value="1"/>
+        <property name="circleRadius" value="4"/>
+        <property name="interpolation" value="step-after"/>
       </component>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
       <property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>

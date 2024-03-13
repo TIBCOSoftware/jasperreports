@@ -32,9 +32,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import net.sf.jasperreports.chartthemes.simple.handlers.ColorDeserializer;
-import net.sf.jasperreports.chartthemes.simple.handlers.ColorSerializer;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.jackson.util.ColorDeserializer;
+import net.sf.jasperreports.jackson.util.ColorSerializer;
 
 
 /**

@@ -351,7 +351,7 @@ public class MultiAxisDataService
 				for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
 				{
 					DataLevelBucketProperty bucketProperty = it.next();
-					propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getExpression());
+					propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getValueExpression());
 				}
 			}
 			

@@ -38,6 +38,8 @@ public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty i
 	
 	public static final String PROPERTY_NAME = "name";
 
+	public static final String PROPERTY_VALUE = "value";
+
 	public static final String PROPERTY_EXPRESSION = "expression";
 
 	public DesignDataLevelBucketProperty()
@@ -52,7 +54,14 @@ public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty i
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
-	public void setExpression(JRExpression expression)
+	public void setValue(String value)
+	{
+		Object old = this.value;
+		this.value = value;
+		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, this.value);
+	}
+
+	public void setValueExpression(JRExpression expression)
 	{
 		Object old = this.expression;
 		this.expression = expression;

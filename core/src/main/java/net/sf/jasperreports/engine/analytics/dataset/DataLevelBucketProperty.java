@@ -24,21 +24,14 @@
 package net.sf.jasperreports.engine.analytics.dataset;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.jackson.util.DataLevelBucketPropertyDeserializer;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@JsonDeserialize(as = DesignDataLevelBucketProperty.class)
-public interface DataLevelBucketProperty extends JRCloneable //FIXMEJACK should extend JRPropertyExpression?
+@JsonDeserialize(using = DataLevelBucketPropertyDeserializer.class)
+public interface DataLevelBucketProperty extends ItemProperty
 {
-
-	@JacksonXmlProperty(isAttribute = true)
-	String getName();
-
-	JRExpression getExpression();
-
 }
