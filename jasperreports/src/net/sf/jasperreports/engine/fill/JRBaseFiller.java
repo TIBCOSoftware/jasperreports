@@ -1211,6 +1211,13 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 	/**
+	 * @return whether elements should evaluate as blank
+	 */
+	protected boolean evaluateElementToBlank() {
+		return false;
+	}
+
+	/**
 	 * Resolves elements which are to be evaluated at report level.
 	 */
 	protected void resolveReportBoundElements() throws JRException
