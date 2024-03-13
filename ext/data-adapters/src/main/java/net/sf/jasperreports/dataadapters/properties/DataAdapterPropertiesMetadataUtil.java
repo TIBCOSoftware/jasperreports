@@ -65,7 +65,6 @@ import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
-import net.sf.jasperreports.properties.PropertiesMetadataUtil;
 import net.sf.jasperreports.properties.PropertyMetadata;
 import net.sf.jasperreports.properties.ResourcePropertiesMetadataReader;
 
@@ -76,14 +75,14 @@ import net.sf.jasperreports.properties.ResourcePropertiesMetadataReader;
 public class DataAdapterPropertiesMetadataUtil
 {
 	
-	public static PropertiesMetadataUtil getInstance(JasperReportsContext context)
+	public static DataAdapterPropertiesMetadataUtil getInstance(JasperReportsContext context)
 	{
-		return PropertiesMetadataUtil.getInstance(context, Locale.getDefault());
+		return DataAdapterPropertiesMetadataUtil.getInstance(context, Locale.getDefault());
 	}
 	
-	public static PropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
+	public static DataAdapterPropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
 	{
-		return PropertiesMetadataUtil.getInstance(context, locale);
+		return DataAdapterPropertiesMetadataUtil.getInstance(context, locale);
 	}
 	
 	private JasperReportsContext context;

@@ -25,12 +25,13 @@ package net.sf.jasperreports.engine.analytics.dataset;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty
+public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty implements JRChangeEventsSupport
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -68,6 +69,7 @@ public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

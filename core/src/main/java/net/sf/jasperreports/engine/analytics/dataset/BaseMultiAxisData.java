@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.analytics.data.Axis;
@@ -133,7 +135,19 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 	{
 		return axisList;
 	}
-
+	
+	@JsonSetter
+	private void setDataAxisList(List<DataAxis> axisList)
+	{
+		if (axisList != null)
+		{
+			for (DataAxis axis : axisList)
+			{
+				addDataAxis(axis);
+			}
+		}
+	}
+	
 	@Override
 	public DataAxis getDataAxis(Axis axis)
 	{
@@ -145,7 +159,7 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 	{
 		return measures;
 	}
-
+	
 	@Override
 	public Object clone() 
 	{
