@@ -49,11 +49,11 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	}
 	
 	@Override
-	public Optional<ComponentManager> getComponentManager(Component component)
+	public Optional<ComponentManager> getComponentManager(Class<? extends Component> componentType)
 	{
 		//TODO handle class hierarchies?
 		return componentManagers.entrySet().stream()
-				.filter(entry -> entry.getKey().isInstance(component))
+				.filter(entry -> entry.getKey().isAssignableFrom(componentType))
 				.findFirst().map(Entry::getValue);
 	}
 	

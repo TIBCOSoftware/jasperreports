@@ -48,11 +48,11 @@ public interface ComponentsBundle
 	/**
 	 * Returns the manager for a component.
 	 * 
-	 * @param component the component
+	 * @param componentType the component type
 	 * @return the manager for the corresponding component type
 	 * @throws JRRuntimeException if the bundle does not include a component type
 	 * having the specified name
 	 */
-	Optional<ComponentManager> getComponentManager(Component component);
+	Optional<ComponentManager> getComponentManager(Class<? extends Component> componentType);
 
 }

@@ -113,7 +113,6 @@ public final class ComponentsEnvironment
 
 	/**
 	 * Returns a component manager that corresponds to a particular component.
-	 * type key.
 	 * 
 	 * @param component the component
 	 * @return the manager for the component type
@@ -122,18 +121,31 @@ public final class ComponentsEnvironment
 	 */
 	public ComponentManager getManager(Component component)
 	{
+		return getManager(component.getClass());
+	}
+	
+	/**
+	 * Returns a component manager that corresponds to a particular component type.
+	 * 
+	 * @param component the component type
+	 * @return the manager for the component type
+	 * @throws JRRuntimeException if the registry does not contain the specified
+	 * component
+	 */
+	public ComponentManager getManager(Class<? extends Component> componentType)
+	{
 		List<ComponentsBundle> bundles = getCachedBundles();
-		List<ComponentManager> managers = bundles.stream().map(bundle -> bundle.getComponentManager(component))
+		List<ComponentManager> managers = bundles.stream().map(bundle -> bundle.getComponentManager(componentType))
 				.filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 		if (managers.isEmpty())
 		{
 			throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND,
-				new Object[]{component.getClass().getName()});
+				new Object[]{componentType.getName()});
 		}
 		
 		if (managers.size() > 1)
 		{
-			log.warn("Found " + managers.size() + " components for " + component.getClass().getName());
+			log.warn("Found " + managers.size() + " components for " + componentType.getName());
 		}
 		return managers.get(0);
 	}
