@@ -55,7 +55,6 @@ public class JRDesignPart extends JRBasePart
 	public static final String PROPERTY_PRINT_WHEN_EXPRESSION = "printWhenExpression";
 	public static final String PROPERTY_PART_NAME_EXPRESSION = "partNameExpression";
 	public static final String PROPERTY_COMPONENT = "component";
-	public static final String PROPERTY_COMPONENT_KEY = "componentKey";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 
 	private List<JRPropertyExpression> propertyExpressions = new ArrayList<>();
