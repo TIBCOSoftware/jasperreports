@@ -88,6 +88,8 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 			setValueExpression(itemProperty, expression);
 		}
 		
+		customDeserialize(itemProperty, node);
+		
 		return itemProperty;
 	}
 	
@@ -98,16 +100,21 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 	
 	protected void setName(ItemProperty itemProperty, String name)
 	{
-		((StandardItemProperty)itemProperty).setName(name);;
+		((StandardItemProperty)itemProperty).setName(name);
 	}
 	
 	protected void setValue(ItemProperty itemProperty, String value)
 	{
-		((StandardItemProperty)itemProperty).setValue(value);;
+		((StandardItemProperty)itemProperty).setValue(value);
 	}
 	
 	protected void setValueExpression(ItemProperty itemProperty, JRExpression expression)
 	{
-		((StandardItemProperty)itemProperty).setValueExpression(expression);;
+		((StandardItemProperty)itemProperty).setValueExpression(expression);
+	}
+
+	protected void customDeserialize(ItemProperty itemProperty, JsonNode node)
+	{
+		//nothing;
 	}
 }

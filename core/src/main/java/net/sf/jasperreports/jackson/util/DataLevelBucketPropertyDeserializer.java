@@ -54,18 +54,18 @@ public class DataLevelBucketPropertyDeserializer extends ItemPropertyDeserialize
 	@Override
 	protected void setName(ItemProperty itemProperty, String name)
 	{
-		((DesignDataLevelBucketProperty)itemProperty).setName(name);;
+		((DesignDataLevelBucketProperty)itemProperty).setName(name);
 	}
 	
 	@Override
 	protected void setValue(ItemProperty itemProperty, String value)
 	{
-		((DesignDataLevelBucketProperty)itemProperty).setValue(value);;
+		((DesignDataLevelBucketProperty)itemProperty).setValue(value);
 	}
 	
 	@Override
 	protected void setValueExpression(ItemProperty itemProperty, JRExpression expression)
 	{
-		((DesignDataLevelBucketProperty)itemProperty).setValueExpression(expression);;
+		((DesignDataLevelBucketProperty)itemProperty).setValueExpression(expression);
 	}
 }

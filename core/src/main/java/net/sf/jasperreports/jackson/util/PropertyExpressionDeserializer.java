@@ -105,6 +105,6 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 	
 	protected void setValueExpression(JRPropertyExpression propetyExpression, JRExpression expression)
 	{
-		((JRDesignPropertyExpression)propetyExpression).setValueExpression(expression);;
+		((JRDesignPropertyExpression)propetyExpression).setValueExpression(expression);
 	}
 }

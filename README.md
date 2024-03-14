@@ -14,8 +14,6 @@
 deprecated serialization code removal/cleanup mentioned above (source `*.jrxml` report templates need to be recompiled to `*.jasper` using the new version of the library);
 - extracting various optional extension JAR artifacts from the the core library JAR artifact to allow the Jakarta Migration of certain of these optional features while also
 introducing better third party Maven dependency management of these artifacts; 
-- backward compatibility of source JRXML report templates is still guaranteed, but the built-in JRXML writer does not write back to
-versions older than 5.5.2;
 
 # JasperReports® - Free Java Reporting Library
 
