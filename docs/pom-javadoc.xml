@@ -50,7 +50,6 @@
 		<module>../ext/groovy</module>
 		<module>../ext/hibernate-j2ee</module>
 		<module>../ext/interactivity</module>
-		<module>../ext/jackson</module>
 		<module>../ext/javascript</module>
 		<module>../ext/jaxen</module>
 		<module>../ext/jdt</module>

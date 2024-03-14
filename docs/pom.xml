@@ -70,39 +70,6 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>../core/src/main/resources/net/sf/jasperreports/engine/dtds</dir>
-							<includes>jasperreport.xsd</includes>
-							<stylesheet>schema.reference.xsl</stylesheet>
-							<outputDir>${project.build.directory}/docs</outputDir>
-							<fileMappers>
-								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-								   <targetName>schema.reference.html</targetName>
-								</fileMapper>
-							</fileMappers>
-						</transformationSet>
-						<transformationSet>
-							<dir>../core/src/main/resources/net/sf/jasperreports/components</dir>
-							<includes>components.xsd</includes>
-							<stylesheet>components.schema.reference.xsl</stylesheet>
-							<outputDir>${project.build.directory}/docs</outputDir>
-							<fileMappers>
-								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-								   <targetName>components.schema.reference.html</targetName>
-								</fileMapper>
-							</fileMappers>
-						</transformationSet>
-						<transformationSet>
-							<dir>../core/src/main/resources/net/sf/jasperreports/parts</dir>
-							<includes>parts.xsd</includes>
-							<stylesheet>parts.schema.reference.xsl</stylesheet>
-							<outputDir>${project.build.directory}/docs</outputDir>
-							<fileMappers>
-								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-								   <targetName>parts.schema.reference.html</targetName>
-								</fileMapper>
-							</fileMappers>
-						</transformationSet>
-						<transformationSet>
 							<dir>${basedir}</dir>
 							<includes>config.reference.merge.xml</includes>
 							<stylesheet>config.reference.merge.xsl</stylesheet>
