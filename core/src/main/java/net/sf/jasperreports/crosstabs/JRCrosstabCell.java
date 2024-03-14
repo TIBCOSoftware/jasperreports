@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabCell;
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
@@ -31,6 +35,7 @@ import net.sf.jasperreports.engine.JRCloneable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getCells()
  */
+@JsonDeserialize(as = JRDesignCrosstabCell.class)
 public interface JRCrosstabCell extends JRCloneable
 {
 	/**
@@ -42,6 +47,7 @@ public interface JRCrosstabCell extends JRCloneable
 	 * 
 	 * @return the width of the cell
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getWidth();
 	
 	
@@ -54,6 +60,7 @@ public interface JRCrosstabCell extends JRCloneable
 	 * 
 	 * @return the width of the cell
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getHeight();
 	
 	
@@ -63,6 +70,7 @@ public interface JRCrosstabCell extends JRCloneable
 	 * 
 	 * @return the name of the total row group this cell corresponds to
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getRowTotalGroup();
 	
 	
@@ -72,6 +80,7 @@ public interface JRCrosstabCell extends JRCloneable
 	 * 
 	 * @return the name of the total column group this cell corresponds to
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getColumnTotalGroup();
 	
 	

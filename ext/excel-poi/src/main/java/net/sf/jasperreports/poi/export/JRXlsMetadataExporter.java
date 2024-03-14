@@ -728,13 +728,13 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			int side = BoxStyle.TOP;
 			float ratio = line.getWidth() / line.getHeight();
 			if (ratio > 1) {
-				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)	{
+				if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)	{
 					side = BoxStyle.TOP;
 				} else {
 					side = BoxStyle.BOTTOM;
 				}
 			} else {
-				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN) {
+				if (line.getDirection() != LineDirectionEnum.BOTTOM_UP) {
 					side = BoxStyle.LEFT;
 				} else {
 					side = BoxStyle.RIGHT;
@@ -1006,7 +1006,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		if (!ignoreHyperlink) {
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(hyperlink);
 			if (customHandler == null) {
-				switch (hyperlink.getHyperlinkTypeValue()) {
+				switch (hyperlink.getHyperlinkType()) {
 					case REFERENCE: {
 						String href = hyperlink.getHyperlinkReference();
 						if (href != null) {
@@ -1218,7 +1218,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 				catch (Exception e)
 				{
-					Renderable onErrorRenderer = getRendererUtil().handleImageError(e, element.getOnErrorTypeValue());
+					Renderable onErrorRenderer = getRendererUtil().handleImageError(e, element.getOnErrorType());
 					if (onErrorRenderer != null)
 					{
 						imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1236,7 +1236,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 					short forecolor = getWorkbookColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
-					if(element.getModeValue() == ModeEnum.OPAQUE ) {
+					if(element.getMode() == ModeEnum.OPAQUE ) {
 						backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 					}
 
@@ -1345,7 +1345,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
-			switch (imageElement.getScaleImageValue())
+			switch (imageElement.getScaleImage())
 			{
 				case CLIP:
 				{
@@ -1376,7 +1376,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								imageRenderersCache,
 								renderer,
 								dimension,
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+								ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 								)
 							);
 
@@ -1403,7 +1403,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								imageRenderersCache,
 								renderer,
 								dimension,
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+								ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 								)
 							);
 
@@ -1765,7 +1765,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		float lineWidth = pen.getLineWidth();
 
 		if (lineWidth > 0f) {
-			switch (pen.getLineStyleValue()) {
+			switch (pen.getLineStyle()) {
 				case DOUBLE : {
 					return BorderStyle.DOUBLE;
 				}
@@ -2130,7 +2130,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 		for (int i = 0; i < loadedFonts.size(); i++) {
 			HSSFFont cf = (HSSFFont)loadedFonts.get(i);
-			short fontSize = (short)font.getFontsize();
+			short fontSize = (short)font.getFontSize();
 			if (isFontSizeFixEnabled) {
 				fontSize -= 1;
 			}
@@ -2154,7 +2154,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			cellFont = workbook.createFont();
 			cellFont.setFontName(fontName);
 			cellFont.setColor(forecolor);
-			short fontSize = (short)font.getFontsize();
+			short fontSize = (short)font.getFontSize();
 			if (isFontSizeFixEnabled) {
 				fontSize -= 1;
 			}

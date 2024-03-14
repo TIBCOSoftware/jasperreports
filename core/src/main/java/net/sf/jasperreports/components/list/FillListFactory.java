@@ -55,7 +55,7 @@ public class FillListFactory implements ComponentFillFactory
 		{
 			ListComponent list = (ListComponent) component;
 			FillComponent fillList;
-			PrintOrderEnum printOrder = list.getPrintOrderValue();
+			PrintOrderEnum printOrder = list.getPrintOrder();
 			if (printOrder == null 
 					|| printOrder == PrintOrderEnum.VERTICAL)
 			{

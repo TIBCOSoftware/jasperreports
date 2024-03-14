@@ -49,7 +49,7 @@ public class BaseDataMeasure implements DataMeasure, Serializable
 	protected String valueClassName;
 	private transient Class<?> valueClass;
 	protected JRExpression valueExpression;
-	protected CalculationEnum calculation = CalculationEnum.COUNT;
+	protected CalculationEnum calculation;
 	protected String incrementerFactoryClassName;
 	private transient Class<?> incrementerFactoryClass;
 	

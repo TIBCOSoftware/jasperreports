@@ -23,7 +23,18 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBoxPen;
+import net.sf.jasperreports.jackson.util.PenSerializer;
 
 
 
@@ -55,12 +66,14 @@ import net.sf.jasperreports.engine.base.JRBoxPen;
  * @see net.sf.jasperreports.engine.JRPen
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRBaseLineBox.class)
 public interface JRLineBox extends JRPenContainer
 {
 
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public JRBoxContainer getBoxContainer();
 
 	/**
@@ -73,6 +86,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the border.
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getPen();
 
 	/**
@@ -83,6 +98,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the top border.
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getTopPen();
 
 	/**
@@ -93,6 +110,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the left border.
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getLeftPen();
 
 	/**
@@ -103,6 +122,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the bottom border.
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getBottomPen();
 
 	/**
@@ -113,6 +134,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the right border.
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getRightPen();
 
 	/**
@@ -124,76 +147,101 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the default padding in pixels (can be overwritten by individual settings).
 	 */
+	@JsonIgnore
 	public Integer getPadding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("padding")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "padding", isAttribute = true)
 	public Integer getOwnPadding();
 
 	/**
 	 * Sets the default padding in pixels (can be overwritten by individual settings).
 	 */
+	@JsonSetter
 	public void setPadding(Integer padding);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Integer getTopPadding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("topPadding")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "topPadding", isAttribute = true)
 	public Integer getOwnTopPadding();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setTopPadding(Integer padding);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Integer getLeftPadding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("leftPadding")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "leftPadding", isAttribute = true)
 	public Integer getOwnLeftPadding();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setLeftPadding(Integer padding);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Integer getBottomPadding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("bottomPadding")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "bottomPadding", isAttribute = true)
 	public Integer getOwnBottomPadding();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBottomPadding(Integer padding);
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Integer getRightPadding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("rightPadding")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "rightPadding", isAttribute = true)
 	public Integer getOwnRightPadding();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setRightPadding(Integer padding);
 	
 }

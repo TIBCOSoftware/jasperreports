@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.charts.design.JRDesignChartAxis;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 
@@ -34,8 +39,7 @@ import net.sf.jasperreports.engine.JRCloneable;
  *
  * @author Barry Klawans (barry@users.sourceforge.net)
  */
-
-
+@JsonDeserialize(as = JRDesignChartAxis.class)
 public interface JRChartAxis extends JRCloneable
 {
 	/**
@@ -43,7 +47,7 @@ public interface JRChartAxis extends JRCloneable
 	 *
 	 * @return the position of this axis
 	 */
-	public AxisPositionEnum getPositionValue();
+	public AxisPositionEnum getPosition();
 
 
 	/**
@@ -53,6 +57,7 @@ public interface JRChartAxis extends JRCloneable
 	 *
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
+	@JsonTypeInfo(use = Id.NONE)
 	public JRChart getChart();
 	
 	public JRChartAxis clone(JRChart parentChart);

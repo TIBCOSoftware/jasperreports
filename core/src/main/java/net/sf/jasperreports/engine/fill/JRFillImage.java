@@ -35,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -80,11 +79,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private JRGroup evaluationGroup;
-
-	/**
-	 *
-	 */
 	private Renderable renderer;
 	private Renderable oldRenderer;
 	private Object prevSource;
@@ -119,8 +113,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		super(filler, image, factory);
 		
 		initLineBox = image.getLineBox().clone(this);
-
-		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 	}
 
 
@@ -129,8 +121,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		super(image, factory);
 		
 		initLineBox = image.getLineBox().clone(this);
-
-		evaluationGroup = image.evaluationGroup;
 	}
 
 
@@ -152,21 +142,21 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return getStyleResolver().getScaleImageValue(this);
+		return getStyleResolver().getScaleImage(this);
 	}
 		
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return providerStyle == null || providerStyle.getOwnScaleImageValue() == null ? ((JRImage)this.parent).getOwnScaleImageValue() : providerStyle.getOwnScaleImageValue();
+		return providerStyle == null || providerStyle.getOwnScaleImage() == null ? ((JRImage)this.parent).getOwnScaleImage() : providerStyle.getOwnScaleImage();
 	}
 
 	@Override
@@ -184,7 +174,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	@Override
 	public RotationEnum getOwnRotation()
 	{
-		return providerStyle == null || providerStyle.getOwnRotationValue() == null ? ((JRImage)this.parent).getOwnRotation() : providerStyle.getOwnRotationValue();
+		return providerStyle == null || providerStyle.getOwnRotation() == null ? ((JRImage)this.parent).getOwnRotation() : providerStyle.getOwnRotation();
 	}
 
 	@Override
@@ -252,9 +242,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	@Override
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return ((JRImage)this.parent).getOnErrorTypeValue();
+		return ((JRImage)this.parent).getOnErrorType();
 	}
 		
 	@Override
@@ -264,15 +254,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return ((JRImage)this.parent).getEvaluationTimeValue();
+		return EvaluationTimeEnum.getValueOrDefault(((JRImage)this.parent).getEvaluationTime());
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
-		return this.evaluationGroup;
+		return ((JRImage)this.parent).getEvaluationGroup();
 	}
 		
 	@Override
@@ -282,15 +272,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return ((JRImage)parent).getHyperlinkTypeValue();
+		return ((JRImage)parent).getHyperlinkType();
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return ((JRImage)this.parent).getHyperlinkTargetValue();
+		return ((JRImage)this.parent).getHyperlinkTarget();
 	}
 		
 	@Override
@@ -407,8 +397,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				this
 				);
 		
-		if (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT
-				|| getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
+		if (getScaleImage() == ScaleImageEnum.REAL_HEIGHT
+				|| getScaleImage() == ScaleImageEnum.REAL_SIZE)
 		{
 			template.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		}
@@ -465,7 +455,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		catch (Exception e)
 		{
-			source = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+			source = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorType());
 		}
 		
 		if (source != null)
@@ -504,7 +494,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						ResourceInfo resourceInfo = RepositoryUtil.getInstance(repositoryContext).getResourceInfo((String) source);
 						if (resourceInfo == null)
 						{
-							newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+							newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(strSource, getOnErrorType());
 						}
 						else
 						{
@@ -521,7 +511,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							}
 							else
 							{
-								newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(absoluteLocation, getOnErrorTypeValue());
+								newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(absoluteLocation, getOnErrorType());
 								if (isUsingCache)
 								{
 									filler.fillContext.registerLoadedRenderer(absoluteKey, newRenderer);
@@ -533,7 +523,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				else if (source instanceof Image)
 				{
 					Image img = (Image) source;
-					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorType());
 				}
 				else if (source instanceof byte[])
 				{
@@ -552,18 +542,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					else
 					{
 						InputStream is = (InputStream) source;
-						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorType());
 					}
 				}
 				else if (source instanceof URL)
 				{
 					URL url = (URL) source;
-					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(url, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(url, getOnErrorType());
 				}
 				else if (source instanceof File)
 				{
 					File file = (File) source;
-					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorType());
 				}
 				else if (source instanceof Renderable)
 				{
@@ -573,7 +563,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					newRenderer = 
 						RendererUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRenderer(
-							getOnErrorTypeValue(), 
+							getOnErrorType(), 
 							new JRException(
 									EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS,  
 									new Object[]{source.getClass().getName()} 
@@ -688,7 +678,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				else if (
 					!isLazy() 
-					&& (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT || getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
+					&& (getScaleImage() == ScaleImageEnum.REAL_HEIGHT || getScaleImage() == ScaleImageEnum.REAL_SIZE)
 					)
 				{
 					int padding = getLineBox().getBottomPadding() 
@@ -722,7 +712,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							}
 							catch (Exception e)
 							{
-								renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+								renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorType());
 
 								if (renderer instanceof ResourceRenderer)
 								{
@@ -876,7 +866,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		if (reducedHeight <= availableHeight)
 		{
 			imageHeight = reducedHeight;
-			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
+			if (getScaleImage() == ScaleImageEnum.REAL_SIZE)
 			{
 				imageWidth = reducedWidth;
 			}
@@ -889,7 +879,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		else
 		{
 			imageHeight = availableHeight;
-			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
+			if (getScaleImage() == ScaleImageEnum.REAL_SIZE)
 			{
 				double hRatio = ((double) availableHeight) / realHeight;
 				imageWidth = (int) (hRatio * realWidth);
@@ -965,7 +955,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	@Override
 	protected JRPrintElement fill() throws JRException
 	{
-		EvaluationTimeEnum evaluationTime = this.getEvaluationTimeValue();
+		EvaluationTimeEnum evaluationTime = this.getEvaluationTime();
 		JRTemplatePrintImage printImage;
 		JRRecordedValuesPrintImage recordedValuesImage;
 		if (isEvaluateAuto())
@@ -1061,7 +1051,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		JRPrintImage printImage = (JRPrintImage) element;
 
-		if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
+		if (getScaleImage() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
 		{
 			// image fill does not normally produce non-lazy ResourceRenderer instances, 
 			// so we do not need to attempt load resource renderers from cache here, as we do in the catch below
@@ -1078,7 +1068,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				catch (Exception e)
 				{
-					renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+					renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorType());
 
 					if (renderer instanceof ResourceRenderer)
 					{

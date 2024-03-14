@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 
@@ -120,6 +122,7 @@ public class JasperReport extends JRBaseReport
 	 * 
 	 * @return the name of the compiler class used to compile this report
 	 */
+	@JsonIgnore
 	public String getCompilerClass()
 	{
 		return this.compilerClass;
@@ -133,6 +136,7 @@ public class JasperReport extends JRBaseReport
 	 * 
 	 * @return expression evaluators compiled data
 	 */
+	@JsonIgnore
 	public Serializable getCompileData()
 	{
 		return this.compileData;
@@ -145,6 +149,7 @@ public class JasperReport extends JRBaseReport
 	 * 
 	 * @return the suffix of the class/unit names generated at report compilation
 	 */
+	@JsonIgnore
 	public String getCompileNameSuffix()
 	{
 		return compileNameSuffix;

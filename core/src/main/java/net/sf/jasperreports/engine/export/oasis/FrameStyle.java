@@ -48,7 +48,7 @@ public class FrameStyle extends BorderStyle
 	{
 		super(styleWriter);
 		
-		if (element.getModeValue() == ModeEnum.OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE)
 		{
 			fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());

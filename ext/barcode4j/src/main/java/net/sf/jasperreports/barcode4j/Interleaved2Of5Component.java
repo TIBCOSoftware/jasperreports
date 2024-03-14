@@ -23,14 +23,18 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.krysalis.barcode4j.ChecksumMode;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("barcode4j:Interleaved2Of5")
 public class Interleaved2Of5Component extends Barcode4jComponent
 {
 
@@ -44,6 +48,7 @@ public class Interleaved2Of5Component extends Barcode4jComponent
 	private Boolean displayChecksum;
 	private Double wideFactor;
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;
@@ -61,6 +66,7 @@ public class Interleaved2Of5Component extends Barcode4jComponent
 		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean isDisplayChecksum()
 	{
 		return displayChecksum;
@@ -76,6 +82,7 @@ public class Interleaved2Of5Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_DISPLAY_CHECKSUM, old, this.displayChecksum);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getWideFactor()
 	{
 		return wideFactor;

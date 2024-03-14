@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -126,6 +130,7 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 	 * @param valueClassName the bucket value class name
 	 * @see DataLevelBucket#getValueClassName()
 	 */
+	@JsonSetter("class")
 	public void setValueClassName(String valueClassName)
 	{
 		String old = this.valueClassName;
@@ -137,7 +142,19 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS, old,
 				this.valueClassName);
 	}
-
+	
+	@JsonSetter
+	private void setBucketProperties(List<DataLevelBucketProperty> properties)
+	{
+		if (properties != null)
+		{
+			for (DataLevelBucketProperty property : properties)
+			{
+				addBucketProperty(property);
+			}
+		}
+	}
+	
 	public void addBucketProperty(DataLevelBucketProperty property)
 	{
 		bucketProperties.add(property);

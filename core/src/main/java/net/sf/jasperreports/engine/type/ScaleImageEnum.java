@@ -62,7 +62,7 @@ public enum ScaleImageEnum implements NamedEnum
 	 *  {@link DimensionRenderable}.</li>
 	 *  <li>If the actual image width exceeds the declared image element width,
 	 * the image is proportionally stretched to fit the declared width.</li>
-	 * 	<li>Images with delayed evaluation (see {@link JRImage#getEvaluationTimeValue()}) 
+	 * 	<li>Images with delayed evaluation (see {@link JRImage#getEvaluationTime()}) 
 	 * do not stretch and is proportionally shrunk to fit the declared
 	 * height/width.</li>
 	 * 	<li>An image overflows (to the next page/column) only once, after this

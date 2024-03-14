@@ -47,8 +47,7 @@ public class TextPropertiesTest
 	@Test
 	public void keepFullTextExpression()
 	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyExpression.jrxml", 
-				"net/sf/jasperreports/properties/repo/KeepFullTextProperty.jrpxml");
+		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyExpression");
 		report.init();
 		
 		report.runReport(new HashMap<>());

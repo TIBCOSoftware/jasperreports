@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.part;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 
@@ -45,13 +44,6 @@ public interface PartComponentManager
 	 * @return the component compiler
 	 */
 	PartComponentCompiler getComponentCompiler(JasperReportsContext jasperReportsContext);
-
-	/**
-	 * Returns the component XML writer.
-	 * 
-	 * @return the component XML writer
-	 */
-	PartComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext);
 	
 	/**
 	 * Returns the factory of fill component instances.

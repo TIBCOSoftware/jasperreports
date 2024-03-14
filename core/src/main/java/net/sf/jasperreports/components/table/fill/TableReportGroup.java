@@ -63,9 +63,9 @@ public class TableReportGroup implements JRGroup
 	}
 
 	@Override
-	public FooterPositionEnum getFooterPositionValue()
+	public FooterPositionEnum getFooterPosition()
 	{
-		return datasetGroup.getFooterPositionValue();
+		return datasetGroup.getFooterPosition();
 	}
 
 	protected void setGroupFooter(JRBand footer)

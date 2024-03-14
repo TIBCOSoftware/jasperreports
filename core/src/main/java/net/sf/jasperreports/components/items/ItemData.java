@@ -25,13 +25,20 @@ package net.sf.jasperreports.components.items;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
 /**
  * The ItemData interface
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardItemData.class)
 public interface ItemData extends JRCloneable
 {
 
@@ -44,6 +51,8 @@ public interface ItemData extends JRCloneable
 	 * @see Item
 	 * @see ItemProperty
 	 */
+	@JacksonXmlProperty(localName = "item")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<Item> getItems();
 	
 	/**
@@ -55,6 +64,7 @@ public interface ItemData extends JRCloneable
 	 * @return the dataset
 	 * @see net.sf.jasperreports.engine.JRElementDataset
 	 */
+	@JsonDeserialize(as = JRDesignElementDataset.class)
 	public JRElementDataset getDataset();
 
 }

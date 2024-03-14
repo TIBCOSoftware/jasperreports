@@ -63,7 +63,7 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	/**
 	 * 
 	 */
-	public OnErrorTypeEnum getOnErrorTypeValue();
+	public OnErrorTypeEnum getOnErrorType();
 
 	/**
 	 *

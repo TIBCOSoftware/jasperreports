@@ -160,7 +160,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (topPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float topPenWidth = topPen.getLineWidth();
 
@@ -250,7 +250,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (leftPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float leftPenWidth = leftPen.getLineWidth();
 
@@ -341,7 +341,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (bottomPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float bottomPenWidth = bottomPen.getLineWidth();
 
@@ -432,7 +432,7 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 	
 			AffineTransform oldTx = grx.getTransform();
 
-			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (rightPen.getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float rightPenWidth = rightPen.getLineWidth();
 

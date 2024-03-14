@@ -183,9 +183,9 @@ public class TableReportDataset implements JRDataset
 	}
 
 	@Override
-	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
+	public WhenResourceMissingTypeEnum getWhenResourceMissingType()
 	{
-		return tableSubdataset.getWhenResourceMissingTypeValue();
+		return tableSubdataset.getWhenResourceMissingType();
 	}
 
 	@Override

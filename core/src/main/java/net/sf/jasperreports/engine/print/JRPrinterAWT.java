@@ -158,7 +158,7 @@ public class JRPrinterAWT implements Printable
 
 		printJob.setJobName("JasperReports - " + jasperPrint.getName());
 		
-		switch (jasperPrint.getOrientationValue())
+		switch (jasperPrint.getOrientation())
 		{
 			case LANDSCAPE :
 			{

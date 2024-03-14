@@ -158,7 +158,7 @@ public class PptxBorderHelper extends BaseHelper
 		write("  <a:solidFill>\n");
 		write("    <a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/>\n");
 		write("  </a:solidFill>\n");
-		write("  <a:prstDash val=\"" + getLineStyle(pen.getLineStyleValue()) + "\"/>\n");
+		write("  <a:prstDash val=\"" + getLineStyle(pen.getLineStyle()) + "\"/>\n");
 		write("</a:" + side + ">\n");
 	}
 	

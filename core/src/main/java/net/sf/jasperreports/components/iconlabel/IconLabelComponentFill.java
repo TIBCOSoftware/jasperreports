@@ -130,7 +130,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 //					);
 		
 			template.setStyle(fillContext.getComponentElement().getStyle());
-			template.setMode(fillContext.getComponentElement().getOwnModeValue());
+			template.setMode(fillContext.getComponentElement().getOwnMode());
 			template.setBackcolor(fillContext.getComponentElement().getOwnBackcolor());
 			template.setForecolor(fillContext.getComponentElement().getOwnForecolor());
 			JRBoxUtil.copy(getLineBox(), template.getLineBox());
@@ -597,7 +597,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			- getLineBox().getLeftPadding() 
 			- getLineBox().getRightPadding();
 
-		middlePadding = (int)(iconTextField.getFontsize() / 2);
+		middlePadding = (int)(iconTextField.getFontSize() / 2);
 
 		if (availableWidth <= middlePadding)
 		{
@@ -688,7 +688,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			)//FIXMEICONLABEL here we might get to hide icons simply because label is blank
 		{
 			direction = IconLabelDirectionEnum.VERTICAL;
-			middlePadding = (int)(iconTextField.getFontsize() / 2);
+			middlePadding = (int)(iconTextField.getFontSize() / 2);
 //			labelTextField.setWidth(availableWidth);
 			int iconAvailableHeight =
 				(labelTextField.getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -63,6 +65,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 	}
 
 	@Override
+	@JsonSetter("class")
 	public void setValueClassName(String valueClassName)
 	{
 		Object old = this.valueClassName;
@@ -85,6 +88,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 	}
 
 	@Override
+	@JsonSetter("incrementerFactoryClass")
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;

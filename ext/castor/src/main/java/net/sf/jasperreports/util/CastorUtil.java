@@ -58,7 +58,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 
 /**
@@ -118,7 +118,7 @@ public class CastorUtil
 	private XMLContext getWriteXmlContext()
 	{
 		String targetVersion = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
-				JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+				JRXmlWriter.PROPERTY_REPORT_VERSION);
 		if (log.isDebugEnabled())
 		{
 			log.debug("using write mappings for version " + targetVersion);

@@ -41,7 +41,7 @@ public class JRBaseCrosstabColumnGroup extends JRBaseCrosstabGroup implements JR
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected int height;
-	protected CrosstabColumnPositionEnum positionValue = CrosstabColumnPositionEnum.LEFT;
+	protected CrosstabColumnPositionEnum position = CrosstabColumnPositionEnum.LEFT;
 	protected JRCellContents crosstabHeader;
 
 	public JRBaseCrosstabColumnGroup(JRCrosstabColumnGroup group, JRBaseObjectFactory factory)
@@ -49,14 +49,14 @@ public class JRBaseCrosstabColumnGroup extends JRBaseCrosstabGroup implements JR
 		super(group, factory);
 		
 		height = group.getHeight();
-		positionValue = group.getPositionValue();
+		position = group.getPosition();
 		crosstabHeader = factory.getCell(group.getCrosstabHeader());
 	}
 
 	@Override
-	public CrosstabColumnPositionEnum getPositionValue()
+	public CrosstabColumnPositionEnum getPosition()
 	{
-		return positionValue;
+		return position;
 	}
 
 	@Override

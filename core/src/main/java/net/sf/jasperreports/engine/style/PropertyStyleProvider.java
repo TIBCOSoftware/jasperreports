@@ -501,7 +501,7 @@ public class PropertyStyleProvider implements StyleProvider
 
 		JRElement element = context.getElement();
 		JREvaluation evaluation = element instanceof JREvaluation ? (JREvaluation)element : null;
-		lateEvaluated = evaluation != null && evaluation.getEvaluationTimeValue() != EvaluationTimeEnum.NOW;
+		lateEvaluated = evaluation != null && EvaluationTimeEnum.getValueOrDefault(evaluation.getEvaluationTime()) != EvaluationTimeEnum.NOW;
 	}
 
 	@Override

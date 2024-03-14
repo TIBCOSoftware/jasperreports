@@ -23,9 +23,17 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import net.sf.jasperreports.jackson.type.NamedEnumConstantContextualDeserializer;
+import net.sf.jasperreports.jackson.type.NamedEnumConstantSerializer;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonSerialize(using = NamedEnumConstantSerializer.class)
+@JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
 public interface NamedEnum
 {
 

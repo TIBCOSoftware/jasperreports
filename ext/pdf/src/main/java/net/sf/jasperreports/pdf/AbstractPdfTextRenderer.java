@@ -104,7 +104,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			}
 			case RIGHT :
 			{
-				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
+				if (text.getRunDirection() == RunDirectionEnum.LTR)
 				{
 					horizontalAlignment = PdfTextAlignment.RIGHT;
 				}
@@ -126,7 +126,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 			case LEFT :
 			default :
 			{
-				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
+				if (text.getRunDirection() == RunDirectionEnum.LTR)
 				{
 					horizontalAlignment = PdfTextAlignment.LEFT;
 				}

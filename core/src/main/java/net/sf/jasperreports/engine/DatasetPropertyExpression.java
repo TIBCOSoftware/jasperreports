@@ -23,13 +23,20 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
+import net.sf.jasperreports.jackson.util.DatasetPropertyExpressionDeserializer;
+import net.sf.jasperreports.jackson.util.DatasetPropertyExpressionSerializer;
 
 /**
  * Report property with a value based on an expression and an evaluation time attribute.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonSerialize(using = DatasetPropertyExpressionSerializer.class)
+@JsonDeserialize(using = DatasetPropertyExpressionDeserializer.class)
 public interface DatasetPropertyExpression extends JRPropertyExpression
 {
 	

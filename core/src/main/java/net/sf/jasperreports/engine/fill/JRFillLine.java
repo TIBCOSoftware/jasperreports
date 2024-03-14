@@ -58,9 +58,9 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 
 
 	@Override
-	public LineDirectionEnum getDirectionValue()
+	public LineDirectionEnum getDirection()
 	{
-		return ((JRLine)this.parent).getDirectionValue();
+		return ((JRLine)this.parent).getDirection();
 	}
 		
 	@Override

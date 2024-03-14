@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
+
+import net.sf.jasperreports.engine.design.JRDesignStaticText;
 
 /**
  * An abstract representation of a report static text. It provides functionality for static texts.
@@ -37,6 +42,8 @@ package net.sf.jasperreports.engine;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("staticText")
+@JsonDeserialize(as = JRDesignStaticText.class)
 public interface JRStaticText extends JRTextElement
 {
 
@@ -44,6 +51,7 @@ public interface JRStaticText extends JRTextElement
 	/**
 	 *
 	 */
+	@JacksonXmlCData
 	public String getText();
 
 	/**

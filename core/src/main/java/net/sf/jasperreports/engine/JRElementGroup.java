@@ -25,6 +25,15 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignElementGroup;
+
 
 /**
  * Groups several report elements. Report elements placed in any report section can be arranged in multiple
@@ -48,6 +57,8 @@ import java.util.List;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("elementGroup")
+@JsonDeserialize(as = JRDesignElementGroup.class)
 public interface JRElementGroup extends JRChild
 {
 
@@ -55,17 +66,22 @@ public interface JRElementGroup extends JRChild
 	/**
 	 * Gets a list of all direct children elements or elements groups.
 	 */
+	@JsonGetter("elements")
+	@JacksonXmlProperty(localName = "element")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<JRChild> getChildren();
 
 	/**
 	 * Gets the parent element group.
 	 * @return an instance of this class, or null if this is the root group.
 	 */
+	@JsonIgnore
 	public JRElementGroup getElementGroup();
 
 	/**
 	 * Gets an array containing all the elements and element groups in the hierarchy.
 	 */
+	@JsonIgnore
 	public JRElement[] getElements();
 
 

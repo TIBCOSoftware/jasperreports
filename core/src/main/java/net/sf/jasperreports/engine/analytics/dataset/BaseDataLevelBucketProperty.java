@@ -40,6 +40,7 @@ public class BaseDataLevelBucketProperty implements DataLevelBucketProperty, Ser
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected String name;
+	protected String value;
 	protected JRExpression expression;
 	
 	protected BaseDataLevelBucketProperty()
@@ -51,7 +52,8 @@ public class BaseDataLevelBucketProperty implements DataLevelBucketProperty, Ser
 		factory.put(property, this);
 		
 		this.name = property.getName();
-		this.expression = factory.getExpression(property.getExpression());
+		this.value = property.getValue();
+		this.expression = factory.getExpression(property.getValueExpression());
 	}
 
 	@Override
@@ -61,7 +63,13 @@ public class BaseDataLevelBucketProperty implements DataLevelBucketProperty, Ser
 	}
 
 	@Override
-	public JRExpression getExpression()
+	public String getValue()
+	{
+		return value;
+	}
+
+	@Override
+	public JRExpression getValueExpression()
 	{
 		return expression;
 	}

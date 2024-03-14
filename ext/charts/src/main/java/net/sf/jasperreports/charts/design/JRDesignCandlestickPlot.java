@@ -25,6 +25,9 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseCandlestickPlot;
@@ -85,6 +88,13 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
 
 
+	@JsonCreator
+	private JRDesignCandlestickPlot()
+	{
+		this(null, null);
+	}
+
+
 	/**
 	 *
 	 */
@@ -117,6 +127,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setTimeAxisLabelColor(Color timeAxisLabelColor)
 	{
 		Object old = this.timeAxisLabelColor;
@@ -137,6 +148,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setTimeAxisTickLabelColor(Color timeAxisTickLabelColor)
 	{
 		Object old = this.timeAxisTickLabelColor;
@@ -167,6 +179,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setTimeAxisLineColor(Color timeAxisLineColor)
 	{
 		Object old = this.timeAxisLineColor;
@@ -237,6 +250,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisLabelColor(Color valueAxisLabelColor)
 	{
 		Object old = this.valueAxisLabelColor;
@@ -257,6 +271,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisTickLabelColor(Color valueAxisTickLabelColor)
 	{
 		Object old = this.valueAxisTickLabelColor;
@@ -287,6 +302,7 @@ public class JRDesignCandlestickPlot extends JRBaseCandlestickPlot
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setValueAxisLineColor(Color valueAxisLineColor)
 	{
 		Object old = this.valueAxisLineColor;

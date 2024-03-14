@@ -23,14 +23,31 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.component.ComponentKey;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.JRDesignPart;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartEvaluationTime;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonPropertyOrder({
+	"evaluationTime", // important to be first because of @JsonUnwrapped below
+	JRXmlConstants.ATTRIBUTE_uuid,
+	"properties",
+	JRXmlConstants.ELEMENT_property,
+	"propertyExpressions",
+	JRXmlConstants.ELEMENT_propertyExpression,
+	JRXmlConstants.ELEMENT_printWhenExpression,
+	JRXmlConstants.ELEMENT_partNameExpression,
+	"component"
+	})
+@JsonDeserialize(as = JRDesignPart.class)
 public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 {
 
@@ -48,17 +65,6 @@ public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 	JRExpression getPrintWhenExpression();
 
 	JRExpression getPartNameExpression();
-		
-	/**
-	 * Returns the component type key for this part.
-	 * 
-	 * <p>
-	 * The component type key needs to be set in order to locate the
-	 * component manager. 
-	 * 
-	 * @return the component type key
-	 */
-	ComponentKey getComponentKey();
 	
 
 	/**
@@ -74,6 +80,7 @@ public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 	 * 
 	 * @return the evaluation time of this part
 	 */
+	@JsonUnwrapped
 	PartEvaluationTime getEvaluationTime();
 	
 }

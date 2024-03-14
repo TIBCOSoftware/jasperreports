@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("barcode4j:RoyalMailCustomer")
 public class RoyalMailCustomerComponent extends FourStateBarcodeComponent
 {
 

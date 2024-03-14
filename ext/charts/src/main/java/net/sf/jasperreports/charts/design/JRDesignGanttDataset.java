@@ -26,6 +26,10 @@ package net.sf.jasperreports.charts.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRGanttDataset;
@@ -46,6 +50,13 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	public static final String PROPERTY_GANTT_SERIES = "ganttSeries";
 
 	private List<JRGanttSeries> ganttSeriesList = new ArrayList<>();
+
+
+	@JsonCreator
+	private JRDesignGanttDataset()
+	{
+		this(null);
+	}
 
 
 	/**
@@ -71,12 +82,26 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public List<JRGanttSeries> getSeriesList()
 	{
 		return ganttSeriesList;
 	}
 
 
+	@JsonSetter
+	private void setSeries(List<JRGanttSeries> series)
+	{
+		if (series != null)
+		{
+			for (JRGanttSeries s : series)
+			{
+				addGanttSeries(s);
+			}
+		}
+	}
+
+	
 	/**
 	 *
 	 */

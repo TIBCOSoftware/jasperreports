@@ -1002,13 +1002,13 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				if (
 					groupFooterPositionElementRange == null 
-					&& group.getFooterPositionValue() != FooterPositionEnum.NORMAL
+					&& group.getFooterPosition() != FooterPositionEnum.NORMAL
 					)
 				{
 					groupFooterPositionElementRange = 
 						new SimpleGroupFooterElementRange(
 							new SimpleElementRange(getCurrentPage(), columnIndex, offsetY), 
-							group.getFooterPositionValue()
+							group.getFooterPosition()
 							);
 				}
 
@@ -1017,7 +1017,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					// keep the current group footer position because it will be needed
 					// in case the band breaks and the group footer element range needs to
 					// be recreated on the new page
-					groupFooterPositionElementRange.setCurrentFooterPosition(group.getFooterPositionValue());
+					groupFooterPositionElementRange.setCurrentFooterPosition(group.getFooterPosition());
 				}
 				
 				if (orphanGroupFooterDetailElementRange != null)
@@ -1041,7 +1041,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				{
 					ElementRangeUtil.expandOrIgnore(groupFooterPositionElementRange.getElementRange(), newElementRange);
 
-					switch (group.getFooterPositionValue())
+					switch (group.getFooterPosition())
 					{
 						case STACK_AT_BOTTOM :
 						{

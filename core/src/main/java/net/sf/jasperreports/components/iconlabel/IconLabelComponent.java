@@ -26,6 +26,15 @@ package net.sf.jasperreports.components.iconlabel;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRImageAlignment;
@@ -42,12 +51,15 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.ReportDeserializer;
 import net.sf.jasperreports.engine.util.StyleResolver;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName(ComponentsExtensionsRegistryFactory.ICONLABEL_COMPONENT_NAME)
 public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer, JRImageAlignment, Serializable, JRChangeEventsSupport 
 {
 	/**
@@ -71,6 +83,12 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	private ComponentContext context;
 	
 	private transient JRPropertyChangeSupport eventSupport;
+	
+	@JsonCreator
+	private IconLabelComponent() 
+	{
+		this(ReportDeserializer.getDefaultStyleProvider());
+	}
 	
 	public IconLabelComponent(JRDefaultStyleProvider defaultStyleProvider) 
 	{
@@ -114,9 +132,10 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
 	public void setLineBox(JRLineBox lineBox) 
 	{
-		this.lineBox = lineBox;
+		this.lineBox = lineBox == null ? null : lineBox.clone(this);
 	}
 	
 	@Override
@@ -154,6 +173,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
+	@JsonTypeInfo(use = Id.NONE)
 	public JRTextField getLabelTextField() 
 	{
 		return labelTextField;
@@ -170,6 +190,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
+	@JsonTypeInfo(use = Id.NONE)
 	public JRTextField getIconTextField() 
 	{
 		return iconTextField;
@@ -186,6 +207,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public IconPositionEnum getIconPosition() 
 	{
 		return iconPosition;
@@ -208,12 +230,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	}
 		
 	@Override
+	@JsonGetter("horizontalAlign")
+	@JacksonXmlProperty(localName = "horizontalAlign", isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return horizontalImageAlign;
 	}
 		
 	@Override
+	@JsonSetter("horizontalAlign")
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
 		Object old = this.horizontalImageAlign;
@@ -228,12 +253,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	}
 		
 	@Override
+	@JsonGetter("verticalAlign")
+	@JacksonXmlProperty(localName = "verticalAlign", isAttribute = true)
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return verticalImageAlign;
 	}
 		
 	@Override
+	@JsonSetter("verticalAlign")
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		Object old = this.verticalImageAlign;
@@ -244,6 +272,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public ContainerFillEnum getLabelFill() 
 	{
 		return labelFill;

@@ -23,30 +23,45 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignDataMeasure.class)
 public interface DataMeasure extends JRCloneable
 {
 
+	@JacksonXmlProperty(isAttribute = true)
 	String getName();
 	
 	JRExpression getLabelExpression();
 	
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_class)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_class, isAttribute = true)
 	String getValueClassName();
 	
+	@JsonIgnore
 	Class<?> getValueClass();
 	
 	JRExpression getValueExpression();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	CalculationEnum getCalculation();
 	
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, isAttribute = true)
 	String getIncrementerFactoryClassName();
 	
+	@JsonIgnore
 	Class<?> getIncrementerFactoryClass();
 	
 }

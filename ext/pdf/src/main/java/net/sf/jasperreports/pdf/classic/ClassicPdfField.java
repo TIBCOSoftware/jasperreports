@@ -109,9 +109,9 @@ public abstract class ClassicPdfField implements PdfField
 	}
 	
 	@Override
-	public void setFontSize(float fontsize)
+	public void setFontSize(float fontSize)
 	{
-		field.setFontSize(fontsize);
+		field.setFontSize(fontSize);
 	}
 
 	@Override

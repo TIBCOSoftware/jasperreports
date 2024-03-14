@@ -119,7 +119,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			Renderable renderer = image.getRenderer();
 			
 			Dimension dimension = new Dimension(image.getWidth(), image.getHeight());
-			Color backcolor = ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null;
+			Color backcolor = ModeEnum.OPAQUE == image.getMode() ? image.getBackcolor() : null;
 
 			RendererUtil rendererUtil = RendererUtil.getInstance(jasperReportsContext);
 			
@@ -131,7 +131,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			{
 				try
 				{
-					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorTypeValue());
+					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorType());
 					if (onErrorRenderer != null)
 					{
 						imageData = process(jasperReportsContext, onErrorRenderer, dimension, backcolor);

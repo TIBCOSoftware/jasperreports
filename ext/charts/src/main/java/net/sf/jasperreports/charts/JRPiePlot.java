@@ -23,6 +23,14 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignPiePlot;
+
 /**
  * Type of plot used for rendering Pie charts. 
  * <br/>
@@ -36,21 +44,27 @@ package net.sf.jasperreports.charts;
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("pie")
+@JsonDeserialize(as = JRDesignPiePlot.class)
 public interface JRPiePlot extends JRChartPlot
 {
 	/**
 	 * @return a flag that specifies a circular form for the pie
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getCircular();
 	
 	/**
 	 * @return the format pattern for labels
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLabelFormat();
 	
 	/**
 	 * @return the format pattern for legend labels
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLegendLabelFormat();
 
 	/**
@@ -62,6 +76,8 @@ public interface JRPiePlot extends JRChartPlot
 	/**
 	 * @return a flag that specifies whether labels are to be shown or not
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
 	
 }

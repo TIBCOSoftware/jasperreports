@@ -53,7 +53,7 @@ public class BarcodeVerifier implements BarcodeVisitor
 			verifier.addBrokenRule("Barcode expression is null", barcode);
 		}
 		
-		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTimeValue();
+		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTime();
 		if (evaluationTime == EvaluationTimeEnum.AUTO)
 		{
 			verifier.addBrokenRule("Auto evaluation time is not supported for barcodes", barcode);

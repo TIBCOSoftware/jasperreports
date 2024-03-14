@@ -23,6 +23,8 @@
  */
 package xchart;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -32,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignXYSeries.class)
 public interface XYSeries extends JRCloneable
 {
 	public JRExpression getSeriesExpression();

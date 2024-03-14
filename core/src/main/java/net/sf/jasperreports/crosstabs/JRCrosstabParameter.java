@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabParameter;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRParameter;
 
@@ -38,6 +41,7 @@ import net.sf.jasperreports.engine.JRParameter;
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParameters()
  * @see net.sf.jasperreports.crosstabs.JRCrosstab#getParametersMapExpression()
  */
+@JsonDeserialize(as = JRDesignCrosstabParameter.class)
 public interface JRCrosstabParameter extends JRParameter, JRDatasetParameter
 {
 }

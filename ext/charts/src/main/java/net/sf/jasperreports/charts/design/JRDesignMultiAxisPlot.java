@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartPlot;
@@ -54,6 +57,12 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
+	@JsonCreator
+	private JRDesignMultiAxisPlot()
+	{
+		this(null, null);
+	}
+
 	/**
 	 * Constructs a new plot by copying an existing one.
 	 *
@@ -62,6 +71,18 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	public JRDesignMultiAxisPlot(JRChartPlot multiAxisPlot, JRChart chart)
 	{
 		super(multiAxisPlot, chart);
+	}
+
+	@JsonSetter
+	private void setAxes(List<JRChartAxis> axes)
+	{
+		if (axes != null)
+		{
+			for (JRChartAxis axis : axes)
+			{
+				addAxis(axis);
+			}
+		}
 	}
 
 	/**

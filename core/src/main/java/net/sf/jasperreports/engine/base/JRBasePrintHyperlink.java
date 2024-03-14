@@ -84,15 +84,15 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 
 	@Override

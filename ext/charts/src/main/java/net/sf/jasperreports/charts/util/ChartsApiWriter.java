@@ -115,8 +115,8 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 		if(chart != null)
 		{
 			parent.write( chartName + ".setShowLegend({0});\n", parent.getBooleanText(chart.getShowLegend()));
-			parent.write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
-			parent.write( chartName + ".setEvaluationGroup({0});\n", parent.getGroupName(chart.getEvaluationGroup()));
+			parent.write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTime(), EvaluationTimeEnum.NOW);
+			parent.write( chartName + ".setEvaluationGroup({0});\n", chart.getEvaluationGroup());
 	
 			if(chart.getLinkType() != null)
 			{
@@ -138,7 +138,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			parent.writeReportElement( chart, chartName);
 			parent.writeBox( chart.getLineBox(), chartName + ".getLineBox()");
 	
-			parent.write( chartName + ".setTitlePosition({0});\n", chart.getTitlePositionValue());
+			parent.write( chartName + ".setTitlePosition({0});\n", chart.getTitlePosition());
 			parent.write( chartName + ".setTitleColor({0});\n", chart.getOwnTitleColor());
 			if(chart.getTitleFont() != null)
 			{
@@ -157,7 +157,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			parent.writeExpression( chart.getSubtitleExpression(), chartName, "SubtitleExpression");
 			parent.write( chartName + ".setLegendColor({0});\n", chart.getOwnLegendColor());
 			parent.write( chartName + ".setLegendBackgroundColor({0});\n", chart.getOwnLegendBackgroundColor());
-			parent.write( chartName + ".setLegendPosition({0});\n", chart.getLegendPositionValue());
+			parent.write( chartName + ".setLegendPosition({0});\n", chart.getLegendPosition());
 
 			if(chart.getLegendFont() != null)
 			{
@@ -216,9 +216,9 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			String datasetName = parentName + datasetNameSuffix;
 			parent.write( "JRDesignTimeSeriesDataset " + datasetName + " =  new JRDesignTimeSeriesDataset(" + parentName + ".getDataset());\n");
 
-			if (dataset.getTimePeriodValue() != null && dataset.getTimePeriodValue() != TimePeriodEnum.DAY)
+			if (dataset.getTimePeriod() != null && dataset.getTimePeriod() != TimePeriodEnum.DAY)
 			{
-				parent.write( datasetName + ".setTimePeriod({0});\n", dataset.getTimePeriodValue());
+				parent.write( datasetName + ".setTimePeriod({0});\n", dataset.getTimePeriod());
 			}
 	
 			parent.writeElementDataset( dataset, datasetName);
@@ -676,7 +676,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			writeChartTag( chartAxis.getChart(), axisName +"Chart");
 			
 			parent.write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + axisName +"Chart);\n");
-			parent.write( axisName + ".setPosition({0});\n", chartAxis.getPositionValue());
+			parent.write( axisName + ".setPosition({0});\n", chartAxis.getPosition());
 			parent.write( axisName + ".setChart(" + axisName +"Chart);\n");
 //			parent.write( parentName + ".setChart(" + axisName +"Chart);\n");
 			parent.write( parentName + ".addAxis(" + axisName + ");\n");
@@ -695,13 +695,13 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 		{
 			parent.write( plotName + ".setBackcolor({0});\n", plot.getOwnBackcolor());
 
-			if (plot.getOrientationValue() != null && plot.getOrientationValue() != PlotOrientationEnum.VERTICAL)
+			if (plot.getOrientation() != null && plot.getOrientation() != PlotOrientationEnum.VERTICAL)
 			{
-				parent.write( plotName + ".setOrientation({0});\n", plot.getOrientationValue());
+				parent.write( plotName + ".setOrientation({0});\n", plot.getOrientation());
 			}
 
-			parent.write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
-			parent.write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlphaFloat());
+			parent.write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlpha());
+			parent.write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlpha());
 			//write( plotName + ".setLabelRotation({0});\n", plot.getLabelRotationDouble());//FIXMECHART check the deprecation of this method; looks incomplete
 			writeSeriesColors( plot.getSeriesColors(), plotName);
 			parent.flush();
@@ -946,7 +946,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 		{
 			String plotName = chartName + "BubblePlot";
 			parent.write( "JRDesignBubblePlot " + plotName + " = (JRDesignBubblePlot)" + chartName + ".getPlot();\n");
-			parent.write( plotName + ".setScaleType({0});\n", plot.getScaleTypeValue());
+			parent.write( plotName + ".setScaleType({0});\n", plot.getScaleType());
 			writePlot( plot, plotName);
 			
 			parent.writeExpression( plot.getXAxisLabelExpression(), plotName, "XAxisLabelExpression");
@@ -1539,11 +1539,11 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 				String plotName = chartName + "MeterPlot";
 				
 				parent.write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
-				parent.write( plotName + ".setShape({0});\n", plot.getShapeValue());
+				parent.write( plotName + ".setShape({0});\n", plot.getShape());
 				parent.write( plotName + ".setMeterAngle({0, number, #});\n", plot.getMeterAngleInteger());
 				
 				parent.write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
-				parent.write( plotName + ".setTickInterval({0});\n", plot.getTickIntervalDouble());
+				parent.write( plotName + ".setTickInterval({0});\n", plot.getTickInterval());
 				parent.write( plotName + ".setMeterBackgroundColor({0});\n", plot.getMeterBackgroundColor());
 				parent.write( plotName + ".setNeedleColor({0});\n", plot.getNeedleColor());
 				parent.write( plotName + ".setTickColor({0});\n", plot.getTickColor());
@@ -1593,7 +1593,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			{
 				String plotName = chartName + "ThermometerPlot";
 				parent.write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
-				parent.write( plotName + ".setValueLocation({0});\n", plot.getValueLocationValue());
+				parent.write( plotName + ".setValueLocation({0});\n", plot.getValueLocation());
 				parent.write( plotName + ".setMercuryColor({0});\n", plot.getMercuryColor());
 				writePlot( plot, plotName);
 				writeValueDisplay( plot.getValueDisplay(), plotName);

@@ -182,7 +182,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	private Integer leftMargin = 0;
 	private Integer bottomMargin = 0;
 	private Integer rightMargin = 0;
-	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
+	private OrientationEnum orientation = OrientationEnum.PORTRAIT;
 	
 	private transient PrintPageFormat pageFormat;
 
@@ -220,7 +220,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 
 		@Override
 		public OrientationEnum getOrientation() {
-			return JasperPrint.this.getOrientationValue();
+			return JasperPrint.this.getOrientation();
 		}
 	}
 
@@ -471,9 +471,9 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	 * @see OrientationEnum PORTRAIT,
 	 * @see OrientationEnum LANDSCAPE
 	 */
-	public OrientationEnum getOrientationValue()
+	public OrientationEnum getOrientation()
 	{
-		return orientationValue;
+		return orientation;
 	}
 		
 	/**
@@ -481,13 +481,13 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	 * @see OrientationEnum PORTRAIT,
 	 * @see OrientationEnum LANDSCAPE
 	 */
-	public void setOrientation(OrientationEnum orientationValue)
+	public void setOrientation(OrientationEnum orientation)
 	{
-		Object old = this.orientationValue;
-		this.orientationValue = orientationValue;
+		Object old = this.orientation;
+		this.orientation = orientation;
 		if (hasEventSupport())
 		{
-			getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
+			getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 		}
 	}
 
@@ -1032,7 +1032,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 		this.leftMargin = jasperPrint.leftMargin;
 		this.bottomMargin = jasperPrint.bottomMargin;
 		this.rightMargin = jasperPrint.rightMargin;
-		this.orientationValue = jasperPrint.orientationValue;
+		this.orientation = jasperPrint.orientation;
 		this.formatFactoryClass = jasperPrint.formatFactoryClass;
 		this.localeCode = jasperPrint.localeCode;
 		this.timeZoneId = jasperPrint.timeZoneId;

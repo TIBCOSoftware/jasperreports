@@ -25,6 +25,14 @@ package net.sf.jasperreports.charts;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignMultiAxisPlot;
+
 
 /**
  * Represents the display options and nested charts of a multiple axis chart. 
@@ -33,11 +41,15 @@ import java.util.List;
  *
  * @author Barry Klawans (bklawans@users.sourceforge.net)
  */
+@JsonTypeName("multiAxis")
+@JsonDeserialize(as = JRDesignMultiAxisPlot.class)
 public interface JRMultiAxisPlot extends JRChartPlot
 {
 	/**
 	 * Returns a List of all the children axis.  Each element is of type 
 	 * {@link net.sf.jasperreports.charts.JRChartAxis JRChartAxis}.
 	 */
+	@JacksonXmlProperty(localName = "axis")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<JRChartAxis> getAxes();
 }

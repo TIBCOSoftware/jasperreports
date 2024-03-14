@@ -100,7 +100,7 @@ public class DocxBorderInfo
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyleValue())
+			switch (pen.getLineStyle())
 			{
 				case DOTTED :
 				{

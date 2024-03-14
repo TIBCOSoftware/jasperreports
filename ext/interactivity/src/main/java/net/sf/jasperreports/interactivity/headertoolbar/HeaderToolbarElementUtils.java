@@ -122,15 +122,15 @@ public class HeaderToolbarElementUtils
 
 	public static void copyOwnTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement, Locale locale) {
 		textElementData.setFontName(textElement.getOwnFontName());
-		textElementData.setFontSize(textElement.getOwnFontsize() != null ? NumberFormat.getNumberInstance(locale).format(textElement.getOwnFontsize()) : null);
-		textElementData.setFloatFontSize(textElement.getOwnFontsize() != null ? textElement.getOwnFontsize() : null);
+		textElementData.setFontSize(textElement.getOwnFontSize() != null ? NumberFormat.getNumberInstance(locale).format(textElement.getOwnFontSize()) : null);
+		textElementData.setFloatFontSize(textElement.getOwnFontSize() != null ? textElement.getOwnFontSize() : null);
 		textElementData.setFontBold(textElement.isOwnBold());
 		textElementData.setFontItalic(textElement.isOwnItalic());
 		textElementData.setFontUnderline(textElement.isOwnUnderline());
 		textElementData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
 		textElementData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
 		textElementData.setFontHAlign(textElement.getOwnHorizontalTextAlign() != null ? textElement.getOwnHorizontalTextAlign().getName() : null);
-		textElementData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+		textElementData.setMode(textElement.getOwnMode() != null ? textElement.getOwnMode().getName() : null);
 		
 		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
 			textElementData.setFormatPattern(((JRDesignTextField) textElement).getOwnPattern());
@@ -139,15 +139,15 @@ public class HeaderToolbarElementUtils
 
 	public static void copyTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement, Locale locale) {
 		textElementData.setFontName(JRStringUtil.htmlEncode(textElement.getFontName()));
-		textElementData.setFontSize(NumberFormat.getNumberInstance(locale).format(textElement.getFontsize()));
-		textElementData.setFloatFontSize(textElement.getFontsize());
+		textElementData.setFontSize(NumberFormat.getNumberInstance(locale).format(textElement.getFontSize()));
+		textElementData.setFloatFontSize(textElement.getFontSize());
 		textElementData.setFontBold(textElement.isBold());
 		textElementData.setFontItalic(textElement.isItalic());
 		textElementData.setFontUnderline(textElement.isUnderline());
 		textElementData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 		textElementData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
 		textElementData.setFontHAlign(textElement.getHorizontalTextAlign().getName());
-		textElementData.setMode(textElement.getModeValue().getName());
+		textElementData.setMode(textElement.getMode().getName());
 		
 		if (textElement instanceof JRDesignTextField && TableUtil.hasSingleChunkExpression((JRDesignTextField) textElement)) {
 			textElementData.setFormatPattern(JRStringUtil.htmlEncode(((JRDesignTextField) textElement).getPattern()));

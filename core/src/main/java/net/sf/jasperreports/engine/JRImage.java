@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
 
@@ -137,6 +144,8 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("image")
+@JsonDeserialize(as = JRDesignImage.class)
 public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyperlink, JRCommonImage
 {
 
@@ -148,6 +157,8 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * @return Boolean.TRUE if the image should be loaded from cache, Boolean.FALSE otherwise 
 	 * or null in case the flag was never explicitly set on this image element
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getUsingCache();
 
 	/**
@@ -163,6 +174,7 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	/**
 	 * Indicates if the images will be loaded lazily or not.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isLazy();
 
 	/**
@@ -177,7 +189,8 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * Indicates how the engine will treat a missing image.
 	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
 	 */
-	public OnErrorTypeEnum getOnErrorTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public OnErrorTypeEnum getOnErrorType();
 	
 	/**
 	 * Specifies how the engine should treat a missing image.

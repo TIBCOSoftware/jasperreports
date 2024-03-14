@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * A value copied from a subdataset or from an expression into a variable of the parent report.
@@ -38,6 +42,7 @@ public interface CommonReturnValue extends JRCloneable
 	 * 
 	 * @return the name of the report variable where the value should be copied.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getToVariable();
 
 	/**
@@ -48,6 +53,7 @@ public interface CommonReturnValue extends JRCloneable
 	 * 
 	 * @return the calculation type.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public CalculationEnum getCalculation();
 	
 	/**
@@ -58,5 +64,13 @@ public interface CommonReturnValue extends JRCloneable
 	 * 
 	 * @return the incrementer factory class name.
 	 */
+	/*
+	 * JACKSON-TIP
+	 * All xml property annotations should specify localName in getters like this one which change the name of the field,
+	 * because otherwise, in the absence of a setter method having the same name as the getter method, the field is not serialized in xml (it is serialized in json though).
+	 * This can be seen when serializing "base" objects which do not have such matching setter method. 
+	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, isAttribute = true)
 	public String getIncrementerFactoryClassName();
 }

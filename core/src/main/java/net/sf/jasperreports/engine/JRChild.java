@@ -23,8 +23,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 
 /**
  * An abstract representation of a report element. All report elements implement this interface. The interface contains
@@ -32,6 +36,23 @@ package net.sf.jasperreports.engine;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = JRStaticText.class),
+	@JsonSubTypes.Type(value = JRTextField.class),
+	@JsonSubTypes.Type(value = JRLine.class),
+	@JsonSubTypes.Type(value = JRRectangle.class),
+	@JsonSubTypes.Type(value = JREllipse.class),
+	@JsonSubTypes.Type(value = JRImage.class),
+	@JsonSubTypes.Type(value = JRElementGroup.class),
+	@JsonSubTypes.Type(value = JRFrame.class),
+	@JsonSubTypes.Type(value = JRCrosstab.class),
+	@JsonSubTypes.Type(value = JRSubreport.class),
+	@JsonSubTypes.Type(value = JRGenericElement.class),
+	@JsonSubTypes.Type(value = JRBreak.class),
+	//@JsonSubTypes.Type(value = JRCellContents.class),
+	@JsonSubTypes.Type(value = JRComponentElement.class)
+})
 public interface JRChild extends JRVisitable, JRCloneable
 {
 	/**

@@ -582,7 +582,7 @@ public class JRGridLayout
 
 	protected void setFrameCellsStyle(JRPrintFrame frame, int row1, int col1, int row2, int col2)
 	{
-		Color backcolor = frame.getModeValue() == ModeEnum.OPAQUE ? frame.getBackcolor() : null;
+		Color backcolor = frame.getMode() == ModeEnum.OPAQUE ? frame.getBackcolor() : null;
 
 		for (int row = row1; row < row2; row++)
 		{
@@ -594,7 +594,7 @@ public class JRGridLayout
 				Color cellBackcolor = cell.getBackcolor();
 				if (cellBackcolor == null)
 				{
-					if (frame.getModeValue() == ModeEnum.OPAQUE)
+					if (frame.getMode() == ModeEnum.OPAQUE)
 					{
 						cellBackcolor = backcolor;
 						modifiedStyle = true;

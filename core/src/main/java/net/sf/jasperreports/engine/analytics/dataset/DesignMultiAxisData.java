@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -67,6 +71,17 @@ public class DesignMultiAxisData extends BaseMultiAxisData implements JRChangeEv
 		}
 	}
 	
+	@JsonSetter
+	private void setMeasures(List<DataMeasure> measures)
+	{
+		if (measures != null)
+		{
+			for (DataMeasure measure : measures)
+			{
+				addMeasure(measure);
+			}
+		}
+	}
 	public void addMeasure(DataMeasure measure)
 	{
 		measures.add(measure);

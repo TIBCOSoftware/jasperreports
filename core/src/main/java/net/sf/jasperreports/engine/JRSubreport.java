@@ -23,6 +23,15 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignSubreport;
 import net.sf.jasperreports.engine.type.OverflowType;
 
 
@@ -238,6 +247,8 @@ import net.sf.jasperreports.engine.type.OverflowType;
  * @see net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("subreport")
+@JsonDeserialize(as = JRDesignSubreport.class)
 public interface JRSubreport extends JRElement
 {
 
@@ -250,6 +261,8 @@ public interface JRSubreport extends JRElement
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSubreportParameter[] getParameters();
 
 	/**
@@ -272,6 +285,8 @@ public interface JRSubreport extends JRElement
 	 *
 	 * @return the list of subreport copied values.
 	 */
+	@JacksonXmlProperty(localName = "returnValue")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSubreportReturnValue[] getReturnValues();
 
 	
@@ -283,6 +298,8 @@ public interface JRSubreport extends JRElement
 	 * @return Boolean.TRUE if the subreport should be loaded from cache, Boolean.FALSE otherwise 
 	 * or null in case the flag was never explicitly set on this subreport element
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getUsingCache();
 	
 	
@@ -304,6 +321,8 @@ public interface JRSubreport extends JRElement
 	 * the bottom of the page
 	 * @see #setRunToBottom(Boolean) 
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean isRunToBottom();
 
 	/**
@@ -325,6 +344,7 @@ public interface JRSubreport extends JRElement
 	 */
 	public void setRunToBottom(Boolean runToBottom);
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public OverflowType getOverflowType();
 	
 	public void setOverflowType(OverflowType overflowType);

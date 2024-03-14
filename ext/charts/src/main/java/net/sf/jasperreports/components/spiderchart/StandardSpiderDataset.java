@@ -26,6 +26,9 @@ package net.sf.jasperreports.components.spiderchart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.base.ChartsBaseObjectFactory;
 import net.sf.jasperreports.engine.JRConstants;
@@ -83,9 +86,22 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	public List<JRCategorySeries> getSeriesList()
 	{
 		return categorySeriesList;
+	}
+
+	@JsonSetter
+	private void setSeries(List<JRCategorySeries> series)
+	{
+		if (series != null)
+		{
+			for (JRCategorySeries s : series)
+			{
+				addCategorySeries(s);
+			}
+		}
 	}
 
 	/**

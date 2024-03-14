@@ -63,4 +63,12 @@ public enum PrintOrderEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static PrintOrderEnum getValueOrDefault(PrintOrderEnum value)
+	{
+		return value == null ? VERTICAL : value;
+	}
 }

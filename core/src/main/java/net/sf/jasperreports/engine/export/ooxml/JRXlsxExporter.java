@@ -370,7 +370,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			writer.write("/>\n");
 		}
 
-		if (mainHyperlink.getHyperlinkTypeValue() != NONE)
+		if (mainHyperlink.getHyperlinkType() != NONE)
 		{
 			writer.write("  <area shape=\"default\"");
 			writeImageAreaHyperlink(mainHyperlink);
@@ -505,7 +505,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
-		switch(link.getHyperlinkTargetValue())
+		switch(link.getHyperlinkTarget())
 		{
 			case SELF :
 			{
@@ -539,7 +539,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{
@@ -882,7 +882,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
-//			frame.getModeValue() == ModeEnum.OPAQUE
+//			frame.getMode() == ModeEnum.OPAQUE
 //			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 //
 //		if (appendBackcolor)
@@ -965,7 +965,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -981,7 +981,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				
 				int angle = 0;
 
-				switch (image.getScaleImageValue())
+				switch (image.getScaleImage())
 				{
 					case FILL_FRAME :
 					{
@@ -1217,7 +1217,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				
 				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\"" + altText + ">\n");
 
-				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
+				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkType()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkType()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
 				if (href != null)
 				{
 					drawingHelper.exportHyperlink(href);
@@ -1240,7 +1240,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				drawingHelper.write("    <a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
 				drawingHelper.write("  </a:xfrm>\n");
 				drawingHelper.write("<a:prstGeom prst=\"rect\"></a:prstGeom>\n");
-//				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
+//				if (image.getMode() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 //				{
 //					drawingHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 //				}
@@ -1281,7 +1281,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			this.imageElement = imageElement;
 			this.cell = cell;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			this.needDimension = imageElement.getScaleImage() != ScaleImageEnum.FILL_FRAME; 
 			// at this point, we do not yet have the exifOrientation, but we do not need it because the available width and height
 			// are used only for non data renderers, which need to produce their data for the image and have nothing to do with exif metadata anyway
 			if (
@@ -1342,7 +1342,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							imageRenderersCache,
 							renderer,
 							new Dimension(availableImageWidth, availableImageHeight),
-							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+							ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
@@ -1403,12 +1403,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		float ratio = line.getWidth() / (float)line.getHeight();
 		if (ratio > 1)
 		{
-			if(line.getHeight() > 1)
+			if (line.getHeight() > 1)
 			{
-				direction = line.getDirectionValue();
+				direction = line.getDirection();
 				pen = box.getPen();
 			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			else if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getTopPen();
 			}
@@ -1419,12 +1419,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 		else
 		{
-			if(line.getWidth() > 1)
+			if (line.getWidth() > 1)
 			{
-				direction = line.getDirectionValue();
+				direction = line.getDirection();
 				pen = box.getPen();
 			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			else if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 			{
 				pen = box.getLeftPen();
 			}
@@ -1434,7 +1434,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 		}
 		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineStyle(line.getLinePen().getLineStyle());
 		pen.setLineWidth(line.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -1456,7 +1456,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
 		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyle());
 		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
@@ -1509,7 +1509,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			isCellLocked(text),
 			isShrinkToFit(text), 
 			isIgnoreTextFormatting(text),
-			text.getRotationValue(),
+			text.getRotation(),
 			sheetInfo
 			);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
@@ -1553,7 +1553,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					colIndex,
 					maxColumnIndex,
 					href, 
-					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkTypeValue()));
+					HyperlinkTypeEnum.LOCAL_ANCHOR.equals(text.getHyperlinkType()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(text.getHyperlinkType()));
 		}
 
 		

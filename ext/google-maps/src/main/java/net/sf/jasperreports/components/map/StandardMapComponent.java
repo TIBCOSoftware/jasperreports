@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.StandardItem;
@@ -78,7 +80,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private JRExpression addressExpression;
 	private JRExpression zoomExpression;
 	private JRExpression languageExpression;
-	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
@@ -224,10 +226,10 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return evaluationTime;
 	}
 
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
 		Object old = this.evaluationTime;
-		this.evaluationTime = evaluationTimeValue;
+		this.evaluationTime = evaluationTime;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
@@ -413,6 +415,18 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return markerItemDataList;
 	}
 
+	@JsonSetter
+	private void setMarkerItemDataList(List<MarkerItemData> markerItemDataList) 
+	{
+		if (markerItemDataList != null)
+		{
+			for (MarkerItemData markerItemData : markerItemDataList)
+			{
+				addMarkerItemData(markerItemData);
+			}
+		}
+	}
+
 	/**
 	 * @deprecated Replaced by {@link #addMarkerItemData(MarkerItemData)}.
 	 */
@@ -485,6 +499,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return legend;
 	}
 
+	@JsonSetter("legendItem")
 	public void setLegend(Item legend) {
 		Object old = this.legend;
 		this.legend = legend;
@@ -496,6 +511,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return resetMap;
 	}
 
+	@JsonSetter("resetMapItem")
 	public void setResetMap(Item resetMap) {
 		Object old = this.resetMap;
 		this.resetMap = resetMap;

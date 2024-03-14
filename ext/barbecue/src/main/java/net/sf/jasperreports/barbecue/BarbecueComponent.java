@@ -23,27 +23,32 @@
  */
 package net.sf.jasperreports.barbecue;
 
-import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName(BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME)
+@JsonDeserialize(as = StandardBarbecueComponent.class)
 public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 {
 	String METADATA_KEY_QUALIFICATION = 
-			ComponentsExtensionsRegistryFactory.NAMESPACE 
-			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-			+ BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
+			BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
 	
 	//TODO scale type, alignment
 
+	@JacksonXmlProperty(isAttribute = true)
 	String getType();
 
 	JRExpression getApplicationIdentifierExpression();
@@ -51,20 +56,29 @@ public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 	//TODO use Object?
 	JRExpression getCodeExpression();
 
+	@JacksonXmlProperty(isAttribute = true)
 	boolean isDrawText();
 
+	@JacksonXmlProperty(isAttribute = true)
 	boolean isChecksumRequired();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	Integer getBarWidth();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	Integer getBarHeight();
 	
-	EvaluationTimeEnum getEvaluationTimeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	EvaluationTimeEnum getEvaluationTime();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	String getEvaluationGroup();
 	
+	@JsonIgnore
 	RotationEnum getRotation();
 	
+	@JsonGetter("rotation")
+	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
 	RotationEnum getOwnRotation();
 	
 }

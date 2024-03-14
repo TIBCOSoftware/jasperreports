@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
@@ -64,11 +63,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected static final Log log = LogFactory.getLog(JRFillTextField.class);
 
 	protected final Map<Pair<JRStyle, TextFormat>, JRTemplateElement> textTemplates;
-	
-	/**
-	 *
-	 */
-	private JRGroup evaluationGroup;
 
 	/**
 	 *
@@ -117,7 +111,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		super(filler, textField, factory);
 		
 		this.textTemplates = new HashMap<>();
-		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 		this.localizedProperties = new HashMap<>();
 	}
 
@@ -127,7 +120,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		super(textField, factory);
 
 		this.textTemplates = textField.textTemplates;
-		this.evaluationGroup = textField.evaluationGroup;
 		this.localizedProperties = textField.localizedProperties;
 	}
 
@@ -144,9 +136,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return ((JRTextField)parent).getEvaluationTimeValue();
+		return EvaluationTimeEnum.getValueOrDefault(((JRTextField)parent).getEvaluationTime());
 	}
 		
 	/**
@@ -255,25 +247,20 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 	@Override
-	public void setBlankWhenNull(boolean isBlank)
-	{
-	}
-
-	@Override
 	public void setBlankWhenNull(Boolean isBlank)
 	{
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return ((JRTextField)parent).getHyperlinkTypeValue();
+		return ((JRTextField)parent).getHyperlinkType();
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return ((JRTextField)parent).getHyperlinkTargetValue();
+		return ((JRTextField)parent).getHyperlinkTarget();
 	}
 		
 	@Override
@@ -283,9 +270,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
-		return evaluationGroup;
+		return ((JRTextField)parent).getEvaluationGroup();
 	}
 		
 	@Override
@@ -676,7 +663,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		{
 			if (isOverflow)
 			{
-				if (getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
+				if (getPositionType() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
 				{
 					// the content of the band bottom text fields is not
 					// consumed during overflows, because they only appear on the last overflow
@@ -686,7 +673,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				if (
 					getTextEnd() >= getTextString().length()
 					|| getTextAdjust() != TextAdjustEnum.STRETCH_HEIGHT
-					|| !getRotationValue().equals(RotationEnum.NONE)
+					|| !getRotation().equals(RotationEnum.NONE)
 					)
 				{
 					// there is no more text left in the text field to overflow
@@ -765,7 +752,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 						if (
 							getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT
-							&& getRotationValue() == RotationEnum.NONE
+							&& getRotation() == RotationEnum.NONE
 							)
 						{
 							// the text field is allowed to stretch downwards in order to
@@ -871,7 +858,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	public JRPrintElement fill() throws JRException
 	{
-		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
+		EvaluationTimeEnum evaluationTime = getEvaluationTime();
 		
 		JRTemplatePrintText text;
 		JRRecordedValuesPrintText recordedValuesText;
@@ -898,7 +885,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 //		{
 //			text.setHeight(getHeight());
 //		}
-		text.setRunDirection(getRunDirectionValue());
+		text.setRunDirection(getRunDirection());
 		text.setBookmarkLevel(getBookmarkLevel());
 
 		if (isEvaluateNow())
@@ -1116,7 +1103,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		return 
 			getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT
-			&& getRotationValue() == RotationEnum.NONE
+			&& getRotation() == RotationEnum.NONE
 			&& isEvaluateNow()
 			&& filler.isBandOverFlowAllowed();
 	}

@@ -37,7 +37,7 @@ public interface JRPrintLine extends JRPrintGraphicElement
 	 * Gets the line direction.
 	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
 	 */
-	public LineDirectionEnum getDirectionValue();
+	public LineDirectionEnum getDirection();
 	
 	/**
 	 * Sets the line direction.

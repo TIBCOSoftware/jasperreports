@@ -23,12 +23,18 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.JRDesignRectangle;
 
 /**
  * An abstract representation of a graphic element representing a rectangle.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("rectangle")
+@JsonDeserialize(as = JRDesignRectangle.class)
 public interface JRRectangle extends JRGraphicElement, JRCommonRectangle
 {
 }

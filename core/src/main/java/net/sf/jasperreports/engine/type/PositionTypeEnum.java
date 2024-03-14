@@ -70,4 +70,12 @@ public enum PositionTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static PositionTypeEnum getValueOrDefault(PositionTypeEnum value)
+	{
+		return value == null ? FIX_RELATIVE_TO_TOP : value;
+	}
 }

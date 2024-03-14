@@ -84,9 +84,9 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
-	public PositionTypeEnum getPositionTypeValue()
+	public PositionTypeEnum getPositionType()
 	{
-		return element.getPositionTypeValue();
+		return element.getPositionType();
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
-	public JRGroup getPrintWhenGroupChanges()
+	public String getPrintWhenGroupChanges()
 	{
 		return element.getPrintWhenGroupChanges();
 	}
@@ -108,9 +108,9 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
-	public StretchTypeEnum getStretchTypeValue()
+	public StretchTypeEnum getStretchType()
 	{
-		return element.getStretchTypeValue();
+		return element.getStretchType();
 	}
 
 	@Override
@@ -234,9 +234,9 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
-		return element.getModeValue();
+		return element.getMode();
 	}
 
 	@Override
@@ -252,9 +252,9 @@ public abstract class ElementDecorator implements JRElement
 	}
 
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return element.getOwnModeValue();
+		return element.getOwnMode();
 	}
 
 	@Override

@@ -399,7 +399,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	
 	protected boolean isEvaluateNow()
 	{
-		return mapComponent.getEvaluationTime() == EvaluationTimeEnum.NOW;
+		return EvaluationTimeEnum.getValueOrDefault(mapComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 
 	@Override

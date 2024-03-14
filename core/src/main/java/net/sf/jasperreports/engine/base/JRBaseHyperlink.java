@@ -124,15 +124,15 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 	}
 
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 
 	@Override

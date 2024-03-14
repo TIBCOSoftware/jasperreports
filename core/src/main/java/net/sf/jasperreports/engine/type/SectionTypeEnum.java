@@ -62,4 +62,12 @@ public enum SectionTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static SectionTypeEnum getValueOrDefault(SectionTypeEnum value)
+	{
+		return value == null ? BAND : value;
+	}
 }

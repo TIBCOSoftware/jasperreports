@@ -36,16 +36,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
@@ -200,28 +201,28 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(InputStream data)
 	{
-		JRXmlDigester digester = JRXmlTemplateDigesterFactory.instance().createDigester(
-				repositoryContext.getJasperReportsContext());
+		byte[] bytes;
 		try
 		{
-			return (JRTemplate) digester.parse(data);
+			bytes = JRLoader.loadBytes(data);
 		}
-		catch (IOException e)
+		catch (JRException e)
 		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_TEMPLATE_READING_ERROR,
-					(Object[])null,
-					e);
+			throw new JRRuntimeException(e);
 		}
-		catch (SAXException e)
+		
+		JasperReportsContext jasperReportsContext = repositoryContext.getJasperReportsContext();
+		List<ReportLoader> loaders = jasperReportsContext.getExtensions(ReportLoader.class);
+		for (ReportLoader reportLoader : loaders)
 		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_TEMPLATE_PARSING_ERROR,
-					(Object[])null,
-					e);
+			JRTemplate template = reportLoader.loadTemplate(jasperReportsContext, bytes);
+			if (template != null)
+			{
+				return template;
+			}
 		}
+		//TODO legacyxml 
+		throw new JRRuntimeException("Unable to load template");
 	}
 	
 	/**

@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.NullOutputStream;
 import net.sf.jasperreports.pdf.AbstractPdfTextRenderer;
@@ -271,15 +272,13 @@ public class ClassicPdfProducer implements PdfProducer
 	public void setPageSize(PrintPageFormat pageFormat, int pageWidth, int pageHeight)
 	{
 		Rectangle pageSize;
-		switch (pageFormat.getOrientation())
+		if (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE)
 		{
-		case LANDSCAPE:
-			// using rotate to indicate landscape page
 			pageSize = new Rectangle(pageHeight, pageWidth).rotate();
-			break;
-		default:
+		}
+		else
+		{
 			pageSize = new Rectangle(pageWidth, pageHeight);
-			break;
 		}
 		document.getDocument().setPageSize(pageSize);		
 	}
@@ -408,7 +407,7 @@ public class ClassicPdfProducer implements PdfProducer
 
 		try
 		{
-			if (image.getModeValue() == ModeEnum.OPAQUE)
+			if (image.getMode() == ModeEnum.OPAQUE)
 			{
 				g.setColor(image.getBackcolor());
 				g.fillRect(0, 0, (int) renderWidth, (int) renderHeight);

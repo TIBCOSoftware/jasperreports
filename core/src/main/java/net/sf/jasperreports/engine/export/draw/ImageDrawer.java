@@ -76,7 +76,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 	@Override
 	public void draw(Graphics2D grx, JRPrintImage printImage, int offsetX, int offsetY) throws JRException
 	{
-		if (printImage.getModeValue() == ModeEnum.OPAQUE)
+		if (printImage.getMode() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(printImage.getBackcolor());
 
@@ -109,7 +109,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RendererUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = RendererUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					internalImageDrawer.draw(grx, onErrorRenderer);
@@ -188,7 +188,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			
 			Graphics2DRenderable grxRenderer = renderersCache.getGraphics2DRenderable(renderer);//FIXME honor isUsingCache
 			
-			switch (printImage.getScaleImageValue())
+			switch (printImage.getScaleImage())
 			{
 				case CLIP :
 				{

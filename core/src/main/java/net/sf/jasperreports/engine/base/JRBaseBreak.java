@@ -43,7 +43,7 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	
 	public static final String PROPERTY_TYPE = "type";
 
-	protected BreakTypeEnum typeValue = BreakTypeEnum.PAGE;
+	protected BreakTypeEnum type;
 
 
 	/**
@@ -58,7 +58,7 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	{
 		super(breakElement, factory);
 		
-		typeValue = breakElement.getTypeValue();
+		type = breakElement.getType();
 	}
 		
 
@@ -75,17 +75,17 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	}
 
 	@Override
-	public BreakTypeEnum getTypeValue()
+	public BreakTypeEnum getType()
 	{
-		return this.typeValue;
+		return this.type;
 	}
 
 	@Override
-	public void setType(BreakTypeEnum typeValue)
+	public void setType(BreakTypeEnum type)
 	{
-		Object old = this.typeValue;
-		this.typeValue = typeValue;
-		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.typeValue);
+		Object old = this.type;
+		this.type = type;
+		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
 	}
 
 	@Override

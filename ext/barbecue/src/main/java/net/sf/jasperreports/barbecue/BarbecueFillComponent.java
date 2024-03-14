@@ -81,7 +81,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 	
 	protected boolean isEvaluateNow()
 	{
-		return barcodeComponent.getEvaluationTimeValue() == EvaluationTimeEnum.NOW;
+		return EvaluationTimeEnum.getValueOrDefault(barcodeComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		else
 		{
 			fillContext.registerDelayedEvaluation(image, 
-					barcodeComponent.getEvaluationTimeValue(), 
+					barcodeComponent.getEvaluationTime(), 
 					barcodeComponent.getEvaluationGroup());
 		}
 		
@@ -141,7 +141,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		
 		Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
 		BarbecueRendererImpl renderer = new BarbecueRendererImpl(barcode);
-		renderer.setRotation(BarbecueStyleResolver.getRotationValue(fillContext.getComponentElement()));
+		renderer.setRotation(BarbecueStyleResolver.getRotation(fillContext.getComponentElement()));
 		
 		image.setRenderer(renderer);
 	}

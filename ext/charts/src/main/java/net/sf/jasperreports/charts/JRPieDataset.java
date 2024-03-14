@@ -23,8 +23,14 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.charts.design.JRDesignPieDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -37,6 +43,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("pie")
+@JsonDeserialize(as = JRDesignPieDataset.class)
 public interface JRPieDataset extends JRChartDataset
 {
 	/**
@@ -54,6 +62,7 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Float getMinPercentage();
 
 	/**
@@ -64,6 +73,7 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Integer getMaxCount();
 
 	/**
@@ -76,6 +86,7 @@ public interface JRPieDataset extends JRChartDataset
 	 * series for the Pie or Pie 3D chart
 	 * @see JRPieSeries
 	 */
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPieSeries[] getSeries();
 
 	/**

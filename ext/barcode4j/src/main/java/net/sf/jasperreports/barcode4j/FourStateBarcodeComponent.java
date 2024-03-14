@@ -27,6 +27,8 @@ import net.sf.jasperreports.engine.JRConstants;
 
 import org.krysalis.barcode4j.ChecksumMode;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -46,6 +48,7 @@ public abstract class FourStateBarcodeComponent extends Barcode4jComponent
 	private Double intercharGapWidth;
 	private Double trackHeight;
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getAscenderHeight()
 	{
 		return ascenderHeight;
@@ -59,6 +62,7 @@ public abstract class FourStateBarcodeComponent extends Barcode4jComponent
 				old, this.ascenderHeight);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getChecksumMode()
 	{
 		return checksumMode;
@@ -77,6 +81,7 @@ public abstract class FourStateBarcodeComponent extends Barcode4jComponent
 		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getIntercharGapWidth()
 	{
 		return intercharGapWidth;
@@ -90,6 +95,7 @@ public abstract class FourStateBarcodeComponent extends Barcode4jComponent
 				old, this.intercharGapWidth);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getTrackHeight()
 	{
 		return trackHeight;

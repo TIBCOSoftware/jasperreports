@@ -23,13 +23,19 @@
  */
 package xchart;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.engine.JRElementDataset;
+import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 
 /**
  * 
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignXYDataset.class)
 public interface XYDataset extends JRElementDataset
 {
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public XYSeries[] getSeries();
 }

@@ -23,17 +23,19 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 
@@ -90,27 +92,28 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	/**
 	 *
 	 */
-	public void setResetType(DatasetResetTypeEnum datasetResetTypeValue)
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_resetType)
+	public void setResetType(DatasetResetTypeEnum datasetResetType)
 	{
 		Object old = this.datasetResetType;
-		this.datasetResetType = datasetResetTypeValue;
+		this.datasetResetType = datasetResetType;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET_RESET_TYPE, old, this.datasetResetType);
 	}
 		
 	/**
 	 *
 	 */
-	public void setIncrementType(IncrementTypeEnum incrementTypeValue)
+	public void setIncrementType(IncrementTypeEnum incrementType)
 	{
-		Object old = this.incrementTypeValue;
-		this.incrementTypeValue = incrementTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementTypeValue);
+		Object old = this.incrementType;
+		this.incrementType = incrementType;
+		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementType);
 	}
 		
 	/**
 	 *
 	 */
-	public void setResetGroup(JRGroup group)
+	public void setResetGroup(String group)
 	{
 		Object old = this.resetGroup;
 		this.resetGroup = group;
@@ -120,7 +123,7 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	/**
 	 *
 	 */
-	public void setIncrementGroup(JRGroup group)
+	public void setIncrementGroup(String group)
 	{
 		Object old = this.incrementGroup;
 		this.incrementGroup = group;

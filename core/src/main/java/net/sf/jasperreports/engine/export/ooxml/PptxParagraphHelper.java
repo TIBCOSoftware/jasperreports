@@ -189,7 +189,12 @@ public class PptxParagraphHelper extends BaseHelper
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				write("   <a:tab a:pos=\"" + LengthUtil.twip(tabStop.getPosition()) + "\" a:val=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\"/>\n");
+				write(
+					"   <a:tab a:pos=\"" 
+					+ LengthUtil.twip(tabStop.getPosition()) 
+					+ "\" a:val=\"" + getTabStopAlignment(TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment())) 
+					+ "\"/>\n"
+					);
 			}
 			write("   </a:tabs>\n");
 		}
@@ -328,20 +333,16 @@ public class PptxParagraphHelper extends BaseHelper
 	 */
 	public static String getTabStopAlignment(TabStopAlignEnum alignment)
 	{
-		if (alignment != null)
+		switch (alignment)
 		{
-			switch (alignment)
-			{
-				case RIGHT :
-					return TAB_STOP_ALIGN_RIGHT;
-				case CENTER :
-					return TAB_STOP_ALIGN_CENTER;
-				case LEFT :
-				default :
-					return TAB_STOP_ALIGN_LEFT;
-			}
+			case RIGHT :
+				return TAB_STOP_ALIGN_RIGHT;
+			case CENTER :
+				return TAB_STOP_ALIGN_CENTER;
+			case LEFT :
+			default :
+				return TAB_STOP_ALIGN_LEFT;
 		}
-		return null;
 	}
 	
 }

@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.fill.PartReportFiller;
 import net.sf.jasperreports.engine.part.BasePartFillComponent;
 import net.sf.jasperreports.engine.part.FillingPrintPart;
 import net.sf.jasperreports.engine.part.PartPrintOutput;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.BookmarksFlatDataSource;
 import net.sf.jasperreports.parts.PartFillerParent;
@@ -207,8 +208,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	
 	protected BaseReportFiller createSubreportFiller(final PartPrintOutput output) throws JRException
 	{
-		SectionTypeEnum sectionType = getReport().getSectionType();
-		sectionType = sectionType == null ? SectionTypeEnum.BAND : sectionType;
+		SectionTypeEnum sectionType = SectionTypeEnum.getValueOrDefault(getReport().getSectionType());
 		
 		BaseReportFiller filler;
 		switch (sectionType)
@@ -234,7 +234,8 @@ public class SubreportFillPart extends BasePartFillComponent
 		BandReportFillerParent bandParent = new PartBandParent(output);
 		JRBaseFiller bandFiller;
 		JasperReport jasperReport = getReport();
-		switch (jasperReport.getPrintOrderValue())
+		PrintOrderEnum printOrder = PrintOrderEnum.getValueOrDefault(jasperReport.getPrintOrder()); 
+		switch (printOrder)
 		{
 		case HORIZONTAL:
 			bandFiller = new JRHorizontalFiller(getJasperReportsContext(), jasperReportSource, bandParent);
@@ -246,7 +247,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_PRINT_ORDER,
-					new Object[]{jasperReport.getPrintOrderValue()});
+					new Object[]{printOrder});
 		}
 		
 		bandFiller.addFillListener(new FillListener()

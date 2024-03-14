@@ -57,7 +57,6 @@ import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
@@ -962,9 +961,8 @@ public class JRExpressionCollector
 			addExpression(part.getPartNameExpression());
 			collectPropertyExpressions(part.getPropertyExpressions());
 
-			ComponentKey componentKey = part.getComponentKey();
-			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
 			PartComponent component = part.getComponent();
+			PartComponentManager manager = PartComponentsEnvironment.getInstance(jasperReportsContext).getManager(component);
 			manager.getComponentCompiler(jasperReportsContext).collectExpressions(component, this);
 		}
 	}
@@ -1368,9 +1366,8 @@ public class JRExpressionCollector
 	{
 		collectElement(componentElement);
 		
-		ComponentKey componentKey = componentElement.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
 		Component component = componentElement.getComponent();
+		ComponentManager manager = ComponentsEnvironment.getInstance(jasperReportsContext).getManager(component);
 		manager.getComponentCompiler(jasperReportsContext).collectExpressions(component, this);
 	}
 	
@@ -1433,7 +1430,7 @@ public class JRExpressionCollector
 		{
 			for (DataLevelBucketProperty bucketProperty : bucketProperties)
 			{
-				datasetCollector.addExpression(bucketProperty.getExpression());
+				datasetCollector.addExpression(bucketProperty.getValueExpression());
 			}
 		}
 	}

@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignMultiAxisDataset.class)
 public interface MultiAxisDataset extends JRElementDataset
 {
 

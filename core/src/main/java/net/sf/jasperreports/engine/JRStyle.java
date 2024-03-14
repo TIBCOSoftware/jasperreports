@@ -25,8 +25,18 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
@@ -35,6 +45,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.jackson.util.PenSerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -186,6 +197,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignStyle.class)
 public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
 {
 	
@@ -218,11 +230,13 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 * Gets the style unique name.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 
 	/**
 	 * Gets a flag that specifies if this is the default report style.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public boolean isDefault();
 
 	/**
@@ -231,193 +245,259 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
 	 * by default, and so are the subreport elements.
 	 */
-	public ModeEnum getModeValue();
+	@JsonIgnore
+	public ModeEnum getMode();
 
-	public ModeEnum getOwnModeValue();
+	@JsonGetter("mode")
+	@JacksonXmlProperty(localName = "mode", isAttribute = true)
+	public ModeEnum getOwnMode();
 
+	@JsonIgnore
 	public Color getForecolor();
 
+	@JsonGetter("forecolor")
+	@JacksonXmlProperty(localName = "forecolor", isAttribute = true)
 	public Color getOwnForecolor();
 
+	@JsonIgnore
 	public Color getBackcolor();
 
+	@JsonGetter("backcolor")
+	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
 	public Color getOwnBackcolor();
 
 	/**
 	 * 
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class)
 	public JRPen getLinePen();
 
 	/**
 	 * Indicates the fill type used for this element.
 	 * @return one of the fill constants in {@link FillEnum}.
 	 */
-	public FillEnum getFillValue();
+	@JsonIgnore
+	public FillEnum getFill();
 
-	public FillEnum getOwnFillValue();
+	@JsonGetter("fill")
+	@JacksonXmlProperty(localName = "fill", isAttribute = true)
+	public FillEnum getOwnFill();
 
 	/**
 	 * Indicates the corner radius for rectangles with round corners. The default is 0.
 	 */
+	@JsonIgnore
 	public Integer getRadius();
 
+	@JsonGetter("radius")
+	@JacksonXmlProperty(localName = "radius", isAttribute = true)
 	public Integer getOwnRadius();
 
 	/**
 	 * Gets the image scale type.
 	 * @return one of the scale types defined in {@link ScaleImageEnum}
 	 */
-	public ScaleImageEnum getScaleImageValue();
+	@JsonIgnore
+	public ScaleImageEnum getScaleImage();
 
 	/**
 	 * Gets the image own scale type.
 	 * @return one of the scale types defined in {@link ScaleImageEnum}
 	 */
-	public ScaleImageEnum getOwnScaleImageValue();
+	@JsonGetter("scaleImage")
+	@JacksonXmlProperty(localName = "scaleImage", isAttribute = true)
+	public ScaleImageEnum getOwnScaleImage();
 
 	/**
 	 * Gets the horizontal text alignment of the element.
 	 * @return one of the alignment values defined in {@link HorizontalTextAlignEnum}
 	 */
+	@JsonIgnore
 	public HorizontalTextAlignEnum getHorizontalTextAlign();
 
+	@JsonGetter("horizontalTextAlign")
+	@JacksonXmlProperty(localName = "horizontalTextAlign", isAttribute = true)
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign();
 
 	/**
 	 * Gets the vertical text alignment of the element.
 	 * @return one of the alignment values defined in {@link VerticalTextAlignEnum}
 	 */
+	@JsonIgnore
 	public VerticalTextAlignEnum getVerticalTextAlign();
 
+	@JsonGetter("verticalTextAlign")
+	@JacksonXmlProperty(localName = "verticalTextAlign", isAttribute = true)
 	public VerticalTextAlignEnum getOwnVerticalTextAlign();
 
 	/**
 	 * Gets the horizontal image alignment of the element.
 	 * @return one of the alignment values defined in {@link HorizontalImageAlignEnum}
 	 */
+	@JsonIgnore
 	public HorizontalImageAlignEnum getHorizontalImageAlign();
 
+	@JsonGetter("horizontalImageAlign")
+	@JacksonXmlProperty(localName = "horizontalImageAlign", isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign();
 
 	/**
 	 * Gets the vertical image alignment of the element.
 	 * @return one of the alignment values defined in {@link VerticalImageAlignEnum}
 	 */
+	@JsonIgnore
 	public VerticalImageAlignEnum getVerticalImageAlign();
 
+	@JsonGetter("verticalImageAlign")
+	@JacksonXmlProperty(localName = "verticalImageAlign", isAttribute = true)
 	public VerticalImageAlignEnum getOwnVerticalImageAlign();
-
-	@Override
-	public JRLineBox getLineBox();
-
 
 	/**
 	 * Gets the text rotation.
 	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
 	 */
-	public RotationEnum getRotationValue();
+	@JsonIgnore
+	public RotationEnum getRotation();
 	
 	/**
 	 * Gets the text own rotation.
 	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
 	 */
-	public RotationEnum getOwnRotationValue();
+	@JsonGetter("rotation")
+	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
+	public RotationEnum getOwnRotation();
 	
 	/**
 	 * Returns the markup language used to format the text.
 	 */
+	@JsonIgnore
 	public String getMarkup();
 
+	@JsonGetter("markup")
+	@JacksonXmlProperty(localName = "markup", isAttribute = true)
 	public String getOwnMarkup();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getFontName();
 
 	/**
 	 *
 	 */
+	@JsonGetter("fontName")
+	@JacksonXmlProperty(localName = "fontName", isAttribute = true)
 	public String getOwnFontName();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isBold();
 
 	/**
 	 *
 	 */
+	@JsonGetter("bold")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "bold", isAttribute = true)
 	public Boolean isOwnBold();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isItalic();
 
 	/**
 	 *
 	 */
+	@JsonGetter("italic")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "italic", isAttribute = true)
 	public Boolean isOwnItalic();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isUnderline();
 
 	/**
 	 *
 	 */
+	@JsonGetter("underline")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "underline", isAttribute = true)
 	public Boolean isOwnUnderline();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isStrikeThrough();
 
 	/**
 	 *
 	 */
+	@JsonGetter("strikeThrough")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "strikeThrough", isAttribute = true)
 	public Boolean isOwnStrikeThrough();
 
 	/**
 	 *
 	 */
-	public Float getFontsize();
+	@JsonIgnore
+	public Float getFontSize();
 
 	/**
 	 *
 	 */
-	public Float getOwnFontsize();
+	@JsonGetter("fontSize")
+	@JacksonXmlProperty(localName = "fontSize", isAttribute = true)
+	public Float getOwnFontSize();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getPdfFontName();
 
 	/**
 	 *
 	 */
+	@JsonGetter("pdfFontName")
+	@JacksonXmlProperty(localName = "pdfFontName", isAttribute = true)
 	public String getOwnPdfFontName();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public String getPdfEncoding();
 
 	/**
 	 *
 	 */
+	@JsonGetter("pdfEncoding")
+	@JacksonXmlProperty(localName = "pdfEncoding", isAttribute = true)
 	public String getOwnPdfEncoding();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isPdfEmbedded();
 
 	/**
 	 *
 	 */
+	@JsonGetter("pdfEmbedded")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "pdfEmbedded", isAttribute = true)
 	public Boolean isOwnPdfEmbedded();
 
 	/**
@@ -426,134 +506,167 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 * formatting rules, as specified in the JDK API docs.
 	 * @return a string containing the pattern.
 	 */
+	@JsonIgnore
 	public String getPattern();
 
+	@JsonGetter("pattern")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "pattern", isAttribute = true)
 	public String getOwnPattern();
 
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public Boolean isBlankWhenNull();
 
 	/**
 	 *
 	 */
+	@JsonGetter("blankWhenNull")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JacksonXmlProperty(localName = "blankWhenNull", isAttribute = true)
 	public Boolean isOwnBlankWhenNull();
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setForecolor(Color forecolor);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBackcolor(Color backcolor);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setMode(ModeEnum mode);
 
 	/**
 	 * 
 	 */
+	@JsonSetter
 	public void setFill(FillEnum fill);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setRadius(Integer radius);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setScaleImage(ScaleImageEnum scaleImage);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment);
 
+	@JsonSetter
 	public void setRotation(RotationEnum rotation);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setFontName(String fontName);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBold(Boolean bold);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setItalic(Boolean italic);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfEmbedded(Boolean pdfEmbedded);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setStrikeThrough(Boolean strikeThrough);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setMarkup(String markup);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setUnderline(Boolean underline);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPattern(String pattern);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setBlankWhenNull(Boolean isBlankWhenNull);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfEncoding(String pdfEncoding);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setPdfFontName(String pdfFontName);
 
 	/**
 	 *
 	 */
+	@JsonSetter
 	public void setFontSize(Float fontSize);
 
 	/**
 	 *
 	 */
+	@JacksonXmlProperty(localName = "conditionalStyle")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRConditionalStyle[] getConditionalStyles();
 }

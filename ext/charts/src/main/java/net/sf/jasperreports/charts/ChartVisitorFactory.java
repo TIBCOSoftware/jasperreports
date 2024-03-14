@@ -23,18 +23,10 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.base.ChartsBaseObjectFactory;
-import net.sf.jasperreports.charts.design.ChartsVerifier;
-import net.sf.jasperreports.charts.fill.ChartsFillObjectFactory;
-import net.sf.jasperreports.charts.util.ChartsApiWriter;
-import net.sf.jasperreports.charts.xml.ChartsXmlWriter;
+import java.util.List;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.design.JRVerifierVisitor;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.util.JRApiWriterVisitor;
-import net.sf.jasperreports.engine.util.JRElementsVisitor;
-import net.sf.jasperreports.engine.xml.XmlWriterVisitor;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net) 
@@ -63,29 +55,14 @@ public final class ChartVisitorFactory
 	 */
 	public ChartVisitor getChartVisitor(JRVisitor visitor)
 	{
-		if (visitor instanceof JRElementsVisitor)
+		List<ElementVisitorAdapter> adapters = DefaultJasperReportsContext.getInstance().getExtensions(ElementVisitorAdapter.class);
+		for (ElementVisitorAdapter adapter : adapters)
 		{
-			return new ChartsElementsVisitor((JRElementsVisitor)visitor);//FIXME7
-		}
-		else if (visitor instanceof JRBaseObjectFactory)
-		{
-			return new ChartsBaseObjectFactory((JRBaseObjectFactory)visitor);//FIXME7
-		}
-		else if (visitor instanceof JRFillObjectFactory)
-		{
-			return new ChartsFillObjectFactory((JRFillObjectFactory)visitor);//FIXME7
-		}
-		else if (visitor instanceof XmlWriterVisitor)
-		{
-			return new ChartsXmlWriter((XmlWriterVisitor)visitor);//FIXME7
-		}
-		else if (visitor instanceof JRVerifierVisitor)
-		{
-			return new ChartsVerifier((JRVerifierVisitor)visitor);//FIXME7
-		}
-		else if (visitor instanceof JRApiWriterVisitor)
-		{
-			return new ChartsApiWriter((JRApiWriterVisitor)visitor);//FIXME7
+			ChartVisitor chartVisitor = adapter.getChartVisitor(visitor);
+			if (chartVisitor != null)
+			{
+				return chartVisitor;
+			}
 		}
 		return  null;
 	}

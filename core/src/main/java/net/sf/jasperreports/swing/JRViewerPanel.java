@@ -348,7 +348,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	@Override
 	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
-		switch(hyperlink.getHyperlinkTypeValue())
+		switch(hyperlink.getHyperlinkType())
 		{
 			case REFERENCE :
 			{
@@ -952,7 +952,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 					hyperlink = (JRPrintHyperlink) element;
 				}
 				boolean hasHyperlink = !hasImageMap 
-					&& hyperlink != null && hyperlink.getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE;
+					&& hyperlink != null && hyperlink.getHyperlinkType() != HyperlinkTypeEnum.NONE;
 				boolean hasTooltip = hyperlink != null && hyperlink.getHyperlinkTooltip() != null;
 
 				if (hasHyperlink || hasImageMap || hasTooltip)
@@ -1060,7 +1060,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
 			if (imageArea != null
-					&& imageArea.getHyperlink().getHyperlinkTypeValue() != HyperlinkTypeEnum.NONE)
+					&& imageArea.getHyperlink().getHyperlinkType() != HyperlinkTypeEnum.NONE)
 			{
 				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
@@ -1143,7 +1143,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	protected String getFallbackTooltip(JRPrintHyperlink hyperlink)
 	{
 		String toolTip = null;
-		switch(hyperlink.getHyperlinkTypeValue())
+		switch(hyperlink.getHyperlinkType())
 		{
 			case REFERENCE :
 			{

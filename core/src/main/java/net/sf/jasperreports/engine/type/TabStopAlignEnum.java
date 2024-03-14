@@ -67,4 +67,12 @@ public enum TabStopAlignEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	/**
+	 *
+	 */
+	public static TabStopAlignEnum getValueOrDefault(TabStopAlignEnum value)
+	{
+		return value == null ? LEFT : value;
+	}
 }

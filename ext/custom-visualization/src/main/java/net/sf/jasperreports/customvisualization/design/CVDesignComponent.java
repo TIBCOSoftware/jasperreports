@@ -26,6 +26,8 @@ package net.sf.jasperreports.customvisualization.design;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.StandardItemData;
@@ -60,12 +62,12 @@ public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engi
 	private transient JRPropertyChangeSupport eventSupport;
 
 	// Component attributes
-	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
+	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	private List<ItemProperty> itemProperties = new ArrayList<>();
 	private List<ItemData> itemDataList = new ArrayList<>();
 	private String processingClass;
-	private OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
+	private OnErrorTypeEnum onErrorType;
 
 	public CVDesignComponent()
 	{
@@ -131,10 +133,10 @@ public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engi
 		return evaluationTime;
 	}
 
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
 		EvaluationTimeEnum old = this.evaluationTime;
-		this.evaluationTime = evaluationTimeValue;
+		this.evaluationTime = evaluationTime;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
@@ -171,6 +173,18 @@ public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engi
 	public List<ItemProperty> getItemProperties()
 	{
 		return itemProperties;
+	}
+
+	@JsonSetter
+	private void setItemProperties(List<ItemProperty> properties)
+	{
+		if (properties != null)
+		{
+			for (ItemProperty property : properties)
+			{
+				addItemProperty(property);
+			}
+		}
 	}
 
 	public void addItemProperty(ItemProperty property)

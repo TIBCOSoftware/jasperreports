@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -75,6 +78,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
+	@JsonSetter("class")
 	public void setValueClassName(String className)
 	{
 		Object old = this.valueClassName;
@@ -101,6 +105,7 @@ public class JRDesignParameter extends JRBaseParameter
 	 * @param typeName the name of the nested value type
 	 * @see #getNestedType()
 	 */
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_nestedType)
 	public void setNestedTypeName(String typeName)
 	{
 		Object old = this.nestedTypeName;

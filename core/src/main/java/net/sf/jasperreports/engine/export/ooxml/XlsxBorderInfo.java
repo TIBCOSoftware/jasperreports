@@ -182,7 +182,7 @@ public class XlsxBorderInfo
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyleValue())
+			switch (pen.getLineStyle())
 			{
 				case DOUBLE :
 				{

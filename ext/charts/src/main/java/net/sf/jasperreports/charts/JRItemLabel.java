@@ -25,6 +25,11 @@ package net.sf.jasperreports.charts;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignItemLabel;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRFont;
 
@@ -35,11 +40,13 @@ import net.sf.jasperreports.engine.JRFont;
  *
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRDesignItemLabel.class)
 public interface JRItemLabel extends JRCloneable
 {
 	/**
 	 * @return the chart the current item label belongs to. 
 	 */
+	@JsonIgnore
 	public JRChart getChart();
 	
 	/**
@@ -50,11 +57,13 @@ public interface JRItemLabel extends JRCloneable
 	/**
 	 * @return the item label text color
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getColor();
 
 	/**
 	 * @return the item label background color
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getBackgroundColor();
 
 	/**

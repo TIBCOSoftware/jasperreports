@@ -63,13 +63,13 @@ public class ChartTemplateImage extends JRTemplateImage
 	/**
 	 *
 	 */
-	private ScaleImageEnum scaleImageValue;
+	private ScaleImageEnum scaleImage;
 	private RotationEnum rotation;
 	private Boolean isUsingCache = Boolean.TRUE;
 	private HorizontalImageAlignEnum horizontalImageAlign;
 	private VerticalImageAlignEnum verticalImageAlign;
 	protected boolean isLazy;
-	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
+	protected OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
 	private String linkType;
 	private String linkTarget;
 
@@ -124,13 +124,13 @@ public class ChartTemplateImage extends JRTemplateImage
 		
 		lineBox = image.getLineBox().clone(this);
 
-		setScaleImage(image.getOwnScaleImageValue());
+		setScaleImage(image.getOwnScaleImage());
 		setRotation(image.getOwnRotation());
 		setUsingCache(image.getUsingCache());
 		setHorizontalImageAlign(image.getOwnHorizontalImageAlign());
 		setVerticalImageAlign(image.getOwnVerticalImageAlign());
 		setLazy(image.isLazy());
-		setOnErrorType(image.getOnErrorTypeValue());
+		setOnErrorType(image.getOnErrorType());
 		setLinkType(image.getLinkType());
 		setLinkTarget(image.getLinkTarget());
 	}
@@ -171,27 +171,27 @@ public class ChartTemplateImage extends JRTemplateImage
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return getStyleResolver().getScaleImageValue(this);
+		return getStyleResolver().getScaleImage(this);
 	}
 
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return this.scaleImageValue;
+		return this.scaleImage;
 	}
 
 	@Override
-	public void setScaleImage(ScaleImageEnum scaleImageValue)
+	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
-		this.scaleImageValue = scaleImageValue;
+		this.scaleImage = scaleImage;
 	}
 
 	@Override
@@ -291,17 +291,17 @@ public class ChartTemplateImage extends JRTemplateImage
 	/**
 	 *
 	 */
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return this.onErrorTypeValue;
+		return this.onErrorType;
 	}
 
 	/**
 	 *
 	 */
-	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
-		this.onErrorTypeValue = onErrorTypeValue;
+		this.onErrorType = onErrorType;
 	}
 
 	
@@ -316,9 +316,9 @@ public class ChartTemplateImage extends JRTemplateImage
 	 * @return one of the hyperlink type constants
 	 * @see #getLinkType()
 	 */
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
+		return JRHyperlinkHelper.getHyperlinkType(getLinkType());
 	}
 
 	
@@ -337,9 +337,9 @@ public class ChartTemplateImage extends JRTemplateImage
 	/**
 	 *
 	 */
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
+		return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
 	}
 		
 	/**
@@ -420,13 +420,13 @@ public class ChartTemplateImage extends JRTemplateImage
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		addGraphicHash(hash);
-		hash.add(scaleImageValue);
+		hash.add(scaleImage);
 		hash.add(rotation);
 		hash.add(isUsingCache);
 		hash.add(horizontalImageAlign);
 		hash.add(verticalImageAlign);
 		hash.add(isLazy);
-		hash.add(onErrorTypeValue);
+		hash.add(onErrorType);
 		hash.add(linkType);
 		hash.add(linkTarget);
 		hash.addIdentical(lineBox);
@@ -448,13 +448,13 @@ public class ChartTemplateImage extends JRTemplateImage
 		
 		ChartTemplateImage template = (ChartTemplateImage) object;
 		return graphicIdentical(template)
-				&& ObjectUtils.equals(scaleImageValue, template.scaleImageValue)
+				&& ObjectUtils.equals(scaleImage, template.scaleImage)
 				&& ObjectUtils.equals(rotation, template.rotation)
 				&& ObjectUtils.equals(isUsingCache, template.isUsingCache)
 				&& ObjectUtils.equals(horizontalImageAlign, template.horizontalImageAlign)
 				&& ObjectUtils.equals(verticalImageAlign, template.verticalImageAlign)
 				&& ObjectUtils.equals(isLazy, template.isLazy)
-				&& ObjectUtils.equals(onErrorTypeValue, template.onErrorTypeValue)
+				&& ObjectUtils.equals(onErrorType, template.onErrorType)
 				&& ObjectUtils.equals(linkType, template.linkType)
 				&& ObjectUtils.equals(linkTarget, template.linkTarget)
 				&& ObjectUtils.identical(lineBox, template.lineBox);
@@ -465,7 +465,7 @@ public class ChartTemplateImage extends JRTemplateImage
 	{
 		super.populateStyle();
 		
-		scaleImageValue = getScaleImageValue();
+		scaleImage = getScaleImage();
 		rotation = getRotation();
 		horizontalImageAlign = getHorizontalImageAlign();
 		verticalImageAlign = getVerticalImageAlign();

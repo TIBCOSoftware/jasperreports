@@ -25,6 +25,8 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.base.JRBaseItemLabel;
@@ -55,6 +57,13 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 //	public static final String PROPERTY_MASK = "mask";
 
 
+	@JsonCreator
+	private JRDesignItemLabel()
+	{
+		this(null, null);
+	}
+
+	
 	/**
 	 * Constructs a new item label that is a copy of an existing one.
 	 *

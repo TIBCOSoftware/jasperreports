@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.charts.ChartDataset;
 
@@ -32,6 +34,8 @@ import net.sf.jasperreports.components.charts.ChartDataset;
  */
 public interface SpiderDataset extends ChartDataset
 {
+
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCategorySeries[] getSeries();
 	
 }

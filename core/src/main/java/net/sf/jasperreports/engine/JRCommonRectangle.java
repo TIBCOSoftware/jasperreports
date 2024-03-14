@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
  * An abstract representation of a graphic element representing a rectangle.
@@ -43,13 +47,17 @@ public interface JRCommonRectangle extends JRStyleContainer
 	/**
 	 * Indicates the corner radius for rectangles with round corners. The default is 0.
 	 */
+	@JsonIgnore
 	public int getRadius();
 
+	@JsonGetter("radius")
+	@JacksonXmlProperty(localName = "radius", isAttribute = true)
 	public Integer getOwnRadius();
 
 	/**
 	 * Sets the corner radius for rectangles with round corners.
 	 */
+	@JsonSetter
 	public void setRadius(Integer radius);
 
 	

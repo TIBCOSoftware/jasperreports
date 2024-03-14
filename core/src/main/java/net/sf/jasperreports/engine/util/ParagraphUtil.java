@@ -85,7 +85,7 @@ public final class ParagraphUtil
 		float rightX = advance;
 		if (tabStop != null)
 		{
-			switch (tabStop.getAlignment())
+			switch (TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment()))
 			{
 				case RIGHT ://FIXMETAB RTL writings
 				{
@@ -116,7 +116,7 @@ public final class ParagraphUtil
 		float leftX = 0;
 		if (tabStop != null)
 		{
-			switch (tabStop.getAlignment())
+			switch (TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment()))
 			{
 				case RIGHT ://FIXMETAB RTL writings
 				{
@@ -147,7 +147,7 @@ public final class ParagraphUtil
 		float segmentOffset = rightX;
 		if (tabStop != null)
 		{
-			switch (tabStop.getAlignment())
+			switch (TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment()))
 			{
 				case RIGHT ://FIXMETAB RTL writings
 				{
@@ -244,7 +244,23 @@ public final class ParagraphUtil
 		return lastTabStop;
 	}
 	
-
+	
+	public static boolean hasOwnValues(JRParagraph paragraph)
+	{
+		return 
+			paragraph.getOwnFirstLineIndent() != null
+			|| paragraph.getOwnLeftIndent() != null
+			|| paragraph.getOwnLineSpacing() != null
+			|| paragraph.getOwnLineSpacingSize() != null
+			|| paragraph.getOwnRightIndent() != null
+			|| paragraph.getOwnSpacingAfter() != null
+			|| paragraph.getOwnSpacingBefore() != null
+			|| paragraph.getOwnTabStopWidth() != null
+			|| (paragraph.getOwnTabStops() != null 
+				&& paragraph.getOwnTabStops().length > 0);
+	}
+	
+	
 	private ParagraphUtil()
 	{
 	}

@@ -25,14 +25,23 @@ package net.sf.jasperreports.components.table;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 /**
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("group")
+@JsonDeserialize(as = StandardColumnGroup.class)
 public interface ColumnGroup extends BaseColumn
 {
 
+	@JacksonXmlProperty(localName = "column")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<BaseColumn> getColumns();
 	
 }

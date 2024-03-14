@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 
@@ -36,6 +38,7 @@ public interface JRBoxPen extends JRPen
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRLineBox getBox();
 
 	/**

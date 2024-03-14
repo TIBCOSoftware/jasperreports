@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -45,10 +47,10 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private OrientationEnum orientationValue;
+	private OrientationEnum orientation;
 	private JRExpression patternExpression;
 	private Double moduleWidth;
-	private TextPositionEnum textPositionValue;
+	private TextPositionEnum textPosition;
 	private Double quietZone;
 	private Double verticalQuietZone;
 
@@ -56,17 +58,18 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 	{
 	}
 	
-	public OrientationEnum getOrientationValue()
+	@JacksonXmlProperty(isAttribute = true)
+	public OrientationEnum getOrientation()
 	{
-		return orientationValue == null ? OrientationEnum.UP : orientationValue;
+		return orientation;
 	}
 
-	public void setOrientation(OrientationEnum orientationValue)
+	public void setOrientation(OrientationEnum orientation)
 	{
-		OrientationEnum old = this.orientationValue;
-		this.orientationValue = orientationValue;
+		OrientationEnum old = this.orientation;
+		this.orientation = orientation;
 		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, 
-				old, this.orientationValue);
+				old, this.orientation);
 	}
 
 	public JRExpression getPatternExpression()
@@ -82,6 +85,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.patternExpression);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getModuleWidth()
 	{
 		return moduleWidth;
@@ -95,17 +99,18 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.moduleWidth);
 	}
 
-	public TextPositionEnum getTextPositionValue()
+	@JacksonXmlProperty(isAttribute = true)
+	public TextPositionEnum getTextPosition()
 	{
-		return textPositionValue;
+		return textPosition;
 	}
 
-	public void setTextPosition(TextPositionEnum textPositionValue)
+	public void setTextPosition(TextPositionEnum textPosition)
 	{
-		Object old = this.textPositionValue;
-		this.textPositionValue = textPositionValue;
+		Object old = this.textPosition;
+		this.textPosition = textPosition;
 		getEventSupport().firePropertyChange(PROPERTY_TEXT_POSITION, 
-				old, this.textPositionValue);
+				old, this.textPosition);
 	}
 
 	@Override
@@ -118,6 +123,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		return clone;
 	}
 	
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getQuietZone()
 	{
 		return quietZone;
@@ -131,6 +137,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.quietZone);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getVerticalQuietZone()
 	{
 		return verticalQuietZone;

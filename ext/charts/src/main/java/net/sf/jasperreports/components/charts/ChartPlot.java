@@ -26,6 +26,10 @@ package net.sf.jasperreports.components.charts;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
@@ -37,6 +41,7 @@ public interface ChartPlot extends Serializable, JRCloneable
 	/**
 	 * Gets the chart background color.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getBackcolor();
 	
 	/**
@@ -44,6 +49,8 @@ public interface ChartPlot extends Serializable, JRCloneable
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Float getBackgroundAlpha();
 	
 	/**
@@ -51,6 +58,8 @@ public interface ChartPlot extends Serializable, JRCloneable
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Float getForegroundAlpha();
 	
 //	/**

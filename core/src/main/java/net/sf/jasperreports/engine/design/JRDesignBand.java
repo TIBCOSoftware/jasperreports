@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
@@ -60,7 +62,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 *
 	 */
 	protected int height;
-	protected SplitTypeEnum splitTypeValue;
+	protected SplitTypeEnum splitType;
 
 	/**
 	 *
@@ -97,17 +99,17 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 
 	@Override
-	public SplitTypeEnum getSplitTypeValue()
+	public SplitTypeEnum getSplitType()
 	{
-		return splitTypeValue;
+		return splitType;
 	}
 
 	@Override
-	public void setSplitType(SplitTypeEnum splitTypeValue)
+	public void setSplitType(SplitTypeEnum splitType)
 	{
-		SplitTypeEnum old = this.splitTypeValue;
-		this.splitTypeValue = splitTypeValue;
-		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitTypeValue);
+		SplitTypeEnum old = this.splitType;
+		this.splitType = splitType;
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitType);
 	}
 
 	@Override
@@ -137,6 +139,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 * 
 	 * @return the band origin
 	 */
+	@JsonIgnore
 	public JROrigin getOrigin()
 	{
 		return origin;

@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.part;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 import net.sf.jasperreports.engine.JRPart;
 
 /**
@@ -32,6 +36,7 @@ import net.sf.jasperreports.engine.JRPart;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRPart
  */
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "kind")
 public interface PartComponent
 {
 

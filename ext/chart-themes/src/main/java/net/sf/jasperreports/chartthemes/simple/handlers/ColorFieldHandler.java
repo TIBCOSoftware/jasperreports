@@ -27,6 +27,9 @@ import java.awt.Color;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
+import net.sf.jasperreports.jackson.util.ColorDeserializer;
+import net.sf.jasperreports.jackson.util.ColorSerializer;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

@@ -25,6 +25,8 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRItemLabel;
@@ -71,6 +73,12 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot implements JRDesignCatego
 	public static final String PROPERTY_VALUE_AXIS_VERTICAL_TICK_LABELS = "valueAxisVerticalTickLabels";
 
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
+
+	@JsonCreator
+	private JRDesignBar3DPlot()
+	{
+		this(null, null);
+	}
 
 	/**
 	 *

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
@@ -65,11 +64,11 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	{
 		super(filler, element, factory);
 		
-		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
+		Component elementComponent = element.getComponent();
+		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(elementComponent);
 		
 		factory.trackDatasetRuns();
-		fillComponent = manager.getComponentFillFactory(filler.getJasperReportsContext()).toFillComponent(element.getComponent(), factory);
+		fillComponent = manager.getComponentFillFactory(filler.getJasperReportsContext()).toFillComponent(elementComponent, factory);
 		fillComponent.initialize(this);
 		this.componentDatasetRuns = factory.getTrackedDatasetRuns();
 	}
@@ -79,8 +78,8 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	{
 		super(element, factory);
 		
-		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
+		Component elementComponent = element.getComponent();
+		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(elementComponent);
 		fillComponent = manager.getComponentFillFactory(filler.getJasperReportsContext()).cloneFillComponent(element.fillComponent, factory);
 		fillComponent.initialize(this);
 	}
@@ -263,12 +262,6 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 	public Component getComponent()
 	{
 		return ((JRComponentElement) parent).getComponent();
-	}
-
-	@Override
-	public ComponentKey getComponentKey()
-	{
-		return ((JRComponentElement) parent).getComponentKey();
 	}
 	
 	@Override

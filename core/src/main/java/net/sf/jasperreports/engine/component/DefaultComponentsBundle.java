@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.component;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -38,37 +40,21 @@ import java.util.Set;
 public class DefaultComponentsBundle implements ComponentsBundle
 {
 
-	private ComponentsXmlParser xmlParser;
-	private Map<String,ComponentManager> componentManagers;
+	private Map<Class<? extends Component>, ComponentManager> componentManagers;
 
 	@Override
-	public ComponentsXmlParser getXmlParser()
-	{
-		return xmlParser;
-	}
-
-	/**
-	 * Sets the components XML parser implementation.
-	 * 
-	 * @param xmlParser the components XML parser
-	 * @see #getXmlParser()
-	 */
-	public void setXmlParser(ComponentsXmlParser xmlParser)
-	{
-		this.xmlParser = xmlParser;
-	}
-
-	@Override
-	public Set<String> getComponentNames()
+	public Set<Class<? extends Component>> getComponentTypes()
 	{
 		return componentManagers.keySet();
 	}
 	
 	@Override
-	public ComponentManager getComponentManager(String componentName)
+	public Optional<ComponentManager> getComponentManager(Class<? extends Component> componentType)
 	{
-		ComponentManager manager = componentManagers.get(componentName);
-		return manager;
+		//TODO handle class hierarchies?
+		return componentManagers.entrySet().stream()
+				.filter(entry -> entry.getKey().isAssignableFrom(componentType))
+				.findFirst().map(Entry::getValue);
 	}
 	
 	/**
@@ -77,7 +63,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * @return the map of component managers
 	 * @see #setComponentManagers(Map)
 	 */
-	public Map<String,ComponentManager> getComponentManagers()
+	public Map<Class<? extends Component>, ComponentManager> getComponentManagers()
 	{
 		return componentManagers;
 	}
@@ -91,7 +77,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * 
 	 * @param componentManagers the map of component managers
 	 */
-	public void setComponentManagers(Map<String,ComponentManager> componentManagers)
+	public void setComponentManagers(Map<Class<? extends Component>, ComponentManager> componentManagers)
 	{
 		this.componentManagers = componentManagers;
 	}

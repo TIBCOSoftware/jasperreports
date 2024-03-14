@@ -30,20 +30,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
-import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
-import net.sf.jasperreports.engine.util.XmlNamespace;
 
 
 /**
@@ -52,13 +47,10 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRXmlTemplateLoader
  */
-public class JRXmlTemplateWriter extends JRXmlBaseWriter
+public class JRXmlTemplateWriter
 {
 
 	private static final Log log = LogFactory.getLog(JRXmlTemplateWriter.class);
-	
-	public static final XmlNamespace JASPERTEMPLATE_NAMESPACE = 
-			new XmlNamespace(JRXmlConstants.JASPERTEMPLATE_NAMESPACE, null, JRXmlConstants.JASPERTEMPLATE_XSD_SYSTEM_ID);
 	
 	/**
 	 * Default XML output encoding.
@@ -275,106 +267,21 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	protected static void writeTemplate(JasperReportsContext jasperReportsContext, 
 			JRTemplate template, Writer out, String encoding) throws IOException
 	{
-		JRXmlTemplateWriter writer = new JRXmlTemplateWriter(jasperReportsContext, template, out, encoding);
-		writer.write();
-		out.flush();
-	}
-	
-	private final JRTemplate template;
-	private final String encoding;
-	
-	/**
-	 * Creates an XML template writer.
-	 * 
-	 * @param template the template to write
-	 * @param out the output writer
-	 * @param encoding the XML encoding to use
-	 */
-	public JRXmlTemplateWriter(JRTemplate template, Writer out, String encoding)
-	{
-		this(DefaultJasperReportsContext.getInstance(), template, out, encoding);
-	}
-	
-	/**
-	 * Creates an XML template writer.
-	 * 
-	 * @param jasperReportsContext
-	 * @param template the template to write
-	 * @param out the output writer
-	 * @param encoding the XML encoding to use
-	 */
-	public JRXmlTemplateWriter(JasperReportsContext jasperReportsContext, 
-			JRTemplate template, Writer out, String encoding)
-	{
-		this.template = template;
-		this.encoding = encoding;
-		
-		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
-		useWriter(new JRXmlWriteHelper(out), version);
-	}
-
-	/**
-	 * Writes the template to the output writer.
-	 * 
-	 * @throws IOException
-	 */
-	public void write() throws IOException
-	{
-		writer.writeProlog(encoding);
-		
-		XmlNamespace namespace;
-		if (isNewerVersionOrEqual(JRConstants.VERSION_6_3_0))
+		List<ReportWriter> writers = jasperReportsContext.getExtensions(ReportWriter.class);
+		for (ReportWriter reportWriter : writers)
 		{
-			namespace = JASPERTEMPLATE_NAMESPACE;
-		}
-		else
-		{
-			writer.writePublicDoctype(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, 
-					JRXmlConstants.JASPERTEMPLATE_PUBLIC_ID, JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID);
-			namespace = null;
-		}
-		
-		writer.startElement(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, namespace);
-		writeIncludedTemplates();
-		writeStyles();
-		writer.closeElement();
-	}
-
-	protected void writeIncludedTemplates() throws IOException
-	{
-		JRTemplateReference[] includedTemplates = template.getIncludedTemplates();
-		if (includedTemplates != null)
-		{
-			for (int i = 0; i < includedTemplates.length; i++)
+			boolean written = reportWriter.writeTemplate(jasperReportsContext, template, encoding, out);
+			if (written)
 			{
-				JRTemplateReference reference = includedTemplates[i];
-				writeIncludedTemplate(reference);
+				return;
 			}
 		}
+		//TODO legacyxml
+		throw new JRRuntimeException("Unable to write template");
 	}
-
-	protected void writeIncludedTemplate(JRTemplateReference reference) throws IOException
+	
+	private JRXmlTemplateWriter()
 	{
-		writer.writeCDATAElement(JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE, reference.getLocation());
-		
-	}
-
-	protected void writeStyles() throws IOException
-	{
-		JRStyle[] styles = template.getStyles();
-		if (styles != null)
-		{
-			for (int i = 0; i < styles.length; i++)
-			{
-				JRStyle style = styles[i];
-				writeStyle(style);
-			}
-		}
-	}
-
-	@Override
-	protected boolean toWriteConditionalStyles()
-	{
-		return true;
+		//NOOP
 	}
 }

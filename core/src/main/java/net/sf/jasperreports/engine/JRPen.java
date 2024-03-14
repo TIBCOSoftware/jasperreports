@@ -25,6 +25,13 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 
 
@@ -36,7 +43,7 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
  * Can be accessed using the {@link #getLineWidth()} method.
  * <h3>Line Style</h3>
  * The <code>lineStyle</code> attribute represents the line style and has one of the following predefined values
- * (see {@link #getLineStyleValue()}): 
+ * (see {@link #getLineStyle()}): 
  * <ul>
  * <li><code>Solid</code></li>
  * <li><code>Dashed</code></li>
@@ -59,6 +66,7 @@ public interface JRPen
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRPenContainer getPenContainer();
 
 	/**
@@ -72,44 +80,57 @@ public interface JRPen
 	 * Gets the line width used for this pen.
 	 * @return line width
 	 */
+	@JsonIgnore
 	public Float getLineWidth();
 
+	@JsonGetter("lineWidth")
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(localName = "lineWidth", isAttribute = true)
 	public Float getOwnLineWidth();
 
 	/**
 	 * Sets the line width.
 	 * @param lineWidth the line width
 	 */
+	@JsonSetter
 	public void setLineWidth(Float lineWidth);
 
 	/**
 	 * Indicates the line style used for this pen.
 	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
 	 */
-	public LineStyleEnum getLineStyleValue();
+	@JsonIgnore
+	public LineStyleEnum getLineStyle();
 	
 	/**
 	 * Indicates the line style used for this pen.
 	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
 	 */
-	public LineStyleEnum getOwnLineStyleValue();
+	@JsonGetter("lineStyle")
+	@JacksonXmlProperty(localName = "lineStyle", isAttribute = true)
+	public LineStyleEnum getOwnLineStyle();
 	
 	/**
 	 * Specifies the line style.
 	 * @param lineStyleEnum a value representing one of the line style constants in {@link LineStyleEnum}
 	 */
+	@JsonSetter
 	public void setLineStyle(LineStyleEnum lineStyleEnum);
 	
 	/**
 	 * Gets the line color.
 	 */
+	@JsonIgnore
 	public Color getLineColor();
 
+	@JsonGetter("lineColor")
+	@JacksonXmlProperty(localName = "lineColor", isAttribute = true)
 	public Color getOwnLineColor();
 
 	/**
 	 * Sets the line color.
 	 */
+	@JsonSetter
 	public void setLineColor(Color color);
 
 }

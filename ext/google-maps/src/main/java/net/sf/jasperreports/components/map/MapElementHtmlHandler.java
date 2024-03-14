@@ -62,7 +62,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
         contextMap.put("elementWidth", element.getWidth());
         contextMap.put("elementHeight", element.getHeight());
 
-        if (element.getModeValue() == ModeEnum.OPAQUE)
+        if (element.getMode() == ModeEnum.OPAQUE)
         {
             contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
         }

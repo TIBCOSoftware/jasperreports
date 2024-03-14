@@ -26,24 +26,40 @@ package net.sf.jasperreports.customvisualization;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.customvisualization.design.CVDesignComponent;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
+@JsonTypeName(CVConstants.COMPONENT_NAME)
+@JsonDeserialize(as = CVDesignComponent.class)
 public interface CVComponent extends Component, ContextAwareComponent, JRCloneable, Serializable
 {
+	@JacksonXmlProperty(isAttribute = true)
 	public EvaluationTimeEnum getEvaluationTime();
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getEvaluationGroup();
 
+	@JacksonXmlProperty(isAttribute = true)
 	public String getProcessingClass();
 
+	@JsonGetter("properties")
+	@JacksonXmlProperty(localName = "property")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemProperty> getItemProperties();
 
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemData> getItemData();
 
 	/**
@@ -52,5 +68,6 @@ public interface CVComponent extends Component, ContextAwareComponent, JRCloneab
 	 * @return a value representing one of the missing image handling constants
 	 *         in {@link OnErrorTypeEnum}
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public OnErrorTypeEnum getOnErrorType();
 }

@@ -64,7 +64,7 @@ public class JRDesignSortField extends JRBaseSortField
 	{
 		this.name = name;
 		this.type = type;
-		this.orderValue = order;
+		this.order = order;
 	}
 	
 

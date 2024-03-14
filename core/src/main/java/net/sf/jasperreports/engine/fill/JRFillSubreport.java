@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OverflowType;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -218,7 +219,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -615,8 +616,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			log.debug("Fill " + filler.fillerId + ": creating subreport filler for " + jasperReport.getName());
 		}
 		
-		SectionTypeEnum subreportSectionType = jasperReport.getSectionType();
-		if (subreportSectionType != null && subreportSectionType != SectionTypeEnum.BAND)
+		SectionTypeEnum subreportSectionType = SectionTypeEnum.getValueOrDefault(jasperReport.getSectionType());
+		if (subreportSectionType != SectionTypeEnum.BAND)
 		{
 			throw 
 				new JRRuntimeException(
@@ -627,7 +628,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		subFillerParent = createFillerParent(evaluator);
 
-		switch (jasperReport.getPrintOrderValue())
+		switch (PrintOrderEnum.getValueOrDefault(jasperReport.getPrintOrder()))
 		{
 			case HORIZONTAL :
 			{
@@ -1073,7 +1074,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		//FIXME lucianc create a frame instead to avoid HTML layers
 		JRPrintRectangle printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), printElementOriginator);
 
-		if (printRectangle.getModeValue() == ModeEnum.TRANSPARENT && !printRectangle.hasProperties())
+		if (printRectangle.getMode() == ModeEnum.TRANSPARENT && !printRectangle.hasProperties())
 		{
 			String generateRectangle = generateRectangleOption();
 			if (log.isDebugEnabled())

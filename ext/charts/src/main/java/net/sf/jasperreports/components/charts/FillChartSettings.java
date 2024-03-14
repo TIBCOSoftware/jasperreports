@@ -109,15 +109,6 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.charts.ChartSettings#getChartType()
-	 */
-	@Override
-	public byte getChartType() {
-		
-		return parent.getChartType();
-	}
-
-	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendBackgroundColor()
 	 */
 	@Override
@@ -280,12 +271,12 @@ public class FillChartSettings implements ChartSettings
 	}
 	
 	/**
-	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTargetValue()
+	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTarget()
 	 */
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue() {
+	public HyperlinkTargetEnum getHyperlinkTarget() {
 		
-		return parent.getHyperlinkTargetValue();
+		return parent.getHyperlinkTarget();
 	}
 	
 	/**
@@ -298,12 +289,12 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTypeValue()
+	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkType()
 	 */
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue() {
+	public HyperlinkTypeEnum getHyperlinkType() {
 		
-		return parent.getHyperlinkTypeValue();
+		return parent.getHyperlinkType();
 	}
 
 	/**

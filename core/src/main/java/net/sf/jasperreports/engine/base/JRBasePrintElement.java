@@ -56,7 +56,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	protected ModeEnum modeValue;
+	protected ModeEnum mode;
 	protected int x;
 	protected int y;
 	protected int width;
@@ -138,21 +138,21 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	}
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return modeValue;
+		return mode;
 	}
 
 	@Override
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
-		this.modeValue = modeValue;
+		this.mode = mode;
 	}
 
 	@Override

@@ -290,7 +290,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			Boolean canSort = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_SORT));
 			Boolean canFilter = Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER));
 
-			if (element.getModeValue() == ModeEnum.OPAQUE)
+			if (element.getMode() == ModeEnum.OPAQUE)
 			{
 				contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
@@ -451,7 +451,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 				for (JRSortField field: existingFields) {
 					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
 						sortField = sortColumnName + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR;
-						switch (field.getOrderValue()) {
+						switch (field.getOrder()) {
 							case ASCENDING:
 								sortField += HeaderToolbarElement.SORT_ORDER_ASC;
 								break;

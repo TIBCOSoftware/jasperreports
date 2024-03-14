@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
@@ -54,6 +58,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  * @see net.sf.jasperreports.engine.fill.DatasetSortUtil
  * @see net.sf.jasperreports.engine.fill.SortedDataSource
  */
+@JsonDeserialize(as = JRDesignSortField.class)
 public interface JRSortField extends JRCloneable
 {
 
@@ -61,16 +66,19 @@ public interface JRSortField extends JRCloneable
 	/**
 	 * Gets the sort field name.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getName();
 		
 	/**
 	 * Gets the sort order for the field.
 	 */
-	public SortOrderEnum getOrderValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public SortOrderEnum getOrder();
 		
 	/**
 	 * Gets the type of the sort field.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public SortFieldTypeEnum getType();
 
 }

@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 /**
@@ -35,7 +40,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
  * evaluated at runtime to produce the text content that will be displayed. Both types of text
  * elements share some properties, and those are introduced using a &lt;textElement&gt; tag.
  * <h3>Rotating Text</h3>
- * The <code>rotation</code> attribute (see {@link #getRotationValue()}), available for text elements, 
+ * The <code>rotation</code> attribute (see {@link #getRotation()}), available for text elements, 
  * allows changing the text direction by rotating it 90 degrees to the right or to the left, or by 
  * rotating it 180 degrees to be rendered upside down. Possible values are:
  * <ul>
@@ -108,29 +113,37 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	 * Gets the text rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
-	public RotationEnum getRotationValue();
+	@JsonIgnore
+	public RotationEnum getRotation();
 	
 	/**
 	 * Gets the text own rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
-	public RotationEnum getOwnRotationValue();
+	@JsonGetter("rotation")
+	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
+	public RotationEnum getOwnRotation();
 	
 	/**
 	 * Sets the text rotation.
 	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
+	@JsonSetter
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
 	 * Returns the text markup.
 	 */
+	@JsonIgnore
 	public String getMarkup();
 
+	@JsonGetter("markup")
+	@JacksonXmlProperty(localName = "markup", isAttribute = true)
 	public String getOwnMarkup();
 	
+	@JsonSetter
 	public void setMarkup(String markup);
 
-	float getFontsize();
+	float getFontSize();
 	
 }

@@ -208,9 +208,9 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	}
 	
 	@Override
-	public ScaleTypeEnum getScaleTypeValue()
+	public ScaleTypeEnum getScaleType()
 	{
-		return ((JRBubblePlot)parent).getScaleTypeValue();
+		return ((JRBubblePlot)parent).getScaleType();
 	}
 	
 	@Override

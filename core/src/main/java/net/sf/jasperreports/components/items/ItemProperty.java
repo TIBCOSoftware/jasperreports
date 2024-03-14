@@ -23,8 +23,13 @@
  */
 package net.sf.jasperreports.components.items;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.jackson.util.ItemPropertyDeserializer;
+import net.sf.jasperreports.jackson.util.ItemPropertySerializer;
 
 /**
  * The ItemProperty interface. An item property has a name (required) and a 
@@ -33,6 +38,8 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonSerialize(using = ItemPropertySerializer.class)
+@JsonDeserialize(using = ItemPropertyDeserializer.class)
 public interface ItemProperty extends JRCloneable
 {
 

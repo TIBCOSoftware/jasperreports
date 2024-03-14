@@ -25,6 +25,9 @@ package net.sf.jasperreports.charts.design;
 
 import java.awt.Color;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.base.JRBaseValueDisplay;
@@ -53,6 +56,12 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 	public static final String PROPERTY_MASK = "mask";
 
 
+	@JsonCreator
+	private JRDesignValueDisplay()
+	{
+		this(null, null);
+	}
+
 	/**
 	 * Constructs a new value display that is a copy of an existing one.
 	 *
@@ -68,6 +77,7 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 	 *
 	 * @param color the color to use when displaying the value
 	 */
+	@JsonSetter
 	public void setColor(Color color)
 	{
 		Object old = this.color;

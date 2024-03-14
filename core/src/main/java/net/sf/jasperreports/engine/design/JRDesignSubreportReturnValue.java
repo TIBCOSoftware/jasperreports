@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseSubreportReturnValue;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRSubreportReturnValue JRSubreportReturnValue}
@@ -57,6 +60,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	 * @param name the variable name
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getFromVariable()
 	 */
+	@JsonSetter("subreportVariable")
 	public void setSubreportVariable(String name)
 	{
 		Object old = this.subreportVariable;
@@ -80,14 +84,14 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	/**
 	 * Sets the calculation type.
 	 * 
-	 * @param calculationValue the calculation type
+	 * @param calculation the calculation type
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getCalculation()
 	 */
-	public void setCalculation(CalculationEnum calculationValue)
+	public void setCalculation(CalculationEnum calculation)
 	{
-		CalculationEnum old = this.calculationValue;
-		this.calculationValue = calculationValue;
-		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculationValue);
+		CalculationEnum old = this.calculation;
+		this.calculation = calculation;
+		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 	
 	/**
@@ -96,6 +100,14 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	 * @param incrementerFactoryClassName the name of the incrementer factory class
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getIncrementerFactoryClassName()
 	 */
+	/*
+	 * JACKSON-TIP
+	 * Without this setter annotation here, the value of the field would not be serialized in xml unless the getter specifies a localName for the xml annotation.
+	 * Note that this does not have anything to do with the fact that the corresponding field in the super class called incrementerFactoryClassName is marked with JsonIgnore or not.
+	 * That field gets serialized in XML unless hidden by this named setter or by a JsonIgnore annotation attached to it.
+	 * Similar cases exist across all object model, for example the valueClassName field in the JRVariable interface.
+	 */
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;

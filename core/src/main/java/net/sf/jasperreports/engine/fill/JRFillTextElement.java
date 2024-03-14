@@ -255,7 +255,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
@@ -297,15 +297,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	@Override
-	public RotationEnum getRotationValue()
+	public RotationEnum getRotation()
 	{
-		return getStyleResolver().getRotationValue(this);
+		return getStyleResolver().getRotation(this);
 	}
 		
 	@Override
-	public RotationEnum getOwnRotationValue()
+	public RotationEnum getOwnRotation()
 	{
-		return providerStyle == null || providerStyle.getOwnRotationValue() == null ? ((JRTextElement)this.parent).getOwnRotationValue() : providerStyle.getOwnRotationValue();
+		return providerStyle == null || providerStyle.getOwnRotation() == null ? ((JRTextElement)this.parent).getOwnRotation() : providerStyle.getOwnRotation();
 	}
 
 	@Override
@@ -372,7 +372,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			FontUtil.getInstance(filler.getJasperReportsContext()).getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
-			if (getModeValue() == ModeEnum.OPAQUE)
+			if (getMode() == ModeEnum.OPAQUE)
 			{
 				styledTextAttributes.put(TextAttribute.BACKGROUND, getBackcolor());
 			}
@@ -417,7 +417,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public RunDirectionEnum getRunDirectionValue()
+	public RunDirectionEnum getRunDirection()
 	{
 		return isLeftToRight ? RunDirectionEnum.LTR : RunDirectionEnum.RTL;
 	}
@@ -748,7 +748,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				providerStyle = new JRBaseStyle();
 			}
-			providerStyle.setFontSize(scaleFontSize(getFontsize(), lastGoodFactor, scaleFontStepLimit));
+			providerStyle.setFontSize(scaleFontSize(getFontSize(), lastGoodFactor, scaleFontStepLimit));
 		}
 		
 		isLeftToRight = measuredText.isLeftToRight();
@@ -756,7 +756,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextHeight(measuredText.getTextHeight());
 		
 		//elementStretchHeightDelta = 0;
-		if (getRotationValue().equals(RotationEnum.NONE))
+		if (getRotation().equals(RotationEnum.NONE))
 		{
 			@SuppressWarnings("deprecation")
 			int intTextHeight =  (int) (filler.isLegacyTextMeasuring() ? getTextHeight() : Math.ceil(getTextHeight()));
@@ -984,15 +984,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	@Override
-	public float getFontsize()
+	public float getFontSize()
 	{
-		return getStyleResolver().getFontsize(this);
+		return getStyleResolver().getFontSize(this);
 	}
 
 	@Override
-	public Float getOwnFontsize()
+	public Float getOwnFontSize()
 	{
-		return providerStyle == null || providerStyle.getOwnFontsize() == null ? ((JRFont)parent).getOwnFontsize() : providerStyle.getOwnFontsize();
+		return providerStyle == null || providerStyle.getOwnFontSize() == null ? ((JRFont)parent).getOwnFontSize() : providerStyle.getOwnFontSize();
 	}
 
 	@Override

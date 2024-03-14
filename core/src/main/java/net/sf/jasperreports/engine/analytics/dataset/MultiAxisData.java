@@ -25,21 +25,32 @@ package net.sf.jasperreports.engine.analytics.dataset;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.analytics.data.Axis;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignMultiAxisData.class)
 public interface MultiAxisData extends JRCloneable
 {
 	
 	MultiAxisDataset getDataset();
 	
+	@JsonGetter("dataAxes")
+	@JacksonXmlProperty(localName = "dataAxis")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<DataAxis> getDataAxisList();
 	
 	DataAxis getDataAxis(Axis axis);
 	
+	@JacksonXmlProperty(localName = "measure")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<DataMeasure> getMeasures();
 
 }

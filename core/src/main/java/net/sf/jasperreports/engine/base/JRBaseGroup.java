@@ -80,7 +80,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isReprintHeaderOnEachColumn;
 	protected int minHeightToStartNewPage;
 	protected int minDetailsToStartFromTop;
-	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
+	protected FooterPositionEnum footerPosition;
 	protected boolean keepTogether;
 	protected boolean preventOrphanFooter;
 
@@ -116,7 +116,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isReprintHeaderOnEachColumn = group.isReprintHeaderOnEachColumn();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
 		minDetailsToStartFromTop = group.getMinDetailsToStartFromTop();
-		footerPositionValue = group.getFooterPositionValue();
+		footerPosition = group.getFooterPosition();
 		keepTogether = group.isKeepTogether();
 		preventOrphanFooter = group.isPreventOrphanFooter();
 		
@@ -233,17 +233,17 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 	
 	@Override
-	public FooterPositionEnum getFooterPositionValue()
+	public FooterPositionEnum getFooterPosition()
 	{
-		return this.footerPositionValue;
+		return this.footerPosition;
 	}
 		
 	@Override
-	public void setFooterPosition(FooterPositionEnum footerPositionValue)
+	public void setFooterPosition(FooterPositionEnum footerPosition)
 	{
-		FooterPositionEnum old = this.footerPositionValue;
-		this.footerPositionValue = footerPositionValue;
-		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPositionValue);
+		FooterPositionEnum old = this.footerPosition;
+		this.footerPosition = footerPosition;
+		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPosition);
 	}
 		
 	@Override

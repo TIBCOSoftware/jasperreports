@@ -117,7 +117,7 @@ public final class BarcodeUtils
 	
 	public static boolean isVertical(Barcode4jComponent barcode)
 	{
-		OrientationEnum orientation = barcode.getOrientationValue();
+		OrientationEnum orientation = barcode.getOrientation();
 		return orientation == OrientationEnum.LEFT
 				|| orientation == OrientationEnum.RIGHT;
 	}

@@ -23,12 +23,19 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
+
 /**
  * A generic report element parameter.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRGenericElement#getParameters()
  */
+@JsonDeserialize(as = JRDesignGenericElementParameter.class)
 public interface JRGenericElementParameter extends JRCloneable
 {
 
@@ -41,6 +48,7 @@ public interface JRGenericElementParameter extends JRCloneable
 	 * 
 	 * @return the name of the parameter
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	String getName();
 	
 	/**
@@ -53,6 +61,7 @@ public interface JRGenericElementParameter extends JRCloneable
 	 * 
 	 * @return the parameter's value expression
 	 */
+	@JsonGetter("expression")
 	JRExpression getValueExpression();
 	
 	/**
@@ -68,6 +77,7 @@ public interface JRGenericElementParameter extends JRCloneable
 	 * @return whether the parameter is skipped when its value is
 	 * <code>null</code>
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	boolean isSkipWhenEmpty();
 	
 }

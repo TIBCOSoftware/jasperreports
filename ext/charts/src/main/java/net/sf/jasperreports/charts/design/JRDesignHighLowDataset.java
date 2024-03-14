@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
@@ -68,6 +70,13 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	protected JRExpression closeExpression;
 	protected JRExpression volumeExpression;
 	private JRHyperlink itemHyperlink;
+
+
+	@JsonCreator
+	private JRDesignHighLowDataset()
+	{
+		this(null);
+	}
 
 
 	/**

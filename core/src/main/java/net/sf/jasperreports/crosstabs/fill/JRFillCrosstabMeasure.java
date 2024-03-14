@@ -81,9 +81,9 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	}
 
 	@Override
-	public CalculationEnum getCalculationValue()
+	public CalculationEnum getCalculation()
 	{
-		return parentMeasure.getCalculationValue();
+		return CalculationEnum.getValueOrDefault(parentMeasure.getCalculation());
 	}
 
 	@Override

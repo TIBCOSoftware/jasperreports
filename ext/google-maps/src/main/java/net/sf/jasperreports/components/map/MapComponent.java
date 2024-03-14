@@ -25,6 +25,13 @@ package net.sf.jasperreports.components.map;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.items.Item;
@@ -47,6 +54,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonTypeName("googlemap")
+@JsonDeserialize(as = StandardMapComponent.class)
 public interface MapComponent extends Component, JRCloneable
 {
 	// properties at report element level:
@@ -722,6 +731,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * 
 	 * @return the evaluation time
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	EvaluationTimeEnum getEvaluationTime();
 	
 	/**
@@ -729,6 +739,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * 
 	 * @return the evaluation group
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	String getEvaluationGroup();
 	
 	/**
@@ -742,6 +753,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the type of the Google map
 	 * @see net.sf.jasperreports.components.map.type.MapTypeEnum
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	MapTypeEnum getMapType();
 
 	/**
@@ -754,6 +766,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * </ul>
 	 * @return the scale factor
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	MapScaleEnum getMapScale();
 	
 	/**
@@ -769,6 +782,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the image format of the map
 	 * @see net.sf.jasperreports.components.map.type.MapImageTypeEnum
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	MapImageTypeEnum getImageType();
 	
 	/**
@@ -782,16 +796,19 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the onErrorType attribute
 	 * @see net.sf.jasperreports.engine.type.OnErrorTypeEnum
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	OnErrorTypeEnum getOnErrorType();
 	
 	/**
 	 * @return the {@link #ATTRIBUTE_MARKER_CLUSTERING} attribute
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	Boolean getMarkerClustering();
 
 	/**
 	 * @return the {@link #ATTRIBUTE_MARKER_SPIDERING} attribute
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	Boolean getMarkerSpidering();
 
 	/**
@@ -801,11 +818,15 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return a list of marker data
 	 * @see ItemData
 	 */
+	@JsonGetter("markerData")
+	@JacksonXmlProperty(localName = "markerData")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<MarkerItemData> getMarkerItemDataList();
 
 	/**
 	 * @deprecated Replaced by {@link #getMarkerItemDataList()}.
 	 */
+	@JsonIgnore
 	List<ItemData> getMarkerDataList();
 
 	Item getLegendItem();

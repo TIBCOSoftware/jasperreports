@@ -66,7 +66,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The shape to use when drawing the Meter. Only applied if the meter is
 	 * over 180 degrees wide and less than a full circle.
 	 */
-	protected MeterShapeEnum shapeValue;
+	protected MeterShapeEnum shape;
 
 
 	/**
@@ -92,7 +92,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * is relative to the meter range - if the meter displays 100 to 200 and
 	 * the tickInterval is 20, there will be 4 ticks at 120, 140, 160 and 180.
 	 */
-	protected Double tickIntervalDouble;
+	protected Double tickInterval;
 
 	/**
 	 * The color to use for the face of the meter.
@@ -156,7 +156,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 
 		dataRange = new JRBaseDataRange(meterPlot.getDataRange(), factory);
 		valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), factory);
-		shapeValue = meterPlot.getShapeValue();
+		shape = meterPlot.getShape();
 		List<JRMeterInterval> origIntervals = meterPlot.getIntervals();
 		intervals.clear();
 		if (origIntervals != null)
@@ -171,7 +171,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 
 		meterAngleInteger = meterPlot.getMeterAngleInteger();
 		units = meterPlot.getUnits();
-		tickIntervalDouble = meterPlot.getTickIntervalDouble();
+		tickInterval = meterPlot.getTickInterval();
 		tickCount = meterPlot.getTickCount();
 		meterBackgroundColor = meterPlot.getMeterBackgroundColor();
 		needleColor = meterPlot.getNeedleColor();
@@ -192,9 +192,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public MeterShapeEnum getShapeValue()
+	public MeterShapeEnum getShape()
 	{
-		return shapeValue;
+		return shape;
 	}
 
 	@Override
@@ -215,9 +215,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public Double getTickIntervalDouble()
+	public Double getTickInterval()
 	{
-		return tickIntervalDouble;
+		return tickInterval;
 	}
 
 	@Override

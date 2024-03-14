@@ -23,17 +23,15 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.jackson.util.DataLevelBucketPropertyDeserializer;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface DataLevelBucketProperty extends JRCloneable
+@JsonDeserialize(using = DataLevelBucketPropertyDeserializer.class)
+public interface DataLevelBucketProperty extends ItemProperty
 {
-
-	String getName();
-
-	JRExpression getExpression();
-
 }

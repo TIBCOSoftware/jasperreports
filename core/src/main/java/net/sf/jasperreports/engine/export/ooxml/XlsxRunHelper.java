@@ -225,7 +225,7 @@ public class XlsxRunHelper extends BaseHelper
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		fontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
-		if (text.getModeValue() == ModeEnum.OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE)
 		{
 			styledTextAttributes.put(TextAttribute.BACKGROUND, text.getBackcolor());
 		}

@@ -149,7 +149,7 @@ public class ChromeMapElementImageProvider extends AbstractMapElementImageProvid
         velocityContext.put("elementWidth", element.getWidth());
         velocityContext.put("elementHeight", element.getHeight());
 
-        if (element.getModeValue() == ModeEnum.OPAQUE) {
+        if (element.getMode() == ModeEnum.OPAQUE) {
             velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
         }
 

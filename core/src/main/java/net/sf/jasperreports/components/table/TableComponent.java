@@ -25,8 +25,14 @@ package net.sf.jasperreports.components.table;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.DatasetRunHolder;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -39,6 +45,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName(ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME)
+@JsonDeserialize(as = StandardTable.class)
 public interface TableComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 	/**
@@ -56,18 +64,25 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	@Override
 	JRDatasetRun getDatasetRun();
 
+	@JacksonXmlProperty(localName = "column")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<BaseColumn> getColumns();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	WhenNoDataTypeTableEnum getWhenNoDataType();
 	
 	Row getTableHeader();
 	
 	Row getTableFooter();
 	
+	@JacksonXmlProperty(localName = "groupHeader")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupRow> getGroupHeaders();
 	
 	Row getGroupHeader(String groupName);
 	
+	@JacksonXmlProperty(localName = "groupFooter")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupRow> getGroupFooters();
 	
 	Row getGroupFooter(String groupName);

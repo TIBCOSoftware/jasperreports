@@ -52,7 +52,7 @@ public final class JRBoxUtil
 			{
 				clone.getLeftPen().setLineWidth(complementaryBox.getLeftPen().getLineWidth());
 				clone.getLeftPen().setLineColor(complementaryBox.getLeftPen().getLineColor());
-				clone.getLeftPen().setLineStyle(complementaryBox.getLeftPen().getLineStyleValue());
+				clone.getLeftPen().setLineStyle(complementaryBox.getLeftPen().getLineStyle());
 			}
 			else
 			{
@@ -66,7 +66,7 @@ public final class JRBoxUtil
 			{
 				clone.getRightPen().setLineWidth(complementaryBox.getRightPen().getLineWidth());
 				clone.getRightPen().setLineColor(complementaryBox.getRightPen().getLineColor());
-				clone.getRightPen().setLineStyle(complementaryBox.getRightPen().getLineStyleValue());
+				clone.getRightPen().setLineStyle(complementaryBox.getRightPen().getLineStyle());
 			}
 			else
 			{
@@ -80,7 +80,7 @@ public final class JRBoxUtil
 			{
 				clone.getTopPen().setLineWidth(complementaryBox.getTopPen().getLineWidth());
 				clone.getTopPen().setLineColor(complementaryBox.getTopPen().getLineColor());
-				clone.getTopPen().setLineStyle(complementaryBox.getTopPen().getLineStyleValue());
+				clone.getTopPen().setLineStyle(complementaryBox.getTopPen().getLineStyle());
 			}
 			else
 			{
@@ -94,7 +94,7 @@ public final class JRBoxUtil
 			{
 				clone.getBottomPen().setLineWidth(complementaryBox.getBottomPen().getLineWidth());
 				clone.getBottomPen().setLineColor(complementaryBox.getBottomPen().getLineColor());
-				clone.getBottomPen().setLineStyle(complementaryBox.getBottomPen().getLineStyleValue());
+				clone.getBottomPen().setLineStyle(complementaryBox.getBottomPen().getLineStyle());
 			}
 			else
 			{
@@ -237,7 +237,24 @@ public final class JRBoxUtil
 		box.getLeftPen().setLineWidth(0f);
 		box.getRightPen().setLineWidth(0f);
 	}
-
+	
+	
+	public static boolean hasOwnValues(JRLineBox box)
+	{
+		return 
+			box.getOwnPadding() != null
+			|| JRPenUtil.hasOwnValues(box.getPen())
+			|| box.getOwnTopPadding() != null
+			|| JRPenUtil.hasOwnValues(box.getTopPen())
+			|| box.getOwnLeftPadding() != null
+			|| JRPenUtil.hasOwnValues(box.getLeftPen())
+			|| box.getOwnBottomPadding() != null
+			|| JRPenUtil.hasOwnValues(box.getBottomPen())
+			|| box.getOwnRightPadding() != null
+			|| JRPenUtil.hasOwnValues(box.getRightPen());
+	}
+	
+	
 	private JRBoxUtil()
 	{
 	}

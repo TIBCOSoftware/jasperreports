@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeName("barcode4j:Codabar")
 public class CodabarComponent extends Barcode4jComponent
 {
 
@@ -44,6 +48,7 @@ public class CodabarComponent extends Barcode4jComponent
 		visitor.visitCodabar(this);
 	}
 
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getWideFactor()
 	{
 		return wideFactor;

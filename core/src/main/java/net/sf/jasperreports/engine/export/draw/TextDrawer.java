@@ -81,7 +81,7 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 
 		double angle = 0;
 		
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT :
 			{
@@ -108,7 +108,7 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 
 		grx.rotate(angle, textRenderer.getX(), textRenderer.getY());
 
-		if (text.getModeValue() == ModeEnum.OPAQUE)
+		if (text.getMode() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(text.getBackcolor());
 			grx.fillRect(textRenderer.getX(), textRenderer.getY(), textRenderer.getWidth(), textRenderer.getHeight()); 

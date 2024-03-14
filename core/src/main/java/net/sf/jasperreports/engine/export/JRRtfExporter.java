@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -289,7 +290,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				contentWriter.write("\\deftab");
 				contentWriter.write(String.valueOf(LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth())));
 
-				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
+				if (jasperPrint.getOrientation() == OrientationEnum.LANDSCAPE) {
 					contentWriter.write("\\lndscpsxn");
 				}
 
@@ -426,7 +427,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		Color bgcolor = element.getBackcolor();
 
-		if (element.getModeValue() == ModeEnum.OPAQUE)
+		if (element.getMode() == ModeEnum.OPAQUE)
 		{
 			contentWriter.write("{\\sp{\\sn fFilled}{\\sv 1}}");
 			contentWriter.write("{\\sp{\\sn fillColor}{\\sv ");
@@ -473,7 +474,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			contentWriter.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		}
 
-		switch (pen.getLineStyleValue())
+		switch (pen.getLineStyle())
 		{
 			case DOUBLE :
 			{
@@ -553,7 +554,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		
 		exportPen(line.getLinePen());
 		
-		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+		if (line.getDirection() != LineDirectionEnum.BOTTOM_UP)
 		{
 			contentWriter.write("{\\sp{\\sn fFlipV}{\\sv 0}}");
 		}
@@ -672,7 +673,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		String rotation = null;
 
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 			case LEFT :
 			{
@@ -799,7 +800,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 				String tabStopAlign = "";
 				
-				switch (tabStop.getAlignment())
+				switch (TabStopAlignEnum.getValueOrDefault(tabStop.getAlignment()))
 				{
 					case CENTER:
 						tabStopAlign = "\\tqc";
@@ -818,7 +819,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		}
 
 //		JRFont font = text;
-		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (text.getRunDirection() == RunDirectionEnum.RTL)
 		{
 			contentWriter.write("\\rtlch");
 		}
@@ -974,7 +975,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		contentWriter.write("\\f");
 		contentWriter.write(String.valueOf(getFontIndex(styleFont, locale)));
 		contentWriter.write("\\fs");
-		contentWriter.write(String.valueOf((int)(2 * styleFont.getFontsize())));
+		contentWriter.write(String.valueOf((int)(2 * styleFont.getFontSize())));
 
 		if (styleFont.isBold())
 		{
@@ -1096,7 +1097,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1115,7 +1116,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				float cropRight = 0;
 				int angle = 0;
 
-				switch (printImage.getScaleImageValue())
+				switch (printImage.getScaleImage())
 				{
 					case CLIP:
 					{
@@ -1506,7 +1507,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			this.needDimension = imageElement.getScaleImage() != ScaleImageEnum.FILL_FRAME;
 			if (
 				imageElement.getRotation() == RotationEnum.LEFT
 				|| imageElement.getRotation() == RotationEnum.RIGHT
@@ -1541,7 +1542,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 					imageRenderersCache,
 					renderer,
 					new Dimension(availableImageWidth, availableImageHeight),
-					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+					ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null
 					);
 
 			byte[] imageData = imageRenderer.getData(jasperReportsContext);
@@ -1791,7 +1792,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 				case REFERENCE :
 				{
@@ -1879,7 +1880,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{

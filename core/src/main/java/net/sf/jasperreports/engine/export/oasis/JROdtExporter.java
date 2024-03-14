@@ -625,7 +625,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		boolean appendBackcolor =
-			frame.getModeValue() == ModeEnum.OPAQUE
+			frame.getMode() == ModeEnum.OPAQUE
 			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
 
 		if (appendBackcolor)
@@ -755,7 +755,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorType());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -877,7 +877,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			
 			double angle = 0;
 
-			switch (imageElement.getScaleImageValue())
+			switch (imageElement.getScaleImage())
 			{
 				case FILL_FRAME :
 				{
@@ -1233,7 +1233,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 				documentBuilder.getImagePath(
 					renderer, 
 					new Dimension(imageWidth, imageHeight),
-					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
+					ModeEnum.OPAQUE == imageElement.getMode() ? imageElement.getBackcolor() : null,
 					cell,
 //					isLazy,
 					imageRenderersCache

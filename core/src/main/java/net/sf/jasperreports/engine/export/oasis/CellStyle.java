@@ -57,7 +57,7 @@ public class CellStyle extends BorderStyle
 
 		JRPrintElement element = gridCell.getElement();
 		
-		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
+		if (element != null && element.getMode() == ModeEnum.OPAQUE)
 		{
 			//fill = "solid";
 			backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
@@ -71,7 +71,7 @@ public class CellStyle extends BorderStyle
 			}
 		}
 
-		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotationValue() : RotationEnum.NONE;
+		RotationEnum rotation = element instanceof JRPrintText ? ((JRPrintText)element).getRotation() : RotationEnum.NONE;
 		VerticalTextAlignEnum vAlign = VerticalTextAlignEnum.TOP;
 		HorizontalTextAlignEnum hAlign = HorizontalTextAlignEnum.LEFT;
 

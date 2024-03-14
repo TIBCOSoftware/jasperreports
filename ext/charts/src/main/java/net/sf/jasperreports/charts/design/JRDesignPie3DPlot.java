@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
@@ -43,6 +45,13 @@ public class JRDesignPie3DPlot extends JRBasePie3DPlot
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
+	@JsonCreator
+	private JRDesignPie3DPlot()
+	{
+		this(null, null);
+	}
+
+	
 	/**
 	 *
 	 */

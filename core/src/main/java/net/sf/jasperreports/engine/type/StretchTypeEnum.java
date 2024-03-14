@@ -135,4 +135,12 @@ public enum StretchTypeEnum implements NamedEnum
 
 	public static final String RELATIVE_TO_TALLEST_OBJECT_deprecated = "RelativeToTallestObject";
 	public static final String RELATIVE_TO_BAND_HEIGHT_deprecated = "RelativeToBandHeight";
+	
+	/**
+	 *
+	 */
+	public static StretchTypeEnum getValueOrDefault(StretchTypeEnum value)
+	{
+		return value == null ? NO_STRETCH : value;
+	}
 }

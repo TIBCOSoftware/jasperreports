@@ -154,19 +154,19 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	}
 	
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
-		return template.getModeValue();
+		return template.getMode();
 	}
 	
 	@Override
-	public ModeEnum getOwnModeValue()
+	public ModeEnum getOwnMode()
 	{
-		return template.getOwnModeValue();
+		return template.getOwnMode();
 	}
 	
 	@Override
-	public void setMode(ModeEnum modeValue)
+	public void setMode(ModeEnum mode)
 	{
 	}
 	

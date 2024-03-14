@@ -58,14 +58,13 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
-import net.sf.jasperreports.properties.PropertiesMetadataUtil;
-import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.properties.PropertyMetadata;
 import net.sf.jasperreports.properties.ResourcePropertiesMetadataReader;
 
@@ -76,14 +75,14 @@ import net.sf.jasperreports.properties.ResourcePropertiesMetadataReader;
 public class DataAdapterPropertiesMetadataUtil
 {
 	
-	public static PropertiesMetadataUtil getInstance(JasperReportsContext context)
+	public static DataAdapterPropertiesMetadataUtil getInstance(JasperReportsContext context)
 	{
-		return PropertiesMetadataUtil.getInstance(context, Locale.getDefault());
+		return DataAdapterPropertiesMetadataUtil.getInstance(context, Locale.getDefault());
 	}
 	
-	public static PropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
+	public static DataAdapterPropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
 	{
-		return PropertiesMetadataUtil.getInstance(context, locale);
+		return DataAdapterPropertiesMetadataUtil.getInstance(context, locale);
 	}
 	
 	private JasperReportsContext context;
@@ -279,17 +278,15 @@ public class DataAdapterPropertiesMetadataUtil
 			}
 			else
 			{
-				ComponentKey key = componentElement.getComponentKey();
-				if (key == null || key.getNamespace() == null || key.getName() == null)
+				Component component = componentElement.getComponent();
+				if (component == null)
 				{
 					//key is missing
 					qualification = null;
 				}
 				else
 				{
-					qualification = key.getNamespace() 
-							+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-							+ key.getName();
+					qualification = ComponentsEnvironment.getInstance(context).getComponentName(component.getClass());
 				}
 			}
 			

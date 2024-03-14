@@ -27,12 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRTextField;
@@ -78,8 +80,8 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	protected TextAdjustEnum textAdjust = TextAdjustEnum.CUT_TEXT;
-	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	protected TextAdjustEnum textAdjust;
+	protected EvaluationTimeEnum evaluationTime;
 	protected String pattern;
 	protected Boolean isBlankWhenNull;
 	protected String linkType;
@@ -89,7 +91,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup;
+	protected String evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
@@ -135,9 +137,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return this.evaluationTimeValue;
+		return this.evaluationTime;
 	}
 		
 	@Override
@@ -165,19 +167,19 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
 		return this.evaluationGroup;
 	}
@@ -241,11 +243,11 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 		
 	@Override
@@ -254,12 +256,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		Object old = this.pattern;
 		this.pattern = pattern;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_PATTERN, old, this.pattern);
-	}
-
-	@Override
-	public void setBlankWhenNull(boolean isBlank)
-	{
-		setBlankWhenNull((Boolean)isBlank);
 	}
 
 	@Override
@@ -292,7 +288,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	public void setEvaluationGroup(JRGroup evaluationGroup)
+	public void setEvaluationGroup(String evaluationGroup)
 	{
 		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
@@ -477,11 +473,25 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 	
 	
+	@JsonSetter
+	private void setHyperlinkParameters(List<JRHyperlinkParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRHyperlinkParameter parameter : parameters)
+			{
+				addHyperlinkParameter(parameter);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Returns the list of custom hyperlink parameters.
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
+	@JsonIgnore
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;

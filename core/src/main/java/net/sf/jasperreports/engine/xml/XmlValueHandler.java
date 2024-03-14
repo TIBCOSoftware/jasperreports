@@ -45,13 +45,6 @@ public interface XmlValueHandler
 	XmlHandlerNamespace getNamespace();
 
 	/**
-	 * Configures an XML digester by adding the rules required to parse exported values.
-	 * 
-	 * @param digester the digester to configure
-	 */
-	void configureDigester(JRXmlDigester digester);
-
-	/**
 	 * Outputs the XML representation of a value if the value is supported by
 	 * this handler.
 	 * 

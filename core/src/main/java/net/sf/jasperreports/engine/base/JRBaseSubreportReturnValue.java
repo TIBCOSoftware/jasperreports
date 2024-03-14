@@ -25,6 +25,9 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -56,7 +59,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * The calculation type.
 	 */
-	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
+	protected CalculationEnum calculation;
 	
 	/**
 	 * The incrementer factory class name.
@@ -75,7 +78,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 
 		subreportVariable = returnValue.getFromVariable();
 		toVariable = returnValue.getToVariable();
-		calculationValue = returnValue.getCalculation();
+		calculation = returnValue.getCalculation();
 		incrementerFactoryClassName = returnValue.getIncrementerFactoryClassName();
 	}
 
@@ -85,6 +88,8 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * @return the name of the variable whose value should be copied.
 	 */
 	@Override
+	@JsonGetter("subreportVariable")
+	@JacksonXmlProperty(localName = "subreportVariable", isAttribute = true)
 	public String getFromVariable()
 	{
 		return this.subreportVariable;
@@ -112,7 +117,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	@Override
 	public CalculationEnum getCalculation()
 	{
-		return calculationValue;
+		return calculation;
 	}
 
 	/**

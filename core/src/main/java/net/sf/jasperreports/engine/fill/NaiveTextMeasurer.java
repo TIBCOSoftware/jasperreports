@@ -54,7 +54,7 @@ public class NaiveTextMeasurer implements JRTextMeasurer
 		JRLineBox box = text.getLineBox();
 		int textWidth;
 		int textHeight;
-		switch (text.getRotationValue())
+		switch (text.getRotation())
 		{
 		case LEFT:
 		case RIGHT:

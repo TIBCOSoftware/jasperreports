@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -62,8 +65,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	/*
 	 * Chart properties
 	 */
-	
-	public static final byte CHART_TYPE_SPIDER = 22;
 	
 	public static final String PROPERTY_LEGEND_BACKGROUND_COLOR = "legendBackgroundColor";
 	
@@ -126,11 +127,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	public static final String PROPERTY_CUSTOMIZER_CLASS = "customizerClass";
 	
 	
-	/**
-	 *
-	 */
-	protected Byte chartType = CHART_TYPE_SPIDER;
-
 	/**
 	 *
 	 */
@@ -368,15 +364,15 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	}
 		
 	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	public HyperlinkTypeEnum getHyperlinkType()
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	@Override
@@ -427,12 +423,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return this.hyperlinkPageExpression;
 	}
 	
-	@Override
-	public byte getChartType()
-	{
-		return this.chartType;
-	}
-
 	@Override
 	public String getRenderType()
 	{
@@ -494,16 +484,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return this.customizerClass;
 	}
 
-
-	/**
-	 * @param chartType the chartType to set
-	 */
-	public void setChartType(Byte chartType) {
-		Object old = this.chartType;
-		this.chartType = chartType;
-		getEventSupport().firePropertyChange(PROPERTY_CHART_TYPE, old, this.chartType);
-	}
-	
 	/**
 	 * @param linkType the linkType to set
 	 */
@@ -512,6 +492,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		this.linkType = linkType;
 		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
 	}
+
 	/**
 	 * @param linkTarget the linkTarget to set
 	 */
@@ -706,11 +687,25 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	}
 	
 	
+	@JsonSetter
+	private void setHyperlinkParameters(List<JRHyperlinkParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRHyperlinkParameter parameter : parameters)
+			{
+				addHyperlinkParameter(parameter);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Returns the list of custom hyperlink parameters.
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
+	@JsonIgnore
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;

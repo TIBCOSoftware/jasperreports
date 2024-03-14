@@ -71,7 +71,7 @@ public final class LineConverter extends ElementConverter
 		
 		copyGraphicElement(reportConverter, line, printLine);
 		
-		printLine.setDirection(line.getDirectionValue());
+		printLine.setDirection(line.getDirection());
 		
 		return printLine;
 	}

@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 /**
  * Represents a query used for generation of report data.
@@ -45,11 +49,14 @@ public interface JRQuery extends JRCloneable
 	/**
 	 *
 	 */
+	@JsonIgnore
 	public JRQueryChunk[] getChunks();
 
 	/**
 	 * Returns the query string.
 	 */
+	@JacksonXmlText
+	@JacksonXmlCData
 	public String getText();
 	
 
@@ -63,5 +70,6 @@ public interface JRQuery extends JRCloneable
 	 * 
 	 * @return the query language
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLanguage();
 }

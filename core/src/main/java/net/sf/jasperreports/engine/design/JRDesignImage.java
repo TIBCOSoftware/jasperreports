@@ -27,12 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
@@ -52,6 +55,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -84,14 +88,14 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected ScaleImageEnum scaleImageValue;
+	protected ScaleImageEnum scaleImage;
 	protected RotationEnum rotation;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
 	protected Boolean isUsingCache;
 	protected boolean isLazy;
-	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
-	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
+	protected OnErrorTypeEnum onErrorType = OnErrorTypeEnum.ERROR;
+	protected EvaluationTimeEnum evaluationTime;
 	protected String linkType;
 	protected String linkTarget;
 	private List<JRHyperlinkParameter> hyperlinkParameters;
@@ -104,7 +108,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup;
+	protected String evaluationGroup;
 	protected JRExpression expression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression bookmarkLevelExpression;
@@ -124,6 +128,16 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
+	@JsonCreator
+	private JRDesignImage()
+	{
+		this(null);
+	}
+		
+
+	/**
+	 *
+	 */
 	public JRDesignImage(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
@@ -135,30 +149,30 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		
 
 	@Override
-	public ModeEnum getModeValue()
+	public ModeEnum getMode()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 
 	@Override
-	public ScaleImageEnum getScaleImageValue()
+	public ScaleImageEnum getScaleImage()
 	{
-		return getStyleResolver().getScaleImageValue(this);
+		return getStyleResolver().getScaleImage(this);
 	}
 
 	@Override
-	public ScaleImageEnum getOwnScaleImageValue()
+	public ScaleImageEnum getOwnScaleImage()
 	{
-		return this.scaleImageValue;
+		return this.scaleImage;
 	}
 
 	@Override
-	public void setScaleImage(ScaleImageEnum scaleImageValue)
+	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
-		Object old = this.scaleImageValue;
-		this.scaleImageValue = scaleImageValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
+		Object old = this.scaleImage;
+		this.scaleImage = scaleImage;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImage);
 	}
 
 	@Override
@@ -228,9 +242,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	@Override
-	public EvaluationTimeEnum getEvaluationTimeValue()
+	public EvaluationTimeEnum getEvaluationTime()
 	{
-		return evaluationTimeValue;
+		return evaluationTime;
 	}
 		
 	@Override
@@ -239,20 +253,26 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		return lineBox;
 	}
 		
-	@Override
-	public HyperlinkTypeEnum getHyperlinkTypeValue()
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
+	private void setLineBox(JRLineBox lineBox)
 	{
-		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
+		this.lineBox = lineBox == null ? null : lineBox.clone(this);
+	}
+	
+	@Override
+	public HyperlinkTypeEnum getHyperlinkType()
+	{
+		return JRHyperlinkHelper.getHyperlinkType(this);
 	}
 		
 	@Override
-	public HyperlinkTargetEnum getHyperlinkTargetValue()
+	public HyperlinkTargetEnum getHyperlinkTarget()
 	{
-		return JRHyperlinkHelper.getHyperlinkTargetValue(this);
+		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
 	@Override
-	public JRGroup getEvaluationGroup()
+	public String getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
@@ -323,28 +343,28 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	@Override
-	public OnErrorTypeEnum getOnErrorTypeValue()
+	public OnErrorTypeEnum getOnErrorType()
 	{
-		return this.onErrorTypeValue;
+		return this.onErrorType;
 	}
 
 	@Override
-	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
+	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
-		OnErrorTypeEnum old = this.onErrorTypeValue;
-		this.onErrorTypeValue = onErrorTypeValue;
-		getEventSupport().firePropertyChange(JRBaseImage.PROPERTY_ON_ERROR_TYPE, old, this.onErrorTypeValue);
+		OnErrorTypeEnum old = this.onErrorType;
+		this.onErrorType = onErrorType;
+		getEventSupport().firePropertyChange(JRBaseImage.PROPERTY_ON_ERROR_TYPE, old, this.onErrorType);
 	}
 
 	/**
 	 * Sets the evaluation time for this image.
 	 * 
 	 */
-	public void setEvaluationTime(EvaluationTimeEnum evaluationTimeValue)
+	public void setEvaluationTime(EvaluationTimeEnum evaluationTime)
 	{
-		Object old = this.evaluationTimeValue;
-		this.evaluationTimeValue = evaluationTimeValue;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
+		Object old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 		
 	/**
@@ -369,7 +389,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	public void setEvaluationGroup(JRGroup evaluationGroup)
+	public void setEvaluationGroup(String evaluationGroup)
 	{
 		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
@@ -547,11 +567,25 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 	
 	
+	@JsonSetter
+	private void setHyperlinkParameters(List<JRHyperlinkParameter> parameters)
+	{
+		if (parameters != null)
+		{
+			for (JRHyperlinkParameter parameter : parameters)
+			{
+				addHyperlinkParameter(parameter);
+			}
+		}
+	}
+	
+	
 	/**
 	 * Returns the list of custom hyperlink parameters.
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
+	@JsonIgnore
 	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;

@@ -65,7 +65,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	public int getWidth()
 	{
 		int width;
-		switch (getTypeValue())
+		switch (getType())
 		{
 			case PAGE:
 				width = filler.pageWidth - filler.leftMargin - filler.rightMargin;
@@ -78,9 +78,9 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 	@Override
-	public BreakTypeEnum getTypeValue()
+	public BreakTypeEnum getType()
 	{
-		return ((JRBreak)parent).getTypeValue();
+		return BreakTypeEnum.getValueOrDefault(((JRBreak)parent).getType());
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		if (isToPrint)
 		{
 			boolean paginationIgnored = filler.isIgnorePagination();
-			if (getTypeValue() == BreakTypeEnum.COLUMN)
+			if (getType() == BreakTypeEnum.COLUMN)
 			{
 				//column break
 				if (paginationIgnored)

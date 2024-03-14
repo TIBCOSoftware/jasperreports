@@ -23,6 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.design.JRDesignHyperlinkParameter;
 
 /**
  * A hyperlink parameter, consisting of a name and a value expression.
@@ -32,6 +37,7 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRHyperlink#getHyperlinkParameters()
  */
+@JsonDeserialize(as = JRDesignHyperlinkParameter.class)
 public interface JRHyperlinkParameter extends JRCloneable
 {
 	
@@ -40,6 +46,7 @@ public interface JRHyperlinkParameter extends JRCloneable
 	 * 
 	 * @return the parameter name
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	String getName();
 	
 	
@@ -48,6 +55,7 @@ public interface JRHyperlinkParameter extends JRCloneable
 	 * 
 	 * @return the parameter value expression
 	 */
+	@JsonGetter("expression")
 	JRExpression getValueExpression();
 	
 }

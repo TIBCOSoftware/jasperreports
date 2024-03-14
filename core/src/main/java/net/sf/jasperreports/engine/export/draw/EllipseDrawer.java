@@ -63,7 +63,7 @@ public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 		int width = ellipse.getWidth();
 		int height = ellipse.getHeight();
 		
-		if (ellipse.getModeValue() == ModeEnum.OPAQUE)
+		if (ellipse.getMode() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(ellipse.getBackcolor());
 			grx.fillOval(
@@ -84,7 +84,7 @@ public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 			
 			AffineTransform oldTx = grx.getTransform();
 
-			if (ellipse.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
+			if (ellipse.getLinePen().getLineStyle() == LineStyleEnum.DOUBLE)
 			{
 				float lineWidth = ellipse.getLinePen().getLineWidth();
 				

@@ -99,7 +99,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 	@Override
 	public CalculationEnum getCalculation()
 	{
-		return calculation;
+		return CalculationEnum.getValueOrDefault(calculation);
 	}
 
 		

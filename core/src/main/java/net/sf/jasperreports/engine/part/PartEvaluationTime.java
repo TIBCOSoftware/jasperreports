@@ -23,14 +23,22 @@
  */
 package net.sf.jasperreports.engine.part;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardPartEvaluationTime.class)
 public interface PartEvaluationTime
 {
 
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_evaluationTime)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_evaluationTime, isAttribute = true)
 	PartEvaluationTimeType getEvaluationTimeType();
 	
 	String getEvaluationGroup();

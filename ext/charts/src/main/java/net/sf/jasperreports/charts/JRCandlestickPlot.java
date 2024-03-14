@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.charts.design.JRDesignCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
 
 
@@ -39,6 +46,8 @@ import net.sf.jasperreports.engine.JRExpression;
  * 
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonTypeName("candlestick")
+@JsonDeserialize(as = JRDesignCandlestickPlot.class)
 public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat
 {
 
@@ -75,6 +84,8 @@ public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValu
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_NULL)
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowVolume();
 
 }

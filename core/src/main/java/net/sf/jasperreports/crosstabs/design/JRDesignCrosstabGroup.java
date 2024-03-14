@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
@@ -91,14 +93,14 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	/**
 	 * Sets the position of the total row/column.
 	 * 
-	 * @param totalPositionValue the position of the total row/column
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabGroup#getTotalPositionValue()
+	 * @param totalPosition the position of the total row/column
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabGroup#getTotalPosition()
 	 */
-	public void setTotalPosition(CrosstabTotalPositionEnum totalPositionValue)
+	public void setTotalPosition(CrosstabTotalPositionEnum totalPosition)
 	{
-		Object old = this.totalPositionValue;
-		this.totalPositionValue = totalPositionValue;
-		getEventSupport().firePropertyChange(PROPERTY_TOTAL_POSITION, old, this.totalPositionValue);
+		Object old = this.totalPosition;
+		this.totalPosition = totalPosition;
+		getEventSupport().firePropertyChange(PROPERTY_TOTAL_POSITION, old, this.totalPosition);
 	}
 	
 	
@@ -172,11 +174,13 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	 * 
 	 * @return the parent crosstab
 	 */
+	@JsonIgnore
 	public JRDesignCrosstab getParent()
 	{
 		return parent;
 	}
 
+	@JsonIgnore
 	void setParent(JRDesignCrosstab parent)
 	{
 		this.parent = parent;

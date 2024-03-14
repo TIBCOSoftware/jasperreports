@@ -573,7 +573,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 			if (customHandler == null)
 			{
-				switch(link.getHyperlinkTypeValue())
+				switch(link.getHyperlinkType())
 				{
 					case REFERENCE :
 					{

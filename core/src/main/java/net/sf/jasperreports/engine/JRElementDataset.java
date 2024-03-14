@@ -23,8 +23,12 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Element datasets are used to represent the report data needed to generate a chart or crosstab.
@@ -40,23 +44,28 @@ public interface JRElementDataset extends JRCloneable, DatasetRunHolder
 	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
 	 * @return one of the reset constants in {@link DatasetResetTypeEnum}
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_resetType)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_resetType, isAttribute = true)
 	public DatasetResetTypeEnum getDatasetResetType();
 
 	/**
 	 * Gets the selected reset group in case of reset type group.
 	 */
-	public JRGroup getResetGroup();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getResetGroup();
 
 	/**
 	 * Returns the increment type. This specifies dataset values increment step.
 	 * @return one of the increment constants in {@link IncrementTypeEnum}.
 	 */
-	public IncrementTypeEnum getIncrementTypeValue();
+	@JacksonXmlProperty(isAttribute = true)
+	public IncrementTypeEnum getIncrementType();
 
 	/**
 	 * Gets the selected increment group in case of increment type group.
 	 */
-	public JRGroup getIncrementGroup();
+	@JacksonXmlProperty(isAttribute = true)
+	public String getIncrementGroup();
 
 	/**
 	 *  

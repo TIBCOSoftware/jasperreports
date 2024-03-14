@@ -26,6 +26,8 @@ package net.sf.jasperreports.charts.util;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.base.ChartsBaseObjectFactory;
 import net.sf.jasperreports.charts.base.JRBaseDataRange;
@@ -116,6 +118,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 *
 	 * @return the text describing this range
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLabel()
 	{
 		return label;
@@ -137,6 +140,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 *
 	 * @return the color used to shade this interval
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getBackgroundColor()
 	{
 		return backgroundColor;
@@ -158,6 +162,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 *
 	 * @return the transparency
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getAlphaDouble()
 	{
 		return alphaDouble;

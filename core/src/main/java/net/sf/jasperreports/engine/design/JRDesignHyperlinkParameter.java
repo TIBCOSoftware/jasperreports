@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.design;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
@@ -77,6 +79,7 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter impleme
 	 * 
 	 * @param valueExpression the expression that produces the parameter value
 	 */
+	@JsonSetter("expression")
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		Object old = this.valueExpression;

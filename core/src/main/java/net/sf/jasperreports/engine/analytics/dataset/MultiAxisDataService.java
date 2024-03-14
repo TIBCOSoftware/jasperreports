@@ -35,6 +35,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService;
@@ -64,12 +67,10 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.SingleValue;
 import net.sf.jasperreports.engine.util.ValuePropertiesWrapper;
 import net.sf.jasperreports.engine.util.ValuePropertiesWrapperComparator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -284,7 +285,7 @@ public class MultiAxisDataService
 		
 		return new MeasureDefinition(
 				measure.getValueClass(), 
-				measure.getCalculation(), 
+				CalculationEnum.getValueOrDefault(measure.getCalculation()), 
 				incrFactory); 
 	}
 
@@ -350,7 +351,7 @@ public class MultiAxisDataService
 				for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
 				{
 					DataLevelBucketProperty bucketProperty = it.next();
-					propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getExpression());
+					propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getValueExpression());
 				}
 			}
 			
