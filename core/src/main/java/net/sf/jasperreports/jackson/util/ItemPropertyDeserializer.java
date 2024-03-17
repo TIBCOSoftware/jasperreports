@@ -79,7 +79,7 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 		}
 		else
 		{
-			expressionNode = node.get("");//FIXMEJACK isn't there a better way to get tag content?
+			expressionNode = node.get("");
 		}
 		
 		if (expressionNode != null)
