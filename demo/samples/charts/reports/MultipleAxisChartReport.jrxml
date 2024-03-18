@@ -125,14 +125,6 @@ ORDER BY ShipCountry, ShipCity]]></query>
       <expression><![CDATA["<i><u>Countries Starting With Letter :</u></i>    <b>" + $V{FirstLetter} + "</b>"]]></expression>
     </element>
     <element kind="chart" chartType="19" uuid="bf93bdb9-f6f5-4527-a7bc-3c8d455d1c90" key="element-4" positionType="Float" x="6" y="27" width="547" height="375" showLegend="true" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
-      <dataset kind="category" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CityGroup" resetType="Group">
-        <series>
-          <seriesExpression><![CDATA["# Orders"]]></seriesExpression>
-          <categoryExpression><![CDATA[$F{ShipCity} + ", " +$F{ShipCountry}]]></categoryExpression>
-          <valueExpression><![CDATA[$V{CityGroup_COUNT}]]></valueExpression>
-          <labelExpression><![CDATA[$F{ShipCity}]]></labelExpression>
-        </series>
-      </dataset>
       <plot labelRotation="25.0">
         <axis>
           <position>rightOrBottom</position>
