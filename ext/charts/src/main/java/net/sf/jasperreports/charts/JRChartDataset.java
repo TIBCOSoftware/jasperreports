@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -64,6 +65,7 @@ public interface JRChartDataset extends JRElementDataset
 	/**
 	 * Gets the dataset type. Must be one of the dataset type constants defined in this class.
 	 */
+	@JsonIgnore
 	public byte getDatasetType();
 
 	

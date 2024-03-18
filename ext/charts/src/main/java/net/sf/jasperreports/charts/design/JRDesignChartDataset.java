@@ -68,7 +68,6 @@ public abstract class JRDesignChartDataset extends JRDesignElementDataset implem
 	}
 
 	@Override
-	@JsonIgnore
 	public byte getDatasetType() 
 	{
 		return -1;
