@@ -797,7 +797,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			bookmarkLevel = getBookmarkLevel(evaluateExpression(getBookmarkLevelExpression(), evaluation));
 
-			if (getEvaluationTime() == EvaluationTimeEnum.NOW) //FIXMEJACK should use isEvaluateNow() ?
+			if (getEvaluationTime() == EvaluationTimeEnum.NOW)
 			{
 				evaluateProperties(evaluation);
 				evaluateStyle(evaluation);
