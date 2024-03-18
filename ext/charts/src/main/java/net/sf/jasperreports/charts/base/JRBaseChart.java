@@ -547,7 +547,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	@Override
 	public JRChartDataset getDataset()
 	{
-		return dataset;
+		return chartType == CHART_TYPE_MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
 	}
 
 	@Override

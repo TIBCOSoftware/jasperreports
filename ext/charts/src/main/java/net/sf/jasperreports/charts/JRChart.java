@@ -276,7 +276,6 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	/**
 	 * Gets the chart plot. Plots are used to define various chart visual properties, such as colors and transparency.
 	 */
-	@JsonGetter
 	public JRChartPlot getPlot();
 
 

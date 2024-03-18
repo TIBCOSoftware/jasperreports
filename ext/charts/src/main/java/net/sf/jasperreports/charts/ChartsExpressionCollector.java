@@ -62,7 +62,10 @@ public class ChartsExpressionCollector// extends JRExpressionCollector
 		parent.addExpression(chart.getTitleExpression());
 		parent.addExpression(chart.getSubtitleExpression());
 
-		chart.getDataset().collectExpressions(this);
+		if (chart.getChartType() != JRChart.CHART_TYPE_MULTI_AXIS) // multiaxis chart returns null dataset
+		{
+			chart.getDataset().collectExpressions(this);
+		}
 		chart.getPlot().collectExpressions(this);
 	}
 

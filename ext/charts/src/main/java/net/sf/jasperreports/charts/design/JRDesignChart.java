@@ -602,7 +602,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	@Override
 	public JRChartDataset getDataset()
 	{
-		return dataset;
+		return chartType == CHART_TYPE_MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
 	}
 
 	@Override
@@ -724,9 +724,12 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 	public void setDataset(JRChartDataset ds)
 	{
-		Object old = this.dataset;
-		dataset = ds;
-		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);		
+		if (chartType != CHART_TYPE_MULTI_AXIS) //not really needed, but just in case
+		{
+			Object old = this.dataset;
+			dataset = ds;
+			getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);		
+		}
 	}
 
 
