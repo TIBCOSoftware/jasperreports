@@ -185,9 +185,12 @@ public class ReferenceCreator {
             for (Map<String, String> refEntry : references) {
                 if (refEntry.get(REFERENCE_KEY).equals(referenceKey)) {
                     String currentText = refEntry.get(REFERENCE_TEXT);
-                    refEntry.put(REFERENCE_TEXT,
-                            String.join("\n", prependAdditional ? referenceText : currentText,
-                                    prependAdditional ? currentText : referenceText));
+                    // If Detail Split Type == "Prevent" then we get double calls, hence the need to check that the
+                    // currentText doesn't already contain the reference Text.
+                    if (!currentText.contains(referenceText)) {
+                        refEntry.put(REFERENCE_TEXT, String.join("\n", prependAdditional ? referenceText : currentText,
+                                prependAdditional ? currentText : referenceText));
+                    }
                     return referenceKey;
                 }
             }
