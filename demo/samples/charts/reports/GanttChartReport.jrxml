@@ -45,7 +45,7 @@
         <topPen lineWidth="0.5"/>
       </box>
     </element>
-    <element kind="chart" chartType="21" uuid="30057389-8122-4554-898e-ab792809b6b3" positionType="Float" y="75" width="555" height="175" showLegend="true" evaluationTime="Report">
+    <element kind="chart" chartType="gantt" uuid="30057389-8122-4554-898e-ab792809b6b3" positionType="Float" y="75" width="555" height="175" showLegend="true" evaluationTime="Report">
       <dataset kind="gantt">
         <series>
           <seriesExpression><![CDATA[$F{Series}]]></seriesExpression>

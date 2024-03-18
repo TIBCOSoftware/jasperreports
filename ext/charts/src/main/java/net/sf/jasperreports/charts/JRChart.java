@@ -37,6 +37,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.design.JRDesignChart;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBoxContainer;
@@ -85,32 +86,6 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public static final String PROPERTY_CHART_THEME = JRPropertiesUtil.PROPERTY_PREFIX + "chart.theme";
-
-
-	/**
-	 *
-	 */
-	public static final byte CHART_TYPE_AREA = 1;
-	public static final byte CHART_TYPE_BAR3D = 2;
-	public static final byte CHART_TYPE_BAR = 3;
-	public static final byte CHART_TYPE_BUBBLE = 4;
-	public static final byte CHART_TYPE_CANDLESTICK = 5;
-	public static final byte CHART_TYPE_HIGHLOW = 6;
-	public static final byte CHART_TYPE_LINE = 7;
-	public static final byte CHART_TYPE_PIE3D = 8;
-	public static final byte CHART_TYPE_PIE = 9;
-	public static final byte CHART_TYPE_SCATTER = 10;
-	public static final byte CHART_TYPE_STACKEDBAR3D = 11;
-	public static final byte CHART_TYPE_STACKEDBAR = 12;
-	public static final byte CHART_TYPE_XYAREA = 13;
-	public static final byte CHART_TYPE_XYBAR = 14;
-	public static final byte CHART_TYPE_XYLINE = 15;
-	public static final byte CHART_TYPE_TIMESERIES = 16;
-	public static final byte CHART_TYPE_METER = 17;
-	public static final byte CHART_TYPE_THERMOMETER = 18;
-	public static final byte CHART_TYPE_MULTI_AXIS = 19;
-	public static final byte CHART_TYPE_STACKEDAREA = 20;
-	public static final byte CHART_TYPE_GANTT = 21;
 
 	/**
 	 * rendering type
@@ -283,7 +258,7 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	 * Gets the chart type. It must be one of the chart type constants in this class.
 	 */ 
 	@JacksonXmlProperty(isAttribute = true)
-	public byte getChartType(); //FIXMEJACK maybe introduce enum
+	public ChartTypeEnum getChartType();
 	
 	/**
 	 * Gets a user specified chart customizer class name.

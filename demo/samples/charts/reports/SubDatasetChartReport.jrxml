@@ -39,7 +39,7 @@
       <element kind="textField" uuid="09e10730-c506-4504-a1ec-cbdbd9204181" x="10" y="2" width="150" height="16" fontSize="12.0" style="Sans_Bold">
         <expression><![CDATA[$F{ShipCountry}]]></expression>
       </element>
-      <element kind="chart" chartType="16" uuid="9a1592b0-dd52-406f-bb98-497f4e57d094" positionType="Float" y="25" width="550" height="190">
+      <element kind="chart" chartType="timeSeries" uuid="9a1592b0-dd52-406f-bb98-497f4e57d094" positionType="Float" y="25" width="550" height="190">
         <dataset kind="timeSeries" incrementType="Group" incrementGroup="MonthGroup" timePeriod="Month">
           <datasetRun uuid="c8f3b123-7be5-4ea0-9002-5fc495821df5" subDataset="Country_Orders">
             <parameter name="Country">

@@ -56,7 +56,7 @@
         <element kind="textField" uuid="fda8413f-086d-4b68-9538-a8dacadd91f8" mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#FF0000" backcolor="#FFDDDD" style="Sans_Bold">
           <expression><![CDATA[$V{FirstLetter}]]></expression>
         </element>
-        <element kind="chart" chartType="18" uuid="d7dbbf81-57e4-4338-84d0-72f367c2bd1d" positionType="Float" y="25" width="270" height="175" showLegend="true" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
+        <element kind="chart" chartType="thermometer" uuid="d7dbbf81-57e4-4338-84d0-72f367c2bd1d" positionType="Float" y="25" width="270" height="175" showLegend="true" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
           <dataset kind="value" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CountryGroup" resetType="Group">
             <valueExpression><![CDATA[$V{FreightSumFirstLetterGroup}]]></valueExpression>
           </dataset>

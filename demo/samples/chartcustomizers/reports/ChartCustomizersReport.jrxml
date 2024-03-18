@@ -34,7 +34,7 @@
   <group name="Charts">
     <groupHeader>
       <band height="400">
-        <element kind="chart" chartType="3" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="bar" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Bar Chart"]]></hyperlinkTooltipExpression>
@@ -66,7 +66,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="15" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyLine" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["XY Line Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Lines"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["XY Line Chart"]]></hyperlinkTooltipExpression>

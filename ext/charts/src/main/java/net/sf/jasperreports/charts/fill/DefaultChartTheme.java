@@ -320,28 +320,28 @@ public class DefaultChartTheme implements ChartTheme
 		JFreeChart jfreeChart = null;
 		
 		switch(getChart().getChartType()) {
-			case JRChart.CHART_TYPE_AREA:
+			case AREA:
 				jfreeChart = createAreaChart();
 				break;
-			case JRChart.CHART_TYPE_BAR:
+			case BAR:
 				jfreeChart = createBarChart();
 				break;
-			case JRChart.CHART_TYPE_BAR3D:
+			case BAR3D:
 				jfreeChart = createBar3DChart();
 				break;
-			case JRChart.CHART_TYPE_BUBBLE:
+			case BUBBLE:
 				jfreeChart = createBubbleChart();
 				break;
-			case JRChart.CHART_TYPE_CANDLESTICK:
+			case CANDLESTICK:
 				jfreeChart = createCandlestickChart();
 				break;
-			case JRChart.CHART_TYPE_HIGHLOW:
+			case HIGHLOW:
 				jfreeChart = createHighLowChart();
 				break;
-			case JRChart.CHART_TYPE_LINE:
+			case LINE:
 				jfreeChart = createLineChart();
 				break;
-			case JRChart.CHART_TYPE_METER:
+			case METER:
 				if (MeterShapeEnum.DIAL ==((JRMeterPlot)getPlot()).getShape())
 				{
 					jfreeChart = createDialChart();
@@ -351,43 +351,43 @@ public class DefaultChartTheme implements ChartTheme
 					jfreeChart = createMeterChart();
 				}
 				break;
-			case JRChart.CHART_TYPE_MULTI_AXIS:
+			case MULTI_AXIS:
 				//multi-axis charts are dealt with in JRFillChart
 				break;
-			case JRChart.CHART_TYPE_PIE:
+			case PIE:
 				jfreeChart = createPieChart();
 				break;
-			case JRChart.CHART_TYPE_PIE3D:
+			case PIE3D:
 				jfreeChart = createPie3DChart();
 				break;
-			case JRChart.CHART_TYPE_SCATTER:
+			case SCATTER:
 				jfreeChart = createScatterChart();
 				break;
-			case JRChart.CHART_TYPE_STACKEDBAR:
+			case STACKEDBAR:
 				jfreeChart = createStackedBarChart();
 				break;
-			case JRChart.CHART_TYPE_STACKEDBAR3D:
+			case STACKEDBAR3D:
 				jfreeChart = createStackedBar3DChart();
 				break;
-			case JRChart.CHART_TYPE_THERMOMETER:
+			case THERMOMETER:
 				jfreeChart = createThermometerChart();
 				break;
-			case JRChart.CHART_TYPE_TIMESERIES:
+			case TIMESERIES:
 				jfreeChart = createTimeSeriesChart();
 				break;
-			case JRChart.CHART_TYPE_XYAREA:
+			case XYAREA:
 				jfreeChart = createXyAreaChart();
 				break;
-			case JRChart.CHART_TYPE_XYBAR:
+			case XYBAR:
 				jfreeChart = createXYBarChart();
 				break;
-			case JRChart.CHART_TYPE_XYLINE:
+			case XYLINE:
 				jfreeChart = createXyLineChart();
 				break;
-			case JRChart.CHART_TYPE_STACKEDAREA:
+			case STACKEDAREA:
 				jfreeChart = createStackedAreaChart();
 				break;
-			case JRChart.CHART_TYPE_GANTT:
+			case GANTT:
 				jfreeChart = createGanttChart();
 				break;
 			default:

@@ -55,6 +55,7 @@ import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -115,7 +116,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected byte chartType;
+	protected ChartTypeEnum chartType;
 
 	/**
 	 *
@@ -182,75 +183,75 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		chartType = chart.getChartType();
 
 		switch(chartType) {
-			case CHART_TYPE_AREA:
+			case AREA:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_BAR:
+			case BAR:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_BAR3D:
+			case BAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_BUBBLE:
+			case BUBBLE:
 				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
 				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
 				break;
-			case CHART_TYPE_CANDLESTICK:
+			case CANDLESTICK:
 				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getCandlestickPlot((JRCandlestickPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_HIGHLOW:
+			case HIGHLOW:
 				dataset = factory.getHighLowDataset((JRHighLowDataset) chart.getDataset());
 				plot = factory.getHighLowPlot((JRHighLowPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_LINE:
+			case LINE:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
-			case CHART_TYPE_METER:
+			case METER:
 				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());
 				plot = factory.getMeterPlot((JRMeterPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_MULTI_AXIS:
+			case MULTI_AXIS:
 				dataset = null;
 				plot = factory.getMultiAxisPlot((JRMultiAxisPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_PIE:
+			case PIE:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
 				break;
-			case CHART_TYPE_PIE3D:
+			case PIE3D:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_SCATTER:
+			case SCATTER:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_STACKEDBAR:
+			case STACKEDBAR:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_STACKEDBAR3D:
+			case STACKEDBAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_THERMOMETER:
+			case THERMOMETER:
 				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());
 				plot = factory.getThermometerPlot((JRThermometerPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_TIMESERIES:
+			case TIMESERIES:
 				dataset = factory.getTimeSeriesDataset((JRTimeSeriesDataset)chart.getDataset());
 				plot = factory.getTimeSeriesPlot( (JRTimeSeriesPlot)chart.getPlot() );
 				break;
-			case CHART_TYPE_XYAREA:
+			case XYAREA:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_XYBAR:
+			case XYBAR:
 				
 				switch (chart.getDataset().getDatasetType()){
 					case JRChartDataset.TIMESERIES_DATASET:
@@ -266,15 +267,15 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				}
 				plot = factory.getBarPlot((JRBarPlot)chart.getPlot());
 				break;
-			case CHART_TYPE_XYLINE:
+			case XYLINE:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getLinePlot((JRLinePlot) chart.getPlot());
 				break;
-			case CHART_TYPE_STACKEDAREA:
+			case STACKEDAREA:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
-			case CHART_TYPE_GANTT:
+			case GANTT:
 				dataset = factory.getGanttDataset((JRGanttDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
@@ -547,7 +548,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	@Override
 	public JRChartDataset getDataset()
 	{
-		return chartType == CHART_TYPE_MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
+		return chartType == ChartTypeEnum.MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
 	}
 
 	@Override
@@ -557,7 +558,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 	@Override
-	public byte getChartType()
+	public ChartTypeEnum getChartType()
 	{
 		return chartType;
 	}

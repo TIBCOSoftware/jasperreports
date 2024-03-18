@@ -87,7 +87,7 @@
         <element kind="textField" uuid="d3280ad2-efb5-4d22-b923-3857cf649de9" x="170" y="2" width="100" height="11" horizontalTextAlign="Right" evaluationTime="Group" pattern="EEE, MMM d, yyyy" evaluationGroup="CountryGroup" style="Sans_Bold">
           <expression><![CDATA[$V{DateHighestCountryGroup}]]></expression>
         </element>
-        <element kind="chart" chartType="4" uuid="d9ebe2fd-bf5c-44a9-9433-c0643447dd9f" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
+        <element kind="chart" chartType="bubble" uuid="d9ebe2fd-bf5c-44a9-9433-c0643447dd9f" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
           <dataset kind="xyz" resetGroup="CountryGroup" resetType="Group">
             <series>
               <seriesExpression><![CDATA["Double Freight"]]></seriesExpression>

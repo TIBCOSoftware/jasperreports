@@ -71,7 +71,7 @@
         <element kind="textField" uuid="60619f0c-b4d1-495c-9c14-8b7e324becb6" mode="Opaque" x="170" y="14" width="20" height="11" forecolor="#FF0000" backcolor="#FFDDDD" evaluationTime="Group" evaluationGroup="ChartGroup" style="Sans_Bold">
           <expression><![CDATA[$V{FirstLetterMax}]]></expression>
         </element>
-        <element kind="chart" chartType="8" uuid="39fa00ec-2cca-4be4-b3e8-65392802cdfc" positionType="Float" y="50" width="270" height="175" evaluationTime="Group" evaluationGroup="ChartGroup">
+        <element kind="chart" chartType="pie3D" uuid="39fa00ec-2cca-4be4-b3e8-65392802cdfc" positionType="Float" y="50" width="270" height="175" evaluationTime="Group" evaluationGroup="ChartGroup">
           <dataset kind="pie" incrementType="Group" resetGroup="ChartGroup" incrementGroup="CountryGroup" resetType="Group">
             <series>
               <keyExpression><![CDATA[$F{ShipCountry}]]></keyExpression>

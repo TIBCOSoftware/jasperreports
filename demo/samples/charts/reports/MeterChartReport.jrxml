@@ -56,7 +56,7 @@
         <element kind="textField" uuid="1c5d24e9-4fa0-4dc3-a5be-ff7a7add6811" mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#FF0000" backcolor="#FFDDDD" style="Sans_Bold">
           <expression><![CDATA[$V{FirstLetter}]]></expression>
         </element>
-        <element kind="chart" chartType="17" uuid="81c4d625-3de0-4091-88e2-03813eb31611" positionType="Float" y="25" width="270" height="175" showLegend="false" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
+        <element kind="chart" chartType="meter" uuid="81c4d625-3de0-4091-88e2-03813eb31611" positionType="Float" y="25" width="270" height="175" showLegend="false" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
           <dataset kind="value" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CountryGroup" resetType="Group">
             <valueExpression><![CDATA[$V{FreightSumFirstLetterGroup}]]></valueExpression>
           </dataset>

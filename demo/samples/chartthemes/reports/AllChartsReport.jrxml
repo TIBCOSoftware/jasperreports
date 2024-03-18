@@ -89,7 +89,7 @@
   <group name="Charts">
     <groupHeader>
       <band height="400">
-        <element kind="chart" chartType="3" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="bar" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Bar Chart"]]></hyperlinkTooltipExpression>
@@ -111,7 +111,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="12" uuid="9a2e40d8-5139-401c-a13e-4cf9cd4c7bd9" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="stackedBar" uuid="9a2e40d8-5139-401c-a13e-4cf9cd4c7bd9" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Stacked Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Stacked Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Stacked Bar Chart"]]></hyperlinkTooltipExpression>
@@ -133,7 +133,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="2" uuid="b79ba290-5550-453c-839e-20b70f942097" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="bar3D" uuid="b79ba290-5550-453c-839e-20b70f942097" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Bar 3D Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying 3D Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Bar 3D Chart"]]></hyperlinkTooltipExpression>
@@ -155,7 +155,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="11" uuid="64af8687-e101-41e5-9165-e647d4fc6f72" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="stackedBar3D" uuid="64af8687-e101-41e5-9165-e647d4fc6f72" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Stacked Bar 3D Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Stacked 3D Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Stacked Bar 3D Chart"]]></hyperlinkTooltipExpression>
@@ -177,7 +177,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="9" uuid="5128466d-126b-454f-a510-d3288118bda8" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="pie" uuid="5128466d-126b-454f-a510-d3288118bda8" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Pie Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Pie"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Pie Chart"]]></hyperlinkTooltipExpression>
@@ -196,7 +196,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="8" uuid="7a425c8b-03a7-4814-b86f-32f4a64ca9ca" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="pie3D" uuid="7a425c8b-03a7-4814-b86f-32f4a64ca9ca" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Pie 3D Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying 3D Pie"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Pie 3D Chart"]]></hyperlinkTooltipExpression>
@@ -215,7 +215,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="1" uuid="7ae04d87-1a4b-4dcc-904a-459efa6a5e9e" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="area" uuid="7ae04d87-1a4b-4dcc-904a-459efa6a5e9e" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Area Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Areas"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Area Chart"]]></hyperlinkTooltipExpression>
@@ -236,7 +236,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="20" uuid="34033fa6-6f79-47f3-a74a-d33019d3939a" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="stackedArea" uuid="34033fa6-6f79-47f3-a74a-d33019d3939a" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Stacked Area Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Stacked Areas"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Stacked Area Chart"]]></hyperlinkTooltipExpression>
@@ -257,7 +257,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="7" uuid="2136200f-9bc5-4997-ab90-927983c1e1f4" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="line" uuid="2136200f-9bc5-4997-ab90-927983c1e1f4" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Line Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Lines"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Line Chart"]]></hyperlinkTooltipExpression>
@@ -278,7 +278,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="15" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyLine" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["XY Line Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Lines"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["XY Line Chart"]]></hyperlinkTooltipExpression>
@@ -299,7 +299,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="14" uuid="b059b4e1-e3ff-4b8d-a60f-d9e3968a6579" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyBar" uuid="b059b4e1-e3ff-4b8d-a60f-d9e3968a6579" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["XY Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["XY Bar Chart"]]></hyperlinkTooltipExpression>
@@ -321,7 +321,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="14" uuid="22ed5a99-76c6-4f44-bf9a-08b51b22b3b8" positionType="Float" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyBar" uuid="22ed5a99-76c6-4f44-bf9a-08b51b22b3b8" positionType="Float" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Time Period Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Time Period Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Time Period Bar Chart"]]></hyperlinkTooltipExpression>
@@ -344,7 +344,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="14" uuid="83049a18-ca0c-401e-964a-078dfd387835" positionType="Float" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyBar" uuid="83049a18-ca0c-401e-964a-078dfd387835" positionType="Float" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Time Series Bar Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Time Series Bars"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Time Series Bar Chart"]]></hyperlinkTooltipExpression>
@@ -367,7 +367,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="13" uuid="aa29ada5-eb52-4da4-afd8-0eead898b254" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="xyArea" uuid="aa29ada5-eb52-4da4-afd8-0eead898b254" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["XY Area Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Areas"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["XY Area Chart"]]></hyperlinkTooltipExpression>
@@ -388,7 +388,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="10" uuid="c00c701f-9028-4850-8a78-97cf69cc419e" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="scatter" uuid="c00c701f-9028-4850-8a78-97cf69cc419e" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Scatter Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Scattered Dots"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Scatter Chart"]]></hyperlinkTooltipExpression>
@@ -409,7 +409,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="4" uuid="0300dec8-1d84-47b4-9f5e-2d82926a67db" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="bubble" uuid="0300dec8-1d84-47b4-9f5e-2d82926a67db" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Bubble Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Bubbles"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Bubble Chart"]]></hyperlinkTooltipExpression>
@@ -431,7 +431,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="16" uuid="ef0f13a3-d82d-469d-a3ab-58b507f90748" positionType="Float" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="timeSeries" uuid="ef0f13a3-d82d-469d-a3ab-58b507f90748" positionType="Float" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["Time Series Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying Time Series"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["Time Series Chart"]]></hyperlinkTooltipExpression>
@@ -453,7 +453,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="6" uuid="63c4e075-81d8-4c3c-bf87-f61a3dcd8844" positionType="Float" width="555" height="300" evaluationTime="Report">
+        <element kind="chart" chartType="highLow" uuid="63c4e075-81d8-4c3c-bf87-f61a3dcd8844" positionType="Float" width="555" height="300" evaluationTime="Report">
           <titleExpression><![CDATA["High Low Chart"]]></titleExpression>
           <subtitleExpression><![CDATA["Chart Displaying High Low Open Close Series"]]></subtitleExpression>
           <hyperlinkTooltipExpression><![CDATA["High Low Chart"]]></hyperlinkTooltipExpression>
@@ -476,7 +476,7 @@
         </element>
       </band>
       <band height="400">
-        <element kind="chart" chartType="17" uuid="e7769b20-76d2-4dcb-8fb9-a9b2258e01e5" positionType="Float" x="125" width="300" height="300" showLegend="false">
+        <element kind="chart" chartType="meter" uuid="e7769b20-76d2-4dcb-8fb9-a9b2258e01e5" positionType="Float" x="125" width="300" height="300" showLegend="false">
           <hyperlinkTooltipExpression><![CDATA["Meter Chart"]]></hyperlinkTooltipExpression>
           <dataset kind="value" resetType="None">
             <datasetRun uuid="9a566e06-9732-4143-b46e-a4b79e654cc8" subDataset="meterDataset">

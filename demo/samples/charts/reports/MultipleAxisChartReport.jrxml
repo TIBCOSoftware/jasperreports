@@ -124,11 +124,11 @@ ORDER BY ShipCountry, ShipCity]]></query>
     <element kind="textField" uuid="7c68c4bc-37ce-459e-b2a9-bc3a56861e65" key="textField" mode="Opaque" x="6" width="547" height="17" forecolor="#FF0000" backcolor="#FFDDDD" horizontalTextAlign="Center" verticalTextAlign="Middle" markup="styled" blankWhenNull="false" fontSize="12.0" style="Sans_Normal">
       <expression><![CDATA["<i><u>Countries Starting With Letter :</u></i>    <b>" + $V{FirstLetter} + "</b>"]]></expression>
     </element>
-    <element kind="chart" chartType="19" uuid="bf93bdb9-f6f5-4527-a7bc-3c8d455d1c90" key="element-4" positionType="Float" x="6" y="27" width="547" height="375" showLegend="true" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
+    <element kind="chart" chartType="multiAxis" uuid="bf93bdb9-f6f5-4527-a7bc-3c8d455d1c90" key="element-4" positionType="Float" x="6" y="27" width="547" height="375" showLegend="true" evaluationTime="Group" evaluationGroup="FirstLetterGroup">
       <plot labelRotation="25.0">
         <axis>
           <position>rightOrBottom</position>
-          <chart chartType="7" uuid="70a97948-7ba0-4e22-876f-b95004c63327" positionType="Float" y="25" width="270" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
+          <chart chartType="line" uuid="70a97948-7ba0-4e22-876f-b95004c63327" positionType="Float" y="25" width="270" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
             <dataset kind="category" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CityGroup" resetType="Group">
               <series>
                 <seriesExpression><![CDATA["# Orders"]]></seriesExpression>
@@ -147,7 +147,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
         </axis>
         <axis>
           <position>rightOrBottom</position>
-          <chart chartType="7" uuid="4a755d76-1350-4921-a0be-20ae9e485e12" positionType="Float" y="25" width="270" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
+          <chart chartType="line" uuid="4a755d76-1350-4921-a0be-20ae9e485e12" positionType="Float" y="25" width="270" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
             <dataset kind="category" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CityGroup" resetType="Group">
               <series>
                 <seriesExpression><![CDATA["Freight/Orders"]]></seriesExpression>
@@ -165,7 +165,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
           </chart>
         </axis>
         <axis>
-          <chart chartType="3" uuid="0f118faa-f462-4cf3-a047-62e0e72b0923" key="element-4" positionType="Float" x="6" y="17" width="547" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
+          <chart chartType="bar" uuid="0f118faa-f462-4cf3-a047-62e0e72b0923" key="element-4" positionType="Float" x="6" y="17" width="547" height="175" backcolor="#FFFFFF" showLegend="true" evaluationTime="Group" titleColor="#000000" subtitleColor="#000000" legendColor="#000000" legendBackgroundColor="#FFFFFF" evaluationGroup="FirstLetterGroup">
             <dataset kind="category" incrementType="Group" resetGroup="FirstLetterGroup" incrementGroup="CityGroup" resetType="Group">
               <series>
                 <seriesExpression><![CDATA["Freight"]]></seriesExpression>

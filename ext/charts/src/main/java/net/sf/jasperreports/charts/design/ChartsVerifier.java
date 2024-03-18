@@ -42,6 +42,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JRVerifierVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -82,7 +83,7 @@ public class ChartsVerifier implements ChartVisitor // extends JRVerifier
 		JRChartDataset dataset = chart.getDataset();
 		if (dataset == null)
 		{
-			if (chart.getChartType() != JRChart.CHART_TYPE_MULTI_AXIS)
+			if (chart.getChartType() != ChartTypeEnum.MULTI_AXIS)
 			{
 				parent.addBrokenRule("Chart dataset missing.", chart);
 			}

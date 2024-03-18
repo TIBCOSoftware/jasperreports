@@ -71,7 +71,7 @@
         <element kind="textField" uuid="a9ca17a1-9635-4b10-9db5-b48da75a650d" mode="Opaque" x="170" y="14" width="20" height="11" forecolor="#FF0000" backcolor="#FFDDDD" evaluationTime="Group" evaluationGroup="ChartGroup" style="Sans_Bold">
           <expression><![CDATA[$V{FirstLetterMax}]]></expression>
         </element>
-        <element kind="chart" chartType="20" uuid="5fac97fb-c7d3-46bd-be4f-ca7cd2b4adda" positionType="Float" y="50" width="270" height="175" evaluationTime="Group" evaluationGroup="ChartGroup">
+        <element kind="chart" chartType="stackedArea" uuid="5fac97fb-c7d3-46bd-be4f-ca7cd2b4adda" positionType="Float" y="50" width="270" height="175" evaluationTime="Group" evaluationGroup="ChartGroup">
           <dataset kind="category" incrementType="Group" resetGroup="ChartGroup" incrementGroup="CountryGroup" resetType="Group">
             <series>
               <seriesExpression><![CDATA["Double Freight"]]></seriesExpression>

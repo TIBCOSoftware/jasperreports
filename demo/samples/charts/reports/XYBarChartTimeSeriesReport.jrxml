@@ -90,7 +90,7 @@
         <element kind="textField" uuid="6d9c2628-39af-421d-bf9f-9844a14dcaec" x="170" y="2" width="100" height="11" horizontalTextAlign="Right" evaluationTime="Group" pattern="EEE, MMM d, yyyy" evaluationGroup="CountryGroup" style="Sans_Bold">
           <expression><![CDATA[$V{DateHighestCountryGroup}]]></expression>
         </element>
-        <element kind="chart" chartType="14" uuid="c8d1a11b-bc8a-49b4-aa4f-a6395e1cbc82" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
+        <element kind="chart" chartType="xyBar" uuid="c8d1a11b-bc8a-49b4-aa4f-a6395e1cbc82" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
           <dataset kind="timeSeries" incrementType="Group" resetGroup="CountryGroup" incrementGroup="MonthGroup" timePeriod="Month" resetType="Group">
             <series>
               <seriesExpression><![CDATA["Half Freight"]]></seriesExpression>

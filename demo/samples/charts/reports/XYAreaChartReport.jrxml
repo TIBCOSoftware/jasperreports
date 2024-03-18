@@ -89,7 +89,7 @@
         <element kind="textField" uuid="64104238-eb36-4bdf-ada4-41061cd039c7" x="170" y="2" width="100" height="11" horizontalTextAlign="Right" evaluationTime="Group" pattern="EEE, MMM d, yyyy" evaluationGroup="CountryGroup" style="Sans_Bold">
           <expression><![CDATA[$V{DateHighestCountryGroup}]]></expression>
         </element>
-        <element kind="chart" chartType="13" uuid="a8223979-7c18-457a-b3df-23b4af92a6a8" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
+        <element kind="chart" chartType="xyArea" uuid="a8223979-7c18-457a-b3df-23b4af92a6a8" positionType="Float" y="25" width="270" height="175" evaluationTime="Group" evaluationGroup="CountryGroup">
           <dataset kind="xy" resetGroup="CountryGroup" resetType="Group">
             <incrementWhenExpression><![CDATA[$F{Freight} >= $P{ChartFreightThreshold}]]></incrementWhenExpression>
             <series>

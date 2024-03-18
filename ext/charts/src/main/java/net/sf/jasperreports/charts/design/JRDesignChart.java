@@ -40,6 +40,7 @@ import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseChart;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -110,7 +111,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	protected byte chartType;
+	protected ChartTypeEnum chartType;
 
 	/**
 	 *
@@ -169,7 +170,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 
 	@JsonCreator
-	private JRDesignChart(@JsonProperty("chartType") byte chartType)
+	private JRDesignChart(@JsonProperty("chartType") ChartTypeEnum chartType)
 	{
 		this(ReportDeserializer.getDefaultStyleProvider(), chartType);
 	}
@@ -177,7 +178,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public JRDesignChart(JRDefaultStyleProvider defaultStyleProvider, byte chartType)
+	public JRDesignChart(JRDefaultStyleProvider defaultStyleProvider, ChartTypeEnum chartType)
 	{
 		super(defaultStyleProvider);
 		
@@ -602,7 +603,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	@Override
 	public JRChartDataset getDataset()
 	{
-		return chartType == CHART_TYPE_MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
+		return chartType == ChartTypeEnum.MULTI_AXIS ? null : dataset; //we do this mostly for the jackson serialization
 	}
 
 	@Override
@@ -613,7 +614,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 
 	@Override
-	public byte getChartType()
+	public ChartTypeEnum getChartType()
 	{
 		return chartType;
 	}
@@ -622,92 +623,92 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	public void setChartType(byte chartType)
+	public void setChartType(ChartTypeEnum chartType)
 	{
-		byte old = this.chartType;
+		ChartTypeEnum old = this.chartType;
 		this.chartType = chartType;
 		
 		switch(chartType) {
-			case CHART_TYPE_AREA:
+			case AREA:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
-			case CHART_TYPE_BAR:
+			case BAR:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
-			case CHART_TYPE_BAR3D:
+			case BAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBar3DPlot(plot, this);
 				break;
-			case CHART_TYPE_BUBBLE:
+			case BUBBLE:
 				dataset = new JRDesignXyzDataset(dataset);
 				plot = new JRDesignBubblePlot(plot, this);
 				break;
-			case CHART_TYPE_CANDLESTICK:
+			case CANDLESTICK:
 				dataset = new JRDesignHighLowDataset(dataset);
 				plot = new JRDesignCandlestickPlot(plot, this);
 				break;
-			case CHART_TYPE_HIGHLOW:
+			case HIGHLOW:
 				dataset = new JRDesignHighLowDataset(dataset);
 				plot = new JRDesignHighLowPlot(plot, this);
 				break;
-			case CHART_TYPE_LINE:
+			case LINE:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignLinePlot(plot, this);
 				break;
-			case CHART_TYPE_METER:
+			case METER:
 				dataset = new JRDesignValueDataset(dataset);
 				plot = new JRDesignMeterPlot(plot, this);
 				break;
-			case CHART_TYPE_MULTI_AXIS:
+			case MULTI_AXIS:
 				dataset = null;
 				plot = new JRDesignMultiAxisPlot(plot, this);
 				break;
-			case CHART_TYPE_PIE:
+			case PIE:
 				dataset = new JRDesignPieDataset(dataset);
 				plot = new JRDesignPiePlot(plot, this);
 				break;
-			case CHART_TYPE_PIE3D:
+			case PIE3D:
 				dataset = new JRDesignPieDataset(dataset);
 				plot = new JRDesignPie3DPlot(plot, this);
 				break;
-			case CHART_TYPE_SCATTER:
+			case SCATTER:
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignScatterPlot(plot, this);
 				break;
-			case CHART_TYPE_STACKEDBAR:
+			case STACKEDBAR:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
-			case CHART_TYPE_STACKEDBAR3D:
+			case STACKEDBAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBar3DPlot(plot, this);
 				break;
-			case CHART_TYPE_THERMOMETER:
+			case THERMOMETER:
 				dataset = new JRDesignValueDataset(dataset);
 				plot = new JRDesignThermometerPlot(plot, this);
 				break;
-			case CHART_TYPE_TIMESERIES:
+			case TIMESERIES:
 				dataset = new JRDesignTimeSeriesDataset(dataset);//other datasets could be supported
 				plot = new JRDesignTimeSeriesPlot(plot, this);
 				break;
-			case CHART_TYPE_XYAREA:
+			case XYAREA:
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
-			case CHART_TYPE_XYBAR:
+			case XYBAR:
 				plot = new JRDesignBarPlot(plot, this);
 				break;
-			case CHART_TYPE_XYLINE:
+			case XYLINE:
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignLinePlot(plot, this);
 				break;
-			case CHART_TYPE_STACKEDAREA:
+			case STACKEDAREA:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
-			case CHART_TYPE_GANTT:
+			case GANTT:
 				dataset = new JRDesignGanttDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
@@ -724,7 +725,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 	public void setDataset(JRChartDataset ds)
 	{
-		if (chartType != CHART_TYPE_MULTI_AXIS) //not really needed, but just in case
+		if (chartType != ChartTypeEnum.MULTI_AXIS) //not really needed, but just in case
 		{
 			Object old = this.dataset;
 			dataset = ds;

@@ -76,7 +76,7 @@
         <topPen lineWidth="0.5"/>
       </box>
     </element>
-    <element kind="chart" chartType="9" uuid="a63b38fe-68ce-4bb0-ac09-2735d8a78406" positionType="Float" y="50" width="555" height="300" evaluationTime="Report">
+    <element kind="chart" chartType="pie" uuid="a63b38fe-68ce-4bb0-ac09-2735d8a78406" positionType="Float" y="50" width="555" height="300" evaluationTime="Report">
       <dataset kind="pie" incrementType="Group" incrementGroup="CityGroup">
         <series>
           <keyExpression><![CDATA[$F{ShipCity}]]></keyExpression>
