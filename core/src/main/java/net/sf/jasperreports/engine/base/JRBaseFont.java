@@ -66,8 +66,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	
 	public static final String PROPERTY_PDF_FONT_NAME = "pdfFontName";
 	
-	public static final String PROPERTY_REPORT_FONT = "reportFont";
-	
 	public static final String PROPERTY_STRIKE_THROUGH = "isStrikeThrough";
 	
 	public static final String PROPERTY_UNDERLINE = "isUnderline";
