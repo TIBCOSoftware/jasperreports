@@ -192,7 +192,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		printElementOriginator = filler.assignElementId(this);
 
-		/*   */
+		/*	 */
 		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
 		elementGroup = (JRFillElementGroup)factory.getVisitResult(element.getElementGroup());
 		
@@ -232,7 +232,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		printElementOriginator = element.printElementOriginator;
 
-		/*   */
+		/*	 */
 		printWhenGroupChanges = element.printWhenGroupChanges;
 		elementGroup = (JRFillElementGroup) factory.getClone((JRFillElementGroup) element.getElementGroup());
 
@@ -681,7 +681,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.collapsedHeightAbove = collapsedHeightAbove;
 	}
 
- 	/**
+	/**
 	 *
 	 */
 	protected int getCollapsedHeightBelow()
@@ -839,7 +839,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				{
 					throw 
 						new JRRuntimeException(
-							JRFillObjectFactory.EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND,  
+							JRFillObjectFactory.EXCEPTION_MESSAGE_KEY_STYLE_NOT_FOUND,	
 							new Object[]{styleName} 
 							);
 				}
@@ -989,7 +989,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		if (
 			isPrintWhenExpressionNull() ||
 			( !isPrintWhenExpressionNull() &&
-			  isPrintWhenTrue() )
+				isPrintWhenTrue() )
 			)
 		{
 			setToPrint(true);
@@ -1185,23 +1185,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected void moveDependantElements()
-	{
+	protected void moveDependantElements() {
 		Collection<JRFillElement> elements = getDependantElements();
-		if (elements != null && elements.size() > 0)
-		{
-			for (JRFillElement element : elements)
-			{
-				int newRelativeY = 
-					getRelativeY() + getStretchHeight() //pusher element current bottom edge
-					+ (element.getY() - (getY() + getHeight())) //design time distance between elements; difference between float element top edge and pusher element bottom edge
-					- (element.getCollapsedHeightAbove() - getCollapsedHeightAbove()); //difference in collapsedY amount, meaning the elements could only have become closer together due to blank element removal
-
-				if (newRelativeY > element.getRelativeY())
-				{
+		if (elements != null && !elements.isEmpty()) {
+			int offset = getRelativeY() + getStretchHeight() - getY() - getHeight() + getCollapsedHeightAbove();
+			for (JRFillElement element : elements) {
+				int newRelativeY = offset + element.getY() - element.getCollapsedHeightAbove();
+				if (newRelativeY > element.getRelativeY()) {
 					element.setRelativeY(newRelativeY);
-
-					element.moveDependantElements();
 				}
 			}
 		}
@@ -1297,7 +1288,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 * Decides whether the value for this element is repeating.
 	 * <p>
 	 * Dynamic elements should call {@link #setValueRepeating(boolean) setValueRepeating(boolean)} on
-	 * {@link #evaluate(byte) evaluate(byte)}.  Static elements don't have to do anything, this method
+	 * {@link #evaluate(byte) evaluate(byte)}.	Static elements don't have to do anything, this method
 	 * will return <code>true</code> by default.
 	 * 
 	 * @return whether the value for this element is repeating
@@ -2006,7 +1997,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			{
 				throw 
 					new JRException(
-						EXCEPTION_MESSAGE_KEY_INVALID_BOOKMARK_LEVEL,  
+						EXCEPTION_MESSAGE_KEY_INVALID_BOOKMARK_LEVEL,	
 						new Object[] {value} 
 						);
 			}
