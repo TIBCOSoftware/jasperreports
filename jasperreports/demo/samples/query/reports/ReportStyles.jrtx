@@ -6,7 +6,7 @@
 	<style name="RowStyle" style="Sans_Normal">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{ConditionalRow}]]></conditionExpression>
-			<style backcolor="#EEEEEE"/>
+			<style mode="Opaque" backcolor="rgba(238, 238, 238, 0.5)"/>
 		</conditionalStyle>
 	</style>
 	<style name="FieldStyle" style="RowStyle">
