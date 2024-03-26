@@ -68,6 +68,7 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
+import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.Grid;
@@ -80,7 +81,9 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
+import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -101,6 +104,7 @@ import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
+import net.sf.jasperreports.export.PrintPartUnrollExporterInput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -184,6 +188,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected DocxZip docxZip;
 	protected DocxDocumentHelper docHelper;
 	protected Writer docWriter;
+	protected DocxHeaderHelper headerHelper;
+	protected Writer headerWriter;
+	protected DocxDocumentHelper crtDocHelper;
+	protected Writer crtDocWriter;
 
 	protected Map<String, Pair<String, ExifOrientationEnum>> rendererToImagePathMap;
 	protected RenderersCache renderersCache;
@@ -194,6 +202,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected int startPageIndex;
 	protected int endPageIndex;
 	protected int tableIndex;
+	protected int headerIndex;
 	protected boolean startPage;
 	protected String invalidCharReplacement;
 	protected PrintPageFormat pageFormat;
@@ -203,14 +212,20 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected Color backcolor;
 
 	protected DocxRunHelper runHelper;
+	protected DocxRunHelper headerRunHelper;
+	protected DocxRunHelper crtRunHelper;
 
-	protected ExporterNature nature;
+	protected ExporterNature backgroundNature;
+	protected ExporterNature pageNature;
 
 	protected long bookmarkIndex;
 	
 	protected String pageAnchor;
 	
 	protected DocxRelsHelper relsHelper;
+	protected DocxHeaderRelsHelper headerRelsHelper;
+	protected DocxRelsHelper crtRelsHelper;
+	protected DocxContentTypesHelper ctHelper;
 	protected PropsAppHelper appHelper;
 	protected PropsCoreHelper coreHelper;
 	protected DocxFontHelper docxFontHelper;
@@ -344,10 +359,17 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		DocxReportConfiguration configuration = getCurrentItemConfiguration();
 		
-		nature = 
+		backgroundNature = 
 			new JRDocxExporterNature(
 				jasperReportsContext, 
-				filter, 
+				new BackgroundExporterFilter(filter, true),  
+				!configuration.isFramesAsNestedTables()
+				);
+
+		pageNature = 
+			new JRDocxExporterNature(
+				jasperReportsContext, 
+				configuration.isBackgroundAsHeader() ? new BackgroundExporterFilter(filter, false) : filter,  
 				!configuration.isFramesAsNestedTables()
 				);
 
@@ -365,10 +387,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		
 		docHelper = new DocxDocumentHelper(jasperReportsContext, docWriter);
-		docHelper.exportHeader();
+		docHelper.exportHeader(pageFormat);
 		
 		relsHelper = new DocxRelsHelper(jasperReportsContext, docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
+
+		ctHelper = new DocxContentTypesHelper(jasperReportsContext, docxZip.getContentTypesEntry().getWriter());
+		ctHelper.exportHeader();
 		
 		appHelper = new PropsAppHelper(jasperReportsContext, docxZip.getAppEntry().getWriter());
 		coreHelper = new PropsCoreHelper(jasperReportsContext, docxZip.getCoreEntry().getWriter());
@@ -443,13 +468,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		docxFontTableRelsHelper = new DocxFontTableRelsHelper(jasperReportsContext, docxZip.getFontTableRelsEntry().getWriter());
 		docxFontTableRelsHelper.exportHeader();
 		
-		
 		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, docxFontHelper);
 		
 		pageFormat = null;
-		PrintPageFormat oldPageFormat = null;
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for (reportIndex = 0; reportIndex < items.size(); reportIndex++) // remember this uses PrintPartUnrollExporterInput
 		{
 			ExporterInputItem item = items.get(reportIndex);
 
@@ -465,30 +488,26 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				JRPrintPage page = null;
-				for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+				if (startPageIndex <= endPageIndex)
 				{
-					checkInterrupted();
-
-					page = pages.get(pageIndex);
-
-					pageFormat = jasperPrint.getPageFormat(pageIndex);
+					pageFormat = jasperPrint.getPageFormat(startPageIndex);
 					
-					if (oldPageFormat != null && oldPageFormat != pageFormat)
+					exportHeader(pages.get(startPageIndex));
+
+					JRPrintPage page = null;
+					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
-						docHelper.exportSection(oldPageFormat, pageGridLayout, false);
+						checkInterrupted();
+
+						page = pages.get(pageIndex);
+
+						
+						exportPage(page);
 					}
 					
-					exportPage(page);
-
-					oldPageFormat = pageFormat;
+					docHelper.exportSection(pageFormat, pageGridLayout, headerIndex, reportIndex == items.size() - 1);
 				}
 			}
-		}
-		
-		if (oldPageFormat != null)
-		{
-			docHelper.exportSection(oldPageFormat, pageGridLayout, true);
 		}
 
 		docHelper.exportFooter();
@@ -507,6 +526,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		relsHelper.exportFooter();
 		relsHelper.close();
+
+		ctHelper.exportFooter();
+		ctHelper.close();
 
 		appHelper.exportFooter();
 		appHelper.close();
@@ -540,6 +562,60 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
+	protected void exportHeader(JRPrintPage page) throws JRException
+	{
+		DocxReportConfiguration configuration = getCurrentItemConfiguration();
+
+		headerIndex++;
+		ExportZipEntry headerEntry = docxZip.addHeader(headerIndex);
+		headerWriter = headerEntry.getWriter();
+
+		headerHelper = new DocxHeaderHelper(jasperReportsContext, headerWriter);
+		headerHelper.exportHeader(pageFormat);
+
+		ExportZipEntry headerRelsEntry = docxZip.addHeaderRels(headerIndex);
+		headerRelsHelper = new DocxHeaderRelsHelper(jasperReportsContext, headerRelsEntry.getWriter());
+		headerRelsHelper.exportHeader();
+		
+		if (configuration.isBackgroundAsHeader())
+		{
+			headerRunHelper = new DocxRunHelper(jasperReportsContext, headerWriter, docxFontHelper);
+			
+			pageAnchor = null;
+
+			crtDocHelper = headerHelper;
+			crtDocWriter = headerWriter;
+			crtRelsHelper = headerRelsHelper;
+			crtRunHelper = headerRunHelper;
+			
+			JRGridLayout backgrounGridLayout =
+				new JRGridLayout(
+					backgroundNature,
+					page.getElements(),
+					pageFormat.getPageWidth(),
+					pageFormat.getPageHeight(),
+					configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
+					configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
+					null //address
+					);
+
+			exportGrid(backgrounGridLayout, null);
+		}
+		
+		relsHelper.exportHeader(headerIndex);
+		ctHelper.exportHeader(headerIndex);
+
+		headerHelper.exportFooter();
+		headerHelper.close();
+
+		headerRelsHelper.exportFooter();
+		headerRelsHelper.close();
+	}
+
+
+	/**
+	 *
+	 */
 	protected void exportPage(JRPrintPage page) throws JRException
 	{
 		startPage = true;
@@ -547,9 +623,14 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		
 		ReportExportConfiguration configuration = getCurrentItemConfiguration();
 
+		crtDocHelper = docHelper;
+		crtDocWriter = docWriter;
+		crtRelsHelper = relsHelper;
+		crtRunHelper = runHelper;
+
 		pageGridLayout =
 			new JRGridLayout(
-				nature,
+				pageNature,
 				page.getElements(),
 				pageFormat.getPageWidth(),
 				pageFormat.getPageHeight(),
@@ -595,7 +676,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			tableHelper = 
 					new DocxTableHelper(
 						jasperReportsContext,
-						docWriter, 
+						crtDocWriter, 
 						xCuts,
 						false,
 						pageFormat,
@@ -616,7 +697,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		tableHelper = 
 				new DocxTableHelper(
 					jasperReportsContext,
-					docWriter, 
+					crtDocWriter, 
 					xCuts,
 					frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex),
 					pageFormat,
@@ -896,16 +977,16 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //		}
 //
 //		writer.write(">");
-		docHelper.write("     <w:p>\n");
+		crtDocHelper.write("     <w:p>\n");
 
 		tableHelper.getParagraphHelper().exportProps(text);
 		if (startPage)
 		{
-			insertBookmark(pageAnchor, docHelper);
+			insertBookmark(pageAnchor, crtDocHelper);
 		}
 		if (text.getAnchorName() != null)
 		{
-			insertBookmark(text.getAnchorName(), docHelper);
+			insertBookmark(text.getAnchorName(), crtDocHelper);
 		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
@@ -939,7 +1020,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			endHyperlink(true);
 		}
 
-		docHelper.write("     </w:p>\n");
+		crtDocHelper.write("     </w:p>\n");
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -993,7 +1074,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				
 				String bulletText = JRStyledTextUtil.getIndentedBulletText(context);
 				
-				runHelper.export(
+				crtRunHelper.export(
 					style, 
 					attributes, 
 					(bulletText == null ? "" : bulletText) + runText,
@@ -1033,7 +1114,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		docHelper.write("<w:p>\n");//FIXMEDOCX why is this here and not further down?
+		crtDocHelper.write("<w:p>\n");//FIXMEDOCX why is this here and not further down?
 		tableHelper.getParagraphHelper().exportProps(image);
 
 		Renderable renderer = image.getRenderer();
@@ -1298,68 +1379,85 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 				if (startPage)
 				{
-					insertBookmark(pageAnchor, docHelper);
+					insertBookmark(pageAnchor, crtDocHelper);
 				}
 				if (image.getAnchorName() != null)
 				{
-					insertBookmark(image.getAnchorName(), docHelper);
+					insertBookmark(image.getAnchorName(), crtDocHelper);
 				}
 
 
 //				boolean startedHyperlink = startHyperlink(image,false);
 
-				docHelper.write("<w:r>\n"); 
-				docHelper.write("<w:rPr/>\n"); 
-				docHelper.write("<w:drawing>\n");
-				docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" "
-					+ "relativeHeight=\"0\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">\n");
-				docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>\n");
-				docHelper.write("<wp:positionH relativeFrom=\"column\">\n");
-				docHelper.write("<wp:posOffset>" + LengthUtil.emu(xoffset) + "</wp:posOffset>\n");
-				docHelper.write("</wp:positionH>\n");
-				docHelper.write("<wp:positionV relativeFrom=\"paragraph\">\n");
-				docHelper.write("<wp:posOffset>" + LengthUtil.emu(yoffset + topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
-				docHelper.write("</wp:positionV>\n");
-				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>\n");
-				docHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
-				docHelper.write("<wp:wrapNone/>\n");
+				crtDocHelper.write("<w:r>\n"); 
+				crtDocHelper.write("<w:rPr/>\n"); 
+				crtDocHelper.write("<w:drawing>\n");
+				if (crtDocHelper == docHelper) // simple test to differentiate between document.xml writer and header.xml writer
+				{
+					// in main document writer, keep use of anchor for images, to avoid unnecessary regressions when introducing header writer for background band
+					// anchor for images solves the issue with cell top margins eating up from top of the image
+					crtDocHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" "
+						+ "relativeHeight=\"0\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">\n");
+					crtDocHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>\n");
+					crtDocHelper.write("<wp:positionH relativeFrom=\"column\">\n");
+					crtDocHelper.write("<wp:posOffset>" + LengthUtil.emu(xoffset) + "</wp:posOffset>\n");
+					crtDocHelper.write("</wp:positionH>\n");
+					crtDocHelper.write("<wp:positionV relativeFrom=\"paragraph\">\n");
+					crtDocHelper.write("<wp:posOffset>" + LengthUtil.emu(yoffset + topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
+					crtDocHelper.write("</wp:positionV>\n");
+				}
+				else
+				{
+					// in header writer, images need inline instead of anchor, otherwise they do not show up
+					crtDocHelper.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
+				}
+				crtDocHelper.write("<wp:extent cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>\n");
+				crtDocHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
+				crtDocHelper.write("<wp:wrapNone/>\n");
 
 				int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 				String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
-				docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\">\n");
+				crtDocHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\">\n");
 				if (getHyperlinkURL(image) != null)
 				{
-					docHelper.write("<a:hlinkClick xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" r:id=\"" + rId + "\"/>\n");
+					crtDocHelper.write("<a:hlinkClick xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" r:id=\"" + rId + "\"/>\n");
 				}
-				docHelper.write("</wp:docPr>\n");
-				docHelper.write("<a:graphic>\n");
-				docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-				docHelper.write("<pic:pic>\n");
-				docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + imageId + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-				docHelper.write("<pic:blipFill>\n");
+				crtDocHelper.write("</wp:docPr>\n");
+				crtDocHelper.write("<a:graphic>\n");
+				crtDocHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
+				crtDocHelper.write("<pic:pic>\n");
+				crtDocHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + imageId + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+				crtDocHelper.write("<pic:blipFill>\n");
 
-				docHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
-				docHelper.write("<a:srcRect/>");
-				docHelper.write("<a:stretch><a:fillRect");
-				docHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
-				docHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
-				docHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
-				docHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
-				docHelper.write("/></a:stretch>\n");
-				docHelper.write("</pic:blipFill>\n");
-				docHelper.write("<pic:spPr>\n");
-				docHelper.write("  <a:xfrm rot=\"" + (60000 * angle) + "\">\n");
-				docHelper.write("    <a:off x=\"0\" y=\"0\"/>\n");
-				docHelper.write("    <a:ext cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>");
-				docHelper.write("  </a:xfrm>\n");
-				docHelper.write("  <a:prstGeom prst=\"rect\"></a:prstGeom>\n");
-				docHelper.write("</pic:spPr>\n");
-				docHelper.write("</pic:pic>\n");
-				docHelper.write("</a:graphicData>\n");
-				docHelper.write("</a:graphic>\n");
-				docHelper.write("</wp:anchor>\n");
-				docHelper.write("</w:drawing>\n");
-				docHelper.write("</w:r>"); 
+				crtDocHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
+				crtDocHelper.write("<a:srcRect/>");
+				crtDocHelper.write("<a:stretch><a:fillRect");
+				crtDocHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				crtDocHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				crtDocHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				crtDocHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
+				crtDocHelper.write("/></a:stretch>\n");
+				crtDocHelper.write("</pic:blipFill>\n");
+				crtDocHelper.write("<pic:spPr>\n");
+				crtDocHelper.write("  <a:xfrm rot=\"" + (60000 * angle) + "\">\n");
+				crtDocHelper.write("    <a:off x=\"0\" y=\"0\"/>\n");
+				crtDocHelper.write("    <a:ext cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>");
+				crtDocHelper.write("  </a:xfrm>\n");
+				crtDocHelper.write("  <a:prstGeom prst=\"rect\"></a:prstGeom>\n");
+				crtDocHelper.write("</pic:spPr>\n");
+				crtDocHelper.write("</pic:pic>\n");
+				crtDocHelper.write("</a:graphicData>\n");
+				crtDocHelper.write("</a:graphic>\n");
+				if (crtDocHelper == docHelper) // simple test to differentiate between document.xml writer and header.xml writer
+				{
+					crtDocHelper.write("</wp:anchor>\n");
+				}
+				else
+				{
+					crtDocHelper.write("</wp:inline>\n");
+				}
+				crtDocHelper.write("</w:drawing>\n");
+				crtDocHelper.write("</w:r>"); 
 
 				String url =  getHyperlinkURL(image);
 
@@ -1371,7 +1469,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						case LOCAL_PAGE:
 						case LOCAL_ANCHOR:
 						{
-							relsHelper.exportImageLink(rId, "#"+url.replaceAll("\\W", ""), targetMode);
+							crtRelsHelper.exportImageLink(rId, "#"+url.replaceAll("\\W", ""), targetMode);
 							break;
 						}
 						
@@ -1380,7 +1478,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						case REFERENCE:
 						{
 							targetMode = " TargetMode=\"External\"";
-							relsHelper.exportImageLink(rId, url, targetMode);
+							crtRelsHelper.exportImageLink(rId, url, targetMode);
 							break;
 						}
 						default:
@@ -1397,7 +1495,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 		}
 
-		docHelper.write("</w:p>");
+		crtDocHelper.write("</w:p>");
 
 		tableHelper.getCellHelper().exportFooter();
 	}
@@ -1495,7 +1593,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							)
 						);
 					
-					relsHelper.exportImage(imageName);
+					crtRelsHelper.exportImage(imageName);
 
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
@@ -1729,36 +1827,36 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //				hyperlinksMap.put(href, id);
 //			}
 //			
-//			docHelper.write("<w:hyperlink r:id=\"" + id + "\"");
+//			crtDocHelper.write("<w:hyperlink r:id=\"" + id + "\"");
 //
 //			String target = getHyperlinkTarget(link);//FIXMETARGET
 //			if (target != null)
 //			{
-//				docHelper.write(" tgtFrame=\"" + target + "\"");
+//				crtDocHelper.write(" tgtFrame=\"" + target + "\"");
 //			}
 //
-//			docHelper.write(">\n");
+//			crtDocHelper.write(">\n");
 
-			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+			crtDocHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
 			String localType = (HyperlinkTypeEnum.LOCAL_ANCHOR == link.getHyperlinkTypeValue() || 
 					HyperlinkTypeEnum.LOCAL_PAGE == link.getHyperlinkTypeValue()) ? "\\l " : "";
 					
-			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK " + localType +"\"" + JRStringUtil.xmlEncode(href,invalidCharReplacement) + "\"");
+			crtDocHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK " + localType +"\"" + JRStringUtil.xmlEncode(href,invalidCharReplacement) + "\"");
 
 			String target = getHyperlinkTarget(link);//FIXMETARGET
 			if (target != null)
 			{
-				docHelper.write(" \\t \"" + target + "\"");
+				crtDocHelper.write(" \\t \"" + target + "\"");
 			}
 
 			String tooltip = link.getHyperlinkTooltip(); 
 			if (tooltip != null)
 			{
-				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip, invalidCharReplacement) + "\"");
+				crtDocHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip, invalidCharReplacement) + "\"");
 			}
 
-			docHelper.write(" </w:instrText></w:r>\n");
-			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+			crtDocHelper.write(" </w:instrText></w:r>\n");
+			crtDocHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
 		}
 
 		return href != null;
@@ -1868,8 +1966,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 	protected void endHyperlink(boolean isText)
 	{
-//		docHelper.write("</w:hyperlink>\n");
-		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+//		crtDocHelper.write("</w:hyperlink>\n");
+		crtDocHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 	}
 
 	protected void insertBookmark(String bookmark, BaseHelper helper)
@@ -1884,6 +1982,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected void ensureInput()
 	{
 		super.ensureInput();
+
+		exporterInput = new PrintPartUnrollExporterInput(exporterInput, getItemConfigurationInterface());
+
+		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();// this is just for the sake of
+																		// getCurrentConfiguration() calls made prior to
+																		// any setCurrentExporterInputItem() call
 	}
 
 	@Override
@@ -1903,6 +2007,27 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	public String getExporterPropertiesPrefix()
 	{
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
+	}
+}
+
+class BackgroundExporterFilter implements ExporterFilter
+{
+	ExporterFilter parent;
+	boolean include;
+	
+	public BackgroundExporterFilter(ExporterFilter parent, boolean include)
+	{
+		this.parent = parent;
+		this.include = include;
+	}
+
+	@Override
+	public boolean isToExport(JRPrintElement element) 
+	{
+		// normally, we should also test for reportName to be null, but part reports have non-null report name in origin, just like subreports;
+		// in case there is a subreport with backround element, one way to avoid its elements going into docx background is to filter them out using docx origin filters
+		boolean originMatches = element.getOrigin() == null ? false : BandTypeEnum.BACKGROUND == element.getOrigin().getBandTypeValue();
+		return ((include && originMatches) || (!include && !originMatches)) && parent.isToExport(element);
 	}
 }
 
