@@ -32,6 +32,7 @@ import java.util.ListIterator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -179,6 +180,19 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		{
 			for (JRStyle style : styles)
 			{
+				JRConditionalStyle[] condStyles = style.getConditionalStyles();
+				if (condStyles != null)
+				{
+					for (JRConditionalStyle condStyle : condStyles)
+					{
+						JRDesignExpression expression = (JRDesignExpression)condStyle.getConditionExpression();
+						if (expression != null)
+						{
+							expression.setInterpreted();
+						}
+					}
+				}
+				
 				addStyle(style);
 			}
 		}
