@@ -42,6 +42,7 @@ public class DocxZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry;
 	private ExportZipEntry settingsEntry;
 	private ExportZipEntry relsEntry;
+	private ExportZipEntry contentTypesEntry;
 	private ExportZipEntry appEntry;
 	private ExportZipEntry coreEntry;
 	private ExportZipEntry fontTableEntry;
@@ -64,12 +65,13 @@ public class DocxZip extends FileBufferedZip
 		
 		relsEntry = createEntry("word/_rels/document.xml.rels");
 		
+		contentTypesEntry = createEntry("[Content_Types].xml");
+		
 		appEntry = createEntry("docProps/app.xml");
 
 		coreEntry = createEntry("docProps/core.xml");
 
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/docx/_rels/xml.rels");
-		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/Content_Types.xml");
 	}
 	
 	/**
@@ -78,6 +80,22 @@ public class DocxZip extends FileBufferedZip
 	public ExportZipEntry getDocumentEntry()
 	{
 		return documentEntry;
+	}
+	
+	/**
+	 * 
+	 */
+	public ExportZipEntry addHeader(int index)
+	{
+		return createEntry("word/header" + index + ".xml");
+	}
+	
+	/**
+	 * 
+	 */
+	public ExportZipEntry addHeaderRels(int index)
+	{
+		return createEntry("word/_rels/header" + index + ".xml.rels");
 	}
 	
 	/**
@@ -102,6 +120,14 @@ public class DocxZip extends FileBufferedZip
 	public ExportZipEntry getRelsEntry()
 	{
 		return relsEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getContentTypesEntry()
+	{
+		return contentTypesEntry;
 	}
 	
  	/**
