@@ -73,14 +73,14 @@
   </pageHeader>
   <detail>
     <band height="20">
-      <element kind="textField" uuid="21d5b9b3-0c48-489a-95ce-436044902f49" mode="Opaque" width="55" height="19" horizontalTextAlign="Right" verticalTextAlign="Middle" style="FieldStyle">
+      <element kind="textField" uuid="21d5b9b3-0c48-489a-95ce-436044902f49" width="55" height="19" horizontalTextAlign="Right" verticalTextAlign="Middle" style="FieldStyle">
         <expression><![CDATA[$F{Id}]]></expression>
         <box rightPadding="5" style="FieldStyle"/>
       </element>
-      <element kind="textField" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5" positionType="Float" mode="Opaque" x="55" width="205" height="19" verticalTextAlign="Middle" textAdjust="StretchHeight" style="RowStyle">
+      <element kind="textField" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5" positionType="Float" x="55" width="205" height="19" verticalTextAlign="Middle" textAdjust="StretchHeight" style="RowStyle">
         <expression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></expression>
       </element>
-      <element kind="textField" uuid="c16dbc25-0b76-4008-bf63-32753ecac356" positionType="Float" mode="Opaque" x="260" width="255" height="19" verticalTextAlign="Middle" textAdjust="StretchHeight" style="RowStyle">
+      <element kind="textField" uuid="c16dbc25-0b76-4008-bf63-32753ecac356" positionType="Float" x="260" width="255" height="19" verticalTextAlign="Middle" textAdjust="StretchHeight" style="RowStyle">
         <expression><![CDATA[$F{Street}]]></expression>
       </element>
       <element kind="line" uuid="d06ffbd0-fa95-4d57-b0c0-dfd69a8417e1" positionType="Float" y="19" width="515" height="1" forecolor="#808080"/>
