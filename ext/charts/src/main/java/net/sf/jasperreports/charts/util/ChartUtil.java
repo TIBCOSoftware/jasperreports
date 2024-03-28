@@ -431,23 +431,20 @@ public final class ChartUtil
 	public static final PlotOrientation getPlotOrientation(PlotOrientationEnum plotOrientationEnum)
 	{
 		PlotOrientation plotOrientation = null;
-		if (plotOrientationEnum != null)
+		switch (PlotOrientationEnum.getValueOrDefault(plotOrientationEnum))
 		{
-			switch (plotOrientationEnum)
+			case VERTICAL : 
 			{
-				case VERTICAL : 
-				{
-					plotOrientation = PlotOrientation.VERTICAL;
-					break;
-				}
-				case HORIZONTAL : 
-				{
-					plotOrientation = PlotOrientation.HORIZONTAL;
-					break;
-				}
-				default :
-				{
-				}
+				plotOrientation = PlotOrientation.VERTICAL;
+				break;
+			}
+			case HORIZONTAL : 
+			{
+				plotOrientation = PlotOrientation.HORIZONTAL;
+				break;
+			}
+			default :
+			{
 			}
 		}
 		return plotOrientation;

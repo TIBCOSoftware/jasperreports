@@ -87,7 +87,6 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.charts.util.HighLowChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.charts.util.MultiAxisChartHyperlinkProvider;
@@ -336,14 +335,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected StyleResolver getStyleResolver() 
 	{
 		return getDefaultStyleProvider().getStyleResolver();
-	}
-
-	/**
-	 * 
-	 */
-	protected ChartsStyleResolver getChartsStyleResolver() 
-	{
-		return new ChartsStyleResolver(getStyleResolver()); //FIXME7
 	}
 
 	/**

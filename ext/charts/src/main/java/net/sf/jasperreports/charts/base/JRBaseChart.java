@@ -25,8 +25,6 @@ package net.sf.jasperreports.charts.base;
 
 import java.awt.Color;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import net.sf.jasperreports.charts.ChartVisitorFactory;
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRAreaPlot;
@@ -57,7 +55,6 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -322,15 +319,6 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		lineBox = chart.getLineBox().clone(this);
 	}
 		
-	/**
-	 *
-	 */
-	@JsonIgnore
-	public ChartsStyleResolver getChartsStyleResolver()
-	{
-		return new ChartsStyleResolver(getStyleResolver()); //FIXME7
-	}
-
 	@Override
 	public Boolean getShowLegend()
 	{

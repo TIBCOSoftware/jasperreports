@@ -49,10 +49,10 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
- * A report verifier.
+ * A chart verifier.
  *
  * <p>
- * The verifier checks that a report design meets certain rules in order to pass
+ * The verifier checks that a chart design meets certain rules in order to pass
  * report compilation.  
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)

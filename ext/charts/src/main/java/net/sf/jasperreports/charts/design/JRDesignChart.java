@@ -42,7 +42,6 @@ import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.base.JRBaseChart;
 import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -189,15 +188,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		lineBox = new JRBaseLineBox(this);
 	}
 
-	/**
-	 *
-	 */
-	@JsonIgnore
-	public ChartsStyleResolver getChartsStyleResolver()
-	{
-		return new ChartsStyleResolver(getStyleResolver()); //FIXME7
-	}
-	
 	@Override
 	public Boolean getShowLegend()
 	{

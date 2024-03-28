@@ -39,6 +39,7 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.design.JRDesignChart;
 import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.util.ChartsStyleResolver;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
@@ -47,6 +48,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -93,6 +95,16 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	public static final String RENDER_TYPE_DRAW = "draw";
 	public static final String RENDER_TYPE_IMAGE = "image";
 	public static final String RENDER_TYPE_SVG = "svg";
+
+	@JsonIgnore
+	public default ChartsStyleResolver getChartsStyleResolver() 
+	{
+		StyleResolver styleResolver = 
+			getDefaultStyleProvider() == null
+			? StyleResolver.getInstance()
+			: getDefaultStyleProvider().getStyleResolver();
+		return new ChartsStyleResolver(styleResolver); //FIXME7
+	}
 
 	/**
 	 * 
