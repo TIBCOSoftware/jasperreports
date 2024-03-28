@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonMerge;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -281,12 +283,14 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 	
 	@Override
+	@JsonMerge
 	public JRSection getGroupHeaderSection()
 	{
 		return this.groupHeaderSection;
 	}
 		
 	@Override
+	@JsonMerge
 	public JRSection getGroupFooterSection()
 	{
 		return this.groupFooterSection;
