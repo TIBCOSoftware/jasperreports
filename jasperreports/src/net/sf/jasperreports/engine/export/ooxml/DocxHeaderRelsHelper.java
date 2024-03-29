@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -33,6 +35,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class DocxHeaderRelsHelper extends DocxRelsHelper
 {
+	private Set<String> rels = new HashSet<String>();
 
 	/**
 	 * 
@@ -47,6 +50,17 @@ public class DocxHeaderRelsHelper extends DocxRelsHelper
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
+	}
+
+	@Override
+	public void exportImage(String imageName)
+	{
+		if (!rels.contains(imageName))
+		{
+			super.exportImage(imageName);
+			
+			rels.add(imageName);
+		}
 	}
 	
 }

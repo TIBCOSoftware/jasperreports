@@ -1593,7 +1593,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							)
 						);
 					
-					crtRelsHelper.exportImage(imageName);
+					// add all images to document rels helper, even if they are only used in background;
+					// there are probably not many background images anyway and having them in document rels does not hurt
+					relsHelper.exportImage(imageName);
 
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
@@ -1603,6 +1605,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 						rendererToImagePathMap.put(renderer.getId(), new Pair<>(imagePath, exifOrientation));
 					}
+				}
+
+				if (crtRelsHelper == headerRelsHelper)
+				{
+					// header rels helpers keep an internal set of image names for uniqueness,
+					// so it is ok to always add the image to them, even if the image was already processed before;
+					// on the other had, the document rels helper has the image added only when the image resource is created, so it benefits from
+					// the rendererToImagePathMap uniqueness, even though it would thus contain also the background images, which would not be that many anyway.
+					headerRelsHelper.exportImage(imagePath);
 				}
 //			}
 
