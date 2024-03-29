@@ -582,14 +582,14 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		new ChartsExpressionCollector(collector).collect(this);//FIXME7
+		new ChartsExpressionCollector(collector).collect(this);
 	}
 
 
 	@Override
 	public void visit(JRVisitor visitor)
 	{
-		ChartVisitorFactory.getInstance().getChartVisitor(visitor).visitChart(this);//FIXME7
+		ChartVisitorFactory.getInstance().getChartVisitor(visitor).visitChart(this);
 	}
 
 

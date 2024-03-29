@@ -34,20 +34,25 @@ package net.sf.jasperreports.charts.convert;
 import net.sf.jasperreports.charts.ChartVisitor;
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ChartsConvertVisitor extends ConvertVisitor implements ChartVisitor
+public class ChartsConvertVisitor extends ConvertVisitor implements ChartVisitor //FIXME7 maybe not extends ConvertVisitor
 {
+	private ConvertVisitor parent;
+	
 	/**
 	 *
 	 */
 	public ChartsConvertVisitor(ConvertVisitor parent)
 	{
 		super(parent.getReportConverter(), parent.getParentFrame());
+		
+		this.parent = parent;
 	}
 
 	@Override
@@ -58,4 +63,11 @@ public class ChartsConvertVisitor extends ConvertVisitor implements ChartVisitor
 		addContour(reportConverter, parentFrame, printImage);
 	}
 	
+	@Override
+	public void addElement(JRBasePrintFrame frame, JRPrintElement element) 
+	{
+		super.addElement(frame, element);
+		
+		parent.addElement(frame, element);
+	}
 }

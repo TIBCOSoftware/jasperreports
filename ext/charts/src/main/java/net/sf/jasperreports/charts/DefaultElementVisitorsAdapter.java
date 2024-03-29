@@ -55,27 +55,27 @@ public class DefaultElementVisitorsAdapter implements ElementVisitorAdapter
 	{
 		if (visitor instanceof JRElementsVisitor)
 		{
-			return new ChartsElementsVisitor((JRElementsVisitor)visitor);//FIXME7
+			return new ChartsElementsVisitor((JRElementsVisitor)visitor);
 		}
 		else if (visitor instanceof JRBaseObjectFactory)
 		{
-			return new ChartsBaseObjectFactory((JRBaseObjectFactory)visitor);//FIXME7
+			return new ChartsBaseObjectFactory((JRBaseObjectFactory)visitor);
 		}
 		else if (visitor instanceof JRFillObjectFactory)
 		{
-			return new ChartsFillObjectFactory((JRFillObjectFactory)visitor);//FIXME7
+			return new ChartsFillObjectFactory((JRFillObjectFactory)visitor);
 		}
 		else if (visitor instanceof JRVerifierVisitor)
 		{
-			return new ChartsVerifier((JRVerifierVisitor)visitor);//FIXME7
+			return new ChartsVerifier((JRVerifierVisitor)visitor);
 		}
 		else if (visitor instanceof JRApiWriterVisitor)
 		{
-			return new ChartsApiWriter((JRApiWriterVisitor)visitor);//FIXME7
+			return new ChartsApiWriter((JRApiWriterVisitor)visitor);
 		}
 		else if (visitor instanceof ConvertVisitor)
 		{
-			return new ChartsConvertVisitor(((ConvertVisitor)visitor));//FIXME7
+			return new ChartsConvertVisitor(((ConvertVisitor)visitor));
 		}
 		return  null;
 	}

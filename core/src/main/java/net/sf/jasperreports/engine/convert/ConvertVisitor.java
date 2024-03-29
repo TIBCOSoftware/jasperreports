@@ -197,7 +197,7 @@ public class ConvertVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	protected void addElement(JRBasePrintFrame frame, JRPrintElement element)
+	public void addElement(JRBasePrintFrame frame, JRPrintElement element)
 	{
 		printElement = element;
 		if (frame != null)

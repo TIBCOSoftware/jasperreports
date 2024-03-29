@@ -26,6 +26,8 @@ package net.sf.jasperreports.data.jdbc;
 import java.sql.Driver;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonMerge;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -78,6 +80,7 @@ public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 	
 	public void setDriver(String driver);
 	
+	@JsonInclude(Include.NON_NULL) //FIXME7 deal with all strings
 	public String getPassword();
 	
 	public void setPassword(String password);

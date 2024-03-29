@@ -112,7 +112,7 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		new ChartsExpressionCollector(collector).collect(this);//FIXME7
+		new ChartsExpressionCollector(collector).collect(this);
 	}
 
 	@Override
