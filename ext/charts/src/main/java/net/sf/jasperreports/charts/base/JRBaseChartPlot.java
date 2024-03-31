@@ -136,7 +136,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	protected ChartsStyleResolver getStyleResolver()
 	{
-		return ((JRBaseChart)getChart()).getChartsStyleResolver();
+		return getChart().getChartsStyleResolver();
 	}
 
 	

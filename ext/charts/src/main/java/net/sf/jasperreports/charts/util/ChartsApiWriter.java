@@ -116,7 +116,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 		{
 			parent.write( chartName + ".setShowLegend({0});\n", parent.getBooleanText(chart.getShowLegend()));
 			parent.write( chartName + ".setEvaluationTime({0});\n", chart.getEvaluationTime(), EvaluationTimeEnum.NOW);
-			parent.write( chartName + ".setEvaluationGroup({0});\n", chart.getEvaluationGroup());
+			parent.write( chartName + ".setEvaluationGroup(\"{0}\");\n", chart.getEvaluationGroup());
 	
 			if(chart.getLinkType() != null)
 			{
@@ -675,7 +675,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			// Let the nested chart describe itself
 			writeChartTag( chartAxis.getChart(), axisName +"Chart");
 			
-			parent.write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + axisName +"Chart);\n");
+			parent.write( "JRDesignChartAxis " + axisName + " = new JRDesignChartAxis(" + parentName + ");\n");
 			parent.write( axisName + ".setPosition({0});\n", chartAxis.getPosition());
 			parent.write( axisName + ".setChart(" + axisName +"Chart);\n");
 //			parent.write( parentName + ".setChart(" + axisName +"Chart);\n");
@@ -716,7 +716,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_PIE);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.PIE);\n");
 			writeChart( chart, chartName);
 			writePieDataset( (JRPieDataset)chart.getDataset(), chartName, "PieDataset");
 			// write plot
@@ -746,7 +746,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_PIE3D);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.PIE3D);\n");
 			writeChart( chart, chartName);
 			writePieDataset( (JRPieDataset)chart.getDataset(), chartName, "PieDataset");
 			// write plot
@@ -1108,7 +1108,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BAR);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.BAR);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
@@ -1124,7 +1124,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BAR3D);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.BAR3D);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
@@ -1140,7 +1140,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_BUBBLE);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.BUBBLE);\n");
 			writeChart( chart, chartName);
 			writeXyzDataset( (JRXyzDataset) chart.getDataset(), chartName, "XyzDataset");
 			writeBubblePlot( (JRBubblePlot) chart.getPlot(), chartName);
@@ -1156,7 +1156,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDBAR);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.STACKEDBAR);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
@@ -1172,7 +1172,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDBAR3D);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.STACKEDBAR3D);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
@@ -1188,7 +1188,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_LINE);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.LINE);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeLinePlot( (JRLinePlot) chart.getPlot(), chartName);
@@ -1204,7 +1204,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_TIMESERIES);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.TIMESERIES);\n");
 			writeChart( chart, chartName);
 			writeTimeSeriesDataset( (JRTimeSeriesDataset) chart.getDataset(), chartName, "TimeSeriesDataset");
 			writeTimeSeriesPlot( (JRTimeSeriesPlot) chart.getPlot(), chartName);
@@ -1246,7 +1246,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_HIGHLOW);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.HIGHLOW);\n");
 			writeChart( chart, chartName);
 			writeHighLowDataset( (JRHighLowDataset) chart.getDataset(), chartName, "HighLowDataset");
 			
@@ -1293,7 +1293,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_GANTT);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.GANTT);\n");
 			writeChart( chart, chartName);
 			writeGanttDataset( (JRGanttDataset) chart.getDataset(), chartName, "GanttDataset");
 			writeBarPlot( (JRBarPlot) chart.getPlot(), chartName);
@@ -1309,7 +1309,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_CANDLESTICK);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.CANDLESTICK);\n");
 			writeChart( chart, chartName);
 			writeHighLowDataset( (JRHighLowDataset) chart.getDataset(), chartName, "HighLowDataset");
 			
@@ -1395,7 +1395,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_AREA);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.AREA);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
@@ -1453,7 +1453,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_SCATTER);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.SCATTER);\n");
 			writeChart( chart, chartName);
 			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
 			writeScatterPlot( (JRScatterPlot) chart.getPlot(), chartName);
@@ -1469,7 +1469,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYAREA);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.XYAREA);\n");
 			writeChart( chart, chartName);
 			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
 			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
@@ -1485,7 +1485,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYBAR);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.XYBAR);\n");
 			writeChart( chart, chartName);
 			JRChartDataset dataset = chart.getDataset();
 
@@ -1512,7 +1512,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_XYLINE);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.XYLINE);\n");
 			writeChart( chart, chartName);
 			writeXyDataset( (JRXyDataset) chart.getDataset(), chartName, "XyDataset");
 			writeLinePlot( (JRLinePlot) chart.getPlot(), chartName);
@@ -1530,7 +1530,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_METER);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.METER);\n");
 			writeChart( chart, chartName);
 			writeValueDataset( (JRValueDataset) chart.getDataset(), chartName, "ValueDataset");
 			JRMeterPlot plot = (JRMeterPlot) chart.getPlot();
@@ -1585,7 +1585,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_THERMOMETER);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.THERMOMETER);\n");
 			writeChart( chart, chartName);
 			writeValueDataset( (JRValueDataset) chart.getDataset(), chartName, "ValueDataset");
 			JRThermometerPlot plot = (JRThermometerPlot) chart.getPlot();
@@ -1630,7 +1630,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_MULTI_AXIS);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.MULTI_AXIS);\n");
 			writeChart( chart, chartName);
 			JRMultiAxisPlot plot = (JRMultiAxisPlot) chart.getPlot();
 			String plotName = chartName + "MultiAxisPlot";
@@ -1658,7 +1658,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	{
 		if(chart != null)
 		{
-			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, JRChart.CHART_TYPE_STACKEDAREA);\n");
+			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.STACKEDAREA);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
 			writeAreaPlot( (JRAreaPlot) chart.getPlot(), chartName);
@@ -1673,67 +1673,67 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	public void writeChartTag( JRChart chart, String chartName)
 	{
 		switch(chart.getChartType()) {
-			case JRChart.CHART_TYPE_AREA:
+			case AREA:
 				writeAreaChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_BAR:
+			case BAR:
 				writeBarChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_BAR3D:
+			case BAR3D:
 				writeBar3DChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_BUBBLE:
+			case BUBBLE:
 				writeBubbleChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_CANDLESTICK:
+			case CANDLESTICK:
 				writeCandlestickChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_HIGHLOW:
+			case HIGHLOW:
 				writeHighLowChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_LINE:
+			case LINE:
 				writeLineChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_METER:
+			case METER:
 				writeMeterChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_MULTI_AXIS:
+			case MULTI_AXIS:
 				writeMultiAxisChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_PIE:
+			case PIE:
 				writePieChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_PIE3D:
+			case PIE3D:
 				writePie3DChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_SCATTER:
+			case SCATTER:
 				writeScatterChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_STACKEDBAR:
+			case STACKEDBAR:
 				writeStackedBarChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_STACKEDBAR3D:
+			case STACKEDBAR3D:
 				writeStackedBar3DChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_THERMOMETER:
+			case THERMOMETER:
 				writeThermometerChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_TIMESERIES:
+			case TIMESERIES:
 				writeTimeSeriesChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_XYAREA:
+			case XYAREA:
 				writeXyAreaChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_XYBAR:
+			case XYBAR:
 				writeXyBarChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_XYLINE:
+			case XYLINE:
 				writeXyLineChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_STACKEDAREA:
+			case STACKEDAREA:
 				writeStackedAreaChart( chart, chartName);
 				break;
-			case JRChart.CHART_TYPE_GANTT:
+			case GANTT:
 				writeGanttChart( chart, chartName);
 				break;
 			default:

@@ -79,7 +79,7 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 		}
 		else
 		{
-			expressionNode = node.get("");//FIXMEJACK isn't there a better way to get tag content?
+			expressionNode = node.get("");
 		}
 		
 		if (expressionNode != null)
@@ -87,6 +87,8 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 			JRDesignExpression expression = new JRDesignExpression(expressionNode.asText());
 			setValueExpression(itemProperty, expression);
 		}
+		
+		customDeserialize(itemProperty, node);
 		
 		return itemProperty;
 	}
@@ -98,16 +100,21 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 	
 	protected void setName(ItemProperty itemProperty, String name)
 	{
-		((StandardItemProperty)itemProperty).setName(name);;
+		((StandardItemProperty)itemProperty).setName(name);
 	}
 	
 	protected void setValue(ItemProperty itemProperty, String value)
 	{
-		((StandardItemProperty)itemProperty).setValue(value);;
+		((StandardItemProperty)itemProperty).setValue(value);
 	}
 	
 	protected void setValueExpression(ItemProperty itemProperty, JRExpression expression)
 	{
-		((StandardItemProperty)itemProperty).setValueExpression(expression);;
+		((StandardItemProperty)itemProperty).setValueExpression(expression);
+	}
+
+	protected void customDeserialize(ItemProperty itemProperty, JsonNode node)
+	{
+		//nothing;
 	}
 }

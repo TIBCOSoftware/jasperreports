@@ -101,7 +101,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 	protected boolean isEvaluateNow()
 	{
-		return EvaluationTimeEnum.getValueOrDefault(chartComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;  //FIXMEJACK should use JRFillElement.isEvaluateNow() ?
+		return EvaluationTimeEnum.getValueOrDefault(chartComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 	
 	@Override

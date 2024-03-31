@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -41,6 +42,8 @@ public class JRFillChartAxis implements JRChartAxis
 
 	protected JRChartAxis parent;
 
+	protected JRFillMultiAxisPlot fillMultiAxisPlot;
+	
 	/**
 	 * The filled version of the <code>chart</code> field.  Contains evaluated
 	 * expressions and data.
@@ -55,7 +58,9 @@ public class JRFillChartAxis implements JRChartAxis
 		parentFactory.put(axis, this);
 
 		this.parent = axis;
-		this.fillChart = (JRFillChart)parentFactory.getVisitResult(axis.getChart());
+		this.fillMultiAxisPlot = (JRFillMultiAxisPlot)factory.getMultiAxisPlot(axis.getMultiAxisPlot());
+		JRFillChart fillChart = (JRFillChart)parentFactory.getVisitResult(axis.getChart());
+		this.fillChart = new JRFillChartForAxis(fillChart, factory, axis.getMultiAxisPlot().getChart());
 	}
 
 	/**
@@ -68,6 +73,12 @@ public class JRFillChartAxis implements JRChartAxis
 	public JRFillChart getFillChart()
 	{
 		return fillChart;
+	}
+
+	@Override
+	public JRMultiAxisPlot getMultiAxisPlot()
+	{
+		return fillMultiAxisPlot;
 	}
 
 	@Override
@@ -89,7 +100,7 @@ public class JRFillChartAxis implements JRChartAxis
 	}
 
 	@Override
-	public JRChartAxis clone(JRChart parentChart)
+	public JRChartAxis clone(JRMultiAxisPlot multiAxisPlot)
 	{
 		throw new UnsupportedOperationException();
 	}

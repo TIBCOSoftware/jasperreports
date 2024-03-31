@@ -312,6 +312,7 @@ public class JRApiWriter
 		write("import net.sf.jasperreports.charts.*;\n");
 		write("import net.sf.jasperreports.charts.design.*;\n");
 		write("import net.sf.jasperreports.charts.util.*;\n");
+		write("import net.sf.jasperreports.charts.type.*;\n");
 		write("import net.sf.jasperreports.crosstabs.*;\n");
 		write("import net.sf.jasperreports.crosstabs.design.*;\n");
 		write("import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;\n");
@@ -679,9 +680,9 @@ public class JRApiWriter
 			write( variableName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(variable.getDescription()));
 			write( variableName + ".setValueClassName(\"{0}\");\n", variable.getValueClassName());
 			write( variableName + ".setResetType({0});\n", variable.getResetType(), ResetTypeEnum.REPORT);
-			write( variableName + ".setResetGroup({0});\n", resetGroupName);
+			write( variableName + ".setResetGroup(\"{0}\");\n", resetGroupName);
 			write( variableName + ".setIncrementType({0});\n", variable.getIncrementType(), IncrementTypeEnum.NONE);
-			write( variableName + ".setIncrementGroup({0});\n", incrementGroupName);
+			write( variableName + ".setIncrementGroup(\"{0}\");\n", incrementGroupName);
 			
 			write( variableName + ".setCalculation({0});\n", variable.getCalculation(), CalculationEnum.NOTHING);
 			write( variableName + ".setIncrementerFactoryClass({0}.class);\n", JRStringUtil.escapeJavaStringLiteral(variable.getIncrementerFactoryClassName()));
@@ -1033,7 +1034,7 @@ public class JRApiWriter
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
 			write( imageName + ".setOnErrorType({0});\n",image.getOnErrorType(),  OnErrorTypeEnum.ERROR);
 			write( imageName + ".setEvaluationTime({0});\n", image.getEvaluationTime(), EvaluationTimeEnum.NOW);
-			write( imageName + ".setEvaluationGroup({0});\n", image.getEvaluationGroup());
+			write( imageName + ".setEvaluationGroup(\"{0}\");\n", image.getEvaluationGroup());
 
 			if(image.getLinkType() != null)
 			{
@@ -1197,7 +1198,7 @@ public class JRApiWriter
 			write( textFieldName + ".setBold({0});\n", textField.isOwnBold());
 			write( textFieldName + ".setTextAdjust({0});\n", textField.getTextAdjust(), TextAdjustEnum.CUT_TEXT);
 			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTime(), EvaluationTimeEnum.NOW);
-			write( textFieldName + ".setEvaluationGroup({0});\n", textField.getEvaluationGroup());
+			write( textFieldName + ".setEvaluationGroup(\"{0}\");\n", textField.getEvaluationGroup());
 
 			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getOwnPattern()));
 			write( textFieldName + ".setBlankWhenNull({0});\n", textField.isOwnBlankWhenNull());
@@ -1350,7 +1351,7 @@ public class JRApiWriter
 			if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 			{
 				String resetGroupName = dataset.getResetGroup();
-				write( datasetName + ".setResetGroup(" + resetGroupName + ");\n");
+				write( datasetName + ".setResetGroup(\"" + resetGroupName + "\");\n");
 			}
 			
 			write( datasetName + ".setIncrementType({0});\n", dataset.getIncrementType(), IncrementTypeEnum.NONE);
@@ -1358,7 +1359,7 @@ public class JRApiWriter
 			if (dataset.getIncrementType() == IncrementTypeEnum.GROUP)
 			{
 				String incrementGroupName = dataset.getIncrementGroup();
-				write( datasetName + ".setIncrementGroup(" + incrementGroupName + ");\n");
+				write( datasetName + ".setIncrementGroup(\"" + incrementGroupName + "\");\n");
 			}
 	
 			writeExpression( dataset.getIncrementWhenExpression(), datasetName, "IncrementWhenExpression");

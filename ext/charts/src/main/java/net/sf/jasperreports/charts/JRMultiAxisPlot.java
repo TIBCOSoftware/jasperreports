@@ -25,7 +25,7 @@ package net.sf.jasperreports.charts;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -49,6 +49,7 @@ public interface JRMultiAxisPlot extends JRChartPlot
 	 * Returns a List of all the children axis.  Each element is of type 
 	 * {@link net.sf.jasperreports.charts.JRChartAxis JRChartAxis}.
 	 */
+	@JsonManagedReference
 	@JacksonXmlProperty(localName = "axis")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<JRChartAxis> getAxes();

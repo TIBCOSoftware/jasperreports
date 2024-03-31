@@ -71,7 +71,6 @@ public class ScriptletApp extends AbstractSampleApp
 	@Override
 	public void test() throws JRException 
 	{
-		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		compile();
 		fill();
 		pdf();

@@ -3,7 +3,7 @@
   <style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true"/>
   <style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" italic="true"/>
   <style name="RowStyle" style="Sans_Normal">
-    <conditionalStyle backcolor="#EEEEEE">
+    <conditionalStyle mode="Opaque" backcolor="rgba(238, 238, 238, 0.5)">
       <conditionExpression><![CDATA[$V{ConditionalRow}]]></conditionExpression>
     </conditionalStyle>
   </style>

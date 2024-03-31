@@ -84,7 +84,7 @@ public class ExpressionDeserializer extends StdDeserializer<JRExpression>
 		{
 			if (node.isObject())
 			{
-				expression = new JRDesignExpression(node.get("").asText()); //FIXMEJACK isn't there a better way to get tag content?
+				expression = new JRDesignExpression(node.get("").asText());
 				JsonNode typeNode = node.get("type");
 				if (typeNode != null)
 				{

@@ -43,10 +43,6 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class XlsxZip extends FileBufferedZip
 {
 	public static final String EXCEPTION_MESSAGE_KEY_MACRO_TEMPLATE_NOT_FOUND = "export.xlsx.macro.template.not.found";
-	/**
-	 * 
-	 */
-	private final JasperReportsContext jasperReportsContext;
 	
 	private final RepositoryUtil repository;
 
@@ -81,7 +77,6 @@ public class XlsxZip extends FileBufferedZip
 	{
 		super(memoryThreshold);
 
-		this.jasperReportsContext = jasperReportsContext;
 		this.repository = repository;
 		
 		workbookEntry = createEntry("xl/workbook.xml");

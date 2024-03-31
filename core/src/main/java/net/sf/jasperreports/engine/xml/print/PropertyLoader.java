@@ -43,7 +43,7 @@ public class PropertyLoader
 	public void loadProperty(XmlLoader xmlLoader, JRPropertiesHolder properties)
 	{
 		String name = xmlLoader.getAttribute(JRXmlConstants.ATTRIBUTE_name);
-		String value = xmlLoader.getAttribute(JRXmlConstants.ATTRIBUTE_value);;
+		String value = xmlLoader.getAttribute(JRXmlConstants.ATTRIBUTE_value);
 		String textValue = xmlLoader.loadText(true);
 		if (textValue != null && !textValue.isEmpty())
 		{

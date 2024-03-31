@@ -85,7 +85,7 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 			propertyExpression = getPropertyExpression();
 			propertyExpression.setName(node.get("name").asText());
 
-			JRDesignExpression expression = new JRDesignExpression(node.get("").asText()); //FIXMEJACK isn't there a better way to get tag content?
+			JRDesignExpression expression = new JRDesignExpression(node.get("").asText());
 			JsonNode typeNode = node.get("type");
 			if (typeNode != null)
 			{
@@ -105,6 +105,6 @@ public class PropertyExpressionDeserializer extends StdDeserializer<JRPropertyEx
 	
 	protected void setValueExpression(JRPropertyExpression propetyExpression, JRExpression expression)
 	{
-		((JRDesignPropertyExpression)propetyExpression).setValueExpression(expression);;
+		((JRDesignPropertyExpression)propetyExpression).setValueExpression(expression);
 	}
 }

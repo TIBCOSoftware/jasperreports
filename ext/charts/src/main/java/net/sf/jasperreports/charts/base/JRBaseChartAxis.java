@@ -25,8 +25,11 @@ package net.sf.jasperreports.charts.base;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -47,6 +50,8 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 */
 	protected AxisPositionEnum position;
 
+	protected JRMultiAxisPlot multiAxisPlot;
+
 	/**
 	 * The Chart object containing the dataset and plot to use with this axis.
 	 */
@@ -65,6 +70,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		parentFactory.put(axis, this);
 
 		this.position = axis.getPosition();
+		this.multiAxisPlot = (JRMultiAxisPlot)factory.getMultiAxisPlot(axis.getMultiAxisPlot());
 		this.chart = (JRChart)parentFactory.getVisitResult(axis.getChart());
 	}
 
@@ -77,6 +83,18 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	public AxisPositionEnum getPosition()
 	{
 		return position;
+	}
+	
+	@Override
+	public JRMultiAxisPlot getMultiAxisPlot()
+	{
+		return multiAxisPlot;
+	}
+	
+	@JsonSetter
+	private void setMultiAxisPlot(JRMultiAxisPlot multiAxisPlot)
+	{
+		this.multiAxisPlot = multiAxisPlot;
 	}
 
 	/**
@@ -112,9 +130,10 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	}
 
 	@Override
-	public JRChartAxis clone(JRChart parentChart)
+	public JRChartAxis clone(JRMultiAxisPlot multiAxisPlot)
 	{
 		JRBaseChartAxis clone = (JRBaseChartAxis) clone();
+		clone.multiAxisPlot = multiAxisPlot;
 		return clone;
 	}
 }

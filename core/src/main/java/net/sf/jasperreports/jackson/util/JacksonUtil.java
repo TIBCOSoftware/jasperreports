@@ -33,8 +33,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import javax.xml.stream.XMLStreamException;
+
+import org.codehaus.stax2.XMLStreamWriter2;
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +49,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
@@ -73,6 +79,43 @@ public class JacksonUtil
 	private static final String XML_MAPPER_CONTEXT_KEY = "net.sf.jasperreports.jackson.xml.mapper";
 	
 	private JasperReportsContext jasperReportsContext;
+	
+	
+	private final static DefaultXmlPrettyPrinter TAB_XML_PRETTY_PRINTER = new DefaultXmlPrettyPrinter();
+	
+	static
+	{
+		DefaultXmlPrettyPrinter.Indenter indenter = new DefaultXmlPrettyPrinter.Indenter() 
+		{
+			@Override
+			public void writeIndentation(XMLStreamWriter2 sw, int level) throws XMLStreamException 
+			{
+	            sw.writeRaw("\n");
+	            for (int i = 0; i < level; i++)
+	            {
+		            sw.writeRaw("\t");
+	            }
+			}
+			
+			@Override
+			public void writeIndentation(JsonGenerator g, int level) throws IOException 
+			{
+	            g.writeRaw("\n");
+	            for (int i = 0; i < level; i++)
+	            {
+		            g.writeRaw("\t");
+	            }
+			}
+			
+			@Override
+			public boolean isInline() 
+			{
+				return false;
+			}
+		};
+		TAB_XML_PRETTY_PRINTER.indentArraysWith(indenter);
+		TAB_XML_PRETTY_PRINTER.indentObjectsWith(indenter);
+	}
 
 
 	/**
@@ -351,12 +394,12 @@ public class JacksonUtil
 	/**
 	 * 
 	 */
-	public String getXmlString(Object object) 
+	public String getXmlString(Object object)
 	{
 		XmlMapper mapper = getXmlMapper();
 		try
 		{
-			return mapper.writeValueAsString(object);
+			return mapper.writer(TAB_XML_PRETTY_PRINTER).writeValueAsString(object);
 		} 
 		catch (IOException e) 
 		{
@@ -369,7 +412,7 @@ public class JacksonUtil
 		XmlMapper mapper = getXmlMapper();
 		try
 		{
-			mapper.writeValue(writer, object);
+			mapper.writer(TAB_XML_PRETTY_PRINTER).writeValue(writer, object);
 		} 
 		catch (IOException e) 
 		{

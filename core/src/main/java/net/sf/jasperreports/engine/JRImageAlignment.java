@@ -47,6 +47,10 @@ public interface JRImageAlignment extends JRStyleContainer
 	@JsonIgnore
 	public HorizontalImageAlignEnum getHorizontalImageAlign();
 
+	/*
+	 * JACKSON-TIP
+	 * When JacksonXmlProperty is used, it needs localName explicitly, because it does not use the name of the getter. 
+	 */
 	@JsonGetter("horizontalImageAlign")
 	@JacksonXmlProperty(localName = "horizontalImageAlign", isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign();

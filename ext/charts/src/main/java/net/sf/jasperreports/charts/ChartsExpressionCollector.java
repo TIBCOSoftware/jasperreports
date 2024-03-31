@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 
@@ -62,7 +63,10 @@ public class ChartsExpressionCollector// extends JRExpressionCollector
 		parent.addExpression(chart.getTitleExpression());
 		parent.addExpression(chart.getSubtitleExpression());
 
-		chart.getDataset().collectExpressions(this);
+		if (chart.getChartType() != ChartTypeEnum.MULTI_AXIS) // multiaxis chart returns null dataset
+		{
+			chart.getDataset().collectExpressions(this);
+		}
 		chart.getPlot().collectExpressions(this);
 	}
 

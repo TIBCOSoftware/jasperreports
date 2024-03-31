@@ -51,7 +51,7 @@ public interface JRBoxContainer extends JRStyleContainer
 	 */
 	@JsonGetter(JRXmlConstants.ELEMENT_box)
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	@JsonSerialize(using = LineBoxSerializer.class) //FIXMEJACK does not have localName?
+	@JsonSerialize(using = LineBoxSerializer.class)
 	public JRLineBox getLineBox();
 
 }

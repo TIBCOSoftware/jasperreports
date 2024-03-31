@@ -95,8 +95,8 @@ public class DatasetPropertyExpressionDeserializer extends StdDeserializer<Datas
 			{
 				propertyExpression.setEvaluationTime(PropertyEvaluationTimeEnum.byName(evalNode.asText()));
 			}
-
-			JRDesignExpression expression = new JRDesignExpression(node.get("").asText()); //FIXMEJACK isn't there a better way to get tag content?
+			
+			JRDesignExpression expression = new JRDesignExpression(node.get("").asText()); //there does not seem to be a better way to get tag content
 			JsonNode typeNode = node.get("type");
 			if (typeNode != null)
 			{

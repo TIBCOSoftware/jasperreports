@@ -85,6 +85,16 @@ public class ConvertVisitor implements JRVisitor
 		this.reportConverter = reportConverter;
 		this.parentFrame = parentFrame;
 	}
+	
+	public ReportConverter getReportConverter()
+	{
+		return reportConverter;
+	}
+	
+	public JRBasePrintFrame getParentFrame()
+	{
+		return parentFrame;
+	}
 
 	/**
 	 *
@@ -187,7 +197,7 @@ public class ConvertVisitor implements JRVisitor
 	/**
 	 *
 	 */
-	protected void addElement(JRBasePrintFrame frame, JRPrintElement element)
+	public void addElement(JRBasePrintFrame frame, JRPrintElement element)
 	{
 		printElement = element;
 		if (frame != null)

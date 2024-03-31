@@ -1,139 +1,139 @@
 <jasperReport name="MapReport4" language="java" columnCount="1" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" columnSpacing="0" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e2942308-8a13-4147-be01-38c5b6adde78">
-  <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
-  <style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
-  <dataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
-    <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
-    <query language="csv"/>
-    <field name="latitude" class="java.lang.String"/>
-    <field name="longitude" class="java.lang.String"/>
-    <field name="size" class="java.lang.String"/>
-    <field name="color" class="java.lang.String"/>
-    <field name="url" class="java.lang.String"/>
-    <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
-  </dataset>
-  <dataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
-    <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
-    <query language="csv"/>
-    <field name="name" class="java.lang.String"/>
-    <field name="strokecolor" class="java.lang.String"/>
-    <field name="strokeopacity" class="java.lang.Double"/>
-    <field name="strokeweight" class="java.lang.Integer"/>
-    <field name="fillcolor" class="java.lang.String"/>
-    <field name="fillopacity" class="java.lang.Double"/>
-    <field name="draggable" class="java.lang.Boolean"/>
-    <filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]]></filterExpression>
-  </dataset>
-  <dataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
-    <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
-    <query language="csv"/>
-    <field name="name" class="java.lang.String"/>
-    <field name="style" class="java.lang.String"/>
-    <field name="latitude" class="java.lang.String"/>
-    <field name="longitude" class="java.lang.String"/>
-    <field name="ispolygon" class="java.lang.String"/>
-    <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
-  </dataset>
-  <parameter name="reqZoom" class="java.lang.Integer">
-    <defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
-  </parameter>
-  <parameter name="zoom" class="java.lang.Integer">
-    <defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
-  </parameter>
-  <summary height="692">
-    <element kind="textField" uuid="167e5ec0-82a9-424e-bbdf-ea30398c199d" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
-      <expression><![CDATA["San Francisco - Satellite Map with Marker Hyperlinks and Paths"]]></expression>
-    </element>
-    <element kind="textField" uuid="43281568-dbae-4e43-a5b2-80f1116e425e" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
-      <expression><![CDATA["A satellite map sample. Five markers with default icons and custom size/color are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information.\nA green polygon path and a blue line are also represented on the map."]]></expression>
-    </element>
-    <element kind="component" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4" positionType="Float" y="150" width="515" height="326">
-      <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
-        <latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
-        <longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
-        <zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
-        <pathStyleList>
-          <pathStyleList>
-            <dataset>
-              <datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
-            </dataset>
-            <item>
-              <property name="name">
-                <expression><![CDATA[$F{name}]]></expression>
-              </property>
-              <property name="strokeColor">
-                <expression><![CDATA[$F{strokecolor}]]></expression>
-              </property>
-              <property name="strokeOpacity">
-                <expression><![CDATA[$F{strokeopacity}]]></expression>
-              </property>
-              <property name="strokeWeight">
-                <expression><![CDATA[$F{strokeweight}]]></expression>
-              </property>
-              <property name="fillColor">
-                <expression><![CDATA[$F{fillcolor}]]></expression>
-              </property>
-              <property name="fillOpacity">
-                <expression><![CDATA[$F{fillopacity}]]></expression>
-              </property>
-              <property name="draggable">
-                <expression><![CDATA[$F{draggable}]]></expression>
-              </property>
-            </item>
-          </pathStyleList>
-        </pathStyleList>
-        <pathDataList>
-          <pathDataList>
-            <dataset>
-              <datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
-            </dataset>
-            <item>
-              <property name="name">
-                <expression><![CDATA[$F{name}]]></expression>
-              </property>
-              <property name="style">
-                <expression><![CDATA[$F{style}]]></expression>
-              </property>
-              <property name="latitude">
-                <expression><![CDATA[$F{latitude}]]></expression>
-              </property>
-              <property name="longitude">
-                <expression><![CDATA[$F{longitude}]]></expression>
-              </property>
-              <property name="isPolygon">
-                <expression><![CDATA[$F{ispolygon}]]></expression>
-              </property>
-              <property name="path.hyperlink">
-                <expression><![CDATA["http://www.google.com"]]></expression>
-              </property>
-            </item>
-          </pathDataList>
-        </pathDataList>
-        <markerData>
-          <dataset>
-            <datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
-          </dataset>
-          <item>
-            <property name="latitude">
-              <expression><![CDATA[$F{latitude}]]></expression>
-            </property>
-            <property name="longitude">
-              <expression><![CDATA[$F{longitude}]]></expression>
-            </property>
-            <property name="color">
-              <expression><![CDATA[$F{color}]]></expression>
-            </property>
-            <property name="size">
-              <expression><![CDATA[$F{size}]]></expression>
-            </property>
-            <property name="url">
-              <expression><![CDATA[$F{url}]]></expression>
-            </property>
-            <property name="target">
-              <expression><![CDATA["_blank"]]></expression>
-            </property>
-          </item>
-        </markerData>
-      </component>
-    </element>
-  </summary>
+	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
+	<dataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
+		<query language="csv"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="size" class="java.lang.String"/>
+		<field name="color" class="java.lang.String"/>
+		<field name="url" class="java.lang.String"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<dataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
+		<query language="csv"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="strokecolor" class="java.lang.String"/>
+		<field name="strokeopacity" class="java.lang.Double"/>
+		<field name="strokeweight" class="java.lang.Integer"/>
+		<field name="fillcolor" class="java.lang.String"/>
+		<field name="fillopacity" class="java.lang.Double"/>
+		<field name="draggable" class="java.lang.Boolean"/>
+		<filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]]></filterExpression>
+	</dataset>
+	<dataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
+		<query language="csv"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="style" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="ispolygon" class="java.lang.String"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="167e5ec0-82a9-424e-bbdf-ea30398c199d" width="515" height="50" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
+			<expression><![CDATA["San Francisco - Satellite Map with Marker Hyperlinks and Paths"]]></expression>
+		</element>
+		<element kind="textField" uuid="43281568-dbae-4e43-a5b2-80f1116e425e" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA["A satellite map sample. Five markers with default icons and custom size/color are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information.\nA green polygon path and a blue line are also represented on the map."]]></expression>
+		</element>
+		<element kind="component" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4" positionType="Float" y="150" width="515" height="326">
+			<component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
+				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
+				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
+				<pathStyleList>
+					<pathStyleList>
+						<dataset>
+							<datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
+						</dataset>
+						<item>
+							<property name="name">
+								<expression><![CDATA[$F{name}]]></expression>
+							</property>
+							<property name="strokeColor">
+								<expression><![CDATA[$F{strokecolor}]]></expression>
+							</property>
+							<property name="strokeOpacity">
+								<expression><![CDATA[$F{strokeopacity}]]></expression>
+							</property>
+							<property name="strokeWeight">
+								<expression><![CDATA[$F{strokeweight}]]></expression>
+							</property>
+							<property name="fillColor">
+								<expression><![CDATA[$F{fillcolor}]]></expression>
+							</property>
+							<property name="fillOpacity">
+								<expression><![CDATA[$F{fillopacity}]]></expression>
+							</property>
+							<property name="draggable">
+								<expression><![CDATA[$F{draggable}]]></expression>
+							</property>
+						</item>
+					</pathStyleList>
+				</pathStyleList>
+				<pathDataList>
+					<pathDataList>
+						<dataset>
+							<datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
+						</dataset>
+						<item>
+							<property name="name">
+								<expression><![CDATA[$F{name}]]></expression>
+							</property>
+							<property name="style">
+								<expression><![CDATA[$F{style}]]></expression>
+							</property>
+							<property name="latitude">
+								<expression><![CDATA[$F{latitude}]]></expression>
+							</property>
+							<property name="longitude">
+								<expression><![CDATA[$F{longitude}]]></expression>
+							</property>
+							<property name="isPolygon">
+								<expression><![CDATA[$F{ispolygon}]]></expression>
+							</property>
+							<property name="path.hyperlink">
+								<expression><![CDATA["http://www.google.com"]]></expression>
+							</property>
+						</item>
+					</pathDataList>
+				</pathDataList>
+				<markerData>
+					<dataset>
+						<datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
+					</dataset>
+					<item>
+						<property name="latitude">
+							<expression><![CDATA[$F{latitude}]]></expression>
+						</property>
+						<property name="longitude">
+							<expression><![CDATA[$F{longitude}]]></expression>
+						</property>
+						<property name="color">
+							<expression><![CDATA[$F{color}]]></expression>
+						</property>
+						<property name="size">
+							<expression><![CDATA[$F{size}]]></expression>
+						</property>
+						<property name="url">
+							<expression><![CDATA[$F{url}]]></expression>
+						</property>
+						<property name="target">
+							<expression><![CDATA["_blank"]]></expression>
+						</property>
+					</item>
+				</markerData>
+			</component>
+		</element>
+	</summary>
 </jasperReport>

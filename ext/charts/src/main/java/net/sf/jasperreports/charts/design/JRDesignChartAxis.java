@@ -25,8 +25,8 @@ package net.sf.jasperreports.charts.design;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRMultiAxisPlot;
 import net.sf.jasperreports.charts.base.JRBaseChartAxis;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
@@ -46,11 +46,6 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	
 	public static final String PROPERTY_POSITION = "position";
 
-	/**
-	 * The multiple axis chart that this axis belongs to.
-	 */
-	protected JRDesignChart parentChart;
-
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	@JsonCreator
@@ -60,13 +55,13 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	}
 
 	/**
-	 * Construct a new axis that will be added to the specified chart.
+	 * Construct a new axis that will be added to the specified multiaxis chart plot.
 	 *
 	 * @param parentChart the chart that the axis will be added to
 	 */
-	public JRDesignChartAxis(JRDesignChart parentChart)
+	public JRDesignChartAxis(JRMultiAxisPlot multiAxisPlot)
 	{
-		this.parentChart = parentChart;
+		this.multiAxisPlot = multiAxisPlot;
 	}
 
 	/**
@@ -91,27 +86,6 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	 */
 	public void setChart(JRDesignChart chart)
 	{
-		if (parentChart != null) //FIXMEJACK
-		{
-			// Override the chart elements that we are going to ignore, as they
-			// are supposed to be controlled by the multi chart's settings.
-			chart.setBackcolor(parentChart.getBackcolor());
-			chart.setShowLegend(parentChart.getShowLegend());
-			chart.setTitleExpression(parentChart.getTitleExpression());
-			chart.setTitleFont(parentChart.getTitleFont());
-			chart.setTitlePosition(parentChart.getTitlePosition());
-			chart.setTitleColor(parentChart.getTitleColor());
-			chart.setSubtitleExpression(parentChart.getSubtitleExpression());
-			chart.setSubtitleFont(parentChart.getSubtitleFont());
-			chart.setSubtitleColor(parentChart.getSubtitleColor());
-			chart.setLegendColor(parentChart.getLegendColor());
-			chart.setLegendBackgroundColor(parentChart.getLegendBackgroundColor());
-			chart.setLegendFont(parentChart.getLegendFont());
-			chart.setLegendPosition(parentChart.getLegendPosition());
-			chart.setRenderType(parentChart.getRenderType());
-			chart.setTheme(parentChart.getTheme());
-		}
-		
 		Object old = this.chart;
 		this.chart = chart;
 		getEventSupport().firePropertyChange(PROPERTY_CHART, old, this.chart);
@@ -134,14 +108,6 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	{
 		JRDesignChartAxis clone = (JRDesignChartAxis)super.clone();
 		clone.eventSupport = null;
-		return clone;
-	}
-
-	@Override
-	public JRChartAxis clone(JRChart parentChart)
-	{
-		JRDesignChartAxis clone = (JRDesignChartAxis) super.clone(parentChart);
-		clone.parentChart = (JRDesignChart) parentChart;
 		return clone;
 	}
 	

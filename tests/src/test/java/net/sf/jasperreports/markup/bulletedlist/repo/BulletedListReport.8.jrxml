@@ -1,10 +1,10 @@
 <jasperReport name="BulletedListReport.8" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
-  <style name="myDefault" fontName="DejaVu Sans" default="true"/>
-  <group name="MyGroup">
-    <groupHeader>
-      <band height="15">
-        <element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
-          <expression><![CDATA["The quick brown fox jumps over the lazy dog:"
+	<style name="myDefault" fontName="DejaVu Sans" default="true"/>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
+					<expression><![CDATA["The quick brown fox jumps over the lazy dog:"
 + "<ul>"
 + "<li>The quick brown fox jumps over the lazy dog</li>"
 + "<li>The quick brown fox jumps over the lazy dog"
@@ -34,9 +34,9 @@
 + "<li>The quick brown fox jumps over the lazy dog</li>"
 + "</ul>"
 + "The quick brown fox jumps over the lazy dog"]]></expression>
-        </element>
-        <element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="html" textAdjust="StretchHeight" fontSize="14.0">
-          <expression><![CDATA["The quick brown fox jumps over the lazy dog:"
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="html" textAdjust="StretchHeight" fontSize="14.0">
+					<expression><![CDATA["The quick brown fox jumps over the lazy dog:"
 + "<ul>"
 + "  <li>The quick brown fox jumps over the lazy dog</li>"
 + "  <li>The quick brown fox jumps over the lazy dog"
@@ -66,9 +66,9 @@
 + "  <li>The quick brown fox jumps over the lazy dog</li>"
 + "</ul>"
 + "The quick brown fox jumps over the lazy dog"]]></expression>
-        </element>
-      </band>
-    </groupHeader>
-  </group>
-  <title height="420"/>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<title height="420"/>
 </jasperReport>

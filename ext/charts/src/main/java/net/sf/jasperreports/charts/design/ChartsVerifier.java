@@ -42,16 +42,17 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.JRVerifierVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
- * A report verifier.
+ * A chart verifier.
  *
  * <p>
- * The verifier checks that a report design meets certain rules in order to pass
+ * The verifier checks that a chart design meets certain rules in order to pass
  * report compilation.  
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -82,7 +83,10 @@ public class ChartsVerifier implements ChartVisitor // extends JRVerifier
 		JRChartDataset dataset = chart.getDataset();
 		if (dataset == null)
 		{
-			parent.addBrokenRule("Chart dataset missing.", chart);
+			if (chart.getChartType() != ChartTypeEnum.MULTI_AXIS)
+			{
+				parent.addBrokenRule("Chart dataset missing.", chart);
+			}
 		}
 		else
 		{
