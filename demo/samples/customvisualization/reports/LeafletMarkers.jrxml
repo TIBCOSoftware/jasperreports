@@ -1,33 +1,33 @@
 <jasperReport name="LeafletMarkers" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
-  <property name="net.sf.jasperreports.data.adapter" value="/data/JsonDataAdapter.jrdax"/>
-  <field name="store_name" class="java.lang.String"/>
-  <field name="lat" class="java.lang.String"/>
-  <field name="long" class="java.lang.String"/>
-  <title height="555" splitType="Stretch">
-    <element kind="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" width="802" height="20" horizontalTextAlign="Center" fontSize="16.0">
-      <text><![CDATA[Custom Visualization Component - Leaflet Markers]]></text>
-    </element>
-    <element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
-      <component kind="customvisualization" evaluationTime="Report">
-        <itemData>
-          <dataset/>
-          <item>
-            <property name="lon"><![CDATA[$F{long}]]></property>
-            <property name="label" value="0"><![CDATA[$F{store_name}]]></property>
-            <property name="lat" value="0"><![CDATA[$F{lat}]]></property>
-          </item>
-        </itemData>
-        <property name="module" value="leafletmarkers"/>
-        <property name="css" value="leafletmarkers/leaflet.css"/>
-        <property name="script" value="leafletmarkers/leafletmarkers.min.js"/>
-        <property name="renderAsPng" value="true"/>
-        <property name="render-timeout" value="15000"/>
-        <property name="render-zoom-factor" value="1"/>
-        <property name="lat" value="39.8282"/>
-        <property name="lon" value="-98.5795"/>
-        <property name="zoom" value="4"/>
-      </component>
-      <property name="cv.keepTemporaryFiles" value="true"/>
-    </element>
-  </title>
+	<property name="net.sf.jasperreports.data.adapter" value="/data/JsonDataAdapter.jrdax"/>
+	<field name="store_name" class="java.lang.String"/>
+	<field name="lat" class="java.lang.String"/>
+	<field name="long" class="java.lang.String"/>
+	<title height="555" splitType="Stretch">
+		<element kind="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" width="802" height="20" horizontalTextAlign="Center" fontSize="16.0">
+			<text><![CDATA[Custom Visualization Component - Leaflet Markers]]></text>
+		</element>
+		<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+			<component kind="customvisualization" evaluationTime="Report">
+				<itemData>
+					<dataset/>
+					<item>
+						<property name="lon"><![CDATA[$F{long}]]></property>
+						<property name="label" value="0"><![CDATA[$F{store_name}]]></property>
+						<property name="lat" value="0"><![CDATA[$F{lat}]]></property>
+					</item>
+				</itemData>
+				<property name="module" value="leafletmarkers"/>
+				<property name="css" value="leafletmarkers/leaflet.css"/>
+				<property name="script" value="leafletmarkers/leafletmarkers.min.js"/>
+				<property name="renderAsPng" value="true"/>
+				<property name="render-timeout" value="15000"/>
+				<property name="render-zoom-factor" value="1"/>
+				<property name="lat" value="39.8282"/>
+				<property name="lon" value="-98.5795"/>
+				<property name="zoom" value="4"/>
+			</component>
+			<property name="cv.keepTemporaryFiles" value="true"/>
+		</element>
+	</title>
 </jasperReport>

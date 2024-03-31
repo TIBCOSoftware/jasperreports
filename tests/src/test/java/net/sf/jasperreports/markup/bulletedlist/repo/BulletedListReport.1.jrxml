@@ -1,10 +1,10 @@
 <jasperReport name="BulletedListReport.1" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
-  <style name="myDefault" fontName="DejaVu Sans" default="true"/>
-  <group name="MyGroup">
-    <groupHeader>
-      <band height="15">
-        <element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
-          <expression><![CDATA["The quick brown fox jumps over the lazy dog:" 
+	<style name="myDefault" fontName="DejaVu Sans" default="true"/>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
+					<expression><![CDATA["The quick brown fox jumps over the lazy dog:" 
 + "<li><style forecolor=\"magenta\">T</style>he quick brown fox jumps over the lazy dog."
 + "The quick brown fox jumps over the lazy dog</li>"
 + "<li>The quick brown fox jumps over the lazy dog</li>" 
@@ -16,9 +16,9 @@
 + "<li><style forecolor=\"magenta\">T</style>he quick brown fox jumps over the lazy dog</li>"
 + "<li>The quick brown fox jumps over the lazy dog</li>"
 + "The quick brown fox jumps over the lazy dog"]]></expression>
-        </element>
-        <element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="html" textAdjust="StretchHeight" fontSize="14.0">
-          <expression><![CDATA["The quick brown fox jumps over the lazy dog:" 
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Left" markup="html" textAdjust="StretchHeight" fontSize="14.0">
+					<expression><![CDATA["The quick brown fox jumps over the lazy dog:" 
 + "<li><font color=\"#FF00FF\">T</font>he quick brown fox jumps over the lazy dog."
 + "The quick brown fox jumps over the lazy dog</li>" 
 + "<li>The quick brown fox jumps over the lazy dog</li>" 
@@ -30,8 +30,8 @@
 + "<li><font color=\"#FF00FF\">T</font>he quick brown fox jumps over the lazy dog</li>"
 + "<li>The quick brown fox jumps over the lazy dog</li>"
 + "The quick brown fox jumps over the lazy dog"]]></expression>
-        </element>
-      </band>
-    </groupHeader>
-  </group>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
 </jasperReport>
