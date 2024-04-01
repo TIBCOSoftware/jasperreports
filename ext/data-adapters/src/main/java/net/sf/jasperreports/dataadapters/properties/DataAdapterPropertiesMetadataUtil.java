@@ -82,7 +82,7 @@ public class DataAdapterPropertiesMetadataUtil
 	
 	public static DataAdapterPropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
 	{
-		return DataAdapterPropertiesMetadataUtil.getInstance(context, locale);
+		return new DataAdapterPropertiesMetadataUtil(context, locale);
 	}
 	
 	private JasperReportsContext context;
