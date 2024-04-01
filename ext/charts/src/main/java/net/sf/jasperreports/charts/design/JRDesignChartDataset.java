@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.charts.design;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;

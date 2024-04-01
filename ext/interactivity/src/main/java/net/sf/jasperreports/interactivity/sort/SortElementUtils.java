@@ -25,12 +25,9 @@ package net.sf.jasperreports.interactivity.sort;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
-import net.sf.jasperreports.engine.CompositeDatasetFilter;
-import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 

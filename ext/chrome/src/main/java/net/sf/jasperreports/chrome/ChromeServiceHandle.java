@@ -23,17 +23,11 @@
  */
 package net.sf.jasperreports.chrome;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public class ChromeServiceHandle
 {
-	
-	private static final Log log = LogFactory.getLog(ChromeServiceHandle.class);
-
 	private LaunchConfiguration launchConfiguration;
 	
 	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
