@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.j2ee.hibernate;
+package net.sf.jasperreports.hibernate;
 
 import java.util.Map;
 
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.Designated;
 /**
  * Query executer factory for HQL queries that uses Hibernate 3.
  * <p/>
- * The factory creates {@link net.sf.jasperreports.j2ee.hibernate.JRHibernateQueryExecuter JRHibernateQueryExecuter}
+ * The factory creates {@link net.sf.jasperreports.hibernate.JRHibernateQueryExecuter JRHibernateQueryExecuter}
  * query executers. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -45,24 +45,16 @@ import net.sf.jasperreports.engine.util.Designated;
 public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
 	
-	/**
-	 * Built-in parameter used for collection filter queries.
-	 * <p/>
-	 * The value of this parameter will be used as the collection to filter using the query.
-	 */
-	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
-	
 	public final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
-		//passing the parameter type as class name and not class in order to 
-		//avoid a dependency on Hibernate classes so that reports that have
-		//HQL queries would load even when Hibernate is not present
-		HibernateConstants.PARAMETER_HIBERNATE_SESSION,  "org.hibernate.Session",
-		PARAMETER_HIBERNATE_FILTER_COLLECTION,  "java.lang.Object",
-		};
+			//passing the parameter type as class name and not class in order to 
+			//avoid a dependency on Hibernate classes so that reports that have
+			//HQL queries would load even when Hibernate is not present
+			HibernateConstants.PARAMETER_HIBERNATE_SESSION,  "org.hibernate.Session",
+	};
 	
 	/**
-	 * Returns an array containing the {@link HibernateConstants#PARAMETER_HIBERNATE_SESSION PARAMETER_HIBERNATE_SESSION} and
-	 * {@link HibernateConstants#PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} parameters.
+	 * Returns an array containing the {@link HibernateConstants#PARAMETER_HIBERNATE_SESSION PARAMETER_HIBERNATE_SESSION} 
+	 * parameter.
 	 */
 	@Override
 	public Object[] getBuiltinParameters()
