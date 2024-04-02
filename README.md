@@ -10,9 +10,10 @@
 ## JasperReports Library 7.0.0 Change Log
 - removal of the Ant build system and replacing it with a Maven build system;
 - deprecated code removed;
-- deliberately breaking backward compatibility of serialized/compiled `*.jasper` report template files, mostly because of historical 
+- breaking backward compatibility of serialized/compiled `*.jasper` report template files, mostly because of historical 
 deprecated serialization code removal/cleanup mentioned above (source `*.jrxml` report templates need to be recompiled to `*.jasper` using the new version of the library);
-- extracting various optional extension JAR artifacts from the the core library JAR artifact to allow the Jakarta Migration of certain of these optional features while also
+- breaking backward compatibility of source `*.jrxml` report template files and `*.jrtx` style template files by replacing the [Apache Commons Digester](https://commons.apache.org/proper/commons-digester/) based parsers with [Jackson XML](https://github.com/FasterXML/jackson-dataformat-xml) object serialization. `*.jrxml` and `*.jrtx` files created with version 6 or older can no longer be loaded with version 7 or newer of the library alone. The conversion from the old file formats to the new file formats and back can be made using [Jaspersoft Studio 7](https://www.jaspersoft.com/products/jaspersoft-community) and later versions of it;
+- extracting various optional extension JAR artifacts from the the core library JAR artifact to allow the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee) of certain of these optional features while also
 introducing better third party Maven dependency management of these artifacts; 
 
 # JasperReports® - Free Java Reporting Library
