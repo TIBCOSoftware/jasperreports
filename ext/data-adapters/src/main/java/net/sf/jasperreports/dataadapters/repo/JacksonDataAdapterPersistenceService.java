@@ -58,7 +58,7 @@ public class JacksonDataAdapterPersistenceService extends JacksonObjectPersisten
 	{
 		DataAdapterResource dataAdapterResource = null;
 		
-		JacksonResource resource = (JacksonResource)super.load(context, uri, repositoryService);
+		JacksonResource<?> resource = (JacksonResource<?>)super.load(context, uri, repositoryService);
 		
 		if (resource != null)
 		{

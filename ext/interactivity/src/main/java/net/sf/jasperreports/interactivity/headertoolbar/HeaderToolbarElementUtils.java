@@ -23,11 +23,9 @@
  */
 package net.sf.jasperreports.interactivity.headertoolbar;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

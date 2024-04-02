@@ -27,7 +27,7 @@ import net.sf.jasperreports.engine.util.JRElementsVisitor;
 
 
 /**
- * Report elements visitor.
+ * Chart element visitor.
  * 
  * This class can be used to recursively visit all the elements of a report.
  * 
@@ -35,14 +35,11 @@ import net.sf.jasperreports.engine.util.JRElementsVisitor;
  */
 public class ChartsElementsVisitor implements ChartVisitor
 {
-	private final JRElementsVisitor parent;
-
 	/**
 	 * 
 	 */
 	public ChartsElementsVisitor(JRElementsVisitor parent)
 	{
-		this.parent = parent;
 	}
 
 	@Override

@@ -21,25 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chrome;
+package net.sf.jasperreports.hibernate;
+
+import java.util.Spliterator;
+import java.util.stream.Stream;
+
+import jakarta.persistence.Tuple;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
+ * Hibernate data source that uses <code>org.hibernate.Query.iterate()</code>.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeServiceHandle
+public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	private LaunchConfiguration launchConfiguration;
+	private Spliterator<Tuple> iterator;
 	
-	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
+	public JRHibernateIterateDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
-		this.launchConfiguration = launchConfiguration;
+		super(queryExecuter, useFieldDescription);
+		
+		moveFirst();
 	}
-	
-	public ChromeInstanceHandle getChromeInstance()
+
+	@Override
+	public boolean next() throws JRException
 	{
-		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
-		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle;
+		if (iterator != null)
+		{
+			boolean advanced = iterator.tryAdvance(this::setCurrentRowValue);
+			return advanced;
+		}
+
+		return false;
 	}
-	
+
+	@Override
+	public void moveFirst()
+	{
+		Stream<Tuple> resultsStream = queryExecuter.stream();
+		iterator = resultsStream.spliterator();
+	}
 }

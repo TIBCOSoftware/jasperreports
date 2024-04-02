@@ -39,6 +39,7 @@
 		<module>genericelement</module>
 		<module>groovy</module>
 		<module>hibernate</module>
+		<module>hibernate-j2ee</module>
 		<module>horizontal</module>
 		<module>httpdataadapter</module>
 		<module>hyperlink</module>

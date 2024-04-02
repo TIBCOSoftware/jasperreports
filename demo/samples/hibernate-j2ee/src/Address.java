@@ -21,25 +21,88 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chrome;
+import java.util.Set;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeServiceHandle
+public class Address
 {
-	private LaunchConfiguration launchConfiguration;
-	
-	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
+	Long id;
+
+	String firstName;
+
+	String lastName;
+
+	String street;
+
+	String city;
+
+	Set<Document> documents;
+
+	public String getCity()
 	{
-		this.launchConfiguration = launchConfiguration;
+		return city;
 	}
-	
-	public ChromeInstanceHandle getChromeInstance()
+
+	public void setCity(String city)
 	{
-		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
-		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle;
+		this.city = city;
 	}
-	
+
+	public String getFirstName()
+	{
+		return firstName;
+	}
+
+	public void setFirstName(String firstName)
+	{
+		this.firstName = firstName;
+	}
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	protected void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public String getLastName()
+	{
+		return lastName;
+	}
+
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;
+	}
+
+	public String getStreet()
+	{
+		return street;
+	}
+
+	public void setStreet(String street)
+	{
+		this.street = street;
+	}
+
+	public Set<Document> getDocuments()
+	{
+		return documents;
+	}
+
+	public void setDocuments(Set<Document> documents)
+	{
+		this.documents = documents;
+	}
+
+	@Override
+	public String toString()
+	{
+		return id + ":" + firstName + "," + lastName + "," + street + "," + city;
+	}
 }

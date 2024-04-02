@@ -51,7 +51,6 @@ public class JRFillXySeries implements JRXySeries
 	private Number yValue;
 	private String label;
 	private JRPrintHyperlink itemHyperlink;
-	private Boolean autoSort;
 	
 	
 	/**

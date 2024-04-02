@@ -36,6 +36,7 @@
 		<module>ext/functions</module>
 		<module>ext/google-maps</module>
 		<module>ext/groovy</module>
+		<module>ext/hibernate</module>
 		<module>ext/hibernate-j2ee</module>
 		<module>ext/interactivity</module>
 		<module>ext/javascript</module>

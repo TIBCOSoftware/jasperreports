@@ -21,25 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chrome;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeServiceHandle
+public class Document
 {
-	private LaunchConfiguration launchConfiguration;
-	
-	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
+	private Long id;
+
+	private Address address;
+
+	private Double total;
+
+	public Address getAddress()
 	{
-		this.launchConfiguration = launchConfiguration;
+		return address;
 	}
-	
-	public ChromeInstanceHandle getChromeInstance()
+
+	public void setAddress(Address address)
 	{
-		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
-		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle;
+		this.address = address;
 	}
-	
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	protected void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public Double getTotal()
+	{
+		return total;
+	}
+
+	public void setTotal(Double total)
+	{
+		this.total = total;
+	}
+
+	@Override
+	public String toString()
+	{
+		return id + ":" + total + " of " + address;
+	}
 }

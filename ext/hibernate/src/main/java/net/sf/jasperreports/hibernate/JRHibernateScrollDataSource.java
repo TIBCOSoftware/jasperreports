@@ -21,25 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chrome;
+package net.sf.jasperreports.hibernate;
+
+import org.hibernate.ScrollableResults;
+
+import jakarta.persistence.Tuple;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
+ * Hibernate data source that uses <code>org.hibernate.Query.scroll()</code>.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeServiceHandle
+public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	private LaunchConfiguration launchConfiguration;
-	
-	public ChromeServiceHandle(LaunchConfiguration launchConfiguration)
+	private ScrollableResults<Tuple> scrollableResults;
+
+	public JRHibernateScrollDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
-		this.launchConfiguration = launchConfiguration;
+		super(queryExecuter, useFieldDescription);
+
+		scrollableResults = queryExecuter.scroll();
 	}
-	
-	public ChromeInstanceHandle getChromeInstance()
+
+	@Override
+	public boolean next() throws JRException
 	{
-		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
-		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle;
+		if (scrollableResults != null && scrollableResults.next())
+		{
+			setCurrentRowValue(scrollableResults.get());
+			return true;
+		}
+		
+		return false;
 	}
-	
+
+	@Override
+	public void moveFirst()
+	{
+		queryExecuter.closeScrollableResults();
+		scrollableResults = queryExecuter.scroll();
+	}
 }
