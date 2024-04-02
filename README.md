@@ -6,6 +6,8 @@
 > The changes help improving the dependency management by splitting the library into multiple optional artifacts (`*.jar` files) depending on
 > the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled `*.jasper` report template
 > files has been deliberately broken.
+> 
+> More details about the upcoming changes can be found [here](https://github.com/TIBCOSoftware/jasperreports/tree/release-7.0.0?tab=readme-ov-file#jasperreports-library-700-change-log).
 
 # JasperReports® Library - Free Java Reporting Library
 
