@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports-hibernate-j2ee</artifactId>
+			<artifactId>jasperreports-hibernate</artifactId>
 			<version>${revision}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
