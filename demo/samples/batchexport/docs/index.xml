@@ -192,53 +192,47 @@ Looking into the <code>src/BatchExportApp.java</code> source file one can see th
 public void fill() throws JRException
 {
   long start = System.currentTimeMillis();
-  
-  //first JasperPrint object is generated and saved as .jrprint object in the build/reports directory
   JasperFillManager.fillReportToFile(
-    "build/reports/Report1.jasper",
+    "target/reports/Report1.jasper",
     null, 
     new JREmptyDataSource(2)
     );
-    
-  //second JasperPrint object is generated and saved as .jrprint object in the build/reports directory
   JasperFillManager.fillReportToFile(
-    "build/reports/Report2.jasper",
+    "target/reports/Report2.jasper",
     null, 
     new JREmptyDataSource(2)
     );
-    
-  //third JasperPrint object is generated and saved as .jrprint object in the build/reports directory
   JasperFillManager.fillReportToFile(
-    "build/reports/Report3.jasper",
+    "target/reports/Report3.jasper",
     null, 
     new JREmptyDataSource(2)
     );
-    
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-}]]></pre>
+}
+]]></pre>
 Let's see now the batch export to the PDF output: 
 <pre><![CDATA[
 public void pdf() throws JRException
 {
   long start = System.currentTimeMillis();
-  
   List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
-
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
+  
   JRPdfExporter exporter = new JRPdfExporter();
-
+  
   exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-  exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.pdf"));
+  exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.pdf"));
   SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
   configuration.setCreatingBatchModeBookmarks(true);
   exporter.setConfiguration(configuration);
-
+  
   exporter.exportReport();
-
+  
   System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-}]]></pre>
+}
+]]></pre>
 One can see that a list of <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> objects is
 loaded from previously created <code>*.jrprint</code> files. The list is used to populate the exporter input data, using the 
 <api href="net/sf/jasperreports/export/SimpleExporterInput.html">SimpleExporterInput</api> builtin implementation:
@@ -266,19 +260,18 @@ public void xlsx() throws JRException
 {
   long start = System.currentTimeMillis();
   List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
-
-  JRXlsxExporter exporter = new JRXlsxExporter();
-
-  exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-  exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.xlsx"));
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report1.jrprint"));
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report2.jrprint"));
+  jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("target/reports/Report3.jrprint"));
   
+  JRXlsxExporter exporter = new JRXlsxExporter();
+  
+  exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+  exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("target/reports/BatchExportReport.xlsx"));
   SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
   configuration.setOnePagePerSheet(false);
   exporter.setConfiguration(configuration);
-
+  
   exporter.exportReport();
 
   System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
@@ -300,13 +293,14 @@ that the same setting will be applied to al reports in the list. To have differe
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+In a command prompt/terminal window set the current folder to <code>demo/samples/batchexport</code> within the JasperReports source project 
+and run the following command:
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/batchexport</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/batchexport/build/reports</code> directory. 
+<code>&gt; mvn exec:java</code>
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<br/>
+It will generate all supported document types containing the sample report in the `demo/samples/batchexport/target/reports` directory.
     </content>
   </feature>
 

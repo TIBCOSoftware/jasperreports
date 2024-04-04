@@ -94,7 +94,9 @@
       <feature name="daterange" sample="daterange" title="Date Range"/>
       <feature name="queryexecuters" sample="hibernate" title="Query Executers"/>
       <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
+      <feature name="ejbql_j2ee" sample="ejbql-j2ee" title="EJBQL Query Executer (using legacy Java EE API)"/>
       <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
+      <feature name="hibernate_j2ee" sample="hibernate-j2ee" title="Hibernate (HQL) Query Executer (using j2ee)"/>
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer" complete="false"/>
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
       <feature name="exceldataadapter" sample="exceldataadapter" title="Excel Data Adapter"/>

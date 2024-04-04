@@ -3,7 +3,7 @@
 <sample>
 
   <name>xlsfeatures</name>
-  <title>Advanced Excel Features</title>
+  <title>Advanced Excel Features Sample</title>
   <description>Shows how the specific Excel features could be turned on when exporting to Excel formats.</description>
 
   <mainFeature ref="xlsfeatures"/>

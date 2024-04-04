@@ -49,14 +49,14 @@ Each part can define a name expression, a print when expression, an evaluation t
 <br/>
 The following fragment in JRXML illustrates how a part looks like:
 <pre><![CDATA[
-  <part evaluationTime="Group" evaluationGroup="DatasetGroup">
-    <property name="custom.property" value="custom_value"/>
-    <printWhenExpression>...</printWhenExpression>
-    <partNameExpression>"A report part"</partNameExpression>
-    <p:subreportPart ...>
-      ...
-    </p:subreportPart>
-  </part>
+<part evaluationTime="Group" evaluationGroup="DatasetGroup">
+  <property name="custom.property" value="custom_value"/>
+  <printWhenExpression>...</printWhenExpression>
+  <partNameExpression>"A report part"</partNameExpression>
+  <component kind="subreportPart">
+    ...
+  </component>
+</part>
 ]]></pre>
 <br/>
 The print when expression is evaluate in order to determine whether the part is to be printed.
@@ -86,21 +86,15 @@ Such a part is called a subreport part.
 <br/>
 A subreport part has the following structure in JRXML:
 <pre><![CDATA[
-  <part>
-    <p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" 
-      xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd" 
-      usingCache="true">
-      <parametersMapExpression>...</parametersMapExpression>
-      <subreportParameter name="SubreportParameter1">
-        <subreportParameterExpression>...</subreportParameterExpression>
-      </subreportParameter>
-      <subreportParameter name="SubreportParameter2">
-        <subreportParameterExpression>...</subreportParameterExpression>
-      </subreportParameter>
-      <subreportExpression>"ReportPart.jasper"</subreportExpression>
-      <returnValue subreportVariable="SubreportVariable" toVariable="ParentVariable" calculation="Nothing"/>
-    </p:subreportPart>
-  </part>
+<part uuid="3f63c482-39b2-43f1-a623-15fb046605a5">
+  <partNameExpression><![CDATA["ReportPart1"]] ></partNameExpression>
+  <component kind="subreportPart" usingCache="true">
+    <expression><![CDATA["ReportPart1.jasper"]] ></expression>
+    <parameter name="REPORT_CONNECTION">
+      <expression><![CDATA[$P{REPORT_CONNECTION}]] ></expression>
+    </parameter>
+  </component>
+</part>
 ]]></pre>
 
 The semantics of the elements is equivalent to that of subreport elements.
@@ -118,10 +112,9 @@ The variables are named <code>MASTER_CURRENT_PAGE</code> and <code>MASTER_TOTAL_
 <br/>
 A typical text field using the two variables would look something like the following:
 <pre><![CDATA[
-  <textField evaluationTime="Master">
-    <reportElement .../>
-    <textFieldExpression>"Page " + $V{MASTER_CURRENT_PAGE} + " of " + $V{MASTER_TOTAL_PAGES}</textFieldExpression>
-  </textField>
+<element kind="textField" uuid="74abc4d9-d951-48b9-826c-18c1955ae21b" x="55" y="10" width="45" height="20">
+  <expression><![CDATA[$V{PAGE_COUNT}]] ></expression>
+</element>
 ]]></pre>
 
 <br/>

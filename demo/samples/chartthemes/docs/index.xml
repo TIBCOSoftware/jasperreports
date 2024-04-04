@@ -62,11 +62,15 @@ This interface represents an implementation of a chart theme and has only one me
 <code>public JFreeChart createChart(ChartContext charContext) throws JRException;</code>
 <br/>
 <br/>
-Basically, the whole purpose of a chart theme implementation is to create JFreeChart objects out of the incoming <code>net.sf.jasperreports.charts.ChartContext</code> object that is passed as parameter.
+Basically, the whole purpose of a chart theme implementation is to create JFreeChart objects out of the incoming <code>net.sf.jasperreports.charts.ChartContext</code> 
+object that is passed as parameter.
 <br/>
-The chart context contains all the runtime information needed including the original chart element definition from the report template, the ability to evaluate expressions at runtime, the chart dataset, a label generator and the locale. In the future, more runtime information could be added to the chart context interface, if needed, without affecting the already existing chart theme implementations.
+The chart context contains all the runtime information needed including the original chart element definition from the report template, the ability to evaluate expressions 
+at runtime, the chart dataset, a label generator and the locale. In the future, more runtime information could be added to the chart context interface, if needed, without 
+affecting the already existing chart theme implementations.
 <br/>
-Secondly, the user must implement the <code>net.sf.jasperreports.charts.ChartThemeBundle</code> interface in order to make the chart themes available by giving them names and putting them together in a bundle. A chart theme bundle can contain one or more chart themes that are found by name.
+Secondly, the user must implement the <code>net.sf.jasperreports.charts.ChartThemeBundle</code> interface in order to make the chart themes available by giving them names 
+and putting them together in a bundle. A chart theme bundle can contain one or more chart themes that are found by name.
 <br/>
 The chart theme bundle interface has only two methods: 
 <br/>
@@ -78,11 +82,16 @@ public ChartTheme getChartTheme(String themeName);
 </code>
 <br/>
 <br/>
-Once the chart theme bundle was created, it has to be added as an extension to JR. In order to do this, the <code>net.sf.jasperreports.extensions.ExtensionsRegistryFactory</code> interface must be implemented. This factory implementation will be responsible for creating an <code>net.sf.jasperreports.extensions.ExtensionsRegistry</code> object, which in turn will provide a list of chart theme bundles, including the one the user has just created above.
+Once the chart theme bundle was created, it has to be added as an extension to JR. In order to do this, the <code>net.sf.jasperreports.extensions.ExtensionsRegistryFactory</code> 
+interface must be implemented. This factory implementation will be responsible for creating an <code>net.sf.jasperreports.extensions.ExtensionsRegistry</code> object, which in 
+turn will provide a list of chart theme bundles, including the one the user has just created above.
 <br/>
-JasperReports will be able to automatically detect the presence of the custom chart theme bundle through its built-in extension support, if all the above mentioned classes (chart themes, chart bundle and extension registry factory) are put in a single JAR file and inside the root folder of this JAR file, a file named jasperreports_extension.properties is present.
+JasperReports will be able to automatically detect the presence of the custom chart theme bundle through its built-in extension support, if all the above mentioned classes 
+(chart themes, chart bundle and extension registry factory) are put in a single JAR file and inside the root folder of this JAR file, a file named 
+<code>jasperreports_extension.properties</code> is present.
 <br/>
-This properties file placed in the root of the JAR, has to have a property in the form <code>net.sf.jasperreports.extension.registry.factory.&lt;arbitrary_suffix&gt;</code> that would be the name of a class that implements the <code>net.sf.jasperreports.extensions.ExtensionsRegistryFactory</code> interface, mentioned above.
+This properties file placed in the root of the JAR, has to have a property in the form <code>net.sf.jasperreports.extension.registry.factory.&lt;arbitrary_suffix&gt;</code> 
+that would be the name of a class that implements the <code>net.sf.jasperreports.extensions.ExtensionsRegistryFactory</code> interface, mentioned above.
 <br/>
 <br/>
 <b>Chart themes implementations in JasperReports</b>
@@ -107,12 +116,15 @@ In JasperReports there are 2 different XML-based chart themes implementations.
 <b>XML Spring-based chart theme implementation</b>
 <br/>
 <br/>
-This implementation is based on the Spring Framework platform, and uses Spring beans for binding the chart theme bundle class and the 4 above chart settings categories. All related java classes and XML beans are found in the /src/net/sf/jasperreports/chartthemes/spring directory.
+This implementation is based on the Spring Framework platform, and uses Spring beans for binding the chart theme bundle class and the 4 above chart settings categories. 
+All related java classes and XML beans are found in the /ext/jasperreports-chart-themes/src/main/java/net/sf/jasperreports/chartthemes/spring directory.
 <br/>
 The implementation comes with 4 different sample chart themes, identified by their names: <code>generic</code>, <code>default.spring</code>, <code>eye.candy.sixties</code>, <code>aegean</code>. The <code>generic</code> chart theme is the parent implementation, and all Spring-based chart themes should extend it.
 <br/>
-In the chartThemesBeans.xml file found in /src/net/sf/jasperreports/chartthemes/spring/beans directory are mapped both the chart theme bundle class, and the parent chart theme named <code>generic</code>. 
-The other Spring-based themes are mapped each one in a separate xml file (see the aegeanChartPropertiesBean.xml file, for example), which are referred in the chartThemesBeans.xml by their resource name.
+In the chartThemesBeans.xml file found in /ext/jasperreports-chart-themes/src/main/java/net/sf/jasperreports/chartthemes/spring/beans directory are mapped both the 
+chart theme bundle class, and the parent chart theme named <code>generic</code>. 
+The other Spring-based themes are mapped each one in a separate xml file (see the aegeanChartPropertiesBean.xml file, for example), which are referred in the 
+chartThemesBeans.xml by their resource name.
 <br/>
 Below is the theme bundle bean:
 <pre><![CDATA[
@@ -161,7 +173,7 @@ All other lines in the file have to be commented.
 <br/>
 This implementation based on Castor XML Mapping provides both marshalling and unmarshalling features available on the Castor platform. This is a good reason to write and use Castor XML Mapping-based implementations.
 <br/>
-All related java classes and XML files are found in the /src/net/sf/jasperreports/chartthemes/simple directory.
+All related java classes and XML files are found in the /ext/jasperreports-chart-themes/src/main/java/net/sf/jasperreports/chartthemes/simple directory.
 <br/>
 <br/>
 Let's take a look into the chart.theme.mapping.xml file, where is stored all the mapping configuration needed for this implementation.
@@ -285,13 +297,19 @@ Changing the chart theme is also possible at chart element level using the <code
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/chartthemes</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/chartthemes/build/reports</code> directory. 
+<code>&gt; mvn exec:java</code>
 <br/>
-Then the report will open in the JasperReports internal viewer.
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
+<br/>
+Open a new command prompt/terminal window and set the current folder to demo/samples/chartthemes within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/chartthemes/target/reports directory.
     </content>
   </feature>
 

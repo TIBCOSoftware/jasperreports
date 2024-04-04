@@ -41,7 +41,7 @@ Creating report templates using the API is demonstrated in the <sample>noxmldesi
 <br/>
 <br/>
 Note that only compiled report template objects (<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> 
-objects) can be filled with data. If the report template is in the form of a source <api href="net/sf/jasperreports/engine/JasperDesign.html">JasperDesign</api> 
+objects) can be filled with data. If the report template is in the form of a source <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
 object or in the form of a JRXML file, they need to be compiled into a <code>JasperReport</code> object or a <code>*.jasper</code> 
 file before being filled. This is explained in the <sample>antcompile</sample> sample.
 <br/>
@@ -63,27 +63,18 @@ it has 3 rectangle elements in its detail section.
 <br/>
 <br/>
 <pre><![CDATA[
-<rectangle>
-  <reportElement key="first.rectangle" x="0" y="100" width="555" height="90"/>
-  <graphicElement>
-    <pen lineWidth="4"/>
-  </graphicElement>
-</rectangle>
-<rectangle>
-  <reportElement key="second.rectangle" x="0" y="200" width="555" height="90"/>
-  <graphicElement>
-    <pen lineWidth="4"/>
-  </graphicElement>
-</rectangle>
-<rectangle>
-  <reportElement key="third.rectangle" x="0" y="300" width="555" height="90"/>
-  <graphicElement>
-    <pen lineWidth="4"/>
-  </graphicElement>
-</rectangle>
+  <element kind="rectangle" uuid="78672687-b9a9-4c6a-9d63-39d6325ac535" key="first.rectangle" y="100" width="555" height="90">
+    <linePen lineWidth="4.0"/>
+  </element>
+  <element kind="rectangle" uuid="e43916e7-f5a2-49e3-ac43-469458943653" key="second.rectangle" y="200" width="555" height="90">
+    <linePen lineWidth="4.0"/>
+  </element>
+  <element kind="rectangle" uuid="633026b6-ca4f-4895-baf0-e70c5f169168" key="third.rectangle" y="300" width="555" height="90">
+    <linePen lineWidth="4.0"/>
+  </element>
 ]]>
 </pre>
-Notice the <code>key</code> attribute in each rectangle <elem>reportElement</elem> tag. This attribute represents an user defined 
+Notice the <code>key</code> attribute in each rectangle <elem>element</elem> tag. This attribute represents an user defined 
 value that will help us locate the rectangle element inside the reports section later on.
 <br/>
 <br/>
@@ -94,7 +85,7 @@ Notice how the compiled report template is first loaded from the <code>*.jasper<
 <br/>
 <br/>
 <pre><![CDATA[
-File sourceFile = new File("build/reports/AlterDesignReport.jasper");
+File sourceFile = new File("target/reports/AlterDesignReport.jasper");
 ...
 JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 ]]>
@@ -124,8 +115,8 @@ as defined in the JRXML.
 <br/>
 <pre><![CDATA[
 JRStyle style = jasperReport.getStyles()[0];
-style.setFontSize(16);
-style.setItalic(true);
+style.setFontSize(16f);
+style.setItalic(Boolean.TRUE);
 ]]>
 </pre>
 The in-memory report template is then passed to the report filling process, the result being a document which will have 
@@ -142,7 +133,7 @@ Type the following command:
 <br/>
 <br/>
 <pre><![CDATA[
->ant clean javac compile fill view
+>mvn clean compile exec:java -Dexec.args="compile fill view"
 ]]>
 </pre>
 Every time you run this command, you should be seeing the same result, but with different random colors for the 3 rectangles.

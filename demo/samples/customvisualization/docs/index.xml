@@ -38,37 +38,53 @@ If the script does not produce SVG image, but more complex HTML, the visualizati
 to formats different from HTML.
 <br/>
 <br/>
-<subtitle name="schema">Custom Visualization Component Schema</subtitle>
+<subtitle name="schema">Custom Visualization Component Structure</subtitle>
 <br/>
 <br/>
-Below is the main part of the custom visualization component schema.
-As any other component element, the <code>evaluationTime</code> and <code>evaluationGroup</code> attributes are provided:
-
-<pre><![CDATA[<element name="customvisualization" substitutionGroup="jr:component">
-<complexType>
-<complexContent>
-    <extension base="jr:componentType">
-    <sequence>
-        <element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
-        <element ref="cvc:cvData" minOccurs="0" maxOccurs="unbounded" />
-    </sequence>
-    <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
-    <attribute name="evaluationGroup" type="string" use="optional"/>
-    <attribute name="processingClass" type="string" use="optional"/>
-    <attribute name="onErrorType" use="optional" default="Error">
-        <simpleType>
-        <restriction base="string">
-            <enumeration value="Error"/>
-            <enumeration value="Blank"/>
-            <enumeration value="Icon"/>
-        </restriction>
-        </simpleType>
-    </attribute>
-    </extension>
-</complexContent>
-</complexType>
+Below is the main part of the custom visualization component structure:
+<br/>
+<br/>
+As for any other component element, the <code>evaluationTime</code> and <code>evaluationGroup</code> attributes are provided.
+Additionally there 2 specific attributes for this component:
+<ul>
+<li><code>processingClass</code> - specifies the Java class that will process this component element and provide the required output</li>
+<li><code>onErrorType</code> - provides the options in case this component is missing or empty. Possible values are:
+<ul>
+<li><code>Error</code> - this is the default value</li>
+<li><code>Blank</code></li>
+<li><code>Icon</code></li>
+</ul>
+</li>
+</ul>
+Also, a custom visualization component may contain, but not required, one or many children elements in the following category:
+<ul>
+<li><code>itemProperty</code> - represent a custom setting for the component element</li>
+<li><code>itemData</code> - used in case the component needs to process or represent any data. An <code>itemData</code> contains a 
+<code>&lt;dataset/&gt;</code> and a list of <code>&lt;item/&gt;</code> elements. Each item encapsulates a list of <code>itemProperty</code> elements to configure that item.</li>
+</ul>
+For instance:
+<pre><![CDATA[
+<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+  <component kind="customvisualization" evaluationTime="Report">
+    <itemData>
+      <dataset>
+        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+          <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( 
+            new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )
+            ]] >
+          </dataSourceExpression>
+        </datasetRun>
+      </dataset>
+      <item>
+        <property name="value" value="0"><![CDATA[$F{value}]] ></property>
+        <property name="color" value="0"><![CDATA[$F{color}]] ></property>
+      </item>
+    </itemData>
+    <property name="module" value="simplerectangle"/>
+    <property name="script" value="simplerectangle/simplerectangle.min.js"/>
+    <property name="background" value="#eeeeee"/>
+  </component>
 </element>]]></pre>
-
 
 <subtitle name="schema">Main Properties</subtitle>
 <br/>
@@ -91,24 +107,16 @@ The value for the properties can be either a static value or a value defined by 
 <subtitle name="schema">Configuring Data Series</subtitle>
 <br/>
 <br/>
-One or more series of data may be provided to the script implementing the visualization by means of <code>cvData</code>
-elements:<br/>
-
-<pre><![CDATA[<element name="cvData">
-  <complexType>
-    <sequence>
-      <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
-      <element ref="cvc:item" minOccurs="0" maxOccurs="unbounded"/>
-    </sequence>
-  </complexType>
-</element>]]></pre>
-
-A <code>cvData</code> can collect its data either from a subdataset, or from a hardcoded list of <code>cvc:item</code>. 
-Each <code>cvc:item</code> is defined by a set of <code>ItemProperty</code> elements.<br/>The name of each item property to
-be set for each <code>cvc:item</code> depends by the component we are working with.<br/>
+One or more series of data may be provided to the script implementing the visualization by means of <code>itemData</code> 
+elements. Any <code>itemData</code> contains a <code>&lt;dataset/&gt;</code> and a list of <code>&lt;item/&gt;</code> elements representing series items. 
 <br/>
-The Sparkline sample uses a subdataset to populate a simple series of values. In this case each <code>cvc:item</code>
-has a single <code>ItemProperty</code> called <i>value</i>.<br/>
+<br/>
+An <code>itemData</code> can collect its data either from a subdataset, or from a hardcoded list of <code>item</code>. 
+Each <code>item</code> is defined by a set of <code>itemProperty</code> elements.<br/>The name of each item property to
+be set for each <code>item</code> depends by the component we are working with.<br/>
+<br/>
+The Sparkline sample uses a subdataset to populate a simple series of values. In this case each <code>item</code>
+has a single <code>itemProperty</code> called <i>value</i>.<br/>
 
 <br/>
 <br/>
@@ -240,16 +248,29 @@ To compile the file using Java, the Rhino JavaScript engine is used. Here is the
 The full reference of the <code>build.js</code> file is available at <a href="https://github.com/requirejs/r.js/blob/master/build/build.js">https://github.com/requirejs/r.js/blob/master/build/build.js</a><br/>
 <br/>
 We will use this newly create component in a JRXML with the following code:<br/>
-<pre><![CDATA[<componentElement>
-  <reportElement x="0" y="80" width="802" height="475" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" />
-  <cvc:customvisualization
-        xmlns:cvc="http://www.jaspersoft.com/cvcomponent"
-        xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd"
-        evaluationTime="Report">
-    <cvc:itemProperty name="module" value="simplerectangle"/>
-    <cvc:itemProperty name="script" value="simplerectangle/simplerectangle.min.js"/>
-  </cvc:customvisualization>
-</componentElement>]]></pre>
+<pre><![CDATA[		
+<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+  <component kind="customvisualization" evaluationTime="Report">
+    <itemData>
+      <dataset>
+        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+          <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( 
+            new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )
+            ]] >
+          </dataSourceExpression>
+        </datasetRun>
+      </dataset>
+      <item>
+        <property name="value" value="0"><![CDATA[$F{value}]] ></property>
+        <property name="color" value="0"><![CDATA[$F{color}]] ></property>
+      </item>
+    </itemData>
+    <property name="module" value="simplerectangle"/>
+    <property name="script" value="simplerectangle/simplerectangle.min.js"/>
+    <property name="background" value="#eeeeee"/>
+  </component>
+</element>
+]]></pre>
 <br/>
 <br/>
 Our component creates a rectangle by using pure JavaScript and currently it does not use any data coming from the report.<br/>
@@ -341,42 +362,26 @@ define('d3rectangle', ['d3'], function (d3) {
 });
 </pre>
 In order to use our new component, we will have to set the <code>background</code> property and define a sub-dataset to provide the values for the lines:<br/>
-<pre><![CDATA[<componentElement>
-  <reportElement x="0" y="80" width="802" height="475" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" />
-  <cvc:customvisualization 
-            xmlns:cvc="http://www.jaspersoft.com/cvcomponent"
-            xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd"
-            evaluationTime="Report">
-    <cvc:itemProperty name="module" value="d3rectangle"/>
-    <cvc:itemProperty name="script" value="d3rectangle/d3rectangle.min.js"/>
-    <cvc:itemProperty name="background" value="#eeeeee"/>
-    <cvc:cvData>
+<pre><![CDATA[		
+<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+  <component kind="customvisualization" evaluationTime="Report">
+    <itemData>
       <dataset>
-        <datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
-          <dataSourceExpression>new net.sf.jasperreports.json.data.JsonDataSource( 
-                new StringBufferInputStream( 
-                    "[{ value: 20, color: 'red'}," +
-                     "{ value: 35, color: 'green'}," +
-                     "{ value: 78, color: 'blue'}," +
-                     "{ value: 92, color: 'yellow'}]") )
-           </dataSourceExpression>
+        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+          <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )]] ></dataSourceExpression>
         </datasetRun>
       </dataset>
-      <cvc:item>
-        <cvc:itemProperty name="value" value="0">
-          <valueExpression>$F{value}</valueExpression>
-        </cvc:itemProperty>
-        <cvc:itemProperty name="color" value="0">
-          <valueExpression>$F{color}</valueExpression>
-        </cvc:itemProperty>
-      </cvc:item>
-    </cvc:cvData>
-  </cvc:customvisualization>
-</componentElement>]]>
+      <item>
+        <property name="value" value="0"><![CDATA[$F{value}]] ></property>
+        <property name="color" value="0"><![CDATA[$F{color}]] ></property>
+      </item>
+    </itemData>
+    <property name="module" value="d3rectangle"/>
+    <property name="script" value="d3rectangle/d3rectangle.min.js"/>
+    <property name="background" value="#eeeeee"/>
+  </component>
+</element>]]>
 </pre>
-
-
-<br/>
 <br/>
 <subtitle name="customvisualization_sample">Custom Visualization JRXML Samples</subtitle>
 <br/>
@@ -436,19 +441,19 @@ an SVG, but a more complex HTML visualization.
 <br/>
 </li>
 </ol>
-
 <br/>
 <br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+In a command prompt/terminal window set the current folder to <code>demo/samples/customvisualization</code> within the JasperReports source project 
+and run the following command:
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/customvisualization</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/customvisualization/build/reports</code> directory. 
+<code>&gt; mvn exec:java</code>
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<br/>
+It will generate all supported document types containing the sample report in the `demo/samples/customvisualization/target/reports` directory.
     </content>
   </feature>
 </sample>

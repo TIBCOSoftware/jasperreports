@@ -121,10 +121,10 @@ is still supported, but is now discouraged, the above mentioned custom property 
  <dt><b>CSV</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api> class</dt>
   <dd>- Represents an implementation for data sources which retrieve their data from structured text files, usually CSVs. 
 Field values are retrieved using their column index.</dd>
- <dt><b>XLS/XLSX</b> data sources: the <api href="net/sf/jasperreports/engine/data/ExcelDataSource.html">ExcelDataSource</api> class</dt>
+ <dt><b>XLS/XLSX</b> data sources: the <api href="net/sf/jasperreports/poi/data/ExcelDataSource.html">ExcelDataSource</api> class</dt>
   <dd>- Represents an implementation for data sources which retrieve their data from Excel documents (workbooks). 
 Report-field mapping for this data source implementation is also based on the field column index.</dd>
- <dt><b>Empty</b> data sources: the <api href="net/sf/jasperreports/engine/data/JREmptyDataSource.html">JREmptyDataSource</api> class</dt>
+ <dt><b>Empty</b> data sources: the <api href="net/sf/jasperreports/engine/JREmptyDataSource.html">JREmptyDataSource</api> class</dt>
   <dd>- Simulates a data source with a given number of virtual empty records inside. It is 
 is used by the UI tools to offer basic report preview functionality, or in special report templates, or for testing and debugging purposes.</dd>
 </dl>
@@ -132,7 +132,7 @@ is used by the UI tools to offer basic report preview functionality, or in speci
 <br/>
 <br/>
 When creating a report template using GUI tools, a special tool for customizing the report's data source is needed. 
-The JasperReports library comes with the <api href="net/sf/jasperreports/engine/data/JRDataSourceProvider.html">JRDataSourceProvider</api> 
+The JasperReports library comes with the <api href="net/sf/jasperreports/engine/JRDataSourceProvider.html">JRDataSourceProvider</api> 
 interface that allows to create and dispose of data source objects. This is the standard way to plug custom data sources into 
 a design tool. 
 <br/>
@@ -266,7 +266,7 @@ Let's take a look at related methods in the /src/DataSourceApp.java file:
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ]]></pre>
-In order to figure out more on custom data sources behavior, just test this sample by running from the command line the <code>ant clean javac compile fill1 view</code> command. 
+In order to figure out more on custom data sources behavior, just test this sample by running from the command line the <code>mvn clean compile exec:java -Dexec.args="fill1 view"</code> command. 
 It will generate the sample report in the /build/reports directory, filling it with data extracted from the <code>CustomDataSource</code> object.
     </content>
   </feature>
@@ -486,8 +486,9 @@ Let's take a look at related report filling methods in the /src/DataSourceApp.ja
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ]]></pre>
-In order to figure out more on JavaBean data sources behavior, just test this sample by running from the command line the <code>ant clean javac compile fill3 view</code> command and then 
-<code>ant clean javac compile fill4 view</code>. 
+In order to figure out more on JavaBean data sources behavior, just test this sample by running from the command line the 
+<code>mvn clean compile exec:java -Dexec.args="fill3 view"</code> command and then 
+<code>mvn clean compile exec:java -Dexec.args="fill4 view"</code>. 
 It will generate the sample report filling it with data extracted from a <code>JRBeanArrayDataSource</code> data source, 
 and then the same report will be generated with data extracted from a <code>JRBeanCollectionDataSource</code> data source.
     </content>
@@ -603,7 +604,7 @@ parent class are also implemented.
   }
  }
 ]]></pre>
-When the <code>ant</code> command is used with the <code>fill2</code> argument, at fill time a 
+When the <code>mvn</code> command is used with the <code>fill2</code> argument, at fill time a 
 <code>JRTableModelDataSource</code> object is passed as argument to the <code>fillReportToFile()</code> method 
 in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class (see the /src/DataSourceApp.java file):
 <pre><![CDATA[
@@ -623,13 +624,14 @@ in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFill
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+In a command prompt/terminal window set the current folder to <code>demo/samples/datasource</code> within the JasperReports source project 
+and run the following command:
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/datasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/datasource/build/reports</code> directory. 
+<code>&gt; mvn exec:java</code>
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<br/>
+It will generate all supported document types containing the sample report in the `demo/samples/datasource/target/reports` directory.
     </content>
   </feature>
 

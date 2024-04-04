@@ -72,11 +72,11 @@ a parameters map referenced by the <code>&lt;parametersMapExpression&gt;</code> 
 <br/>
 Like charts, crosstabs can handle by themselves collections of data. They can access data either in the 
 report main dataset, or they can handle their own subdataset. All subdataset information required by the 
-crosstab element is contained in the <code>&lt;crosstabDataset&gt;</code> child element. To faster 
+crosstab element is contained in the <code>&lt;dataset&gt;</code> child element. To faster 
 perform calculations on data it is recommended that data come already sorted within dataset, according 
 to the row and column groups. If this is not the case, then the crosstab internal engine should be 
 instructed to sort data during the aggregation process. One can do this using the <code>isDataPreSorted</code> 
-dataset attribute. If no <code>&lt;crosstabDataset&gt;</code> is declared, then the crosstab is using the 
+dataset attribute. If no <code>&lt;dataset&gt;</code> is declared, then the crosstab is using the 
 main dataset. More on datasets can be found further in the <a href="#datasets">datasets</a> section.
 <br/>
 <br/>
@@ -107,8 +107,8 @@ Possible values are: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>,
 and contains the following elements:
 <ul>
 <li><code>&lt;bucket&gt;</code></li>
-<li><code>&lt;crosstabRowHeader&gt;</code></li>
-<li><code>&lt;crosstabTotalRowHeader&gt;</code></li>
+<li><code>&lt;header&gt;</code></li>
+<li><code>&lt;totalHeader&gt;</code></li>
 </ul>
 <subtitle name="column_groups">Column Groups</subtitle>
 <br/>
@@ -126,8 +126,8 @@ Possible values are: <code>Left</code>, <code>Center</code>, <code>Right</code>,
 and contains the following elements:
 <ul>
 <li><code>&lt;bucket&gt;</code></li>
-<li><code>&lt;crosstabColumnHeader&gt;</code></li>
-<li><code>&lt;crosstabTotalColumnHeader&gt;</code></li>
+<li><code>&lt;header&gt;</code></li>
+<li><code>&lt;totalHeader&gt;</code></li>
 </ul>
 <subtitle name="measures">Measures</subtitle>
 <br/>
@@ -163,9 +163,8 @@ in a crosstab, using <a href="../jasper/index.html#conditionalStylesInReports">c
     <conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]] ></conditionExpression>
     <style backcolor="#E0E0E0"/>
   </conditionalStyle>
-</style>]]></pre>
+</style>
 or:
-<pre><![CDATA[
 <style name="ColumnStyle" isDefault="false" mode="Opaque">
   <conditionalStyle>
     <conditionExpression><![CDATA[$V{COLUMN_COUNT} % 2 == 0]] ></conditionExpression>
@@ -251,20 +250,22 @@ columns are enclosing the inner headers. Also is shown the outer header cells co
 </ul>
 </li>
 </ol>
-<subtitle name="crosstab_running">Running the Sample</subtitle>
+<b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/crosstabs</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types for the four sample reports and save them in the <code>demo/samples/crosstabs/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the ShipmentsReport will open in the JasperReports internal viewer.
-
+Open a new command prompt/terminal window and set the current folder to demo/samples/crosstabs within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/crosstabs/target/reports directory.
     </content>
   </feature>
 
@@ -307,8 +308,7 @@ report-filling process.
 <br/>
 <br/>
 User-defined datasets are declared as <code>&lt;subDataset/&gt;</code> elements. To completely 
-characterize a <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#subDataset">subdataset</a> 
-one needs to set:
+characterize a subdataset we need to set:
 <ol>
 <li>Subdataset attributes:
 <ul>
@@ -339,32 +339,17 @@ declaring a dataset at the report level does not have any effect. The dataset ha
 referenced by a chart or crosstab element, in order to be used. 
 <br/>
 <br/>
-Anytime a dataset is referenced by another report element, a 
-<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#datasetRun">dataset run</a> 
+Anytime a dataset is referenced by another report element, a <code>dataset run</code> 
 is instantiated. A dataset run supplies additional information about either the appropriate data source to be iterated, or the 
 database connection string. It comes also with its own parameters and/or parameters map. Dataset runs are similar to 
-<a href="../subreport/index.html#subreports">subreports</a> in the way parameters and the data source/connection are passed in: 
+<a href="../subreport/index.html#subreports">subreports</a> in the way parameters and the data source/connection are passed in.
+For instance: 
 <pre><![CDATA[
- <element name="datasetRun">
-  <annotation>
-   <documentation>Subdataset instantiation information for a chart/crosstab dataset.</documentation>
-  </annotation>
-  <complexType>
-   <sequence>
-    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
-    <choice minOccurs="0" maxOccurs="1">
-     <element ref="jr:connectionExpression"/>
-     <element ref="jr:dataSourceExpression"/>
-    </choice>
-   </sequence>
-   <attribute name="subDataset" type="string" use="required">
-	<annotation>
- 	 <documentation>The name of the <elem>subdataset</elem> to instantiate.</documentation>
-	</annotation>
-   </attribute>
-  </complexType>
- </element>]]></pre>
+<datasetRun uuid="69151f6b-5c48-4d23-b978-e8fdfbf7b631" subDataset="Customer_Quantity">
+  <parameter name="CityParam">
+    <expression><![CDATA[$F{City}]] ></expression>
+  </parameter>
+</datasetRun>]]></pre>
 The <code>subDataset</code> attribute is mandatory and contains the name of the subdataset to be used during the 
 chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of 
 the report is used by default.
@@ -499,12 +484,13 @@ existing style attribute for that element. For dynamic style definitions one can
 <br/>
 Following is an example of dynamic style features declared for a given element in JRXML: 
 <pre><![CDATA[
-<reportElement mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
+<element kind="textField" x="0" y="0" width="0" height="10">
+  ...
   <property name="net.sf.jasperreports.style.isBold" value="true"/>
   <propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA[$F{Forecolor}]] ></propertyExpression>
   <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$P{Backcolor}]] ></propertyExpression>
   <propertyExpression name="net.sf.jasperreports.style.fontName"><![CDATA[$V{FontName}]] ></propertyExpression>
-</reportElement>]]></pre>
+</element>]]></pre>
 
 <subtitle name="dynamic_styles_example">Dynamic Styles Example</subtitle>
 <br/>
@@ -513,14 +499,14 @@ The OrdersReport.jrxml file in the crosstabs sample uses a dynamic style feature
 color tones in crosstab cells, based on the value of the cell content relative to the grand total. 
 For elements in detail cells the backcolor style feature was set using the following property expression:
 <pre><![CDATA[
-<reportElement style="OrderCountStyle" mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
+<element kind="textField" mode="Opaque" width="60" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle" style="OrderCountStyle">
+  <expression><![CDATA[$V{OrderCount}]] ></expression>
   <propertyExpression name="net.sf.jasperreports.style.backcolor">
     <![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
-	  255, 
-	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL})), 
-	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]] >
-  </propertyExpression>
-</reportElement>]]></pre>
+                  255, 
+                  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL})), 
+                  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]] ></propertyExpression>
+</element>]]></pre>
 After running the sample we'll see the red background of crosstab cells colored more or less intensely depending on the value of the 
 OrderCount measure as percent of OrderCount_CountryRow_FreightColumn_ALL quantity. Cells with OrderCount = 0 display a white background.
     </content>

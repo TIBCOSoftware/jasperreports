@@ -105,7 +105,7 @@ decides whether the query executers created by this factory support a query para
 Another way to register new query executer factories, without modifying existing application files, is to register them as 
 JasperReports extensions. One or more query executer implementations can be packaged in a 
 query executer bundle that can be deployed as a single JAR file. The extension point for query executers 
-is represented by the <api href="net/sf/jasperreports/engine/query/QueryExecuterFactoryBundle.html">QueryExecuterFactoryBundle</api> 
+is represented by the <api href="net/sf/jasperreports/engine/query/JRQueryExecuterFactoryBundle.html">JRQueryExecuterFactoryBundle</api> 
 interface.
     </content>
   </feature>
@@ -144,8 +144,8 @@ executer factory:
 &#160;&#160;<code>net.sf.jasperreports.query.executer.factory.hql=net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory</code>
 <br/>
 <br/>
-The <api href="net/sf/jasperreports/j2ee/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> creates 
-<api href="net/sf/jasperreports/j2ee/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> instances to
+The <api href="net/sf/jasperreports/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> creates 
+<api href="net/sf/jasperreports/hibernate/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> instances to
 handle data access through Hibernate APIs. The factory automatically defines a parameter named <code>HIBERNATE_SESSION</code> of type 
 <code>org.hibernate.Session</code>, used by the query executer to create the query.
 <br/>
@@ -270,77 +270,74 @@ Now it's time to take a look in the <code>reports/HibernateQueryReport.jrxml</co
   </queryString>]]></pre>
 And then, at the <code>Documents</code> subreport, for each customer:
 <pre><![CDATA[
-  <subreport>
-    <reportElement x="65" y="21" width="50" height="20" isRemoveLineWhenBlank="true"/>
-    <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
-    <subreportExpression class="java.lang.String"><![CDATA["DocumentsReport.jasper"]] ></subreportExpression>
-  </subreport>]]></pre>
+<element kind="subreport" uuid="6fe34132-df3c-4302-8c28-d2f5536bcead" x="65" y="21" width="50" height="20" removeLineWhenBlank="true">
+  <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
+  <expression><![CDATA["DocumentsReport.jasper"]] ></expression>
+</element>
+]]></pre>
 
 The <code><a name="cityfilter">CityFilter</a></code> parameter and all other report parameters are created 
 in the <code>src/HibernateApp.java</code> class file, via the <code> getParameters(Session session)</code> method:
 <pre><![CDATA[
-  private static Map getParameters(Session session)
-  {
-    Map parameters = new HashMap();
-    parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
-    parameters.put("ReportTitle", "Address Report");
-    List cityFilter = new ArrayList(3);
-    cityFilter.add("Boston");
-    cityFilter.add("Chicago");
-    cityFilter.add("Oslo");
-    parameters.put("CityFilter", cityFilter);
-    parameters.put("OrderClause", "city");
-    return parameters;
-  }]]></pre>
+private static Map<String, Object> getParameters(Session session)
+{
+  Map<String, Object> parameters = new HashMap<String, Object>();
+  parameters.put(HibernateConstants.PARAMETER_HIBERNATE_SESSION, session);
+  parameters.put("ReportTitle", "Address Report");
+  List<String> cityFilter = new ArrayList<String>(3);
+  cityFilter.add("Boston");
+  cityFilter.add("Chicago");
+  cityFilter.add("Oslo");
+  parameters.put("CityFilter", cityFilter);
+  parameters.put("OrderClause", "city");
+  return parameters;
+}
+]]></pre>
 At fill time, a Hibernate session is created and a transaction gets started. Report parameters are set and then 
 the two compiled reports are filled with data. If all goes ok, the transaction is then rolled back and the session 
 is closed:
 <pre><![CDATA[
-  public void fill() throws JRException
-  {
-    Session session = createSession();
-    Transaction transaction = session.beginTransaction();
+public void fill() throws JRException
+{
+  SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+  Session session = sessionFactory.openSession();
+  Transaction transaction = session.beginTransaction();
 
-    Map params = getParameters(session);
-	
-    File[] files = 
-      new File[]{
-        new File("build/reports/AddressesReport.jasper"),
-        new File("build/reports/HibernateQueryReport.jasper")
-        };
-    for(int i = 0; i < files.length; i++)
-    {
-      File reportFile = files[i];
-      long start = System.currentTimeMillis();
-      JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), params);
-      System.err.println(
-        "Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start)
-        );
-    }
-	
-    transaction.rollback();
-    session.close();
+  Map<String, Object> params = getParameters(session);
+
+  File[] files = 
+    new File[]{
+    new File("target/reports/AddressesReport.jasper"),
+      new File("target/reports/HibernateQueryReport.jasper")
+    };
+  for(int i = 0; i < files.length; i++)
+  {
+    File reportFile = files[i];
+    long start = System.currentTimeMillis();
+    JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), new HashMap<String, Object>(params));
+    System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
   }
   
-  private static Session createSession()
-  {
-    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-	
-    return sessionFactory.openSession();
-  }]]></pre>
+  transaction.rollback();
+  sessionFactory.close();
+}]]>
+</pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/hibernate</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/hibernate/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the report will open in the JasperReports internal viewer.
+Open a new command prompt/terminal window and set the current folder to demo/samples/hibernate within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/hibernate/target/reports directory.
     </content>
   </feature>
 

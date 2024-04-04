@@ -87,19 +87,21 @@ in the <code>compile1</code> target of the <code>build.xml</code> file:
 <br/>
 <br/>
 <pre><![CDATA[
-<target name="compile1"> 
+<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag." depends="prepare-sample-classpath"> 
   <mkdir dir="./build/reports"/> 
+  <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+    <classpath refid="sample-classpath"/>
+  </taskdef>
   <jrc 
     srcdir="./reports"
     destdir="./build/reports"
     tempdir="./build/reports"
     keepjava="true"
     xmlvalidation="true">
-   <classpath refid="runClasspath"/>
-   <include name="**/*.jrxml"/>
+  <classpath refid="sample-classpath"/>
+  <include name="**/*.jrxml"/>
   </jrc>
-</target> 
-]]>
+</target]]>
 </pre>
 The <code>compile2</code> target in the same <code>build.xml</code> file performs the same report compilation process, 
 but the source folder is specified using a nested <code>&lt;src&gt;</code> tag with filesets. The nested source tag allows compiling report 
@@ -107,22 +109,24 @@ templates that are scattered through many different locations and are not groupe
 <br/>
 <br/>
 <pre><![CDATA[
-<target name="compile2">
+<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag." depends="prepare-sample-classpath">
   <mkdir dir="./build/reports"/> 
+  <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+    <classpath refid="sample-classpath"/>
+  </taskdef>
   <jrc 
-    destdir="./build/reports"
-    tempdir="./build/reports"
-    keepjava="true"
-    xmlvalidation="true">
-   <src>
-    <fileset dir="./reports">
-     <include name="**/*.jrxml"/>
-    </fileset>
-   </src>
-   <classpath refid="runClasspath"/>
+      destdir="./build/reports"
+      tempdir="./build/reports"
+      keepjava="true"
+      xmlvalidation="true">
+    <src>
+      <fileset dir="./reports">
+        <include name="**/*.jrxml"/>
+      </fileset>
+    </src>
+    <classpath refid="sample-classpath"/>
   </jrc> 
-</target> 
-]]>
+</target>]]>
 </pre>
 Notice that both report compilation targets have a <code>&lt;classpath&gt;</code> nested element, used to specify the classpath used by the report 
 compiler. This so called run-classpath contains classes that are referenced inside the report templates themselves, such as scriptlet classes, 
@@ -193,9 +197,9 @@ tag (when source <code>*.jasper</code> files are scattered across multiple paths
 <br/>
 Below is the <code>decompile</code> task definition in the build.xml file:
 <pre><![CDATA[
-<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag." depends="prepare-sample-classpath">
   <taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
-    <classpath refid="classpath"/>
+    <classpath refid="sample-classpath"/>
   </taskdef>
   <jrdc destdir="./build/reports">
     <src>
@@ -203,91 +207,19 @@ Below is the <code>decompile</code> task definition in the build.xml file:
         <include name="**/*.jasper"/>
       </fileset>
     </src>
-    <classpath refid="runClasspath"/>
+    <classpath refid="sample-classpath"/>
   </jrdc> 
 </target>]]></pre>
 <b>The JRXML Writer Tool</b>
 <br/>
 <br/>
 Once loaded from their serialized form, the JasperReport objects are passed one by one to the JRXML writer tool represented by the 
-<api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> class. Let's see how is it done in the 
-<api href="net/sf/jasperreports/ant/JRAntDecompileTask.html">JRAntDecompileTask</api> <code>decompile()</code> method:
+<api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> class. The `decompile()` method is called to read the
+ report template structure from the JasperReport object and write it down in a related JRXML file::
 <pre><![CDATA[
-protected void decompile() throws BuildException
-{
-  Collection<String> files = reportFilesMap.keySet();
-  if (files != null && files.size() > 0)
-  {
-    boolean isError = false;
-    System.out.println("Decompiling " + files.size() + " report design files.");
-    for (Iterator<String> it = files.iterator(); it.hasNext();)
-    {
-      String srcFileName = it.next();
-      String destFileName = reportFilesMap.get(srcFileName);
-      File destFileParent = new File(destFileName).getParentFile();
-      if(!destFileParent.exists())
-      {
-        destFileParent.mkdirs();
-      }
-      try
-      {
-        System.out.print("File : " + srcFileName + " ... ");
-        JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(srcFileName);
-        new JRXmlWriter(jasperReportsContext).write(jasperReport, destFileName, "UTF-8");
-        System.out.println("OK.");
-      }
-      catch(JRException e)
-      {
-        System.out.println("FAILED.");
-        System.out.println("Error decompiling report design : " + srcFileName);
-        e.printStackTrace(System.out);
-        isError = true;
-      }
-    }
-    if(isError)
-    {
-      throw new BuildException("Errors were encountered when decompiling report designs.");
-    }
-  }
-}]]></pre>
-The <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> reads the report template structure from the 
-JasperReport object and write it down in a JRXML file:
-<pre><![CDATA[
+JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(srcFileName);
+        
 new JRXmlWriter(jasperReportsContext).write(jasperReport, destFileName, "UTF-8");]]></pre>
-Below we can see how the method write(...) in the <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> looks like:
-<pre><![CDATA[
-public void write(
-    JRReport report,
-    String destFileName,
-    String encoding
-    ) throws JRException
-{
-  FileOutputStream fos = null;
-
-  try
-  {
-    fos = new FileOutputStream(destFileName);
-    Writer out = new OutputStreamWriter(fos, encoding);
-    writeReport(report, encoding, out);
-  }
-  catch (IOException e)
-  {
-    throw new JRException("Error writing to file : " + destFileName, e);
-  }
-  finally
-  {
-    if (fos != null)
-    {
-      try
-      {
-        fos.close();
-      }
-      catch(IOException e)
-      {
-      }
-    }
-  }
-}]]></pre>
 The <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> tool provides dedicated methods for writing the report prologue,
 report properties, styles, datasets, sections and elements.
 <br/>

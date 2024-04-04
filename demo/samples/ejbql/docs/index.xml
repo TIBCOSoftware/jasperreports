@@ -30,11 +30,12 @@ How to fill reports using embedded EJBQL queries.
 <subtitle name="overview">The EJB QL/JPA Query Executer</subtitle>
 <br/> 
 <br/>
-The EJB QL report query executer adds support for reporting on EJB 3.0 persistent entities data. For an EJB QL query in a report, the query 
+The EJB QL report query executer adds support for reporting on EJB 3.0 persistent entities data, based on 
+<a href="https://j2ee.ee/specifications/persistence/">Jakarta Persistence API</a> . For an EJB QL query in a report, the query 
 executer will use the EJB 3.0 Java Persistence API to execute the query against an entity manager provided at runtime, and use the query 
 result as a data source for the report. 
 <br/>
-The built-in <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">EJB QL query executer</api> is registered by default for 
+The built-in <api href="net/sf/jasperreports/j2ee/ejbql/JRJpaQueryExecuter.html">EJB QL query executer</api> is registered by default for 
 queries having <code>EJBQL</code> or <code>ejbql</code> set as their language. This mapping can be changed by using the related JasperReports 
 properties (see properties in the category  
 <a href="../../config.reference.html#net.sf.jasperreports.query.executer.factory.{language}" target="_blank">
@@ -43,9 +44,9 @@ net.sf.jasperreports.query.executer.factory.{language}
 <br/>
 Two built-in parameters are involved in the query execution:
 <ul>
-<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER">PARAMETER_JPA_ENTITY_MANAGER</api> - that 
+<li><api href="net/sf/jasperreports/j2ee/ejbql/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER">PARAMETER_JPA_ENTITY_MANAGER</api> - that 
 specifies the entity manager to be used for executing the query, depending on the particular EJB/JPA environment and implementation</li>
-<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP">JPA_QUERY_HINTS_MAP</api> - that contains a map with 
+<li><api href="net/sf/jasperreports/j2ee/ejbql/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP">JPA_QUERY_HINTS_MAP</api> - that contains a map with 
 hint values mapped on hint names, to be used when running the query. Hints can also be specified statically by using report properties. The query executer 
 treats any report property in the category <code>net.sf.jasperreports.ejbql.query.hint.{hintName}</code> as a hint by interpreting the property suffix as 
 the hint name and the property value as the hint value.</li>
@@ -132,7 +133,7 @@ and how the subreports were set:
 ...
 <property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="50"/>
 <property name="net.sf.jasperreports.ejbql.query.page.size" value="100"/>
-<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+<import>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</import>
 ...
 <queryString language="ejbql">
   <![CDATA[SELECT   m
@@ -150,21 +151,21 @@ and how the subreports were set:
 <detail>
   <band height="45">
     ...
-    <subreport>
-      <reportElement positionType="Float" x="15" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
-      <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{cast})]] ></dataSourceExpression>
-      <subreportExpression class="java.lang.String"><![CDATA["JRMDbCastSubreport.jasper"]] ></subreportExpression>
-    </subreport>
-    <subreport>
-      <reportElement positionType="Float" x="270" y="25" width="245" height="20" isRemoveLineWhenBlank="true" backcolor="#99CCFF"/>
-      <subreportParameter name="MovieId">
-        <subreportParameterExpression><![CDATA[$F{id}]] ></subreportParameterExpression>
-      </subreportParameter>
-      <subreportParameter name="JPA_ENTITY_MANAGER">
-        <subreportParameterExpression><![CDATA[$P{JPA_ENTITY_MANAGER}]] ></subreportParameterExpression>
-      </subreportParameter>
-      <subreportExpression class="java.lang.String"><![CDATA["JRMDbVariaSubreport.jasper"]] ></subreportExpression>
-    </subreport>
+  <element kind="subreport" uuid="ce9f38a0-8805-4716-a58f-b6c6307072e4" 
+    positionType="Float" x="15" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+    <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{cast})]] ></dataSourceExpression>
+    <expression><![CDATA["JRMDbCastSubreport.jasper"]] ></expression>
+  </element>
+  <element kind="subreport" uuid="d186a133-05c2-42ed-8719-b57944d1d2a6" 
+    positionType="Float" x="270" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+    <expression><![CDATA["JRMDbVariaSubreport.jasper"]] ></expression>
+    <parameter name="MovieId">
+      <expression><![CDATA[$F{id}]] ></expression>
+    </parameter>
+    <parameter name="JPA_ENTITY_MANAGER">
+      <expression><![CDATA[$P{JPA_ENTITY_MANAGER}]] ></expression>
+    </parameter>
+  </element>
   </band>
 </detail>
 ...]]></pre>
@@ -195,27 +196,29 @@ In the <code>reports/JRMDbVariaSubreport.jrxml</code> one could notice the prese
     ORDER BY v.importance]] >
 </queryString>
 <field name="type" class="java.lang.String">
-  <fieldDescription><![CDATA[COLUMN_1]] ></fieldDescription>
+  <property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_1"/>
 </field>
 <field name="description" class="java.lang.String">
-  <fieldDescription><![CDATA[COLUMN_2]] ></fieldDescription>
+  <property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_2"/>
 </field>
 ...
 ]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/ejbql</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/ejbql/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
+Open a new command prompt/terminal window and set the current folder to demo/samples/ejbql within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/ejbql/target/reports directory.
     </content>
   </feature>
 

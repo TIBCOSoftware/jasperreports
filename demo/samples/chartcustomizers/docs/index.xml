@@ -2,7 +2,7 @@
 
 <sample>
   <name>chart_customizers</name>
-  <title>Chart Customizers</title>
+  <title>Chart Customizers Sample</title>
   <description>Shows how to use multiple chart customizers on the same chart</description>
 
   <mainFeature ref="chartcustomizers"/>
@@ -40,7 +40,7 @@ their names in the following format:
 net.sf.jasperreports.customizer.class.{arbitrary_name}
 </pre>
 Such a property is supposed to specify the name of a class that implements the 
-<api href="net/sf/jasperreports/engine/JRChartCustomizer.html">JRChartCustomizer</api> interface and has an empty constructor. 
+<api href="net/sf/jasperreports/charts/JRChartCustomizer.html">JRChartCustomizer</api> interface and has an empty constructor. 
 This constructor is used to instantiate a chart customizer object at report fill time and is then called to customizer the chart output.
 The <code>{arbitrary_name}</code> suffix of the property is optional and represents the name of the chart customizer. This value will be injected into 
 the chart customizer object using the setName(String) method in case the chart customizer implements the 
@@ -54,18 +54,14 @@ net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}
 Here follows an example in which the domain axis of an XY line chart is configured by setting the minimum and maximum values of the axis as well as the
 distance between ticks:
 <pre><![CDATA[
-<xyLineChart>
-  <chart evaluationTime="Report">
-    <reportElement x="0" y="0" width="555" height="300">
-      <property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
-      <property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>
-      <property name="net.sf.jasperreports.customizer.domainAxis.maxValue" value="90"/>
-      <property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
-    </reportElement>
+<element kind="chart" chartType="xyLine" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
   ...
-  </chart>
+  <property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
+  <property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>
+  <property name="net.sf.jasperreports.customizer.domainAxis.maxValue" value="90"/>
+  <property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
   ...
-</xyLineChart>
+</element>
 ]]></pre>
 <b>Packaged Chart Customizers</b>
 <br/>
