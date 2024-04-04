@@ -1,4 +1,4 @@
-<jasperReport name="NorthwindOrdersReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="bbe115b5-a5a0-4b39-9b73-7092dc59ab6d">
+<jasperReport name="NorthwindOrdersReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="bbe115b5-a5a0-4b39-9b73-7092dc59ab6d">
 	<property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.jrdax"/>
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
 	<style name="Sans_Normal_8" fontSize="8.0" style="Sans_Normal"/>

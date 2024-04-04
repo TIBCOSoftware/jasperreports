@@ -2,7 +2,7 @@
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/SimpleCsvDataAdapter.12.jrdax"/>
 	<property name="net.sf.jasperreports.export.xml.images.no.embed" value="true"/>
 	<style name="Sans_Normal" fontName="DejaVu Sans Mono" fontSize="9.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false">
-		<linePen lineWidth="0.0"/>
+		<pen lineWidth="0.0"/>
 		<box>
 			<pen lineWidth="0.1"/>
 		</box>

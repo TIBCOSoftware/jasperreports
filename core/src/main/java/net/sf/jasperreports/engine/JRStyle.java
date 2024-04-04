@@ -28,6 +28,8 @@ import java.awt.Color;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -45,6 +47,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.jackson.util.PenSerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -197,6 +200,39 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * @see net.sf.jasperreports.engine.JRPen
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  */
+@JsonPropertyOrder({
+	JRXmlConstants.ATTRIBUTE_name,
+	"default",
+	JRXmlConstants.ATTRIBUTE_style,
+	JRXmlConstants.ATTRIBUTE_mode,
+	JRXmlConstants.ATTRIBUTE_forecolor,
+	JRXmlConstants.ATTRIBUTE_backcolor,
+	JRXmlConstants.ATTRIBUTE_fill,
+	JRXmlConstants.ATTRIBUTE_radius,
+	JRXmlConstants.ATTRIBUTE_scaleImage,
+	"horizontalTextAlign", //FIXMEJACK rename to hTextAlign
+	"horizontalImageAlign",
+	"verticalTextAlign",
+	"verticalImageAlign",
+	JRXmlConstants.ATTRIBUTE_rotation,
+	JRXmlConstants.ATTRIBUTE_markup,
+	JRXmlConstants.ATTRIBUTE_pattern,
+	"blankWhenNull",
+	JRXmlConstants.ATTRIBUTE_fontName,
+	JRXmlConstants.ATTRIBUTE_fontSize,
+	"bold",
+	"italic",
+	"underline",
+	"strikeThrough",
+	JRXmlConstants.ATTRIBUTE_pdfFontName,
+	JRXmlConstants.ATTRIBUTE_pdfEncoding,
+	"pdfEmbedded",
+	JRXmlConstants.ELEMENT_pen,
+	JRXmlConstants.ELEMENT_box,
+	JRXmlConstants.ELEMENT_paragraph,
+	"conditionalStyles",
+	JRXmlConstants.ELEMENT_conditionalStyle
+	})
 @JsonDeserialize(as = JRDesignStyle.class)
 public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphContainer, JRCloneable
 {
@@ -236,6 +272,7 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 * Gets a flag that specifies if this is the default report style.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isDefault();
 
@@ -269,7 +306,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 * 
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonGetter(JRXmlConstants.ELEMENT_pen)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRPen getLinePen();
 
@@ -401,7 +439,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("bold")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "bold", isAttribute = true)
 	public Boolean isOwnBold();
 
@@ -415,7 +452,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("italic")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "italic", isAttribute = true)
 	public Boolean isOwnItalic();
 
@@ -429,7 +465,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("underline")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "underline", isAttribute = true)
 	public Boolean isOwnUnderline();
 
@@ -443,7 +478,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("strikeThrough")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "strikeThrough", isAttribute = true)
 	public Boolean isOwnStrikeThrough();
 
@@ -496,7 +530,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("pdfEmbedded")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "pdfEmbedded", isAttribute = true)
 	public Boolean isOwnPdfEmbedded();
 
@@ -510,7 +543,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	public String getPattern();
 
 	@JsonGetter("pattern")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "pattern", isAttribute = true)
 	public String getOwnPattern();
 
@@ -524,7 +556,6 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 *
 	 */
 	@JsonGetter("blankWhenNull")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "blankWhenNull", isAttribute = true)
 	public Boolean isOwnBlankWhenNull();
 

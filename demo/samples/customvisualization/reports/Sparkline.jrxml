@@ -1,4 +1,4 @@
-<jasperReport name="Sparkline" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+<jasperReport name="Sparkline" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
 	<dataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
 		<field name="value" class="java.lang.String"/>
 	</dataset>

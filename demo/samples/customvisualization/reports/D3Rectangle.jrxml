@@ -1,4 +1,4 @@
-<jasperReport name="D3Rectangle" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
+<jasperReport name="D3Rectangle" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
 	<dataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
 		<field name="value" class="java.lang.String"/>
 		<field name="color" class="java.lang.String"/>

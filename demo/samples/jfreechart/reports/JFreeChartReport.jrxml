@@ -1,4 +1,4 @@
-<jasperReport name="JFreeChartReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="JFreeChartScriptlet" uuid="e80a6baf-f2a0-45d1-86f2-ffc37261b58f">
+<jasperReport name="JFreeChartReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="JFreeChartScriptlet" uuid="e80a6baf-f2a0-45d1-86f2-ffc37261b58f">
 	<variable name="Chart" calculation="System" class="net.sf.jasperreports.renderers.Renderable"/>
 	<title height="742">
 		<element kind="line" uuid="ecfc3fd6-6f15-4efa-a0f6-79df7fa995c9" width="515" height="1"/>

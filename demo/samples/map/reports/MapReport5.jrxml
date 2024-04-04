@@ -1,4 +1,4 @@
-<jasperReport name="MapReport5" language="java" columnCount="1" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" columnSpacing="0" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bfa4e46f-62eb-4975-b769-7cbd93a83bb8">
+<jasperReport name="MapReport5" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bfa4e46f-62eb-4975-b769-7cbd93a83bb8">
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
 	<dataset name="MarkersDataset" uuid="cde31723-d878-4086-868a-a9d4dd791113">

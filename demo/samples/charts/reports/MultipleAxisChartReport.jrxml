@@ -219,7 +219,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
 				<expression><![CDATA[$F{Freight}]]></expression>
 			</element>
 			<element kind="line" uuid="4315e179-ba11-4edf-bee9-cf107aa6abca" key="line" positionType="Float" y="12" width="270" height="1" forecolor="#808080">
-				<linePen lineWidth="0.5"/>
+				<pen lineWidth="0.5"/>
 			</element>
 		</band>
 	</detail>

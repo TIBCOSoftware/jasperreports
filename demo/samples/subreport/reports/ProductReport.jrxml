@@ -93,7 +93,7 @@
 	</columnHeader>
 	<columnFooter height="14">
 		<element kind="line" uuid="a470885d-a6f9-4b14-a59c-b790b9559b4a" y="1" width="160" height="1">
-			<linePen lineWidth="0.5"/>
+			<pen lineWidth="0.5"/>
 		</element>
 		<element kind="staticText" uuid="92c7aa24-0587-467c-9733-7eefb7092933" y="2" width="60" height="10" style="Sans_Italic">
 			<text><![CDATA[Column Footer]]></text>

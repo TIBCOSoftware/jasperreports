@@ -1,4 +1,4 @@
-<jasperReport name="MapReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="20" bottomMargin="5" uuid="9f53d23c-701d-4697-8b70-3dead793fa70">
+<jasperReport name="MapReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="20" bottomMargin="5" uuid="9f53d23c-701d-4697-8b70-3dead793fa70">
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="false" italic="true"/>

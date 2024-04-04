@@ -243,7 +243,7 @@
 				<property name="net.sf.jasperreports.export.json.path" value="Freight"/>
 			</element>
 			<element kind="line" uuid="423bd0ea-ccc1-4862-9c78-8059b17b8aba" positionType="Float" y="12" width="270" height="1" forecolor="#808080">
-				<linePen lineWidth="0.5"/>
+				<pen lineWidth="0.5"/>
 			</element>
 		</band>
 	</detail>

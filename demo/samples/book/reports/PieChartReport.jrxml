@@ -1,4 +1,4 @@
-<jasperReport name="PieChartReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="166628aa-90af-4c8f-a71b-2eaadee2f0e1">
+<jasperReport name="PieChartReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="166628aa-90af-4c8f-a71b-2eaadee2f0e1">
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8.0" underline="false" strikeThrough="false" bold="false" italic="true"/>
@@ -128,7 +128,7 @@
 				<expression><![CDATA[$F{Freight}]]></expression>
 			</element>
 			<element kind="line" uuid="c7f7750f-6d8d-422b-851c-febff2c2bb58" positionType="Float" y="12" width="540" height="1" forecolor="#808080">
-				<linePen lineWidth="0.5"/>
+				<pen lineWidth="0.5"/>
 			</element>
 		</band>
 	</detail>

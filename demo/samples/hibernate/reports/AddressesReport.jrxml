@@ -1,4 +1,4 @@
-<jasperReport name="AddressesReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="f050e3db-0847-4912-9c16-d6b157484813">
+<jasperReport name="AddressesReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="f050e3db-0847-4912-9c16-d6b157484813">
 	<import>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</import>
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true"/>
 	<style name="Sans_Normal_Small" fontName="DejaVu Sans" fontSize="9.0"/>
@@ -47,7 +47,7 @@
 		<groupFooter>
 			<band height="25">
 				<element kind="line" uuid="89aa8875-ef41-4ade-8143-b12e79955216" x="20" width="475" height="1" forecolor="#808080">
-					<linePen lineWidth="0.5"/>
+					<pen lineWidth="0.5"/>
 				</element>
 				<element kind="staticText" uuid="d248a006-9289-4a01-909d-81608bbdd09b" x="20" y="2" width="70" height="15" style="Sans_Normal_Small">
 					<text><![CDATA[Total]]></text>
