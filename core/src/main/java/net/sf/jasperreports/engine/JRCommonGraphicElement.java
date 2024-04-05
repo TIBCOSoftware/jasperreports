@@ -26,10 +26,12 @@ package net.sf.jasperreports.engine;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.FillEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.jackson.util.PenSerializer;
 
 
@@ -60,7 +62,8 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 	/**
 	 *
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonGetter(JRXmlConstants.ELEMENT_pen)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRPen getLinePen();
 

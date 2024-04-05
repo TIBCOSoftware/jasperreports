@@ -222,7 +222,7 @@
 				<property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
 			</element>
 			<element kind="line" uuid="14bf450e-19b8-4bc4-a23c-20dad46a4ac3" positionType="Float" y="12" width="270" height="1" forecolor="#808080">
-				<linePen lineWidth="0.5"/>
+				<pen lineWidth="0.5"/>
 			</element>
 		</band>
 	</detail>

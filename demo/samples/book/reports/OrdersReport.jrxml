@@ -1,4 +1,4 @@
-<jasperReport name="OrdersReport" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" columnSpacing="0" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="58b0013c-1812-4619-b65d-51adcecc34fb">
+<jasperReport name="OrdersReport" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="58b0013c-1812-4619-b65d-51adcecc34fb">
 	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
 	<style name="OrderCountStyle" style="Sans_Normal">

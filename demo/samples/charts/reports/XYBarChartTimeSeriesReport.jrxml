@@ -177,7 +177,7 @@
 				<expression><![CDATA[$F{Freight}]]></expression>
 			</element>
 			<element kind="line" uuid="c635d742-6e7d-4ec7-a2a6-d6e2ffcc0687" positionType="Float" y="12" width="270" height="1" forecolor="#808080">
-				<linePen lineWidth="0.5"/>
+				<pen lineWidth="0.5"/>
 			</element>
 		</band>
 	</detail>

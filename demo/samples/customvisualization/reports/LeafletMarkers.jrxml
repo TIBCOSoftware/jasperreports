@@ -1,4 +1,4 @@
-<jasperReport name="LeafletMarkers" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
+<jasperReport name="LeafletMarkers" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
 	<property name="net.sf.jasperreports.data.adapter" value="/data/JsonDataAdapter.jrdax"/>
 	<field name="store_name" class="java.lang.String"/>
 	<field name="lat" class="java.lang.String"/>

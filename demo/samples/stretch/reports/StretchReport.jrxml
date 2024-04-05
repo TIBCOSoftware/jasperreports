@@ -1,4 +1,4 @@
-<jasperReport name="StretchReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" columnSpacing="0" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a09b55bb-d25f-4b19-a103-ef479d2e3c41">
+<jasperReport name="StretchReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a09b55bb-d25f-4b19-a103-ef479d2e3c41">
 	<title height="315">
 		<element kind="staticText" uuid="e1fcb691-9fb1-4488-a0c9-54dfb71eb2a7" x="5" y="5" width="130" height="200" fontSize="10.0">
 			<text><![CDATA[The outline on this column is made up of multiple vertical segments, two for each text field (left, right). They stretch with the corresponding text field. This solution has the disadvantage that it is impossible to suppres a text field space when the section overflows to a new page. Check the top of the second page to see that.]]></text>
@@ -34,7 +34,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 	</title>
 	<pageHeader height="15">
 		<element kind="rectangle" uuid="0b95fc88-3da3-4242-a0f8-1fe327f9604f" y="1" width="555" height="13" backcolor="#FFDDDD">
-			<linePen lineWidth="0.0"/>
+			<pen lineWidth="0.0"/>
 		</element>
 		<element kind="line" uuid="a7cbcd66-9efb-4381-aac4-fefb2ced5b87" y="14" width="555" height="1" forecolor="#FF0000"/>
 		<element kind="staticText" uuid="ec3412da-8262-4403-9975-9f5cdd4e7dc9" mode="Opaque" y="1" width="500" height="13" forecolor="#FF0000" backcolor="#FFDDDD" bold="true">
@@ -129,7 +129,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 	</detail>
 	<pageFooter height="15">
 		<element kind="rectangle" uuid="95bdaf8d-62d5-4cba-ad0c-629bea271fad" y="1" width="555" height="13" backcolor="#FFDDDD">
-			<linePen lineWidth="0.0"/>
+			<pen lineWidth="0.0"/>
 		</element>
 		<element kind="line" uuid="a6ed5b4b-5452-4ecd-8f93-7332fd0850c8" width="555" height="1" forecolor="#FF0000"/>
 		<element kind="staticText" uuid="7c913f40-b46d-4791-9a56-c97cecdb8b2c" mode="Opaque" y="1" width="500" height="13" forecolor="#FF0000" backcolor="#FFDDDD" bold="true">

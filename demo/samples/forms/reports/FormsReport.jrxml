@@ -1,4 +1,4 @@
-<jasperReport name="FormsReport" language="java" columnCount="1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" columnSpacing="0" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="5c5dcd20-3a6f-4238-9fdf-573befc20291">
+<jasperReport name="FormsReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="5c5dcd20-3a6f-4238-9fdf-573befc20291">
 	<group name="Dummy">
 		<groupHeader>
 			<band height="50">
@@ -153,7 +153,7 @@
 			</band>
 			<band height="30">
 				<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" width="25" height="25">
-					<linePen lineWidth="1.0"/>
+					<pen lineWidth="1.0"/>
 					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
 					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
 					<property name="net.sf.jasperreports.export.pdf.field.border.style" value="Beveled"/>
