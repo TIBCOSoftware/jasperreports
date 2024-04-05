@@ -210,10 +210,10 @@ import net.sf.jasperreports.properties.PropertyConstants;
 	JRXmlConstants.ATTRIBUTE_fill,
 	JRXmlConstants.ATTRIBUTE_radius,
 	JRXmlConstants.ATTRIBUTE_scaleImage,
-	"horizontalTextAlign", //FIXMEJACK rename to hTextAlign
-	"horizontalImageAlign",
-	"verticalTextAlign",
-	"verticalImageAlign",
+	JRXmlConstants.ATTRIBUTE_hTextAlign,
+	JRXmlConstants.ATTRIBUTE_vTextAlign,
+	JRXmlConstants.ATTRIBUTE_hImageAlign,
+	JRXmlConstants.ATTRIBUTE_vImageAlign,
 	JRXmlConstants.ATTRIBUTE_rotation,
 	JRXmlConstants.ATTRIBUTE_markup,
 	JRXmlConstants.ATTRIBUTE_pattern,
@@ -354,8 +354,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public HorizontalTextAlignEnum getHorizontalTextAlign();
 
-	@JsonGetter("horizontalTextAlign")
-	@JacksonXmlProperty(localName = "horizontalTextAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_hTextAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_hTextAlign, isAttribute = true)
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign();
 
 	/**
@@ -365,8 +365,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public VerticalTextAlignEnum getVerticalTextAlign();
 
-	@JsonGetter("verticalTextAlign")
-	@JacksonXmlProperty(localName = "verticalTextAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_vTextAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_vTextAlign, isAttribute = true)
 	public VerticalTextAlignEnum getOwnVerticalTextAlign();
 
 	/**
@@ -376,8 +376,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public HorizontalImageAlignEnum getHorizontalImageAlign();
 
-	@JsonGetter("horizontalImageAlign")
-	@JacksonXmlProperty(localName = "horizontalImageAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_hImageAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_hImageAlign, isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign();
 
 	/**
@@ -387,8 +387,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public VerticalImageAlignEnum getVerticalImageAlign();
 
-	@JsonGetter("verticalImageAlign")
-	@JacksonXmlProperty(localName = "verticalImageAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_vImageAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_vImageAlign, isAttribute = true)
 	public VerticalImageAlignEnum getOwnVerticalImageAlign();
 
 	/**
@@ -598,25 +598,25 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_hTextAlign)
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment);
 
 	/**
 	 *
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_vTextAlign)
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment);
 
 	/**
 	 *
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_hImageAlign)
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment);
 
 	/**
 	 *
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_vImageAlign)
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment);
 
 	@JsonSetter

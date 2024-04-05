@@ -12,7 +12,7 @@
 	</field>
 	<title height="50">
 		<element kind="line" uuid="fc148b4e-50df-4a12-aa14-8505a4cfa6e1" width="515" height="1"/>
-		<element kind="staticText" uuid="5bf7651c-cd6b-4eaf-b65a-1413d60faab0" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="staticText" uuid="5bf7651c-cd6b-4eaf-b65a-1413d60faab0" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
 			<text><![CDATA[Customer Orders Report]]></text>
 		</element>
 	</title>
@@ -55,7 +55,7 @@
 	</detail>
 	<pageFooter height="40">
 		<element kind="line" uuid="1371178a-a590-4616-affe-a4e1a24bcc84" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="3eb302d8-0855-4f82-a666-3c9628dce372" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="3eb302d8-0855-4f82-a666-3c9628dce372" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="86f46fca-dbcb-4a60-b2f7-f8da6a4224f7" x="280" y="20" width="75" height="15" evaluationTime="Report">

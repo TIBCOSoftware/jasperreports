@@ -3,7 +3,7 @@
 	<property name="net.sf.jasperreports.export.html.header" value=""/>
 	<property name="net.sf.jasperreports.export.html.footer" value=""/>
 	<import>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</import>
-	<style name="BaseStyle" verticalTextAlign="Middle" fontSize="14.0" default="true"/>
+	<style name="BaseStyle" vTextAlign="Middle" fontSize="14.0" default="true"/>
 	<style name="Title" fontSize="18.0" bold="true" style="BaseStyle"/>
 	<style name="Transparent" mode="Transparent" style="BaseStyle"/>
 	<style name="TableHeader" mode="Opaque" forecolor="#000000" backcolor="#BFBFBF" verticalImageAlign="Middle" bold="true" style="BaseStyle"/>
@@ -107,7 +107,7 @@
 					</column>
 					<column kind="single" uuid="a525b006-84dd-44c0-a6f1-d4a7f956709a" width="760">
 						<columnHeader height="40">
-							<element kind="staticText" uuid="79a08f00-9b22-4bf6-ae13-1fac6daa0627" width="760" height="20" horizontalTextAlign="Center" style="TableHeader">
+							<element kind="staticText" uuid="79a08f00-9b22-4bf6-ae13-1fac6daa0627" width="760" height="20" hTextAlign="Center" style="TableHeader">
 								<text><![CDATA[Parameters]]></text>
 								<box style="TableHeader">
 									<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
@@ -162,7 +162,7 @@
 									</column>
 									<column kind="single" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955" width="70">
 										<detailCell height="20">
-											<element kind="textField" uuid="40690340-8dac-4372-885f-08649c29a803" stretchType="ContainerHeight" width="70" height="20" horizontalTextAlign="Center" textAdjust="StretchHeight">
+											<element kind="textField" uuid="40690340-8dac-4372-885f-08649c29a803" stretchType="ContainerHeight" width="70" height="20" hTextAlign="Center" textAdjust="StretchHeight">
 												<expression><![CDATA[$F{required} ? "Yes" : "No"]]></expression>
 											</element>
 										</detailCell>

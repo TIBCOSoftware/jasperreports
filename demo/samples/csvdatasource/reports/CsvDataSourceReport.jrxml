@@ -32,10 +32,10 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
-				<element kind="staticText" uuid="d6fb40b3-4c46-43c0-a9db-930019e795c6" x="400" y="1" width="60" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="staticText" uuid="d6fb40b3-4c46-43c0-a9db-930019e795c6" x="400" y="1" width="60" height="15" hTextAlign="Right" style="Sans_Bold">
 					<text><![CDATA[Count :]]></text>
 				</element>
-				<element kind="textField" uuid="d72cd6df-8b5f-4707-a9af-ef8db36a3372" x="460" y="1" width="30" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="textField" uuid="d72cd6df-8b5f-4707-a9af-ef8db36a3372" x="460" y="1" width="30" height="15" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$V{CityGroup_COUNT}]]></expression>
 				</element>
 			</band>
@@ -43,17 +43,17 @@
 	</group>
 	<title height="70">
 		<element kind="line" uuid="f6007cc5-20a4-4dc4-9913-91bee5e2d9ef" width="515" height="1"/>
-		<element kind="textField" uuid="9d3b99d4-d14d-457b-ab2f-35da1dccad2e" y="10" width="515" height="30" horizontalTextAlign="Center" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
+		<element kind="textField" uuid="9d3b99d4-d14d-457b-ab2f-35da1dccad2e" y="10" width="515" height="30" hTextAlign="Center" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 		</element>
-		<element kind="textField" uuid="3c9d0ef5-a586-4cc2-b102-5df461e51201" y="40" width="515" height="20" horizontalTextAlign="Center" blankWhenNull="true" fontSize="14.0" style="Sans_Normal">
+		<element kind="textField" uuid="3c9d0ef5-a586-4cc2-b102-5df461e51201" y="40" width="515" height="20" hTextAlign="Center" blankWhenNull="true" fontSize="14.0" style="Sans_Normal">
 			<expression><![CDATA[$P{DataFile}]]></expression>
 		</element>
 	</title>
 	<pageHeader height="20">
-		<element kind="staticText" uuid="4bdf5f73-7f67-4e19-9057-7e37b4b30c38" mode="Opaque" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Center" style="Sans_Bold">
+		<element kind="staticText" uuid="4bdf5f73-7f67-4e19-9057-7e37b4b30c38" mode="Opaque" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
 			<text><![CDATA[ID]]></text>
 		</element>
 		<element kind="staticText" uuid="f1355688-eab9-4248-af46-67e7135b0d95" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
@@ -65,7 +65,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<element kind="textField" uuid="ce60da72-86be-4049-8cae-bedb9ad62746" width="50" height="15" horizontalTextAlign="Right">
+			<element kind="textField" uuid="ce60da72-86be-4049-8cae-bedb9ad62746" width="50" height="15" hTextAlign="Right">
 				<expression><![CDATA[$F{id}]]></expression>
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 				<bookmarkLevelExpression><![CDATA[2]]></bookmarkLevelExpression>
@@ -93,7 +93,7 @@
 	</detail>
 	<pageFooter height="40">
 		<element kind="line" uuid="9731e4e0-b9e0-4cf2-aaac-cbb56109ec54" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="f9cfa9ed-8709-413f-9e14-50876f98ab51" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="f9cfa9ed-8709-413f-9e14-50876f98ab51" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="5848a301-296f-4e89-8469-046531a6eea2" x="280" y="20" width="75" height="15" evaluationTime="Report">
@@ -101,7 +101,7 @@
 		</element>
 	</pageFooter>
 	<lastPageFooter height="60">
-		<element kind="textField" uuid="8aacdf2b-4aad-40a4-a0b7-adaa73bcd938" y="10" width="515" height="15" horizontalTextAlign="Center" bookmarkLevel="2">
+		<element kind="textField" uuid="8aacdf2b-4aad-40a4-a0b7-adaa73bcd938" y="10" width="515" height="15" hTextAlign="Center" bookmarkLevel="2">
 			<expression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" address records on this report."]]></expression>
@@ -109,7 +109,7 @@
 			<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 		</element>
 		<element kind="line" uuid="ade1242b-914a-4ceb-bc11-66ecc903cdab" y="30" width="515" height="1"/>
-		<element kind="textField" uuid="789d70a3-9146-4f84-9fff-90e40ad784e1" x="200" y="40" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="789d70a3-9146-4f84-9fff-90e40ad784e1" x="200" y="40" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="3aea4311-bd09-4c69-ba36-c5f3dec0ec7f" x="280" y="40" width="75" height="15" evaluationTime="Report">

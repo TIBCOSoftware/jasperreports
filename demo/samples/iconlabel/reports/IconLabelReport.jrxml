@@ -9,12 +9,12 @@
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Label" forecolor="#0000FF" backcolor="#00FFFF" horizontalTextAlign="Center" horizontalImageAlign="Center" style="Main">
+	<style name="Label" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center" style="Main">
 		<box padding="10" style="Main">
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Icon" forecolor="#FF0000" backcolor="#FFC800" horizontalTextAlign="Center" horizontalImageAlign="Center" fontName="JasperReports Icons" style="Main">
+	<style name="Icon" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="JasperReports Icons" style="Main">
 		<box padding="10" style="Main">
 			<pen lineWidth="1.0"/>
 		</box>
@@ -24,7 +24,7 @@
 			<band height="15">
 				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" y="5" width="200" height="10" style="Component">
 					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
-						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" verticalTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
+						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
 								<pen lineWidth="1.0"/>
@@ -42,7 +42,7 @@
 			<band height="15">
 				<element kind="component" uuid="3dd69925-afe1-44ef-a001-344eb40bb337" stretchType="ContainerHeight" y="5" width="200" height="10" style="Component">
 					<component kind="iconLabel" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Top" style="Component">
-						<labelTextField uuid="22bb56ea-4fc2-4f23-bc08-01f085973404" width="1" height="1" verticalTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
+						<labelTextField uuid="22bb56ea-4fc2-4f23-bc08-01f085973404" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
 								<pen lineWidth="1.0"/>
@@ -60,7 +60,7 @@
 			<band height="15">
 				<element kind="component" uuid="25b63cfa-5624-46f2-8161-b093deea55bd" stretchType="ContainerHeight" y="5" width="200" height="10" style="Component">
 					<component kind="iconLabel" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Middle" style="Component">
-						<labelTextField uuid="9288daa2-c43f-4528-820b-be546a77f340" width="1" height="1" verticalTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
+						<labelTextField uuid="9288daa2-c43f-4528-820b-be546a77f340" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
 								<pen lineWidth="1.0"/>

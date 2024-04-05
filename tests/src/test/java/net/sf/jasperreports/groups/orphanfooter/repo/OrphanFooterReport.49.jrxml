@@ -75,7 +75,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" stretchType="ElementGroupBottom" mode="Opaque" x="90" width="80" height="45" backcolor="#FCFCD4" horizontalTextAlign="Right" evaluationTime="Page">
+			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" stretchType="ElementGroupBottom" mode="Opaque" x="90" width="80" height="45" backcolor="#FCFCD4" hTextAlign="Right" evaluationTime="Page">
 				<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -85,7 +85,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="e4e0dab8-514f-41b0-9204-349f77d602dc" stretchType="ElementGroupBottom" mode="Opaque" x="170" width="80" height="45" backcolor="#FCFCD4" horizontalTextAlign="Right" evaluationTime="Column">
+			<element kind="textField" uuid="e4e0dab8-514f-41b0-9204-349f77d602dc" stretchType="ElementGroupBottom" mode="Opaque" x="170" width="80" height="45" backcolor="#FCFCD4" hTextAlign="Right" evaluationTime="Column">
 				<expression><![CDATA["Col " + $V{COLUMN_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>

@@ -24,7 +24,7 @@
 				<expression><![CDATA["  >> Click here to go to www.google.com"]]></expression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 			</element>
-			<element kind="image" uuid="82785a38-76be-4973-bea6-1614dbdaeec8" x="310" y="90" width="200" height="30" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error" linkType="Reference" linkTarget="Blank">
+			<element kind="image" uuid="82785a38-76be-4973-bea6-1614dbdaeec8" x="310" y="90" width="200" height="30" hImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error" linkType="Reference" linkTarget="Blank">
 				<expression><![CDATA["google.gif"]]></expression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 				<hyperlinkTooltipExpression><![CDATA["Searching for something?"]]></hyperlinkTooltipExpression>

@@ -2,13 +2,13 @@
 	<style name="Barcode" fontName="DejaVu Sans" fontSize="10.0"/>
 	<title height="742">
 		<element kind="line" uuid="f980135d-c40f-42a7-93cd-d9d82925d5e2" width="515" height="1"/>
-		<element kind="staticText" uuid="df70158b-7d84-4c11-ae3e-a7bd238bcf3f" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0">
+		<element kind="staticText" uuid="df70158b-7d84-4c11-ae3e-a7bd238bcf3f" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0">
 			<text><![CDATA[Barcode Sample]]></text>
 		</element>
-		<element kind="textField" uuid="50f14e7a-b548-4a5d-9395-a387ea2e7e81" y="50" width="515" height="20" horizontalTextAlign="Center" fontSize="12.0">
+		<element kind="textField" uuid="50f14e7a-b548-4a5d-9395-a387ea2e7e81" y="50" width="515" height="20" hTextAlign="Center" fontSize="12.0">
 			<expression><![CDATA["This sample uses Barcode4J Version 2.0"]]></expression>
 		</element>
-		<element kind="textField" uuid="55317c38-260d-4fb5-8c73-693d6425c411" y="70" width="515" height="20" horizontalTextAlign="Center" linkType="Reference" fontSize="12.0">
+		<element kind="textField" uuid="55317c38-260d-4fb5-8c73-693d6425c411" y="70" width="515" height="20" hTextAlign="Center" linkType="Reference" fontSize="12.0">
 			<expression><![CDATA["http://barcode4j.sourceforge.net/"]]></expression>
 			<hyperlinkReferenceExpression><![CDATA["http://barcode4j.sourceforge.net/"]]></hyperlinkReferenceExpression>
 		</element>

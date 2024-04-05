@@ -30,6 +30,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -47,15 +48,15 @@ public interface JRTextAlignment extends JRStyleContainer
 	@JsonIgnore
 	public HorizontalTextAlignEnum getHorizontalTextAlign();
 
-	@JsonGetter("horizontalTextAlign")
-	@JacksonXmlProperty(localName = "horizontalTextAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_hTextAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_hTextAlign, isAttribute = true)
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign();
 
 	/**
 	 * Sets the text horizontal alignment.
 	 * @param horizontalAlignment a value representing one of the horizontal text alignment constants in {@link HorizontalTextAlignEnum}
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_hTextAlign)
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment);
 
 	/**
@@ -65,15 +66,15 @@ public interface JRTextAlignment extends JRStyleContainer
 	@JsonIgnore
 	public VerticalTextAlignEnum getVerticalTextAlign();
 	
-	@JsonGetter("verticalTextAlign")
-	@JacksonXmlProperty(localName = "verticalTextAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_vTextAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_vTextAlign, isAttribute = true)
 	public VerticalTextAlignEnum getOwnVerticalTextAlign();
 
 	/**
 	 * Gets the text vertical alignment.
 	 * @param verticalAlignment a value representing one of the vertical text alignment constants in {@link VerticalTextAlignEnum}
 	 */
-	@JsonSetter
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_vTextAlign)
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment);
 
 }

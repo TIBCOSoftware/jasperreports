@@ -12,7 +12,7 @@
 		</element>
 		<element kind="line" uuid="c4eaec22-e651-432f-a02b-d2ac9a5ee1bd" y="60" width="515" height="1"/>
 		<element kind="line" uuid="69923c44-0d6b-4a76-858b-ca8865c3a19a" y="63" width="515" height="1"/>
-		<element kind="image" uuid="f521f7f1-a1af-41fe-b953-f7cf0dd6ae57" y="70" width="515" height="400" scaleImage="Clip" horizontalImageAlign="Center" onErrorType="Error">
+		<element kind="image" uuid="f521f7f1-a1af-41fe-b953-f7cf0dd6ae57" y="70" width="515" height="400" scaleImage="Clip" hImageAlign="Center" onErrorType="Error">
 			<expression><![CDATA[$V{ChartImage}]]></expression>
 		</element>
 	</title>

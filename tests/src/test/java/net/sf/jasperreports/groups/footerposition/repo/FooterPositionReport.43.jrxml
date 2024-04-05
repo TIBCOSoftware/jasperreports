@@ -90,7 +90,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="90" width="80" height="25" horizontalTextAlign="Right" evaluationTime="Page">
+			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="90" width="80" height="25" hTextAlign="Right" evaluationTime="Page">
 				<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -100,7 +100,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="6c499590-6315-431f-93fc-7831f5223cae" mode="Transparent" x="170" width="80" height="25" horizontalTextAlign="Right" evaluationTime="Column">
+			<element kind="textField" uuid="6c499590-6315-431f-93fc-7831f5223cae" mode="Transparent" x="170" width="80" height="25" hTextAlign="Right" evaluationTime="Column">
 				<expression><![CDATA["Col " + $V{COLUMN_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>

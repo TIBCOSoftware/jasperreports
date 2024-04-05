@@ -1,10 +1,10 @@
 <jasperReport name="GenericElementReport" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="50" bottomMargin="50" uuid="ed16b371-5ada-4abb-8973-bcfa77094161">
-	<style name="widget1" horizontalTextAlign="Right" horizontalImageAlign="Right"/>
+	<style name="widget1" hTextAlign="Right" hImageAlign="Right"/>
 	<parameter name="JRProjectID" class="java.lang.String">
 		<defaultValueExpression><![CDATA["jasperreports"]]></defaultValueExpression>
 	</parameter>
 	<title height="495">
-		<element kind="textField" uuid="efcf3893-700b-4dba-b420-b94ced37bd15" width="820" height="70" horizontalTextAlign="Center" linkType="Reference" linkTarget="Blank" fontSize="18.0">
+		<element kind="textField" uuid="efcf3893-700b-4dba-b420-b94ced37bd15" width="820" height="70" hTextAlign="Center" linkType="Reference" linkTarget="Blank" fontSize="18.0">
 			<expression><![CDATA["JasperReports project information courtesy of http://ohloh.net"]]></expression>
 			<hyperlinkReferenceExpression><![CDATA["http://ohloh.net/projects/jasperreports"]]></hyperlinkReferenceExpression>
 		</element>

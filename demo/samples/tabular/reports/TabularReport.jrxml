@@ -9,13 +9,13 @@
 			<expression><![CDATA["jasperreports.svg"]]></expression>
 			<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 		</element>
-		<element kind="staticText" uuid="7891f99b-c027-430c-9616-b6debbf080ec" x="180" y="5" width="375" height="40" horizontalTextAlign="Right" fontSize="22.0">
+		<element kind="staticText" uuid="7891f99b-c027-430c-9616-b6debbf080ec" x="180" y="5" width="375" height="40" hTextAlign="Right" fontSize="22.0">
 			<text><![CDATA[Tabular Report]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
 		</element>
 	</title>
 	<pageHeader height="30">
-		<element kind="staticText" uuid="dae559e2-5a66-4beb-a4cc-ea0abd1cd47b" mode="Opaque" width="100" height="30" backcolor="#808080" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="dae559e2-5a66-4beb-a4cc-ea0abd1cd47b" mode="Opaque" width="100" height="30" backcolor="#808080" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Header 1]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
@@ -28,7 +28,7 @@
 				<bottomPen lineWidth="0.5"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="deeeefe7-4688-45e0-82ab-dd8a3d2a0eee" mode="Opaque" x="100" width="100" height="30" backcolor="#808080" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="deeeefe7-4688-45e0-82ab-dd8a3d2a0eee" mode="Opaque" x="100" width="100" height="30" backcolor="#808080" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Header 2]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
@@ -39,7 +39,7 @@
 				<bottomPen lineWidth="0.5"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="e66a84b5-572c-4689-9652-f2a066d0a1d3" mode="Opaque" x="200" width="100" height="30" backcolor="#808080" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="e66a84b5-572c-4689-9652-f2a066d0a1d3" mode="Opaque" x="200" width="100" height="30" backcolor="#808080" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Header 3]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.rowspan" value="2"/>
@@ -50,7 +50,7 @@
 				<bottomPen lineWidth="0.5"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="7b3bf001-30f2-4e23-b220-e19a0ac8c21e" mode="Opaque" x="300" width="255" height="15" backcolor="#808080" horizontalTextAlign="Center" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="7b3bf001-30f2-4e23-b220-e19a0ac8c21e" mode="Opaque" x="300" width="255" height="15" backcolor="#808080" hTextAlign="Center" bold="true" fontSize="12.0">
 			<text><![CDATA[Header 4]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
@@ -72,7 +72,7 @@
 				<bottomPen lineWidth="0.5"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="57ba6c88-6bd9-4097-b255-e5a4258e3bb0" mode="Opaque" x="455" y="15" width="100" height="15" backcolor="#808080" horizontalTextAlign="Right" bold="true">
+		<element kind="staticText" uuid="57ba6c88-6bd9-4097-b255-e5a4258e3bb0" mode="Opaque" x="455" y="15" width="100" height="15" backcolor="#808080" hTextAlign="Right" bold="true">
 			<text><![CDATA[Header 4.2]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
@@ -121,7 +121,7 @@
 						<bottomPen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="textField" uuid="2f8779ab-6689-4239-99f0-6ef0a55775cc" stretchType="ElementGroupHeight" x="455" width="100" height="15" horizontalTextAlign="Right">
+				<element kind="textField" uuid="2f8779ab-6689-4239-99f0-6ef0a55775cc" stretchType="ElementGroupHeight" x="455" width="100" height="15" hTextAlign="Right">
 					<expression><![CDATA["12345"]]></expression>
 					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 					<box rightPadding="10">
@@ -134,7 +134,7 @@
 		</band>
 	</detail>
 	<columnFooter height="15">
-		<element kind="staticText" uuid="bf4cbec7-e218-499e-9a3b-be961604d993" mode="Opaque" width="100" height="15" backcolor="#C0C0C0" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="bf4cbec7-e218-499e-9a3b-be961604d993" mode="Opaque" width="100" height="15" backcolor="#C0C0C0" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Total 1]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
@@ -144,7 +144,7 @@
 				<bottomPen lineWidth="1.0" lineColor="#FF0000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="9e729c58-b558-47c5-9148-59093729f4ec" mode="Opaque" x="100" width="100" height="15" backcolor="#C0C0C0" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="9e729c58-b558-47c5-9148-59093729f4ec" mode="Opaque" x="100" width="100" height="15" backcolor="#C0C0C0" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Total 2]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 			<box leftPadding="10">
@@ -153,7 +153,7 @@
 				<bottomPen lineWidth="1.0" lineColor="#FF0000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="5277d199-bd4e-4c2b-a14d-513602d4e652" mode="Opaque" x="200" width="100" height="15" backcolor="#C0C0C0" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="5277d199-bd4e-4c2b-a14d-513602d4e652" mode="Opaque" x="200" width="100" height="15" backcolor="#C0C0C0" vTextAlign="Middle" bold="true" fontSize="12.0">
 			<text><![CDATA[Total 3]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 			<box leftPadding="10">
@@ -171,7 +171,7 @@
 				<bottomPen lineWidth="1.0" lineColor="#FF0000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="c46da7c8-3108-4bab-9605-d850e562be09" mode="Opaque" x="455" width="100" height="15" backcolor="#C0C0C0" horizontalTextAlign="Right" bold="true" fontSize="12.0">
+		<element kind="staticText" uuid="c46da7c8-3108-4bab-9605-d850e562be09" mode="Opaque" x="455" width="100" height="15" backcolor="#C0C0C0" hTextAlign="Right" bold="true" fontSize="12.0">
 			<text><![CDATA[Total 4.2]]></text>
 			<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>

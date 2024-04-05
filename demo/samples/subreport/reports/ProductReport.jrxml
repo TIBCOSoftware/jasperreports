@@ -34,7 +34,7 @@
 		<expression><![CDATA[$F{Id}]]></expression>
 		<groupHeader>
 			<band height="14">
-				<element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" horizontalTextAlign="Right">
+				<element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" hTextAlign="Right">
 					<expression><![CDATA[$F{Id}]]></expression>
 					<property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
 				</element>
@@ -42,11 +42,11 @@
 					<expression><![CDATA[$F{Name}]]></expression>
 					<property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
 				</element>
-				<element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
+				<element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
 					<expression><![CDATA[$V{QuantityProductSum}]]></expression>
 					<property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
 				</element>
-				<element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
+				<element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
 					<expression><![CDATA[$V{PriceProductSum}]]></expression>
 					<property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
 				</element>
@@ -60,7 +60,7 @@
 		<element kind="staticText" uuid="8047f89b-3363-477a-8c15-1c6bae982ef3" y="2" width="60" height="10" style="Sans_Italic">
 			<text><![CDATA[Title]]></text>
 		</element>
-		<element kind="textField" uuid="65c7aa4b-b50e-4803-9b50-1454e14892b3" y="2" width="325" height="10" horizontalTextAlign="Center" style="Sans_Bold">
+		<element kind="textField" uuid="65c7aa4b-b50e-4803-9b50-1454e14892b3" y="2" width="325" height="10" hTextAlign="Center" style="Sans_Bold">
 			<expression><![CDATA["Products ordered by people in " + $P{City}]]></expression>
 		</element>
 	</title>
@@ -74,16 +74,16 @@
 	</pageHeader>
 	<columnHeader height="14">
 		<element kind="frame" uuid="78888ac8-a9f3-49e6-8e88-6e9496a020f3" y="2" width="160" height="10" forecolor="#FFFF99" backcolor="#FFFF99">
-			<element kind="staticText" uuid="3fc2965b-b4a5-4a3f-875d-856f21d48835" mode="Opaque" width="20" height="10" backcolor="#FFFF99" horizontalTextAlign="Center" style="Sans_Bold">
+			<element kind="staticText" uuid="3fc2965b-b4a5-4a3f-875d-856f21d48835" mode="Opaque" width="20" height="10" backcolor="#FFFF99" hTextAlign="Center" style="Sans_Bold">
 				<text><![CDATA[ID]]></text>
 			</element>
 			<element kind="staticText" uuid="dc051772-2007-42dd-b287-525021539a9e" mode="Opaque" x="20" width="85" height="10" backcolor="#FFFF99" style="Sans_Bold">
 				<text><![CDATA[Name]]></text>
 			</element>
-			<element kind="staticText" uuid="1d091a88-eebf-4b2f-9dc3-c691aa283f33" mode="Opaque" x="105" width="20" height="10" backcolor="#FFFF99" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="1d091a88-eebf-4b2f-9dc3-c691aa283f33" mode="Opaque" x="105" width="20" height="10" backcolor="#FFFF99" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Qty]]></text>
 			</element>
-			<element kind="staticText" uuid="716b63cd-c79c-4191-a299-73e0e8e63d57" mode="Opaque" x="125" width="35" height="10" backcolor="#FFFF99" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="716b63cd-c79c-4191-a299-73e0e8e63d57" mode="Opaque" x="125" width="35" height="10" backcolor="#FFFF99" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Price]]></text>
 			</element>
 			<box>
@@ -98,13 +98,13 @@
 		<element kind="staticText" uuid="92c7aa24-0587-467c-9733-7eefb7092933" y="2" width="60" height="10" style="Sans_Italic">
 			<text><![CDATA[Column Footer]]></text>
 		</element>
-		<element kind="staticText" uuid="01901e37-2081-4cf2-b234-01a1de05e91e" x="70" y="2" width="30" height="10" horizontalTextAlign="Right" style="Sans_Bold">
+		<element kind="staticText" uuid="01901e37-2081-4cf2-b234-01a1de05e91e" x="70" y="2" width="30" height="10" hTextAlign="Right" style="Sans_Bold">
 			<text><![CDATA[Total :]]></text>
 		</element>
-		<element kind="textField" uuid="29676ee4-01b4-41fc-9ffa-3d33cf9ad4a7" x="105" y="2" width="20" height="10" horizontalTextAlign="Right" pattern="#0" style="Sans_Bold">
+		<element kind="textField" uuid="29676ee4-01b4-41fc-9ffa-3d33cf9ad4a7" x="105" y="2" width="20" height="10" hTextAlign="Right" pattern="#0" style="Sans_Bold">
 			<expression><![CDATA[$V{QuantitySum}]]></expression>
 		</element>
-		<element kind="textField" uuid="757842f6-32cf-4524-b4dd-880ccc35c1c1" x="130" y="2" width="30" height="10" horizontalTextAlign="Right" pattern="#0.00" style="Sans_Bold">
+		<element kind="textField" uuid="757842f6-32cf-4524-b4dd-880ccc35c1c1" x="130" y="2" width="30" height="10" hTextAlign="Right" pattern="#0.00" style="Sans_Bold">
 			<expression><![CDATA[$V{PriceSum}]]></expression>
 		</element>
 	</columnFooter>
@@ -113,7 +113,7 @@
 			<element kind="staticText" uuid="1bc5b9ac-ce38-4edd-b985-ecc0d1fbb021" width="60" height="10" forecolor="#808000" style="Sans_Italic">
 				<text><![CDATA[Page Footer]]></text>
 			</element>
-			<element kind="textField" uuid="7150ad06-dd14-41f0-82dd-2adf1b584858" x="150" width="100" height="10" forecolor="#808000" horizontalTextAlign="Right" style="Sans_Italic">
+			<element kind="textField" uuid="7150ad06-dd14-41f0-82dd-2adf1b584858" x="150" width="100" height="10" forecolor="#808000" hTextAlign="Right" style="Sans_Italic">
 				<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of "]]></expression>
 			</element>
 			<element kind="textField" uuid="e69989f4-eb16-42a1-a446-269b33763ced" x="250" width="50" height="10" forecolor="#808000" evaluationTime="Report" style="Sans_Italic">
@@ -129,16 +129,16 @@
 			<element kind="staticText" uuid="26a7c2ea-d4b0-41ea-a11d-f478dc96cc1e" mode="Opaque" width="230" height="10" backcolor="#808000" style="Sans_Italic">
 				<text><![CDATA[Summary]]></text>
 			</element>
-			<element kind="staticText" uuid="7b7c18c7-6ef4-460e-bfe1-5ed2bff303cc" mode="Opaque" x="230" width="55" height="10" backcolor="#808000" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="7b7c18c7-6ef4-460e-bfe1-5ed2bff303cc" mode="Opaque" x="230" width="55" height="10" backcolor="#808000" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Count :]]></text>
 			</element>
-			<element kind="textField" uuid="56212ae1-881a-46b6-ad22-a2805662c065" mode="Opaque" x="285" width="40" height="10" backcolor="#808000" horizontalTextAlign="Right" pattern="#0" style="Sans_Bold">
+			<element kind="textField" uuid="56212ae1-881a-46b6-ad22-a2805662c065" mode="Opaque" x="285" width="40" height="10" backcolor="#808000" hTextAlign="Right" pattern="#0" style="Sans_Bold">
 				<expression><![CDATA[$V{ProductCount}]]></expression>
 			</element>
 		</element>
 	</summary>
 	<noData height="14">
-		<element kind="textField" uuid="935b37e5-06b1-487c-9eb4-5d4d42f34ade" y="2" width="325" height="10" forecolor="#993300" horizontalTextAlign="Center" style="Sans_Bold">
+		<element kind="textField" uuid="935b37e5-06b1-487c-9eb4-5d4d42f34ade" y="2" width="325" height="10" forecolor="#993300" hTextAlign="Center" style="Sans_Bold">
 			<expression><![CDATA["No Orders From " + $P{City}]]></expression>
 		</element>
 	</noData>

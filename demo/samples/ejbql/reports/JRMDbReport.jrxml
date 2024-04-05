@@ -37,10 +37,10 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
-				<element kind="staticText" uuid="9d67ec6d-f4b4-4e78-9617-3cf8b6174dc6" x="300" y="1" width="160" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="staticText" uuid="9d67ec6d-f4b4-4e78-9617-3cf8b6174dc6" x="300" y="1" width="160" height="15" hTextAlign="Right" style="Sans_Bold">
 					<text><![CDATA[Movies in this genre :]]></text>
 				</element>
-				<element kind="textField" uuid="d16039af-1898-4768-aae7-2c2e74df61a9" x="460" y="1" width="30" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="textField" uuid="d16039af-1898-4768-aae7-2c2e74df61a9" x="460" y="1" width="30" height="15" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$V{GenreGroup_COUNT}]]></expression>
 				</element>
 			</band>
@@ -48,7 +48,7 @@
 	</group>
 	<title height="70">
 		<element kind="line" uuid="3994d1ce-e349-4b56-ab20-4b8052567f1e" width="515" height="1"/>
-		<element kind="textField" uuid="a50016eb-e600-485f-a63c-b1afa8a79602" y="10" width="515" height="30" horizontalTextAlign="Center" bookmarkLevel="1" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
+		<element kind="textField" uuid="a50016eb-e600-485f-a63c-b1afa8a79602" y="10" width="515" height="30" hTextAlign="Center" bookmarkLevel="1" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 		</element>
@@ -98,7 +98,7 @@
 	</detail>
 	<pageFooter height="40">
 		<element kind="line" uuid="86b399c1-e27e-4658-a234-ef82e3dade20" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="62376553-5f00-4841-9ff0-71f8e8901dee" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="62376553-5f00-4841-9ff0-71f8e8901dee" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="7e0f9ac7-13b2-4702-8415-8b7e61598c79" x="280" y="20" width="75" height="15" evaluationTime="Report">
@@ -106,14 +106,14 @@
 		</element>
 	</pageFooter>
 	<lastPageFooter height="60">
-		<element kind="textField" uuid="641b85be-da16-4b7d-94c7-512a5cb14b34" y="10" width="515" height="15" horizontalTextAlign="Center" bookmarkLevel="1">
+		<element kind="textField" uuid="641b85be-da16-4b7d-94c7-512a5cb14b34" y="10" width="515" height="15" hTextAlign="Center" bookmarkLevel="1">
 			<expression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" movies displayed on this report."]]></expression>
 			<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 		</element>
 		<element kind="line" uuid="4b460e8a-f0ef-4789-8f11-55d524102df9" y="30" width="515" height="1"/>
-		<element kind="textField" uuid="b191f294-3fe8-4307-b5a4-c6524e511cf4" x="200" y="40" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="b191f294-3fe8-4307-b5a4-c6524e511cf4" x="200" y="40" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="920fe4e6-e2f0-428e-9aee-37a675ee5753" x="280" y="40" width="75" height="15" evaluationTime="Report">

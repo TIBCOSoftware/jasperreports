@@ -43,7 +43,7 @@
 + "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
 + "\n" + $V{All}]]></expression>
 				</element>
-				<element kind="textField" uuid="deaf226c-cf74-4f72-abc9-7dddce05c9ac" x="155" width="100" height="15" horizontalTextAlign="Right" printRepeatedValues="false">
+				<element kind="textField" uuid="deaf226c-cf74-4f72-abc9-7dddce05c9ac" x="155" width="100" height="15" hTextAlign="Right" printRepeatedValues="false">
 					<expression><![CDATA[$F{simple}]]></expression>
 				</element>
 			</band>
@@ -56,7 +56,7 @@
 + "\n" + $V{All}
 + "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></expression>
 				</element>
-				<element kind="textField" uuid="d709675f-9140-4603-be69-791e56ba9767" x="155" width="100" height="15" horizontalTextAlign="Right" printRepeatedValues="false">
+				<element kind="textField" uuid="d709675f-9140-4603-be69-791e56ba9767" x="155" width="100" height="15" hTextAlign="Right" printRepeatedValues="false">
 					<expression><![CDATA[$F{simple}]]></expression>
 				</element>
 			</band>

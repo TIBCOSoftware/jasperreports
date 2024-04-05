@@ -20,16 +20,16 @@
 		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
 	</parameter>
 	<summary height="692">
-		<element kind="textField" uuid="19a7440f-898f-44bd-bdcf-4a10ead526b1" width="515" height="120" verticalTextAlign="Middle" markup="html" blankWhenNull="true" fontSize="10.0" style="Sans_Normal">
+		<element kind="textField" uuid="19a7440f-898f-44bd-bdcf-4a10ead526b1" width="515" height="120" vTextAlign="Middle" markup="html" blankWhenNull="true" fontSize="10.0" style="Sans_Normal">
 			<expression><![CDATA["<b>Note: </b>in order to get accurate results with Google maps, you need to set the <br/><b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property with an appropriate Google API key value. <p/><p/>The Google API key must be enabled for Google Javascript API, Google Maps Static API and Google Geocoding API. More information about API keys can be found at <a href='https://developers.google.com/maps/gmp-get-started'>https://developers.google.com/maps/gmp-get-started</a>.<p/><p/>The <b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property can be set either in the report itself or in a <b><span style='font-family:DejaVu Sans Mono'>jasperreports.properties</span></b> file."]]></expression>
 			<box padding="5" style="Sans_Normal">
 				<pen lineWidth="1.0" lineStyle="Dashed" lineColor="#BEBEBE"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="e21201eb-8650-47b4-8d57-724711bffee9" positionType="Float" y="120" width="515" height="50" verticalTextAlign="Bottom" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
+		<element kind="textField" uuid="e21201eb-8650-47b4-8d57-724711bffee9" positionType="Float" y="120" width="515" height="50" vTextAlign="Bottom" bookmarkLevel="1" blankWhenNull="true" fontSize="14.0" style="Sans_Bold">
 			<expression><![CDATA["Bucharest - Road Map"]]></expression>
 		</element>
-		<element kind="textField" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee" positionType="Float" y="170" width="515" height="50" verticalTextAlign="Bottom" textAdjust="StretchHeight" blankWhenNull="true">
+		<element kind="textField" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee" positionType="Float" y="170" width="515" height="50" vTextAlign="Bottom" textAdjust="StretchHeight" blankWhenNull="true">
 			<expression><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></expression>
 		</element>
 		<element kind="component" uuid="7aab9b20-071d-47c0-93df-705cada95c60" positionType="Float" y="255" width="515" height="326">

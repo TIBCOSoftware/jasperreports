@@ -4,13 +4,13 @@
 	</parameter>
 	<title height="742">
 		<element kind="line" uuid="6ef683b5-e354-4fe0-a9df-8ac96bd9082a" width="515" height="1"/>
-		<element kind="staticText" uuid="e2e11563-7a3c-41c0-a934-bf0fa76d505d" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0">
+		<element kind="staticText" uuid="e2e11563-7a3c-41c0-a934-bf0fa76d505d" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0">
 			<text><![CDATA[Barcode Sample]]></text>
 		</element>
-		<element kind="textField" uuid="85dc966e-8084-4441-ba86-3926ef9b72cb" y="50" width="515" height="20" horizontalTextAlign="Center" fontSize="12.0">
+		<element kind="textField" uuid="85dc966e-8084-4441-ba86-3926ef9b72cb" y="50" width="515" height="20" hTextAlign="Center" fontSize="12.0">
 			<expression><![CDATA["This sample uses Barbecue Version 1.5beta1\n" + ""]]></expression>
 		</element>
-		<element kind="textField" uuid="6e11e2f3-0ed2-4b0a-b063-4aabe40bdbd2" y="70" width="515" height="20" horizontalTextAlign="Center" linkType="Reference" fontSize="12.0">
+		<element kind="textField" uuid="6e11e2f3-0ed2-4b0a-b063-4aabe40bdbd2" y="70" width="515" height="20" hTextAlign="Center" linkType="Reference" fontSize="12.0">
 			<expression><![CDATA["http://barbecue.sourceforge.net/"]]></expression>
 			<hyperlinkReferenceExpression><![CDATA["http://barbecue.sourceforge.net/"]]></hyperlinkReferenceExpression>
 		</element>
