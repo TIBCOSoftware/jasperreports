@@ -78,7 +78,7 @@ public class ItemPropertySerializer extends StdSerializer<ItemProperty>
 			jgen.writeStartObject();
 			xgen.setNextIsAttribute(true);
 			jgen.writeStringField("name", value.getName());
-			if (value.getValue() != null)
+			if (value.getValue() != null) // apparently, null test is not needed, at least for xml, but anyway...
 			{
 				jgen.writeStringField("value", value.getValue());
 			}
