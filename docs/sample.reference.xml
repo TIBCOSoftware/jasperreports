@@ -101,6 +101,7 @@
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
       <feature name="exceldataadapter" sample="exceldataadapter" title="Excel Data Adapter"/>
       <feature name="exceldatasource" sample="exceldatasource" title="Excel Data Source"/>
+      <feature name="fastexceldatasource" sample="fastexceldatasource" title="Fastexcel Data Source" complete="false"/>
       <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
       <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
       <feature name="jsondatasource" sample="jsondatasource" title="JSON Data Source"/>
