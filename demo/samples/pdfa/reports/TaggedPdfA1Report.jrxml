@@ -180,7 +180,7 @@
 				</element>
 			</band>
 			<band height="50">
-				<element kind="image" uuid="e8c7ab7c-52e0-4d9f-98b7-e26323e4838c" width="150" height="40" hImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error" usingCache="false">
+				<element kind="image" uuid="e8c7ab7c-52e0-4d9f-98b7-e26323e4838c" width="150" height="40" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error" usingCache="false">
 					<expression><![CDATA["jasperreports.svg"]]></expression>
 					<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 					<box>

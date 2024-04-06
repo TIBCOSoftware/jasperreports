@@ -6,13 +6,13 @@
 		<element kind="staticText" uuid="e249eb20-56d2-4504-bfd0-43b67096e274" positionType="Float" y="60" width="555" height="40" hTextAlign="Center" markup="styled" fontName="LiberationSans" fontSize="14.0">
 			<text><![CDATA[The font used is an <font color="#990000">embedded TTF</font> (<b>LiberationSans</b>) provided to JasperReports in form of a <i>font extension</i>.]]></text>
 		</element>
-		<element kind="image" uuid="5f1c96b1-1c14-4832-b78a-8236076c85fd" x="240" y="120" width="80" height="20" hImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+		<element kind="image" uuid="5f1c96b1-1c14-4832-b78a-8236076c85fd" x="240" y="120" width="80" height="20" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 			<expression><![CDATA["jasperreports_not_transparent.png"]]></expression>
 			<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 		</element>
 		<element kind="rectangle" uuid="6168dfc1-c58d-4981-be19-871972f97214" x="210" y="210" width="100" height="50"/>
 		<element kind="ellipse" uuid="539a99bd-9c3c-47fa-a368-937f8ec671ef" x="260" y="227" width="70" height="70" backcolor="#990000"/>
-		<element kind="image" uuid="c9599e72-3f78-4b64-acf0-f8a918906e4b" x="300" y="252" width="80" height="20" hImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+		<element kind="image" uuid="c9599e72-3f78-4b64-acf0-f8a918906e4b" x="300" y="252" width="80" height="20" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 			<expression><![CDATA["jasperreports.svg"]]></expression>
 			<hyperlinkTooltipExpression><![CDATA["A SVG image"]]></hyperlinkTooltipExpression>
 		</element>

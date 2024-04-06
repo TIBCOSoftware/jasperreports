@@ -49,7 +49,7 @@
 		</groupFooter>
 	</group>
 	<background height="742">
-		<element kind="image" uuid="dfbfd9d7-e0db-4480-8ba1-1c380fcbd07e" width="150" height="742" scaleImage="Clip" hImageAlign="Left" verticalImageAlign="Bottom" onErrorType="Error">
+		<element kind="image" uuid="dfbfd9d7-e0db-4480-8ba1-1c380fcbd07e" width="150" height="742" scaleImage="Clip" hImageAlign="Left" vImageAlign="Bottom" onErrorType="Error">
 			<expression><![CDATA["jr.watermark.gif"]]></expression>
 		</element>
 	</background>

@@ -6,7 +6,7 @@
 	<style name="BaseStyle" vTextAlign="Middle" fontSize="14.0" default="true"/>
 	<style name="Title" fontSize="18.0" bold="true" style="BaseStyle"/>
 	<style name="Transparent" mode="Transparent" style="BaseStyle"/>
-	<style name="TableHeader" mode="Opaque" forecolor="#000000" backcolor="#BFBFBF" verticalImageAlign="Middle" bold="true" style="BaseStyle"/>
+	<style name="TableHeader" mode="Opaque" forecolor="#000000" backcolor="#BFBFBF" vImageAlign="Middle" bold="true" style="BaseStyle"/>
 	<style name="TableDetail" style="BaseStyle">
 		<conditionalStyle mode="Opaque" backcolor="#DFDFDF">
 			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
