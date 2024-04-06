@@ -23,7 +23,7 @@
 		<groupHeader>
 			<band height="15">
 				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" width="200" height="15" style="Component">
-					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" hAlign="Right" vAlign="Bottom" style="Component">
 						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["Text."]]></expression>
 							<box padding="5" style="Label">

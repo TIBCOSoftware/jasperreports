@@ -23,7 +23,7 @@
 		<groupHeader>
 			<band height="15">
 				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" hAlign="Right" vAlign="Bottom" style="Component">
 						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -41,7 +41,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="3dd69925-afe1-44ef-a001-344eb40bb337" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Both" hAlign="Center" vAlign="Top" style="Component">
 						<labelTextField uuid="22bb56ea-4fc2-4f23-bc08-01f085973404" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -59,7 +59,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="25b63cfa-5624-46f2-8161-b093deea55bd" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="Start" labelFill="Both" horizontalAlign="Center" verticalAlign="Middle" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Both" hAlign="Center" vAlign="Middle" style="Component">
 						<labelTextField uuid="9288daa2-c43f-4528-820b-be546a77f340" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -77,7 +77,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="c1da4208-2b90-4a91-84ee-5764a8f91f76" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Middle" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Middle" style="Component">
 						<labelTextField uuid="2561296b-c9b2-4324-9159-9517cc9fe6b0" width="1" height="1" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -95,7 +95,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="458119e1-f837-409b-91ae-f626a0ca99c8" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Bottom" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Bottom" style="Component">
 						<labelTextField uuid="e77bca92-182f-4be3-95dc-f97d91ee1fcb" width="1" height="1" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -113,7 +113,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="e7b057a2-7b6d-4b70-b093-ebeb0fb60d08" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Top" style="Component">
 						<labelTextField uuid="fa7dfdf5-80e6-465d-b4a9-4e747f4f74c8" width="1" height="1" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This is it!"]]></expression>
 							<box padding="5" style="Label">
@@ -131,7 +131,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="1170ce2e-ad4e-47ab-9e27-5948486ce366" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Center" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Top" style="Component">
 						<labelTextField uuid="6d30a538-46c2-49c1-a927-0ddb33aa178a" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
@@ -146,7 +146,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="47c546c5-70e5-4e9a-b81f-fe140a06759d" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="None" horizontalAlign="Center" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Center" vAlign="Top" style="Component">
 						<labelTextField uuid="1da65b0c-59f2-4c60-922b-dd9885c3232d" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
@@ -161,7 +161,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="070c9803-1ada-424a-9dec-71ec5a31431f" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="None" horizontalAlign="Right" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Right" vAlign="Top" style="Component">
 						<labelTextField uuid="285161b3-bcd4-4fd1-b3fd-c9a0717a7460" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
@@ -176,7 +176,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="b3e39060-5a38-4387-afda-07105b944699" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Right" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Right" vAlign="Top" style="Component">
 						<labelTextField uuid="cced8cf7-6507-4b5c-abf7-5c063c02e9c3" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
@@ -191,7 +191,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="d44d322e-af6c-4fd1-86c6-462049506d75" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" horizontalAlign="Left" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Left" vAlign="Top" style="Component">
 						<labelTextField uuid="06f34e01-5924-4f20-a258-f15342694893" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
@@ -206,7 +206,7 @@
 			</band>
 			<band height="15">
 				<element kind="component" uuid="1611c88c-ff25-4206-b36d-5dc194397b54" stretchType="ContainerHeight" width="200" height="10" style="Component">
-					<component kind="iconLabel" iconPosition="End" labelFill="None" horizontalAlign="Left" verticalAlign="Top" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Left" vAlign="Top" style="Component">
 						<labelTextField uuid="2e71178f-5bce-4d30-b517-2ce651a07866" width="1" height="1" textAdjust="StretchHeight" style="Label">
 							<expression><![CDATA["This is the shipping address."]]></expression>
 						</labelTextField>
