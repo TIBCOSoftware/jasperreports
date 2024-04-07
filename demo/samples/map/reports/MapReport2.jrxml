@@ -32,7 +32,7 @@
 						<datasetRun uuid="99d4db58-7384-46bc-9668-ac16f7843e6d" subDataset="MarkersDataset"/>
 					</dataset>
 					<item>
-						<property><![CDATA[$F{latitude}]]></property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
 						<property name="longitude"><![CDATA[$F{longitude}]]></property>
 						<property name="title"><![CDATA[$F{address}]]></property>
 						<property name="label"><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></property>
