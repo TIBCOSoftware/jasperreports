@@ -106,61 +106,25 @@ In order to set localized texts or images in their placeholders, either the <cod
 <br/>
 <br/>
 For images (the <code>$R{}</code> syntax):
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;image scaleImage="Clip"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="20" width="100" height="50"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA[$R{image.flag}]]&gt;&lt;/imageExpression&gt;
-<br/>
-&#160;&#160;&lt;/image&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="image" uuid="46e07ab6-7965-4fbe-a6f5-c9c2db5dda0f" positionType="Float" x="20" y="30" width="100" height="50" scaleImage="Clip" onErrorType="Error">
+  <expression><![CDATA[$R{image.flag}]] ></expression>
+</element>
+]]></pre>
 For texts (the <code>$R{}</code> syntax):
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField textAdjust="StretchHeight" isBlankWhenNull="true"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="100" width="530" height="20"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Justified"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;/textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[$R{text.paragraph1}]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="textField" uuid="b335f49d-4592-49d1-b24b-045de94e7ae3" positionType="Float" x="20" y="100" width="530" height="20" horizontalTextAlign="Justified" textAdjust="StretchHeight" blankWhenNull="true" fontSize="14.0">
+  <expression><![CDATA[$R{text.paragraph1}]] ></expression>
+</element>
+]]></pre>
 or (the <code>msg()</code> method):
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField textAdjust="StretchHeight" isBlankWhenNull="true"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;/textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[msg($R{text.message}, $P{number})]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="textField" uuid="5d80dc10-e9b0-49ee-b760-19527151067b" positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000" textAdjust="StretchHeight" blankWhenNull="true" fontSize="14.0">
+  <expression><![CDATA[msg($R{text.message}, $P{number})]] ></expression>
+</element>
+]]></pre>
 When you run the sample in order to visualize it from within the built-in Swing viewer 
-(by typing the <code>ant clean javac compile fill view</code> command in a command line), you will be asked for the report locale twice. 
+(by typing the <code>mvn clean compile exec:java -Dexec.args="compile fill view"</code> command in a command line), you will be asked for the report locale twice. 
 That's because your first choice is used at fill time in order to generate the localized report, and the second choice is used for 
 customizing the viewer itself.
 <br/>
@@ -171,13 +135,16 @@ but all controls in the viewer (buttons, text boxes, drop-down lists) will have 
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/i18n</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/i18n</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/i18n/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/i18n/target/reports</code> directory.
     </content>
   </feature>
   
@@ -201,15 +168,11 @@ Shows how to use PPTX fields to update some predefined values such as current da
 <br/>
 The following example of a <code>datetime</code> PPTX field property can be found in the <code>i18n.jrxml</code> file:
 <pre><![CDATA[
-  <textField pattern="EEEE, MMMM dd, yyyy">
-    <reportElement positionType="Float" x="20" y="0" width="530" height="20" uuid="9e47d16e-496c-46ee-8e1f-7ad49e928d48">
-      <property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
-    </reportElement>
-    <textElement textAlignment="Right">
-      <font size="14"/>
-    </textElement>
-    <textFieldExpression>new Date()</textFieldExpression>
-  </textField>]]></pre>
+<element kind="textField" uuid="9e47d16e-496c-46ee-8e1f-7ad49e928d48" positionType="Float" x="20" width="530" height="20" horizontalTextAlign="Right" pattern="EEEE, MMMM dd, yyyy" fontSize="14.0">
+  <expression><![CDATA[new Date()]] ></expression>
+  <property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+</element>
+]]></pre>
 At export time this text element will be translated into a PPTX field that generates automatic current date.
 <br/>
 <br/>

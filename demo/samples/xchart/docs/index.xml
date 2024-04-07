@@ -33,11 +33,9 @@ a chart image generated with the XChart library.
 First let's see the <code>XChartReport.jrxml</code> template in the <code>samples/xcharts/reports</code> directory. It provides a 
 <code>scriptletClass="XChartScriptlet"</code> attribute, and a parametrized image element:
 <pre><![CDATA[
-<image scaleImage="Clip" hAlign="Center">
-  <reportElement x="0" y="70" width="400" height="400"/>
-  <graphicElement/>
-  <imageExpression class="java.awt.Image"><![CDATA[$V{ChartImage}]] ></imageExpression>
-</image>]]></pre>
+<element kind="image" y="70" width="515" height="400" scaleImage="Clip" horizontalImageAlign="Center" onErrorType="Error">
+  <expression><![CDATA[$V{ChartImage}]] ></expression>
+</element>]]></pre>
 The <code>java.awt.Image</code> object is stored in the <code>ChartImage</code> report variable:
 <pre><![CDATA[
 <variable name="ChartImage" class="java.awt.Image" calculation="System"/>]]></pre>
@@ -81,13 +79,16 @@ And that's all the story here. With only a report scriptlet and a third-party li
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/xcharts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/xchart</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/xcharts/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xchart/target/reports</code> directory.
     </content>
   </feature>
 

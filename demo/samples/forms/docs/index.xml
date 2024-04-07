@@ -77,11 +77,14 @@ flag for that element.
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" width="25" height="25">
+  <pen lineWidth="1.0"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+  <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
   <property name="net.sf.jasperreports.export.pdf.field.border.style" value="Beveled"/>
   <property name="net.sf.jasperreports.export.pdf.field.read.only" value="true"/>
-</reportElement>]]></pre>
+  <property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
+</element>]]></pre>
 <subtitle name="textbox">Text Input Fields</subtitle>
 <br/>
 <br/>
@@ -93,12 +96,13 @@ and in case that one is missing, then the actual text content of the JasperRepor
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<reportElement positionType="Float" mode="Opaque" x="250" y="0" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF">
+<element kind="textField" uuid="af005021-8b3d-4b5e-9fa7-d8dcef9936f6" positionType="Float" mode="Opaque" 
+  x="250" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" horizontalTextAlign="Right" fontName="DejaVu Serif" fontSize="24.0">
+  <expression><![CDATA["This\nis a multi\nline text inside a multi line text field."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
   <property name="net.sf.jasperreports.export.pdf.field.text.multiline" value="true"/>
   <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
-  <propertyExpression name="net.sf.jasperreports.export.pdf.field.value">"This\nis a multi\nline text inside a single line text field."</propertyExpression>
-</reportElement>]]></pre>
+</element>]]></pre>
 <subtitle name="textbox">List and Combobox Input Fields</subtitle>
 <br/>
 <br/>
@@ -111,22 +115,28 @@ If not set, the default separator is '|'.
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00">
+<element kind="textField" uuid="940c11f0-df1c-41f7-b0f9-42e2c3069242" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" horizontalTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+  <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
   <property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
   <property name="net.sf.jasperreports.export.pdf.field.choices" value="Un,Deux,Trois,Quatre,Cinq"/>
-</reportElement>]]></pre>
+  <property name="net.sf.jasperreports.export.pdf.field.value" value="Quatre"/>
+  <box>
+    <pen lineWidth="2.0" lineStyle="Dashed" lineColor="#FF0000"/>
+  </box>
+</element>]]></pre>
 In case we need the textbox in the combobox field to be editable, we can set the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.combo.edit">net.sf.jasperreports.export.pdf.field.combo.edit</a> property per 
 combobox element, while the a preselected value can be set using the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.value">net.sf.jasperreports.export.pdf.field.value</a> property:
 <pre><![CDATA[
-<reportElement positionType="Float" mode="Opaque" x="250" y="0" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00">
+<element kind="textField" uuid="43373481-0474-48fa-af1d-416edd07a77a" positionType="Float" mode="Opaque" x="250" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" horizontalTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+  <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
   <property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
-  <property name="net.sf.jasperreports.export.pdf.field.value" value="Four"/>
   <property name="net.sf.jasperreports.export.pdf.field.combo.edit" value="true"/>
-</reportElement>]]></pre>
+</element>
+]]></pre>
 <subtitle name="checkboxes">Checkbox Input Field</subtitle>
 <br/>
 <br/>
@@ -145,11 +155,15 @@ To indicate if the checkbox is checked when the PDF document is open, we can use
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.checked">net.sf.jasperreports.export.pdf.field.checked</a> property, 
 as in the following example:
 <pre><![CDATA[
-<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" width="25" height="25">
+  <pen lineWidth="1.0"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
   <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
+  <property name="net.sf.jasperreports.export.pdf.field.border.style" value="Beveled"/>
+  <property name="net.sf.jasperreports.export.pdf.field.read.only" value="true"/>
   <property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
-</reportElement>]]></pre>
+</element>
+]]></pre>
 <subtitle name="radiogroups">Radio Groups</subtitle>
 <br/>
 <br/>
@@ -163,77 +177,55 @@ values as for checkboxes. Also, to indicate which option is selected when openin
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<textField>
-  <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
-    <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
-    <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
-    <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Check"/>
-  </reportElement>
+<element kind="textField" uuid="71c2b530-ad0d-47f0-a8e8-e9ae79eb732c" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+  <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
+  <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+  <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+  <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Check"/>
   <box>
-    <pen lineWidth="1"/>
+    <pen lineWidth="1.0"/>
   </box>
-  <textFieldExpression><![CDATA["This text does not matter in PDF export."]] ></textFieldExpression>
-</textField>
-<textField>
-  <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
-    <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
-    <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
-    <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Circle"/>
-    <property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
-  </reportElement>
+</element>
+...
+<element kind="textField" uuid="87147be3-eb7b-474c-be9b-82205e0b949b" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+  <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
+  <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+  <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+  <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Circle"/>
+  <property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
   <box>
-    <pen lineWidth="1"/>
+    <pen lineWidth="1.0"/>
   </box>
-  <textFieldExpression><![CDATA["This text does not matter in PDF export."]] ></textFieldExpression>
-</textField>
-<textField>
-  <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
-    <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
-    <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
-    <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Cross"/>
-  </reportElement>
+</element>
+...
+<element kind="textField" uuid="d356af95-2a39-412b-9f6e-6843bf4a01d6" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+  <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
+  <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+  <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+  <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Cross"/>
   <box>
-    <pen lineWidth="1"/>
+    <pen lineWidth="1.0"/>
   </box>
-  <textFieldExpression><![CDATA["This text does not matter in PDF export."]] ></textFieldExpression>
-</textField>
-<textField>
-  <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
-    <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
-    <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
-    <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Diamond"/>
-  </reportElement>
-  <box>
-    <pen lineWidth="1"/>
-  </box>
-  <textFieldExpression><![CDATA["This text does not matter in PDF export."]] ></textFieldExpression>
-</textField>
-<textField>
-  <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
-    <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
-    <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
-    <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
-  </reportElement>
-  <box>
-    <pen lineWidth="1"/>
-  </box>
-  <textFieldExpression><![CDATA["This text does not matter in PDF export."]] ></textFieldExpression>
-</textField>]]></pre>
+</element>
+...]]></pre>
 <subtitle name="limitations">Known Limitations and Issues</subtitle>
 <ol>
 <li>Radio groups cannot overflow on the next page.</li>
 <li>Radio group options cannot be made read-only.</li>
 </ol>
-<subtitle name="runSample">Running the Sample</subtitle>
+<b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/forms</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/forms</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/forms/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer. You could open the PDF generated document and see how it differs from other generated outputs.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/forms/target/reports</code> directory.
     </content>
   </feature>
 

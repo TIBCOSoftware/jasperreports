@@ -29,12 +29,12 @@ How to render images in reports using the build-in image element.
 <br/>
 Below is an image.
 <br/>
-<img src="dukesign.jpg"/>
+<img src="../../resources/dukesign.jpg"/>
 <br/>
 <br/>
 Images are the most complex graphic objects in a report. Just as for text field elements, 
 their content is dynamically evaluated at runtime, using a report expression. The process of 
-image rendering depends on a set of attributes and expressions available for the <code>&lt;image/&gt;</code> element.
+image rendering depends on a set of attributes and expressions available for the image report elements (<code>&lt;element kind=&quot;image&quot;/&gt;</code>).
 <br/>
 <br/>
 <b>Image Attributes</b>
@@ -104,7 +104,7 @@ instead. The <code>onErrorType</code> attribute specifies this output. Possible 
 <br/>
 <br/>
 The value returned by the image expression is the source for the image to be displayed. 
-The image expression is introduced by the <code>&lt;imageExpression/&gt;</code> element and can return 
+The image expression is introduced by the <code>&lt;expression/&gt;</code> element and can return 
 values from only the limited range of classes listed following:
 <ul>
 <li><code>java.lang.String</code></li>
@@ -112,12 +112,12 @@ values from only the limited range of classes listed following:
 <li><code>java.net.URL</code></li>
 <li><code>java.io.InputStream</code></li>
 <li><code>java.awt.Image</code></li>
-<li><code>net.sf.jasperreports.engine.JRRenderable</code></li>
+<li><code>net.sf.jasperreports.renderers.Renderable</code></li>
 </ul>
 <b>Image Hyperlinks</b>
 <br/>
 <br/>
-In JasperReports image elements provide hyperlink support. All available hyperlink expressions are allowed to be part of an <code>&lt;image/&gt;</code> element. 
+In JasperReports image elements provide hyperlink support. All available hyperlink expressions are allowed to be part of an image element. 
 See also the <a href="../hyperlink/index.html#hyperlinks">hyperlink</a> sample.
 <br/>
 <br/>
@@ -126,46 +126,37 @@ See also the <a href="../hyperlink/index.html#hyperlinks">hyperlink</a> sample.
 <br/>
 This reports/ImagesReport.jrxml report template contains a series of image examples, having a specific combination of the attributes above.
 <br/>
-The first image in the report is loaded from the <a href="http://jasperreports.sourceforge.net">http://jasperreports.sourceforge.net</a> web site at export time.
-<br/> 
-<br/> 
-<code>
-&#160;&#160;&lt;image scaleImage="Clip" onErrorType="Icon" isLazy="true"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="150" height="40"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]&gt;&lt;/imageExpression&gt;
-<br/>
-&#160;&#160;&lt;/image&gt;
-</code>
-<br/>
-<br/>
-The last image in the report template is loaded from the <code>src/dukesign.jpg</code> file in this sample and is scaled to its real height. 
-The image expression's class is missing, therefore it is assumed to be <code>java.lang.String</code>. The image style is <code>imageBox</code>, 
-a report style defined for images with visible border lines.
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;image scaleImage="RealHeight"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="100" height="40" style="imageBox"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;imageExpression&gt;&lt;![CDATA["dukesign.jpg"]]&gt;&lt;/imageExpression&gt;
-<br/>
-&#160;&#160;&lt;/image&gt;
-</code>
-<br/>
-<br/>
+The first image in the report is loaded from the current folder at export time.
+<pre><![CDATA[
+<element kind="image" uuid="e37c3ef3-010c-482b-965e-a48565d5736d" width="150" height="40" onErrorType="Error">
+  <expression><![CDATA["dukesign.jpg"]] ></expression>
+  <box>
+    <pen lineWidth="0.5"/>
+  </box>
+</element>
+]]></pre>
+The last image in the report template is loaded from  <a href="https://jasperreports.sourceforge.net">https://jasperreports.sourceforge.net</a>> 
+file in this sample and is scaled to retain the image shape. It also provides a hyperlink expression pointing to its remote location:
+<pre><![CDATA[
+<element kind="image" uuid="8353450d-6b29-4139-9f34-274362589355" mode="Opaque" 
+  x="400" width="150" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" onErrorType="Icon" linkType="Reference" lazy="true">
+  <expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]] ></expression>
+  <hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]] ></hyperlinkReferenceExpression>
+</element>
+]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/images</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/images</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/images/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/images/target/reports</code> directory.
     </content>
   </feature>
 

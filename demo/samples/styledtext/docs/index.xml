@@ -35,10 +35,9 @@ attributes affect the entire text content in the report element.
 But there are situations when one needs to apply a style only to some parts of the text paragraph. Users may want to 
 highlight only few words within the text, with no affecting the rest of the paragraph. 
 <br/>
-The solution formerly used was to set the <code>isStyledText</code> attribute of the text element. It is now a deprecated 
-solution and is replaced by the use of the <code>markup="styled"</code> setting.
+The solution is to use of the <code>markup</code> attribute setting.
 <br/>
-If <code>isStyledText="true"</code> is set the engine gets notified that the text element contains a structured XML fragment 
+If <code>markup="styled"</code> is set, the engine gets notified that the text element contains a structured XML fragment 
 with JasperReports proprietary processing rules. 
 <br/> 
 <br/> 
@@ -73,12 +72,12 @@ This sample contains various styled text paragraphs, illustrating the use of the
 <br/>
 The first paragraph is obtained by processing the following fragment:
 <pre><![CDATA[
-	This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> 
-	element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> 
-	elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute 
-	available for the <style isBold="true" forecolor="magenta">textElement</style> tag to 
-	<style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested 
-	<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.	]]></pre>
+    This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing 
+	styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by 
+	setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for 
+	the <style isBold="true" forecolor="magenta">textElement</style> tag to <style forecolor="red" isItalic="true">styled</style> and 
+	by formatting the text content using nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, including 
+	<a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></pre>
 The next one is obtained by processing the following fragment:
 <pre><![CDATA[
 	This text field element contains styled text displaying the text-only version of the 
@@ -130,13 +129,16 @@ For more information about the recommended text formatting solution, please take
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/styledtext</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/styledtext</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/styledtext/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/styledtext/target/reports</code> directory.
 </content>
   </feature>
 

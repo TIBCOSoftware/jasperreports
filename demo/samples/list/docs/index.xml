@@ -17,8 +17,8 @@ How to render simple listings using the built-in list component and a subdataset
     <since>3.5.1</since>
     <documentedBy>
       <author>
-    	<name>Sanda Zaharia</name>
-    	<email>shertage@users.sourceforge.net</email>
+      <name>Sanda Zaharia</name>
+      <email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <otherSample ref="table"/>
@@ -40,85 +40,16 @@ This is the main purpose of the built-in list component. It also provides suppor
 single textfields as list content elements, as shown in the following section.
 <br/>
 <br/>
-<subtitle name="schema">The List Component Schema</subtitle>
+<subtitle name="structure">The List Component Structure</subtitle>
 <br/>
 <br/>
-According to the components schema, a list needs only two elements in order to become functional: a dataset run and a list content.
+A list needs only two elements in order to become functional: a dataset run and a list content.
 <ul>
-<li><code>jr:datasetRun</code> - the dataset run used to store information about list datasource/connection/subdataset and various useful 
-parameters. The <code>jr:</code> namespace prefix may be omitted in the JRXML template.</li>
-<li><code>c:listContents</code> - this element stores the layout information for list entries. The layout will be repeated for each row 
-in the dataset. Any JR element may be part of a list content.</li>
+<li><code>datasetRun</code> - the dataset run used to store information about list datasource/connection/subdataset and various useful 
+parameters.</li>
+<li><code>contents</code> - this element stores the layout information for list entries. The layout will be repeated for each row 
+in the dataset. Any kind of JasperReports element may be part of a list content.</li>
 </ul>
-<pre><![CDATA[
-<element name="list" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="jr:componentType">
-        <sequence>
-          <element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
-          <element ref="c:listContents" />
-        </sequence>
-        <attribute name="printOrder" use="optional" default="Vertical">
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="Vertical" />
-              <enumeration value="Horizontal" />
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="ignoreWidth" type="boolean" use="optional"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="listContents">
-  <complexType>
-    <sequence>
-      <choice minOccurs="0" maxOccurs="unbounded">
-        <element ref="jr:break" />
-        <element ref="jr:line" />
-        <element ref="jr:rectangle" />
-        <element ref="jr:ellipse" />
-        <element ref="jr:image" />
-        <element ref="jr:staticText" />
-        <element ref="jr:textField" />
-        <element ref="jr:subreport" />
-        <element ref="jr:pieChart" />
-        <element ref="jr:pie3DChart" />
-        <element ref="jr:barChart" />
-        <element ref="jr:bar3DChart" />
-        <element ref="jr:xyBarChart" />
-        <element ref="jr:stackedBarChart" />
-        <element ref="jr:stackedBar3DChart" />
-        <element ref="jr:lineChart" />
-        <element ref="jr:xyLineChart" />
-        <element ref="jr:areaChart" />
-        <element ref="jr:xyAreaChart" />
-        <element ref="jr:scatterChart" />
-        <element ref="jr:bubbleChart" />
-        <element ref="jr:timeSeriesChart" />
-        <element ref="jr:highLowChart" />
-        <element ref="jr:candlestickChart" />
-        <element ref="jr:meterChart" />
-        <element ref="jr:thermometerChart" />
-        <element ref="jr:multiAxisChart" />
-        <element ref="jr:stackedAreaChart" />
-        <element ref="jr:ganttChart" />
-        <element ref="jr:elementGroup" />
-        <element ref="jr:crosstab" />
-        <element ref="jr:frame" />
-        <element ref="jr:componentElement" />
-        <element ref="jr:genericElement" />
-      </choice>
-    </sequence>
-    <attribute name="height" use="required" type="unsignedInt"/>
-    <attribute name="width" use="optional" type="unsignedInt"/>
-  </complexType>
-</element>]]></pre>
-One can see that the list content may contain any of the report elements defined in the JasperReports schema.
-<br/>
 The <code>printOrder</code> attribute in the list component specifies how to render the list elements: in a vertical sequence or in a horizontal one. 
 The default value is <code>Vertical</code>.
 <br/>
@@ -126,7 +57,7 @@ The <code>ignoreWidth</code> flag is used when the print order is <code>Horizont
 component is reached. Unless the flag is set to <code>true</code>, the list list will break by default when the critical width is reached. By default the 
 flag is unset.
 <br/>
-The <code>listContents</code> element can be customized with 2 attributes:
+The <code>contents</code> element can be customized with 2 attributes:
 <ul>
 <li><code>height</code> - specifies the height of each list entry and is mandatory.</li>
 <li><code>width</code> - specifies  the width of each list entry and is optional.</li>
@@ -137,93 +68,78 @@ The <code>listContents</code> element can be customized with 2 attributes:
 This sample shows how to use the built-in list component for both <code>Vertical</code> and <code>Horizontal</code> printing order.
 In the <code>ListReport.jrxml</code> sample is configured a <code>Vertical</code> list component as follows:
 <pre><![CDATA[
-<componentElement>
-  <reportElement x="0" y="25" width="250" height="20"/>
-  <c:list 
-    xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-    <datasetRun subDataset="Addresses">
-      <datasetParameter name="City">
-        <datasetParameterExpression><![CDATA[$F{City}]] ></datasetParameterExpression>
-      </datasetParameter>
+<element kind="component" uuid="a6cc346e-d517-431e-8860-d81cc4e1145f" y="25" width="250" height="20">
+  <component kind="list" printOrder="Vertical">
+    <datasetRun uuid="b8180534-701e-4f9a-ad5f-785d1a5fb74b" subDataset="Addresses">
+      <parameter name="City">
+        <expression><![CDATA[$F{City}]] ></expression>
+      </parameter>
     </datasetRun>
-    <c:listContents height="14">
-      <frame>
-        <reportElement x="0" y="0" width="250" height="14" style="ListRow"/>
-        <textField>
-          <reportElement x="0" y="2" width="15" height="10" style="Sans_Small"/>
-          <textElement textAlignment="Right"/>
-          <textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight">
-          <reportElement positionType="Float" x="20" y="2" width="110" height="10" style="Sans_Small"/>
-          <textElement/>
-          <textFieldExpression class="java.lang.String"><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight">
-          <reportElement positionType="Float" x="135" y="2" width="105" height="10" style="Sans_Small"/>
-          <textElement/>
-          <textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]] ></textFieldExpression>
-        </textField>
-      </frame>
-    </c:listContents>
-  </c:list>
-</componentElement>]]></pre>
+    <contents height="14">
+      <element kind="frame" uuid="28b3ebcb-1bd3-422d-9468-54216206315d" width="250" height="14" style="ListRow">
+        <element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" horizontalTextAlign="Right" style="Sans_Small">
+          <expression><![CDATA[$F{Id}]] ></expression>
+        </element>
+        <element kind="textField" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef" positionType="Float" x="20" y="2" width="110" height="10" textAdjust="StretchHeight" style="Sans_Small">
+          <expression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></expression>
+        </element>
+        <element kind="textField" uuid="d1e4232f-52d4-40ee-9e9f-2e65682d9cd4" positionType="Float" x="135" y="2" width="105" height="10" textAdjust="StretchHeight" style="Sans_Small">
+          <expression><![CDATA[$F{Street}]] ></expression>
+        </element>
+      </element>
+    </contents>
+  </component>
+</element>]]></pre>
 A list containing the ID, name and address is generated for each city in the datasource and list entries are printed in the default <code>Vertical</code> order.
 <br/>
 For the horizontally printed list, let's take a look to the <code>HorizontalListReport.jrxml</code> sample:
 <pre><![CDATA[
-<componentElement>
-  <reportElement x="0" y="25" width="515" height="40"/>
-  <c:list xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Horizontal">
-    <datasetRun subDataset="Addresses">
-      <datasetParameter name="City">
-        <datasetParameterExpression><![CDATA[$F{City}]] ></datasetParameterExpression>
-      </datasetParameter>
+<element kind="component" uuid="34fb2fe3-0f33-43ce-84e7-6fd2fb51349f" y="25" width="515" height="40">
+  <component kind="list" printOrder="Horizontal">
+    <datasetRun uuid="25d845a2-169f-4599-9cfc-4414f30138fe" subDataset="Addresses">
+      <parameter name="City">
+        <expression><![CDATA[$F{City}]] ></expression>
+      </parameter>
     </datasetRun>
-    <c:listContents height="40" width="128">
-      <frame>
-        <reportElement x="4" y="0" width="120" height="38" style="ListCell" stretchType="RelativeToBandHeight"/>
-        <box>
-          <topPen lineWidth=".5"/>
-          <bottomPen lineWidth=".5"/>
+    <contents height="40" width="128">
+      <element kind="frame" uuid="052ddd9f-3f08-47f0-90e0-37f38ec52807" stretchType="ContainerHeight" x="4" width="120" height="38" style="ListCell">
+        <element kind="textField" uuid="740300c0-184f-499d-a651-06c95fef90f8" y="2" width="100" height="12" style="Sans_SmallBold">
+          <expression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]] ></expression>
+        </element>
+        <element kind="textField" uuid="0d94253a-1fec-4390-b671-8462daca989b" positionType="Float" x="10" y="14" width="110" height="12" textAdjust="StretchHeight" style="Sans_Small">
+          <expression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></expression>
+        </element>
+        <element kind="textField" uuid="e0023244-af6c-43e5-9425-689b0f897b17" positionType="Float" x="10" y="26" width="110" height="12" textAdjust="StretchHeight" style="Sans_Small">
+          <expression><![CDATA[$F{Street} + ", " + $F{City}]] ></expression>
+        </element>
+        <box style="ListCell">
+          <topPen lineWidth="0.5"/>
+          <bottomPen lineWidth="0.5"/>
         </box>
-        <textField>
-          <reportElement x="0" y="2" width="100" height="12" style="Sans_SmallBold"/>
-          <textElement/>
-          <textFieldExpression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight">
-          <reportElement positionType="Float" x="10" y="14" width="110" height="12" style="Sans_Small"/>
-          <textElement/>
-          <textFieldExpression class="java.lang.String"><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight">
-          <reportElement positionType="Float" x="10" y="26" width="110" height="12" style="Sans_Small"/>
-          <textElement/>
-          <textFieldExpression class="java.lang.String"><![CDATA[$F{Street} + ", " + $F{City}]] ></textFieldExpression>
-        </textField>
-      </frame>
-    </c:listContents>
-  </c:list>
-</componentElement>]]></pre>
+      </element>
+    </contents>
+  </component>
+</element>
+]]></pre>
 Here each list entry is printed one after another horizontally, for each city in the datasource.
 <br/>
 <br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/list</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/list/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the generated ListReport will open in the JasperReports internal viewer.
+Open a new command prompt/terminal window and set the current folder to demo/samples/list within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/sampleslist/target/reports directory.
     </content>
   </feature>
 

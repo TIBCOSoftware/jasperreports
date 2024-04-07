@@ -100,9 +100,7 @@
       <ul>
         <li> at report level:
         <pre><![CDATA[
-<queryString language="jsonql">
-  <![CDATA[ ..Orders(@size > 1).* ]] >
-</queryString>]]></pre>
+<query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>]]></pre>
         </li>
         <li> or in the data adapter:
       <pre><![CDATA[
@@ -129,8 +127,8 @@
       <code>java.lang.String</code> parameter or report property that stores the path to the location of the JSON source file.
       <br/>
       <br/>
-      <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> runs the query over the input source and stores
-      the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonQLDataSource.html">JsonQLDataSource</api> object.
+      <api href="net/sf/jasperreports/josn/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> runs the query over the input source and stores
+      the result in an in-memory <api href="net/sf/jasperreports/json/data/JsonQLDataSource.html">JsonQLDataSource</api> object.
       <br/>
       <br/>
       During the JsonQLDataSource instantiation, the query executer also looks for the following additional parameters or report properties, containing the required localization settings:
@@ -159,9 +157,7 @@
 <property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.jrdax"/>]]></pre>
       In the <code>NorthwindOrdersReport</code> we run a JSONQL query in order to retrieve orders from anywhere:
       <pre><![CDATA[
-<queryString language="jsonql">
-  <![CDATA[ ..Orders(@size > 1).* ]] >
-</queryString>]]></pre>
+<query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>]]></pre>
 
       In reversed order of application, the query simply translates to: "Select the children(.*) of Orders - with size greater than 1 - from anywhere"
       <br/>
@@ -196,18 +192,17 @@
           that are obtained by going up 2 levels
         <pre><![CDATA[
 <field name="ShipCity" class="java.lang.String">
+  <description>Go up by two levels then select City</description>
   <property name="net.sf.jasperreports.jsonql.field.expression" value="^{2}.City"/>
-<fieldDescription><![CDATA[ Go up by two levels then select City ]] ></fieldDescription>
 </field>
 <field name="CustomerID" class="java.lang.String">
+  <description>Go up by two levels then select CustomerID</description>
   <property name="net.sf.jasperreports.jsonql.field.expression" value="^{2}.CustomerID"/>
-  <fieldDescription><![CDATA[ Go up by two levels then select CustomerID ]] ></fieldDescription>
 </field>
 <field name="CompanyName" class="java.lang.String">
-  <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "^^[\"Company Name\"]" ]] ></propertyExpression>
-  <fieldDescription><![CDATA[ Go up twice by 1 level then select CompanyName ]] ></fieldDescription>
-</field>
-]]></pre>
+  <description>Go up twice by 1 level then select CompanyName</description>
+  <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA["^^[\"Company Name\"]"]] ></propertyExpression>
+</field>]]></pre>
         </li>
       </ol>
 
@@ -228,20 +223,25 @@
       Here we specify:
       <ul>
         <li>the source file with the JSON data: <code>/data/northwind.json</code></li>
-        <li>the fact that we want to use the existing connection and the report's <code>queryString</code> by setting the <code>useConnection</code> flag to <code>true</code></li>
-        <li>the language of our query: <code><b>jsonql</b></code>; it is optional in this case since we are using the report's <code>queryString</code> that already specifies the language</li>
+        <li>the fact that we want to use the existing connection and the report's <code>  query</code> by setting the <code>useConnection</code> flag to <code>true</code></li>
+        <li>the language of our query: <code><b>jsonql</b></code>; it is optional in this case since we are using the report's <code>  query</code> that already specifies the language</li>
         <li>the date pattern used to parse the date fields</li>
         <li>the numeric pattern used to parse the numeric fields</li>
       </ul>
       <br/>
-      <b>Running the Sample</b>
-      <br/>
-      <br/>
-      Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
-      <br/>
-      In a command prompt/terminal window set the current folder to <code>demo/samples/jsonqldatasource</code> within the JasperReports source project and run the <code>&gt; ant test </code> command.
-      <br/>
-      It will generate PDF and HTML document types containing the sample report(s) in the <code>demo/samples/jsonqldatasource/build/reports</code> directory.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/jsonqldatasource</code> within the JasperReports source project 
+and run the following command:
+<br/>
+<br/>
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jsonqldatasource/target/reports</code> directory.
     </content>
   </feature>
 
@@ -264,11 +264,9 @@
       JSONQL is not compatible with the existing JSON language due to its possibly complicated syntax.
       <br/>
       <br/>
-      We typically write JSONQL queries in <code>queryString</code> expressions marked with the appropriate <code><b>jsonql</b></code> language:
-      <pre><![CDATA[
-<queryString language="jsonql">
-  <![CDATA[ ..Orders(@size > 1).* ]] >
-</queryString>]]></pre>
+      We typically write JSONQL queries in <code>  query</code> expressions marked with the appropriate <code><b>jsonql</b></code> language:
+<pre><![CDATA[
+<query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>]]></pre>
       <br/>
       <b>Syntax</b>
       <br/>
@@ -302,19 +300,19 @@
       etc.
       <br/>
       <br/>
-      When used in the report's <code>queryString</code>, it makes no difference if an expression is absolute or not.
+      When used in the report's <code>  query</code>, it makes no difference if an expression is absolute or not.
       The result is always calculated from the root of the JSON data.
       <br/>
       <br/>
       The only place where the absolute expression matters is the field's property expression. For example:
 <pre><![CDATA[
 <field name="FirstCustomerCompanyName" class="java.lang.String">
+  <description><![CDATA[ The company name of the first customer]] ></description>
   <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "$.Northwind.Customers[0][\"Company Name\"]" ]] ></propertyExpression>
-  <fieldDescription><![CDATA[ The company name of the first customer]] ></fieldDescription>
 </field>
 ]]></pre>
       defines a field whose value is calculated directly from the root <code>Northwind</code> object and not
-      relative to the field in the dataSet produced by the <code>queryString</code>.
+      relative to the field in the dataSet produced by the <code>  query</code>.
       <br/>
       You may want to use an absolute expression like this when the value you are interested in is not part of any of the results produced by the main dataSet's query.
       <br/>

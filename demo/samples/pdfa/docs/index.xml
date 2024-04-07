@@ -226,23 +226,23 @@ properties, which accept numeric values only):<br/><br/>
 </ul>
 Available properties related to PDF accessibility tags are enumerated below:<br/><br/>
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
 - Property used to mark a text field as a level 1 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
 - Property used to mark a text field as a level 2 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
 - Property used to mark a text field as a level 3 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
 - Property used to indicate where the table starts and where it ends in the report template.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
 - Property used to mark heading cells in a table.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
 - Property used to indicate where a table row starts and where it ends in the report template.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
 - Property used to mark detail cells in a table.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
 - Property used to indicate the column span of a table cell. Allowed values are positive integers.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
 - Property used to indicate the row span of a table cell. Allowed values are positive integers.</li>
 </ul>
 The use of these individual tag properties is illustrated in the TabularPdfA1Report JRXML sample report.
@@ -275,18 +275,19 @@ All images provide alternate texts. It embeds a RGB type ICC profile</li>
 <li>TaggedPdfA1Report - a PDF/A-1a compliant report. It contains several elements configured for accessibility,  and an accessible table element that automatically 
 generates table tags when it is exported to PDF<br/><br/></li>
 </ul> 
- 
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/table</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/pdfa</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate The PDF/A compliant documents containing the sample report in the <code>demo/samples/pdfa1/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
-  
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/pdfa/target/reports</code> directory.
 </content>
   </feature>
 </sample>

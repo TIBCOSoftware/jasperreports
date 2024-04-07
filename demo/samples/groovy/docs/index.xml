@@ -105,12 +105,12 @@ Similar properties that map the Groovy and JavaScript report compilers to the <c
 are also available in JasperReports (see the next section).
 <br/> 
 If the report uses Java as language and no specific compiler has been set for this 
-language, the report compilation facade uses the <api href="net/sf/jasperreports/engine/design/JRDefaultCompiler.html">JRDefaultCompiler</api>, 
+language, the report compilation facade uses the <api href="net/sf/jasperreports/repo/DefaultReportCompiler.html">DefaultReportCompiler</api>, 
 which triggers a built-in fall back mechanism that 
 picks the best Java-based report compiler available in the environment in which the 
 report compilation process takes place.
 <br/> 
-The <code>JRDefaultCompiler</code> first reads the 
+The <code>DefaultReportCompiler</code> first reads the 
 configuration property called <code>net.sf.jasperreports.compiler.class</code> to allow 
 users to override its built-in compiler-detection logic by providing the name of the report 
 compiler implementation to use directly. If no overrides are found, then it first tries to see 
@@ -145,8 +145,8 @@ The only condition is to make available a report compiler implementation able to
 The JasperReports library provides built-in compiler implementations for these scripting languages: Groovy, 
 JavaScript:
 <ul>
-<li><api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api></li>
-<li><api href="net/sf/jasperreports/compilers/JavaScriptCompiler.html">JavaScriptCompiler</api></li>
+<li><api href="net/sf/jasperreports/groovy/JRGroovyCompiler.html">JRGroovyCompiler</api></li>
+<li><api href="net/sf/jasperreports/javascript/JavaScriptCompiler.html">JavaScriptCompiler</api></li>
 </ul>
 If the <code>language</code> attribute is set to <code>groovy</code>, or <code>javascript</code> 
 or any other scripting language, then the <code>JasperCompileManager</code> facade looks for 
@@ -171,7 +171,7 @@ The <code>net.sf.jasperreports.compiler.groovy</code> property indicates the Gro
 <code>net.sf.jasperreports.compiler.groovy=net.sf.jasperreports.compilers.JRGroovyCompiler</code>
 <br/>
 <br/>
-Let's take a look inside the <api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api>. It  
+Let's take a look inside the <api href="net/sf/jasperreports/groovy/JRGroovyCompiler.html">JRGroovyCompiler</api>. It  
 extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractJavaCompiler</api> abstract class, 
 which extends itself the less specific <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class. 
 While its parents handle general or Java-related compiling features, the <code>JRGroovyCompiler</code> takes care only for the Groovy-specific operations.
@@ -199,7 +199,7 @@ below:
 <code>net.sf.jasperreports.compiler.javascript=net.sf.jasperreports.compilers.JavaScriptCompiler</code>
 <br/>
 <br/>
-The <api href="net/sf/jasperreports/compilers/JavaScriptCompiler.html">JavaScriptCompiler</api> class 
+The <api href="net/sf/jasperreports/javascript/JavaScriptCompiler.html">JavaScriptCompiler</api> class 
 extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class and 
 implements five methods from this:
 <br/>
@@ -247,40 +247,24 @@ Since report template compilation is more like a design-time job than a runtime 
 custom Ant task has been provided with the library to simplify application development. 
 This Ant task is implemented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompileTask</api> 
 class. Its syntax and behavior are very similar to the built-in &lt;javac&gt; Ant task. 
-The report template compilation task can be declared like this, in a project’s build.xml 
-file: 
-<pre>
-<![CDATA[
-  <taskdef name="jrc"
-    classname="net.sf.jasperreports.ant.JRAntCompileTask">
-    <classpath>
-      <fileset dir="./lib">
-        <include name="**/*.jar"/>
-      </fileset>
-    </classpath>
-  </taskdef>
-]]>
-</pre>
-In the preceding example, the lib should contain the jasperreports-x.x.x.jar file 
-along with its other required libraries.
+<br/>
 <br/>
 This user-defined Ant task can be used to compile multiple JRXML report template 
 files in a single operation by specifying the root directory that contains those files or by 
 selecting them using file patterns. 
 <br/>
 <br/>
-<b>Attributes for Report Compilation Task</b>
+<b>Parameters for Report Compilation Task</b>
 <br/>
 <br/>
-Following is the list of attributes that can be used inside the Ant report compilation task 
+Following is the list of parameters that can be used inside the Ant report compilation task 
 to specify the source files, the destination directory, and other configuration properties: 
 <ul>
-<li><code>srcdir</code> - location of the JRXML report template files to be compiled. Required unless 
-nested &lt;src&gt; elements are present.</li>
+<li><code>srcdir</code> (required) - location of the JRXML report template files to be compiled.</li>
 <li><code>destdir</code> - location to store the compiled report template files (the same as the source 
 directory by default).</li>
 <li><code>compiler</code> - name of the class that implements the 
-net.sf.jasperreports.engine.design.JRCompiler interface to be used for 
+<code>net.sf.jasperreports.engine.design.JRCompiler</code> interface to be used for 
 compiling the reports (optional).</li>
 <li><code>xmlvalidation</code> - flag to indicate whether the XML validation should be performed on 
 the source report template files (true by default).</li>
@@ -289,7 +273,7 @@ by default).</li>
 <li><code>keepjava</code> - flag to indicate if the temporary Java files generated on the fly should be kept 
 and not deleted automatically (false by default).</li>
 </ul>
-The report template compilation task supports nested &lt;src&gt; and &lt;classpath&gt; 
+The report template compilation task supports nested<code>src</code> and <code>classpath</code> 
 elements, just like the Ant &lt;javac&gt; built-in task. 
 <br/>
 <br/>
@@ -319,7 +303,7 @@ How to use Groovy scripting for report expressions.
 <br/>
 <br/>
 This sample contains expressions written using both Java and Groovy languages. This is possible due to the 
-<api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api> implementation which 
+<api href="net/sf/jasperreports/groovy/JRGroovyCompiler.html">JRGroovyCompiler</api> implementation which 
 allows mixing Java and Groovy together. The report 
 <code>language</code> attribute is declared below: 
 <br/>
@@ -333,37 +317,27 @@ that Groovy scripting comes with.
 <br/>
 Having two numbers, 3 and 5, their sum is calculated first using a Java expression and then using a Groovy one. The two numbers 
 are declared as follows:
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;parameter name="A" class="java.lang.Double"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;3&lt;/defaultValueExpression&gt;
-<br/>
-&#160;&#160;&lt;/parameter&gt;
-<br/>
-&#160;&#160;&lt;parameter name="B" class="java.lang.Double"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression>5&lt;/defaultValueExpression&gt;
-<br/>
-&#160;&#160;&lt;/parameter&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<parameter name="A" class="java.lang.Double">
+  <defaultValueExpression><![CDATA[3d]] ></defaultValueExpression>
+</parameter>
+<parameter name="B" class="java.lang.Double">
+  <defaultValueExpression><![CDATA[5d]] ></defaultValueExpression>
+</parameter>]]></pre>
 Both A and B values are declared of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
 Groovy is able to work with dynamic types. All type conversions are performed at runtime, according to the type declarations above. 
 The Groovy scripting above uses a very simplified syntax. Equivalent Java expressions would be:
 <br/> 
 <br/> 
-<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(3.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<code> &lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(3.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
 <br/>
-<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(5.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<code> &lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(5.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
 <br/>
 <br/>
 The next expression in the report template uses Java to calculate their sum:
 <br/>
 <br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[Double.valueOf($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<code> &lt;expression&gt;&lt;![CDATA[Double.valueOf($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/expression&gt;</code>
 <br/>
 <br/>
 Here, A and B being <code>Double</code>, their <code>doubleValue()</code> method is called in order to calculate the sum, 
@@ -375,7 +349,7 @@ cast exceptions.
 Things are changing when using Groovy expressions:
 <br/>
 <br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<code>&#160;&#160;&lt;expression&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/expression&gt;</code>
 <br/>
 <br/>
 Object creation, autoboxing and unboxing are transparent processes here, the user is no more preoccupated to 
@@ -387,13 +361,16 @@ represent major advantages of Groovy scripts.
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/groovy</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/groovy</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/groovy/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/groovy/target/reports</code> directory.
     </content>
   </feature>
 

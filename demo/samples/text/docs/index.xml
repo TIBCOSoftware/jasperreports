@@ -64,8 +64,8 @@ The following exporter configuration settings and properties are very helpful to
 </ul>
 Other useful configuration settings are:
 <ul>
-<li><api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING">CHARACTER_ENCODING</api> or 
-<api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
+<li><api href="net/sf/jasperreports/export/WriterExporterOutput.html#CHARACTER_ENCODING">CHARACTER_ENCODING</api> or 
+<api href="net/sf/jasperreports/export/WriterExporterOutput.html#PROPERTY_CHARACTER_ENCODING">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
 text document.</li>
 <li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageSeparator()">getPageSeparator()</api>, containing the text that will be inserted 
 between pages of the generated report, as page separator.</li>
@@ -89,18 +89,19 @@ Also notice that element sizes are set enough large to make room for all their c
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/text</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/text/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
-
+Open a new command prompt/terminal window and set the current folder to demo/samples/text within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/text/target/reports directory.
     </content>
   </feature>
 

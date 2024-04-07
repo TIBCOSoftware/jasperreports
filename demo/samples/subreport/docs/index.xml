@@ -40,77 +40,6 @@ There are several situations when you wish to embed one report into other. Examp
 	<li>Processing records from a query different from the Master report's query</li>
 </ul>
 This current example demonstrates the latter case.
-<br/>
-<br/>
-    <b>Running the Sample</b>
-    <br/>
-    <i>Prerequisites</i><br/>
-    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
-    <pre>
-    <![CDATA[
-    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
-	]]>
-	</pre>
-	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
-	<br/>
-	<br/>
-    <i>Starting the Data Source</i>
-    <br/>
-    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
-    <br/>
-    Leave window/terminal running (see below for sample output).
-    <br/>
-    <pre>
-    <![CDATA[
-    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
-	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
-
-	runServer:
-     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
-     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
-     [java] [Server@83cc67]: Startup sequence initiated from main() method
-     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
-     [java] [Server@83cc67]: Initiating startup sequence...
-     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
-     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
-     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
-     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
-     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
-     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
-    ]]>
-	</pre>
-    <i>Generating the Report</i>
-    <br/>
-    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
-    <br/>
-    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
-    <br/>
-    Each export type will generate a output type in the build/report folder.
-    <br/>
-    By running the command 'ant' the following actions will be performed:
-    <br/>
-    <ul>
-    <li>All java code will be compiled to produce class files.</li>
-    <li>JRXML fills will be compiled by JasperReports to produce a .jasper file (this is a serialized version of a JasperReports object).</li>
-    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
-    <li>All the exporters the sample is configured to test will run.</li>
-    </ul>
-    <br/>
-    You can now run 'ant view' to see a version of the report in the JasperViewer (a Swing report viewer contained in the JasperReports package which can be used to view a .jrprint object).
-    <br/>
-    Each of the these task can be ran separately as well:
-    <br/>
-    <ul>
-    	<li>ant clean - removes all generated files.</li>
-    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
-    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
-    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
-    	<li>ant view - opens the report in the JasperViewer</li>
-    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
-    </ul>
-    <b>Note:</b> All generated files can be found in build/reports.
-    <br/>
-    You now have a working version of the report you can review.
     <br/>
 	<br/>
 <b>Configuring a Subreport</b> <br/>
@@ -127,15 +56,14 @@ In this example the Master Report contains the Address and Product reports embed
 Lets begin by review the configuration of the Subreport element for the Products Subreport.
 <pre>
 	<![CDATA[
-<subreport>
-	<reportElement isPrintRepeatedValues="false" x="5" y="25" width="325" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
-	<subreportParameter name="City">
-		<subreportParameterExpression><![ CDATA[$F{City} ]] ></subreportParameterExpression>
-	</subreportParameter>
-	<connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
-	<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum"/>
-	<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![ CDATA[$P{ProductsSubreport}]] ></subreportExpression>
-</subreport>
+<element kind="subreport" uuid="92506c7a-e250-4f4b-826c-693b1df74d11" x="5" y="25" width="325" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
+  <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+  <expression><![CDATA[$P{ProductsSubreport}]] ></expression>
+  <returnValue toVariable="ProductTotalPrice" calculation="Sum" subreportVariable="PriceSum"/>
+  <parameter name="City">
+    <expression><![CDATA[$F{City}]] ></expression>
+  </parameter>
+</element>
 	]]>
 </pre>
 This element is in the Detail band of the Master report. This means this Subreport will be executed with each record in the Master report's Result Set.
@@ -195,21 +123,19 @@ ORDER BY Product.ID
  Lets review the Address Report configuration.<br/>
  <pre>
  	<![CDATA[
-<subreport>
-	 <reportElement positionType="Float" x="335" y="25" width="175" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
-	 <subreportParameter name="City">
-	   <subreportParameterExpression><![ CDATA[$F{City}]] ></subreportParameterExpression>
-	 </subreportParameter>
-	 <connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
-	 <returnValue subreportVariable="REPORT_COUNT" toVariable="CityAddressCount"/>
-	 <subreportExpression class="java.lang.String"><![CDATA["AddressReport.jasper"]] ></subreportExpression>
-</subreport>
-	]]>
+<element kind="subreport" uuid="c4b1c60e-3998-4024-b169-fe0bf12a94f4" positionType="Float" x="335" y="25" width="175" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+  <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+  <expression><![CDATA["AddressReport.jasper"]] ></expression>
+  <returnValue toVariable="CityAddressCount" subreportVariable="REPORT_COUNT"/>
+  <parameter name="City">
+    <expression><![CDATA[$F{City}]] ></expression>
+  </parameter>
+</element>	]]>
  </pre>
  The main differences are here:
  <ol>
  	<li>returnValue: No calculation is set. The default is None, which means the variable REPORT_COUNT variable in the subreport will be passed directly to the Master.</li>
-	<li>subreportExpression: In this case the expression class is a String and the expression is the location on the file system for the compiled version of the JRXML.</li>
+	<li>expression: In this case the expression class is a String and the expression is the location on the file system for the compiled version of the JRXML.</li>
 </ol>
 <br/>
 <br/>
@@ -286,7 +212,7 @@ and where should they be placed within the JSON tree object. The <api href="net/
 is designed to handle such kind of metadata information and to generate consistent data structures. 
 <br/>
 Before starting its export work, the JSON metadata exporter looks for the presence of an existing JSON schema by calling the 
-<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource()">getJsonSchemaResource()</api> exporter configuration setting.
+<api href="net/sf/jasperreports/json/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource()">getJsonSchemaResource()</api> exporter configuration setting.
 This can be configured either directly, using the APIs, or by reading the value from the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> report 
 property. If present, this setting provides the path to a JSON schema file that will be used to generate the JSON structure at export time. Nodes in a given schema may provide:
@@ -375,12 +301,10 @@ In MasterReport.jrxml:
   ...
   <detail>
     <band height="50">
-      <textField>
-        <reportElement style="Sans_Bold" x="5" y="5" width="100" height="15" isPrintWhenDetailOverflows="true" uuid="2c343d22-1686-4fe6-be91-a83597306aeb">
-          <property name="net.sf.jasperreports.export.json.path" value="City"/>
-        </reportElement>
-        <textFieldExpression><![CDATA[$F{City}]] ></textFieldExpression>
-      </textField>
+      <element kind="textField" uuid="2c343d22-1686-4fe6-be91-a83597306aeb" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
+        <expression><![CDATA[$F{City}]] ></expression>
+        <property name="net.sf.jasperreports.export.json.path" value="City"/>
+      </element>
       ...
     </band>
   </detail>
@@ -391,36 +315,25 @@ In ProductReport.jrxml:
 <jasperReport ...>
   ...
   <group name="ProductGroup">
-    <groupExpression><![CDATA[$F{Id}]] ></groupExpression>
+    <expression><![CDATA[$F{Id}]] ></expression>
     <groupHeader>
       <band height="14">
-        <textField>
-          <reportElement x="0" y="2" width="15" height="10" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a">
-            <property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
-          </reportElement>
-          <textElement textAlignment="Right"/>
-          <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight">
-          <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="f53978bd-fc13-4359-b82d-2142640c6696">
-            <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
-          </reportElement>
-          <textFieldExpression><![CDATA[$F{Name}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
-          <reportElement positionType="Float" x="105" y="2" width="20" height="10" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830">
-            <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
-          </reportElement>
-          <textElement textAlignment="Right"/>
-          <textFieldExpression><![CDATA[$V{QuantityProductSum}]] ></textFieldExpression>
-        </textField>
-        <textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
-          <reportElement positionType="Float" x="130" y="2" width="30" height="10" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db">
-            <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
-          </reportElement>
-          <textElement textAlignment="Right"/>
-          <textFieldExpression><![CDATA[$V{PriceProductSum}]] ></textFieldExpression>
-        </textField>
+        <element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" horizontalTextAlign="Right">
+          <expression><![CDATA[$F{Id}]] ></expression>
+          <property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
+        </element>
+        <element kind="textField" uuid="f53978bd-fc13-4359-b82d-2142640c6696" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
+          <expression><![CDATA[$F{Name}]] ></expression>
+          <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
+        </element>
+        <element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
+          <expression><![CDATA[$V{QuantityProductSum}]] ></expression>
+          <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
+        </element>
+        <element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
+          <expression><![CDATA[$V{PriceProductSum}]] ></expression>
+          <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
+        </element>
       </band>
     </groupHeader>
     <groupFooter>
@@ -435,30 +348,40 @@ In AddressReport.jrxml:
   ...
   <detail>
     <band height="14">
-      <textField>
-        <reportElement x="0" y="2" width="15" height="10" uuid="e9328667-edce-49cd-a5a4-504884a5094f"/>
-        <textElement textAlignment="Right"/>
-        <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
-      </textField>
-      <textField textAdjust="StretchHeight">
-        <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="1c766997-5272-480b-935f-cf519342a2a1">
-          <property name="net.sf.jasperreports.export.json.path" value="customers.Name"/>
-        </reportElement>
-        <textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
-      </textField>
-      <textField textAdjust="StretchHeight">
-        <reportElement positionType="Float" x="105" y="2" width="70" height="10" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e">
-          <property name="net.sf.jasperreports.export.json.path" value="customers.Street"/>
-        </reportElement>
-        <textFieldExpression><![CDATA[$F{Street}]] ></textFieldExpression>
-      </textField>
+      ...
+      <element kind="textField" uuid="1c766997-5272-480b-935f-cf519342a2a1" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
+        <expression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></expression>
+        <property name="net.sf.jasperreports.export.json.path" value="customers.Name"/>
+      </element>
+      <element kind="textField" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e" positionType="Float" x="105" y="2" width="70" height="10" textAdjust="StretchHeight">
+        <expression><![CDATA[$F{Street}]] ></expression>
+        <property name="net.sf.jasperreports.export.json.path" value="customers.Street"/>
+      </element>
     </band>
   </detail>
   ...
 </jasperReport>]]></pre>
 
-After running the <code>&gt;ant test view</code> command, the pure data exported with the JSON metadata exporter will be available in the 
-<code>demo/samples/subreport/build/reports</code> directory as <code>MasterReport.json</code>.
+After running the <code>&gt;mvn clean compile exec:java</code> command, the pure data exported with the JSON metadata exporter will be available in the 
+<code>demo/samples/subreport/target/reports</code> directory as <code>MasterReport.json</code>.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn exec:java</code>
+<br/>
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
+<br/>
+Open a new command prompt/terminal window and set the current folder to demo/samples/subreport within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/subreport/target/reports directory.
     </content>
   </feature>
   

@@ -104,109 +104,39 @@ Below are some pieces of code showing how formulas should be written:
 <br/>
 <br/>
 The text field containing the A2 cell's value:
-<br/>
-<br/>
-<code>
-	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
-	<br/>
-		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-1" x="0" y="150" width="280" height="23"&gt;
-		<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;
-			<br/>
-		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;box rightPadding="5">
-		<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;topPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-		&#160;&#160;&#160;&#160;&lt;/box&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;0&lt;/textFieldExpression&gt;
-		<br/>
-	&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="textField" key="textField-1"...>
+  <expression><![CDATA[7]] ></expression>
+  <property name="net.sf.jasperreports.export.xls.formula" value="7"/>
+  ...
+</element>]]></pre>
+
 Two things of interest are here:
 <ul>
 <li>The <code>&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;</code> element, containing the most simple formula possible.
 The number 7 could be considered itself as a formula result.</li>
-<li>The <code>&lt;textFieldExpression class="java.lang.Integer"&gt;0&lt;/textFieldExpression&gt;</code> element, containing also the value of 0.
+<li>The <code>&lt;expression class="java.lang.Integer"&gt;0&lt;/expression&gt;</code> element, containing also the value of 0.
 This value will be exported to all other output formats but XLS, instead of the formula property.</li> 
 </ul>
 Next, the text field containing the A4 cell's value:
-<br/>
-<br/>
-<code>
-   	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
-  <br/>
-    &#160;&#160;&#160;&#160;&lt;reportElement key="textField-3" x="0" y="196" width="280" height="23"&gt;
-    <br/>
-      &#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;
-      <br/>
-    &#160;&#160;&#160;&#160;&lt;/reportElement&gt;
-    <br/>
-    &#160;&#160;&#160;&#160;&lt;box rightPadding="5">
-    <br/>
-      &#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
-      <br/>
-      &#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
-      <br/>
-      &#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
-      <br/>
-    &#160;&#160;&#160;&#160;&lt;/box&gt;
-    <br/>
-    &#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
-    <br/>
-    &#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer">0&lt;/textFieldExpression&gt;
-    <br/>
-  &#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="textField" ...>
+  <expression><![CDATA[0]] ></expression>
+  <property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/>
+  ...
+</element>]]></pre>
 Again, the <code>&lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;</code> element contains only a sum formula, and not the effective value. 
 When exported to XLS format, Excel will calculate the correct value and will write it in the cell. 
 <br/>
-All other exporters will consider that the A4 value is 0, as shown in the <code>&lt;textFieldExpression /&gt;</code> expression.
+All other exporters will consider that the A4 value is 0, as shown in the <code>&lt;expression /&gt;</code> tag.
 <br/>
 Finally, the text field containing the A5 cell's value:
-<br/>
-<br/>
-<code>
-	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
-	<br/>
-		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-4" x="0" y="219" width="280" height="23"&gt;
-		<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyExpression name="net.sf.jasperreports.export.xls.formula"&gt;&lt;![CDATA["A" + 2 + "-A" + 3]]&gt;&lt;/propertyExpression>
-			<br/>
-		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;box rightPadding="5"&gt;
-		<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="2.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
-			<br/>
-		&#160;&#160;&#160;&#160;&lt;/box&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
-		<br/>
-		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;0&lt;/textFieldExpression&gt;
-		<br/>
-	&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="textField" ...>
+  <expression><![CDATA[0]] ></expression>
+  <propertyExpression name="net.sf.jasperreports.export.xls.formula"><![CDATA["A" + 2 + "-A" + 3]] ></propertyExpression>
+  ...
+</element>]]></pre>
 Here was used a <code>&lt;propertyExpression /&gt;</code> instead of simple <code>&lt;property /&gt;</code>, and the formula expression is more complicated, and needs a CDATA section to be written.
 In a CDATA section could be used any dynamic expression we need, containing also variable names, parameter names, field names, and any other valid java expression.
 <br/>
@@ -216,13 +146,16 @@ The value of A5 will be calculated by Excel when opening the generated .xls docu
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/xlsformula</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/xlsformula</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/xlsformula/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xlsformula/target/reports</code> directory.
     </content>
   </feature>
 

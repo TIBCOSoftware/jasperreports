@@ -50,7 +50,7 @@ As based on the JasperReports extensions mechanism, custom functions need an ext
 <li><code>net.sf.jasperreports.extension.registry.factory.{registry_id}</code> - the extension registry factory class for custom functions</li>
 <li><code>net.sf.jasperreports.extension.{registry_id}.{property_suffix}</code> - one or more properties providing a comma separated list of function classes</li>
 </ul>
-See a working example in <a href="#extensions">Coding Samples</a>  section below.
+See a working example in <a href="#extensions">jasperreports_extension.properties</a>  section below.
 <br/>
 <br/>
 Each function class declared in such a property has to be implemented first, in order to become operational. Basically they are common Java classes containing 
@@ -295,16 +295,19 @@ Here the <code>{registry_id}</code> is assumed to be <code>functions</code>. The
 <code>{property_suffix}-es</code>. Math and logical functions are declared in a comma separated list.
 <br/>
 <br/>
-<subtitle name="runningSample">Running the Sample</subtitle>
+<b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/functions</code> within the JasperReports source project and run the 
-<code>&gt; ant test</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/functions</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate a PDF sample that enumerates all built-in JR functions grouped by categories and, on the last page, some examples of function usage in JasperReports expressions. 
-The generated PDF sample can be found in the <code>demo/samples/functions/build/reports</code> directory. 
+<br/>
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/functions/target/reports</code> directory.
     </content>
   </feature>
 

@@ -99,36 +99,32 @@ When such a notation is encountered, the engine calls for the appropriate charac
 will be printed out.
 <br/>
 <br/>
-The sample provides a multilingual document containing several pieces of text written using the Unicode escape sequence. The JRXML content starts with 
-the header below:
-<pre><![CDATA[
-  <?xml version="1.0" encoding="UTF-8"?>]]></pre>
-where one can see the presence of the <code>UTF-8</code> encoding.
+The sample provides a multilingual document containing several pieces of text written using the Unicode escape sequence. 
 <br/>
 <br/>
-Next, localized Unicode pieces of text are stored in document parameters:
+Localized Unicode pieces of text are stored in document parameters:
 <pre><![CDATA[
-  <parameter name="GreekText" class="java.lang.String" isForPrompting="false">
+  <parameter name="GreekText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
       \u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9
     </defaultValueExpression>
   </parameter>
-  <parameter name="CyrillicText" class="java.lang.String" isForPrompting="false">
+  <parameter name="CyrillicText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
       \u0402 \u040B \u040F \u0414 \u0416 \u0418 \u041B \u0426 \u0429 \u042E
     </defaultValueExpression>
   </parameter>
-  <parameter name="ChineseText" class="java.lang.String" isForPrompting="false">
+  <parameter name="ChineseText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
       \u6211\u559c\u6b22\u4e2d\u56fd\u98df\u7269
     </defaultValueExpression>
   </parameter>
-  <parameter name="ArabicText" class="java.lang.String" isForPrompting="false">
+  <parameter name="ArabicText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
       \u0647\u0630\u0627 \u0639\u0631\u0636 \u0644\u0645\u062C\u0645\u0648\u0639\u0629 TextLayout
     </defaultValueExpression>
   </parameter>
-  <parameter name="HebrewText" class="java.lang.String" isForPrompting="false">
+  <parameter name="HebrewText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
       \u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA
     </defaultValueExpression>
@@ -137,20 +133,23 @@ When running the report, one can see that not only different languages can be gr
 but they can be mixed into the same text element too:
 <br/>
 <br/>
-<code> &lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]&gt;&lt;/textFieldExpression&gt;</code>
+<code> &lt;expression class="java.lang.String"&gt;&lt;![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]&gt;&lt;/expression&gt;</code>
 <br/>
 <br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/unicode</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/unicode</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/unicode/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
-    </content>
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/unicode/target/reports</code> directory.
+     </content>
   </feature>
 
 </sample>

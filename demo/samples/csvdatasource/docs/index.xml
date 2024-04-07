@@ -175,6 +175,8 @@ or <code>Trial</code> states will be taken into account:
 <b>Running the Sample</b>
 <br/>
 <br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
 In a command prompt/terminal window set the current folder to <code>demo/samples/csvdatasource</code> within the JasperReports source project 
 and run the following command:
 <br/>
@@ -182,7 +184,7 @@ and run the following command:
 <code>&gt; mvn exec:java</code>
 <br/>
 <br/>
-It will generate all supported document types containing the sample report in the `demo/samples/csvdatasource/target/reports` directory.
+It will generate all supported document types containing the sample report in the <code>demo/samples/csvdatasource/target/reports</code> directory.
     </content>
   </feature>
 

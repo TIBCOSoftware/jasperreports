@@ -38,7 +38,7 @@ If the script does not produce SVG image, but more complex HTML, the visualizati
 to formats different from HTML.
 <br/>
 <br/>
-<subtitle name="schema">Custom Visualization Component Structure</subtitle>
+<subtitle name="cvc">Custom Visualization Component Structure</subtitle>
 <br/>
 <br/>
 Below is the main part of the custom visualization component structure:
@@ -86,7 +86,7 @@ For instance:
   </component>
 </element>]]></pre>
 
-<subtitle name="schema">Main Properties</subtitle>
+<subtitle name="properties">Main Properties</subtitle>
 <br/>
 <br/>
 Since the custom visualization component works like a wrapper, its definition is very generic and based on
@@ -104,7 +104,7 @@ All the configured properties will be passed to the JavaScript function in charg
 The value for the properties can be either a static value or a value defined by means of an expression.
 <br/>
 <br/>
-<subtitle name="schema">Configuring Data Series</subtitle>
+<subtitle name="dataseries">Configuring Data Series</subtitle>
 <br/>
 <br/>
 One or more series of data may be provided to the script implementing the visualization by means of <code>itemData</code> 
@@ -446,6 +446,8 @@ an SVG, but a more complex HTML visualization.
 <b>Running the Sample</b>
 <br/>
 <br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
 In a command prompt/terminal window set the current folder to <code>demo/samples/customvisualization</code> within the JasperReports source project 
 and run the following command:
 <br/>
@@ -453,7 +455,7 @@ and run the following command:
 <code>&gt; mvn exec:java</code>
 <br/>
 <br/>
-It will generate all supported document types containing the sample report in the `demo/samples/customvisualization/target/reports` directory.
+It will generate all supported document types containing the sample report in the <code>demo/samples/customvisualization/target/reports</code> directory.
     </content>
   </feature>
 </sample>

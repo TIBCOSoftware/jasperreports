@@ -172,23 +172,19 @@ source document and retrieve their information, based on a tree representation o
 <br/>
 For instance, one can specify the following expression to produce a list of JSON objects as the report query:
 <pre><![CDATA[
-<queryString language="json">
-  <![CDATA[Northwind.Customers]] >
-</queryString>]]></pre>
+<query language="json"><![CDATA[Northwind.Customers]] ></query>]]></pre>
 This query returns a list containing all customer elements in the <code>Customers</code> object. If we need 
 to retrieve only customers from USA, the query have to be refined as:
 <pre><![CDATA[
-<queryString language="json">
+<query language="json">
   <![CDATA[Northwind.Customers(Country == USA)]] >
-</queryString>]]></pre>
+</query>]]></pre>
 The JSON query language also supports parameters, in order to allow dynamic queries. Parameters are processed at runtime and replaced by their values. 
 For instance, if we define the Country parameter that holds the name of a given country, the parameterized query will look like:
 <pre><![CDATA[
 <parameter name="Country" class="java.lang.String"/>
 ...
-<queryString language="json">
-  <![CDATA[Northwind.Customers(Country == $P{Country})]] >
-</queryString>]]></pre>
+<query language="json"><![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] ></query>]]></pre>
 The built-in JSON query executer (see the 
 <api href="net/sf/jasperreports/json/query/JsonQueryExecuter.html">JsonQueryExecuter</api> class) is a tool that uses the query string to produce a 
 <api href="net/sf/jasperreports/json/data/JsonDataSource.html">JsonDataSource</api> instance, 
@@ -202,8 +198,8 @@ source objects in the form of an <code>java.io.InputStream</code>. If no
 the query executer looks for the alternate <api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_SOURCE">net.sf.jasperreports.json.source</api> 
 String parameter or report property that stores the path to the location of the JSON source file.
 <br/>
-<api href="net/sf/jasperreports/engine/query/JsonQueryExecuter.html">JsonQueryExecuter</api> runs the query over the input source and stores 
-the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api> object.
+<api href="net/sf/jasperreports/json/query/JsonQueryExecuter.html">JsonQueryExecuter</api> runs the query over the input source and stores 
+the result in an in-memory <api href="net/sf/jasperreports/json/data/JsonDataSource.html">JsonDataSource</api> object.
 <br/>
 <br/>
 During the JsonDataSource instantiation, the query executer also looks for the following additional parameters or report properties, containing the required localization settings: 
@@ -214,7 +210,7 @@ During the JsonDataSource instantiation, the query executer also looks for the f
 <li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_LOCALE_CODE">net.sf.jasperreports.json.locale.code</api> of type <code>java.lang.String</code>; 
 this can be used if no <code>java.util.Locale</code> parameter is available</li>
 <li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE">JSON_TIME_ZONE</api> (parameter only) of type <code>java.util.TimeZone</code></li>
-<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>; 
+<li><api href="net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_TIMEZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>; 
 this can be used if no <code>java.util.TimeZone</code> parameter is available</li>
 </ul>
 In the next section you can see how these additional parameters are provided in the <code>/src/JsonDataSourceApp.java</code> class.
@@ -230,9 +226,7 @@ The source file name is provided in the <code>reports/JsonCustomersReport.jrxml<
 <property name="net.sf.jasperreports.json.source" value="data/northwind.json"/>]]></pre>
 In the <code>JsonCustomersReport</code> we run a JSON query in order to retrieve only the customers:
 <pre><![CDATA[
-<queryString language="json">
-  <![CDATA[Northwind.Customers]] >
-</queryString>]]></pre>
+<query language="json"><![CDATA[Northwind.Customers]] ></query>]]></pre>
 The only <code>Customer</code> properties (fields) we are interested in are <code>CustomerID</code> and <code>CompanyName</code>:
 <pre><![CDATA[
 <field name="CustomerID" class="java.lang.String">
@@ -259,35 +253,30 @@ public void fill() throws JRException
 }]]></pre>
 Each customer in the datasource requires an <code>Orders</code> subreport. Data source and parameters are transmitted from the master report:
 <pre><![CDATA[
-<subreport>
-  <reportElement isPrintRepeatedValues="false" x="5" y="25" width="507" height="20" 
-    isRemoveLineWhenBlank="true" backcolor="#FFCC99" uuid="122eb7b3-e2bf-49eb-859d-4c29bfd6882e"/>
-  <subreportParameter name="net.sf.jasperreports.json.date.pattern">
-    <subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.date.pattern}]] ></subreportParameterExpression>
-  </subreportParameter>
-  <subreportParameter name="net.sf.jasperreports.json.number.pattern">
-    <subreportParameterExpression><![CDATA[$P{net.sf.jasperreports.json.number.pattern}]] ></subreportParameterExpression>
-  </subreportParameter>
-  <subreportParameter name="JSON_LOCALE">
-    <subreportParameterExpression><![CDATA[$P{JSON_LOCALE}]] ></subreportParameterExpression>
-  </subreportParameter>
-  <subreportParameter name="CustomerID">
-    <subreportParameterExpression><![CDATA[$F{CustomerID}]] ></subreportParameterExpression>
-  </subreportParameter>
-  <subreportParameter name="net.sf.jasperreports.json.source">
-    <subreportParameterExpression><![CDATA["data/northwind.json"]] ></subreportParameterExpression>
-  </subreportParameter>
-  <subreportExpression><![CDATA["JsonOrdersReport.jasper"]] ></subreportExpression>
-</subreport>
-]]></pre>
+<element kind="subreport" uuid="122eb7b3-e2bf-49eb-859d-4c29bfd6882e" x="5" y="25" width="507" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
+  <expression><![CDATA["JsonOrdersReport.jasper"]] ></expression>
+  <parameter name="net.sf.jasperreports.json.date.pattern">
+    <expression><![CDATA[$P{net.sf.jasperreports.json.date.pattern}]] ></expression>
+  </parameter>
+  <parameter name="net.sf.jasperreports.json.number.pattern">
+    <expression><![CDATA[$P{net.sf.jasperreports.json.number.pattern}]] ></expression>
+  </parameter>
+  <parameter name="JSON_LOCALE">
+    <expression><![CDATA[$P{JSON_LOCALE}]] ></expression>
+  </parameter>
+  <parameter name="CustomerID">
+    <expression><![CDATA[$F{CustomerID}]] ></expression>
+  </parameter>
+  <parameter name="net.sf.jasperreports.json.source">
+    <expression><![CDATA["data/northwind.json"]] ></expression>
+  </parameter>
+</element>]]></pre>
 The <code>CustomerID</code> parameter is required in order to filter data in the subreport.
 <br/>
 Next, in the <code>reports/JsonOrdersReport.jrxml</code> file one can see a parametrized query. All orders related to a given <code>CustomerID</code> 
 are retrieved:
 <pre><![CDATA[
-<queryString language="json">
-  <![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] >
-</queryString>]]></pre>
+<query language="json"><![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] ></query>]]></pre>
 From each order we collect the following properties:
 <pre><![CDATA[
 <field name="Id" class="java.lang.String">
@@ -305,13 +294,16 @@ From each order we collect the following properties:
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/jsondatasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/jsondatasource</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/jsondatasource/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jsondatasource/target/reports</code> directory.
 	</content>
   </feature>
 

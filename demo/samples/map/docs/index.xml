@@ -22,7 +22,7 @@ How to render maps using the built-in map component.
       </author>
     </documentedBy>
     <content>
-<b>Map Component Overview</b>    
+<b>Google Map Component Overview</b>    
 <br/>
 <br/>
 The map component in JasperReports exposes some of the main characteristics necessary to generate the most common Google maps, but feature upgrades 
@@ -41,128 +41,35 @@ Ensure the map component in your application is used in accordance with these te
 <li><b>In order to get accurate results with Google maps, you need to set the <code>net.sf.jasperreports.components.map.key</code> 
 property with an appropriate Google API key value. <br/>The Google API key must be enabled for Google Javascript API, Google Maps Static API 
 and Google Geocoding API. More information about API keys can be found at 
-<a href='https://developers.google.com/maps/gmp-get-started'>https://developers.google.com/maps/gmp-get-started</a>.<br/>The 
+<a href='https://developers.google.com/maps/gmp-get-started'>Google Maps Platform</a>.<br/>The 
 <code>net.sf.jasperreports.components.map.key</code> property can be set either in the report itself or per report context.</b></li>
 </ol>
 <br/>
 
-
-The current <code>map</code> component description is found in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
-<pre><![CDATA[
-<element name="map" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="jr:componentType">
-        <sequence>
-          <element name="latitudeExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
-          </element>
-          <element name="longitudeExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
-          </element>
-          <element name="addressExpression" minOccurs="0" maxOccurs="1">
-	        <complexType mixed="true"/>
-          </element>
-          <element name="zoomExpression" minOccurs="0" maxOccurs="1">
-            <complexType mixed="true"/>
-          </element>
-          <element name="languageExpression" minOccurs="0" maxOccurs="1">
-            <complexType mixed="true"/>
-          </element>
-          <choice minOccurs="0" maxOccurs="1">
-            <element ref="c:markerDataset"/>            
-            <element ref="c:markerData"/>            
-          </choice>
-        </sequence>
-        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
-        <attribute name="evaluationGroup" type="string" use="optional"/>
-        <attribute name="mapType" use="optional" default="roadmap">
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="roadmap"/>
-              <enumeration value="satellite"/>
-              <enumeration value="terrain"/>
-              <enumeration value="hybrid"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="mapScale" use="optional" default="1">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <enumeration value="1"/>
-              <enumeration value="2"/>
-              <enumeration value="4"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="imageType" use="optional" default="png">
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="png"/>
-              <enumeration value="png8"/>
-              <enumeration value="png32"/>
-              <enumeration value="gif"/>
-              <enumeration value="jpg"/>
-              <enumeration value="jpg-baseline"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<complexType name="ItemData" abstract="true">
-  <sequence>
-    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
-    <element ref="c:item" minOccurs="0" maxOccurs="unbounded"/>
-  </sequence>
-</complexType>
-
-<complexType name="ItemProperty">
-  <sequence>
-    <element ref="jr:valueExpression" minOccurs="0" maxOccurs="1"/>
-  </sequence>
-  <attribute name="name" type="string" use="required" />
-  <attribute name="value" type="string" use="optional" />
-</complexType>
-
-<element name="item">
-  <complexType>
-    <sequence>
-      <element name="itemProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
-    </sequence>
-  </complexType>
-</element>
-
-<element name="markerData">
-  <complexType>
-    <complexContent>
-      <extension base="c:ItemData">
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="markerDataset">
-  <annotation>
-    <documentation>Creates a dataset with one or more marker objects</documentation>
-  </annotation>
-  <complexType>
-    <sequence>
-      <element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
-      <element ref="c:marker" minOccurs="0" maxOccurs="unbounded"/>
-    </sequence>
-  </complexType>
-</element>
-
-<element name="marker">
-  <complexType>
-    <sequence>
-      <element name="markerProperty" type="c:ItemProperty" minOccurs="0" maxOccurs="unbounded" />
-    </sequence>
-  </complexType>
-</element>]]></pre>
+The current <code>map</code> component is characterized by the <code>kind="googlemap"</code> attribute and contains the following structure:
+<ul>
+<li><b>Elements</b>
+<ul>
+<li><code>&lt;latitudeExpression/&gt;</code></li>
+<li><code>&lt;longitudeExpression/&gt;</code></li>
+<li><code>&lt;addressExpression/&gt;</code></li>
+<li><code>&lt;zoomExpression/&gt;</code></li>
+<li><code>&lt;languageExpression/&gt;</code></li>
+<li><code>&lt;markerData/&gt;</code></li>
+</ul>
+</li>
+<li><b>Attributes</b>
+<ul>
+<li><code>&lt;evaluationTime/&gt;</code></li>
+<li><code>&lt;evaluationGroup/&gt;</code></li>
+<li><code>&lt;mapType/&gt;</code></li>
+<li><code>&lt;mapScale/&gt;</code></li>
+<li><code>&lt;imageType/&gt;</code></li>
+</ul>
+</li>
+</ul>
+<br/>
+<br/>
 <b>Map Attributes</b>
 <br/>    
 <br/> 
@@ -191,7 +98,7 @@ working with high resolution screens available on mobile devices.  Possible valu
 <li><code>png32</code></li>
 <li><code>gif</code></li>
 <li><code>jpg</code></li>
-<li><code>jpg-baseline</code></li>
+<li><code>jpg-baseline</code><br/><br/></li>
 </ul>
 </li>
 <li><code>onErrorType</code> - Applies to static maps only. This attribute specifies the behavior of the engine when the image is not available. Possible values are:
@@ -205,21 +112,21 @@ working with high resolution screens available on mobile devices.  Possible valu
 <b>The Latitude Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:latitudeExpression/&gt;</code> represents the latitude coordinate of the map center, necessary to locate it on the Earth surface. 
+The <code>&lt;latitudeExpression/&gt;</code> represents the latitude coordinate of the map center, necessary to locate it on the Earth surface. 
 Allowed values are floating point numbers representing degrees from -90&#176; to 90&#176;.
 <br/>
 <br/>
 <b>The Longitude Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:longitudeExpression/&gt;</code> represents the longitude coordinate of the map center, necessary to locate it on the Earth surface. 
+The <code>&lt;longitudeExpression/&gt;</code> represents the longitude coordinate of the map center, necessary to locate it on the Earth surface. 
 Allowed values are floating point numbers representing degrees from -180&#176; to 180&#176;.
 <br/>
 <br/>
 <b>The Address Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:addressExpression/&gt;</code> represents the address of the map center and is optional. It will be considered only when the latitude and/or 
+The <code>&lt;addressExpression/&gt;</code> represents the address of the map center and is optional. It will be considered only when the latitude and/or 
 longitude expressions are missing or empty. Computing address expressions relies on expensive time and resources consumption, therefore the report 
 filling performance may visibly decline. It is highly recommended to use latitude and longitude expressions whenever possible. 
 <br/>
@@ -227,44 +134,22 @@ filling performance may visibly decline. It is highly recommended to use latitud
 <b>The Zoom Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:zoomExpression/&gt;</code> represents the initial map zoom level. The expression allows integer values and defaults to 0. 
+The <code>&lt;zoomExpression/&gt;</code> represents the initial map zoom level. The expression allows integer values and defaults to 0. 
 <br/>
 <br/>
 <b>The Language Expression</b>    
 <br/>
 <br/>
-The <code>&lt;c:languageExpression/&gt;</code> represents the language code used to localize the textual information displayed on the map, 
+The <code>&lt;languageExpression/&gt;</code> represents the language code used to localize the textual information displayed on the map, 
 such as control names, copyright notices and other various labels. Supported languages can be found 
 <a href="https://spreadsheets.google.com/spreadsheet/pub?key=0Ah0xU81penP1cDlwZHdzYWkyaERNc0xrWHNvTTA1S1E&amp;gid=1" target="_blank">here</a>.
-<br/>
-<br/>
-<b>The Marker Dataset</b>   
-<br/>
-<br/>
-<b>Warning:</b> The <code><b>&lt;c:markerDataset/&gt;</b></code> element is now <b>deprecated</b>, as replaced by the <a href="#markerData"><b>&lt;c:markerData/&gt;</b></a> element below:
-<!--
-<br/>
-<br/>
-The <code>&lt;c:markerDataset/&gt;</code> element still can be used to generate the list of marker elements to be displayed on the map. It can collect  
-its data either from a subdataset, or from a hardcoded list of marker elements as shown in the component schema. 
-<br/>
-The marker element contains a list of specific properties that can be set either by value or by valueExpression. With few exceptions, property names must 
-match the names of supported marker options available <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions" target="_blank">here</a>. 
-<br/>
-The exceptions are the <code>latitude</code> and <code>longitude</code> property names, both required in order to compute the marker position on the map. If at least one 
-of these two properties is missing or is empty, an exception will be thrown.
-<br/>
-<br/>
-<b>Note:</b> To avoid such exceptions when using a subdataset, use a <code>&lt;filterExpression&gt;</code> to skip markers with empty latitude/longitude 
-properties. An example can be found in the map component sample.
--->
 <br/>
 <br/>
 <subtitle name="markerData">The Marker Data Element</subtitle>
 <br/>
 <br/>
-The <code>&lt;c:markerData/&gt;</code> element is used to generate the list of marker elements to be displayed on the map. It can collect  
-its data either from a subdataset, or from a hardcoded list of marker item elements as shown in the map component schema. 
+The <code>&lt;markerData/&gt;</code> element is used to generate the list of marker elements to be displayed on the map. It can collect  
+its data either from a subdataset, or from a hardcoded list of marker item elements. 
 <br/>
 The marker item element contains a list of specific item properties that can be set either by <code>value</code> or by <code>valueExpression</code>. If both are set, the 
 <code>valueExpression</code> takes precedence over the <code>value</code> attribute. With few exceptions, property names must 
@@ -537,64 +422,59 @@ rendering. Each map is loaded from a subreport and collect its data from the CSV
 The first map is loaded from the <code>reports/MapReport1.jrxml</code> template, and illustrates a road map with minimal settings. There are no 
 markers and no additional information on the map:
 <pre><![CDATA[
-<componentElement>
-  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
-  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report" onErrorType="Icon">
-    <c:latitudeExpression><![CDATA[$P{latitude}]] ></c:latitudeExpression>
-    <c:longitudeExpression><![CDATA[$P{longitude}]] ></c:longitudeExpression>
-    <c:zoomExpression><![CDATA[$P{zoom}]] ></c:zoomExpression>
-    <c:languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]] ></c:languageExpression>
-  </c:map>
-</componentElement>]]></pre>
+<element kind="component" uuid="7aab9b20-071d-47c0-93df-705cada95c60" positionType="Float" y="255" width="515" height="326">
+  <component kind="googlemap" evaluationTime="Report" onErrorType="Icon">
+    <latitudeExpression><![CDATA[$P{latitude}]] ></latitudeExpression>
+  <longitudeExpression><![CDATA[$P{longitude}]] ></longitudeExpression>
+  <zoomExpression><![CDATA[$P{zoom}]] ></zoomExpression>
+  <languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]] ></languageExpression>
+  </component>
+</element>
+]]></pre>
 <subtitle name="map2">Map #2: Satellite Map with Default Marker Icons</subtitle>
 <br/>
 <br/>
 The second map is loaded from the <code>reports/MapReport2.jrxml</code> template. One can notice the <code>mapType="satellite" mapScale="1" imageType="jpg"</code> 
 attribute settings. The satellite map also contains a set of 5 markers with default icons and tooltips enabled. All marker settings are grouped in the 
-<code>&lt;c:markerData/&gt;</code> section which collects its data from the <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are 
+<code>&lt;markerData/&gt;</code> section which collects its data from the <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are 
 skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
 <pre><![CDATA[
-<subDataset name="MarkersDataset">
+<dataset name="MarkersDataset" uuid="8a8227b3-f480-48f1-b65a-e4e691c0d620">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="address" class="java.lang.String"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
-  <filterExpression>
-    <![CDATA[!($F{latitude}==null || $F{latitude}.length()==0) || $F{longitude}==null || $F{longitude}.length()==0)]] >
-  </filterExpression>
-</subDataset>]]></pre>
+  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+</dataset>]]></pre>
 The map component configuration is the following:
 <pre><![CDATA[
-<componentElement>
-  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
-  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="satellite" mapScale="1" imageType="jpg" onErrorType="Icon">
-    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
-    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
-    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
-    <c:markerData>
-      <dataset>
-        <datasetRun subDataset="MarkersDataset"/>
-      </dataset>
-      <c:item>
-        <c:itemProperty name="latitude">
-          <valueExpression>$F{latitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="longitude">
-          <valueExpression>$F{longitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="title">
-          <valueExpression>$F{address}</valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:markerData>
-  </c:map>
-</componentElement>]]></pre>
+<element kind="component" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276" positionType="Float" y="150" width="515" height="326">
+  <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
+    <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
+    <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
+    <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
+    <markerData>
+    <dataset>
+  	  <datasetRun uuid="99d4db58-7384-46bc-9668-ac16f7843e6d" subDataset="MarkersDataset"/>
+    </dataset>
+    <item>
+        <property name="latitude">
+            <expression><![CDATA[$F{latitude}]] ></expression>
+        </property>
+        <property name="longitude">
+            <expression><![CDATA[$F{longitude}]] ></expression>
+        </property>
+        <property name="title">
+            <expression><![CDATA[$F{address}]] ></expression>
+        </property>
+        <property name="label">
+            <expression><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]] ></expression>
+        </property>
+      </item>
+    </markerData>
+  </component>
+</element>]]></pre>
 <subtitle name="map3">Map #3: Terrain Map with Custom Marker Icons</subtitle>
 <br/>
 <br/>
@@ -602,57 +482,50 @@ The 3rd map is a terrain sample loaded from the <code>reports/MapReport3.jrxml</
 <a href="#map2">Map #2</a>, but this time marker icons are loaded from custom URLs, with the specified width and height. Below is the map 
 component configuration (and the subdataset):
 <pre><![CDATA[
-<subDataset name="MarkersDataset">
+<dataset name="MarkersDataset" uuid="5e673a55-11e8-4dfd-b416-ddeb7960fb37">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="address" class="java.lang.String"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <field name="iconurl" class="java.lang.String"/>
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
-  <filterExpression>
-    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
-  </filterExpression>
-</subDataset>
+  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+</dataset>
 ...
-<componentElement>
-  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
-  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="terrain" mapScale="1" imageType="jpg" onErrorType="Icon">
-    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
-    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
-    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
-    <c:markerData>
+<element kind="component" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063" positionType="Float" y="150" width="515" height="326">
+  <component kind="googlemap" mapType="terrain" imageType="jpg" onErrorType="Icon">
+    <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
+    <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
+    <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
+    <markerData>
       <dataset>
-        <datasetRun subDataset="MarkersDataset"/>
+        <datasetRun uuid="9fad80a1-f61f-4a49-943b-bf790886a931" subDataset="MarkersDataset"/>
       </dataset>
-      <c:item>
-        <c:itemProperty name="latitude">
-          <valueExpression>$F{latitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="longitude">
-          <valueExpression>$F{longitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="title">
-          <valueExpression>$F{address}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.url">
-          <valueExpression>$F{iconurl}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.width">
-          <valueExpression>$F{iconwidth}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.height">
-          <valueExpression>$F{iconheight}</valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:markerData>
-  </c:map>
-</componentElement>]]></pre>
+      <item>
+        <property name="latitude">
+          <expression><![CDATA[$F{latitude}]] ></expression>
+        </property>
+        <property name="longitude">
+          <expression><![CDATA[$F{longitude}]] ></expression>
+        </property>
+        <property name="title">
+          <expression><![CDATA[$F{address}]] ></expression>
+        </property>
+        <property name="icon.url">
+          <expression><![CDATA[$F{iconurl}]] ></expression>
+        </property>
+        <property name="icon.width">
+          <expression><![CDATA[$F{iconwidth}]] ></expression>
+        </property>
+        <property name="icon.height">
+          <expression><![CDATA[$F{iconheight}]] ></expression>
+        </property>
+      </item>
+    </markerData>
+  </component>
+</element>]]></pre>
 <subtitle name="map4">Map #4: Satellite Map with Marker Hyperlinks and Paths</subtitle>
 <br/>
 <br/>
@@ -664,25 +537,19 @@ a green polygonal contour and two of them are also connected with a blue line.
 <br/>
 Two additional subdatasets were added in order to generate path styles and path data.See the configuration below:
 <pre><![CDATA[
-<subDataset name="MarkersDataset">
+<dataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <field name="size" class="java.lang.String"/>
   <field name="color" class="java.lang.String"/>
   <field name="url" class="java.lang.String"/>
-  <filterExpression>
-    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
-  </filterExpression>
-</subDataset>
-<subDataset name="PathStyleDataset">
+  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+</dataset>
+<dataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="name" class="java.lang.String"/>
   <field name="strokecolor" class="java.lang.String"/>
   <field name="strokeopacity" class="java.lang.Double"/>
@@ -690,108 +557,108 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="fillcolor" class="java.lang.String"/>
   <field name="fillopacity" class="java.lang.Double"/>
   <field name="draggable" class="java.lang.Boolean"/>
-  <filterExpression><![CDATA[$F{name} != null && $F{name}.length() != 0]] ></filterExpression>
-</subDataset>
-<subDataset name="PathLocationDataset">
+  <filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]] ></filterExpression>
+</dataset>
+<dataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="name" class="java.lang.String"/>
   <field name="style" class="java.lang.String"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <field name="ispolygon" class="java.lang.String"/>
-  <filterExpression>
-    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
-  </filterExpression>
-</subDataset>
+  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+</dataset>
 ...
-<componentElement>
-  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
-  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapType="satellite" mapScale="1" imageType="jpg" onErrorType="Icon">
-    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
-    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
-    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
-    <c:markerData>
+<element kind="component" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4" positionType="Float" y="150" width="515" height="326">
+  <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
+    <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
+    <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
+    <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
+    <pathStyleList>
+      <pathStyleList>
+        <dataset>
+          <datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
+        </dataset>
+        <item>
+          <property name="name">
+            <expression><![CDATA[$F{name}]] ></expression>
+          </property>
+          <property name="strokeColor">
+            <expression><![CDATA[$F{strokecolor}]] ></expression>
+          </property>
+          <property name="strokeOpacity">
+            <expression><![CDATA[$F{strokeopacity}]] ></expression>
+          </property>
+          <property name="strokeWeight">
+            <expression><![CDATA[$F{strokeweight}]] ></expression>
+          </property>
+          <property name="fillColor">
+            <expression><![CDATA[$F{fillcolor}]] ></expression>
+          </property>
+          <property name="fillOpacity">
+            <expression><![CDATA[$F{fillopacity}]] ></expression>
+          </property>
+          <property name="draggable">
+            <expression><![CDATA[$F{draggable}]] ></expression>
+          </property>
+        </item>
+      </pathStyleList>
+    </pathStyleList>
+    <pathDataList>
+      <pathDataList>
+        <dataset>
+          <datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
+        </dataset>
+        <item>
+          <property name="name">
+            <expression><![CDATA[$F{name}]] ></expression>
+          </property>
+          <property name="style">
+            <expression><![CDATA[$F{style}]] ></expression>
+          </property>
+          <property name="latitude">
+            <expression><![CDATA[$F{latitude}]] ></expression>
+          </property>
+          <property name="longitude">
+            <expression><![CDATA[$F{longitude}]] ></expression>
+          </property>
+          <property name="isPolygon">
+            <expression><![CDATA[$F{ispolygon}]] ></expression>
+          </property>
+          <property name="path.hyperlink">
+            <expression><![CDATA["http://www.google.com"]] ></expression>
+          </property>
+        </item>
+      </pathDataList>
+    </pathDataList>
+    <markerData>
       <dataset>
-        <datasetRun subDataset="MarkersDataset"/>
+        <datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
       </dataset>
-      <c:item>
-        <c:itemProperty name="latitude">
-          <valueExpression>$F{latitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="longitude">
-          <valueExpression>$F{longitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="color">
-          <valueExpression>$F{color}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="size">
-          <valueExpression>$F{size}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="url">
-          <valueExpression>$F{url}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="target">
-          <valueExpression>"_blank"</valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:markerData>
-    <c:pathStyle>
-      <dataset>
-        <datasetRun subDataset="PathStyleDataset" uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120"/>
-      </dataset>
-      <c:item>
-        <c:itemProperty name="name">
-          <valueExpression><![CDATA[$F{name}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="strokeColor">
-          <valueExpression><![CDATA[$F{strokecolor}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="strokeOpacity">
-          <valueExpression><![CDATA[$F{strokeopacity}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="strokeWeight">
-          <valueExpression><![CDATA[$F{strokeweight}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="fillColor">
-          <valueExpression><![CDATA[$F{fillcolor}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="fillOpacity">
-          <valueExpression><![CDATA[$F{fillopacity}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="draggable">
-          <valueExpression><![CDATA[$F{draggable}]] ></valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:pathStyle>
-    <c:pathData>
-      <dataset>
-        <datasetRun subDataset="PathLocationDataset" uuid="b9d465b5-397d-4c65-8814-e85e757c97d0"/>
-      </dataset>
-      <c:item>
-        <c:itemProperty name="name">
-          <valueExpression><![CDATA[$F{name}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="style">
-          <valueExpression><![CDATA[$F{style}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="latitude">
-          <valueExpression><![CDATA[$F{latitude}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="longitude">
-          <valueExpression><![CDATA[$F{longitude}]] ></valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="isPolygon">
-          <valueExpression><![CDATA[$F{ispolygon}]] </valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:pathData>
-  </c:map>
-</componentElement>]]></pre>
+      <item>
+        <property name="latitude">
+          <expression><![CDATA[$F{latitude}]] ></expression>
+        </property>
+        <property name="longitude">
+          <expression><![CDATA[$F{longitude}]] ></expression>
+        </property>
+        <property name="color">
+          <expression><![CDATA[$F{color}]] ></expression>
+        </property>
+        <property name="size">
+          <expression><![CDATA[$F{size}]] ></expression>
+        </property>
+        <property name="url">
+          <expression><![CDATA[$F{url}]] ></expression>
+        </property>
+        <property name="target">
+          <expression><![CDATA["_blank"]] ></expression>
+        </property>
+      </item>
+    </markerData>
+  </component>
+</element>]]></pre>
 <subtitle name="map5">Map #5: Hybrid Map with Custom Icons and Info Windows</subtitle>
 <br/>
 <br/>
@@ -799,73 +666,66 @@ The last sample is loaded from <code>reports/MapReport5.jrxml</code> template. M
 a marker icon will open an info window with related information about the marker position. The value of the <code>infowindow.content</code> 
 property is a HTML fragment with escaped open and end tags.
 <pre><![CDATA[
-<subDataset name="MarkersDataset">
+<dataset name="MarkersDataset" uuid="cde31723-d878-4086-868a-a9d4dd791113">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
-  <queryString language="csv">
-    <![CDATA[]] >
-  </queryString>
+  <query language="csv"/>
   <field name="address" class="java.lang.String"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <field name="iconurl" class="java.lang.String"/>
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
-  <filterExpression>
-    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
-  </filterExpression>
-</subDataset>
+  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+</dataset>
 ...
-<componentElement>
-  <reportElement x="0" y="150" width="515" height="326" positionType="Float"/>
-  <c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-    mapScale="1" imageType="jpg" mapType="hybrid" onErrorType="Icon">
-    <c:latitudeExpression><![CDATA[37.800056f]] ></c:latitudeExpression>
-    <c:longitudeExpression><![CDATA[-122.4075f]] ></c:longitudeExpression>
-    <c:zoomExpression><![CDATA[$P{zoom} + 1]] ></c:zoomExpression>
-    <c:markerData>
+<element kind="component" uuid="787c3880-17ed-44af-8068-e3f120e66bad" positionType="Float" y="150" width="515" height="326">
+  <component kind="googlemap" mapType="hybrid" imageType="jpg" onErrorType="Icon">
+    <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
+    <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
+    <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
+    <markerData>
       <dataset>
-        <datasetRun subDataset="MarkersDataset"/>
+        <datasetRun uuid="920098e7-7bf2-4628-959c-8f799589469a" subDataset="MarkersDataset"/>
       </dataset>
-      <c:item>
-        <c:itemProperty name="latitude">
-          <valueExpression>$F{latitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="longitude">
-          <valueExpression>$F{longitude}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="title">
-          <valueExpression>$F{address}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.url">
-          <valueExpression>$F{iconurl}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.width">
-          <valueExpression>$F{iconwidth}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="icon.height">
-          <valueExpression>$F{iconheight}</valueExpression>
-        </c:itemProperty>
-        <c:itemProperty name="infowindow.content">
-          <valueExpression>"<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p>
-          	<p style='text-align:left;'>current latitude: <b>"+$F{latitude}+"</b><br/>current longitude: <b>"+$F{longitude}+"</b></p>"
-          </valueExpression>
-        </c:itemProperty>
-      </c:item>
-    </c:markerData>
-  </c:map>
-</componentElement>
-]]></pre>
+      <item>
+        <property name="latitude">
+          <expression><![CDATA[$F{latitude}]] ></expression>
+        </property>
+        <property name="longitude">
+          <expression><![CDATA[$F{longitude}]] ></expression>
+        </property>
+        <property name="title">
+          <expression><![CDATA[$F{address}]] ></expression>
+        </property>
+        <property name="icon.url">
+          <expression><![CDATA[$F{iconurl}]] ></expression>
+        </property>
+        <property name="icon.width">
+          <expression><![CDATA[$F{iconwidth}]] ></expression>
+        </property>
+        <property name="icon.height">
+          <expression><![CDATA[$F{iconheight}]] ></expression>
+        </property>
+        <property name="infowindow.content">
+          <expression><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]] ></expression>
+        </property>
+      </item>
+    </markerData>
+  </component>
+</element>]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/map</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/map</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/map/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/map/target/reports</code> directory.
     </content>
   </feature>
 

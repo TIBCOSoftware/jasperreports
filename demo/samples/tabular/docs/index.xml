@@ -57,59 +57,42 @@ report design viewer (such as iReport or JasperStudio), one can see the elements
 <br/>
 Let's take a closer look at how the last three elements in the page header section were configured:
 <pre><![CDATA[
-<pageHeader>
-  <band height="30">
-    ...
-    <staticText>
-      <reportElement mode="Opaque" x="300" y="0" width="255" height="15" backcolor="gray">
-        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-        <property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
-        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
-      </reportElement>
-      <box>
-        <pen lineWidth="0.5" lineColor="black"/>
-        <topPen lineWidth="1" lineColor="red"/>
-        <rightPen lineWidth="1" lineColor="red"/>
-      </box>
-      <textElement textAlignment="Center">
-        <font size="12" isBold="true"/>
-      </textElement>
-      <text><![CDATA[Header 4]] ></text>
-    </staticText>
-    <staticText>
-      <reportElement mode="Opaque" x="300" y="15" width="155" height="15" backcolor="gray">
-        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
-        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-      </reportElement>
-      <box leftPadding="10">
-        <pen lineColor="black"/>
-        <topPen lineWidth="0.5"/>
-        <leftPen lineWidth="0.5"/>
-        <bottomPen lineWidth="0.5"/>
-      </box>
-      <textElement>
-        <font isBold="true"/>
-      </textElement>
-      <text><![CDATA[Header 4.1]] ></text>
-    </staticText>
-    <staticText>
-      <reportElement mode="Opaque" x="455" y="15" width="100" height="15" backcolor="gray">
-        <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-        <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
-      </reportElement>
-      <box rightPadding="10">
-        <pen lineColor="black"/>
-        <topPen lineWidth="0.5"/>
-        <leftPen lineWidth="0.5"/>
-        <bottomPen lineWidth="0.5"/>
-        <rightPen lineWidth="1" lineColor="red"/>
-      </box>
-      <textElement textAlignment="Right">
-        <font isBold="true"/>
-      </textElement>
-      <text><![CDATA[Header 4.2]] ></text>
-    </staticText>
-  </band>
+<pageHeader height="30">
+  ...
+  <element kind="staticText" mode="Opaque" x="300" width="255" height="15" backcolor="#808080" horizontalTextAlign="Center" bold="true" fontSize="12.0">
+    <text><![CDATA[Header 4]] ></text>
+    <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+    <property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+    <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+    <box>
+      <pen lineWidth="0.5" lineColor="#000000"/>
+      <topPen lineWidth="1.0" lineColor="#FF0000"/>
+      <rightPen lineWidth="1.0" lineColor="#FF0000"/>
+    </box>
+  </element>
+  <element kind="staticText" mode="Opaque" x="300" y="15" width="155" height="15" backcolor="#808080" bold="true">
+    <text><![CDATA[Header 4.1]] ></text>
+    <property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+    <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+    <box leftPadding="10">
+      <pen lineColor="#000000"/>
+      <topPen lineWidth="0.5"/>
+      <leftPen lineWidth="0.5"/>
+      <bottomPen lineWidth="0.5"/>
+    </box>
+  </element>
+  <element kind="staticText" mode="Opaque" x="455" y="15" width="100" height="15" backcolor="#808080" horizontalTextAlign="Right" bold="true">
+    <text><![CDATA[Header 4.2]] ></text>
+    <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+    <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+    <box rightPadding="10">
+      <pen lineColor="#000000"/>
+      <topPen lineWidth="0.5"/>
+      <leftPen lineWidth="0.5"/>
+      <bottomPen lineWidth="0.5"/>
+      <rightPen lineWidth="1.0" lineColor="#FF0000"/>
+    </box>
+  </element>
 </pageHeader>]]></pre>
 Notice that the <code>Header 4</code> element is only 15 pixels high, while the band height is 30. It means that there is left 
 some unused space below this static text. It starts from <code>y=0, x=300</code> and is 255 pixels wide.
@@ -131,13 +114,16 @@ background color for all header cells is set to <code>grey</code>.
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/table</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/tabular</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/table/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/tabular/target/reports</code> directory.
     </content>
   </feature>
 
@@ -202,23 +188,23 @@ properties, which accept numeric values only):<br/><br/>
 </ul>
 Available properties related to PDF accessibility tags are enumerated below:<br/><br/>
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1">net.sf.jasperreports.export.pdf.tag.h1</api> 
 - Property used to mark a text field as a level 1 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2">net.sf.jasperreports.export.pdf.tag.h2</api> 
 - Property used to mark a text field as a level 2 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3">net.sf.jasperreports.export.pdf.tag.h3</api> 
 - Property used to mark a text field as a level 3 heading.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE">net.sf.jasperreports.export.pdf.tag.table</api> 
 - Property used to indicate where the table starts and where it ends in the report template.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH">net.sf.jasperreports.export.pdf.tag.th</api> 
 - Property used to mark heading cells in a table.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR">net.sf.jasperreports.export.pdf.tag.tr</api> 
 - Property used to indicate where a table row starts and where it ends in the report template.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD">net.sf.jasperreports.export.pdf.tag.td</api> 
 - Property used to mark detail cells in a table.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN">net.sf.jasperreports.export.pdf.tag.colspan</api> 
 - Property used to indicate the column span of a table cell. Allowed values are positive integers.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
+<li><api href="net/sf/jasperreports/pdf/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN">net.sf.jasperreports.export.pdf.tag.rowspan</api> 
 - Property used to indicate the row span of a table cell. Allowed values are positive integers.</li>
 </ul>
 </li>

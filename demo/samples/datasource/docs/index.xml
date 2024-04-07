@@ -624,6 +624,8 @@ in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFill
 <b>Running the Sample</b>
 <br/>
 <br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
 In a command prompt/terminal window set the current folder to <code>demo/samples/datasource</code> within the JasperReports source project 
 and run the following command:
 <br/>
@@ -631,7 +633,7 @@ and run the following command:
 <code>&gt; mvn exec:java</code>
 <br/>
 <br/>
-It will generate all supported document types containing the sample report in the `demo/samples/datasource/target/reports` directory.
+It will generate all supported document types containing the sample report in the <code>demo/samples/datasource/target/reports</code> directory.
     </content>
   </feature>
 

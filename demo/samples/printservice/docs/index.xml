@@ -75,15 +75,15 @@ taking into account the following export configuration settings:
 <ul>
 <li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#getPrintRequestAttributeSet()">getPrintRequestAttributeSet()</api> - 
 returns a <code>javax.print.attribute.PrintRequestAttributeSet</code> instance containing a set of specific print request settings.</li>
-<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#getDisplayPageDialog()">getDisplayPageDialog()</api> - 
+<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#isDisplayPageDialog()">isDisplayPageDialog()</api> - 
 returns a boolean value that specifies if a page dialog will open before the print job is submitted in order to modify some document settings such as page size or layout.</li>
-<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#getDisplayPrintDialog()">getDisplayPrintDialog()</api> - 
+<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#isDisplayPrintDialog()">isDisplayPrintDialog()</api> - 
 returns a boolean value that specifies if a print dialog will open before the print job is submitted in order to modify settings for some print request attributes.</li>
-<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#getDisplayPageDialogOnlyOnce()">getDisplayPageDialogOnlyOnce()</api> - 
+<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#isDisplayPageDialogOnlyOnce()">isDisplayPageDialogOnlyOnce()</api> - 
 when printing in batch mode this setting indicates whether the page dialog will popup globally for all documents in the list, or once per 
 document. If it's <code>true</code>, then the page dialog will open only first time before submitting the batch job, and the page settings will be 
 inherited by all the documents in the list.</li>
-<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#getDisplayPrintDialogOnlyOnce()">getDisplayPrintDialogOnlyOnce()</api> - 
+<li><api href="net/sf/jasperreports/export/PrintServiceExporterConfiguration.html#isDisplayPrintDialogOnlyOnce()">isDisplayPrintDialogOnlyOnce()</api> - 
 when printing in batch mode this setting indicates whether the print dialog will popup globally for all documents in the list, or once per 
 document. If it's <code>true</code>, then the print dialog will open only first time before submitting the batch job, and the print request settings will be 
 inherited by all the documents in the list.</li>
@@ -101,10 +101,12 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
   {
     long start = System.currentTimeMillis();
     JasperPrint jasperPrint = getJasperPrint();
-    JRSaver.saveObject(jasperPrint, "build/reports/PrintServiceReport.jrprint");
+    File file = new File("target/reports/PrintServiceReport.jrprint");
+    file.getParentFile().mkdirs();
+    JRSaver.saveObject(jasperPrint, file);
     System.err.println("Filling time : " + (System.currentTimeMillis() - start));
   }
-
+  ...
   private static JasperPrint getJasperPrint() throws JRException
   {
     //JasperPrint
@@ -118,30 +120,30 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     normalStyle.setName("Sans_Normal");
     normalStyle.setDefault(true);
     normalStyle.setFontName("DejaVu Sans");
-    normalStyle.setFontSize(8);
+    normalStyle.setFontSize(8f);
     normalStyle.setPdfFontName("Helvetica");
     normalStyle.setPdfEncoding("Cp1252");
-    normalStyle.setPdfEmbedded(false);
+    normalStyle.setPdfEmbedded(Boolean.FALSE);
     jasperPrint.addStyle(normalStyle);
 
     JRDesignStyle boldStyle = new JRDesignStyle();
     boldStyle.setName("Sans_Bold");
     boldStyle.setFontName("DejaVu Sans");
-    boldStyle.setFontSize(8);
-    boldStyle.setBold(true);
+    boldStyle.setFontSize(8f);
+    boldStyle.setBold(Boolean.TRUE);
     boldStyle.setPdfFontName("Helvetica-Bold");
     boldStyle.setPdfEncoding("Cp1252");
-    boldStyle.setPdfEmbedded(false);
+    boldStyle.setPdfEmbedded(Boolean.FALSE);
     jasperPrint.addStyle(boldStyle);
 
     JRDesignStyle italicStyle = new JRDesignStyle();
     italicStyle.setName("Sans_Italic");
     italicStyle.setFontName("DejaVu Sans");
-    italicStyle.setFontSize(8);
-    italicStyle.setItalic(true);
+    italicStyle.setFontSize(8f);
+    italicStyle.setItalic(Boolean.TRUE);
     italicStyle.setPdfFontName("Helvetica-Oblique");
     italicStyle.setPdfEncoding("Cp1252");
-    italicStyle.setPdfEmbedded(false);
+    italicStyle.setPdfEmbedded(Boolean.FALSE);
     jasperPrint.addStyle(italicStyle);
     
     JRPrintPage page = new JRBasePrintPage();
@@ -160,9 +162,7 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     image.setHeight(40);
     image.setScaleImage(ScaleImageEnum.CLIP);
     image.setRenderer(
-      JRImageRenderer.getInstance(
-        JRLoader.loadBytesFromResource("jasperreports.png")
-        )
+      ResourceRenderer.getInstance("jasperreports.png", false)
       );
     page.addElement(image);
 
@@ -172,11 +172,11 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(345);
     text.setHeight(30);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
     text.setLineSpacingFactor(1.3133681f);
     text.setLeadingOffset(-4.955078f);
     text.setStyle(boldStyle);
-    text.setFontSize(18);
+    text.setFontSize(18f);
     text.setText("JasperReports Project Description");
     page.addElement(text);
 
@@ -186,11 +186,11 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(325);
     text.setHeight(15);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
     text.setLineSpacingFactor(1.329241f);
     text.setLeadingOffset(-4.076172f);
     text.setStyle(italicStyle);
-    text.setFontSize(12);
+    text.setFontSize(12f);
     text.setText((new SimpleDateFormat("EEE, MMM d, yyyy")).format(new Date()));
     page.addElement(text);
 
@@ -200,16 +200,14 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(515);
     text.setHeight(200);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalAlignment(HorizontalAlignEnum.JUSTIFIED);
+    text.setHorizontalTextAlign(HorizontalTextAlignEnum.JUSTIFIED);
     text.setLineSpacingFactor(1.329241f);
     text.setLeadingOffset(-4.076172f);
     text.setStyle(normalStyle);
-    text.setFontSize(14);
+    text.setFontSize(14f);
     text.setText(
-      "JasperReports is a powerful report-generating tool that has the ability to deliver "+
-      "rich content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
-      "It is entirely written in Java and can be used in a variety of Java enabled applications, " +
-      "including J2EE or Web applications, to generate dynamic content.\n\n" +
+      "JasperReports is a powerful report-generating tool that has the ability to deliver rich content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
+      "It is entirely written in Java and can be used in a variety of Java enabled applications, including J2EE or Web applications, to generate dynamic content.\n\n" +
       "Its main purpose is to help creating page oriented, ready to print documents in a simple and flexible manner."
       );
     page.addElement(text);
@@ -234,25 +232,30 @@ printer when calling the <code>print()</code> method. A print dialog will popup 
     
     JRPrintServiceExporter exporter = new JRPrintServiceExporter();
     
-	exporter.setExporterInput(new SimpleExporterInput("build/reports/PrintServiceReport.jrprint"));
-	SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
-	configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
-	configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
-	configuration.setDisplayPageDialog(false);
-	configuration.setDisplayPrintDialog(true);
-	exporter.setConfiguration(configuration);
-	exporter.exportReport();
+    exporter.setExporterInput(new SimpleExporterInput("target/reports/PrintServiceReport.jrprint"));
+    SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
+    configuration.setPrintRequestAttributeSet(printRequestAttributeSet);
+    configuration.setPrintServiceAttributeSet(printServiceAttributeSet);
+    configuration.setDisplayPageDialog(false);
+    configuration.setDisplayPrintDialog(true);
+    exporter.setConfiguration(configuration);
+    exporter.exportReport();
 
     System.err.println("Printing time : " + (System.currentTimeMillis() - start));
   }]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/printservice</code> within the JasperReports source project and run the <code>&gt; ant clean javac fill print</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/printservice</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate the report first and then will ask for various printer settings in a print popup window. Finally the document will be printed on the selected printer. 
+<br/>
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/printservice/target/reports</code> directory.
     </content>
   </feature>
 

@@ -71,13 +71,13 @@ report-filling time. The report parameter values are always packed in a <code>ja
 having the parameter names as keys.</li>
 <li><b>Data sources</b> represent a set of tabular data made of virtual rows and columns that the engine uses 
 for iteration during the report-filling process. Normally, the engine works with an instance of the 
-<api href="net/sf/jasperreports/engine/util/JRDataSource.html">JRDataSource</api> interface, from which it extracts the 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> interface, from which it extracts the 
 data when filling the report. If no data source can be retrieved using this interface, there is another possibility to
 get a data source: the manager class provides a set of report-filling methods that receive a 
 <code>java.sql.Connection</code> object as a parameter. This way, data can be retrieved by executing a query on a 
 database related to this connection parameter. 
 More on data sources can be found at <b>Data Source / Query Executer</b> section 
-<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/sample.reference.html#DataSourceQueryExecuter" target="_blank">here</a>.
+<a href="../sample.reference.html#DataSourceQueryExecuter" target="_blank">here</a>.
 </li>
 </ul>
 <b>Filling order</b>
@@ -110,16 +110,19 @@ In order to do that, the only needed steps are:
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/horizontal</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<code>&gt; mvn exec:java</code>
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/horizontal/build/reports</code> directory. 
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Then the report will open in the JasperReports internal viewer.
+Open a new command prompt/terminal window and set the current folder to demo/samples/horizontal within the JasperReports source project and run the following command:
+<br/>
+<code>&gt; mvn clean compile exec:java</code>
+<br/>
+This will generate all supported document types containing the sample report in the demo/samples/horizontal/target/reports directory.
     </content>
   </feature>
 

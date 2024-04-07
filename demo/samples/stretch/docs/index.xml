@@ -143,7 +143,7 @@ After text fields are measured and stretched, all other elements in
 the same section are resized or repositioned, according to their own stretching attributes.
 <br/>
 To decide whether a text field content gets truncated at runtime or no, one can use the 
-<code>textAdjust</code> attribute in the <code>&lt;textField/&gt;</code> element. 
+<code>textAdjust</code> attribute in the <code>&lt;element/&gt;</code> tag. 
 If <code>StretchHeight</code> value is set, then the text field height will be automatically increased until the 
 whole text content can be displayed.
 The font size can be decreased so that the text fits using the <code>ScaleFont</code> value. 
@@ -191,52 +191,34 @@ CSV, XML, Excel.</li>
 This sample provides some examples of element stretching and text truncations. One can see various combinations between 
 different elements stretching attributes (<code>positionType</code>, <code>stretchType</code>, <code>textAdjust</code>):
 <pre><![CDATA[
-  <elementGroup>
-  <line>
-    <reportElement positionType="Float" stretchType="ElementGroupHeight" x="5" y="5" 
-      width="1" height="16" isPrintWhenDetailOverflows="true"/>
-    <graphicElement/>
-  </line>
-  <textField textAdjust="StretchHeight">
-    <reportElement x="10" y="5" width="100" height="16" isRemoveLineWhenBlank="true"/>
-    <textElement textAlignment="Justified">
-      <font size="12"/>
-    </textElement>
-    <textFieldExpression class="java.lang.String">
-      This is a FIRST long chunk of text that will cause the text field to stretch 
-      outside its defined height and force other elements to move downwards.
-    </textFieldExpression>
-  </textField>
-  <line>
-    <reportElement positionType="Float" stretchType="ElementGroupHeight" x="135" y="5" 
-      width="1" height="16" isPrintWhenDetailOverflows="true"/>
-    <graphicElement/>
-  </line>
-  </elementGroup>]]></pre>
+<element kind="elementGroup">
+  <element kind="line" positionType="Float" stretchType="ElementGroupHeight" x="145" y="5" width="1" height="1" printWhenDetailOverflows="true"/>
+  <element kind="textField" x="150" y="5" width="100" horizontalTextAlign="Justified" textAdjust="StretchHeight" removeLineWhenBlank="true" fontSize="12.0">
+    <expression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside 
+      its defined height and force other elements to move downwards."]] ></expression>
+  </element>
+  <element kind="line" positionType="Float" stretchType="ElementGroupHeight" x="275" y="5" width="1" height="1" printWhenDetailOverflows="true"/>
+</element>]]></pre>
 or text truncation properties:
 <pre><![CDATA[
-  <staticText>
-    <reportElement x="145" y="205" width="130" height="100">
-      <property name="net.sf.jasperreports.text.truncate.at.char" value="true"/>
-    </reportElement>
-    <textElement>
-      <font size="10"/>
-    </textElement>
-      <text>Text elements can also be truncated at the last character that fits 
-        the element reserved area; the behavior is triggered by setting a property. 
-        This sentence might not fit fully in the space reserved for the element.
-      </text>
-  </staticText>]]></pre>
+<element kind="staticText" uuid="87913332-e364-48fc-80fb-251d60ee5be3" x="145" y="205" width="130" height="100" fontSize="10.0">
+  <text><![CDATA[Text elements can also be truncated at the last character that fits the element reserved area; the behavior is triggered by setting a property.
+This sentence might not fit fully in the space reserved for the element.]] ></text>
+  <property name="net.sf.jasperreports.text.truncate.at.char" value="true"/>
+</element>]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/stretch</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/stretch</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/stretch/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/stretch/target/reports</code> directory.
     </content>
   </feature>
 

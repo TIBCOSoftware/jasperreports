@@ -48,15 +48,15 @@ A <code>&lt;style /&gt;</code> element is defined by the following attributes:
 <li><code>markup</code> - sets the markup style for styled texts</li>
 <li><code>fontName</code> - sets the font name</li>
 <li><code>fontSize</code> - sets the font size</li>
-<li><code>isBold</code> - indicates if the font style is bold</li>
-<li><code>isItalic</code> - indicates if the font style is italic</li>
-<li><code>isUnderline</code> - indicates if the font style is underline</li>
-<li><code>isStrikeThrough</code> - indicates if the font style is strikethrough</li>
+<li><code>bold</code> - indicates if the font style is bold</li>
+<li><code>italic</code> - indicates if the font style is italic</li>
+<li><code>underline</code> - indicates if the font style is underline</li>
+<li><code>strikeThrough</code> - indicates if the font style is strikethrough</li>
 <li><code>pdfFontName</code> - sets the related PDF font name</li>
 <li><code>pdfEncoding</code> - sets the character encoding for the PDF output format</li>
-<li><code>isPdfEmbedded</code> - indicates if the PDF font is embedded</li>
+<li><code>pdfEmbedded</code> - indicates if the PDF font is embedded</li>
 <li><code>pattern</code> - sets the format pattern for formatted texts</li>
-<li><code>isBlankWhenNull</code> - indicates if a white space should be shown if the text is not present</li>
+<li><code>blankWhenNull</code> - indicates if a white space should be shown if the text is not present</li>
 </ul>
 In a style element can be set also the element's <code>&lt;box /&gt;</code> and <code>&lt;pen /&gt;</code> styles.
 <br/>
@@ -107,39 +107,14 @@ Also, styles defined in style templates can be used as parent styles for styles 
 <br/>
 The following is an example of a styles template file which refers a base template file named <code>base_styles.jrtx</code>, overrides 2 parent styles and defines other 3 own styles:
 <pre><![CDATA[
-<?xml version="1.0"?>
-<!DOCTYPE jasperTemplate
-  PUBLIC "-//JasperReports//DTD Template//EN"
-  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
-
 <jasperTemplate>
-
-	<template><![CDATA[base_styles.jrtx]]&gt;</template>
-	
-	<!-- Override the default font from base_styles.xml -->
-	<style name="Regular" style="Base" isDefault="true" 
-		fontSize="12"/>
-	
-	<style name="Special Emphasis" style="Emphasis"
-		fontSize="12" forecolor="red"/>
-	
-	<!--
-		Override the Strong style from base_styles.xml.
-		Note that the Very Strong style from base_styles.xml will still inherit the original Strong style.
-	-->
-	<style name="Strong" style="Base"
-		isUnderline="true" fontSize="14"/>
-	
-	<style name="Serif" style="Base"
-		fontSize="12"
-		fontName="DejaVu Serif"/>
-	
-	<style name="Serif Note" style="Serif"
-		isUnderline="true"/>
-	
-</jasperTemplate>
-
-]]></pre>
+  <template>base_styles.jrtx</template>
+  <style name="Regular" fontSize="12.0" default="true" style="Base"/>
+  <style name="Special Emphasis" forecolor="#FF0000" fontSize="12.0" style="Emphasis"/>
+  <style name="Strong" fontSize="14.0" underline="true" style="Base"/>
+  <style name="Serif" fontName="DejaVu Serif" fontSize="12.0" style="Base"/>
+  <style name="Serif Note" underline="true" style="Serif"/>
+</jasperTemplate>]]></pre>
 A report can use style templates by explicitly referring them in its definition. References 
 to a style templates are included in JRXML reports as <code>&lt;template /&gt;</code> elements. Such an 
 element contains an expression that is resolved at fill time to a style template instance.
@@ -174,14 +149,16 @@ classpath resource. The <code>class</code> attribute in the <code>&lt;template /
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/templates</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/templates</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/templates/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/templates/target/reports</code> directory.
     </content>
   </feature>
 

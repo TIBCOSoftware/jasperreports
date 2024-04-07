@@ -52,67 +52,21 @@ with all its properties set, in order to generate a valid report.
 <br/>
 Taking a look inside the <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
 class, one can see that it extends <api href="net/sf/jasperreports/engine/base/JRBaseReport.html">JRBaseReport</api> 
-and inherits all protected member properties below: 
-<pre><![CDATA[
-  protected String name;
-  protected String language = LANGUAGE_JAVA;
-  protected int columnCount = 1;
-  protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
-  protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
-  protected int pageWidth = 595;
-  protected int pageHeight = 842;
-  protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
-  protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
-  protected int columnWidth = 555;
-  protected int columnSpacing;
-  protected int leftMargin = 20;
-  protected int rightMargin = 20;
-  protected int topMargin = 30;
-  protected int bottomMargin = 30;
-  protected boolean isTitleNewPage;
-  protected boolean isSummaryNewPage;
-  protected boolean isSummaryWithPageHeaderAndFooter;
-  protected boolean isFloatColumnFooter;
-  protected boolean ignorePagination;
-
-  /**
-   *
-   */
-  protected String formatFactoryClass;
-
-  /**
-   *
-   */
-  protected Set importsSet;
-
-  /**
-   * Report templates.
-   */
-  protected JRReportTemplate[] templates;
-
-  protected JRStyle defaultStyle;
-  protected JRStyle[] styles;
-
-  /**
-   * The main dataset of the report.
-   */
-  protected JRDataset mainDataset;
-
-  /**
-   * Sub datasets of the report.
-   */
-  protected JRDataset[] datasets;
-
-  protected JRBand background;
-  protected JRBand title;
-  protected JRBand pageHeader;
-  protected JRBand columnHeader;
-  protected JRSection detailSection;
-  protected JRBand columnFooter;
-  protected JRBand pageFooter;
-  protected JRBand lastPageFooter;
-  protected JRBand summary;
-  protected JRBand noData;]]></pre>
+and it inherits a series of member properties such as: 
+<ul>
+<li><code>name</code></li>
+<li><code>pageWidth</code></li>
+<li><code>pageHeight</code></li>
+<li><code>topMargin</code></li>
+<li><code>leftMargin</code></li>
+<li><code>bottomMargin</code></li>
+<li><code>rightMargin</code></li>
+<li><code>orientation</code></li>
+<li><code>ignorePagination</code></li>
+<li><code>sectionType</code></li>
+<li><code>styles</code></li>
+<li><code>etc...</code></li>
+</ul> 
 Therefore, creating a <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
 instance may be accomplished by creating an empty 
 <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object by 
@@ -145,30 +99,30 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     normalStyle.setName("Sans_Normal");
     normalStyle.setDefault(true);
     normalStyle.setFontName("DejaVu Sans");
-    normalStyle.setFontSize(12);
+    normalStyle.setFontSize(12f);
     normalStyle.setPdfFontName("Helvetica");
     normalStyle.setPdfEncoding("Cp1252");
-    normalStyle.setPdfEmbedded(false);
+    normalStyle.setPdfEmbedded(Boolean.FALSE);
     jasperDesign.addStyle(normalStyle);
 
     JRDesignStyle boldStyle = new JRDesignStyle();
     boldStyle.setName("Sans_Bold");
     boldStyle.setFontName("DejaVu Sans");
-    boldStyle.setFontSize(12);
-    boldStyle.setBold(true);
+    boldStyle.setFontSize(12f);
+    boldStyle.setBold(Boolean.TRUE);
     boldStyle.setPdfFontName("Helvetica-Bold");
     boldStyle.setPdfEncoding("Cp1252");
-    boldStyle.setPdfEmbedded(false);
+    boldStyle.setPdfEmbedded(Boolean.FALSE);
     jasperDesign.addStyle(boldStyle);
 
     JRDesignStyle italicStyle = new JRDesignStyle();
     italicStyle.setName("Sans_Italic");
     italicStyle.setFontName("DejaVu Sans");
-    italicStyle.setFontSize(12);
-    italicStyle.setItalic(true);
+    italicStyle.setFontSize(12f);
+    italicStyle.setItalic(Boolean.TRUE);
     italicStyle.setPdfFontName("Helvetica-Oblique");
     italicStyle.setPdfEncoding("Cp1252");
-    italicStyle.setPdfEmbedded(false);
+    italicStyle.setPdfEmbedded(Boolean.FALSE);
     jasperDesign.addStyle(italicStyle);
     
     //Parameters
@@ -220,12 +174,9 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     variable.setResetType(ResetTypeEnum.GROUP);
     JRDesignGroup group = new JRDesignGroup();
     group.setName("CityGroup");
-    variable.setResetGroup(group);
+    variable.setResetGroup(group.getName());
     variable.setCalculation(CalculationEnum.SYSTEM);
-    JRDesignExpression expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.Integer.class);
-    expression.setText("$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)");
-    variable.setInitialValueExpression(expression);
+    variable.setInitialValueExpression(new JRDesignExpression("$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)"));
     jasperDesign.addVariable(variable);
 
     variable = new JRDesignVariable();
@@ -237,10 +188,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
 
     //Groups
     group.setMinHeightToStartNewPage(60);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.String.class);
-    expression.setText("$F{City}");
-    group.setExpression(expression);
+    group.setExpression(new JRDesignExpression("$F{City}"));
 
     JRDesignBand band = new JRDesignBand();
     band.setHeight(20);
@@ -251,12 +199,9 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setHeight(15);
     textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
     textField.setMode(ModeEnum.OPAQUE);
-    textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
+    textField.setHorizontalTextAlign(HorizontalTextAlignEnum.LEFT);
     textField.setStyle(boldStyle);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.String.class);
-    expression.setText("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})");
-    textField.setExpression(expression);
+    textField.setExpression(new JRDesignExpression("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})"));
     band.addElement(textField);
     JRDesignLine line = new JRDesignLine();
     line.setX(0);
@@ -279,7 +224,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     staticText.setY(0);
     staticText.setWidth(60);
     staticText.setHeight(15);
-    staticText.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    staticText.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
     staticText.setStyle(boldStyle);
     staticText.setText("Count : ");
     band.addElement(staticText);
@@ -288,12 +233,9 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setY(0);
     textField.setWidth(30);
     textField.setHeight(15);
-    textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    textField.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
     textField.setStyle(boldStyle);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.Integer.class);
-    expression.setText("$V{CityGroup_COUNT}");
-    textField.setExpression(expression);
+    textField.setExpression(new JRDesignExpression("$V{CityGroup_COUNT}"));
     band.addElement(textField);
     ((JRDesignSection)group.getGroupFooterSection()).addBand(band);
 
@@ -314,13 +256,10 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setY(10);
     textField.setWidth(515);
     textField.setHeight(30);
-    textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+    textField.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
     textField.setStyle(normalStyle);
-    textField.setFontSize(22);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.String.class);
-    expression.setText("$P{ReportTitle}");
-    textField.setExpression(expression);
+    textField.setFontSize(22f);
+    textField.setExpression(new JRDesignExpression("$P{ReportTitle}"));
     band.addElement(textField);
     jasperDesign.setTitle(band);
     
@@ -344,7 +283,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     staticText.setForecolor(Color.white);
     staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
     staticText.setMode(ModeEnum.OPAQUE);
-    staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+    staticText.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
     staticText.setStyle(boldStyle);
     staticText.setText("ID");
     frame.addElement(staticText);
@@ -384,12 +323,9 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setY(4);
     textField.setWidth(50);
     textField.setHeight(15);
-    textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    textField.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
     textField.setStyle(normalStyle);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.Integer.class);
-    expression.setText("$F{Id}");
-    textField.setExpression(expression);
+    textField.setExpression(new JRDesignExpression("$F{Id}"));
     band.addElement(textField);
     textField = new JRDesignTextField();
     textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
@@ -399,10 +335,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setHeight(15);
     textField.setPositionType(PositionTypeEnum.FLOAT);
     textField.setStyle(normalStyle);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.String.class);
-    expression.setText("$F{FirstName} + \" \" + $F{LastName}");
-    textField.setExpression(expression);
+    textField.setExpression(new JRDesignExpression("$F{FirstName} + \" \" + $F{LastName}"));
     band.addElement(textField);
     textField = new JRDesignTextField();
     textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
@@ -412,10 +345,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setHeight(15);
     textField.setPositionType(PositionTypeEnum.FLOAT);
     textField.setStyle(normalStyle);
-    expression = new JRDesignExpression();
-    expression.setValueClass(java.lang.String.class);
-    expression.setText("$F{Street}");
-    textField.setExpression(expression);
+    textField.setExpression(new JRDesignExpression("$F{Street}"));
     band.addElement(textField);
     line = new JRDesignLine();
     line.setX(0);
@@ -439,7 +369,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     band = new JRDesignBand();
     jasperDesign.setSummary(band);
     
-	return jasperDesign;
+    return jasperDesign;
   }]]></pre>
 The ant <code>compile</code> task only calls the <code>getJasperDesign()</code> method to load the 
 <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
@@ -450,20 +380,24 @@ report filling time:
   {
     long start = System.currentTimeMillis();
     JasperDesign jasperDesign = getJasperDesign();
-    JasperCompileManager.compileReportToFile(jasperDesign, "build/reports/NoXmlDesignReport.jasper");
+    File file = new File("target/reports/NoXmlDesignReport.jasper");
+    file.getParentFile().mkdirs();
+    JasperCompileManager.compileReportToFile(jasperDesign, file.getPath());
     System.err.println("Compile time : " + (System.currentTimeMillis() - start));
   }]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/noxmldesign</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/noxmldesign</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/noxmldesign/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/noxmldesign/target/reports</code> directory.
 	</content>
   </feature>
 

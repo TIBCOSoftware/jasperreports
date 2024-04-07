@@ -58,48 +58,28 @@ autoboxing and unboxing, or enumerated types. An equivalent Java 1.4-compatible 
 <br/>
 Having two integer numbers, 3 and 5, the report will output first their values, and then their calculated sum. The two numbers 
 are declared as follows:
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;parameter name="A" class="java.lang.Integer"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;3&lt;/defaultValueExpression&gt;
-<br/>
-&#160;&#160;&lt;/parameter&gt;
-<br/>
-&#160;&#160;&lt;parameter name="B" class="java.lang.Integer"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression>5&lt;/defaultValueExpression&gt;
-<br/>
-&#160;&#160;&lt;/parameter&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<parameter name="A" class="java.lang.Integer">
+  <defaultValueExpression><![CDATA[3]] ></defaultValueExpression>
+</parameter>
+<parameter name="B" class="java.lang.Integer">
+  <defaultValueExpression><![CDATA[5]] ></defaultValueExpression>
+</parameter>]]></pre>
 Both A and B values are declared of <code>java.lang.Integer</code> type. But their values are let as primitive <code>int</code> types, because 
 Java 1.5 performs both autoboxing and unboxing mechanisms. When needed, primitive types are automatically converted into their wrapper class. 
 The Java 1.5 syntax becomes a lot simplified. Equivalent Java 1.4 expressions would be:
-<br/> 
-<br/> 
-<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Integer.valueOf(3)]]&gt;&lt;/defaultValueExpression&gt;</code>
-<br/>
-<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Integer.valueOf(5)]]&gt;&lt;/defaultValueExpression&gt;</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<defaultValueExpression><![CDATA[Integer.valueOf(3)]] ></defaultValueExpression>
+<defaultValueExpression><![CDATA[Integer.valueOf(5)]] ></defaultValueExpression>]]></pre>
 The next two expressions in the report template read values from parameters declared above and store them in two text fields. 
 These expressions can be evaluated using either Java 1.5 or Java 1.4:
-<br/>
-<br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{A}]]&gt;&lt;/textFieldExpression&gt;</code>
-<br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<expression><![CDATA[$P{A}]] ></expression>
+...
+<expression><![CDATA[$P{B}]] ></expression>]]></pre>
 Next, the A + B sum is calculated using a Java 1.4 expression:
-<br/>
-<br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf($P{A}.intValue() + $P{B}.intValue())]]&gt;&lt;/textFieldExpression&gt;</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<expression><![CDATA[Integer.valueOf($P{A}.intValue() + $P{B}.intValue())]] ></expression>]]></pre>
 A and B being <code>Integer</code>, their <code>intValue()</code> method is called in order to calculate the sum. 
 After that, because the sum should be 
 stored itself in an <code>Integer</code> value, an Integer object is made available for this purpose. The Java expression looks 
@@ -108,11 +88,8 @@ cast exceptions.
 <br/>
 <br/>
 Now, the same A + B sum is calculated using a Java 1.5 expression:
-<br/>
-<br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<expression><![CDATA[Integer.valueOf($P{A} + $P{B})]] ></expression>]]></pre>
 Object creation, autoboxing, unboxing and type conversion are transparent processes here, the user only 
 has to write a simple addition operation between the two report 
 parameters (however, the specific parameter syntax still has to be respected). 
@@ -120,48 +97,35 @@ parameters (however, the specific parameter syntax still has to be respected).
 <br/>
 Finally, depending on the <code>greeting</code> parameter's value, a greeting formula is shown. This parameter is an enumerated <code>Greeting</code> type 
 (another specific Java 1.5 feature):
-<br/>
-<br/>
-<code>&#160;&#160;&lt;parameter name="greeting" class="Greeting"&gt;</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<parameter name="greeting" class="Greeting"/>]]></pre>
 The <code>Greeting</code> type is defined in the /src/Greeting.java file:
-<br/>
-<br/>
-&#160;&#160;<code>public enum Greeting { bye, day }</code>
-<br/>
-<br/>
+<pre><![CDATA[
+public enum Greeting { bye, day }]]></pre>
 When the parameter's value is <code>Greeting.bye</code>, the output message will be 'Bye!'; 
 when the parameter's value is <code>Greeting.day</code>, the message will be 'Have a nice day!':
 <pre><![CDATA[
-  <staticText>
-	<reportElement x="0" y="450" width="480" height="35">
-      <printWhenExpression>$P{greeting} == Greeting.bye</printWhenExpression>
-	</reportElement>
-	<textElement textAlignment="Center">
-      <font size="24"/>
-	</textElement>
-	<text>Bye!</text>
-  </staticText>
-  <staticText>
-	<reportElement x="0" y="450" width="480" height="35">
-      <printWhenExpression>$P{greeting} == Greeting.day</printWhenExpression>
-	</reportElement>
-	<textElement textAlignment="Center">
-      <font size="24"/>
-	</textElement>
-	<text>Have a nice day!</text>
-  </staticText>]]></pre>
+<element kind="staticText" uuid="a35ba780-d85a-4740-aab3-6cb31954ad6a" y="450" width="480" height="35" horizontalTextAlign="Center" fontSize="24.0">
+  <printWhenExpression><![CDATA[$P{greeting} == Greeting.bye]] ></printWhenExpression>
+  <text><![CDATA[Bye!]] ></text>
+</element>
+<element kind="staticText" uuid="800911c7-c795-4589-9111-69d557cfea01" y="450" width="480" height="35" horizontalTextAlign="Center" fontSize="24.0">
+  <printWhenExpression><![CDATA[$P{greeting} == Greeting.day]] ></printWhenExpression>
+  <text><![CDATA[Have a nice day!]] ></text>
+</element>]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/java1.5</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/java1.5</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/java1.5/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/java1.5/target/reports</code> directory.
     </content>
   </feature>
 

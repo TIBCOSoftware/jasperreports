@@ -152,77 +152,78 @@ The 2-column layout is given by the <code>columnCount="2"</code> attribute setti
 <br/>
 Further, one can see the report query retrieving data ordered by the <code>ShipCountry</code> field: 
 <pre><![CDATA[
-  <queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]] ></queryString>]]></pre>
+<query language="sql"><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]] ></query>]]></pre>
 Next in the report are defined some variables related to groups:
 <pre><![CDATA[
-  <variable name="FirstLetter" class="java.lang.String" resetType="None">
-    <variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]] ></variableExpression>
-  </variable>
-  <variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" 
-    resetGroup="FirstLetterGroup" calculation="Sum">
-    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
-  </variable>
-  <variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" 
-    resetGroup="CountryGroup" calculation="Sum">
-    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
-  </variable>
-  <variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
-    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
-  </variable>
-  <variable name="FreightSumPage" class="java.lang.Double" resetType="Page" calculation="Sum">
-    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
-  </variable>
-  <variable name="FreightSumReport" class="java.lang.Double" calculation="Sum">
-    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
-  </variable>
-  <variable name="DateHighestCountryGroup" class="java.sql.Timestamp" resetType="Group" 
-    resetGroup="CountryGroup" calculation="Highest">
-    <variableExpression><![CDATA[$F{OrderDate}]] ></variableExpression>
-  </variable>
-  <variable name="RegionCountCountryGroup" class="java.lang.Integer" resetType="Group" 
-    resetGroup="CountryGroup" calculation="Count">
-    <variableExpression><![CDATA[$F{ShipRegion}]] ></variableExpression>
-  </variable>]]></pre>
+<variable name="FirstLetter" resetType="None" class="java.lang.String">
+  <expression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]] ></expression>
+</variable>
+<variable name="FreightSumFirstLetterGroup" resetType="Group" calculation="Sum" resetGroup="FirstLetterGroup" class="java.lang.Double">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+</variable>
+<variable name="FreightSumCountryGroup" resetType="Group" calculation="Sum" resetGroup="CountryGroup" class="java.lang.Double">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+</variable>
+<variable name="FreightSumColumn" resetType="Column" calculation="Sum" class="java.lang.Double">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+</variable>
+<variable name="FreightSumPage" resetType="Page" calculation="Sum" class="java.lang.Double">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+</variable>
+<variable name="FreightSumReport" calculation="Sum" class="java.lang.Double">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+</variable>
+<variable name="DateHighestCountryGroup" resetType="Group" calculation="Highest" resetGroup="CountryGroup" class="java.sql.Timestamp">
+  <expression><![CDATA[$F{OrderDate}]] ></expression>
+</variable>
+<variable name="RegionCountCountryGroup" resetType="Group" calculation="Count" resetGroup="CountryGroup" class="java.lang.Integer">
+  <expression><![CDATA[$F{ShipRegion}]] ></expression>
+</variable>
+<variable name="FirstLetterStartPageNumber" resetType="Group" calculation="Sum" resetGroup="FirstLetterGroup" class="java.lang.Integer">
+  <expression><![CDATA[$V{FirstLetterGroup_COUNT} <= 1 ? $V{PAGE_NUMBER} : 0]] ></expression>
+</variable>]]></pre>
 Now let's take a look at the groups themselves:
 <pre><![CDATA[
-<group name="FirstLetterGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="true" 
-  minHeightToStartNewPage="200">
-  <groupExpression><![CDATA[$V{FirstLetter}]] ></groupExpression>
+<group name="FirstLetterGroup" minHeightToStartNewPage="200" startNewColumn="true" reprintHeaderOnEachPage="true">
+  <expression><![CDATA[$V{FirstLetter}]] ></expression>
   <groupHeader>
-    <band height="25">
-      ...
-      <textField>
-        <reportElement mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#ff0000" 
-          backcolor="#ffdddd" style="Sans_Bold"/>
-        <textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]] ></textFieldExpression>
-      </textField>
-    </band>
+	<band height="25">
+        <element kind="staticText" mode="Opaque" y="14" width="130" height="11" forecolor="#FF0000" backcolor="#FFDDDD" underline="true" style="Sans_Italic">
+			<text><![CDATA[Countries Starting With Letter :]] ></text>
+		</element>
+		<element kind="textField" mode="Opaque" x="130" y="14" width="70" height="11" forecolor="#FF0000" backcolor="#FFDDDD" style="Sans_Bold">
+			<expression><![CDATA[$V{FirstLetter}]] ></expression>
+		</element>
+		<element kind="textField"... evaluationTime="Group" evaluationGroup="FirstLetterGroup" style="Sans_Bold">
+			<expression><![CDATA[$V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1]] ></expression>
+		</element>
+		<element kind="textField" mode="Opaque" x="200" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD" horizontalTextAlign="Right" style="Sans_Bold">
+			<expression><![CDATA[$V{FirstLetterGroup_COUNT} == 0 ? 1 : ($V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1)]] ></expression>
+		</element>
+		<element kind="textField" mode="Opaque" x="230" y="14" width="10" height="11" forecolor="#FF0000" backcolor="#FFDDDD" horizontalTextAlign="Center" style="Sans_Bold">
+			<expression><![CDATA["/"]] ></expression>
+		</element>
+	</band>
   </groupHeader>
   <groupFooter>
-    <band height="15">
-      ...
-      <textField>
-        <reportElement x="45" y="1" width="25" height="11" forecolor="#ff0000" style="Sans_Bold"/>
-        <textElement textAlignment="Right"/>
-        <textFieldExpression class="java.lang.Integer"><![CDATA[$V{FirstLetterGroup_COUNT}]] ></textFieldExpression>
-      </textField>
-      ...
-      <textField pattern="0.00">
-        <reportElement x="170" y="1" width="60" height="11" forecolor="#ff0000" style="Sans_Bold"/>
-        <textElement textAlignment="Right"/>
-        <textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumFirstLetterGroup}]] ></textFieldExpression>
-      </textField>
-      <textField evaluationTime="Auto">
-        <reportElement x="230" y="1" width="40" height="11" forecolor="#ff0000" style="Sans_Bold"/>
-        <textElement textAlignment="Right"/>
-        <textFieldExpression>
-          <![CDATA[
-            msg("{0,number,0.00}%", 
-            100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})
-          ]] >
-        </textFieldExpression>
-      </textField>
-    </band>
+	<band height="15">
+		<element kind="line" width="270" height="1" forecolor="#FF0000"/>
+		<element kind="staticText" y="1" width="45" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
+			<text><![CDATA[Count :]] ></text>
+		</element>
+		<element kind="textField" x="45" y="1" width="25" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
+			<expression><![CDATA[$V{FirstLetterGroup_COUNT}]] ></expression>
+		</element>
+		<element kind="staticText" x="70" y="1" width="100" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
+			<text><![CDATA[Total :]] ></text>
+		</element>
+		<element kind="textField" x="170" y="1" width="60" height="11" forecolor="#FF0000" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
+			<expression><![CDATA[$V{FreightSumFirstLetterGroup}]] ></expression>
+		</element>
+		<element kind="textField" x="230" y="1" width="40" height="11" forecolor="#FF0000" horizontalTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
+			<expression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})]] ></expression>
+			</element>
+		</band>
   </groupFooter>
 </group>]]></pre>
 According to the group expression above, the <code>FirstLetterGroup</code> groups data with the same 
@@ -250,41 +251,50 @@ country starting with that letter. So, the information will become more readable
 <br/>
 This is what the second group in the report does, the <code>CountryGroup</code>: 
 <pre><![CDATA[
-<group name="CountryGroup" isReprintHeaderOnEachPage="true">
-  <groupExpression><![CDATA[$F{ShipCountry}]] ></groupExpression>
+<group name="CountryGroup" reprintHeaderOnEachPage="true">
+  <expression><![CDATA[$F{ShipCountry}]] ></expression>
   <groupHeader>
   <band height="15">
-    ...
-    <textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
-      <reportElement x="170" y="2" width="100" height="11" style="Sans_Bold"/>
-      <textElement textAlignment="Right"/>
-      <textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]] ></textFieldExpression>
-    </textField>
+    <element kind="line" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758" y="14" width="270" height="1">
+      <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
+    </element>
+    <element kind="textField" uuid="9f8585df-e218-4084-baf2-6d190021be29" x="10" y="2" width="150" height="11" style="Sans_Bold">
+      <expression><![CDATA[$F{ShipCountry}]] ></expression>
+      <property name="net.sf.jasperreports.export.csv.column.name" value="ShipCountry"/>
+      <property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+      <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+      <property name="net.sf.jasperreports.export.json.path" value="ShipCountry"/>
+      <property name="net.sf.jasperreports.export.json.repeat.value" value="true"/>
+    </element>
+    <element kind="textField" ... evaluationTime="Group" evaluationGroup="CountryGroup" style="Sans_Bold">
+      <expression><![CDATA[$V{DateHighestCountryGroup}]] ></expression>
+      <patternExpression><![CDATA["EEE, MMM d, yyyy"]] ></patternExpression>
+    </element>
   </band>
   </groupHeader>
   <groupFooter>
   <band height="15">
-    ...
-    <textField>
-      <reportElement mode="Opaque" x="45" y="0" width="25" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
-      <textElement textAlignment="Right"/>
-      <textFieldExpression class="java.lang.Integer"><![CDATA[$V{CountryGroup_COUNT}]] ></textFieldExpression>
-    </textField>
-    ...
-    <textField pattern="0.00">
-      <reportElement mode="Opaque" x="170" y="0" width="60" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
-      <textElement textAlignment="Right"/>
-      <textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumCountryGroup}]] ></textFieldExpression>
-    </textField>
-    <textField evaluationTime="Auto">
-      <reportElement mode="Opaque" x="230" y="0" width="40" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
-      <textElement textAlignment="Right"/>
-      <textFieldExpression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumCountryGroup} / $V{FreightSumFirstLetterGroup})]] ></textFieldExpression>
-    </textField>
-  </band>
+    <element kind="staticText" mode="Opaque" width="45" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+      <text><![CDATA[Count :]] ></text>
+    </element>
+    <element kind="textField" mode="Opaque" x="45" width="25" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+      <expression><![CDATA[$V{CountryGroup_COUNT}]] ></expression>
+    </element>
+    <element kind="staticText" mode="Opaque" x="70" width="100" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+      <text><![CDATA[Total :]] ></text>
+    </element>
+    <element kind="textField" mode="Opaque" x="170" width="60" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
+      <expression><![CDATA[$V{FreightSumCountryGroup}]] ></expression>
+    </element>
+    <element kind="textField" mode="Opaque" x="230" width="40" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
+      <expression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumCountryGroup} / $V{FreightSumFirstLetterGroup})]] ></expression>
+      </element>
+  	</band>
   </groupFooter>
-</group>
-]]></pre>
+</group>]]></pre>
 Here one can observe another built-in counting variable: <code>CountryGroup_COUNT</code>. Again some other report variables 
 are used to perform various calculations: <code>DateHighestCountryGroup</code>, <code>FreightSumCountryGroup</code>, 
 <code>FreightSumFirstLetterGroup</code>. The group header will also be reprinted on each new page.
@@ -300,38 +310,36 @@ doesn't sound very good, indeed.
 This is why the third group in the report is present. It is an empty dummy group that breaks after every 5 records, introducing 
 a supplementary amount of vertical space between the resulting 5-records groups:
 <pre><![CDATA[
-  <group name="BreakGroup">
-    <groupExpression><![CDATA[$V{BreakGroup_COUNT} > 5]] ></groupExpression>
-    <groupHeader>
-    <band height="5">
-    </band>
-    </groupHeader>
-    <groupFooter>
-    <band height="5">
-    </band>
-    </groupFooter>
-  </group>]]></pre>
+<group name="BreakGroup">
+  <expression><![CDATA[$V{BreakGroup_COUNT} > 5]] ></expression>
+  <groupHeader>
+    <band height="5"/>
+  </groupHeader>
+  <groupFooter>
+    <band height="5"/>
+  </groupFooter>
+</group>]]></pre>
 Once finished the data grouping work, the report template continues with its usual sections, such as <code>title</code>, 
 <code>title</code>, <code>pageHeader</code>, <code>columnHeader</code>, <code>detail</code>, <code>columnFooter</code>, 
 <code>pageFooter</code> and <code>summary</code>.
 <br/>
-At this moment the sample is ready to be ran.
+<br/>
+<b>Running the Sample</b>
 <br/>
 <br/>
-<subtitle name="running_sample">Running the Sample</subtitle>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
+In a command prompt/terminal window set the current folder to demo/hsqldb within the JasperReports source project and run the following command:
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<code>&gt; mvn exec:java</code>
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
-It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+This will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/jasper</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+Open a new command prompt/terminal window and set the current folder to demo/samples/charts within the JasperReports source project and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/jasper/build/reports</code> directory. 
+<code>&gt; mvn clean compile exec:java</code>
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
+This will generate all supported document types containing the sample report in the demo/samples/charts/target/reports directory.
     </content>
   </feature>
 
@@ -414,49 +422,34 @@ In this sample only five columns are exported to CSV format: <code>ShipCountry</
 <a href="../../config.reference.html#net.sf.jasperreports.export.csv.data">net.sf.jasperreports.export.csv.data</a> property. All 
 these settings apply to the &lt;detail/&gt; section:
 <pre><![CDATA[
-<detail>
-  <band height="13">
+<element kind="textField"  x="1" width="35" height="11" horizontalTextAlign="Right" style="OrderIdStyle">
+  <expression><![CDATA[$F{OrderID}]] ></expression>
+  <property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
   ...
-    <textField>
-      <reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11">
-        <property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
-        ...
-      </reportElement>
-      ...
-    </textField>
-    <textField textAdjust="StretchHeight">
-      <reportElement positionType="Float" x="40" y="0" width="110" height="11">
-        <property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
-        ...
-        <propertyExpression name="net.sf.jasperreports.export.csv.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
-        ...
-      </reportElement>
-    </textField>
-    <textField isBlankWhenNull="true">
-      <reportElement x="155" y="0" width="25" height="11">
-        <property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
-        ...
-      </reportElement>
-      ...
-    </textField>
-    <textField pattern="dd/MM/yyyy">
-      <reportElement x="185" y="0" width="50" height="11">
-        <property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
-        ...
-      </reportElement>
-      ...
-    </textField>
-    <textField pattern="0.00">
-      <reportElement x="235" y="0" width="35" height="11">
-        <property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
-        ...
-      </reportElement>
-      ...
-    </textField>
-    ...
-  </band>
-</detail>]]></pre>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
+</element>
+<element kind="textField" positionType="Float" x="40" width="110" height="11" textAdjust="StretchHeight">
+  <expression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]] ></expression>
+  <property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
+  ...
+  <propertyExpression name="net.sf.jasperreports.export.csv.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
+  ...
+</element>
+<element kind="textField" x="155" width="25" height="11" blankWhenNull="true">
+  <expression><![CDATA[$F{ShipRegion}]] ></expression>
+  <property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
+  ...
+</element>
+<element kind="textField" x="185" width="50" height="11" pattern="dd/MM/yyyy">
+  <expression><![CDATA[$F{OrderDate}]] ></expression>
+  <property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
+  ...
+</element>
+<element kind="textField" x="235" width="35" height="11" horizontalTextAlign="Right" pattern="0.00">
+  <expression><![CDATA[$F{Freight}]] ></expression>
+  <property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
+  ...
+</element>]]></pre>
+After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.csv</code>.
     </content>
   </feature>
@@ -485,10 +478,10 @@ might require a particular background, etc. More than that, if we want to perfor
 that the CSV format cannot be used to export graphic elements, like images and shapes. 
 <br/>
 In such cases we have to keep together relevant data with their style and formatting information. Since the CSV metadata exporter is limited to pure text-data only, 
-another metadata-based exporter can be used to solve the problem. This is the <api href="net/sf/jasperreports/engine/export/XlsxMetadataExporter.html">XlsxMetadataExporter</api> 
+another metadata-based exporter can be used to solve the problem. This is the <api href="net/sf/jasperreports/engine/export/ooxml/XlsxMetadataExporter.html">XlsxMetadataExporter</api> 
 that provides a columnar Excel (XLSX) output. It relies on equivalent metadata properties and parameters having the same meanings, but dedicated to the XLSX output format:
 <ul>
-<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">net.sf.jasperreports.export.xls.column.names.{arbitrary_name}</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.name">net.sf.jasperreports.export.xls.column.name</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.write.header">net.sf.jasperreports.export.xls.write.header</a></li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.repeat.value">net.sf.jasperreports.export.xls.repeat.value</a></li>
@@ -510,44 +503,36 @@ The elements were set as in the following example:
 <pre><![CDATA[
 <groupHeader>
   <band height="15">
-    <line>
-      <reportElement x="0" y="14" width="270" height="1" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758">
-        <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
-        <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
-      </reportElement>
-    </line>
-    <textField>
-      <reportElement style="Sans_Bold" x="10" y="2" width="150" height="11" uuid="9f8585df-e218-4084-baf2-6d190021be29">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
-        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
-        <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
-        ...
-      </reportElement>
-      <textFieldExpression><![CDATA[$F{ShipCountry}]] ></textFieldExpression>
-    </textField>
+    <element kind="line" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758" y="14" width="270" height="1">
+      <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
+    </element>
+    <element kind="textField" uuid="9f8585df-e218-4084-baf2-6d190021be29" x="10" y="2" width="150" height="11" style="Sans_Bold">
+      <expression><![CDATA[$F{ShipCountry}]] ></expression>
+      ...
+      <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+      <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+      ...
+    </element>
     ...
   </band>
 </groupHeader>
 
 ...
 
-<title>
-  <band height="100">
-    <elementGroup>
-      ...
-      <image scaleImage="Clip">
-        <reportElement key="TransparentImage" x="0" y="5" width="165" height="40" uuid="a16a2532-d0b4-436c-b004-6928225490f2">
-          <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
-          <property name="net.sf.jasperreports.export.xls.column.name" value="JasperImage"/>
-          <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="200"/>
-        </reportElement>
-        <imageExpression><![CDATA["jasperreports.png"]] ></imageExpression>
-        <hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]] ></hyperlinkTooltipExpression>
-      </image>
-    </elementGroup>
+<title height="100">
+  <element kind="elementGroup">
     ...
-  </band>
+    <element kind="image" key="TransparentImage" y="5" width="165" height="40" scaleImage="Clip" onErrorType="Error">
+      <expression><![CDATA["jasperreports.png"]] ></expression>
+      <hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]] ></hyperlinkTooltipExpression>
+      <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="JasperImage"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="200"/>
+    </element>
+  </element>
+  ...
 </title>
 
 ...
@@ -555,55 +540,46 @@ The elements were set as in the following example:
 <detail>
   <band height="13">
   ...
-    <textField>
-      <reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
-        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="50"/>
-        ...
-      </reportElement>
+    <element kind="textField" x="1" width="35" height="11" horizontalTextAlign="Right" style="OrderIdStyle">
+      <expression><![CDATA[$F{OrderID}]] ></expression>
       ...
-    </textField>
-    <textField textAdjust="StretchHeight">
-      <reportElement positionType="Float" x="40" y="0" width="110" height="11">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>
-        ...
-        <propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
-        ...
-      </reportElement>
-    </textField>
-    <textField isBlankWhenNull="true">
-      <reportElement x="155" y="0" width="25" height="11">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
-        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
-        ...
-      </reportElement>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="50"/>
       ...
-    </textField>
-    <textField pattern="dd/MM/yyyy">
-      <reportElement x="185" y="0" width="50" height="11">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
-        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
-        ...
-      </reportElement>
+    </element>
+    <element kind="textField" positionType="Float" x="40" width="110" height="11" textAdjust="StretchHeight">
+      <expression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]] ></expression>
       ...
-    </textField>
-    <textField pattern="0.00">
-      <reportElement x="235" y="0" width="35" height="11">
-        ...
-        <property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
-        <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
-        ...
-      </reportElement>
+      <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>
       ...
-    </textField>
-    ...
+      <propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
+      ...
+    </element>
+    <element kind="textField" uuid="dbbee54a-9b8f-4468-bd64-d22f8661d2cb" x="155" width="25" height="11" blankWhenNull="true">
+      <expression><![CDATA[$F{ShipRegion}]] ></expression>
+      ...
+      <property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
+      ...
+    </element>
+    <element kind="textField" x="185" width="50" height="11" pattern="dd/MM/yyyy">
+      <expression><![CDATA[$F{OrderDate}]] ></expression>
+      ...
+      <property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="100"/>
+      <property name="net.sf.jasperreports.export.xls.pattern" value="dd\/MM\/yyyy"/>
+      ...
+    </element>
+    <element kind="textField" x="235" width="35" height="11" horizontalTextAlign="Right" pattern="0.00">
+      <expression><![CDATA[$F{Freight}]] ></expression>
+      ...
+      <property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
+      <property name="net.sf.jasperreports.export.xls.column.width.metadata" value="60"/>
+      ...
+    </element>    ...
   </band>
 </detail>]]></pre>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the XLSX metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the XLSX metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory in 2 forms: <code>FirstJasper.singleSheet.metadata.xlsx</code> - as single sheet document, and 
 <code>FirstJasper.multiSheet.metadata.xlsx</code> - as multisheet Excel document. Notice the differences in text formatting between these files and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
@@ -634,7 +610,7 @@ properties presented in the <a href="#xlsx_metadata_export">The Excel (.xlsx) Me
 <a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.width.metadata">net.sf.jasperreports.export.xls.column.width.metadata</a>.
 <br/>
 <br/>
-After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.xls</code>.
     </content>
   </feature>
@@ -682,17 +658,15 @@ Next we'll present conditional styles defined in reports.
 <br/>
 <br/>
 Conditional styles consist in two elements: a <code>Boolean</code> condition expression and a style. When the 
-condition evaluates to <code>true</code>, the corresponding style is applied. In the 
-<a href="#jasper">Jasper</a> sample one can see a conditional style definition:
+condition evaluates to <code>true</code>, the corresponding style is applied. In this sample one can see a conditional style definition:
 <pre><![CDATA[
-  <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-
-  <style name="OrderIdStyle" style="Sans_Normal">
-    <conditionalStyle>
-      <conditionExpression><![CDATA[$F{OrderID} % 10 == 0]] ></conditionExpression>
-      <style forecolor="#ff0000" isBold="true"/>
-    </conditionalStyle>
-  </style>]]></pre>
+  <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
+  ...
+<style name="OrderIdStyle" style="Sans_Normal">
+  <conditionalStyle forecolor="#FF0000" bold="true">
+    <conditionExpression><![CDATA[$F{OrderID} % 10 == 0]] ></conditionExpression>
+  </conditionalStyle>
+</style>]]></pre>
 The <code>OrderIdStyle</code> defined above derives from the <code>Sans_Normal</code> parent style. 
 Usually, elements with <code>OrderIdStyle</code> will have the default black forecolor and a normal 
 font weight. But when the condition expression evaluates to <code>true</code> (this happens each time  
@@ -712,17 +686,14 @@ condition to <code>true</code>.
 Here is a more elaborate example:
 <pre><![CDATA[
 <style name="alternateStyle" fontName="Arial" forecolor="red">
-  <conditionalStyle>
+  <conditionalStyle forecolor="blue">
     <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]] ></conditionExpression>
-    <style forecolor="blue"/>
   </conditionalStyle>
-  <conditionalStyle>
+  <conditionalStyle bold="true">
     <conditionExpression><![CDATA[$F{AMOUNT} > 10000]] ></conditionExpression>
-    <style isBold="true"/>
   </conditionalStyle>
-  <conditionalStyle>
+  <conditionalStyle bold="false" italic="true">
     <conditionExpression><![CDATA[$F{AMOUNT} > 20000]] ></conditionExpression>
-    <style isBold="false" isItalic="true"/>
   </conditionalStyle>
 </style>]]></pre>
 One can see above that on each even row the element forecolor becomes blue. More than that, if the <code>AMOUNT</code> 
@@ -811,15 +782,10 @@ If none of the above patterns are set for the element, the date/time will be dis
 <br/>
 The following example can be found in the <code>FirstJasper.jrxml</code> file:
 <pre><![CDATA[
-  <textField>
-    <reportElement x="200" y="5" width="75" height="20" uuid="ef35b54f-9b68-4369-84d9-5d532b22b4da">
-      <property name="net.sf.jasperreports.export.pptx.field.type" value="slidenum"/>
-    </reportElement>
-    <textElement textAlignment="Right">
-      <font size="14"/>
-    </textElement>
-    <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]] ></textFieldExpression>
-  </textField>]]></pre>
+<element kind="textField"  x="200" y="5" width="75" height="20" horizontalTextAlign="Right" fontSize="14.0">
+  <expression><![CDATA[$V{PAGE_NUMBER}]] ></expression>
+  <property name="net.sf.jasperreports.export.pptx.field.type" value="slidenum"/>
+</element>]]></pre>
 At export time this text element will be translated into a PPTX field that generates automatic slide number.
 <br/>
 <br/>

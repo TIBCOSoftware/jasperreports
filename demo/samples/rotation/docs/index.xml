@@ -109,35 +109,25 @@ The resulting paragraph will be horizontally aligned right, vertically aligned t
 <br/>
 <br/>
 Below is a code snippet showing how to set text alignment and rotation in a static text. In this case the paragraph is horizontally centered, vertically aligned to bottom and rotated to the left:
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;staticText&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement mode="Opaque" x="100" y="0" width="90" height="350" backcolor="#c0c0c0"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Left"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;/textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;text>&lt;![CDATA[rotation="Left" textAlignment="Center" verticalAlignment="Bottom"]]&gt;&lt;/text&gt;
-<br/>
-&#160;&#160;&lt;/staticText&gt;
-</code>
-<br/>
-<br/>
+<pre><![CDATA[
+<element kind="staticText" uuid="50e4f6dd-9e09-4bbb-b030-b3e768745eea" mode="Opaque" x="100" width="90" height="350" backcolor="#C0C0C0" horizontalTextAlign="Center" verticalTextAlign="Bottom" rotation="Left">
+  <text><![CDATA[rotation="Left" 
+    textAlignment="Center" 
+    verticalAlignment="Bottom"]] ></text>
+</element>]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/rotation</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/rotation</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/rotation/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/rotation/target/reports</code> directory.
     </content>
   </feature>
 

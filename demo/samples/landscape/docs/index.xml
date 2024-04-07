@@ -36,25 +36,25 @@ By default, in JasperReports pages are visualized as <code>Portrait</code>. The 
 <br/>
 Below is a code snippet showing how to set in a report the <code>Landscape</code> orientation:
 <pre><![CDATA[
-<jasperReport
-		xmlns="http://jasperreports.sourceforge.net/jasperreports"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-		name="LandscapeReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-]]></pre>
+<jasperReport name="LandscapeReport" language="java" 
+  pageWidth="842" pageHeight="595" orientation="Landscape" 
+  columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0049a95f-7a7d-4af2-bc2d-1a338bd3ba2d">]]></pre>
 Here one can observe that <code>pageWidth</code> and <code>pageHeight</code> values were interchanged and the <code>orientation</code> attribute takes the <code>Landscape</code> value.
 <br/>
 <br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/landscape</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/landscape</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/landscape/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/landscape/target/reports</code> directory.
     </content>
   </feature>
 

@@ -62,13 +62,13 @@ When exporting to the PDF format the engine has to know five additional things a
 and uses five dedicated exporter parameters for this:
 <ul>
 <li>Is the document encrypted? The export configuration setting  
-<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getEncrypted()">getEncrypted()</api> 
+<api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isEncrypted()">isEncrypted()</api> 
 answers to this question. If set to <code>true</code>, it instructs the exporter to 
 encrypt the resulting PDF document. By default PDF files are not encrypted. 
 <br/>One can use the related 
 <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED">PROPERTY_ENCRYPTED</api> flag property for the same purpose.</li> 
 <li>Which key to use for the encrypted document? By default the PDF exporter uses a 40-bit key for encryption, 
-but if needed, it can use a 128-bit one. Setting the <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#get128BitKey()">get128BitKey()</api> 
+but if needed, it can use a 128-bit one. Setting the <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#is128BitKey()">is128BitKey()</api> 
 configuration setting or the equivalent  
 <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY">PROPERTY_128_BIT_KEY</api> 
 flag property to <code>true</code> will instruct the engine to use a 128-bit key.</li>
@@ -106,13 +106,16 @@ This sample makes use of the above export parameters in order to generate an enc
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/pdfencrypt</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/pdfencrypt</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/pdfencrypt/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/pdfencrypt/target/reports</code> directory.
     </content>
   </feature>
 

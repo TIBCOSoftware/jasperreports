@@ -46,77 +46,6 @@ How to generate very large documents using report virtualizers that optimize mem
 	</ol>
 	Each of this will be discussed in greater detail in the proceeding sections of this document.
 	<br/>
-<br/>
-    <b>Running the Sample</b>
-    <br/>
-    <i>Prerequisites</i><br/>
-    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
-    <pre>
-    <![CDATA[
-    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
-	]]>
-	</pre>
-	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
-	<br/>
-	<br/>
-    <i>Starting the Data Source</i>
-    <br/>
-    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
-    <br/>
-    Leave window/terminal running (see below for sample output).
-    <br/>
-    <pre>
-    <![CDATA[
-    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
-	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
-
-	runServer:
-     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
-     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
-     [java] [Server@83cc67]: Startup sequence initiated from main() method
-     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
-     [java] [Server@83cc67]: Initiating startup sequence...
-     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
-     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
-     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
-     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
-     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
-     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
-    ]]>
-	</pre>
-    <i>Generating the Report</i>
-    <br/>
-    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
-    <br/>
-    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
-    <br/>
-    Each export type will generate a output type in the build/report folder.
-    <br/>
-    By running the command 'ant' the following actions will be performed:
-    <br/>
-    <ul>
-    <li>All java code will be compiled to produce class files.</li>
-    <li>JRXML fills will be compiled by JasperReports to produce a .jasper file (this is a serialized version of a JasperReports object).</li>
-    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
-    <li>All the exporters the sample is configured to test will run.</li>
-    </ul>
-    <br/>
-    You can now run 'ant view' to see a version of the report in the JasperViewer (a Swing report viewer contained in the JasperReports package which can be used to view a .jrprint object).
-    <br/>
-    Each of the these task can be ran separately as well:
-    <br/>
-    <ul>
-    	<li>ant clean - removes all generated files.</li>
-    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
-    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
-    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
-    	<li>ant view - opens the report in the JasperViewer</li>
-    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
-    </ul>
-    <b>Note:</b> All generated files can be found in build/reports.
-    <br/>
-    You now have a working version of the report you can review.
-    <br/>
 	<br/>
 	<b>Configuring Virtualization</b><br/>
 	Virtualization is not configured in the JRXML. The details around the implementation of the virtualizer can be seen in the sample Java application that is used <br/>
@@ -176,6 +105,19 @@ parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 	Setting the maxPages in memory is key. Setting the value too low will result in virtualization occuring when it is not necessary.<br/>
 	Setting it too high could result in an out of memory exception occuring before virtualization has a chance to start. Picking the<br/>
 	correct value for a given system will require some trial and error.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/virtualizer</code> within the JasperReports source project 
+and run the following command:
+<br/>
+<br/>
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/virtualizer/target/reports</code> directory.	
     </content>
   </feature>
 

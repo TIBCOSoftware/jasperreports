@@ -411,16 +411,16 @@ Style properties are grouped in 4 categories: common, box, pen and paragraph sty
 <li><code>net.sf.jasperreports.style.vImageAlign</code></li>
 <li><code>net.sf.jasperreports.style.rotation</code></li>
 <li><code>net.sf.jasperreports.style.markup</code></li>
-<li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>
+<li><code>net.sf.jasperreports.style.blankWhenNull</code></li>
 <li><code>net.sf.jasperreports.style.fontName</code></li>
 <li><code>net.sf.jasperreports.style.fontSize</code></li>
-<li><code>net.sf.jasperreports.style.isBold</code></li>
-<li><code>net.sf.jasperreports.style.isItalic</code></li>
-<li><code>net.sf.jasperreports.style.isUnderline</code></li>
-<li><code>net.sf.jasperreports.style.isStrikeThrough</code></li>
+<li><code>net.sf.jasperreports.style.bold</code></li>
+<li><code>net.sf.jasperreports.style.italic</code></li>
+<li><code>net.sf.jasperreports.style.underline</code></li>
+<li><code>net.sf.jasperreports.style.strikeThrough</code></li>
 <li><code>net.sf.jasperreports.style.pdfFontName</code></li>
 <li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
-<li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
+<li><code>net.sf.jasperreports.style.pdfEmbedded</code></li>
 <li><code>net.sf.jasperreports.style.pattern</code></li>
 <br/>
 </ul>
@@ -486,7 +486,7 @@ Following is an example of dynamic style features declared for a given element i
 <pre><![CDATA[
 <element kind="textField" x="0" y="0" width="0" height="10">
   ...
-  <property name="net.sf.jasperreports.style.isBold" value="true"/>
+  <property name="net.sf.jasperreports.style.bold" value="true"/>
   <propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA[$F{Forecolor}]] ></propertyExpression>
   <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$P{Backcolor}]] ></propertyExpression>
   <propertyExpression name="net.sf.jasperreports.style.fontName"><![CDATA[$V{FontName}]] ></propertyExpression>

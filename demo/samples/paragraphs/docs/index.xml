@@ -27,21 +27,18 @@ How to format texts using paragraph properties.
 <br/>
 When we place text content in a report element, we may need to make it look like a distinct paragraph. 
 The information needed in this case can be retrieved either from the element's style (where we have attributes for text alignment), 
-or from the <code>&lt;paragraph/&gt;</code> tag that is available within <code>&lt;style/&gt;</code> and/or <code>&lt;textElement/&gt;</code>.
+or from the <code>&lt;paragraph/&gt;</code> tag that is available within <code>&lt;style/&gt;</code> and/or <code>&lt;element/&gt;</code>.
 <br/>
 <br/>
 Example:
 <pre><![CDATA[
-<textField>
-  <reportElement .../>
-  <textElement textAlignment="Right">
+  <element kind="textField" horizontalTextAlign="Right">
     <paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
       <tabStop position="20" alignment="Center"/>
       <tabStop position="40" alignment="Center"/>
     </paragraph>
-  </textElement>
-  <textFieldExpression>...</textFieldExpression>
-</textField>]]></pre>
+  <expression>...</expression>
+</element>]]></pre>
 <subtitle name="alignment">Paragraph Alignment</subtitle>
 <br/>
 <br/>
@@ -49,7 +46,7 @@ A paragraph can be aligned both horizontally and vertically.
 <br/>
 For the horizontal alignment we can choose one of the following options:
 <ul>
-<li>set the <code>textAlignment</code> attribute in the <code>&lt;textElement/&gt;</code> tag that is associated with the text element in the JRXML file</li>
+<li>set the <code>textAlignment</code> attribute in the <code>&lt;element/&gt;</code> tag that is associated with the text element in the JRXML file</li>
 <li>set the <code>hTextAlign</code> attribute in a report style that will be applied to the text element</li>
 <li>set the <code>net.sf.jasperreports.style.hTextAlign</code> style feature property per report element</li>
 </ul>
@@ -62,7 +59,7 @@ Possible values for the above settings are stored in <api href="net/sf/jasperrep
 </ul>
 For the vertical alignment, the following options are available:
 <ul>
-<li>set the <code>verticalAlignment</code> attribute in the <code>&lt;textElement/&gt;</code> tag that is associated with the text element in the JRXML file</li>
+<li>set the <code>verticalAlignment</code> attribute in the <code>&lt;element/&gt;</code> tag that is associated with the text element in the JRXML file</li>
 <li>set the <code>vTextAlign</code> attribute in a report style that will be applied to the text element</li>
 <li>set the <code>net.sf.jasperreports.style.vTextAlign</code> style feature property per report element</li>
 </ul>
@@ -75,32 +72,26 @@ Possible values for the vertical text alignment are stored in <api href="net/sf/
 </ul>
 Examples:
 <pre><![CDATA[
-<style name="MyParagraphStyle" hTextAlign="Center" vTextAlign="Middle" ... />
+<style name="MyParagraphStyle" horizontalTextAlign="Center" verticalTextAlign="Middle" ... />
 ...
-<textField>
-  <reportElement style="MyParagraphStyle".../>
-  <textElement/>
-  <textFieldExpression>...</textFieldExpression>
-</textField>
+ <element kind="textField" style="MyParagraphStyle"...>
+  <expression>...</expression>
+ </element>
 
 or:
 
-<textField>
-  <reportElement .../>
-  <textElement textAlignment="Center" verticalAlignment="Middle" ... />
-  <textFieldExpression>...</textFieldExpression>
-</textField>
+ <element kind="textField"  horizontalTextAlign="Center" verticalTextAlign="Middle"...>
+  <expression>...</expression>
+ </element>
 
 or:
 
-<textField>
-  <reportElement ...>
-    <property name="net.sf.jasperreports.style.hTextAlign" value="Center"/>
-    <property name="net.sf.jasperreports.style.vTextAlign" value="Middle"/>
-  </reportElement>
-  <textElement/>
-  <textFieldExpression>...</textFieldExpression>
-</textField>]]></pre>
+ <element kind="textField" ...>
+  <expression>...</expression>
+  <property name="net.sf.jasperreports.style.hTextAlign" value="Center"/>
+  <property name="net.sf.jasperreports.style.vTextAlign" value="Middle"/>  
+ </element>
+]]></pre>
 
 <subtitle name="spacing">Line Spacing</subtitle>
 <br/>
@@ -124,13 +115,12 @@ For a given paragraph one can apply various settings for line spacing, as attrib
 </ul>
 Example:
 <pre><![CDATA[
-<textField textAdjust="StretchHeight">
-  <reportElement .../>
-  <textElement ...>
-    <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" spacingBefore="6" spacingAfter="12">
-  </textElement>
-  <textFieldExpression>...</textFieldExpression>
-</textField>]]></pre>
+  <element kind="textField" style="indentStyle" ...>
+    <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" style="indentStyle">
+      <tabStop position="33" alignment="Center"/>
+    </paragraph>
+    <expression>...</expression>
+  </element>]]></pre>
 <subtitle name="indentation">Paragraph Indentation</subtitle>
 <br/>
 <br/>
@@ -142,9 +132,12 @@ JasperReports also supports paragraph indentation, which can be customized using
 </ul>
 Example:
 <pre><![CDATA[
-<style name="indentStyle" isDefault="true" fontName="DejaVu Sans">
-  <paragraph firstLineIndent="20" leftIndent="35" rightIndent="20"/>
-</style>]]></pre>
+  <style name="indentStyle" mode="Transparent" backcolor="#FFFFFF" style="myDefault">
+    <paragraph firstLineIndent="20" leftIndent="35" rightIndent="20" style="myDefault"/>
+    <box style="myDefault">
+      <pen lineWidth="1.0"/>
+    </box>
+  </style>]]></pre>
 
 <subtitle name="tabstops">Tab Stops</subtitle>
 <br/>
@@ -202,13 +195,16 @@ net.sf.jasperreports.default.tab.stop.width=40]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/paragraphs</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/paragraphs</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/paragraphs/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/paragraphs/target/reports</code> directory.
     </content>
   </feature>
 

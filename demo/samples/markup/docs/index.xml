@@ -69,52 +69,41 @@ This sample contains 3 structured text paragraphs.
 The first one is formatted using the <code>markup="styled"</code> value:
 <br/>
 <pre><![CDATA[
-	<staticText>
-		<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#c0c0c0"/>
-		<textElement markup="styled">
-			<font size="16"/>
-		</textElement>
-		<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> 
-			element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> 
-			elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute 
-			available for the <style isBold="true" forecolor="magenta">textElement</style> tag to 
-			<style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested 
-			<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.]] >
-		</text>
-	</staticText>
-	]]></pre>
+<element kind="staticText" uuid="ad41424d-75ee-4d62-8819-890139cc26bd" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
+  <text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing 
+    styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by 
+    setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for the <style isBold="true" forecolor="magenta">textElement</style> tag 
+    to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using 
+    nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, 
+    including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]] ></text>
+</element>]]></pre>
 The second paragraph is read from the <code>rtf.txt</code> file in the /reports folder and stored in the <code>$P{RtfText}</code> parameter. 
 Its content gets decoded using the RTF markup processor:
 <pre><![CDATA[
-	<textField textAdjust="StretchHeight">
-		<reportElement mode="Opaque" x="0" y="150" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
-		<textElement markup="rtf">
-			<font size="16"/>
-		</textElement>
-		<textFieldExpression>$P{RtfText}</textFieldExpression>
-	</textField>
+<element kind="textField"positionType="Float" mode="Opaque" y="120" width="555" height="110" backcolor="#C0C0C0" markup="rtf" textAdjust="StretchHeight" fontSize="16.0">
+  <expression><![CDATA[$P{RtfText}]] ></expression>
+</element>
 	]]></pre>
 The third paragraph is read from the <code>html.txt</code> file in the /reports folder and stored in the <code>$P{HtmlText}</code> parameter. 
 Its content gets decoded using the HTML markup processor:
 <pre><![CDATA[
-	<textField textAdjust="StretchHeight">
-		<reportElement mode="Opaque" x="0" y="300" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
-		<textElement markup="html">
-			<font size="16"/>
-		</textElement>
-		<textFieldExpression>$P{HtmlText}</textFieldExpression>
-	</textField>
+<element kind="textField" positionType="Float" mode="Opaque" y="240" width="555" height="110" backcolor="#C0C0C0" markup="html" textAdjust="StretchHeight" fontSize="16.0">
+  <expression><![CDATA[$P{HtmlText}]] ></expression>
+</element>
 	]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/markup</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/markup</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/markup/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/markup/target/reports</code> directory.
     </content>
   </feature>
 

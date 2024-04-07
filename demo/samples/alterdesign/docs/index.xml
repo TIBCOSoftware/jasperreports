@@ -74,7 +74,7 @@ it has 3 rectangle elements in its detail section.
   </element>
 ]]>
 </pre>
-Notice the <code>key</code> attribute in each rectangle <elem>element</elem> tag. This attribute represents an user defined 
+Notice the <code>key</code> attribute in each rectangle <code>element</code> tag. This attribute represents an user defined 
 value that will help us locate the rectangle element inside the reports section later on.
 <br/>
 <br/>

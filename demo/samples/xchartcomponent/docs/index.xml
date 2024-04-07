@@ -29,14 +29,14 @@ This sample contains an XY Area chart component implementation based on the <a h
 generated with 3-rd party APIs can be embedded in reports generated with the JasperReports library. To make such an integration possible, the chart component provides 
 its specific XSD schema in the <code>src/xchart/xchart.xsd</code> file.
 <br/>
-On the API side, the chart component is represented by the xchart.XYChartComponent class, which exposes the members declared in schema. When the report is filled, 
+On the API side, the chart component is represented by the xchart.XYChartComponent class, which exposes the members declared in the schema. When the report is filled, 
 a <api href="net/sf/jasperreports/renderers/Renderable.html">Renderable</api> instance is created in order to generate a chart image to be included into the report. 
 <br/>
 <br/>
 <subtitle name="schema">The XChart Component - Schema</subtitle>
 <br/>
 <br/>
-Here is the JRXML schema for the XY chart component:
+Here is the structure of the XY chart component:
 <pre><![CDATA[
 <element name="XYChart" substitutionGroup="jr:component">
   <complexType>
@@ -203,7 +203,7 @@ An example of how to use the XY area chart component is illustrated in the <code
 ...
 
 <componentElement>
-  <reportElement x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+  <element x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
   <xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart 
     http://jasperreports.sourceforge.net/dtds/xchart.xsd" evaluationTime="Now">
@@ -258,14 +258,16 @@ The series colors are also provided by the CSV datasource parameter.
 <b>Running the Sample</b>
 <br/>
 <br/>
-Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+Running the sample requires the <a href="https://maven.apache.org/">Apache Maven</a> library. Make sure that <code>maven</code> is already installed on your system (version 3.6 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/xchartcomponent</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/xchartcomponent</code> within the JasperReports source project 
+and run the following command:
 <br/>
-It will generate all supported document types containing the sample report in the <code>demo/samples/xchartcomponent/build/reports</code> directory. 
 <br/>
-Then the report will open in the JasperReports internal viewer.
-
+<code>&gt; mvn exec:java</code>
+<br/>
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xchartcomponent/target/reports</code> directory.
     </content>
   </feature>
 
