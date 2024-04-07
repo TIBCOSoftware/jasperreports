@@ -85,7 +85,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="435" width="80" height="25" horizontalTextAlign="Right" evaluationTime="Page">
+			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="435" width="80" height="25" hTextAlign="Right" evaluationTime="Page">
 				<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>

@@ -38,10 +38,10 @@ from [Sales]]]></query>
 				<element kind="textField" uuid="214001f1-7cf8-4d53-95db-300ab5d167f2" x="10" width="150" height="15" evaluationTime="Group" evaluationGroup="StoreState" style="Sans_Bold">
 					<expression><![CDATA["Store " + $F{StoreState}]]></expression>
 				</element>
-				<element kind="textField" uuid="165e22d7-553e-4f2a-9033-d7e9814306c1" x="180" width="100" height="15" horizontalTextAlign="Right" evaluationTime="Group" pattern="$#,##0.00" evaluationGroup="StoreState" style="Sans_Bold">
+				<element kind="textField" uuid="165e22d7-553e-4f2a-9033-d7e9814306c1" x="180" width="100" height="15" hTextAlign="Right" evaluationTime="Group" pattern="$#,##0.00" evaluationGroup="StoreState" style="Sans_Bold">
 					<expression><![CDATA[$F{StoreStateUnitSales}]]></expression>
 				</element>
-				<element kind="textField" uuid="7e72fe17-3d56-442a-b147-b72e76d0620e" x="300" width="100" height="15" horizontalTextAlign="Right" evaluationTime="Group" pattern="#,###" evaluationGroup="StoreState" style="Sans_Bold">
+				<element kind="textField" uuid="7e72fe17-3d56-442a-b147-b72e76d0620e" x="300" width="100" height="15" hTextAlign="Right" evaluationTime="Group" pattern="#,###" evaluationGroup="StoreState" style="Sans_Bold">
 					<expression><![CDATA[$F{StoreStateCustCount}]]></expression>
 				</element>
 			</band>
@@ -59,13 +59,13 @@ from [Sales]]]></query>
 	</group>
 	<pageHeader height="16">
 		<element kind="frame" uuid="c590b50a-599c-43c6-9e6a-58ce563fd784" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-			<element kind="staticText" uuid="fb1cd3e0-820e-4d01-b2af-3cbc791d7029" x="20" width="150" height="15" verticalTextAlign="Middle">
+			<element kind="staticText" uuid="fb1cd3e0-820e-4d01-b2af-3cbc791d7029" x="20" width="150" height="15" vTextAlign="Middle">
 				<text><![CDATA[Store State]]></text>
 			</element>
-			<element kind="staticText" uuid="fa51cdf9-c4cb-4c8a-929d-de9ee5d8b795" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
+			<element kind="staticText" uuid="fa51cdf9-c4cb-4c8a-929d-de9ee5d8b795" x="180" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
 				<text><![CDATA[Unit Sales ($)]]></text>
 			</element>
-			<element kind="staticText" uuid="ff2b4474-3942-4957-b24b-a076a59422c1" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle">
+			<element kind="staticText" uuid="ff2b4474-3942-4957-b24b-a076a59422c1" x="300" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
 				<text><![CDATA[# Customers]]></text>
 			</element>
 			<box>
@@ -78,23 +78,23 @@ from [Sales]]]></query>
 			<element kind="textField" uuid="b8c65a96-8085-4e08-9202-8722ce48fbc4" x="20" width="150" height="15">
 				<expression><![CDATA["Customers from " + $F{CustomerState}]]></expression>
 			</element>
-			<element kind="textField" uuid="4ed5ffdd-6721-42c9-97e9-02f3474c2286" x="180" width="100" height="15" horizontalTextAlign="Right" pattern="$#,##0.00">
+			<element kind="textField" uuid="4ed5ffdd-6721-42c9-97e9-02f3474c2286" x="180" width="100" height="15" hTextAlign="Right" pattern="$#,##0.00">
 				<expression><![CDATA[$F{UnitSales}]]></expression>
 			</element>
-			<element kind="textField" uuid="d51ec317-0d17-47a4-91ae-9c69ccdd5ca6" x="300" width="100" height="15" horizontalTextAlign="Right" pattern="#,###">
+			<element kind="textField" uuid="d51ec317-0d17-47a4-91ae-9c69ccdd5ca6" x="300" width="100" height="15" hTextAlign="Right" pattern="#,###">
 				<expression><![CDATA[$F{CustomerCount}]]></expression>
 			</element>
 		</band>
 	</detail>
 	<summary height="16">
 		<element kind="frame" uuid="d9b17801-8a72-43db-81c2-8e63cfa1f350" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-			<element kind="textField" uuid="87363c5c-6d60-4659-8318-0afbda9cd494" x="10" width="150" height="15" verticalTextAlign="Middle" style="Sans_Bold">
+			<element kind="textField" uuid="87363c5c-6d60-4659-8318-0afbda9cd494" x="10" width="150" height="15" vTextAlign="Middle" style="Sans_Bold">
 				<expression><![CDATA["Totals"]]></expression>
 			</element>
-			<element kind="textField" uuid="84ef755f-ae14-40cb-9ce0-b4bf83ddbb26" x="180" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="$#,##0.00" style="Sans_Bold">
+			<element kind="textField" uuid="84ef755f-ae14-40cb-9ce0-b4bf83ddbb26" x="180" width="100" height="15" hTextAlign="Right" vTextAlign="Middle" pattern="$#,##0.00" style="Sans_Bold">
 				<expression><![CDATA[$F{TotalStoreStateUnitSales}]]></expression>
 			</element>
-			<element kind="textField" uuid="e41f1a8d-0290-4504-902e-9cc553d92438" x="300" width="100" height="15" horizontalTextAlign="Right" verticalTextAlign="Middle" pattern="#,###" style="Sans_Bold">
+			<element kind="textField" uuid="e41f1a8d-0290-4504-902e-9cc553d92438" x="300" width="100" height="15" hTextAlign="Right" vTextAlign="Middle" pattern="#,###" style="Sans_Bold">
 				<expression><![CDATA[$F{TotalStoreStateCustCount}]]></expression>
 			</element>
 			<box>

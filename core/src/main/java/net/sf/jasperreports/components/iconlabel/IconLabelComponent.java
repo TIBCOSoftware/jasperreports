@@ -230,15 +230,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	}
 		
 	@Override
-	@JsonGetter("horizontalAlign")
-	@JacksonXmlProperty(localName = "horizontalAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_hAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_hAlign, isAttribute = true)
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return horizontalImageAlign;
 	}
 		
 	@Override
-	@JsonSetter("horizontalAlign")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_hAlign)
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
 		Object old = this.horizontalImageAlign;
@@ -253,15 +253,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	}
 		
 	@Override
-	@JsonGetter("verticalAlign")
-	@JacksonXmlProperty(localName = "verticalAlign", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_vAlign)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_vAlign, isAttribute = true)
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return verticalImageAlign;
 	}
 		
 	@Override
-	@JsonSetter("verticalAlign")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_vAlign)
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		Object old = this.verticalImageAlign;

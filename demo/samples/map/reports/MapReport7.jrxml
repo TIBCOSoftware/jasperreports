@@ -58,18 +58,10 @@
 					<seriesNameExpression><![CDATA["Series1"]]></seriesNameExpression>
 					<legendIconExpression><![CDATA["https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"]]></legendIconExpression>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="title">
-							<expression><![CDATA[$F{address}]]></expression>
-						</property>
-						<property name="infowindow.content">
-							<expression><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
 					</item>
 				</markerData>
 				<markerData>
@@ -79,18 +71,10 @@
 					<seriesNameExpression><![CDATA["Series2"]]></seriesNameExpression>
 					<markerClusteringExpression><![CDATA[true]]></markerClusteringExpression>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="title">
-							<expression><![CDATA[$F{address}]]></expression>
-						</property>
-						<property name="infowindow.content">
-							<expression><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='http://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
 						<property name="color" value="green"/>
 					</item>
 				</markerData>

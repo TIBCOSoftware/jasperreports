@@ -26,7 +26,7 @@
 		ORDER BY ShipCountry]]></query>
 	<field name="ShipCountry" class="java.lang.String"/>
 	<title height="50">
-		<element kind="staticText" uuid="2ef572a2-c639-4d80-96f9-869448710d1c" width="555" height="35" horizontalTextAlign="Center" fontSize="22.0" style="Serif_Bold">
+		<element kind="staticText" uuid="2ef572a2-c639-4d80-96f9-869448710d1c" width="555" height="35" hTextAlign="Center" fontSize="22.0" style="Serif_Bold">
 			<text><![CDATA[Sub Dataset Chart Report]]></text>
 			<box style="Serif_Bold">
 				<topPen lineWidth="0.5"/>
@@ -65,10 +65,10 @@
 	</detail>
 	<pageFooter height="30">
 		<element kind="rectangle" uuid="ad8db66d-ee25-4884-a2f1-f215fc298d4c" mode="Transparent" y="5" width="555" height="25"/>
-		<element kind="textField" uuid="e55b478e-b140-443e-b25d-4a8407242c38" x="200" y="10" width="75" height="20" horizontalTextAlign="Right" fontSize="14.0">
+		<element kind="textField" uuid="e55b478e-b140-443e-b25d-4a8407242c38" x="200" y="10" width="75" height="20" hTextAlign="Right" fontSize="14.0">
 			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
 		</element>
-		<element kind="staticText" uuid="868e1029-fed8-4b03-b2cd-37d77891b8b3" x="275" y="10" width="5" height="20" horizontalTextAlign="Center" fontSize="14.0">
+		<element kind="staticText" uuid="868e1029-fed8-4b03-b2cd-37d77891b8b3" x="275" y="10" width="5" height="20" hTextAlign="Center" fontSize="14.0">
 			<text><![CDATA[/]]></text>
 		</element>
 		<element kind="textField" uuid="7e5b4f35-7cfb-474e-a2e9-823af9d0dbb6" x="280" y="10" width="75" height="20" evaluationTime="Report" fontSize="14.0">

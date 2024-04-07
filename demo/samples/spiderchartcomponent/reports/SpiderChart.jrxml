@@ -9,10 +9,10 @@
 	<summary height="550">
 		<element kind="line" uuid="6e43c068-e4ca-48cc-b9da-27ddcd4f6cda" width="515" height="1"/>
 		<element kind="line" uuid="b8002d21-9ff3-49fa-8cd2-358b05314f5a" y="3" width="515" height="1"/>
-		<element kind="staticText" uuid="136d680f-956e-4c45-a45b-ec73bbb4515f" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="16.0">
+		<element kind="staticText" uuid="136d680f-956e-4c45-a45b-ec73bbb4515f" y="10" width="515" height="30" hTextAlign="Center" fontSize="16.0">
 			<text><![CDATA[Spider Chart Component Report]]></text>
 		</element>
-		<element kind="textField" uuid="e9c755c0-1949-4b26-8457-dddbec803499" y="40" width="515" height="20" horizontalTextAlign="Center" linkType="Reference">
+		<element kind="textField" uuid="e9c755c0-1949-4b26-8457-dddbec803499" y="40" width="515" height="20" hTextAlign="Center" linkType="Reference">
 			<expression><![CDATA["http://www.jfree.org/jfreechart"]]></expression>
 			<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]]></hyperlinkReferenceExpression>
 		</element>

@@ -1,6 +1,6 @@
 <jasperReport name="TocReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="6e74177b-d551-4a75-ae51-6cdde3f284ce">
 	<style name="Default" fontName="DejaVu Sans"/>
-	<style name="Title" horizontalTextAlign="Right" fontSize="32.0" style="Default">
+	<style name="Title" hTextAlign="Right" fontSize="32.0" style="Default">
 		<box style="Default">
 			<topPen lineWidth="1.0"/>
 		</box>
@@ -46,7 +46,7 @@
 				<expression><![CDATA[$F{label}]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>
-			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex1">
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" hTextAlign="Right" vTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex1">
 				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>
@@ -57,7 +57,7 @@
 				<expression><![CDATA[$F{label}]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>
-			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex2">
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" hTextAlign="Right" vTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex2">
 				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>
@@ -72,7 +72,7 @@
 				<expression><![CDATA[$F{label}]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>
-			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" width="45" height="15" horizontalTextAlign="Right" verticalTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex3">
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" width="45" height="15" hTextAlign="Right" vTextAlign="Bottom" evaluationTime="Auto" linkType="LocalAnchor" style="HeadingIndex3">
 				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</element>

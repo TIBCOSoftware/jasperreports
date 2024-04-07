@@ -25,7 +25,7 @@
 				<element kind="textField" uuid="080f6cd4-258a-479b-b22e-602f23d7e4ca" mode="Opaque" width="360" height="15" forecolor="#FFFFFF" backcolor="#009900" textAdjust="StretchHeight">
 					<expression><![CDATA["Second \nGroup \nHeader \n1"]]></expression>
 				</element>
-				<element kind="textField" uuid="8b6fe4ad-cbb7-4437-b459-15d867132c77" stretchType="ElementGroupHeight" mode="Opaque" x="360" width="155" height="15" forecolor="#FFFFFF" backcolor="#009900" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Page">
+				<element kind="textField" uuid="8b6fe4ad-cbb7-4437-b459-15d867132c77" stretchType="ElementGroupHeight" mode="Opaque" x="360" width="155" height="15" forecolor="#FFFFFF" backcolor="#009900" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Page">
 					<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				</element>
 			</band>
@@ -33,7 +33,7 @@
 				<element kind="textField" uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" width="360" height="15" forecolor="#FFFFFF" backcolor="#009900" textAdjust="StretchHeight">
 					<expression><![CDATA["Second \nGroup \nHeader \n2"]]></expression>
 				</element>
-				<element kind="textField" uuid="db178943-572b-4b43-b69c-58299552b040" stretchType="ElementGroupHeight" mode="Opaque" x="360" width="155" height="15" forecolor="#FFFFFF" backcolor="#009900" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Page">
+				<element kind="textField" uuid="db178943-572b-4b43-b69c-58299552b040" stretchType="ElementGroupHeight" mode="Opaque" x="360" width="155" height="15" forecolor="#FFFFFF" backcolor="#009900" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Page">
 					<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				</element>
 			</band>
@@ -83,7 +83,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="360" width="154" height="25" horizontalTextAlign="Right" evaluationTime="Page">
+			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="360" width="154" height="25" hTextAlign="Right" evaluationTime="Page">
 				<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>

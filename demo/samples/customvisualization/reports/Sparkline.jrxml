@@ -3,7 +3,7 @@
 		<field name="value" class="java.lang.String"/>
 	</dataset>
 	<title height="801" splitType="Stretch">
-		<element kind="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" width="555" height="20" horizontalTextAlign="Center" fontSize="16.0">
+		<element kind="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" width="555" height="20" hTextAlign="Center" fontSize="16.0">
 			<text><![CDATA[Custom Visualization Component - Sparkline]]></text>
 		</element>
 		<element kind="staticText" uuid="cfc83a6f-2a6f-47b6-b308-145ebe1644c9" x="20" y="60" width="240" height="20" fontSize="12.0">
@@ -215,7 +215,7 @@ Antialias: off]]></text>
 		<element kind="staticText" uuid="33e39fab-5f04-49b8-83c6-a82d2bcc6e7e" x="280" y="133" width="240" height="27" markup="styled">
 			<text><![CDATA[PNG default export settings (<sup>*</sup>)]]></text>
 		</element>
-		<element kind="staticText" uuid="44c3c6cc-916c-443f-9d7a-910b14cf21cb" positionType="FixRelativeToBottom" y="760" width="555" height="41" horizontalTextAlign="Left" verticalTextAlign="Bottom">
+		<element kind="staticText" uuid="44c3c6cc-916c-443f-9d7a-910b14cf21cb" positionType="FixRelativeToBottom" y="760" width="555" height="41" hTextAlign="Left" vTextAlign="Bottom">
 			<text><![CDATA[(*) PNG export quality and antialias can be set by using at report or element level the properties:
 com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi (default 300)
 com.jaspersoft.jasperreports.components.customvisualization.png.antialias (default: true)]]></text>

@@ -57,27 +57,13 @@
 							<datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
 						</dataset>
 						<item>
-							<property name="name">
-								<expression><![CDATA[$F{name}]]></expression>
-							</property>
-							<property name="strokeColor">
-								<expression><![CDATA[$F{strokecolor}]]></expression>
-							</property>
-							<property name="strokeOpacity">
-								<expression><![CDATA[$F{strokeopacity}]]></expression>
-							</property>
-							<property name="strokeWeight">
-								<expression><![CDATA[$F{strokeweight}]]></expression>
-							</property>
-							<property name="fillColor">
-								<expression><![CDATA[$F{fillcolor}]]></expression>
-							</property>
-							<property name="fillOpacity">
-								<expression><![CDATA[$F{fillopacity}]]></expression>
-							</property>
-							<property name="draggable">
-								<expression><![CDATA[$F{draggable}]]></expression>
-							</property>
+							<property name="name"><![CDATA[$F{name}]]></property>
+							<property name="strokeColor"><![CDATA[$F{strokecolor}]]></property>
+							<property name="strokeOpacity"><![CDATA[$F{strokeopacity}]]></property>
+							<property name="strokeWeight"><![CDATA[$F{strokeweight}]]></property>
+							<property name="fillColor"><![CDATA[$F{fillcolor}]]></property>
+							<property name="fillOpacity"><![CDATA[$F{fillopacity}]]></property>
+							<property name="draggable"><![CDATA[$F{draggable}]]></property>
 						</item>
 					</pathStyleList>
 				</pathStyleList>
@@ -87,24 +73,12 @@
 							<datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
 						</dataset>
 						<item>
-							<property name="name">
-								<expression><![CDATA[$F{name}]]></expression>
-							</property>
-							<property name="style">
-								<expression><![CDATA[$F{style}]]></expression>
-							</property>
-							<property name="latitude">
-								<expression><![CDATA[$F{latitude}]]></expression>
-							</property>
-							<property name="longitude">
-								<expression><![CDATA[$F{longitude}]]></expression>
-							</property>
-							<property name="isPolygon">
-								<expression><![CDATA[$F{ispolygon}]]></expression>
-							</property>
-							<property name="path.hyperlink">
-								<expression><![CDATA["http://www.google.com"]]></expression>
-							</property>
+							<property name="name"><![CDATA[$F{name}]]></property>
+							<property name="style"><![CDATA[$F{style}]]></property>
+							<property name="latitude"><![CDATA[$F{latitude}]]></property>
+							<property name="longitude"><![CDATA[$F{longitude}]]></property>
+							<property name="isPolygon"><![CDATA[$F{ispolygon}]]></property>
+							<property name="path.hyperlink"><![CDATA["http://www.google.com"]]></property>
 						</item>
 					</pathDataList>
 				</pathDataList>
@@ -113,24 +87,12 @@
 						<datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
 					</dataset>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="color">
-							<expression><![CDATA[$F{color}]]></expression>
-						</property>
-						<property name="size">
-							<expression><![CDATA[$F{size}]]></expression>
-						</property>
-						<property name="url">
-							<expression><![CDATA[$F{url}]]></expression>
-						</property>
-						<property name="target">
-							<expression><![CDATA["_blank"]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="color"><![CDATA[$F{color}]]></property>
+						<property name="size"><![CDATA[$F{size}]]></property>
+						<property name="url"><![CDATA[$F{url}]]></property>
+						<property name="target"><![CDATA["_blank"]]></property>
 					</item>
 				</markerData>
 			</component>

@@ -35,27 +35,13 @@
 						<datasetRun uuid="920098e7-7bf2-4628-959c-8f799589469a" subDataset="MarkersDataset"/>
 					</dataset>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="title">
-							<expression><![CDATA[$F{address}]]></expression>
-						</property>
-						<property name="icon.url">
-							<expression><![CDATA[$F{iconurl}]]></expression>
-						</property>
-						<property name="icon.width">
-							<expression><![CDATA[$F{iconwidth}]]></expression>
-						</property>
-						<property name="icon.height">
-							<expression><![CDATA[$F{iconheight}]]></expression>
-						</property>
-						<property name="infowindow.content">
-							<expression><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="icon.url"><![CDATA[$F{iconurl}]]></property>
+						<property name="icon.width"><![CDATA[$F{iconwidth}]]></property>
+						<property name="icon.height"><![CDATA[$F{iconheight}]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
 					</item>
 				</markerData>
 			</component>

@@ -13,13 +13,13 @@
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error" usingCache="false">
+				<element kind="image" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error" usingCache="false">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="858e3729-6b20-4761-bfef-ed371e8efad9" mode="Opaque" x="400" width="150" height="40" backcolor="#FFFF00" horizontalImageAlign="Right" verticalImageAlign="Bottom" onErrorType="Error" usingCache="false">
+				<element kind="image" uuid="858e3729-6b20-4761-bfef-ed371e8efad9" mode="Opaque" x="400" width="150" height="40" backcolor="#FFFF00" hImageAlign="Right" vImageAlign="Bottom" onErrorType="Error" usingCache="false">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -33,13 +33,13 @@
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="cf00e302-dbe7-4143-a14b-2351ea3c4b7e" x="200" width="150" height="40" scaleImage="Clip" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+				<element kind="image" uuid="cf00e302-dbe7-4143-a14b-2351ea3c4b7e" x="200" width="150" height="40" scaleImage="Clip" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="e94f5a7b-3207-4749-a8f4-22f8e1784c1c" mode="Opaque" x="400" width="150" height="40" backcolor="#FFFF00" scaleImage="Clip" horizontalImageAlign="Right" verticalImageAlign="Bottom" onErrorType="Error">
+				<element kind="image" uuid="e94f5a7b-3207-4749-a8f4-22f8e1784c1c" mode="Opaque" x="400" width="150" height="40" backcolor="#FFFF00" scaleImage="Clip" hImageAlign="Right" vImageAlign="Bottom" onErrorType="Error">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -102,7 +102,7 @@
 					</box>
 				</element>
 				<element kind="frame" uuid="fed63363-845c-4537-9b17-1f2b387e72f7" mode="Opaque" x="200" width="150" height="40" backcolor="#FFDDDD">
-					<element kind="image" uuid="f1c5bb63-4251-45a1-8826-f7981a24be1b" mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD" scaleImage="Clip" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+					<element kind="image" uuid="f1c5bb63-4251-45a1-8826-f7981a24be1b" mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD" scaleImage="Clip" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 						<expression><![CDATA["transparent.gif"]]></expression>
 					</element>
 					<box>
@@ -110,7 +110,7 @@
 					</box>
 				</element>
 				<element kind="frame" uuid="d3651c48-0845-426e-ba98-3a204ca8afa0" mode="Opaque" x="400" width="150" height="40" backcolor="#FFDDDD">
-					<element kind="image" uuid="ad801eaa-04b7-4ff8-b5b2-76f2ba748e5c" mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD" scaleImage="FillFrame" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+					<element kind="image" uuid="ad801eaa-04b7-4ff8-b5b2-76f2ba748e5c" mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD" scaleImage="FillFrame" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 						<expression><![CDATA["transparent.gif"]]></expression>
 					</element>
 					<box>
@@ -143,7 +143,7 @@
 						<pen lineWidth="2.0"/>
 					</box>
 				</element>
-				<element kind="image" uuid="22db7c17-476e-4808-9590-5cbe18d8c0a6" x="400" width="50" height="30" forecolor="#FF0000" scaleImage="Clip" horizontalImageAlign="Right" onErrorType="Error">
+				<element kind="image" uuid="22db7c17-476e-4808-9590-5cbe18d8c0a6" x="400" width="50" height="30" forecolor="#FF0000" scaleImage="Clip" hImageAlign="Right" onErrorType="Error">
 					<expression><![CDATA["transparent.gif"]]></expression>
 					<box>
 						<pen lineWidth="4.0"/>
@@ -160,7 +160,7 @@
 				<element kind="image" uuid="40493f25-28ad-48fe-a160-81698da882ba" width="150" height="40" scaleImage="RealHeight" onErrorType="Error" style="imageBox">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 				</element>
-				<element kind="image" uuid="95982a1f-3111-455b-b4db-7c62186d6e3a" x="200" width="150" height="40" scaleImage="RealSize" verticalImageAlign="Top" onErrorType="Error" style="imageBox">
+				<element kind="image" uuid="95982a1f-3111-455b-b4db-7c62186d6e3a" x="200" width="150" height="40" scaleImage="RealSize" vImageAlign="Top" onErrorType="Error" style="imageBox">
 					<expression><![CDATA["dukesign.jpg"]]></expression>
 				</element>
 				<element kind="image" uuid="a1d0ccd8-aad9-407d-aee2-d150edd02de3" x="400" width="100" height="40" scaleImage="RealHeight" onErrorType="Error" style="imageBox">
@@ -174,7 +174,7 @@
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+				<element kind="image" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 					<expression><![CDATA["jilagan-butterfly.svg"]]></expression>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -194,7 +194,7 @@
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+				<element kind="image" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 					<expression><![CDATA["marbles.tif"]]></expression>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -214,7 +214,7 @@
 						<pen lineWidth="0.5"/>
 					</box>
 				</element>
-				<element kind="image" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error">
+				<element kind="image" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a" x="200" width="150" height="40" scaleImage="Clip" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error">
 					<expression><![CDATA["tree.webp"]]></expression>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -228,11 +228,11 @@
 				</element>
 			</band>
 			<band height="110">
-				<element kind="image" uuid="98193509-96ae-4edf-9a23-94b4090ac615" mode="Opaque" width="150" height="100" backcolor="#DDFFDD" scaleImage="Clip" horizontalImageAlign="Right" verticalImageAlign="Bottom" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="98193509-96ae-4edf-9a23-94b4090ac615" mode="Opaque" width="150" height="100" backcolor="#DDFFDD" scaleImage="Clip" hImageAlign="Right" vImageAlign="Bottom" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</element>
-				<element kind="image" uuid="0c5213f6-2809-4a71-ae01-716a6d8fa48f" mode="Opaque" x="200" width="40" height="100" backcolor="#DDFFDD" scaleImage="Clip" verticalImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="0c5213f6-2809-4a71-ae01-716a6d8fa48f" mode="Opaque" x="200" width="40" height="100" backcolor="#DDFFDD" scaleImage="Clip" vImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</element>
@@ -240,7 +240,7 @@
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</element>
-				<element kind="image" uuid="b0a002a8-09bb-4ad1-a2b1-c8bbd1dd7c82" mode="Opaque" x="300" width="40" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" verticalImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="b0a002a8-09bb-4ad1-a2b1-c8bbd1dd7c82" mode="Opaque" x="300" width="40" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" vImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.png"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</element>
@@ -250,11 +250,11 @@
 				</element>
 			</band>
 			<band height="110">
-				<element kind="image" uuid="b9e2b8b0-85f8-4236-a861-e3d7a12eda84" mode="Opaque" width="150" height="100" backcolor="#DDFFDD" scaleImage="Clip" horizontalImageAlign="Right" verticalImageAlign="Bottom" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="b9e2b8b0-85f8-4236-a861-e3d7a12eda84" mode="Opaque" width="150" height="100" backcolor="#DDFFDD" scaleImage="Clip" hImageAlign="Right" vImageAlign="Bottom" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</element>
-				<element kind="image" uuid="1f6f9acc-01d3-42e6-95c0-880d4e36945a" mode="Opaque" x="200" width="40" height="100" backcolor="#DDFFDD" scaleImage="Clip" verticalImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="1f6f9acc-01d3-42e6-95c0-880d4e36945a" mode="Opaque" x="200" width="40" height="100" backcolor="#DDFFDD" scaleImage="Clip" vImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</element>
@@ -262,7 +262,7 @@
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</element>
-				<element kind="image" uuid="62d2f30d-a73b-4443-baa0-0e36aed831fb" mode="Opaque" x="300" width="40" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" verticalImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
+				<element kind="image" uuid="62d2f30d-a73b-4443-baa0-0e36aed831fb" mode="Opaque" x="300" width="40" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" vImageAlign="Middle" onErrorType="Icon" linkType="Reference" lazy="true">
 					<expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]]></expression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</element>

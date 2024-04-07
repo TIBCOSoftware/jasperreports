@@ -62,13 +62,13 @@
 		<element kind="staticText" uuid="72ad7c1c-35c8-40ec-b1b8-78527db92baa" x="160" y="500" width="390" height="40">
 			<text><![CDATA[<staticText><reportElement x="0" y="500" width="150" height="40" forecolor="green" backcolor="#FFFF00" mode="Opaque"/><textElement><font fontName="Serif" size="12" isBold="true" pdfFontName="Times-Bold"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 		</element>
-		<element kind="staticText" uuid="dbce8c34-546e-4351-893a-c1905e5a068e" mode="Opaque" y="550" width="150" height="90" forecolor="#0000FF" backcolor="#FFDD99" horizontalTextAlign="Center" verticalTextAlign="Middle" fontName="SansSerif" pdfFontName="Sans.Slanted" bold="false" italic="true" pdfEmbedded="true" fontSize="12.0">
+		<element kind="staticText" uuid="dbce8c34-546e-4351-893a-c1905e5a068e" mode="Opaque" y="550" width="150" height="90" forecolor="#0000FF" backcolor="#FFDD99" hTextAlign="Center" vTextAlign="Middle" fontName="SansSerif" pdfFontName="Sans.Slanted" bold="false" italic="true" pdfEmbedded="true" fontSize="12.0">
 			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 		</element>
 		<element kind="staticText" uuid="44f1dc5e-d435-4475-8274-48eb7bc9fead" x="160" y="550" width="390" height="90">
 			<text><![CDATA[<staticText><reportElement x="0" y="550" width="150" height="90" forecolor="blue" backcolor="#FFDD99" mode="Opaque"/><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="SansSerif" size="12" isBold="false" pdfFontName="Sans.Slanted" isPdfEmbedded="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 		</element>
-		<element kind="staticText" uuid="e5c5b52a-7beb-4381-bd5b-83d8bc848ba3" mode="Opaque" y="650" width="150" height="90" forecolor="#FF0000" backcolor="#99DDFF" horizontalTextAlign="Right" verticalTextAlign="Bottom" fontName="SansSerif" pdfFontName="DejaVu Sans Bold" bold="true" pdfEmbedded="true" fontSize="12.0">
+		<element kind="staticText" uuid="e5c5b52a-7beb-4381-bd5b-83d8bc848ba3" mode="Opaque" y="650" width="150" height="90" forecolor="#FF0000" backcolor="#99DDFF" hTextAlign="Right" vTextAlign="Bottom" fontName="SansSerif" pdfFontName="DejaVu Sans Bold" bold="true" pdfEmbedded="true" fontSize="12.0">
 			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 		</element>
 		<element kind="staticText" uuid="31894e18-5a34-4419-a66c-c0148dd8bc60" x="160" y="650" width="390" height="90">

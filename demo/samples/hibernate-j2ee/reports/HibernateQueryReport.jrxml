@@ -21,7 +21,7 @@
 		<groupHeader>
 			<band height="20">
 				<element kind="rectangle" uuid="a1032bea-79de-4531-b0be-6918f90672f3" y="4" width="515" height="15" forecolor="#C0C0C0" backcolor="#C0C0C0"/>
-				<element kind="textField" uuid="79001ed6-bca9-4bb4-80f3-346eb11cac59" mode="Opaque" y="4" width="515" height="15" backcolor="#C0C0C0" horizontalTextAlign="Left" style="Sans_Bold">
+				<element kind="textField" uuid="79001ed6-bca9-4bb4-80f3-346eb11cac59" mode="Opaque" y="4" width="515" height="15" backcolor="#C0C0C0" hTextAlign="Left" style="Sans_Bold">
 					<expression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></expression>
 				</element>
 				<element kind="line" uuid="af7d8e0a-9521-4d09-91a8-cf602eeef9b5" y="19" width="515" height="1"/>
@@ -30,14 +30,14 @@
 	</group>
 	<title height="50">
 		<element kind="line" uuid="b6c5c6aa-aea8-4d6e-bfe7-6b39d30d2a96" width="515" height="1" forecolor="#000000"/>
-		<element kind="textField" uuid="7d18d071-cddb-431d-972e-0fea37d52b7a" y="10" width="515" height="30" horizontalTextAlign="Center" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
+		<element kind="textField" uuid="7d18d071-cddb-431d-972e-0fea37d52b7a" y="10" width="515" height="30" hTextAlign="Center" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
 			<paragraph lineSpacing="Single" style="Sans_Normal"/>
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 		</element>
 	</title>
 	<pageHeader height="20">
 		<element kind="frame" uuid="bf08dcba-7a5b-4e75-8419-77a72254f252" mode="Opaque" y="5" width="515" height="15" backcolor="#333333">
-			<element kind="staticText" uuid="5cb958c6-33fc-41f6-bd94-b95512ec8bde" width="50" height="15" forecolor="#FFFFFF" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="5cb958c6-33fc-41f6-bd94-b95512ec8bde" width="50" height="15" forecolor="#FFFFFF" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[ID]]></text>
 			</element>
 			<element kind="staticText" uuid="27933181-7b7b-4ae1-a14b-1fca6bc8fbad" x="55" width="205" height="15" forecolor="#FFFFFF" style="Sans_Bold">
@@ -50,7 +50,7 @@
 	</pageHeader>
 	<detail>
 		<band height="41">
-			<element kind="textField" uuid="598e223f-5690-47a6-97ba-15e6de7543d6" y="4" width="50" height="15" horizontalTextAlign="Right">
+			<element kind="textField" uuid="598e223f-5690-47a6-97ba-15e6de7543d6" y="4" width="50" height="15" hTextAlign="Right">
 				<expression><![CDATA[$F{id}]]></expression>
 			</element>
 			<element kind="textField" uuid="32967f2a-d027-45cc-a56e-45d56bf018f9" positionType="Float" x="55" y="4" width="200" height="15" textAdjust="StretchHeight">
@@ -68,15 +68,15 @@
 	<pageFooter height="40">
 		<printWhenExpression><![CDATA[!$P{IS_IGNORE_PAGINATION}]]></printWhenExpression>
 		<element kind="line" uuid="9ff4c76c-1adc-43d4-9988-436f0ca4329b" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="a1219ed2-8d70-41f3-a7fd-13689c2b26d5" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="a1219ed2-8d70-41f3-a7fd-13689c2b26d5" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
-		<element kind="textField" uuid="9047573e-61fe-4980-8a5b-1af47a63d309" x="280" y="20" width="75" height="15" horizontalTextAlign="Left" evaluationTime="Report">
+		<element kind="textField" uuid="9047573e-61fe-4980-8a5b-1af47a63d309" x="280" y="20" width="75" height="15" hTextAlign="Left" evaluationTime="Report">
 			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
 		</element>
 	</pageFooter>
 	<summary height="60">
-		<element kind="textField" uuid="c57ceeda-9111-4442-8e24-ee8cb798051f" x="175" y="20" width="165" height="15" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Sans_Italic">
+		<element kind="textField" uuid="c57ceeda-9111-4442-8e24-ee8cb798051f" x="175" y="20" width="165" height="15" hTextAlign="Center" textAdjust="StretchHeight" style="Sans_Italic">
 			<expression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" address records on this report."]]></expression>

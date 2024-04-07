@@ -61,7 +61,7 @@
 						<expression><![CDATA[$F{Name}]]></expression>
 					</bucket>
 					<header>
-						<element kind="textField" uuid="2af151be-c117-41c0-864d-279ef72186ec" width="20" height="50" horizontalTextAlign="Center" verticalTextAlign="Middle" rotation="Left" style="Sans_Bold">
+						<element kind="textField" uuid="2af151be-c117-41c0-864d-279ef72186ec" width="20" height="50" hTextAlign="Center" vTextAlign="Middle" rotation="Left" style="Sans_Bold">
 							<expression><![CDATA[$V{ProductGroup}]]></expression>
 						</element>
 						<box>
@@ -69,7 +69,7 @@
 						</box>
 					</header>
 					<totalHeader mode="Opaque" backcolor="#FFFF60">
-						<element kind="staticText" uuid="036e9415-01db-4725-8eeb-467f4ae992ab" width="30" height="50" horizontalTextAlign="Center" verticalTextAlign="Middle" style="Sans_Bold">
+						<element kind="staticText" uuid="036e9415-01db-4725-8eeb-467f4ae992ab" width="30" height="50" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
 							<text><![CDATA[TOTAL]]></text>
 						</element>
 						<box>
@@ -82,7 +82,7 @@
 				</measure>
 				<cell width="20" height="10">
 					<contents mode="Opaque" backcolor="#FFFFFF">
-						<element kind="textField" uuid="ee3abbdf-bec7-4b0f-9d5a-7ed46e897fd0" width="20" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle">
+						<element kind="textField" uuid="ee3abbdf-bec7-4b0f-9d5a-7ed46e897fd0" width="20" height="10" hTextAlign="Center" vTextAlign="Middle">
 							<expression><![CDATA[$V{QuantityMesure}]]></expression>
 						</element>
 						<box>
@@ -92,7 +92,7 @@
 				</cell>
 				<cell width="30" height="10" columnTotalGroup="ProductGroup">
 					<contents mode="Opaque" backcolor="#FFFF60">
-						<element kind="textField" uuid="6747a993-1322-4432-ad74-dbbec94ee758" width="30" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle">
+						<element kind="textField" uuid="6747a993-1322-4432-ad74-dbbec94ee758" width="30" height="10" hTextAlign="Center" vTextAlign="Middle">
 							<expression><![CDATA[$V{QuantityMesure}]]></expression>
 						</element>
 						<box>
@@ -102,7 +102,7 @@
 				</cell>
 				<cell width="20" height="10" rowTotalGroup="NameGroup">
 					<contents mode="Opaque" backcolor="#E0FFFF">
-						<element kind="textField" uuid="23e79112-ab0c-490d-b98a-e586db84f308" width="20" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle">
+						<element kind="textField" uuid="23e79112-ab0c-490d-b98a-e586db84f308" width="20" height="10" hTextAlign="Center" vTextAlign="Middle">
 							<expression><![CDATA[$V{QuantityMesure}]]></expression>
 						</element>
 						<box>
@@ -112,7 +112,7 @@
 				</cell>
 				<cell width="30" height="10" rowTotalGroup="NameGroup" columnTotalGroup="ProductGroup">
 					<contents mode="Opaque" backcolor="#C0C0C0">
-						<element kind="textField" uuid="ce326d36-2f01-4325-ab47-b2e1c80ce334" width="30" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle" style="Sans_Bold">
+						<element kind="textField" uuid="ce326d36-2f01-4325-ab47-b2e1c80ce334" width="30" height="10" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
 							<expression><![CDATA[$V{QuantityMesure}]]></expression>
 						</element>
 						<box>

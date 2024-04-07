@@ -3,7 +3,7 @@
 	<group name="MyGroup">
 		<groupHeader>
 			<band height="15">
-				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Justified" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" width="270" height="10" backcolor="#CCFFCC" hTextAlign="Justified" markup="styled" textAdjust="StretchHeight" fontSize="14.0">
 					<expression><![CDATA["The quick brown fox jumps over the lazy dog:\n" 
 + "<ul>\n"
 + "<li><style forecolor=\"magenta\">T</style>he quick brown fox jumps over the lazy dog.\n\n"
@@ -21,7 +21,7 @@
 + "</ol>"
 + "The quick brown fox jumps over the lazy dog"]]></expression>
 				</element>
-				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" horizontalTextAlign="Justified" markup="html" textAdjust="StretchHeight" fontSize="14.0">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" width="270" height="10" backcolor="#CCFFCC" hTextAlign="Justified" markup="html" textAdjust="StretchHeight" fontSize="14.0">
 					<expression><![CDATA["The quick brown fox jumps over the lazy dog:<br>" 
 + "<ul><br>"
 + "<li><font color=\"#FF00FF\">T</font>he quick brown fox jumps over the lazy dog.<br><br>"

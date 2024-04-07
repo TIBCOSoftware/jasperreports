@@ -32,21 +32,11 @@
 						<datasetRun uuid="99d4db58-7384-46bc-9668-ac16f7843e6d" subDataset="MarkersDataset"/>
 					</dataset>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="title">
-							<expression><![CDATA[$F{address}]]></expression>
-						</property>
-						<property name="label">
-							<expression><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></expression>
-						</property>
-						<property name="infowindow.content">
-							<expression><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="label"><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
 					</item>
 				</markerData>
 			</component>

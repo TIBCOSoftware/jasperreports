@@ -31,6 +31,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 
 import net.sf.jasperreports.components.items.ItemProperty;
@@ -64,7 +65,11 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 		
 		ItemProperty itemProperty = getItemProperty();
 		
-		setName(itemProperty, node.get("name").asText());
+		JsonNode nameNode = node.get("name");
+		if (nameNode != null)
+		{
+			setName(itemProperty, nameNode.asText());
+		}
 		JsonNode valueNode = node.get("value");
 		if (valueNode != null)
 		{
@@ -79,7 +84,7 @@ public class ItemPropertyDeserializer extends StdDeserializer<ItemProperty>
 		}
 		else
 		{
-			expressionNode = node.get("");
+			expressionNode = node.getNodeType() == JsonNodeType.STRING ? node : node.get("");
 		}
 		
 		if (expressionNode != null)

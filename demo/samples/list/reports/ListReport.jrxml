@@ -20,7 +20,7 @@
 	<field name="City" class="java.lang.String"/>
 	<title height="40">
 		<element kind="line" uuid="9275bf56-e377-46d2-937b-9f338a41eb06" width="515" height="1"/>
-		<element kind="staticText" uuid="26fc2f4f-de0f-411a-b386-e67caf96f441" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="staticText" uuid="26fc2f4f-de0f-411a-b386-e67caf96f441" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
 			<text><![CDATA[Addresses Report]]></text>
 		</element>
 	</title>
@@ -46,7 +46,7 @@
 					</datasetRun>
 					<contents height="14">
 						<element kind="frame" uuid="28b3ebcb-1bd3-422d-9468-54216206315d" width="250" height="14" style="ListRow">
-							<element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" horizontalTextAlign="Right" style="Sans_Small">
+							<element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" hTextAlign="Right" style="Sans_Small">
 								<expression><![CDATA[$F{Id}]]></expression>
 							</element>
 							<element kind="textField" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef" positionType="Float" x="20" y="2" width="110" height="10" textAdjust="StretchHeight" style="Sans_Small">
@@ -63,7 +63,7 @@
 	</detail>
 	<pageFooter height="40">
 		<element kind="line" uuid="c1c0630c-2045-4090-8e5c-423f598393d0" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="3d3faa0b-0121-427a-9d57-6250e8d3c866" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="3d3faa0b-0121-427a-9d57-6250e8d3c866" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="6d8c8882-f6f4-4691-9b60-9768c961c615" x="280" y="20" width="75" height="15" evaluationTime="Report">

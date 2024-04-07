@@ -9,12 +9,12 @@
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Label" forecolor="#0000FF" backcolor="#00FFFF" horizontalTextAlign="Center" horizontalImageAlign="Center" style="Main">
+	<style name="Label" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center" style="Main">
 		<box padding="10" style="Main">
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Icon" forecolor="#FF0000" backcolor="#FFC800" horizontalTextAlign="Center" horizontalImageAlign="Center" fontName="JasperReports Icons" style="Main">
+	<style name="Icon" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="JasperReports Icons" style="Main">
 		<box padding="10" style="Main">
 			<pen lineWidth="1.0"/>
 		</box>
@@ -23,8 +23,8 @@
 		<groupHeader>
 			<band height="15">
 				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" width="200" height="15" style="Component">
-					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" horizontalAlign="Right" verticalAlign="Bottom" style="Component">
-						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" verticalTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" hAlign="Right" vAlign="Bottom" style="Component">
+						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" width="1" height="1" vTextAlign="Bottom" textAdjust="StretchHeight" fontSize="8.0" style="Label">
 							<expression><![CDATA["This\nis\na\nvery\nlong\ntext\nbecause\nwe\nwant\nto\ntest\nhow\nthis\ncomponent\noverflows\nonto\na\nnew\npage."]]></expression>
 							<box padding="5" style="Label">
 								<pen lineWidth="1.0"/>

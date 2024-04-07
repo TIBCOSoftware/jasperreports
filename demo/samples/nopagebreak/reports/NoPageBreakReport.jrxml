@@ -55,10 +55,10 @@
 					<pen lineWidth="0.0"/>
 				</element>
 				<element kind="line" uuid="d1f96f9c-ea96-4db1-a860-a1201c16b940" width="515" height="1"/>
-				<element kind="staticText" uuid="e6045212-42a2-4281-9fed-0ed4c0d5fcda" x="400" y="1" width="60" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="staticText" uuid="e6045212-42a2-4281-9fed-0ed4c0d5fcda" x="400" y="1" width="60" height="15" hTextAlign="Right" style="Sans_Bold">
 					<text><![CDATA[Count :]]></text>
 				</element>
-				<element kind="textField" uuid="26ae61a0-61c3-4ce0-86a6-bc1a1bed2529" x="460" y="1" width="30" height="15" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="textField" uuid="26ae61a0-61c3-4ce0-86a6-bc1a1bed2529" x="460" y="1" width="30" height="15" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$V{ShipCountryGroup_COUNT}]]></expression>
 				</element>
 			</band>
@@ -68,13 +68,13 @@
 		<element kind="rectangle" uuid="5b0cb22d-8d28-4cdf-97ef-0032c0f4b1eb" mode="Transparent" width="10" height="10" forecolor="#FF0000" backcolor="#FFAFAF">
 			<pen lineWidth="0.0"/>
 		</element>
-		<element kind="staticText" uuid="5fdd2991-40e1-424c-bce5-5e054d9141ee" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="staticText" uuid="5fdd2991-40e1-424c-bce5-5e054d9141ee" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
 			<text><![CDATA[Order List]]></text>
 		</element>
 		<element kind="rectangle" uuid="ec356000-c533-42a6-ae2b-fb3c63c5fa06" mode="Transparent" y="40" width="10" height="10" forecolor="#FF0000" backcolor="#FFAFAF">
 			<pen lineWidth="0.0"/>
 		</element>
-		<element kind="staticText" uuid="023bf636-b642-411e-83df-ca82d93f803a" mode="Opaque" y="50" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Center" style="Sans_Bold">
+		<element kind="staticText" uuid="023bf636-b642-411e-83df-ca82d93f803a" mode="Opaque" y="50" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
 			<text><![CDATA[ID]]></text>
 		</element>
 		<element kind="staticText" uuid="e6798f4a-d6b9-461e-8ec7-fb4278b5bfd6" mode="Opaque" x="55" y="50" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
@@ -89,7 +89,7 @@
 			<element kind="rectangle" uuid="80f01721-e407-4063-8e70-637f874e5967" mode="Transparent" width="10" height="5" forecolor="#FF0000" backcolor="#FFAFAF">
 				<pen lineWidth="0.0"/>
 			</element>
-			<element kind="textField" uuid="f2663acc-6d85-4620-96fa-cb4ed6e3714c" y="5" width="50" height="15" horizontalTextAlign="Right">
+			<element kind="textField" uuid="f2663acc-6d85-4620-96fa-cb4ed6e3714c" y="5" width="50" height="15" hTextAlign="Right">
 				<expression><![CDATA[$F{OrderID}]]></expression>
 			</element>
 			<element kind="textField" uuid="162a1369-80f1-4a94-9e0b-910a37df995a" positionType="Float" x="55" y="5" width="200" height="15" textAdjust="StretchHeight">
@@ -104,7 +104,7 @@
 		<element kind="rectangle" uuid="5411de0b-fe61-4891-bde2-11d3f8271e0a" mode="Transparent" x="175" width="10" height="20" forecolor="#FF0000" backcolor="#FFAFAF">
 			<pen lineWidth="0.0"/>
 		</element>
-		<element kind="textField" uuid="83cf22b0-44d2-4b4f-ad03-116966b71836" x="175" y="20" width="165" height="15" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Sans_Italic">
+		<element kind="textField" uuid="83cf22b0-44d2-4b4f-ad03-116966b71836" x="175" y="20" width="165" height="15" hTextAlign="Center" textAdjust="StretchHeight" style="Sans_Italic">
 			<expression><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
 					" orders on this report."]]></expression>

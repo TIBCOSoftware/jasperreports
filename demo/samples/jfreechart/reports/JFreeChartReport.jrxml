@@ -2,13 +2,13 @@
 	<variable name="Chart" calculation="System" class="net.sf.jasperreports.renderers.Renderable"/>
 	<title height="742">
 		<element kind="line" uuid="ecfc3fd6-6f15-4efa-a0f6-79df7fa995c9" width="515" height="1"/>
-		<element kind="staticText" uuid="f7a0e274-009b-4a5e-831a-70bcb920bae6" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0">
+		<element kind="staticText" uuid="f7a0e274-009b-4a5e-831a-70bcb920bae6" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0">
 			<text><![CDATA[JFreeChart Sample]]></text>
 		</element>
-		<element kind="textField" uuid="4ebce177-ccb0-4b6e-abca-d5d9a50c7e81" y="50" width="515" height="50" horizontalTextAlign="Center" fontSize="12.0">
+		<element kind="textField" uuid="4ebce177-ccb0-4b6e-abca-d5d9a50c7e81" y="50" width="515" height="50" hTextAlign="Center" fontSize="12.0">
 			<expression><![CDATA["This sample uses JFreeChart Version 1.0.0-pre2\n" + "Written by David Gilbert (david.gilbert@object-refinery.com) and others.\n" + "(C)opyright 2000-2004, by Object Refinery Limited and Contributors."]]></expression>
 		</element>
-		<element kind="image" uuid="8c98f0e7-182b-44c6-abfc-24abec46bb15" y="110" width="515" height="300" scaleImage="Clip" horizontalImageAlign="Center" onErrorType="Error" linkType="Reference">
+		<element kind="image" uuid="8c98f0e7-182b-44c6-abfc-24abec46bb15" y="110" width="515" height="300" scaleImage="Clip" hImageAlign="Center" onErrorType="Error" linkType="Reference">
 			<expression><![CDATA[$V{Chart}]]></expression>
 			<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]]></hyperlinkReferenceExpression>
 		</element>

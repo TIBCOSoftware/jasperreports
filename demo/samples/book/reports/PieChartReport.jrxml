@@ -44,7 +44,7 @@
 					<expression><![CDATA[$F{ShipCity}]]></expression>
 					<anchorNameExpression><![CDATA[$F{ShipCity}]]></anchorNameExpression>
 				</element>
-				<element kind="textField" uuid="98ec3108-d055-4788-9dc6-16bcd2d4204c" x="340" y="2" width="200" height="11" horizontalTextAlign="Right" evaluationTime="Group" pattern="EEE, MMM d, yyyy" evaluationGroup="CityGroup" style="Sans_Bold">
+				<element kind="textField" uuid="98ec3108-d055-4788-9dc6-16bcd2d4204c" x="340" y="2" width="200" height="11" hTextAlign="Right" evaluationTime="Group" pattern="EEE, MMM d, yyyy" evaluationGroup="CityGroup" style="Sans_Bold">
 					<expression><![CDATA[$V{DateHighestCity}]]></expression>
 				</element>
 			</band>
@@ -52,16 +52,16 @@
 		<groupFooter>
 			<band height="15">
 				<element kind="frame" uuid="a0573d1d-8c83-4e17-b2bf-1dc306bfb4cf" mode="Opaque" width="540" height="11" forecolor="#C0C0C0" backcolor="#C0C0C0">
-					<element kind="staticText" uuid="ea12ba40-9bc8-4f9e-a8a8-a1f1d279a8a8" mode="Opaque" width="90" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+					<element kind="staticText" uuid="ea12ba40-9bc8-4f9e-a8a8-a1f1d279a8a8" mode="Opaque" width="90" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
 						<text><![CDATA[Count :]]></text>
 					</element>
-					<element kind="textField" uuid="51a48b2c-1769-4a7f-b921-49ca6e859bdf" mode="Opaque" x="90" width="50" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+					<element kind="textField" uuid="51a48b2c-1769-4a7f-b921-49ca6e859bdf" mode="Opaque" x="90" width="50" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
 						<expression><![CDATA[$V{CityGroup_COUNT}]]></expression>
 					</element>
-					<element kind="staticText" uuid="d69c36fb-5b5a-4d0e-8b7a-b96caabe9b3c" mode="Opaque" x="140" width="280" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+					<element kind="staticText" uuid="d69c36fb-5b5a-4d0e-8b7a-b96caabe9b3c" mode="Opaque" x="140" width="280" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
 						<text><![CDATA[Total :]]></text>
 					</element>
-					<element kind="textField" uuid="7bfddd2f-193f-4767-bb2f-1652c84ea4cb" mode="Opaque" x="420" width="120" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
+					<element kind="textField" uuid="7bfddd2f-193f-4767-bb2f-1652c84ea4cb" mode="Opaque" x="420" width="120" height="11" backcolor="#C0C0C0" hTextAlign="Right" pattern="0.00" style="Sans_Bold">
 						<expression><![CDATA[$V{FreightSumCity}]]></expression>
 					</element>
 				</element>
@@ -69,7 +69,7 @@
 		</groupFooter>
 	</group>
 	<title height="380">
-		<element kind="textField" uuid="f06713e8-e1f1-4dad-a5db-8721c65ac588" width="555" height="35" horizontalTextAlign="Center" bookmarkLevel="1" fontSize="22.0" style="Serif_Bold">
+		<element kind="textField" uuid="f06713e8-e1f1-4dad-a5db-8721c65ac588" width="555" height="35" hTextAlign="Center" bookmarkLevel="1" fontSize="22.0" style="Serif_Bold">
 			<expression><![CDATA["Shipments to " + $P{Country}]]></expression>
 			<anchorNameExpression><![CDATA[$P{Country} + " shipments"]]></anchorNameExpression>
 			<box style="Serif_Bold">
@@ -96,23 +96,23 @@
 	</title>
 	<columnHeader height="11">
 		<element kind="frame" uuid="4a65b0e7-80e3-4af2-9e44-9172b5ba5c5b" mode="Opaque" width="540" height="11" backcolor="#333333">
-			<element kind="staticText" uuid="9a105a7f-865d-43c7-a03b-7263c8c9a311" mode="Opaque" width="80" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Center" style="Sans_Bold">
+			<element kind="staticText" uuid="9a105a7f-865d-43c7-a03b-7263c8c9a311" mode="Opaque" width="80" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
 				<text><![CDATA[Order]]></text>
 			</element>
-			<element kind="staticText" uuid="0debf846-c7a1-4978-97bc-00f5e65ec68b" mode="Opaque" x="80" width="290" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Center" style="Sans_Bold">
+			<element kind="staticText" uuid="0debf846-c7a1-4978-97bc-00f5e65ec68b" mode="Opaque" x="80" width="290" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
 				<text><![CDATA[Name, City]]></text>
 			</element>
 			<element kind="staticText" uuid="c43d8968-62f5-45cd-8db7-4fe243cf6999" mode="Opaque" x="370" width="100" height="11" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
 				<text><![CDATA[Date]]></text>
 			</element>
-			<element kind="staticText" uuid="79da0493-a21d-439f-9e7e-902830dc9b82" mode="Opaque" x="470" width="70" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="79da0493-a21d-439f-9e7e-902830dc9b82" mode="Opaque" x="470" width="70" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Freight]]></text>
 			</element>
 		</element>
 	</columnHeader>
 	<detail>
 		<band height="13">
-			<element kind="textField" uuid="e5ec0153-91b8-4f00-9376-8c628cb9aed7" x="1" width="70" height="11" horizontalTextAlign="Right">
+			<element kind="textField" uuid="e5ec0153-91b8-4f00-9376-8c628cb9aed7" x="1" width="70" height="11" hTextAlign="Right">
 				<expression><![CDATA[$F{OrderID}]]></expression>
 			</element>
 			<element kind="textField" uuid="02a3be78-70b0-422f-81d1-fd3ef5b99878" positionType="Float" x="80" width="220" height="11" textAdjust="StretchHeight">
@@ -124,7 +124,7 @@
 			<element kind="textField" uuid="f423ee94-70d7-4b9a-a90d-9c6fefbf6ecd" x="370" width="100" height="11" pattern="dd/MM/yyyy">
 				<expression><![CDATA[$F{OrderDate}]]></expression>
 			</element>
-			<element kind="textField" uuid="fbb073bd-2aab-4038-acdf-d8791274356d" x="470" width="70" height="11" horizontalTextAlign="Right" pattern="0.00">
+			<element kind="textField" uuid="fbb073bd-2aab-4038-acdf-d8791274356d" x="470" width="70" height="11" hTextAlign="Right" pattern="0.00">
 				<expression><![CDATA[$F{Freight}]]></expression>
 			</element>
 			<element kind="line" uuid="c7f7750f-6d8d-422b-851c-febff2c2bb58" positionType="Float" y="12" width="540" height="1" forecolor="#808080">
@@ -134,35 +134,35 @@
 	</detail>
 	<columnFooter height="11">
 		<element kind="frame" uuid="d4156620-50bd-4848-aea6-9941eaa6b2c2" mode="Opaque" width="540" height="11" backcolor="#333333">
-			<element kind="staticText" uuid="04ad8cd5-334b-47fa-861a-a6c09ed60b0d" mode="Opaque" width="90" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="04ad8cd5-334b-47fa-861a-a6c09ed60b0d" mode="Opaque" width="90" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Count :]]></text>
 			</element>
-			<element kind="textField" uuid="a71248a9-46f4-43bb-934a-1daaf65c4ed3" mode="Opaque" x="90" width="50" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="textField" uuid="a71248a9-46f4-43bb-934a-1daaf65c4ed3" mode="Opaque" x="90" width="50" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Right" style="Sans_Bold">
 				<expression><![CDATA[$V{COLUMN_COUNT}]]></expression>
 			</element>
-			<element kind="staticText" uuid="f890a596-b1ed-45d0-92ab-d7810076d5ce" mode="Opaque" x="140" width="280" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Right" style="Sans_Bold">
+			<element kind="staticText" uuid="f890a596-b1ed-45d0-92ab-d7810076d5ce" mode="Opaque" x="140" width="280" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Right" style="Sans_Bold">
 				<text><![CDATA[Total :]]></text>
 			</element>
-			<element kind="textField" uuid="cd2a4a6e-ec39-42b5-97da-d39cf4fba351" mode="Opaque" x="420" width="120" height="11" forecolor="#FFFFFF" backcolor="#333333" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
+			<element kind="textField" uuid="cd2a4a6e-ec39-42b5-97da-d39cf4fba351" mode="Opaque" x="420" width="120" height="11" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Right" pattern="0.00" style="Sans_Bold">
 				<expression><![CDATA[$V{FreightSumColumn}]]></expression>
 			</element>
 		</element>
 	</columnFooter>
 	<pageFooter height="30">
 		<element kind="frame" uuid="546d4863-ff95-4db9-8607-b1ba97b708fd" mode="Transparent" width="555" height="30">
-			<element kind="staticText" uuid="1eb77597-c859-416d-9d7a-cb0f5a13627e" x="5" y="10" width="50" height="20" horizontalTextAlign="Right" fontSize="14.0">
+			<element kind="staticText" uuid="1eb77597-c859-416d-9d7a-cb0f5a13627e" x="5" y="10" width="50" height="20" hTextAlign="Right" fontSize="14.0">
 				<text><![CDATA[Count :]]></text>
 			</element>
-			<element kind="textField" uuid="74abc4d9-d951-48b9-826c-18c1955ae21b" x="55" y="10" width="45" height="20" horizontalTextAlign="Right" fontSize="14.0">
+			<element kind="textField" uuid="74abc4d9-d951-48b9-826c-18c1955ae21b" x="55" y="10" width="45" height="20" hTextAlign="Right" fontSize="14.0">
 				<expression><![CDATA[$V{PAGE_COUNT}]]></expression>
 			</element>
-			<element kind="staticText" uuid="07c3051b-9225-4b07-a092-84ce57bf8cf6" x="430" y="10" width="50" height="20" horizontalTextAlign="Right" fontSize="14.0">
+			<element kind="staticText" uuid="07c3051b-9225-4b07-a092-84ce57bf8cf6" x="430" y="10" width="50" height="20" hTextAlign="Right" fontSize="14.0">
 				<text><![CDATA[Total :]]></text>
 			</element>
-			<element kind="textField" uuid="c54af9f4-b7f4-4ab5-a366-969366845fb4" x="480" y="10" width="70" height="20" horizontalTextAlign="Right" pattern="0.00" fontSize="14.0">
+			<element kind="textField" uuid="c54af9f4-b7f4-4ab5-a366-969366845fb4" x="480" y="10" width="70" height="20" hTextAlign="Right" pattern="0.00" fontSize="14.0">
 				<expression><![CDATA[$V{FreightSumPage}]]></expression>
 			</element>
-			<element kind="textField" uuid="6372ffa2-a19d-4be3-bd67-97a937f28ff3" x="200" y="10" width="155" height="20" horizontalTextAlign="Center" evaluationTime="Master" fontSize="14.0">
+			<element kind="textField" uuid="6372ffa2-a19d-4be3-bd67-97a937f28ff3" x="200" y="10" width="155" height="20" hTextAlign="Center" evaluationTime="Master" fontSize="14.0">
 				<expression><![CDATA[$V{MASTER_CURRENT_PAGE} + "/" + $V{MASTER_TOTAL_PAGES}]]></expression>
 			</element>
 		</element>

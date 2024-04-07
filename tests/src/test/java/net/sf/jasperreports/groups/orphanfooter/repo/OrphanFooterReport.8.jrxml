@@ -75,7 +75,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" stretchType="ElementGroupBottom" mode="Transparent" x="360" width="154" height="15" backcolor="#FCFCD4" horizontalTextAlign="Right" evaluationTime="Page">
+			<element kind="textField" uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" stretchType="ElementGroupBottom" mode="Transparent" x="360" width="154" height="15" backcolor="#FCFCD4" hTextAlign="Right" evaluationTime="Page">
 				<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
 				<box>
 					<pen lineWidth="1.0"/>

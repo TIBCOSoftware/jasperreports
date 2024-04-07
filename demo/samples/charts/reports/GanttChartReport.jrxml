@@ -28,10 +28,10 @@
 					<pen lineWidth="0.5"/>
 				</element>
 				<element kind="rectangle" uuid="4e303fc0-d100-49ea-9c7b-a3de0585fa63" x="137" y="5" width="270" height="11" forecolor="#E0E0E0" backcolor="#E0E0E0"/>
-				<element kind="staticText" uuid="820c2013-cf41-405a-bd9e-c8c77b80adce" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#E0E0E0" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="staticText" uuid="820c2013-cf41-405a-bd9e-c8c77b80adce" mode="Opaque" x="337" y="5" width="45" height="11" backcolor="#E0E0E0" hTextAlign="Right" style="Sans_Bold">
 					<text><![CDATA[Stages :]]></text>
 				</element>
-				<element kind="textField" uuid="27489723-ee47-447f-ae23-93b25d5afbe4" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#E0E0E0" horizontalTextAlign="Right" style="Sans_Bold">
+				<element kind="textField" uuid="27489723-ee47-447f-ae23-93b25d5afbe4" mode="Opaque" x="382" y="5" width="20" height="11" backcolor="#E0E0E0" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$V{TaskGroup_COUNT}]]></expression>
 				</element>
 			</band>
@@ -39,7 +39,7 @@
 	</group>
 	<title height="290">
 		<element kind="elementGroup"/>
-		<element kind="staticText" uuid="76d02467-e787-40a6-b34c-572bef0a1c67" width="555" height="35" horizontalTextAlign="Center" fontSize="22.0" style="Serif_Bold">
+		<element kind="staticText" uuid="76d02467-e787-40a6-b34c-572bef0a1c67" width="555" height="35" hTextAlign="Center" fontSize="22.0" style="Serif_Bold">
 			<text><![CDATA[Gantt Chart Report]]></text>
 			<box style="Serif_Bold">
 				<topPen lineWidth="0.5"/>
@@ -76,13 +76,13 @@
 			<element kind="line" uuid="ce8cdc80-5f2e-42e1-bd4a-96f91212b12b" positionType="Float" x="210" width="197" height="1" forecolor="#808080">
 				<pen lineWidth="0.5"/>
 			</element>
-			<element kind="textField" uuid="251c2148-23de-433f-aabe-feaa72a67548" positionType="Float" x="210" y="1" width="72" height="11" verticalTextAlign="Middle" textAdjust="StretchHeight">
+			<element kind="textField" uuid="251c2148-23de-433f-aabe-feaa72a67548" positionType="Float" x="210" y="1" width="72" height="11" vTextAlign="Middle" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{Subtask}]]></expression>
 			</element>
-			<element kind="textField" uuid="7a063956-b5f2-4617-8bd9-84afe6a35534" x="282" y="1" width="62" height="11" verticalTextAlign="Middle" pattern="dd/MM/yyyy">
+			<element kind="textField" uuid="7a063956-b5f2-4617-8bd9-84afe6a35534" x="282" y="1" width="62" height="11" vTextAlign="Middle" pattern="dd/MM/yyyy">
 				<expression><![CDATA[$F{StartTimestamp}]]></expression>
 			</element>
-			<element kind="textField" uuid="3e59f02c-55b4-4888-9624-8803b5ff4817" x="345" y="1" width="62" height="11" verticalTextAlign="Middle" pattern="dd/MM/yyyy">
+			<element kind="textField" uuid="3e59f02c-55b4-4888-9624-8803b5ff4817" x="345" y="1" width="62" height="11" vTextAlign="Middle" pattern="dd/MM/yyyy">
 				<expression><![CDATA[$F{EndTimestamp}]]></expression>
 			</element>
 		</band>

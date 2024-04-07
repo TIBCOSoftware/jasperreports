@@ -35,24 +35,12 @@
 						<datasetRun uuid="9fad80a1-f61f-4a49-943b-bf790886a931" subDataset="MarkersDataset"/>
 					</dataset>
 					<item>
-						<property name="latitude">
-							<expression><![CDATA[$F{latitude}]]></expression>
-						</property>
-						<property name="longitude">
-							<expression><![CDATA[$F{longitude}]]></expression>
-						</property>
-						<property name="title">
-							<expression><![CDATA[$F{address}]]></expression>
-						</property>
-						<property name="icon.url">
-							<expression><![CDATA[$F{iconurl}]]></expression>
-						</property>
-						<property name="icon.width">
-							<expression><![CDATA[$F{iconwidth}]]></expression>
-						</property>
-						<property name="icon.height">
-							<expression><![CDATA[$F{iconheight}]]></expression>
-						</property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="icon.url"><![CDATA[$F{iconurl}]]></property>
+						<property name="icon.width"><![CDATA[$F{iconwidth}]]></property>
+						<property name="icon.height"><![CDATA[$F{iconheight}]]></property>
 					</item>
 				</markerData>
 			</component>

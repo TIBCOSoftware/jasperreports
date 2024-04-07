@@ -180,7 +180,7 @@
 				</element>
 			</band>
 			<band height="50">
-				<element kind="image" uuid="e8c7ab7c-52e0-4d9f-98b7-e26323e4838c" width="150" height="40" horizontalImageAlign="Center" verticalImageAlign="Middle" onErrorType="Error" usingCache="false">
+				<element kind="image" uuid="e8c7ab7c-52e0-4d9f-98b7-e26323e4838c" width="150" height="40" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error" usingCache="false">
 					<expression><![CDATA["jasperreports.svg"]]></expression>
 					<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 					<box>
@@ -234,12 +234,12 @@
 							<expression><![CDATA[$F{Year}]]></expression>
 						</bucket>
 						<header style="Crosstab_ColumnHeader">
-							<element kind="textField" uuid="00690fcb-022f-4a1b-92b4-ee6e5ed421c1" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_ColumnHeader_Text">
+							<element kind="textField" uuid="00690fcb-022f-4a1b-92b4-ee6e5ed421c1" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_ColumnHeader_Text">
 								<expression><![CDATA[$V{Year}]]></expression>
 							</element>
 						</header>
 						<totalHeader style="Crosstab_TotalColumnHeader">
-							<element kind="textField" uuid="51d11170-3965-4f3d-ab6e-18b2811f2472" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_TotalColumnHeader_Text">
+							<element kind="textField" uuid="51d11170-3965-4f3d-ab6e-18b2811f2472" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_TotalColumnHeader_Text">
 								<expression><![CDATA["Year Total"]]></expression>
 							</element>
 						</totalHeader>
@@ -249,42 +249,42 @@
 					</measure>
 					<cell width="60" height="10">
 						<contents>
-							<element kind="textField" uuid="8d3f6b26-adaa-4d41-88e1-febcee2301f6" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Detail">
+							<element kind="textField" uuid="8d3f6b26-adaa-4d41-88e1-febcee2301f6" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Detail">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="7d73ed34-bf87-4c9a-871b-b77b75aecd07" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="7d73ed34-bf87-4c9a-871b-b77b75aecd07" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Category">
 						<contents>
-							<element kind="textField" uuid="5b5d1848-4020-4cbc-8dc0-939be53f6e44" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="5b5d1848-4020-4cbc-8dc0-939be53f6e44" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="cb812594-7af5-4e0f-9920-2d58b5a13cb9" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="cb812594-7af5-4e0f-9920-2d58b5a13cb9" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Type">
 						<contents>
-							<element kind="textField" uuid="57742681-cf4b-4b3a-824f-74a3d8fdb982" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_RowGroupTotal">
+							<element kind="textField" uuid="57742681-cf4b-4b3a-824f-74a3d8fdb982" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_RowGroupTotal">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="e13f7404-4313-47ae-9469-90d57505ed30" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="e13f7404-4313-47ae-9469-90d57505ed30" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
@@ -344,12 +344,12 @@
 							<expression><![CDATA[$F{Year}]]></expression>
 						</bucket>
 						<header style="Crosstab_ColumnHeader">
-							<element kind="textField" uuid="4413a5ed-7f27-4878-89b8-901a9e67aa04" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_ColumnHeader_Text">
+							<element kind="textField" uuid="4413a5ed-7f27-4878-89b8-901a9e67aa04" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_ColumnHeader_Text">
 								<expression><![CDATA[$V{Year}]]></expression>
 							</element>
 						</header>
 						<totalHeader style="Crosstab_TotalColumnHeader">
-							<element kind="textField" uuid="527fc20d-76bc-4faf-8507-24a67883ab30" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_TotalColumnHeader_Text">
+							<element kind="textField" uuid="527fc20d-76bc-4faf-8507-24a67883ab30" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_TotalColumnHeader_Text">
 								<expression><![CDATA["Year Total"]]></expression>
 							</element>
 						</totalHeader>
@@ -359,42 +359,42 @@
 					</measure>
 					<cell width="60" height="10">
 						<contents>
-							<element kind="textField" uuid="d2d41097-3e1d-4456-bdec-b4db36166a0e" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Detail">
+							<element kind="textField" uuid="d2d41097-3e1d-4456-bdec-b4db36166a0e" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Detail">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="01f09e46-c4fa-4bc7-bf00-c0671526b152" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="01f09e46-c4fa-4bc7-bf00-c0671526b152" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Category">
 						<contents>
-							<element kind="textField" uuid="8e59fa44-35ff-4b5e-a87c-883467bd058d" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="8e59fa44-35ff-4b5e-a87c-883467bd058d" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Category" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="d1cf940c-dbb0-48c8-bfbb-a2c9654597b9" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="d1cf940c-dbb0-48c8-bfbb-a2c9654597b9" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Type">
 						<contents>
-							<element kind="textField" uuid="6f9c82ea-3d4c-46fa-82b0-1f177e8a10ba" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_RowGroupTotal">
+							<element kind="textField" uuid="6f9c82ea-3d4c-46fa-82b0-1f177e8a10ba" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_RowGroupTotal">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
 					</cell>
 					<cell width="60" height="10" rowTotalGroup="Type" columnTotalGroup="Year">
 						<contents>
-							<element kind="textField" uuid="f2bdfe3d-bd63-405d-a09f-edcf6f112002" stretchType="ContainerHeight" width="60" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
+							<element kind="textField" uuid="f2bdfe3d-bd63-405d-a09f-edcf6f112002" stretchType="ContainerHeight" width="60" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Crosstab_Total">
 								<expression><![CDATA[$V{Quantity_MEASURE}]]></expression>
 							</element>
 						</contents>
@@ -413,12 +413,12 @@
 						<column kind="group" uuid="d07b8e92-41a5-4595-93a2-e58dda291354" width="500">
 							<column kind="single" uuid="139e4257-c1e0-4fec-9810-8f4dfcc0d462" width="30">
 								<columnHeader height="20" rowSpan="2" style="Table_TH">
-									<element kind="textField" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d" stretchType="ContainerHeight" width="30" height="20" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
+									<element kind="textField" uuid="6148c8f3-08c1-412c-80f7-978d6824c88d" stretchType="ContainerHeight" width="30" height="20" hTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
 										<expression><![CDATA["ID"]]></expression>
 									</element>
 								</columnHeader>
 								<detailCell height="10">
-									<element kind="textField" uuid="13e935bc-3fc6-420f-ad28-dc6a6eb42f9f" stretchType="ContainerHeight" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TD">
+									<element kind="textField" uuid="13e935bc-3fc6-420f-ad28-dc6a6eb42f9f" stretchType="ContainerHeight" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Table_TD">
 										<expression><![CDATA[$F{id}]]></expression>
 									</element>
 								</detailCell>
@@ -469,12 +469,12 @@
 							</column>
 							<column kind="single" uuid="3c815a04-14db-4271-a533-38e8aff35aaa" width="100">
 								<columnHeader height="20" rowSpan="2" style="Table_TH">
-									<element kind="textField" uuid="d1f1a41e-1291-4548-bb85-cc86f12ed7c8" stretchType="ContainerHeight" width="100" height="20" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Table_TH_Text">
+									<element kind="textField" uuid="d1f1a41e-1291-4548-bb85-cc86f12ed7c8" stretchType="ContainerHeight" width="100" height="20" hTextAlign="Center" textAdjust="StretchHeight" style="Table_TH_Text">
 										<expression><![CDATA["Account Type"]]></expression>
 									</element>
 								</columnHeader>
 								<detailCell height="10">
-									<element kind="textField" uuid="6d1cddf3-3614-4364-832e-046e9735cc2c" width="100" height="10" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Table_TD">
+									<element kind="textField" uuid="6d1cddf3-3614-4364-832e-046e9735cc2c" width="100" height="10" hTextAlign="Center" textAdjust="StretchHeight" style="Table_TD">
 										<expression><![CDATA[$F{state}]]></expression>
 									</element>
 								</detailCell>
@@ -507,12 +507,12 @@
 						<column kind="group" uuid="e89c0428-93ba-43c9-ac36-caaf311d1c23" width="500">
 							<column kind="single" uuid="bbdb515a-0d6d-46cc-84d3-d22c1fbd8781" width="30">
 								<columnHeader height="10" style="Table_TH">
-									<element kind="textField" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274" stretchType="ContainerHeight" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
+									<element kind="textField" uuid="ab5203fe-b4dd-4304-9529-9769a8b52274" stretchType="ContainerHeight" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Table_TH_Text">
 										<expression><![CDATA["ID"]]></expression>
 									</element>
 								</columnHeader>
 								<detailCell height="10">
-									<element kind="textField" uuid="9cabc025-7bcf-4292-a165-a504f529076a" stretchType="ContainerHeight" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" style="Table_TD">
+									<element kind="textField" uuid="9cabc025-7bcf-4292-a165-a504f529076a" stretchType="ContainerHeight" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" style="Table_TD">
 										<expression><![CDATA[$F{id}]]></expression>
 									</element>
 								</detailCell>
@@ -555,12 +555,12 @@
 							</column>
 							<column kind="single" uuid="eacd8541-0c7b-4627-a554-61966379e947" width="100">
 								<columnHeader height="10" style="Table_TH">
-									<element kind="textField" uuid="34211dc0-6819-47b7-91c4-f4fd9b947228" stretchType="ContainerHeight" width="100" height="10" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Table_TH_Text">
+									<element kind="textField" uuid="34211dc0-6819-47b7-91c4-f4fd9b947228" stretchType="ContainerHeight" width="100" height="10" hTextAlign="Center" textAdjust="StretchHeight" style="Table_TH_Text">
 										<expression><![CDATA["Account Type"]]></expression>
 									</element>
 								</columnHeader>
 								<detailCell height="10">
-									<element kind="textField" uuid="c562d4cd-1c2b-4a48-ac51-210d86ffd3f1" width="100" height="10" horizontalTextAlign="Center" textAdjust="StretchHeight" style="Table_TD">
+									<element kind="textField" uuid="c562d4cd-1c2b-4a48-ac51-210d86ffd3f1" width="100" height="10" hTextAlign="Center" textAdjust="StretchHeight" style="Table_TD">
 										<expression><![CDATA[$F{state}]]></expression>
 									</element>
 								</detailCell>

@@ -18,7 +18,7 @@
 	<field name="City" class="java.lang.String"/>
 	<title height="40">
 		<element kind="line" uuid="e5a65d7a-f538-4acd-820f-96e3e5751e36" width="515" height="1"/>
-		<element kind="staticText" uuid="d4fd8df3-1b29-429d-b231-7840524979a5" y="10" width="515" height="30" horizontalTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="staticText" uuid="d4fd8df3-1b29-429d-b231-7840524979a5" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
 			<text><![CDATA[Addresses Report]]></text>
 		</element>
 	</title>
@@ -65,7 +65,7 @@
 	</detail>
 	<pageFooter height="40">
 		<element kind="line" uuid="c860179a-e395-4ac1-b129-09073598fd30" y="10" width="515" height="1"/>
-		<element kind="textField" uuid="4c76f7c9-424f-4a3c-bb19-f3557ac7bf1e" x="200" y="20" width="80" height="15" horizontalTextAlign="Right">
+		<element kind="textField" uuid="4c76f7c9-424f-4a3c-bb19-f3557ac7bf1e" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
 		<element kind="textField" uuid="f23fbd16-abdc-4eb9-abab-789e9efbb5b9" x="280" y="20" width="75" height="15" evaluationTime="Report">
