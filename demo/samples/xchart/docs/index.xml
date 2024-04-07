@@ -33,7 +33,7 @@ a chart image generated with the XChart library.
 First let's see the <code>XChartReport.jrxml</code> template in the <code>samples/xcharts/reports</code> directory. It provides a 
 <code>scriptletClass="XChartScriptlet"</code> attribute, and a parametrized image element:
 <pre><![CDATA[
-<element kind="image" y="70" width="515" height="400" scaleImage="Clip" horizontalImageAlign="Center" onErrorType="Error">
+<element kind="image" y="70" width="515" height="400" scaleImage="Clip" hImageAlign="Center" onErrorType="Error">
   <expression><![CDATA[$V{ChartImage}]] ></expression>
 </element>]]></pre>
 The <code>java.awt.Image</code> object is stored in the <code>ChartImage</code> report variable:

@@ -373,7 +373,7 @@ in the current directory.
 <br/>
 <pre><![CDATA[
 <background height="742">
-  <element kind="image" uuid="1e5c5ba2-55d4-446c-ba24-8b6fad9eccc0" width="150" height="742" scaleImage="Clip" verticalImageAlign="Bottom" onErrorType="Error">
+  <element kind="image" uuid="1e5c5ba2-55d4-446c-ba24-8b6fad9eccc0" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
     <expression><![CDATA["jr.watermark.gif"]] ></expression>
   </element>
 </background>
