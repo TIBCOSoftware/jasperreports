@@ -81,7 +81,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		this.context = new BaseComponentContext(chartComponent.getContext(), baseFactory);
 		
 		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);//FIXMENOW check use of constructor here
-		this.dataset = new StandardSpiderDataset((SpiderDataset)chartComponent.getDataset(), new ChartsBaseObjectFactory(baseFactory));//FIXME7
+		this.dataset = new StandardSpiderDataset((SpiderDataset)chartComponent.getDataset(), new ChartsBaseObjectFactory(baseFactory));
 		this.plot = new StandardSpiderPlot((SpiderPlot)chartComponent.getPlot(), baseFactory);
 		
 	}
