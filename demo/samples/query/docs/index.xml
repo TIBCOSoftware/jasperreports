@@ -535,7 +535,7 @@ After ensuring the needed parameter, field or variable are present in the report
 of the element to reference the needed style. For instance, for the text element in the title section:
 
 <pre><![CDATA[
-<element kind="textField" y="10" width="515" height="35" horizontalTextAlign="Center" blankWhenNull="true" style="TitleStyle">
+<element kind="textField" y="10" width="515" height="35" hTextAlign="Center" blankWhenNull="true" style="TitleStyle">
 	<paragraph lineSpacing="Single"/>
 	<expression><![CDATA[$P{ReportTitle}]] ></expression>
 </element>]]></pre>

@@ -97,7 +97,7 @@ and in case that one is missing, then the actual text content of the JasperRepor
 <b>Example:</b>
 <pre><![CDATA[
 <element kind="textField" uuid="af005021-8b3d-4b5e-9fa7-d8dcef9936f6" positionType="Float" mode="Opaque" 
-  x="250" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" horizontalTextAlign="Right" fontName="DejaVu Serif" fontSize="24.0">
+  x="250" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" hTextAlign="Right" fontName="DejaVu Serif" fontSize="24.0">
   <expression><![CDATA["This\nis a multi\nline text inside a multi line text field."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
   <property name="net.sf.jasperreports.export.pdf.field.text.multiline" value="true"/>
@@ -115,7 +115,7 @@ If not set, the default separator is '|'.
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<element kind="textField" uuid="940c11f0-df1c-41f7-b0f9-42e2c3069242" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" horizontalTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+<element kind="textField" uuid="940c11f0-df1c-41f7-b0f9-42e2c3069242" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
   <property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
@@ -130,7 +130,7 @@ In case we need the textbox in the combobox field to be editable, we can set the
 combobox element, while the a preselected value can be set using the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.value">net.sf.jasperreports.export.pdf.field.value</a> property:
 <pre><![CDATA[
-<element kind="textField" uuid="43373481-0474-48fa-af1d-416edd07a77a" positionType="Float" mode="Opaque" x="250" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" horizontalTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+<element kind="textField" uuid="43373481-0474-48fa-af1d-416edd07a77a" positionType="Float" mode="Opaque" x="250" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
   <property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>

@@ -172,7 +172,7 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(345);
     text.setHeight(30);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
+    text.sethTextAlign(hTextAlignEnum.RIGHT);
     text.setLineSpacingFactor(1.3133681f);
     text.setLeadingOffset(-4.955078f);
     text.setStyle(boldStyle);
@@ -186,7 +186,7 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(325);
     text.setHeight(15);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalTextAlign(HorizontalTextAlignEnum.RIGHT);
+    text.sethTextAlign(hTextAlignEnum.RIGHT);
     text.setLineSpacingFactor(1.329241f);
     text.setLeadingOffset(-4.076172f);
     text.setStyle(italicStyle);
@@ -200,7 +200,7 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setWidth(515);
     text.setHeight(200);
     text.setTextHeight(text.getHeight());
-    text.setHorizontalTextAlign(HorizontalTextAlignEnum.JUSTIFIED);
+    text.sethTextAlign(hTextAlignEnum.JUSTIFIED);
     text.setLineSpacingFactor(1.329241f);
     text.setLeadingOffset(-4.076172f);
     text.setStyle(normalStyle);

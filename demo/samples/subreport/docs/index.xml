@@ -318,7 +318,7 @@ In ProductReport.jrxml:
     <expression><![CDATA[$F{Id}]] ></expression>
     <groupHeader>
       <band height="14">
-        <element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" horizontalTextAlign="Right">
+        <element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" hTextAlign="Right">
           <expression><![CDATA[$F{Id}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
         </element>
@@ -326,11 +326,11 @@ In ProductReport.jrxml:
           <expression><![CDATA[$F{Name}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
         </element>
-        <element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
+        <element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
           <expression><![CDATA[$V{QuantityProductSum}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
         </element>
-        <element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" horizontalTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
+        <element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
           <expression><![CDATA[$V{PriceProductSum}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
         </element>

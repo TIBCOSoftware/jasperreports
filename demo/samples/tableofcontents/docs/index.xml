@@ -184,7 +184,7 @@ is built based on these bookmarks:
   <pageFooter>
     <band ...>
       ...
-      <element kind="textField" uuid="c768ea70-8165-4afd-b13d-df34d5456803" y="20" width="515" height="15" horizontalTextAlign="Center" evaluationTime="Master">
+      <element kind="textField" uuid="c768ea70-8165-4afd-b13d-df34d5456803" y="20" width="515" height="15" hTextAlign="Center" evaluationTime="Master">
         <expression><![CDATA["Page " + $V{MASTER_CURRENT_PAGE} + " of " + $V{MASTER_TOTAL_PAGES}]] ></expression>
       </element>
   </pageFooter>

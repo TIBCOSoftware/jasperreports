@@ -59,7 +59,7 @@ Let's take a closer look at how the last three elements in the page header secti
 <pre><![CDATA[
 <pageHeader height="30">
   ...
-  <element kind="staticText" mode="Opaque" x="300" width="255" height="15" backcolor="#808080" horizontalTextAlign="Center" bold="true" fontSize="12.0">
+  <element kind="staticText" mode="Opaque" x="300" width="255" height="15" backcolor="#808080" hTextAlign="Center" bold="true" fontSize="12.0">
     <text><![CDATA[Header 4]] ></text>
     <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
     <property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
@@ -81,7 +81,7 @@ Let's take a closer look at how the last three elements in the page header secti
       <bottomPen lineWidth="0.5"/>
     </box>
   </element>
-  <element kind="staticText" mode="Opaque" x="455" y="15" width="100" height="15" backcolor="#808080" horizontalTextAlign="Right" bold="true">
+  <element kind="staticText" mode="Opaque" x="455" y="15" width="100" height="15" backcolor="#808080" hTextAlign="Right" bold="true">
     <text><![CDATA[Header 4.2]] ></text>
     <property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
     <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>

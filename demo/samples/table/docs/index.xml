@@ -88,7 +88,7 @@ that contains the definition of the first column in the table:
     </datasetRun>
     <column kind="single" uuid="ceaf6eb4-f1e9-4aa8-aca6-3e53b67c1615" width="100">
       <columnHeader height="30" rowSpan="2" style="TableHeader">
-        <element kind="staticText" width="100" height="30" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+        <element kind="staticText" width="100" height="30" vTextAlign="Middle" bold="true" fontSize="12.0">
           <text><![CDATA[Header 1]] ></text>
           <box leftPadding="10">
             <pen lineColor="#000000"/>
@@ -97,7 +97,7 @@ that contains the definition of the first column in the table:
         </element>
       </columnHeader>
       <columnFooter height="15" style="TableFooter">
-        <element kind="staticText" uuid="54493ad7-b6d2-4f58-94a5-7428d5cfef7b" width="100" height="15" verticalTextAlign="Middle" bold="true" fontSize="12.0">
+        <element kind="staticText" uuid="54493ad7-b6d2-4f58-94a5-7428d5cfef7b" width="100" height="15" vTextAlign="Middle" bold="true" fontSize="12.0">
           <text><![CDATA[Total 1]] ></text>
           <box leftPadding="10">
             <pen lineColor="#000000"/>

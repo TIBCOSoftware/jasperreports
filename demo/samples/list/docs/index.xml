@@ -77,7 +77,7 @@ In the <code>ListReport.jrxml</code> sample is configured a <code>Vertical</code
     </datasetRun>
     <contents height="14">
       <element kind="frame" uuid="28b3ebcb-1bd3-422d-9468-54216206315d" width="250" height="14" style="ListRow">
-        <element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" horizontalTextAlign="Right" style="Sans_Small">
+        <element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" hTextAlign="Right" style="Sans_Small">
           <expression><![CDATA[$F{Id}]] ></expression>
         </element>
         <element kind="textField" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef" positionType="Float" x="20" y="2" width="110" height="10" textAdjust="StretchHeight" style="Sans_Small">

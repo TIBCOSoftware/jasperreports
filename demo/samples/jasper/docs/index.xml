@@ -187,43 +187,43 @@ Now let's take a look at the groups themselves:
 <group name="FirstLetterGroup" minHeightToStartNewPage="200" startNewColumn="true" reprintHeaderOnEachPage="true">
   <expression><![CDATA[$V{FirstLetter}]] ></expression>
   <groupHeader>
-	<band height="25">
-        <element kind="staticText" mode="Opaque" y="14" width="130" height="11" forecolor="#FF0000" backcolor="#FFDDDD" underline="true" style="Sans_Italic">
-			<text><![CDATA[Countries Starting With Letter :]] ></text>
-		</element>
-		<element kind="textField" mode="Opaque" x="130" y="14" width="70" height="11" forecolor="#FF0000" backcolor="#FFDDDD" style="Sans_Bold">
-			<expression><![CDATA[$V{FirstLetter}]] ></expression>
-		</element>
-		<element kind="textField"... evaluationTime="Group" evaluationGroup="FirstLetterGroup" style="Sans_Bold">
-			<expression><![CDATA[$V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1]] ></expression>
-		</element>
-		<element kind="textField" mode="Opaque" x="200" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD" horizontalTextAlign="Right" style="Sans_Bold">
-			<expression><![CDATA[$V{FirstLetterGroup_COUNT} == 0 ? 1 : ($V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1)]] ></expression>
-		</element>
-		<element kind="textField" mode="Opaque" x="230" y="14" width="10" height="11" forecolor="#FF0000" backcolor="#FFDDDD" horizontalTextAlign="Center" style="Sans_Bold">
-			<expression><![CDATA["/"]] ></expression>
-		</element>
-	</band>
+    <band height="25">
+      <element kind="staticText" mode="Opaque" y="14" width="130" height="11" forecolor="#FF0000" backcolor="#FFDDDD" underline="true" style="Sans_Italic">
+      <text><![CDATA[Countries Starting With Letter :]] ></text>
+    </element>
+    <element kind="textField" mode="Opaque" x="130" y="14" width="70" height="11" forecolor="#FF0000" backcolor="#FFDDDD" style="Sans_Bold">
+      <expression><![CDATA[$V{FirstLetter}]] ></expression>
+    </element>
+    <element kind="textField"... evaluationTime="Group" evaluationGroup="FirstLetterGroup" style="Sans_Bold">
+      <expression><![CDATA[$V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1]] ></expression>
+    </element>
+    <element kind="textField" mode="Opaque" x="200" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD" hTextAlign="Right" style="Sans_Bold">
+      <expression><![CDATA[$V{FirstLetterGroup_COUNT} == 0 ? 1 : ($V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1)]] ></expression>
+    </element>
+    <element kind="textField" mode="Opaque" x="230" y="14" width="10" height="11" forecolor="#FF0000" backcolor="#FFDDDD" hTextAlign="Center" style="Sans_Bold">
+      <expression><![CDATA["/"]] ></expression>
+    </element>
+  </band>
   </groupHeader>
   <groupFooter>
-	<band height="15">
-		<element kind="line" width="270" height="1" forecolor="#FF0000"/>
-		<element kind="staticText" y="1" width="45" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
-			<text><![CDATA[Count :]] ></text>
-		</element>
-		<element kind="textField" x="45" y="1" width="25" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
-			<expression><![CDATA[$V{FirstLetterGroup_COUNT}]] ></expression>
-		</element>
-		<element kind="staticText" x="70" y="1" width="100" height="11" forecolor="#FF0000" horizontalTextAlign="Right" style="Sans_Bold">
-			<text><![CDATA[Total :]] ></text>
-		</element>
-		<element kind="textField" x="170" y="1" width="60" height="11" forecolor="#FF0000" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
-			<expression><![CDATA[$V{FreightSumFirstLetterGroup}]] ></expression>
-		</element>
-		<element kind="textField" x="230" y="1" width="40" height="11" forecolor="#FF0000" horizontalTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
-			<expression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})]] ></expression>
-			</element>
-		</band>
+  <band height="15">
+    <element kind="line" width="270" height="1" forecolor="#FF0000"/>
+    <element kind="staticText" y="1" width="45" height="11" forecolor="#FF0000" hTextAlign="Right" style="Sans_Bold">
+      <text><![CDATA[Count :]] ></text>
+    </element>
+    <element kind="textField" x="45" y="1" width="25" height="11" forecolor="#FF0000" hTextAlign="Right" style="Sans_Bold">
+      <expression><![CDATA[$V{FirstLetterGroup_COUNT}]] ></expression>
+    </element>
+    <element kind="staticText" x="70" y="1" width="100" height="11" forecolor="#FF0000" hTextAlign="Right" style="Sans_Bold">
+      <text><![CDATA[Total :]] ></text>
+    </element>
+    <element kind="textField" x="170" y="1" width="60" height="11" forecolor="#FF0000" hTextAlign="Right" pattern="0.00" style="Sans_Bold">
+      <expression><![CDATA[$V{FreightSumFirstLetterGroup}]] ></expression>
+    </element>
+    <element kind="textField" x="230" y="1" width="40" height="11" forecolor="#FF0000" hTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
+      <expression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})]] ></expression>
+      </element>
+    </band>
   </groupFooter>
 </group>]]></pre>
 According to the group expression above, the <code>FirstLetterGroup</code> groups data with the same 
@@ -259,7 +259,7 @@ This is what the second group in the report does, the <code>CountryGroup</code>:
       <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
       <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
     </element>
-    <element kind="textField" uuid="9f8585df-e218-4084-baf2-6d190021be29" x="10" y="2" width="150" height="11" style="Sans_Bold">
+    <element kind="textField" x="10" y="2" width="150" height="11" style="Sans_Bold">
       <expression><![CDATA[$F{ShipCountry}]] ></expression>
       <property name="net.sf.jasperreports.export.csv.column.name" value="ShipCountry"/>
       <property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
@@ -277,22 +277,22 @@ This is what the second group in the report does, the <code>CountryGroup</code>:
   </groupHeader>
   <groupFooter>
   <band height="15">
-    <element kind="staticText" mode="Opaque" width="45" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+    <element kind="staticText" mode="Opaque" width="45" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
       <text><![CDATA[Count :]] ></text>
     </element>
-    <element kind="textField" mode="Opaque" x="45" width="25" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+    <element kind="textField" mode="Opaque" x="45" width="25" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
       <expression><![CDATA[$V{CountryGroup_COUNT}]] ></expression>
     </element>
-    <element kind="staticText" mode="Opaque" x="70" width="100" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" style="Sans_Bold">
+    <element kind="staticText" mode="Opaque" x="70" width="100" height="11" backcolor="#C0C0C0" hTextAlign="Right" style="Sans_Bold">
       <text><![CDATA[Total :]] ></text>
     </element>
-    <element kind="textField" mode="Opaque" x="170" width="60" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" pattern="0.00" style="Sans_Bold">
+    <element kind="textField" mode="Opaque" x="170" width="60" height="11" backcolor="#C0C0C0" hTextAlign="Right" pattern="0.00" style="Sans_Bold">
       <expression><![CDATA[$V{FreightSumCountryGroup}]] ></expression>
     </element>
-    <element kind="textField" mode="Opaque" x="230" width="40" height="11" backcolor="#C0C0C0" horizontalTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
+    <element kind="textField" mode="Opaque" x="230" width="40" height="11" backcolor="#C0C0C0" hTextAlign="Right" evaluationTime="Auto" style="Sans_Bold">
       <expression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumCountryGroup} / $V{FreightSumFirstLetterGroup})]] ></expression>
       </element>
-  	</band>
+    </band>
   </groupFooter>
 </group>]]></pre>
 Here one can observe another built-in counting variable: <code>CountryGroup_COUNT</code>. Again some other report variables 
@@ -422,7 +422,7 @@ In this sample only five columns are exported to CSV format: <code>ShipCountry</
 <a href="../../config.reference.html#net.sf.jasperreports.export.csv.data">net.sf.jasperreports.export.csv.data</a> property. All 
 these settings apply to the &lt;detail/&gt; section:
 <pre><![CDATA[
-<element kind="textField"  x="1" width="35" height="11" horizontalTextAlign="Right" style="OrderIdStyle">
+<element kind="textField"  x="1" width="35" height="11" hTextAlign="Right" style="OrderIdStyle">
   <expression><![CDATA[$F{OrderID}]] ></expression>
   <property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
   ...
@@ -444,7 +444,7 @@ these settings apply to the &lt;detail/&gt; section:
   <property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
   ...
 </element>
-<element kind="textField" x="235" width="35" height="11" horizontalTextAlign="Right" pattern="0.00">
+<element kind="textField" x="235" width="35" height="11" hTextAlign="Right" pattern="0.00">
   <expression><![CDATA[$F{Freight}]] ></expression>
   <property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
   ...
@@ -507,7 +507,7 @@ The elements were set as in the following example:
       <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
       <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
     </element>
-    <element kind="textField" uuid="9f8585df-e218-4084-baf2-6d190021be29" x="10" y="2" width="150" height="11" style="Sans_Bold">
+    <element kind="textField" x="10" y="2" width="150" height="11" style="Sans_Bold">
       <expression><![CDATA[$F{ShipCountry}]] ></expression>
       ...
       <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCountry"/>
@@ -540,7 +540,7 @@ The elements were set as in the following example:
 <detail>
   <band height="13">
   ...
-    <element kind="textField" x="1" width="35" height="11" horizontalTextAlign="Right" style="OrderIdStyle">
+    <element kind="textField" x="1" width="35" height="11" hTextAlign="Right" style="OrderIdStyle">
       <expression><![CDATA[$F{OrderID}]] ></expression>
       ...
       <property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
@@ -555,7 +555,7 @@ The elements were set as in the following example:
       <propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
       ...
     </element>
-    <element kind="textField" uuid="dbbee54a-9b8f-4468-bd64-d22f8661d2cb" x="155" width="25" height="11" blankWhenNull="true">
+    <element kind="textField" x="155" width="25" height="11" blankWhenNull="true">
       <expression><![CDATA[$F{ShipRegion}]] ></expression>
       ...
       <property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
@@ -570,7 +570,7 @@ The elements were set as in the following example:
       <property name="net.sf.jasperreports.export.xls.pattern" value="dd\/MM\/yyyy"/>
       ...
     </element>
-    <element kind="textField" x="235" width="35" height="11" horizontalTextAlign="Right" pattern="0.00">
+    <element kind="textField" x="235" width="35" height="11" hTextAlign="Right" pattern="0.00">
       <expression><![CDATA[$F{Freight}]] ></expression>
       ...
       <property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
@@ -701,8 +701,8 @@ field value is greater than 10,000, the second conditional style evaluates to <c
 displays in bold font (this doesn't affect the red color or blue color set by the first conditional style, because the 
 forecolor and font weight properties do not interfere). Further, if the <code>AMOUNT</code> field value is greater than 
 20,000, the font style becomes italic, without affecting the font color. But because any value greater than 
-20,000 is also greater than 10,000, then the <code>isBold="false"</code> font weight is no more applied, because 
-both conditions <code>&gt;10,000</code> and <code>&gt;20,000</code> evaluate to <code>true</code> and <code>isBold="true"</code> 
+20,000 is also greater than 10,000, then the <code>bold="false"</code> font weight is no more applied, because 
+both conditions <code>&gt;10,000</code> and <code>&gt;20,000</code> evaluate to <code>true</code> and <code>bold="true"</code> 
 style was appended first.
 <br/>
 <br/>
@@ -782,7 +782,7 @@ If none of the above patterns are set for the element, the date/time will be dis
 <br/>
 The following example can be found in the <code>FirstJasper.jrxml</code> file:
 <pre><![CDATA[
-<element kind="textField"  x="200" y="5" width="75" height="20" horizontalTextAlign="Right" fontSize="14.0">
+<element kind="textField"  x="200" y="5" width="75" height="20" hTextAlign="Right" fontSize="14.0">
   <expression><![CDATA[$V{PAGE_NUMBER}]] ></expression>
   <property name="net.sf.jasperreports.export.pptx.field.type" value="slidenum"/>
 </element>]]></pre>

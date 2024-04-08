@@ -193,7 +193,7 @@ different elements stretching attributes (<code>positionType</code>, <code>stret
 <pre><![CDATA[
 <element kind="elementGroup">
   <element kind="line" positionType="Float" stretchType="ElementGroupHeight" x="145" y="5" width="1" height="1" printWhenDetailOverflows="true"/>
-  <element kind="textField" x="150" y="5" width="100" horizontalTextAlign="Justified" textAdjust="StretchHeight" removeLineWhenBlank="true" fontSize="12.0">
+  <element kind="textField" x="150" y="5" width="100" hTextAlign="Justified" textAdjust="StretchHeight" removeLineWhenBlank="true" fontSize="12.0">
     <expression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside 
       its defined height and force other elements to move downwards."]] ></expression>
   </element>

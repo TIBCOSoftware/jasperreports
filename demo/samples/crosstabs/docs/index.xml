@@ -499,7 +499,7 @@ The OrdersReport.jrxml file in the crosstabs sample uses a dynamic style feature
 color tones in crosstab cells, based on the value of the cell content relative to the grand total. 
 For elements in detail cells the backcolor style feature was set using the following property expression:
 <pre><![CDATA[
-<element kind="textField" mode="Opaque" width="60" height="10" horizontalTextAlign="Center" verticalTextAlign="Middle" style="OrderCountStyle">
+<element kind="textField" mode="Opaque" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="OrderCountStyle">
   <expression><![CDATA[$V{OrderCount}]] ></expression>
   <propertyExpression name="net.sf.jasperreports.style.backcolor">
     <![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
