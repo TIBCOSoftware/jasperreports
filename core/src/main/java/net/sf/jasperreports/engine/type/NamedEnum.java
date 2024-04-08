@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -34,9 +36,15 @@ import net.sf.jasperreports.jackson.type.NamedEnumConstantSerializer;
  */
 @JsonSerialize(using = NamedEnumConstantSerializer.class)
 @JsonDeserialize(using = NamedEnumConstantContextualDeserializer.class)
+@JsonInclude(Include.NON_EMPTY)
 public interface NamedEnum
 {
 
 	String getName();
+	
+	default NamedEnum getDefault()
+	{
+		return null;
+	}
 
 }

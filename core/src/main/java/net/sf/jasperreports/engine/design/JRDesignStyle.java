@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -178,7 +179,7 @@ public class JRDesignStyle extends JRBaseStyle
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
-	@JsonSetter("style")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_style)
 	public void setParentStyleNameReference(String styleName)
 	{
 		Object old = this.parentStyleNameReference;

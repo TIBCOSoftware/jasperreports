@@ -26,8 +26,12 @@ package net.sf.jasperreports.components.sort;
 import java.awt.Color;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.JREvaluation;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
@@ -45,7 +49,7 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 @JsonTypeName(SortComponentExtensionsRegistryFactory.SORT_COMPONENT_NAME)
-public class SortComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport 
+public class SortComponent implements ContextAwareComponent, JREvaluation, Serializable, JRChangeEventsSupport 
 {
 	/**
 	 * 
@@ -107,9 +111,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		return context;
 	}
 	
-	/**
-	 * @return the evaluationTime
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTime() {
 		return evaluationTime;
 	}
@@ -124,6 +126,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 				old, this.evaluationTime);
 	}
 
+	@Override
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;
@@ -141,6 +144,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the columnName
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getSortFieldName() {
 		return sortFieldName;
 	}
@@ -158,6 +162,8 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the columnType
 	 */
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(isAttribute = true)
 	public SortFieldTypeEnum getSortFieldType() {
 		return sortFieldType;
 	}
@@ -175,6 +181,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the handlerColor
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Color getHandlerColor() {
 		return handlerColor;
 	}
@@ -192,6 +199,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the handlerVerticalImageAlign
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public VerticalImageAlignEnum getHandlerVerticalImageAlign() {
 		return handlerVerticalImageAlign;
 	}
@@ -209,6 +217,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the handlerHorizontalImageAlign
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public HorizontalImageAlignEnum getHandlerHorizontalImageAlign() {
 		return handlerHorizontalImageAlign;
 	}

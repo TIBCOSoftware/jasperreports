@@ -325,7 +325,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		/*   */
 		name = jasperReport.getName();
-		columnCount = jasperReport.getColumnCount();
+		columnCount = jasperReport.getColumnCount() == null ? 1 : jasperReport.getColumnCount();
 		printOrder = PrintOrderEnum.getValueOrDefault(jasperReport.getPrintOrder());
 		columnDirection = jasperReport.getColumnDirection();
 		pageWidth = jasperReport.getPageWidth();

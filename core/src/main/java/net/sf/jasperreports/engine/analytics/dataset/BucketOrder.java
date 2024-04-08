@@ -122,4 +122,10 @@ public enum BucketOrder implements NamedEnum
 		}
 		return order;
 	}
+	
+	@Override
+	public BucketOrder getDefault()
+	{
+		return ASCENDING;
+	}
 }

@@ -75,4 +75,10 @@ public enum CrosstabRowPositionEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public CrosstabRowPositionEnum getDefault()
+	{
+		return TOP;
+	}
 }

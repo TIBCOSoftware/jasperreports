@@ -68,4 +68,10 @@ public enum OnErrorTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public OnErrorTypeEnum getDefault()
+	{
+		return ERROR;
+	}
 }

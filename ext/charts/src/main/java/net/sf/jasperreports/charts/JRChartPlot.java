@@ -164,7 +164,7 @@ public interface JRChartPlot extends JRCloneable
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
-	@JacksonXmlProperty(localName = "seriesColor")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_seriesColor)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public SortedSet<JRSeriesColor> getSeriesColors();
 	
@@ -199,7 +199,7 @@ public interface JRChartPlot extends JRCloneable
 		 * relative ordering defines the order of the colors in the series.
 		 */
 		@JsonGetter("order")
-		@JacksonXmlProperty(localName="order", isAttribute = true)
+		@JacksonXmlProperty(localName = "order", isAttribute = true)
 		public int getSeriesOrder();
 		
 		/**

@@ -74,4 +74,10 @@ public enum PlotOrientationEnum implements NamedEnum
 	{
 		return value == null ? VERTICAL : value;
 	}
+	
+	@Override
+	public PlotOrientationEnum getDefault()
+	{
+		return VERTICAL;
+	}
 }

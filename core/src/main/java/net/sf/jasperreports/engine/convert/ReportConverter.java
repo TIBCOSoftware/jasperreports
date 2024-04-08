@@ -226,7 +226,8 @@ public class ReportConverter
 			
 			// column dotted delimitation 
 			int colX = report.getLeftMargin();
-			for(int i = 0; i < report.getColumnCount(); i++)
+			int columnCount = report.getColumnCount() == null ? 1 : report.getColumnCount();
+			for (int i = 0; i < columnCount; i++)
 			{
 				addColumnSeparator(colX);
 				colX += report.getColumnWidth();

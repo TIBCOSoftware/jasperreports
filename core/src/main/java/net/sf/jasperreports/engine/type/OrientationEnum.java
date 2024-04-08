@@ -70,4 +70,10 @@ public enum OrientationEnum implements NamedEnum
 	{
 		return value == null ? PORTRAIT : value;
 	}
+	
+	@Override
+	public OrientationEnum getDefault()
+	{
+		return PORTRAIT;
+	}
 }

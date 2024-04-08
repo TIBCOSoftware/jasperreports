@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.type.BorderSplitType;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRFrame JRFrame} to be used at design time.
@@ -249,7 +250,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	/**
 	 *
 	 */
-	@JsonSetter("box")
+	@JsonSetter(JRXmlConstants.ELEMENT_box)
 	public void copyBox(JRLineBox lineBox)
 	{
 		this.lineBox = lineBox.clone(this);

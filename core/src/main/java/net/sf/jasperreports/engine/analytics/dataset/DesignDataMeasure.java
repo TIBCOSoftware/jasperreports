@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -65,7 +66,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 	}
 
 	@Override
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String valueClassName)
 	{
 		Object old = this.valueClassName;
@@ -88,7 +89,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 	}
 
 	@Override
-	@JsonSetter("incrementerFactoryClass")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;

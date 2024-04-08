@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -32,6 +33,7 @@ import net.sf.jasperreports.engine.JRPen;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRBaseBoxPen.class)
 public interface JRBoxPen extends JRPen
 {
 

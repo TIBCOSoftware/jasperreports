@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.design;
 import java.awt.Color;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -77,7 +76,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	}
 
 	@JsonSetter
-	@JsonDeserialize(as = JRBasePen.class)
 	private void setLinePen(JRPen linePen)
 	{
 		this.linePen = linePen.clone(this);

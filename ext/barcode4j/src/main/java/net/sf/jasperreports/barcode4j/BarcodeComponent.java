@@ -25,10 +25,9 @@ package net.sf.jasperreports.barcode4j;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JREvaluation;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -44,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport, Designated
+public abstract class BarcodeComponent implements Component, JREvaluation, Serializable, JRCloneable, JRChangeEventsSupport, Designated
 {
 	
 	public static final String COMPONENT_NAME_PREFIX = "barcode4j:";
@@ -70,7 +69,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	{
 	}
 	
-	@JacksonXmlProperty(isAttribute = true)
+	@Override
 	public EvaluationTimeEnum getEvaluationTime()
 	{
 		return evaluationTime;
@@ -84,7 +83,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 				old, this.evaluationTime);
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
+	@Override
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;

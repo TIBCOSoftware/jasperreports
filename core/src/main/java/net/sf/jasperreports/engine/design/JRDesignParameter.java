@@ -78,7 +78,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String className)
 	{
 		Object old = this.valueClassName;

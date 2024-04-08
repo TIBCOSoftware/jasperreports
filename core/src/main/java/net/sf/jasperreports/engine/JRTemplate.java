@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
 /**
  * A template that can be used by report.
  * <p/>
@@ -139,7 +141,7 @@ public interface JRTemplate
 	 * @return the included templates
 	 */
 	@JsonGetter("templates")
-	@JacksonXmlProperty(localName = "template")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_template)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	JRTemplateReference[] getIncludedTemplates();
 	
@@ -148,7 +150,7 @@ public interface JRTemplate
 	 * 
 	 * @return the template styles
 	 */
-	@JacksonXmlProperty(localName = "style")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_style)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	JRStyle[] getStyles();
 

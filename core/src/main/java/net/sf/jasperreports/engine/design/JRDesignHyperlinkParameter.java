@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseHyperlinkParameter;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -79,7 +80,7 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter impleme
 	 * 
 	 * @param valueExpression the expression that produces the parameter value
 	 */
-	@JsonSetter("expression")
+	@JsonSetter(JRXmlConstants.ELEMENT_expression)
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		Object old = this.valueExpression;

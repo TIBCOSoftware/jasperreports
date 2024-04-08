@@ -27,7 +27,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -36,26 +38,20 @@ import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.customvisualization.design.CVDesignComponent;
 import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.JREvaluation;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 @JsonTypeName(CVConstants.COMPONENT_NAME)
 @JsonDeserialize(as = CVDesignComponent.class)
-public interface CVComponent extends Component, ContextAwareComponent, JRCloneable, Serializable
+public interface CVComponent extends ContextAwareComponent, JREvaluation, JRCloneable, Serializable
 {
-	@JacksonXmlProperty(isAttribute = true)
-	public EvaluationTimeEnum getEvaluationTime();
-
-	@JacksonXmlProperty(isAttribute = true)
-	public String getEvaluationGroup();
-
 	@JacksonXmlProperty(isAttribute = true)
 	public String getProcessingClass();
 
 	@JsonGetter("properties")
-	@JacksonXmlProperty(localName = "property")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_property)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemProperty> getItemProperties();
 
@@ -68,6 +64,7 @@ public interface CVComponent extends Component, ContextAwareComponent, JRCloneab
 	 * @return a value representing one of the missing image handling constants
 	 *         in {@link OnErrorTypeEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public OnErrorTypeEnum getOnErrorType();
 }

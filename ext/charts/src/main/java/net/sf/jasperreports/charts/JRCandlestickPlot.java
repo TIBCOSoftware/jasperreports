@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.charts;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -84,7 +82,6 @@ public interface JRCandlestickPlot extends JRChartPlot, JRTimeAxisFormat, JRValu
 	/**
 	 *
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowVolume();
 

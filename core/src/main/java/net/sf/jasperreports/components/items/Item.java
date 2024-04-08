@@ -30,6 +30,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * The Item interface. Provides a collection of item properties.
@@ -47,7 +48,7 @@ public interface Item extends JRCloneable
 	 * @return a list of item properties
 	 * @see ItemProperty
 	 */
-	@JacksonXmlProperty(localName = "property")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_property)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ItemProperty> getProperties();
 

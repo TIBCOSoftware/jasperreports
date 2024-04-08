@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
 /**
  * An abstract representation of a graphic element representing a rectangle.
  * <p/>
@@ -50,8 +52,8 @@ public interface JRCommonRectangle extends JRStyleContainer
 	@JsonIgnore
 	public int getRadius();
 
-	@JsonGetter("radius")
-	@JacksonXmlProperty(localName = "radius", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_radius)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_radius, isAttribute = true)
 	public Integer getOwnRadius();
 
 	/**

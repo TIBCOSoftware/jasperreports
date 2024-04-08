@@ -80,4 +80,10 @@ public enum WhenResourceMissingTypeEnum implements NamedEnum
 	{
 		return value == null ? NULL : value;
 	}
+	
+	@Override
+	public WhenResourceMissingTypeEnum getDefault()
+	{
+		return NULL;
+	}
 }

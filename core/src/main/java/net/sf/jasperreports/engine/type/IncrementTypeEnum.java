@@ -87,4 +87,10 @@ public enum IncrementTypeEnum implements NamedEnum
 	{
 		return value == null ? NONE : value;
 	}
+	
+	@Override
+	public IncrementTypeEnum getDefault()
+	{
+		return NONE;
+	}
 }

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -135,8 +136,8 @@ public interface JRCommonImage extends JRImageAlignment, JRCommonGraphicElement,
 	 * Gets the image own scale type.
 	 * @return a value representing one of the scale type constants in {@link ScaleImageEnum}
 	 */
-	@JsonGetter("scaleImage")
-	@JacksonXmlProperty(localName = "scaleImage", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_scaleImage)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_scaleImage, isAttribute = true)
 	public ScaleImageEnum getOwnScaleImage();
 	
 	/**

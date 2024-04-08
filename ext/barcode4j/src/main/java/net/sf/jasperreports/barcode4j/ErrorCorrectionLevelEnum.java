@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;
-
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 
 /**
@@ -112,5 +112,11 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 	public static ErrorCorrectionLevelEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
+	}
+	
+	@Override
+	public ErrorCorrectionLevelEnum getDefault()
+	{
+		return L;
 	}
 }

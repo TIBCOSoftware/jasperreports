@@ -332,7 +332,7 @@ public class JRApiWriter
 		write( "JasperDesign jasperDesign = new JasperDesign();\n");
 		write( "jasperDesign.setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getName()));
 		write( "jasperDesign.setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getLanguage()));
-		write( "jasperDesign.setColumnCount({0, number, #});\n", report.getColumnCount(), 1);
+		write( "jasperDesign.setColumnCount({0, number, #});\n", report.getColumnCount());
 		write( "jasperDesign.setPrintOrder({0});\n", report.getPrintOrder(), PrintOrderEnum.VERTICAL);
 		write( "jasperDesign.setColumnDirection({0});\n", report.getColumnDirection(), RunDirectionEnum.LTR);
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
@@ -1433,7 +1433,7 @@ public class JRApiWriter
 			write( "JRDesignCrosstab " + crosstabName + " = new JRDesignCrosstab(jasperDesign);\n");
 			write( crosstabName + ".setRepeatColumnHeaders({0});\n", crosstab.isRepeatColumnHeaders(), true);
 			write( crosstabName + ".setRepeatRowHeaders({0});\n", crosstab.isRepeatRowHeaders(), true);
-			write( crosstabName + ".setColumnBreakOffset({0, number, #});\n", crosstab.getColumnBreakOffset(), JRCrosstab.DEFAULT_COLUMN_BREAK_OFFSET);
+			write( crosstabName + ".setColumnBreakOffset({0, number, #});\n", crosstab.getColumnBreakOffset());
 			write( crosstabName + ".setRunDirection({0});\n", crosstab.getRunDirection(), RunDirectionEnum.LTR);
 			write( crosstabName + ".setHorizontalPosition({0});\n", crosstab.getHorizontalPosition());
 			write( crosstabName + ".setIgnoreWidth({0});\n", getBooleanText(crosstab.getIgnoreWidth()));

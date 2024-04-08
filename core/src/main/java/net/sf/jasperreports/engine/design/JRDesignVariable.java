@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.base.JRBaseVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -88,7 +89,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String className)
 	{
 		Object old = this.valueClassName;
@@ -109,7 +110,7 @@ public class JRDesignVariable extends JRBaseVariable
 	/**
 	 *
 	 */
-	@JsonSetter("incrementerFactoryClass")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
 	public void setIncrementerFactoryClassName(String className)
 	{
 		Object old = this.incrementerFactoryClassName;

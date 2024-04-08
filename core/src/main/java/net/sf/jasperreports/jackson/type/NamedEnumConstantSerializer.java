@@ -52,9 +52,12 @@ public class NamedEnumConstantSerializer extends StdScalarSerializer<NamedEnum>
 	@Override
 	public void serialize(NamedEnum value, JsonGenerator jgen, SerializerProvider provider) throws IOException 
 	{
-		if (value != null)
-		{
-			jgen.writeString(value.getName());
-		}
+		jgen.writeString(value.getName());
+	}
+	
+	@Override
+	public boolean isEmpty(SerializerProvider provider, NamedEnum value) 
+	{
+		return value == null || value == value.getDefault();
 	}
 }

@@ -34,6 +34,7 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.jackson.util.BooleanTrueAsEmptySerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -249,16 +250,10 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	public static final String PROPERTY_ELEMENT_TEMPLATE_POPULATE_STYLE = JRPropertiesUtil.PROPERTY_PREFIX + "element.template.populate.style";
 
 	/**
-	 * Returns the string value that uniquely identifies the element.
-	 */
-	@Override
-	@JacksonXmlProperty(isAttribute = true)
-	public String getKey();
-
-	/**
 	 * Returns the position type for the element
 	 * @return the position type
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public PositionTypeEnum getPositionType();
 
@@ -325,6 +320,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * space reserved for the current element remains empty. If this method returns true, it means the engine will try
 	 * to suppress the blank line, but will only succeed if no other elements occupy the same vertical space.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isRemoveLineWhenBlank();
 	
@@ -341,6 +337,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * new page or column that is not an overflow from a previous page or column.
 	 * @see JRElement#isPrintRepeatedValues()
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPrintInFirstWholeBand();
 	
@@ -356,6 +353,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * Actually if there is at least one element with this attribute, the band is redisplayed from the beginning, except
 	 * those elements that fitted in the current page and have <i>isPrintWhenDetailOverflow</i> set to false.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPrintWhenDetailOverflows();
 	
@@ -405,7 +403,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	 * 
 	 * @return an array containing the expression-based properties of this report element
 	 */
-	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_propertyExpression)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPropertyExpression[] getPropertyExpressions();
 	

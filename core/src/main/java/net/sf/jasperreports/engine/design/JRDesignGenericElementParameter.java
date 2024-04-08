@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseGenericElementParameter;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * A implementation of {@link JRBaseGenericElementParameter} that is to be used at report
@@ -89,7 +90,7 @@ public class JRDesignGenericElementParameter extends JRBaseGenericElementParamet
 	 * @param valueExpression the value expression.
 	 * @see #getValueExpression()
 	 */
-	@JsonSetter("expression")
+	@JsonSetter(JRXmlConstants.ELEMENT_expression)
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		Object old = this.valueExpression;

@@ -62,4 +62,10 @@ public enum SortOrderEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public SortOrderEnum getDefault()
+	{
+		return ASCENDING;
+	}
 }

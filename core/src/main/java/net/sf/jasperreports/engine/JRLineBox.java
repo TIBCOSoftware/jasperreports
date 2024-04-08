@@ -34,6 +34,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBoxPen;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.jackson.util.PenSerializer;
 
 
@@ -86,8 +87,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the border.
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	@JsonSerialize(using = PenSerializer.class)
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonSerialize(using = PenSerializer.class) // JACKSON-TIP: cannot be moved to JRPen
 	public JRBoxPen getPen();
 
 	/**
@@ -98,7 +99,7 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the top border.
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getTopPen();
 
@@ -110,7 +111,7 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the left border.
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getLeftPen();
 
@@ -122,7 +123,7 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the bottom border.
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getBottomPen();
 
@@ -134,7 +135,7 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 * Gets the pen properties for the right border.
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = PenSerializer.class)
 	public JRBoxPen getRightPen();
 
@@ -153,9 +154,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 *
 	 */
-	@JsonGetter("padding")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "padding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_padding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_padding, isAttribute = true)
 	public Integer getOwnPadding();
 
 	/**
@@ -173,9 +173,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 *
 	 */
-	@JsonGetter("topPadding")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "topPadding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_topPadding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_topPadding, isAttribute = true)
 	public Integer getOwnTopPadding();
 
 	/**
@@ -193,9 +192,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 *
 	 */
-	@JsonGetter("leftPadding")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "leftPadding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_leftPadding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_leftPadding, isAttribute = true)
 	public Integer getOwnLeftPadding();
 
 	/**
@@ -213,9 +211,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 *
 	 */
-	@JsonGetter("bottomPadding")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "bottomPadding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_bottomPadding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_bottomPadding, isAttribute = true)
 	public Integer getOwnBottomPadding();
 
 	/**
@@ -233,9 +230,8 @@ public interface JRLineBox extends JRPenContainer
 	/**
 	 *
 	 */
-	@JsonGetter("rightPadding")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "rightPadding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rightPadding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rightPadding, isAttribute = true)
 	public Integer getOwnRightPadding();
 
 	/**

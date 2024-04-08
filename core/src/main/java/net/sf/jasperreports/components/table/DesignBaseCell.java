@@ -128,7 +128,7 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 	}
 
 	@Override
-	@JsonSetter("style")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_style)
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.styleNameReference;

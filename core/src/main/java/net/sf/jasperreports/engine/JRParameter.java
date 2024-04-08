@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignParameter;
@@ -342,6 +343,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
+	@JacksonXmlCData
 	public String getDescription();
 		
 	/**
@@ -365,7 +367,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
-	@JacksonXmlProperty(isAttribute = true)
+	@JsonIgnore
 	public boolean isSystemDefined();
 
 	/**
@@ -413,7 +415,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @see #getNestedType()
 	 */
-	@JsonGetter(JRXmlConstants.ATTRIBUTE_nestedType) //FIXMEJACK use xml constants everywhere?
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_nestedType)
 	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_nestedType, isAttribute = true)
 	public String getNestedTypeName();
 

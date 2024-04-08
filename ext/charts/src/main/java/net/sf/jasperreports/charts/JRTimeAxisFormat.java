@@ -77,11 +77,13 @@ public interface JRTimeAxisFormat
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getTimeAxisTickLabelMask();
 
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getTimeAxisVerticalTickLabels();
 	
 	/**

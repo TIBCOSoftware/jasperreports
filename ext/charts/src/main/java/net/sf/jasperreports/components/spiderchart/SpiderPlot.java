@@ -71,7 +71,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getWebFilled();
 	
@@ -79,7 +78,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Double getStartAngle();
 	
@@ -87,7 +85,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Double getHeadPercent();
 	
@@ -95,7 +92,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Double getInteriorGap();
 	
@@ -110,7 +106,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Float getAxisLineWidth();
 	
@@ -118,7 +113,6 @@ public interface SpiderPlot extends ChartPlot
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Double getLabelGap();
 	

@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.parts.subreport;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -35,6 +33,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.part.PartComponent;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.parts.PartComponentsExtensionsRegistryFactory;
 
 /**
@@ -55,7 +54,7 @@ public interface SubreportPartComponent extends PartComponent, JRCloneable
 	/**
 	 *
 	 */
-	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_parameter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSubreportParameter[] getParameters();
 
@@ -64,7 +63,7 @@ public interface SubreportPartComponent extends PartComponent, JRCloneable
 	 *
 	 * @return the list of subreport copied values.
 	 */
-	@JacksonXmlProperty(localName = "returnValue")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_returnValue)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRSubreportReturnValue[] getReturnValues();
 
@@ -80,7 +79,6 @@ public interface SubreportPartComponent extends PartComponent, JRCloneable
 	 * @return Boolean.TRUE if the subreport should be loaded from cache, Boolean.FALSE otherwise 
 	 * or null in case the flag was never explicitly set on this subreport element
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getUsingCache();
 	

@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
@@ -157,6 +158,18 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		return returnValues == null ? null : Collections.unmodifiableList(returnValues);
 	}
 
+	@JsonSetter
+	private void setReturnValues(List<ExpressionReturnValue> returnValues)
+	{
+		if (returnValues != null)
+		{
+			for (ExpressionReturnValue returnValue : returnValues)
+			{
+				addReturnValue(returnValue);
+			}
+		}
+	}
+
 	/**
 	 * Adds a return value to the band.
 	 * 
@@ -175,6 +188,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 * 
 	 * @return list of {@link ReturnValue ReturnValue} objects
 	 */
+	@JsonIgnore
 	public List<ExpressionReturnValue> getReturnValuesList()
 	{
 		return returnValues;

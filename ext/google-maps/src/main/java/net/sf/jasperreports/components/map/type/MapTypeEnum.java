@@ -75,4 +75,10 @@ public enum MapTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public MapTypeEnum getDefault()
+	{
+		return ROADMAP;
+	}
 }

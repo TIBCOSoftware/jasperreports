@@ -38,6 +38,11 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  */
 public class PenSerializer extends StdSerializer<JRPen>
 {
+	/*
+	 * JACKSON-TIP
+	 * For some reason, putting this serializer in the JRPen interface does not work.
+	 * An infinite recursion (StackOverflowError) through reference chain occurs.
+	 */
 	private static final long serialVersionUID = 1L;
 
 	public PenSerializer() 

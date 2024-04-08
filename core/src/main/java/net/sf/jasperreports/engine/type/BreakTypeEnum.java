@@ -70,4 +70,10 @@ public enum BreakTypeEnum implements NamedEnum
 	{
 		return value == null ? PAGE : value;
 	}
+	
+	@Override
+	public BreakTypeEnum getDefault()
+	{
+		return PAGE;
+	}
 }

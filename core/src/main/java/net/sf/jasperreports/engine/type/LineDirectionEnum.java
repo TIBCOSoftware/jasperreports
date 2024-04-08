@@ -62,4 +62,10 @@ public enum LineDirectionEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public LineDirectionEnum getDefault()
+	{
+		return TOP_DOWN;
+	}
 }

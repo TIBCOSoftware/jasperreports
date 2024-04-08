@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.table;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -41,7 +39,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 public interface BaseCell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {
 
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	Integer getHeight();
 	

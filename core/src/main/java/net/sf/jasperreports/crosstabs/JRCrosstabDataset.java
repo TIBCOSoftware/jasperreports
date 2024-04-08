@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -49,6 +51,7 @@ public interface JRCrosstabDataset extends JRElementDataset
 	 * 
 	 * @return whether the crosstab data is pre-sorted
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isDataPreSorted();
 }

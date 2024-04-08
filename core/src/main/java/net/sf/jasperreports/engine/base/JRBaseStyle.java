@@ -376,7 +376,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	@JsonSetter
-	@JsonDeserialize(as = JRBasePen.class)
 	private void setLinePen(JRPen linePen)
 	{
 		this.linePen = linePen.clone(this);

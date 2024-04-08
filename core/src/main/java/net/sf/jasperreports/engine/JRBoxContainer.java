@@ -28,6 +28,7 @@ import java.awt.Color;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -50,7 +51,7 @@ public interface JRBoxContainer extends JRStyleContainer
 	 *
 	 */
 	@JsonGetter(JRXmlConstants.ELEMENT_box)
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = LineBoxSerializer.class)
 	public JRLineBox getLineBox();
 

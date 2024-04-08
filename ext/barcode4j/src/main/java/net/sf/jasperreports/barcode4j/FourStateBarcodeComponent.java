@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.barcode4j;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.krysalis.barcode4j.ChecksumMode;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * 

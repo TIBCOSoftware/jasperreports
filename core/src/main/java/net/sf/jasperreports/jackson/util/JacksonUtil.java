@@ -169,9 +169,9 @@ public class JacksonUtil
 	private void configureMapper(ObjectMapper mapper)
 	{
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		//mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.setSerializationInclusion(Include.NON_NULL);
 		//mapper.setSerializationInclusion(Include.NON_EMPTY); // these are enum values
-		mapper.setSerializationInclusion(Include.NON_DEFAULT);
+		//mapper.setSerializationInclusion(Include.NON_DEFAULT);
 		
 		List<JacksonMapping> jacksonMappings = jasperReportsContext.getExtensions(JacksonMapping.class);
 		for (JacksonMapping jacksonMapping : jacksonMappings)

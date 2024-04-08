@@ -70,4 +70,10 @@ public enum SectionTypeEnum implements NamedEnum
 	{
 		return value == null ? BAND : value;
 	}
+	
+	@Override
+	public SectionTypeEnum getDefault()
+	{
+		return BAND;
+	}
 }

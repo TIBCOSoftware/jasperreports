@@ -62,4 +62,10 @@ public enum RunDirectionEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public RunDirectionEnum getDefault()
+	{
+		return LTR;
+	}
 }

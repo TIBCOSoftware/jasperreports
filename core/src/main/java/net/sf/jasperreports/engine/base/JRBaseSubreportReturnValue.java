@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -88,8 +89,8 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * @return the name of the variable whose value should be copied.
 	 */
 	@Override
-	@JsonGetter("subreportVariable")
-	@JacksonXmlProperty(localName = "subreportVariable", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_subreportVariable)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_subreportVariable, isAttribute = true)
 	public String getFromVariable()
 	{
 		return this.subreportVariable;

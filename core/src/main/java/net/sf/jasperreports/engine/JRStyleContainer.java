@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -60,8 +62,8 @@ public interface JRStyleContainer
 	@JsonIgnore
 	public String getStyleNameReference();
 
-	@JsonGetter("style")
-	@JacksonXmlProperty(localName = "style", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_style)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_style, isAttribute = true)
 	public default String getStyleName()
 	{
 		if (getStyle() != null)

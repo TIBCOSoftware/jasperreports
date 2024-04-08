@@ -457,7 +457,8 @@ public class JRVerifier
 			addBrokenRule("Report name is missing.", jasperDesign);
 		}
 
-		if (jasperDesign.getColumnCount() <= 0)
+		int columnCount = jasperDesign.getColumnCount() == null ? 1 : jasperDesign.getColumnCount();
+		if (columnCount <= 0)
 		{
 			addBrokenRule("Column count must be greater than zero.", jasperDesign);
 		}
@@ -504,8 +505,8 @@ public class JRVerifier
 
 		if (
 			jasperDesign.getLeftMargin() +
-			jasperDesign.getColumnCount() * jasperDesign.getColumnWidth() +
-			(jasperDesign.getColumnCount() - 1) * jasperDesign.getColumnSpacing() +
+			columnCount * jasperDesign.getColumnWidth() +
+			(columnCount - 1) * jasperDesign.getColumnSpacing() +
 			jasperDesign.getRightMargin() >
 			jasperDesign.getPageWidth()
 			)

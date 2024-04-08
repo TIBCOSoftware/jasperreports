@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import net.sf.jasperreports.jackson.util.ParagraphSerializer;
@@ -37,7 +38,7 @@ public interface JRParagraphContainer extends JRStyleContainer
 	/**
 	 *
 	 */
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@JsonInclude(Include.NON_EMPTY)
 	@JsonSerialize(using = ParagraphSerializer.class)
 	public JRParagraph getParagraph();
 

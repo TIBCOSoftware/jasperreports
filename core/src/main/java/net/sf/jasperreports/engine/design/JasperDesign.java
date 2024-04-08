@@ -265,9 +265,9 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Specifies the number of report columns.
 	 */
-	public void setColumnCount(int columnCount)
+	public void setColumnCount(Integer columnCount)
 	{
-		int old = this.columnCount;
+		Integer old = this.columnCount;
 		this.columnCount = columnCount;
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_COUNT, old, this.columnCount);
 	}

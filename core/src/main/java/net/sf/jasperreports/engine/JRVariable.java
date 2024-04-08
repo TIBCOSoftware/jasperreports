@@ -25,7 +25,10 @@ package net.sf.jasperreports.engine;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -265,6 +268,7 @@ public interface JRVariable extends JRCloneable
 	/**
 	 * Gets the variable optional description.
 	 */
+	@JacksonXmlCData
 	public String getDescription();
 		
 	/**
@@ -306,6 +310,7 @@ public interface JRVariable extends JRCloneable
 	 * Gets the variable reset type.
 	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public ResetTypeEnum getResetType();
 	
@@ -313,6 +318,7 @@ public interface JRVariable extends JRCloneable
 	 * Gets the variable increment type.
 	 * @return a value representing one of the reset type constants in {@link IncrementTypeEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public IncrementTypeEnum getIncrementType();
 	
@@ -320,6 +326,7 @@ public interface JRVariable extends JRCloneable
 	 * Gets the variable calculation type.
 	 * @return a value representing one of the calculation type constants in {@link CalculationEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CalculationEnum getCalculation();
 
@@ -327,7 +334,7 @@ public interface JRVariable extends JRCloneable
 	 * Returns <code>true</code> if the variable calculation type is system defined.
 	 * @see CalculationEnum#SYSTEM
 	 */
-	@JacksonXmlProperty(isAttribute = true)
+	@JsonIgnore
 	public boolean isSystemDefined();
 
 	/**

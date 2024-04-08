@@ -157,7 +157,6 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * @return Boolean.TRUE if the image should be loaded from cache, Boolean.FALSE otherwise 
 	 * or null in case the flag was never explicitly set on this image element
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getUsingCache();
 
@@ -174,6 +173,7 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	/**
 	 * Indicates if the images will be loaded lazily or not.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isLazy();
 
@@ -189,6 +189,7 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * Indicates how the engine will treat a missing image.
 	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public OnErrorTypeEnum getOnErrorType();
 	

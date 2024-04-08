@@ -69,4 +69,10 @@ public enum TextAdjustEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public TextAdjustEnum getDefault()
+	{
+		return CUT_TEXT;
+	}
 }

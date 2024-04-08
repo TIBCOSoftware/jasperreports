@@ -78,8 +78,8 @@ public interface JRCommonGraphicElement extends JRCommonElement, JRPenContainer
 	 * Indicates the own fill type used for this element.
 	 * @return a value representing one of the fill type constants in {@link FillEnum}
 	 */
-	@JsonGetter("fill")
-	@JacksonXmlProperty(localName = "fill", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_fill)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_fill, isAttribute = true)
 	public FillEnum getOwnFill();
 	
 	/**

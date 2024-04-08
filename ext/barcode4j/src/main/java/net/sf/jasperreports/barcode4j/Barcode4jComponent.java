@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -58,6 +60,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 	{
 	}
 	
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public OrientationEnum getOrientation()
 	{

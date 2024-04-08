@@ -34,6 +34,7 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -172,8 +173,8 @@ public interface JRParagraph extends JRStyleContainer
 	 * Gets the text own line spacing.
 	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
-	@JsonGetter("lineSpacing")
-	@JacksonXmlProperty(localName = "lineSpacing", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_lineSpacing)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_lineSpacing, isAttribute = true)
 	public LineSpacingEnum getOwnLineSpacing();
 	
 	/**
@@ -192,8 +193,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own line spacing size to be used in combination with the line spacing type.
 	 */
-	@JsonGetter("lineSpacingSize")
-	@JacksonXmlProperty(localName = "lineSpacingSize", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_lineSpacingSize)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_lineSpacingSize, isAttribute = true)
 	public Float getOwnLineSpacingSize();
 	
 	/**
@@ -211,8 +212,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own left indent.
 	 */
-	@JsonGetter("leftIndent")
-	@JacksonXmlProperty(localName = "leftIndent", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_leftIndent)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_leftIndent, isAttribute = true)
 	public Integer getOwnLeftIndent();
 	
 	/**
@@ -230,8 +231,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own first line indent.
 	 */
-	@JsonGetter("firstLineIndent")
-	@JacksonXmlProperty(localName = "firstLineIndent", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_firstLineIndent)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_firstLineIndent, isAttribute = true)
 	public Integer getOwnFirstLineIndent();
 	
 	/**
@@ -249,8 +250,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own right indent.
 	 */
-	@JsonGetter("rightIndent")
-	@JacksonXmlProperty(localName = "rightIndent", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rightIndent)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rightIndent, isAttribute = true)
 	public Integer getOwnRightIndent();
 	
 	/**
@@ -268,8 +269,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own spacing before.
 	 */
-	@JsonGetter("spacingBefore")
-	@JacksonXmlProperty(localName = "spacingBefore", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_spacingBefore)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_spacingBefore, isAttribute = true)
 	public Integer getOwnSpacingBefore();
 	
 	/**
@@ -287,8 +288,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own spacing after.
 	 */
-	@JsonGetter("spacingAfter")
-	@JacksonXmlProperty(localName = "spacingAfter", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_spacingAfter)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_spacingAfter, isAttribute = true)
 	public Integer getOwnSpacingAfter();
 	
 	/**
@@ -306,8 +307,8 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text own tab stop width.
 	 */
-	@JsonGetter("tabStopWidth")
-	@JacksonXmlProperty(localName = "tabStopWidth", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_tabStopWidth)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_tabStopWidth, isAttribute = true)
 	public Integer getOwnTabStopWidth();
 	
 	/**
@@ -326,7 +327,7 @@ public interface JRParagraph extends JRStyleContainer
 	 * Gets the custom tab stops.
 	 */
 	@JsonGetter("tabStops")
-	@JacksonXmlProperty(localName = "tabStop")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_tabStop)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public TabStop[] getOwnTabStops();
 	

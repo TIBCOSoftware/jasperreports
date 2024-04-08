@@ -99,4 +99,10 @@ public enum OrientationEnum implements NamedValueEnum<Integer>
 	{
 		return value == null ? UP : value;
 	}
+	
+	@Override
+	public OrientationEnum getDefault()
+	{
+		return UP;
+	}
 }

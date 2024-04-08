@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -170,7 +171,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
-	@JsonSetter("style")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_style)
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.parentStyleNameReference;

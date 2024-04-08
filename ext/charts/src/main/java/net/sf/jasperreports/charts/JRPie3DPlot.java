@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.charts;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -62,18 +60,19 @@ public interface JRPie3DPlot extends JRChartPlot
 	/**
 	 * @return a flag that specifies a circular form for the 3D pie
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getCircular();
 	
 	/**
 	 * @return the format pattern for labels
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLabelFormat();
 	
 	/**
 	 * @return the format pattern for legend labels
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getLegendLabelFormat();
 
 	/**
@@ -85,6 +84,7 @@ public interface JRPie3DPlot extends JRChartPlot
 	/**
 	 * @return a flag that specifies whether labels are to be shown or not
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
 	
 }

@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
@@ -46,7 +48,7 @@ public interface JRElementDataset extends JRCloneable, DatasetRunHolder
 	 */
 	@JsonGetter(JRXmlConstants.ATTRIBUTE_resetType)
 	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_resetType, isAttribute = true)
-	public DatasetResetTypeEnum getDatasetResetType();
+	public DatasetResetTypeEnum getDatasetResetType(); //has multiple defaults, global Include.NON_NULL works better here
 
 	/**
 	 * Gets the selected reset group in case of reset type group.
@@ -58,6 +60,7 @@ public interface JRElementDataset extends JRCloneable, DatasetRunHolder
 	 * Returns the increment type. This specifies dataset values increment step.
 	 * @return one of the increment constants in {@link IncrementTypeEnum}.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public IncrementTypeEnum getIncrementType();
 

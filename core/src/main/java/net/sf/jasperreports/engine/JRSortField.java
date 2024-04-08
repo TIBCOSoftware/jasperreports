@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -72,12 +74,14 @@ public interface JRSortField extends JRCloneable
 	/**
 	 * Gets the sort order for the field.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public SortOrderEnum getOrder();
 		
 	/**
 	 * Gets the type of the sort field.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public SortFieldTypeEnum getType();
 

@@ -78,11 +78,13 @@ public interface JRCategoryAxisFormat
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getCategoryAxisTickLabelMask();
 	
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getCategoryAxisVerticalTickLabels();
 	
 	/**
@@ -103,6 +105,7 @@ public interface JRCategoryAxisFormat
 	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Double getCategoryAxisTickLabelRotation();
 	
 	/**

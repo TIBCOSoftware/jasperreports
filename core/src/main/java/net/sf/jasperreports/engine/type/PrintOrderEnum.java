@@ -71,4 +71,10 @@ public enum PrintOrderEnum implements NamedEnum
 	{
 		return value == null ? VERTICAL : value;
 	}
+	
+	@Override
+	public PrintOrderEnum getDefault()
+	{
+		return VERTICAL;
+	}
 }

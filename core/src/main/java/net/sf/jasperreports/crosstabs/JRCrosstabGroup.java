@@ -24,6 +24,8 @@
 package net.sf.jasperreports.crosstabs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
@@ -67,6 +69,7 @@ public interface JRCrosstabGroup extends JRCloneable
 	 * 
 	 * @return the position of the total row/column for this group
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CrosstabTotalPositionEnum getTotalPosition();
 	

@@ -25,6 +25,8 @@ package net.sf.jasperreports.crosstabs;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -82,7 +84,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the measure expression
 	 */
-	@JsonGetter("expression")
+	@JsonGetter(JRXmlConstants.ELEMENT_expression)
 	public JRExpression getValueExpression();
 	
 	
@@ -101,6 +103,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory
 	 * @see net.sf.jasperreports.engine.fill.JRExtendedIncrementer
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CalculationEnum getCalculation();
 	
@@ -114,8 +117,8 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the incrementer factory class name
 	 */
-	@JsonGetter("incrementerFactoryClass")
-	@JacksonXmlProperty(localName = "incrementerFactoryClass", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, isAttribute = true)
 	public String getIncrementerFactoryClassName();
 	
 	
@@ -146,6 +149,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @see net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory#hasBuiltInCalculator(Class)
 	 * @see #getPercentageCalculatorClassName()
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CrosstabPercentageEnum getPercentageType();
 	

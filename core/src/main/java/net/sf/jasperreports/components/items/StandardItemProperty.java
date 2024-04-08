@@ -25,8 +25,6 @@ package net.sf.jasperreports.components.items;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -94,7 +92,6 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		return valueExpression;
 	}
 
-	@JsonSetter("expression")
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		Object old = this.valueExpression;

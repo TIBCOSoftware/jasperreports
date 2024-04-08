@@ -87,4 +87,10 @@ public enum FooterPositionEnum implements NamedEnum
 	{
 		return value == null ? NORMAL : value;
 	}
+	
+	@Override
+	public FooterPositionEnum getDefault()
+	{
+		return NORMAL;
+	}
 }

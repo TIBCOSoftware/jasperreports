@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignPart;
 import net.sf.jasperreports.engine.part.PartComponent;
@@ -57,6 +59,8 @@ public interface JRPart extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 	 * 
 	 * @return an array containing the expression-based properties of this report part
 	 */
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_propertyExpression)
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPropertyExpression[] getPropertyExpressions();
 
 	/**

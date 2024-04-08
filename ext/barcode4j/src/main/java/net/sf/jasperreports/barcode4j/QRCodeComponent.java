@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.barcode4j;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.annotations.properties.Property;
@@ -92,6 +94,7 @@ public class QRCodeComponent extends BarcodeComponent
 		getEventSupport().firePropertyChange(PROPERTY_MARGIN, old, this.margin);
 	}
 
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public ErrorCorrectionLevelEnum getErrorCorrectionLevel()
 	{

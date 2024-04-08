@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.base.JRBaseField;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -79,7 +80,7 @@ public class JRDesignField extends JRBaseField
 	/**
 	 *
 	 */
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String className)
 	{
 		Object old = this.valueClassName;

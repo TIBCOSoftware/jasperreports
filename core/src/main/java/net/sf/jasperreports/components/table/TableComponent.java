@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -75,13 +76,13 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	
 	Row getTableFooter();
 	
-	@JacksonXmlProperty(localName = "groupHeader")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_groupHeader)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupRow> getGroupHeaders();
 	
 	Row getGroupHeader(String groupName);
 	
-	@JacksonXmlProperty(localName = "groupFooter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_groupFooter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupRow> getGroupFooters();
 	

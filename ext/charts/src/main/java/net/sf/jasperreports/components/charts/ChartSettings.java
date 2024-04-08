@@ -26,8 +26,6 @@ package net.sf.jasperreports.components.charts;
 import java.awt.Color;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -49,7 +47,6 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 * 
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLegend();
 

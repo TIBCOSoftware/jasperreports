@@ -25,15 +25,19 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
@@ -123,6 +127,7 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 	/**
 	 *
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public int getHeight();
 
@@ -147,6 +152,9 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 	 *
 	 * @return the list of returned values.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_returnValue)
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ExpressionReturnValue> getReturnValues();
 
 }

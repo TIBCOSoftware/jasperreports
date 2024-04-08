@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -108,8 +109,8 @@ public interface JRCommonElement extends JRStyleContainer
 	@JsonIgnore
 	public ModeEnum getMode();
 	
-	@JsonGetter("mode")
-	@JacksonXmlProperty(localName = "mode", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_mode)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_mode, isAttribute = true)
 	public ModeEnum getOwnMode();
 
 	/**
@@ -127,8 +128,8 @@ public interface JRCommonElement extends JRStyleContainer
 	/**
 	 *
 	 */
-	@JsonGetter("forecolor")
-	@JacksonXmlProperty(localName = "forecolor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_forecolor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_forecolor, isAttribute = true)
 	public Color getOwnForecolor();
 
 	
@@ -147,8 +148,8 @@ public interface JRCommonElement extends JRStyleContainer
 	/**
 	 *
 	 */
-	@JsonGetter("backcolor")
-	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_backcolor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_backcolor, isAttribute = true)
 	public Color getOwnBackcolor();
 	
 	/**

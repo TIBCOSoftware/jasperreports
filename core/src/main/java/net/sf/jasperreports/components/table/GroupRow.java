@@ -23,16 +23,19 @@
  */
 package net.sf.jasperreports.components.table;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import net.sf.jasperreports.engine.JRCloneable;
 
 /**
- * 
- * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = StandardGroupRow.class)
 public interface GroupRow extends JRCloneable
 {
 
+	@JacksonXmlProperty(isAttribute = true)
 	String getGroupName();
 	
 	Row getRow();

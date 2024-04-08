@@ -116,4 +116,10 @@ public enum EvaluationTimeEnum implements NamedEnum
 	{
 		return value == null ? NOW : value;
 	}
+	
+	@Override
+	public EvaluationTimeEnum getDefault()
+	{
+		return NOW;
+	}
 }

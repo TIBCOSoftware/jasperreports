@@ -106,4 +106,9 @@ public enum TimePeriodEnum implements NamedEnum
 		return EnumUtil.getEnumByName(values(), name);
 	}
 	
+	@Override
+	public TimePeriodEnum getDefault()
+	{
+		return DAY;
+	}
 }

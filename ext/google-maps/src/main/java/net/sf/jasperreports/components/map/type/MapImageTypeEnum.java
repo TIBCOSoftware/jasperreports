@@ -85,4 +85,10 @@ public enum MapImageTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public MapImageTypeEnum getDefault()
+	{
+		return PNG;
+	}
 }

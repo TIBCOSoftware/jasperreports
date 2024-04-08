@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket crosstab group bucket}
@@ -134,7 +135,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	 * @param valueClassName the bucket value class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getValueClassName()
 	 */
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String valueClassName)
 	{
 		String old = this.valueClassName;

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -63,6 +65,7 @@ public interface JRCrosstabRowGroup extends JRCrosstabGroup
 	 * 
 	 * @return the position of the header contents for header stretching
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CrosstabRowPositionEnum getPosition();
 }

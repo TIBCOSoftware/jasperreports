@@ -29,7 +29,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignGenericElement;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * A "generic" report element that will produce a 
@@ -122,7 +122,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  */
 @JsonTypeName("generic")
 @JsonDeserialize(as = JRDesignGenericElement.class)
-public interface JRGenericElement extends JRElement
+public interface JRGenericElement extends JRElement, JREvaluation
 {
 
 	/**
@@ -139,32 +139,8 @@ public interface JRGenericElement extends JRElement
 	 * 
 	 * @return the list of parameters 
 	 */
-	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_parameter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	JRGenericElementParameter[] getParameters();
-	
-	/**
-	 * Returns the evaluation time of this element.
-	 * 
-	 * <p>
-	 * The evaluation time determines the moment at which parameter expressions
-	 * are evaluated for this element.  All parameters will be evaluated at the
-	 * same moment.
-	 * 
-	 * @return the evaluation time of this element
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	EvaluationTimeEnum getEvaluationTime();
-	
-	/**
-	 * Returns the name of the evaluation group for this element.
-	 * The evaluation group is only present when
-	 * {@link #getEvaluationTime() the evaluation time} is
-	 * {@link EvaluationTimeEnum#GROUP}.
-	 * 
-	 * @return the name of the evaluation group for this element
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	String getEvaluationGroup();
 	
 }

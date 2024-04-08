@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * 
@@ -57,13 +58,13 @@ public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifia
 	
 	Cell getTableFooter();
 	
-	@JacksonXmlProperty(localName = "groupHeader")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_groupHeader)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupCell> getGroupHeaders();
 	
 	Cell getGroupHeader(String groupName);
 	
-	@JacksonXmlProperty(localName = "groupFooter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_groupFooter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	List<GroupCell> getGroupFooters();
 	
@@ -78,6 +79,8 @@ public interface BaseColumn extends JRCloneable, JRPropertiesHolder, JRIdentifia
 
 	<R> R visitColumn(ColumnVisitor<R> visitor);
 
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_propertyExpression)
+	@JacksonXmlElementWrapper(useWrapping = false)
 	JRPropertyExpression[] getPropertyExpressions();
 
 }

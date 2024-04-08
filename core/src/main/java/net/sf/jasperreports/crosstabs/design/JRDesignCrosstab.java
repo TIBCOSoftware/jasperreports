@@ -138,7 +138,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected Map<String, Integer> rowGroupsMap;
 	protected Map<String, Integer> columnGroupsMap;
 	protected Map<String, Integer> measuresMap;
-	protected int columnBreakOffset = DEFAULT_COLUMN_BREAK_OFFSET;
+	protected Integer columnBreakOffset;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
 	protected RunDirectionEnum runDirection;
@@ -1253,7 +1253,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 
 	@Override
-	public int getColumnBreakOffset()
+	public Integer getColumnBreakOffset()
 	{
 		return columnBreakOffset;
 	}
@@ -1265,9 +1265,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @param columnBreakOffset the offset
 	 * @see JRCrosstab#getColumnBreakOffset()
 	 */
-	public void setColumnBreakOffset(int columnBreakOffset)
+	public void setColumnBreakOffset(Integer columnBreakOffset)
 	{
-		int old = this.columnBreakOffset;
+		Integer old = this.columnBreakOffset;
 		this.columnBreakOffset = columnBreakOffset;
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_BREAK_OFFSET, old, this.columnBreakOffset);
 	}

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Crosstab measure implementation to be used for report designing.
@@ -96,7 +97,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param expression the measure value expression.
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getValueExpression()
 	 */
-	@JsonSetter("expression")
+	@JsonSetter(JRXmlConstants.ELEMENT_expression)
 	public void setValueExpression(JRExpression expression)
 	{
 		Object old = this.expression;
@@ -111,7 +112,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param incrementerFactoryClassName the incrementer factory class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getIncrementerFactoryClassName()
 	 */
-	@JsonSetter("incrementerFactoryClass")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass)
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;
@@ -174,7 +175,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * @param valueClassName the measure value class name
 	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getValueClassName()
 	 */
-	@JsonSetter("class")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_class)
 	public void setValueClassName(String valueClassName)
 	{
 		String old = this.valueClassName;

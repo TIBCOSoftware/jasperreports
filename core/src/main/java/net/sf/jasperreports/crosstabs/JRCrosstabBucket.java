@@ -25,6 +25,8 @@ package net.sf.jasperreports.crosstabs;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -74,6 +76,7 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * @return the bucket sorting type
 	 * @see #getComparatorExpression()
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public BucketOrder getOrder();
 	

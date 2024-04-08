@@ -70,4 +70,10 @@ public enum MapScaleEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public MapScaleEnum getDefault()
+	{
+		return ONE;
+	}
 }

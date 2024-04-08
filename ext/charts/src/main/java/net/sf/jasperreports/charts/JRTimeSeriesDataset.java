@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -57,6 +59,7 @@ public interface JRTimeSeriesDataset extends JRChartDataset {
 	 * days, months, years, or other predefined time periods.
 	 * @see net.sf.jasperreports.charts.type.TimePeriodEnum
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public TimePeriodEnum getTimePeriod();
 

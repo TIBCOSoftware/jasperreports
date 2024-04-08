@@ -87,8 +87,8 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 *
 	 */
 	protected String name;
-	protected String language = LANGUAGE_JAVA;
-	protected int columnCount = 1;
+	protected String language = LANGUAGE_JAVA; //FIXMEJACK
+	protected Integer columnCount;
 	protected PrintOrderEnum printOrder;
 	protected RunDirectionEnum columnDirection;
 	protected int pageWidth = 595;
@@ -285,7 +285,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	@Override
-	public int getColumnCount()
+	public Integer getColumnCount()
 	{
 		return columnCount;
 	}

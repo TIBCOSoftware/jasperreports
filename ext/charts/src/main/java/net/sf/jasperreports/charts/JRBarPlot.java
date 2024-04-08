@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.charts;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -46,7 +44,6 @@ public interface JRBarPlot extends JRCategoryPlot
 	/**
 	 * @return a flag that specifies whether the tick marks are to be shown or not
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowTickMarks();
 
@@ -59,7 +56,6 @@ public interface JRBarPlot extends JRCategoryPlot
 	/**
 	 * @return a flag that specifies whether the tick labels are to be shown or not
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowTickLabels();
 	
@@ -78,7 +74,6 @@ public interface JRBarPlot extends JRCategoryPlot
 	/**
 	 * @return a flag that specifies whether the labels are to be shown or not
 	 */
-	@JsonInclude(Include.NON_NULL)
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
 	

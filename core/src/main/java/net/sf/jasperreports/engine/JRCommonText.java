@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Common interface of design and print text elements.
@@ -120,8 +121,8 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	 * Gets the text own rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
-	@JsonGetter("rotation")
-	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rotation)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rotation, isAttribute = true)
 	public RotationEnum getOwnRotation();
 	
 	/**
@@ -137,13 +138,14 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	@JsonIgnore
 	public String getMarkup();
 
-	@JsonGetter("markup")
-	@JacksonXmlProperty(localName = "markup", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_markup)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_markup, isAttribute = true)
 	public String getOwnMarkup();
 	
 	@JsonSetter
 	public void setMarkup(String markup);
 
+	@JsonIgnore
 	float getFontSize();
 	
 }

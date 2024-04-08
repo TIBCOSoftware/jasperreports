@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -35,6 +36,7 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 //import java.text.Format;
@@ -280,6 +282,7 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * Gets the text adjust type.
 	 * @return a value representing one of the text adjust constants in {@link TextAdjustEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public TextAdjustEnum getTextAdjust();
 
@@ -298,9 +301,8 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	@JsonIgnore
 	public String getPattern();
 		
-	@JsonGetter("pattern")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JacksonXmlProperty(localName = "pattern", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_pattern)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_pattern, isAttribute = true)
 	public String getOwnPattern();
 
 	/**
@@ -320,7 +322,6 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	public boolean isBlankWhenNull();
 
 	@JsonGetter("blankWhenNull")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JacksonXmlProperty(localName = "blankWhenNull", isAttribute = true)
 	public Boolean isOwnBlankWhenNull();
 

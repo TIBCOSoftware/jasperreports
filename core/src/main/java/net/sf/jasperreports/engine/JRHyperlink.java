@@ -31,6 +31,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import net.sf.jasperreports.engine.design.JRDesignHyperlink;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -297,7 +298,7 @@ public interface JRHyperlink extends JRCloneable
 	 * </p>
 	 * @return the list of hyperlink parameters
 	 */
-	@JacksonXmlProperty(localName = "hyperlinkParameter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_hyperlinkParameter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRHyperlinkParameter[] getHyperlinkParameters();
 	

@@ -75,4 +75,10 @@ public enum CrosstabColumnPositionEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public CrosstabColumnPositionEnum getDefault()
+	{
+		return LEFT;
+	}
 }

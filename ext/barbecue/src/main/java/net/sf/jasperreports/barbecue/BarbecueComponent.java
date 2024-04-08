@@ -30,18 +30,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JREvaluation;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @JsonTypeName(BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME)
 @JsonDeserialize(as = StandardBarbecueComponent.class)
-public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
+public interface BarbecueComponent extends ContextAwareComponent, JREvaluation, JRCloneable
 {
 	String METADATA_KEY_QUALIFICATION = 
 			BarbecueExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME;
@@ -68,17 +68,11 @@ public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 	@JacksonXmlProperty(isAttribute = true)
 	Integer getBarHeight();
 	
-	@JacksonXmlProperty(isAttribute = true)
-	EvaluationTimeEnum getEvaluationTime();
-	
-	@JacksonXmlProperty(isAttribute = true)
-	String getEvaluationGroup();
-	
 	@JsonIgnore
 	RotationEnum getRotation();
 	
-	@JsonGetter("rotation")
-	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rotation)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rotation, isAttribute = true)
 	RotationEnum getOwnRotation();
 	
 }

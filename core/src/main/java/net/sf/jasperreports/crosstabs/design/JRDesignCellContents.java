@@ -218,7 +218,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 * @param styleName the name of the external style
 	 * @see #getStyleNameReference()
 	 */
-	@JsonSetter("style")
+	@JsonSetter(JRXmlConstants.ELEMENT_style)
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.styleNameReference;

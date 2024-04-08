@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -99,6 +100,7 @@ public interface JRField extends JRPropertiesHolder, JRCloneable
 	/**
 	 * Gets the field optional description.
 	 */
+	@JacksonXmlCData
 	public String getDescription();
 		
 	/**
@@ -124,7 +126,7 @@ public interface JRField extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @return an array containing the expression-based properties of this field
 	 */
-	@JacksonXmlProperty(localName = "propertyExpression")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_propertyExpression)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPropertyExpression[] getPropertyExpressions();
 

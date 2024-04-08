@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignHyperlinkParameter;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * A hyperlink parameter, consisting of a name and a value expression.
@@ -55,7 +56,7 @@ public interface JRHyperlinkParameter extends JRCloneable
 	 * 
 	 * @return the parameter value expression
 	 */
-	@JsonGetter("expression")
+	@JsonGetter(JRXmlConstants.ELEMENT_expression)
 	JRExpression getValueExpression();
 	
 }

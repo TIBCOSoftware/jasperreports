@@ -28,6 +28,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.design.JRDesignSection;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * Implementations of this interface represent various sections in the report template. 
@@ -136,14 +137,14 @@ public interface JRSection extends JRCloneable
 	/**
 	 * Returns the bands within the current section.
 	 */
-	@JacksonXmlProperty(localName = "band")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_band)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRBand[] getBands();
 	
 	/**
 	 * Returns the parts within the current section.
 	 */
-	@JacksonXmlProperty(localName = "part")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_part)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRPart[] getParts();
 		

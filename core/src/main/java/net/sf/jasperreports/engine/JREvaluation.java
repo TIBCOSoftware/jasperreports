@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -79,6 +81,7 @@ public interface JREvaluation
 	 * Gets the evaluation time for this text field.
 	 * @return one of the evaluation time constants in {@link JRExpression}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public EvaluationTimeEnum getEvaluationTime();
 

@@ -285,22 +285,22 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public ModeEnum getMode();
 
-	@JsonGetter("mode")
-	@JacksonXmlProperty(localName = "mode", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_mode)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_mode, isAttribute = true)
 	public ModeEnum getOwnMode();
 
 	@JsonIgnore
 	public Color getForecolor();
 
-	@JsonGetter("forecolor")
-	@JacksonXmlProperty(localName = "forecolor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_forecolor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_forecolor, isAttribute = true)
 	public Color getOwnForecolor();
 
 	@JsonIgnore
 	public Color getBackcolor();
 
-	@JsonGetter("backcolor")
-	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_backcolor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_backcolor, isAttribute = true)
 	public Color getOwnBackcolor();
 
 	/**
@@ -318,8 +318,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public FillEnum getFill();
 
-	@JsonGetter("fill")
-	@JacksonXmlProperty(localName = "fill", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_fill)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_fill, isAttribute = true)
 	public FillEnum getOwnFill();
 
 	/**
@@ -328,8 +328,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public Integer getRadius();
 
-	@JsonGetter("radius")
-	@JacksonXmlProperty(localName = "radius", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_radius)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_radius, isAttribute = true)
 	public Integer getOwnRadius();
 
 	/**
@@ -343,8 +343,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 * Gets the image own scale type.
 	 * @return one of the scale types defined in {@link ScaleImageEnum}
 	 */
-	@JsonGetter("scaleImage")
-	@JacksonXmlProperty(localName = "scaleImage", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_scaleImage)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_scaleImage, isAttribute = true)
 	public ScaleImageEnum getOwnScaleImage();
 
 	/**
@@ -402,8 +402,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	 * Gets the text own rotation.
 	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
 	 */
-	@JsonGetter("rotation")
-	@JacksonXmlProperty(localName = "rotation", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rotation)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rotation, isAttribute = true)
 	public RotationEnum getOwnRotation();
 	
 	/**
@@ -412,8 +412,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public String getMarkup();
 
-	@JsonGetter("markup")
-	@JacksonXmlProperty(localName = "markup", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_markup)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_markup, isAttribute = true)
 	public String getOwnMarkup();
 
 	/**
@@ -425,8 +425,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JsonGetter("fontName")
-	@JacksonXmlProperty(localName = "fontName", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_fontName)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_fontName, isAttribute = true)
 	public String getOwnFontName();
 
 	/**
@@ -490,8 +490,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JsonGetter("fontSize")
-	@JacksonXmlProperty(localName = "fontSize", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_fontSize)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_fontSize, isAttribute = true)
 	public Float getOwnFontSize();
 
 	/**
@@ -503,8 +503,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JsonGetter("pdfFontName")
-	@JacksonXmlProperty(localName = "pdfFontName", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_pdfFontName)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_pdfFontName, isAttribute = true)
 	public String getOwnPdfFontName();
 
 	/**
@@ -516,8 +516,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JsonGetter("pdfEncoding")
-	@JacksonXmlProperty(localName = "pdfEncoding", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_pdfEncoding)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_pdfEncoding, isAttribute = true)
 	public String getOwnPdfEncoding();
 
 	/**
@@ -542,8 +542,8 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	@JsonIgnore
 	public String getPattern();
 
-	@JsonGetter("pattern")
-	@JacksonXmlProperty(localName = "pattern", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_pattern)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_pattern, isAttribute = true)
 	public String getOwnPattern();
 
 	/**
@@ -697,7 +697,7 @@ public interface JRStyle extends JRBoxContainer, JRPenContainer, JRParagraphCont
 	/**
 	 *
 	 */
-	@JacksonXmlProperty(localName = "conditionalStyle")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_conditionalStyle)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRConditionalStyle[] getConditionalStyles();
 }

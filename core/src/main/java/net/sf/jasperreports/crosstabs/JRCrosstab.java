@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.jackson.util.BooleanTrueAsEmptySerializer;
 import net.sf.jasperreports.jackson.util.ParameterSerializer;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -168,7 +169,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @return the column break offset
 	 */
 	@JacksonXmlProperty(isAttribute = true)
-	public int getColumnBreakOffset();
+	public Integer getColumnBreakOffset();
 	
 	/**
 	 * Returns whether to repeat the column headers after a row break.
@@ -271,7 +272,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @return the crosstab parameters
 	 */
 	@JsonSerialize(contentUsing = ParameterSerializer.class)
-	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_parameter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRCrosstabParameter[] getParameters();
 	
@@ -337,6 +338,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * Retrieves the run direction of this crosstab
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public RunDirectionEnum getRunDirection();
 	

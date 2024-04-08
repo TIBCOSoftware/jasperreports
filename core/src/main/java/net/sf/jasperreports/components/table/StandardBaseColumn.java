@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -448,6 +451,20 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return props;
 	}
 
+
+	@JsonSetter
+	private void setPropertyExpressions(List<JRPropertyExpression> propertyExpressions)
+	{
+		if (propertyExpressions != null)
+		{
+			for (JRPropertyExpression propertyExpression : propertyExpressions)
+			{
+				addPropertyExpression(propertyExpression);
+			}
+		}
+	}
+
+
 	/**
 	 * Add a dynamic/expression-based property.
 	 * 
@@ -511,6 +528,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	 * @return the list of property expressions ({@link JRPropertyExpression} instances)
 	 * @see #addPropertyExpression(JRPropertyExpression)
 	 */
+	@JsonIgnore
 	public List<JRPropertyExpression> getPropertyExpressionsList()
 	{
 		return propertyExpressions;

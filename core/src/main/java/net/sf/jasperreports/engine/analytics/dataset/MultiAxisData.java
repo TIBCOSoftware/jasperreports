@@ -32,6 +32,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.analytics.data.Axis;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -43,7 +44,7 @@ public interface MultiAxisData extends JRCloneable
 	MultiAxisDataset getDataset();
 	
 	@JsonGetter("dataAxes")
-	@JacksonXmlProperty(localName = "dataAxis")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_dataAxis)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	List<DataAxis> getDataAxisList();
 	

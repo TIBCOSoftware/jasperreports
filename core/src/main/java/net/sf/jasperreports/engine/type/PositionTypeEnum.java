@@ -78,4 +78,10 @@ public enum PositionTypeEnum implements NamedEnum
 	{
 		return value == null ? FIX_RELATIVE_TO_TOP : value;
 	}
+	
+	@Override
+	public PositionTypeEnum getDefault()
+	{
+		return FIX_RELATIVE_TO_TOP;
+	}
 }

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 /**
@@ -64,6 +66,7 @@ public interface JRAnchor
 	 * @return the level of the bookmark corresponding to the anchor (starting from 1)
 	 * or {@link #NO_BOOKMARK NO_BOOKMARK} if no bookmark should be created for this anchor
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public int getBookmarkLevel();
 

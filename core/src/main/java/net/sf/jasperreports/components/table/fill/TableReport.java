@@ -1995,7 +1995,7 @@ public class TableReport implements JRReport
 	}
 
 	@Override
-	public int getColumnCount()
+	public Integer getColumnCount()
 	{
 		return 1;
 	}

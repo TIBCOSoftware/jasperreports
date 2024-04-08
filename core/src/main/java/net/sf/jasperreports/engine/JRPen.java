@@ -27,12 +27,13 @@ import java.awt.Color;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -56,6 +57,7 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = JRBasePen.class)
 public interface JRPen
 {
 
@@ -83,9 +85,8 @@ public interface JRPen
 	@JsonIgnore
 	public Float getLineWidth();
 
-	@JsonGetter("lineWidth")
-	@JsonInclude(Include.NON_NULL)
-	@JacksonXmlProperty(localName = "lineWidth", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_lineWidth)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_lineWidth, isAttribute = true)
 	public Float getOwnLineWidth();
 
 	/**
@@ -106,8 +107,8 @@ public interface JRPen
 	 * Indicates the line style used for this pen.
 	 * @return a value representing one of the line style constants in {@link LineStyleEnum}
 	 */
-	@JsonGetter("lineStyle")
-	@JacksonXmlProperty(localName = "lineStyle", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_lineStyle)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_lineStyle, isAttribute = true)
 	public LineStyleEnum getOwnLineStyle();
 	
 	/**
@@ -123,8 +124,8 @@ public interface JRPen
 	@JsonIgnore
 	public Color getLineColor();
 
-	@JsonGetter("lineColor")
-	@JacksonXmlProperty(localName = "lineColor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_lineColor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_lineColor, isAttribute = true)
 	public Color getOwnLineColor();
 
 	/**

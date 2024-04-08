@@ -63,4 +63,10 @@ public enum SortFieldTypeEnum implements NamedEnum
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
+	
+	@Override
+	public SortFieldTypeEnum getDefault()
+	{
+		return FIELD;
+	}
 }

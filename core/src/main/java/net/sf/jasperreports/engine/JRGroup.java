@@ -160,6 +160,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group header should be printed always on a new column.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isStartNewColumn();
 		
@@ -171,6 +172,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group header should be printed always on a new page.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isStartNewPage();
 		
@@ -183,6 +185,7 @@ public interface JRGroup extends JRCloneable
 	 * Gets the flag that signals if the group header should be printed always on a new page, along with the
 	 * re-initialization of the page number.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isResetPageNumber();
 		
@@ -195,12 +198,14 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group header should be reprinted at the beginning of each page.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isReprintHeaderOnEachPage();
 		
 	/**
 	 * Gets the flag that signals if the group header should be reprinted at the beginning of each column, in vertically filled reports only.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isReprintHeaderOnEachColumn();
 		
@@ -218,6 +223,7 @@ public interface JRGroup extends JRCloneable
 	 * Gets the minimum amount of vertical space needed at the bottom of the column in order to place the
 	 * group header on the current column.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public int getMinHeightToStartNewPage();
 
@@ -230,6 +236,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the minimum number of details to be rendered on the current column, to avoid starting the group on a new column.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public int getMinDetailsToStartFromTop();
 
@@ -241,6 +248,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Specifies how the group footer section behaves with regards to its position on the current page.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public FooterPositionEnum getFooterPosition();
 
@@ -252,6 +260,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group should be prevented from splitting on first break attempt.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isKeepTogether();
 		
@@ -263,6 +272,7 @@ public interface JRGroup extends JRCloneable
 	/**
 	 * Gets the flag that signals if the group footer should be prevented from appearing without a detail at the top of a new page/column.
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	public boolean isPreventOrphanFooter();
 		
@@ -281,7 +291,7 @@ public interface JRGroup extends JRCloneable
 	 */
 	@JsonProperty("groupHeader")
 	@JsonInclude(Include.NON_EMPTY)
-	@JsonSerialize(using = SectionSerializer.class)
+	@JsonSerialize(using = SectionSerializer.class) // JACKSON-TIP: cannot be moved to JRSection
 	public JRSection getGroupHeaderSection();
 		
 	/**

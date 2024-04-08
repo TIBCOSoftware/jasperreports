@@ -83,7 +83,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected JRCrosstabRowGroup[] rowGroups;
 	protected JRCrosstabColumnGroup[] columnGroups;
 	protected JRCrosstabMeasure[] measures;
-	protected int columnBreakOffset;
+	protected Integer columnBreakOffset;
 	protected boolean repeatColumnHeaders = true;
 	protected boolean repeatRowHeaders = true;
 	protected RunDirectionEnum runDirection;
@@ -260,7 +260,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	}
 
 	@Override
-	public int getColumnBreakOffset()
+	public Integer getColumnBreakOffset()
 	{
 		return columnBreakOffset;
 	}

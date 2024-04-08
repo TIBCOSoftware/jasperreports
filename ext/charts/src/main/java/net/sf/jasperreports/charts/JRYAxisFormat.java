@@ -76,11 +76,13 @@ public interface JRYAxisFormat
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public String getYAxisTickLabelMask();
 
 	/**
 	 * 
 	 */
+	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getYAxisVerticalTickLabels();
 	
 	/**

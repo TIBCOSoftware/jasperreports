@@ -60,7 +60,7 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	 * @param name the variable name
 	 * @see net.sf.jasperreports.engine.JRSubreportReturnValue#getFromVariable()
 	 */
-	@JsonSetter("subreportVariable")
+	@JsonSetter(JRXmlConstants.ATTRIBUTE_subreportVariable)
 	public void setSubreportVariable(String name)
 	{
 		Object old = this.subreportVariable;

@@ -41,6 +41,7 @@ public interface PartEvaluationTime
 	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_evaluationTime, isAttribute = true)
 	PartEvaluationTimeType getEvaluationTimeType();
 	
+	@JacksonXmlProperty(isAttribute = true)
 	String getEvaluationGroup();
 
 }

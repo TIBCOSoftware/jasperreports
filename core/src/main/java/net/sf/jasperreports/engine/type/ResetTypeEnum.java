@@ -98,4 +98,10 @@ public enum ResetTypeEnum implements NamedEnum
 	{
 		return value == null ? REPORT : value;
 	}
+	
+	@Override
+	public ResetTypeEnum getDefault()
+	{
+		return REPORT;
+	}
 }

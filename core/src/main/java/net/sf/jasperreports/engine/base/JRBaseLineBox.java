@@ -28,7 +28,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRBoxContainer;
@@ -42,6 +41,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.engine.util.StyleResolver;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -181,8 +181,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
-	@JsonSetter("pen")
-	@JsonDeserialize(as = JRBaseBoxPen.class)
+	@JsonSetter(JRXmlConstants.ELEMENT_pen)
 	public void copyPen(JRBoxPen pen)
 	{
 		this.pen = pen.clone(this);
@@ -195,8 +194,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
-	@JsonSetter("topPen")
-	@JsonDeserialize(as = JRBaseBoxPen.class)
+	@JsonSetter(JRXmlConstants.ELEMENT_topPen)
 	public void copyTopPen(JRBoxPen topPen)
 	{
 		this.topPen = topPen.clone(this);
@@ -209,8 +207,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
-	@JsonSetter("leftPen")
-	@JsonDeserialize(as = JRBaseBoxPen.class)
+	@JsonSetter(JRXmlConstants.ELEMENT_leftPen)
 	public void copyLeftPen(JRBoxPen leftPen)
 	{
 		this.leftPen = leftPen.clone(this);
@@ -223,8 +220,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
-	@JsonSetter("bottomPen")
-	@JsonDeserialize(as = JRBaseBoxPen.class)
+	@JsonSetter(JRXmlConstants.ELEMENT_bottomPen)
 	public void copyBottomPen(JRBoxPen bottomPen)
 	{
 		this.bottomPen = bottomPen.clone(this);
@@ -237,8 +233,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 	@Override
-	@JsonSetter("rightPen")
-	@JsonDeserialize(as = JRBaseBoxPen.class)
+	@JsonSetter(JRXmlConstants.ELEMENT_rightPen)
 	public void copyRightPen(JRBoxPen rightPen)
 	{
 		this.rightPen = rightPen.clone(this);

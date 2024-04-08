@@ -89,7 +89,7 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 * 
 	 * @return the list of parameter values
 	 */
-	@JacksonXmlProperty(localName = "parameter")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_parameter)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public JRDatasetParameter[] getParameters();
 
@@ -118,7 +118,7 @@ public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesH
 	 *
 	 * @return the list of copied values.
 	 */
-	@JacksonXmlProperty(localName = "returnValue")
+	@JacksonXmlProperty(localName = JRXmlConstants.ELEMENT_returnValue)
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<ReturnValue> getReturnValues();
 

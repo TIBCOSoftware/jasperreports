@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -53,6 +55,7 @@ public interface CommonReturnValue extends JRCloneable
 	 * 
 	 * @return the calculation type.
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public CalculationEnum getCalculation();
 	

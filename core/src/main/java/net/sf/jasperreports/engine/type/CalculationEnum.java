@@ -141,4 +141,10 @@ public enum CalculationEnum implements NamedEnum
 	{
 		return value == null ? NOTHING : value;
 	}
+	
+	@Override
+	public CalculationEnum getDefault()
+	{
+		return NOTHING;
+	}
 }
