@@ -51,37 +51,33 @@
 				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
 				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
 				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
-				<pathStyleList>
-					<pathStyleList>
-						<dataset>
-							<datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
-						</dataset>
-						<item>
-							<property name="name"><![CDATA[$F{name}]]></property>
-							<property name="strokeColor"><![CDATA[$F{strokecolor}]]></property>
-							<property name="strokeOpacity"><![CDATA[$F{strokeopacity}]]></property>
-							<property name="strokeWeight"><![CDATA[$F{strokeweight}]]></property>
-							<property name="fillColor"><![CDATA[$F{fillcolor}]]></property>
-							<property name="fillOpacity"><![CDATA[$F{fillopacity}]]></property>
-							<property name="draggable"><![CDATA[$F{draggable}]]></property>
-						</item>
-					</pathStyleList>
-				</pathStyleList>
-				<pathDataList>
-					<pathDataList>
-						<dataset>
-							<datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
-						</dataset>
-						<item>
-							<property name="name"><![CDATA[$F{name}]]></property>
-							<property name="style"><![CDATA[$F{style}]]></property>
-							<property name="latitude"><![CDATA[$F{latitude}]]></property>
-							<property name="longitude"><![CDATA[$F{longitude}]]></property>
-							<property name="isPolygon"><![CDATA[$F{ispolygon}]]></property>
-							<property name="path.hyperlink"><![CDATA["http://www.google.com"]]></property>
-						</item>
-					</pathDataList>
-				</pathDataList>
+				<pathStyle>
+					<dataset>
+						<datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
+					</dataset>
+					<item>
+						<property name="name"><![CDATA[$F{name}]]></property>
+						<property name="strokeColor"><![CDATA[$F{strokecolor}]]></property>
+						<property name="strokeOpacity"><![CDATA[$F{strokeopacity}]]></property>
+						<property name="strokeWeight"><![CDATA[$F{strokeweight}]]></property>
+						<property name="fillColor"><![CDATA[$F{fillcolor}]]></property>
+						<property name="fillOpacity"><![CDATA[$F{fillopacity}]]></property>
+						<property name="draggable"><![CDATA[$F{draggable}]]></property>
+					</item>
+				</pathStyle>
+				<pathData>
+					<dataset>
+						<datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
+					</dataset>
+					<item>
+						<property name="name"><![CDATA[$F{name}]]></property>
+						<property name="style"><![CDATA[$F{style}]]></property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="isPolygon"><![CDATA[$F{ispolygon}]]></property>
+						<property name="path.hyperlink"><![CDATA["http://www.google.com"]]></property>
+					</item>
+				</pathData>
 				<markerData>
 					<dataset>
 						<datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>

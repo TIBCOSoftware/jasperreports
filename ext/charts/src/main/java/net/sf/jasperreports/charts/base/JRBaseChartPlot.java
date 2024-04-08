@@ -289,7 +289,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		@JsonCreator
 		public JRBaseSeriesColor(
-			@JsonProperty("seriesOrder") int seriesOrder, 
+			@JsonProperty("order") int seriesOrder, 
 			@JsonProperty("color") Color color
 			)
 		{

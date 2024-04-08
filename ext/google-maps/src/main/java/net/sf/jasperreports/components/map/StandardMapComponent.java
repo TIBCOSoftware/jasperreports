@@ -357,7 +357,19 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public List<ItemData> getPathStyleList() {
 		return this.pathStyleList;
 	}
-	
+
+	@JsonSetter
+	private void setPathStyleList(List<ItemData> pathStyleList) 
+	{
+		if (pathStyleList != null)
+		{
+			for (ItemData pathStyle : pathStyleList)
+			{
+				addPathStyle(pathStyle);
+			}
+		}
+	}
+
 	/**
 	 *
 	 */
@@ -522,7 +534,19 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public List<ItemData> getPathDataList() {
 		return this.pathDataList;
 	}
-	
+
+	@JsonSetter
+	private void setPathDataList(List<ItemData> pathDataList) 
+	{
+		if (pathDataList != null)
+		{
+			for (ItemData pathData : pathDataList)
+			{
+				addPathData(pathData);
+			}
+		}
+	}
+
 	/**
 	 *
 	 */

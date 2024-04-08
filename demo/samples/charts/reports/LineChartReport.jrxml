@@ -99,15 +99,9 @@
 						</series>
 					</dataset>
 					<plot showShapes="false" showLines="true">
-						<seriesColors>
-							<seriesColors color="#FF00FF"/>
-							<seriesColors color="#FFFF00">
-								<seriesOrder>1</seriesOrder>
-							</seriesColors>
-							<seriesColors color="#00FFFF">
-								<seriesOrder>2</seriesOrder>
-							</seriesColors>
-						</seriesColors>
+						<seriesColor color="#FF00FF"/>
+						<seriesColor color="#FFFF00" order="1"/>
+						<seriesColor color="#00FFFF" order="2"/>
 					</plot>
 				</element>
 			</band>

@@ -138,9 +138,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
 							</series>
 						</dataset>
 						<plot valueAxisLabelColor="#336600" valueAxisTickLabelColor="#336600" valueAxisTickLabelMask="#,###0" valueAxisLineColor="#336600" showShapes="true" showLines="true">
-							<seriesColors>
-								<seriesColors color="#336600"/>
-							</seriesColors>
+							<seriesColor color="#336600"/>
 							<valueAxisLabelExpression><![CDATA["# Orders"]]></valueAxisLabelExpression>
 						</plot>
 					</chart>
@@ -157,9 +155,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
 							</series>
 						</dataset>
 						<plot valueAxisLabelColor="#0000CC" valueAxisTickLabelColor="#0000CC" valueAxisTickLabelMask="$#,##0" valueAxisLineColor="#0000CC" showShapes="true" showLines="true">
-							<seriesColors>
-								<seriesColors color="#0000CC"/>
-							</seriesColors>
+							<seriesColor color="#0000CC"/>
 							<valueAxisLabelExpression><![CDATA["Freight per Order"]]></valueAxisLabelExpression>
 						</plot>
 					</chart>
@@ -175,9 +171,7 @@ ORDER BY ShipCountry, ShipCity]]></query>
 							</series>
 						</dataset>
 						<plot valueAxisLabelColor="#CC6633" valueAxisTickLabelColor="#CC6633" valueAxisTickLabelMask="$#,##0" valueAxisLineColor="#CC6633">
-							<seriesColors>
-								<seriesColors color="#CC6633"/>
-							</seriesColors>
+							<seriesColor color="#CC6633"/>
 							<valueAxisLabelExpression><![CDATA["Freight"]]></valueAxisLabelExpression>
 							<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 						</plot>

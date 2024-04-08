@@ -29,17 +29,21 @@ import java.util.SortedSet;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.charts.base.JRBaseChartPlot.JRBaseSeriesColor;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -88,8 +92,8 @@ public interface JRChartPlot extends JRCloneable
 	/**
 	 *
 	 */
-	@JsonGetter("backcolor")
-	@JacksonXmlProperty(localName = "backcolor", isAttribute = true)
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_backcolor)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_backcolor, isAttribute = true)
 	public Color getOwnBackcolor();
 	
 	/**
@@ -102,6 +106,7 @@ public interface JRChartPlot extends JRCloneable
 	/**
 	 * Gets the plot orientation (horizontal or vertical).
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	public PlotOrientationEnum getOrientation();
 
@@ -159,6 +164,8 @@ public interface JRChartPlot extends JRCloneable
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
+	@JacksonXmlProperty(localName = "seriesColor")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public SortedSet<JRSeriesColor> getSeriesColors();
 	
 	/**
@@ -191,6 +198,8 @@ public interface JRChartPlot extends JRCloneable
 		 * the series order of all other {@link JRSeriesColor}s defined for this plot.  The
 		 * relative ordering defines the order of the colors in the series.
 		 */
+		@JsonGetter("order")
+		@JacksonXmlProperty(localName="order", isAttribute = true)
 		public int getSeriesOrder();
 		
 		/**

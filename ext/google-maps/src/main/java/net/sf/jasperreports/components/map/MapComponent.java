@@ -27,6 +27,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -40,11 +42,11 @@ import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JREvaluation;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -56,7 +58,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 @JsonTypeName("googlemap")
 @JsonDeserialize(as = StandardMapComponent.class)
-public interface MapComponent extends Component, JRCloneable
+public interface MapComponent extends Component, JREvaluation, JRCloneable
 {
 	// properties at report element level:
 	
@@ -725,22 +727,6 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the language expression 
 	 */
 	JRExpression getLanguageExpression();
-
-	/**
-	 * Returns the evaluation time of the map component element
-	 * 
-	 * @return the evaluation time
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	EvaluationTimeEnum getEvaluationTime();
-	
-	/**
-	 * Returns the evaluation group name for the map component element
-	 * 
-	 * @return the evaluation group
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	String getEvaluationGroup();
 	
 	/**
 	 * Returns the type of the Google map. Possible values are:
@@ -753,6 +739,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the type of the Google map
 	 * @see net.sf.jasperreports.components.map.type.MapTypeEnum
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	MapTypeEnum getMapType();
 
@@ -766,6 +753,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * </ul>
 	 * @return the scale factor
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	MapScaleEnum getMapScale();
 	
@@ -782,6 +770,7 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the image format of the map
 	 * @see net.sf.jasperreports.components.map.type.MapImageTypeEnum
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	MapImageTypeEnum getImageType();
 	
@@ -796,18 +785,21 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return the onErrorType attribute
 	 * @see net.sf.jasperreports.engine.type.OnErrorTypeEnum
 	 */
+	@JsonInclude(Include.NON_EMPTY)
 	@JacksonXmlProperty(isAttribute = true)
 	OnErrorTypeEnum getOnErrorType();
 	
 	/**
 	 * @return the {@link #ATTRIBUTE_MARKER_CLUSTERING} attribute
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	Boolean getMarkerClustering();
 
 	/**
 	 * @return the {@link #ATTRIBUTE_MARKER_SPIDERING} attribute
 	 */
+	@JsonInclude(Include.NON_DEFAULT)
 	@JacksonXmlProperty(isAttribute = true)
 	Boolean getMarkerSpidering();
 
@@ -840,6 +832,9 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return a list of path styles
 	 * @see ItemData
 	 */
+	@JsonGetter("pathStyles")
+	@JacksonXmlProperty(localName = "pathStyle")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<ItemData> getPathStyleList();
 	
 	/**
@@ -849,5 +844,8 @@ public interface MapComponent extends Component, JRCloneable
 	 * @return a list of path data
 	 * @see ItemData
 	 */
+	@JsonGetter("pathData")
+	@JacksonXmlProperty(localName = "pathData")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	List<ItemData> getPathDataList();
 }
