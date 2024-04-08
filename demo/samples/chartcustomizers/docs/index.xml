@@ -54,7 +54,7 @@ net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}
 Here follows an example in which the domain axis of an XY line chart is configured by setting the minimum and maximum values of the axis as well as the
 distance between ticks:
 <pre><![CDATA[
-<element kind="chart" chartType="xyLine" uuid="82e1a762-637c-4508-ab62-167cb116792b" width="555" height="300" evaluationTime="Report">
+<element kind="chart" chartType="xyLine" width="555" height="300" evaluationTime="Report">
   ...
   <property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
   <property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>

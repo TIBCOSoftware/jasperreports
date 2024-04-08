@@ -151,13 +151,11 @@ and how the subreports were set:
 <detail>
   <band height="45">
     ...
-  <element kind="subreport" uuid="ce9f38a0-8805-4716-a58f-b6c6307072e4" 
-    positionType="Float" x="15" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+  <element kind="subreport" positionType="Float" x="15" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
     <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{cast})]] ></dataSourceExpression>
     <expression><![CDATA["JRMDbCastSubreport.jasper"]] ></expression>
   </element>
-  <element kind="subreport" uuid="d186a133-05c2-42ed-8719-b57944d1d2a6" 
-    positionType="Float" x="270" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+  <element kind="subreport" positionType="Float" x="270" y="25" width="245" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
     <expression><![CDATA["JRMDbVariaSubreport.jasper"]] ></expression>
     <parameter name="MovieId">
       <expression><![CDATA[$F{id}]] ></expression>

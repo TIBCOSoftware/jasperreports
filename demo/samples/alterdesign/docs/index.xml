@@ -63,13 +63,13 @@ it has 3 rectangle elements in its detail section.
 <br/>
 <br/>
 <pre><![CDATA[
-  <element kind="rectangle" uuid="78672687-b9a9-4c6a-9d63-39d6325ac535" key="first.rectangle" y="100" width="555" height="90">
+  <element kind="rectangle" key="first.rectangle" y="100" width="555" height="90">
     <pen lineWidth="4.0"/>
   </element>
-  <element kind="rectangle" uuid="e43916e7-f5a2-49e3-ac43-469458943653" key="second.rectangle" y="200" width="555" height="90">
+  <element kind="rectangle" key="second.rectangle" y="200" width="555" height="90">
     <pen lineWidth="4.0"/>
   </element>
-  <element kind="rectangle" uuid="633026b6-ca4f-4895-baf0-e70c5f169168" key="third.rectangle" y="300" width="555" height="90">
+  <element kind="rectangle" key="third.rectangle" y="300" width="555" height="90">
     <pen lineWidth="4.0"/>
   </element>
 ]]>

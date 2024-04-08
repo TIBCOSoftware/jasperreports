@@ -100,9 +100,9 @@ recommended to consult first the <a href="#fontextensions">Font Extensions</a> s
 <br/>
 In the example below, a series of font attributes are defined for the static text element:
 <pre><![CDATA[
-<element kind="staticText" uuid="447870d2-5f05-4764-ad5e-4d3cdf11084b" 
-y="350" width="150" height="40" fontName="Monospaced" pdfFontName="Courier-Oblique" italic="true" underline="true" fontSize="12.0">
-	<text><![CDATA[The quick brown fox jumps over the lazy dog.]] ></text>
+<element kind="staticText" y="350" width="150" height="40" fontName="Monospaced" 
+    pdfFontName="Courier-Oblique" italic="true" underline="true" fontSize="12.0">
+  <text><![CDATA[The quick brown fox jumps over the lazy dog.]] ></text>
 </element>]]></pre>
 One can say that this text will use a monospaced character set, 12 pts sized, underlined and oblique, and when exporting to 
 PDF format, the equivalent fonts will be Courier-Oblique.

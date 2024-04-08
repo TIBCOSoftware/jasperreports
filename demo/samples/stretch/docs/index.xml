@@ -201,9 +201,9 @@ different elements stretching attributes (<code>positionType</code>, <code>stret
 </element>]]></pre>
 or text truncation properties:
 <pre><![CDATA[
-<element kind="staticText" uuid="87913332-e364-48fc-80fb-251d60ee5be3" x="145" y="205" width="130" height="100" fontSize="10.0">
-  <text><![CDATA[Text elements can also be truncated at the last character that fits the element reserved area; the behavior is triggered by setting a property.
-This sentence might not fit fully in the space reserved for the element.]] ></text>
+<element kind="staticText" x="145" y="205" width="130" height="100" fontSize="10.0">
+  <text><![CDATA[Text elements can also be truncated at the last character that fits the element reserved area; the behavior is triggered 
+by setting a property. This sentence might not fit fully in the space reserved for the element.]] ></text>
   <property name="net.sf.jasperreports.text.truncate.at.char" value="true"/>
 </element>]]></pre>
 <b>Running the Sample</b>

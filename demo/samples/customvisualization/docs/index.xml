@@ -64,11 +64,11 @@ Also, a custom visualization component may contain, but not required, one or man
 </ul>
 For instance:
 <pre><![CDATA[
-<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+<element kind="component" y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
     <itemData>
       <dataset>
-        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+        <datasetRun subDataset="Sample Dataset">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( 
             new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )
             ]] >
@@ -249,11 +249,11 @@ The full reference of the <code>build.js</code> file is available at <a href="ht
 <br/>
 We will use this newly create component in a JRXML with the following code:<br/>
 <pre><![CDATA[		
-<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+<element kind="component" y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
     <itemData>
       <dataset>
-        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+        <datasetRun  subDataset="Sample Dataset">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( 
             new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )
             ]] >
@@ -363,11 +363,11 @@ define('d3rectangle', ['d3'], function (d3) {
 </pre>
 In order to use our new component, we will have to set the <code>background</code> property and define a sub-dataset to provide the values for the lines:<br/>
 <pre><![CDATA[		
-<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+<element kind="component"  y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
     <itemData>
       <dataset>
-        <datasetRun uuid="0e1d87a7-9376-4927-9b1e-30835421a98a" subDataset="Sample Dataset">
+        <datasetRun subDataset="Sample Dataset">
           <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )]] ></dataSourceExpression>
         </datasetRun>
       </dataset>

@@ -81,12 +81,12 @@ Now let's see a table component in action. The table defined in the <code>TableR
 group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is a fragment from the related code, 
 that contains the definition of the first column in the table:
 <pre><![CDATA[
-<element kind="component" uuid="c475c968-5a05-4331-8147-5fc24a48070b" y="50" width="555" height="100" style="Table">
+<element kind="component" y="50" width="555" height="100" style="Table">
   <component kind="table">
-    <datasetRun uuid="6770b532-f93b-49b2-a105-2ae35d01ec87" subDataset="TableData">
+    <datasetRun subDataset="TableData">
       <dataSourceExpression><![CDATA[$P{TableDataSource}]] ></dataSourceExpression>
     </datasetRun>
-    <column kind="single" uuid="ceaf6eb4-f1e9-4aa8-aca6-3e53b67c1615" width="100">
+    <column kind="single" width="100">
       <columnHeader height="30" rowSpan="2" style="TableHeader">
         <element kind="staticText" width="100" height="30" vTextAlign="Middle" bold="true" fontSize="12.0">
           <text><![CDATA[Header 1]] ></text>
@@ -97,7 +97,7 @@ that contains the definition of the first column in the table:
         </element>
       </columnHeader>
       <columnFooter height="15" style="TableFooter">
-        <element kind="staticText" uuid="54493ad7-b6d2-4f58-94a5-7428d5cfef7b" width="100" height="15" vTextAlign="Middle" bold="true" fontSize="12.0">
+        <element kind="staticText" width="100" height="15" vTextAlign="Middle" bold="true" fontSize="12.0">
           <text><![CDATA[Total 1]] ></text>
           <box leftPadding="10">
             <pen lineColor="#000000"/>
@@ -105,7 +105,7 @@ that contains the definition of the first column in the table:
         </element>
       </columnFooter>
       <detailCell height="15">
-        <element kind="textField" uuid="c6a3b183-a488-4535-9187-6c4250a443b6" width="100" height="15" textAdjust="StretchHeight">
+        <element kind="textField" width="100" height="15" textAdjust="StretchHeight">
           <expression><![CDATA[$V{Column1}]] ></expression>
           <box leftPadding="10">
             <bottomPen lineWidth="0.5"/>

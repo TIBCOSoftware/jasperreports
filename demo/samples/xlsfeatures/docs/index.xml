@@ -233,11 +233,17 @@ provide this property, will be considered only the property of the last exported
 In our sample there is an element-level property set for the <code>address</code> textfield where <code>id</code> 
 is 44:
 <pre><![CDATA[
-<element kind="textField" uuid="53fe7b81-f998-46e1-912e-66383284e4a2" positionType="Float" x="316" width="199" height="15" textAdjust="StretchHeight">
+<element kind="textField" positionType="Float" x="316" width="199" height="15" textAdjust="StretchHeight">
   <expression><![CDATA[$F{address}]] ></expression>
-  <propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]] ></propertyExpression>
-  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>
-  <propertyExpression name="net.sf.jasperreports.export.xls.sheet.tab.color"><![CDATA[$F{id}.equals(44) ? "#FF0000" : null]] ></propertyExpression>
+  <propertyExpression name="net.sf.jasperreports.export.xls.auto.filter">
+    <![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]] >
+  </propertyExpression>
+  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio">
+    <![CDATA[$F{id}.equals(44) ? "0.75f" : null]] >
+  </propertyExpression>
+  <propertyExpression name="net.sf.jasperreports.export.xls.sheet.tab.color">
+    <![CDATA[$F{id}.equals(44) ? "#FF0000" : null]] >
+  </propertyExpression>
   ...
 </element>]]></pre> 
 According to this one, the tab color of the sheet containing this element will turn to red, overriding the green value set at report level. 
@@ -367,7 +373,7 @@ This is the most simple way to perform outline row grouping at Excel export time
 </group>..
 <detail>
   <band height="15">
-    <element kind="textField" uuid="a5c39a85-537b-443a-964e-311ce6f5c35a" width="104" height="15">
+    <element kind="textField" width="104" height="15">
       <expression><![CDATA[$F{state}]] ></expression>
       <property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="Body"/>
       ...

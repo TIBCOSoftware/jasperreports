@@ -19,8 +19,8 @@ How to use the built-in crosstab element to display aggregated data.
     <since>1.1.0</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
@@ -345,7 +345,7 @@ database connection string. It comes also with its own parameters and/or paramet
 <a href="../subreport/index.html#subreports">subreports</a> in the way parameters and the data source/connection are passed in.
 For instance: 
 <pre><![CDATA[
-<datasetRun uuid="69151f6b-5c48-4d23-b978-e8fdfbf7b631" subDataset="Customer_Quantity">
+<datasetRun subDataset="Customer_Quantity">
   <parameter name="CityParam">
     <expression><![CDATA[$F{City}]] ></expression>
   </parameter>

@@ -68,7 +68,7 @@ Possible line directions are: top-down or bottom-up. The default direction is to
 <br/>
 In the .jrxml file a line element is represented as follows:
 <pre><![CDATA[
-<element kind="line" uuid="862e5f68-d45a-4c40-a6d3-835a039b6a61" y="150" width="200" height="40" forecolor="#00FF00" direction="BottomUp">
+<element kind="line" y="150" width="200" height="40" forecolor="#00FF00" direction="BottomUp">
   <pen lineWidth="4.0"/>
 </element>
 ]]></pre>
@@ -89,7 +89,7 @@ The <api href="net/sf/jasperreports/engine/JRCommonRectangle.html">JRCommonRecta
 </ul>
 In the .jrxml file a rectangle element is represented as follows:
 <pre><![CDATA[
-<element kind="rectangle" uuid="88282a3b-af28-4518-a316-1f49bf2e6420" y="250" width="200" height="40" radius="5" backcolor="#FFFF99">
+<element kind="rectangle" y="250" width="200" height="40" radius="5" backcolor="#FFFF99">
 	<pen lineWidth="0.0"/>
 </element>]]></pre>
 If corners are not rounded, then the <code>radius</code> attribute is not necessary.
@@ -106,7 +106,7 @@ No supplementary methods are needed, because both ellipse's semiaxis can be dete
 <br/>
 In the .jrxml file an ellipse element is represented as follows:
 <pre><![CDATA[
-<element kind="ellipse" uuid="a20aa973-ef67-4101-8004-ef03b6574c36" y="600" width="200" height="40" forecolor="#FF0000" backcolor="#FFFF99">
+<element kind="ellipse" y="600" width="200" height="40" forecolor="#FF0000" backcolor="#FFFF99">
   <pen lineWidth="2.0"/>
 </element>
 ]]></pre>

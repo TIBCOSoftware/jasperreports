@@ -201,7 +201,7 @@ override the <code>bookmarkLevel</code> attribute.
 <br/>
 <b>Creating a Local Anchor Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="dca53bee-7c10-45ad-8335-238e1f680d98" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+<element kind="textField" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
   <expression><![CDATA["This is the TITLE section"]] ></expression>
   <anchorNameExpression><![CDATA["title"]] ></anchorNameExpression>
 </element>
@@ -211,7 +211,7 @@ The <code>&lt;anchorNameExpression&gt;</code> tag was used here in order to asso
 <br/>
 <b>Creating a Local Anchor Hyperlink Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="ee65f99d-1daa-4f69-825a-33e9a74a1552" x="5" y="35" width="300" height="15" forecolor="#FF0000" linkType="LocalAnchor">
+<element kind="textField" x="5" y="35" width="300" height="15" forecolor="#FF0000" linkType="LocalAnchor">
   <expression><![CDATA["  >> Click here to go to the title section."]] ></expression>
   <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
 </element>
@@ -221,7 +221,7 @@ The hyperlink created using the <code>&lt;hyperlinkAnchorExpression&gt;</code> t
 <br/>
 <b>Creating a Local Page Hyperlink Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="218ee333-139f-4d52-a444-4ea23f6265f7" x="5" y="65" width="300" height="15" forecolor="#008000" linkType="LocalPage">
+<element kind="textField" x="5" y="65" width="300" height="15" forecolor="#008000" linkType="LocalPage">
   <expression><![CDATA["  >> Click here to go to the second page."]] ></expression>
   <hyperlinkPageExpression><![CDATA[2]] ></hyperlinkPageExpression>
   ...
@@ -232,7 +232,7 @@ The hyperlink created using the <code>&lt;hyperlinkPageExpression&gt;</code> tag
 <br/>
 <b>Creating a Reference Hyperlink Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="773ef7f6-735d-47f7-8b16-d8136c5da1d3" x="5" y="95" width="300" height="15" linkType="Reference" linkTarget="Blank">
+<element kind="textField" x="5" y="95" width="300" height="15" linkType="Reference" linkTarget="Blank">
   <expression><![CDATA["  >> Click here to go to www.google.com"]] ></expression>
   <hyperlinkReferenceExpression><![CDATA["http://www.google.com"]] ></hyperlinkReferenceExpression>
 </element>
@@ -242,7 +242,7 @@ The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code
 <br/>
 <b>Creating a Remote Anchor Hyperlink Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="a6fae2b6-f702-43e7-b0ad-896b1e1cf00f" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
+<element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
   <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
   <hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]] ></hyperlinkReferenceExpression>
   <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
@@ -253,7 +253,7 @@ The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code
 <br/>
 <b>Creating a Remote Page Hyperlink Example</b>
 <pre><![CDATA[
-<element kind="textField" uuid="a6fae2b6-f702-43e7-b0ad-896b1e1cf00f" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
+<element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
   <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
   <hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]] ></hyperlinkReferenceExpression>
   <hyperlinkPageExpression>2</hyperlinkPageExpression>
@@ -373,7 +373,7 @@ in the current directory.
 <br/>
 <pre><![CDATA[
 <background height="742">
-  <element kind="image" uuid="1e5c5ba2-55d4-446c-ba24-8b6fad9eccc0" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
+  <element kind="image" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
     <expression><![CDATA["jr.watermark.gif"]] ></expression>
   </element>
 </background>

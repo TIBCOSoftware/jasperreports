@@ -253,7 +253,7 @@ public void fill() throws JRException
 }]]></pre>
 Each customer in the datasource requires an <code>Orders</code> subreport. Data source and parameters are transmitted from the master report:
 <pre><![CDATA[
-<element kind="subreport" uuid="122eb7b3-e2bf-49eb-859d-4c29bfd6882e" x="5" y="25" width="507" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
+<element kind="subreport" ... backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
   <expression><![CDATA["JsonOrdersReport.jasper"]] ></expression>
   <parameter name="net.sf.jasperreports.json.date.pattern">
     <expression><![CDATA[$P{net.sf.jasperreports.json.date.pattern}]] ></expression>

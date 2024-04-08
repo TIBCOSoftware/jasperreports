@@ -69,13 +69,15 @@ This sample contains 3 structured text paragraphs.
 The first one is formatted using the <code>markup="styled"</code> value:
 <br/>
 <pre><![CDATA[
-<element kind="staticText" uuid="ad41424d-75ee-4d62-8819-890139cc26bd" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
+<element kind="staticText" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
   <text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing 
-    styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by 
-    setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for the <style isBold="true" forecolor="magenta">textElement</style> tag 
-    to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using 
+    styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the 
+    <style forecolor="blue" isItalic="true">markup</style> attribute available for the 
+    <style isBold="true" forecolor="magenta">textElement</style> 
+    tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using 
     nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, 
-    including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]] ></text>
+    including <a type="Reference" href="http://jasperreports.sf.net" target="Blank">
+    <style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]] ></text>
 </element>]]></pre>
 The second paragraph is read from the <code>rtf.txt</code> file in the /reports folder and stored in the <code>$P{RtfText}</code> parameter. 
 Its content gets decoded using the RTF markup processor:

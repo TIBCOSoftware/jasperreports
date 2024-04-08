@@ -139,22 +139,22 @@ The sample shows how can be used the <code>barbecue</code> component to compute 
   <defaultValueExpression><![CDATA["01234567890"]] ></defaultValueExpression>
 </parameter>
 ...
-<element kind="component" uuid="ed79454e-21f5-4f98-9130-a44a512a7e51" y="100" width="400" height="50">
+<element kind="component y="100" width="400" height="50">
   <component kind="barbecue" drawText="true" type="Code128">
     <codeExpression><![CDATA["JasperReports"]] ></codeExpression>
   </component>
 </element>
-<element kind="component" uuid="a40ff8c2-0095-4e42-a18b-76e6afe0d290" y="160" width="400" height="50">
+<element kind="component" y="160" width="400" height="50">
   <component kind="barbecue" drawText="true" type="Codabar">
     <codeExpression><![CDATA[$P{Code}]] ></codeExpression>
   </component>
 </element>
-<element kind="component" uuid="9f4c02e5-65c8-4666-b20b-fcdabe863b6a" y="220" width="400" height="50">
+<element kind="component" y="220" width="400" height="50">
   <component kind="barbecue" drawText="true" checksumRequired="true" barWidth="3" barHeight="20" type="Int2of5">
     <codeExpression><![CDATA[$P{Code}]] ></codeExpression>
   </component>
 </element>
-<element kind="component" uuid="b566897b-ff4d-4a89-a9ed-de38db807f14" y="280" width="400" height="50">
+<element kind="component" y="280" width="400" height="50">
   <component kind="barbecue" type="Std2of5">
     <codeExpression><![CDATA[$P{Code}]] ></codeExpression>
   </component>

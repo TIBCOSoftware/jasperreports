@@ -77,7 +77,7 @@ flag for that element.
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" width="25" height="25">
+<element kind="ellipse" positionType="Float" mode="Opaque" width="25" height="25">
   <pen lineWidth="1.0"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
   <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
@@ -96,7 +96,7 @@ and in case that one is missing, then the actual text content of the JasperRepor
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<element kind="textField" uuid="af005021-8b3d-4b5e-9fa7-d8dcef9936f6" positionType="Float" mode="Opaque" 
+<element kind="textField" positionType="Float" mode="Opaque" 
   x="250" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" hTextAlign="Right" fontName="DejaVu Serif" fontSize="24.0">
   <expression><![CDATA["This\nis a multi\nline text inside a multi line text field."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
@@ -115,7 +115,8 @@ If not set, the default separator is '|'.
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<element kind="textField" uuid="940c11f0-df1c-41f7-b0f9-42e2c3069242" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+<element kind="textField" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" 
+hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
   <property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
@@ -130,7 +131,7 @@ In case we need the textbox in the combobox field to be editable, we can set the
 combobox element, while the a preselected value can be set using the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.value">net.sf.jasperreports.export.pdf.field.value</a> property:
 <pre><![CDATA[
-<element kind="textField" uuid="43373481-0474-48fa-af1d-416edd07a77a" positionType="Float" mode="Opaque" x="250" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
+<element kind="textField" positionType="Float" mode="Opaque" x="250" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
   <property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
@@ -155,7 +156,7 @@ To indicate if the checkbox is checked when the PDF document is open, we can use
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.checked">net.sf.jasperreports.export.pdf.field.checked</a> property, 
 as in the following example:
 <pre><![CDATA[
-<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" width="25" height="25">
+<element kind="ellipse"  positionType="Float" mode="Opaque" width="25" height="25">
   <pen lineWidth="1.0"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
   <property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
@@ -177,7 +178,7 @@ values as for checkboxes. Also, to indicate which option is selected when openin
 <br/>
 <b>Example:</b>
 <pre><![CDATA[
-<element kind="textField" uuid="71c2b530-ad0d-47f0-a8e8-e9ae79eb732c" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+<element kind="textField" positionType="Float" mode="Opaque" x="250" width="25" height="25">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
@@ -187,7 +188,7 @@ values as for checkboxes. Also, to indicate which option is selected when openin
   </box>
 </element>
 ...
-<element kind="textField" uuid="87147be3-eb7b-474c-be9b-82205e0b949b" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+<element kind="textField" positionType="Float" mode="Opaque" x="250" width="25" height="25">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
@@ -198,7 +199,7 @@ values as for checkboxes. Also, to indicate which option is selected when openin
   </box>
 </element>
 ...
-<element kind="textField" uuid="d356af95-2a39-412b-9f6e-6843bf4a01d6" positionType="Float" mode="Opaque" x="250" width="25" height="25">
+<element kind="textField" positionType="Float" mode="Opaque" x="250" width="25" height="25">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
   <property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>

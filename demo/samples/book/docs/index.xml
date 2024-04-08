@@ -86,7 +86,7 @@ Such a part is called a subreport part.
 <br/>
 A subreport part has the following structure in JRXML:
 <pre><![CDATA[
-<part uuid="3f63c482-39b2-43f1-a623-15fb046605a5">
+<part>
   <partNameExpression><![CDATA["ReportPart1"]] ></partNameExpression>
   <component kind="subreportPart" usingCache="true">
     <expression><![CDATA["ReportPart1.jasper"]] ></expression>
@@ -112,7 +112,7 @@ The variables are named <code>MASTER_CURRENT_PAGE</code> and <code>MASTER_TOTAL_
 <br/>
 A typical text field using the two variables would look something like the following:
 <pre><![CDATA[
-<element kind="textField" uuid="74abc4d9-d951-48b9-826c-18c1955ae21b" x="55" y="10" width="45" height="20">
+<element kind="textField" x="55" y="10" width="45" height="20">
   <expression><![CDATA[$V{PAGE_COUNT}]] ></expression>
 </element>
 ]]></pre>

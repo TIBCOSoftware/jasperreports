@@ -422,7 +422,7 @@ rendering. Each map is loaded from a subreport and collect its data from the CSV
 The first map is loaded from the <code>reports/MapReport1.jrxml</code> template, and illustrates a road map with minimal settings. There are no 
 markers and no additional information on the map:
 <pre><![CDATA[
-<element kind="component" uuid="7aab9b20-071d-47c0-93df-705cada95c60" positionType="Float" y="255" width="515" height="326">
+<element kind="component" positionType="Float" y="255" width="515" height="326">
   <component kind="googlemap" evaluationTime="Report" onErrorType="Icon">
     <latitudeExpression><![CDATA[$P{latitude}]] ></latitudeExpression>
   <longitudeExpression><![CDATA[$P{longitude}]] ></longitudeExpression>
@@ -439,41 +439,45 @@ attribute settings. The satellite map also contains a set of 5 markers with defa
 <code>&lt;markerData/&gt;</code> section which collects its data from the <code>MarkersDataset</code> subdataset. Data with invalid latitude/longitude values are 
 skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
 <pre><![CDATA[
-<dataset name="MarkersDataset" uuid="8a8227b3-f480-48f1-b65a-e4e691c0d620">
+<dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="address" class="java.lang.String"/>
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
-  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
+  </filterExpression>
 </dataset>]]></pre>
 The map component configuration is the following:
 <pre><![CDATA[
-<element kind="component" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276" positionType="Float" y="150" width="515" height="326">
+<element kind="component" positionType="Float" y="150" width="515" height="326">
   <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
     <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
     <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
     <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
     <markerData>
     <dataset>
-  	  <datasetRun uuid="99d4db58-7384-46bc-9668-ac16f7843e6d" subDataset="MarkersDataset"/>
+      <datasetRun subDataset="MarkersDataset"/>
     </dataset>
     <item>
-        <property name="latitude">
-            <expression><![CDATA[$F{latitude}]] ></expression>
-        </property>
-        <property name="longitude">
-            <expression><![CDATA[$F{longitude}]] ></expression>
-        </property>
-        <property name="title">
-            <expression><![CDATA[$F{address}]] ></expression>
-        </property>
-        <property name="label">
-            <expression><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]] ></expression>
-        </property>
-      </item>
-    </markerData>
-  </component>
+      <property name="latitude">
+        <expression><![CDATA[$F{latitude}]] ></expression>
+      </property>
+      <property name="longitude">
+        <expression><![CDATA[$F{longitude}]] ></expression>
+      </property>
+      <property name="title">
+        <expression><![CDATA[$F{address}]] ></expression>
+      </property>
+      <property name="label">
+        <expression>
+          <![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]] >
+        </expression>
+      </property>
+    </item>
+  </markerData>
+</component>
 </element>]]></pre>
 <subtitle name="map3">Map #3: Terrain Map with Custom Marker Icons</subtitle>
 <br/>
@@ -482,7 +486,7 @@ The 3rd map is a terrain sample loaded from the <code>reports/MapReport3.jrxml</
 <a href="#map2">Map #2</a>, but this time marker icons are loaded from custom URLs, with the specified width and height. Below is the map 
 component configuration (and the subdataset):
 <pre><![CDATA[
-<dataset name="MarkersDataset" uuid="5e673a55-11e8-4dfd-b416-ddeb7960fb37">
+<dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="address" class="java.lang.String"/>
@@ -491,17 +495,19 @@ component configuration (and the subdataset):
   <field name="iconurl" class="java.lang.String"/>
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
-  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
+  </filterExpression>
 </dataset>
 ...
-<element kind="component" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063" positionType="Float" y="150" width="515" height="326">
+<element kind="component" positionType="Float" y="150" width="515" height="326">
   <component kind="googlemap" mapType="terrain" imageType="jpg" onErrorType="Icon">
     <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
     <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
     <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
     <markerData>
       <dataset>
-        <datasetRun uuid="9fad80a1-f61f-4a49-943b-bf790886a931" subDataset="MarkersDataset"/>
+        <datasetRun subDataset="MarkersDataset"/>
       </dataset>
       <item>
         <property name="latitude">
@@ -537,7 +543,7 @@ a green polygonal contour and two of them are also connected with a blue line.
 <br/>
 Two additional subdatasets were added in order to generate path styles and path data.See the configuration below:
 <pre><![CDATA[
-<dataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
+<dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="latitude" class="java.lang.String"/>
@@ -545,9 +551,11 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="size" class="java.lang.String"/>
   <field name="color" class="java.lang.String"/>
   <field name="url" class="java.lang.String"/>
-  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
+  </filterExpression>
 </dataset>
-<dataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
+<dataset name="PathStyleDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="name" class="java.lang.String"/>
@@ -559,7 +567,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="draggable" class="java.lang.Boolean"/>
   <filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]] ></filterExpression>
 </dataset>
-<dataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
+<dataset name="PathLocationDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="name" class="java.lang.String"/>
@@ -567,10 +575,12 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <field name="ispolygon" class="java.lang.String"/>
-  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
+  </filterExpression>
 </dataset>
 ...
-<element kind="component" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4" positionType="Float" y="150" width="515" height="326">
+<element kind="component" positionType="Float" y="150" width="515" height="326">
   <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
     <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
     <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
@@ -578,7 +588,7 @@ Two additional subdatasets were added in order to generate path styles and path 
     <pathStyleList>
       <pathStyleList>
         <dataset>
-          <datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
+          <datasetRun subDataset="PathStyleDataset"/>
         </dataset>
         <item>
           <property name="name">
@@ -608,7 +618,7 @@ Two additional subdatasets were added in order to generate path styles and path 
     <pathDataList>
       <pathDataList>
         <dataset>
-          <datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
+          <datasetRun subDataset="PathLocationDataset"/>
         </dataset>
         <item>
           <property name="name">
@@ -634,7 +644,7 @@ Two additional subdatasets were added in order to generate path styles and path 
     </pathDataList>
     <markerData>
       <dataset>
-        <datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
+        <datasetRun subDataset="MarkersDataset"/>
       </dataset>
       <item>
         <property name="latitude">
@@ -666,7 +676,7 @@ The last sample is loaded from <code>reports/MapReport5.jrxml</code> template. M
 a marker icon will open an info window with related information about the marker position. The value of the <code>infowindow.content</code> 
 property is a HTML fragment with escaped open and end tags.
 <pre><![CDATA[
-<dataset name="MarkersDataset" uuid="cde31723-d878-4086-868a-a9d4dd791113">
+<dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
   <query language="csv"/>
   <field name="address" class="java.lang.String"/>
@@ -675,17 +685,19 @@ property is a HTML fragment with escaped open and end tags.
   <field name="iconurl" class="java.lang.String"/>
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
-  <filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] ></filterExpression>
+  <filterExpression>
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
+  </filterExpression>
 </dataset>
 ...
-<element kind="component" uuid="787c3880-17ed-44af-8068-e3f120e66bad" positionType="Float" y="150" width="515" height="326">
+<element kind="component" positionType="Float" y="150" width="515" height="326">
   <component kind="googlemap" mapType="hybrid" imageType="jpg" onErrorType="Icon">
     <latitudeExpression><![CDATA[37.800056f]] ></latitudeExpression>
     <longitudeExpression><![CDATA[-122.4075f]] ></longitudeExpression>
     <zoomExpression><![CDATA[$P{zoom} + 1]] ></zoomExpression>
     <markerData>
       <dataset>
-        <datasetRun uuid="920098e7-7bf2-4628-959c-8f799589469a" subDataset="MarkersDataset"/>
+        <datasetRun subDataset="MarkersDataset"/>
       </dataset>
       <item>
         <property name="latitude">
@@ -707,7 +719,10 @@ property is a HTML fragment with escaped open and end tags.
           <expression><![CDATA[$F{iconheight}]] ></expression>
         </property>
         <property name="infowindow.content">
-          <expression><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]] ></expression>
+          <expression>
+            <![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p>
+            <p style='text-align:left;'><b>"+$F{address}+"</b></p>"]] >
+          </expression>
         </property>
       </item>
     </markerData>

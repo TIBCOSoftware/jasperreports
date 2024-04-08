@@ -270,7 +270,7 @@ Now it's time to take a look in the <code>reports/HibernateQueryReport.jrxml</co
   </queryString>]]></pre>
 And then, at the <code>Documents</code> subreport, for each customer:
 <pre><![CDATA[
-<element kind="subreport" uuid="6fe34132-df3c-4302-8c28-d2f5536bcead" x="65" y="21" width="50" height="20" removeLineWhenBlank="true">
+<element kind="subreport" x="65" y="21" width="50" height="20" removeLineWhenBlank="true">
   <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
   <expression><![CDATA["DocumentsReport.jasper"]] ></expression>
 </element>

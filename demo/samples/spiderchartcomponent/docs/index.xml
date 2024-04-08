@@ -124,7 +124,7 @@ One can also define the <code>labelFont</code> element for the spider plot, and 
 <br/>
 Here is the piece of code used to configure the spider chart in the JRXML sample:
 <pre><![CDATA[
-<element kind="component" uuid="38296859-009f-4f19-bdbe-55df1d9b26d8" mode="Opaque" x="50" y="90" width="400" height="400">
+<element kind="component" mode="Opaque" x="50" y="90" width="400" height="400">
   <component kind="spiderChart">
     <chartSettings showLegend="true" backcolor="#00FF00" subtitleColor="#0000FF" legendBackgroundColor="#EEFFEE" titlePosition="Top" customizerClass="SpiderChartCustomizer">
       <titleFont italic="true" fontSize="12.0"/>

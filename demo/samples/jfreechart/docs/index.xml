@@ -139,10 +139,10 @@ This variable is referred to in the <code>reports/JFreeChartReport.jrxml</code> 
   <variable name="Chart" calculation="System" class="net.sf.jasperreports.renderers.Renderable"/>]]></pre>
 Now, let's take a look at the &lt;image/&gt; element itself:
 <pre><![CDATA[
-  <element kind="image" uuid="8c98f0e7-182b-44c6-abfc-24abec46bb15" y="110" width="515" height="300" scaleImage="Clip" hImageAlign="Center" onErrorType="Error" linkType="Reference">
-    <expression><![CDATA[$V{Chart}]] ></expression>
-    <hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]] ></hyperlinkReferenceExpression>
-  </element>]]></pre>
+ <element kind="image" y="110" width="515" height="300" scaleImage="Clip" hImageAlign="Center" onErrorType="Error" linkType="Reference">
+   <expression><![CDATA[$V{Chart}]] ></expression>
+   <hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]] ></hyperlinkReferenceExpression>
+ </element>]]></pre>
 The image expression class is <code>net.sf.jasperreports.renderers.Renderable</code>, and its value points to the <code>Chart</code> report variable 
 prepared in the report scriptlet.
 <br/>

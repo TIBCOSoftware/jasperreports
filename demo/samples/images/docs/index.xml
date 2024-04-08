@@ -128,7 +128,7 @@ This reports/ImagesReport.jrxml report template contains a series of image examp
 <br/>
 The first image in the report is loaded from the current folder at export time.
 <pre><![CDATA[
-<element kind="image" uuid="e37c3ef3-010c-482b-965e-a48565d5736d" width="150" height="40" onErrorType="Error">
+<element kind="image" width="150" height="40" onErrorType="Error">
   <expression><![CDATA["dukesign.jpg"]] ></expression>
   <box>
     <pen lineWidth="0.5"/>
@@ -138,7 +138,7 @@ The first image in the report is loaded from the current folder at export time.
 The last image in the report template is loaded from  <a href="https://jasperreports.sourceforge.net">https://jasperreports.sourceforge.net</a>> 
 file in this sample and is scaled to retain the image shape. It also provides a hyperlink expression pointing to its remote location:
 <pre><![CDATA[
-<element kind="image" uuid="8353450d-6b29-4139-9f34-274362589355" mode="Opaque" 
+<element kind="image" mode="Opaque" 
   x="400" width="150" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" onErrorType="Icon" linkType="Reference" lazy="true">
   <expression><![CDATA["https://jasperreports.sourceforge.net/jasperreports.svg"]] ></expression>
   <hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]] ></hyperlinkReferenceExpression>

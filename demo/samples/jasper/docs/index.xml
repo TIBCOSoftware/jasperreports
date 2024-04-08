@@ -255,7 +255,7 @@ This is what the second group in the report does, the <code>CountryGroup</code>:
   <expression><![CDATA[$F{ShipCountry}]] ></expression>
   <groupHeader>
   <band height="15">
-    <element kind="line" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758" y="14" width="270" height="1">
+    <element kind="line"y="14" width="270" height="1">
       <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
       <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
     </element>
@@ -503,7 +503,7 @@ The elements were set as in the following example:
 <pre><![CDATA[
 <groupHeader>
   <band height="15">
-    <element kind="line" uuid="0d5b92e0-b24d-4223-9071-deee35fbc758" y="14" width="270" height="1">
+    <element kind="line" y="14" width="270" height="1">
       <property name="net.sf.jasperreports.export.xls.repeat.value" value="true"/>
       <property name="net.sf.jasperreports.export.xls.column.name" value="LineShape"/>
     </element>

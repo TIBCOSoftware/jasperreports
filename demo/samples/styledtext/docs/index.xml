@@ -77,7 +77,8 @@ The first paragraph is obtained by processing the following fragment:
 	setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for 
 	the <style isBold="true" forecolor="magenta">textElement</style> tag to <style forecolor="red" isItalic="true">styled</style> and 
 	by formatting the text content using nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, including 
-	<a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></pre>
+	<a type="Reference" href="http://jasperreports.sf.net" target="Blank">
+	<style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></pre>
 The next one is obtained by processing the following fragment:
 <pre><![CDATA[
 	This text field element contains styled text displaying the text-only version of the 

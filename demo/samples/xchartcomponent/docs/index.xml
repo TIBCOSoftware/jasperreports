@@ -191,7 +191,7 @@ An example of how to use the XY area chart component is illustrated in the <code
     <pen lineWidth="1"/>
   </box>
 </style>
-<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
+<subDataset name="xyDataset">
   <parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
   <field name="name" class="java.lang.String"/>
   <field name="x" class="java.lang.Integer"/>
@@ -203,13 +203,13 @@ An example of how to use the XY area chart component is illustrated in the <code
 ...
 
 <componentElement>
-  <element x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+  <element x="0" y="80" width="545" height="320" style="chartStyle"/>
   <xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" 
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart 
     http://jasperreports.sourceforge.net/dtds/xchart.xsd" evaluationTime="Now">
     <xc:XYDataset>
       <dataset>
-        <datasetRun subDataset="xyDataset" uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714">
+        <datasetRun subDataset="xyDataset">
           <dataSourceExpression><![CDATA[$P{xyDatasource}]] ></dataSourceExpression>
         </datasetRun>
       </dataset>

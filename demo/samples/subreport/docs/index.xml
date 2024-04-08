@@ -56,7 +56,7 @@ In this example the Master Report contains the Address and Product reports embed
 Lets begin by review the configuration of the Subreport element for the Products Subreport.
 <pre>
 	<![CDATA[
-<element kind="subreport" uuid="92506c7a-e250-4f4b-826c-693b1df74d11" x="5" y="25" width="325" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
+<element kind="subreport" x="5" y="25" width="325" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
   <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
   <expression><![CDATA[$P{ProductsSubreport}]] ></expression>
   <returnValue toVariable="ProductTotalPrice" calculation="Sum" subreportVariable="PriceSum"/>
@@ -123,7 +123,7 @@ ORDER BY Product.ID
  Lets review the Address Report configuration.<br/>
  <pre>
  	<![CDATA[
-<element kind="subreport" uuid="c4b1c60e-3998-4024-b169-fe0bf12a94f4" positionType="Float" x="335" y="25" width="175" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
+<element kind="subreport" positionType="Float" x="335" y="25" width="175" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
   <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
   <expression><![CDATA["AddressReport.jasper"]] ></expression>
   <returnValue toVariable="CityAddressCount" subreportVariable="REPORT_COUNT"/>
@@ -301,7 +301,7 @@ In MasterReport.jrxml:
   ...
   <detail>
     <band height="50">
-      <element kind="textField" uuid="2c343d22-1686-4fe6-be91-a83597306aeb" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
+      <element kind="textField" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
         <expression><![CDATA[$F{City}]] ></expression>
         <property name="net.sf.jasperreports.export.json.path" value="City"/>
       </element>
@@ -318,19 +318,19 @@ In ProductReport.jrxml:
     <expression><![CDATA[$F{Id}]] ></expression>
     <groupHeader>
       <band height="14">
-        <element kind="textField" uuid="fc2ad1b0-4874-4765-baf8-b17a2490185a" y="2" width="15" height="10" hTextAlign="Right">
+        <element kind="textField" y="2" width="15" height="10" hTextAlign="Right">
           <expression><![CDATA[$F{Id}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Id"/>
         </element>
-        <element kind="textField" uuid="f53978bd-fc13-4359-b82d-2142640c6696" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
+        <element kind="textField" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
           <expression><![CDATA[$F{Name}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
         </element>
-        <element kind="textField" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830" positionType="Float" x="105" y="2" width="20" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
+        <element kind="textField" ... hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0" evaluationGroup="ProductGroup">
           <expression><![CDATA[$V{QuantityProductSum}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
         </element>
-        <element kind="textField" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db" positionType="Float" x="130" y="2" width="30" height="10" hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
+        <element kind="textField" ... hTextAlign="Right" textAdjust="StretchHeight" evaluationTime="Group" pattern="#0.00" evaluationGroup="ProductGroup">
           <expression><![CDATA[$V{PriceProductSum}]] ></expression>
           <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
         </element>
@@ -349,11 +349,11 @@ In AddressReport.jrxml:
   <detail>
     <band height="14">
       ...
-      <element kind="textField" uuid="1c766997-5272-480b-935f-cf519342a2a1" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
+      <element kind="textField" positionType="Float" x="20" y="2" width="80" height="10" textAdjust="StretchHeight">
         <expression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></expression>
         <property name="net.sf.jasperreports.export.json.path" value="customers.Name"/>
       </element>
-      <element kind="textField" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e" positionType="Float" x="105" y="2" width="70" height="10" textAdjust="StretchHeight">
+      <element kind="textField" positionType="Float" x="105" y="2" width="70" height="10" textAdjust="StretchHeight">
         <expression><![CDATA[$F{Street}]] ></expression>
         <property name="net.sf.jasperreports.export.json.path" value="customers.Street"/>
       </element>

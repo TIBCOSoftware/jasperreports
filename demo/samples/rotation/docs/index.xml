@@ -110,7 +110,7 @@ The resulting paragraph will be horizontally aligned right, vertically aligned t
 <br/>
 Below is a code snippet showing how to set text alignment and rotation in a static text. In this case the paragraph is horizontally centered, vertically aligned to bottom and rotated to the left:
 <pre><![CDATA[
-<element kind="staticText" uuid="50e4f6dd-9e09-4bbb-b030-b3e768745eea" mode="Opaque" x="100" width="90" height="350" backcolor="#C0C0C0" hTextAlign="Center" vTextAlign="Bottom" rotation="Left">
+<element kind="staticText" mode="Opaque" x="100" width="90" height="350" backcolor="#C0C0C0" hTextAlign="Center" vTextAlign="Bottom" rotation="Left">
   <text><![CDATA[rotation="Left" 
     textAlignment="Center" 
     verticalAlignment="Bottom"]] ></text>

@@ -105,11 +105,11 @@ public enum Greeting { bye, day }]]></pre>
 When the parameter's value is <code>Greeting.bye</code>, the output message will be 'Bye!'; 
 when the parameter's value is <code>Greeting.day</code>, the message will be 'Have a nice day!':
 <pre><![CDATA[
-<element kind="staticText" uuid="a35ba780-d85a-4740-aab3-6cb31954ad6a" y="450" width="480" height="35" horizontalTextAlign="Center" fontSize="24.0">
+<element kind="staticText" y="450" width="480" height="35" hTextAlign="Center" fontSize="24.0">
   <printWhenExpression><![CDATA[$P{greeting} == Greeting.bye]] ></printWhenExpression>
   <text><![CDATA[Bye!]] ></text>
 </element>
-<element kind="staticText" uuid="800911c7-c795-4589-9111-69d557cfea01" y="450" width="480" height="35" horizontalTextAlign="Center" fontSize="24.0">
+<element kind="staticText" y="450" width="480" height="35" hTextAlign="Center" fontSize="24.0">
   <printWhenExpression><![CDATA[$P{greeting} == Greeting.day]] ></printWhenExpression>
   <text><![CDATA[Have a nice day!]] ></text>
 </element>]]></pre>
