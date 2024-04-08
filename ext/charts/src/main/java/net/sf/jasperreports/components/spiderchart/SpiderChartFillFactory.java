@@ -41,7 +41,7 @@ public class SpiderChartFillFactory implements ComponentFillFactory
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
-		return new FillSpiderChart((SpiderChartComponent) component, new ChartsFillObjectFactory(factory));//FIXME7
+		return new FillSpiderChart((SpiderChartComponent) component, new ChartsFillObjectFactory(factory));
 	}
 
 	@Override
