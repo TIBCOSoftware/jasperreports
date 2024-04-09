@@ -204,12 +204,12 @@ In order to be used in a SQL clause, a report parameter of type <code>DateRange<
 </parameter>]]></pre>
 It will be used in this parameterized query:
 <pre><![CDATA[
-<queryString>
+<query>
 SELECT * FROM Orders WHERE 
     OrderID <= $P{MaxOrderID}  
     AND $X{[GREATER, OrderDate, StartDate} 
     ORDER BY ShipCountry, ShipCity, OrderDate
-</queryString>]]></pre>
+</query>]]></pre>
 
 As a result, the report data source will include only orders newer than September 1, 1996.
 <br/>
