@@ -57,7 +57,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	/**
 	 * Construct a new axis that will be added to the specified multiaxis chart plot.
 	 *
-	 * @param parentChart the chart that the axis will be added to
+	 * @param multiAxisPlot the plot that the axis will be added to
 	 */
 	public JRDesignChartAxis(JRMultiAxisPlot multiAxisPlot)
 	{
