@@ -9,12 +9,12 @@
 	<property name="net.sf.jasperreports.export.xls.defined.names.the_sum_2" value="SUM('Test 2'!$B$3:$B$7)|Test 2"/>
 	<property name="net.sf.jasperreports.export.xls.defined.names.the_sum_3" value="SUM('Test 3'!$B$3:$B$7)|Test 3"/>
 	<property name="net.sf.jasperreports.export.xls.defined.names.the_sum_123" value="SUM('Test 3'!$B$3:$B$7)"/>
-	<style name="common" fontSize="12.0" default="true"/>
+	<style name="common" default="true" fontSize="12.0"/>
 	<group name="Group1" startNewPage="true">
 		<expression><![CDATA[$V{PAGE_COUNT} <= 5]]></expression>
 	</group>
 	<pageHeader height="30">
-		<element kind="textField" uuid="13164b79-12a8-4fc9-a251-484b7e90d1e2" mode="Opaque" width="100" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="13164b79-12a8-4fc9-a251-484b7e90d1e2" mode="Opaque" x="0" y="0" width="100" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Sheet data"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -26,7 +26,7 @@
 	</pageHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
-			<element kind="textField" uuid="1b0e5ce0-5b6c-476a-87f1-ec58a55964f3" width="100" height="30" hTextAlign="Right">
+			<element kind="textField" uuid="1b0e5ce0-5b6c-476a-87f1-ec58a55964f3" x="0" y="0" width="100" height="30" hTextAlign="Right">
 				<expression><![CDATA[$V{REPORT_COUNT} + 1]]></expression>
 				<box>
 					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -78,11 +78,11 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="81bbf26c-6f2c-4085-b256-d516bae17325" width="500" height="30" hTextAlign="Left" vTextAlign="Middle" bold="true" fontSize="12.0">
+		<element kind="textField" uuid="81bbf26c-6f2c-4085-b256-d516bae17325" x="0" y="0" width="500" height="30" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Names visible in sheet   'Test " + $V{PAGE_NUMBER} + "':"]]></expression>
 			<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["Test "+$V{PAGE_NUMBER}]]></propertyExpression>
 		</element>
-		<element kind="textField" uuid="683946c6-4e4b-434a-b51b-d113a4b50b61" mode="Opaque" y="30" width="100" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="683946c6-4e4b-434a-b51b-d113a4b50b61" mode="Opaque" x="0" y="30" width="100" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Name"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -91,7 +91,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="8ba8216c-e309-40d4-83f2-84774044ab81" mode="Opaque" x="100" y="30" width="300" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="8ba8216c-e309-40d4-83f2-84774044ab81" mode="Opaque" x="100" y="30" width="300" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Name expression"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -100,7 +100,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="8899aab2-9042-40f8-bad0-f526d6872173" mode="Opaque" x="400" y="30" width="100" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="8899aab2-9042-40f8-bad0-f526d6872173" mode="Opaque" x="400" y="30" width="100" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Visibility"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -109,7 +109,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="6dc9e7b2-a319-4fae-8d15-cb1644e711c9" y="60" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="6dc9e7b2-a319-4fae-8d15-cb1644e711c9" x="0" y="60" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["the_range_" + $V{PAGE_NUMBER}]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -136,7 +136,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="8fc0d771-f8c3-4fe5-9882-347d4ea06d92" y="90" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="8fc0d771-f8c3-4fe5-9882-347d4ea06d92" x="0" y="90" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["the_sum_" + $V{PAGE_NUMBER}]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -163,7 +163,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="65428c85-f211-4d6b-8a72-5a705c1ef5a3" y="120" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="65428c85-f211-4d6b-8a72-5a705c1ef5a3" x="0" y="120" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["the_sum_123"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -190,7 +190,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="f864b7c6-eb01-409a-bae5-591a574be9f9" y="150" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="f864b7c6-eb01-409a-bae5-591a574be9f9" x="0" y="150" width="100" height="30" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["eight"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -217,7 +217,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="5f1edfc3-9d39-4b56-ab22-728024a32dd4" mode="Opaque" y="210" width="400" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="5f1edfc3-9d39-4b56-ab22-728024a32dd4" mode="Opaque" x="0" y="210" width="400" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Formula expressions using available names"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -226,7 +226,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="8af4a97a-0d7d-4368-a7b6-537b48549008" mode="Opaque" x="400" y="210" width="100" height="30" backcolor="#DFDFDF" hTextAlign="Left" vTextAlign="Middle" bold="true">
+		<element kind="textField" uuid="8af4a97a-0d7d-4368-a7b6-537b48549008" mode="Opaque" x="400" y="210" width="100" height="30" backcolor="#DFDFDF" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["Value"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -235,7 +235,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="a333122d-5ae4-4bb9-ba91-fc5f2358a46f" mode="Transparent" y="240" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="a333122d-5ae4-4bb9-ba91-fc5f2358a46f" mode="Transparent" x="0" y="240" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["eight"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -244,7 +244,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="7e3d2a40-de7d-4485-ac00-47172c71c31e" mode="Transparent" y="270" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="7e3d2a40-de7d-4485-ac00-47172c71c31e" mode="Transparent" x="0" y="270" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["the_sum_" + $V{PAGE_NUMBER}]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -253,7 +253,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="45fcb8b4-cf97-4379-874f-6b651d0ca113" mode="Transparent" y="300" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="45fcb8b4-cf97-4379-874f-6b651d0ca113" mode="Transparent" x="0" y="300" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["the_sum_123"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -262,7 +262,7 @@
 				<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="f6bb2043-6094-434e-a367-85b99dd543a5" mode="Transparent" y="330" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="f6bb2043-6094-434e-a367-85b99dd543a5" mode="Transparent" x="0" y="330" width="400" height="30" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA["AVERAGE(the_range_"+$V{PAGE_NUMBER}+")"]]></expression>
 			<box leftPadding="3" rightPadding="3">
 				<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>

@@ -1,7 +1,7 @@
 <jasperReport name="CsvDataSourceReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="cf9695b1-22d1-4645-b4bf-df690d992591">
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="false" italic="true"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="DataFile" class="java.lang.String"/>
 	<parameter name="IncludedStates" class="java.util.Set"/>
@@ -10,8 +10,8 @@
 	<field name="address" class="java.lang.String"/>
 	<field name="city" class="java.lang.String"/>
 	<field name="state" class="java.lang.String"/>
-	<sortField name="city" order="Descending" type="Field"/>
-	<sortField name="name" order="Ascending" type="Field"/>
+	<sortField name="city" order="Descending"/>
+	<sortField name="name"/>
 	<variable name="CityNumber" incrementType="Group" calculation="Count" incrementGroup="CityGroup" class="java.lang.Integer">
 		<expression><![CDATA[Boolean.TRUE]]></expression>
 	</variable>
@@ -20,7 +20,7 @@
 		<expression><![CDATA[$F{city}]]></expression>
 		<groupHeader>
 			<band height="20">
-				<element kind="textField" uuid="3ba60404-f3fd-4ed7-a6b2-c9498e15ff84" mode="Opaque" y="5" width="515" height="15" backcolor="#C0C0C0" evaluationTime="Group" evaluationGroup="CityGroup" style="Sans_Bold">
+				<element kind="textField" uuid="3ba60404-f3fd-4ed7-a6b2-c9498e15ff84" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0" evaluationTime="Group" evaluationGroup="CityGroup" style="Sans_Bold">
 					<expression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></expression>
 					<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
 					<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
@@ -42,18 +42,18 @@
 		</groupFooter>
 	</group>
 	<title height="70">
-		<element kind="line" uuid="f6007cc5-20a4-4dc4-9913-91bee5e2d9ef" width="515" height="1"/>
-		<element kind="textField" uuid="9d3b99d4-d14d-457b-ab2f-35da1dccad2e" y="10" width="515" height="30" hTextAlign="Center" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
+		<element kind="line" uuid="f6007cc5-20a4-4dc4-9913-91bee5e2d9ef" x="0" y="0" width="515" height="1"/>
+		<element kind="textField" uuid="9d3b99d4-d14d-457b-ab2f-35da1dccad2e" x="0" y="10" width="515" height="30" fontSize="22.0" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 			<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 		</element>
-		<element kind="textField" uuid="3c9d0ef5-a586-4cc2-b102-5df461e51201" y="40" width="515" height="20" hTextAlign="Center" blankWhenNull="true" fontSize="14.0" style="Sans_Normal">
+		<element kind="textField" uuid="3c9d0ef5-a586-4cc2-b102-5df461e51201" x="0" y="40" width="515" height="20" fontSize="14.0" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
 			<expression><![CDATA[$P{DataFile}]]></expression>
 		</element>
 	</title>
 	<pageHeader height="20">
-		<element kind="staticText" uuid="4bdf5f73-7f67-4e19-9057-7e37b4b30c38" mode="Opaque" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
+		<element kind="staticText" uuid="4bdf5f73-7f67-4e19-9057-7e37b4b30c38" mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
 			<text><![CDATA[ID]]></text>
 		</element>
 		<element kind="staticText" uuid="f1355688-eab9-4248-af46-67e7135b0d95" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
@@ -65,7 +65,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<element kind="textField" uuid="ce60da72-86be-4049-8cae-bedb9ad62746" width="50" height="15" hTextAlign="Right">
+			<element kind="textField" uuid="ce60da72-86be-4049-8cae-bedb9ad62746" x="0" y="0" width="50" height="15" hTextAlign="Right">
 				<expression><![CDATA[$F{id}]]></expression>
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 				<bookmarkLevelExpression><![CDATA[2]]></bookmarkLevelExpression>
@@ -74,14 +74,14 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="056f29cf-86bf-4f0c-87e5-fdfa70054e35" positionType="Float" x="50" width="200" height="15" textAdjust="StretchHeight">
+			<element kind="textField" uuid="056f29cf-86bf-4f0c-87e5-fdfa70054e35" positionType="Float" x="50" y="0" width="200" height="15" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{name}]]></expression>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="6b549474-9387-4739-a059-dca2e6809910" positionType="Float" x="250" width="265" height="15" textAdjust="StretchHeight">
+			<element kind="textField" uuid="6b549474-9387-4739-a059-dca2e6809910" positionType="Float" x="250" y="0" width="265" height="15" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{address}]]></expression>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
@@ -92,7 +92,7 @@
 		</band>
 	</detail>
 	<pageFooter height="40">
-		<element kind="line" uuid="9731e4e0-b9e0-4cf2-aaac-cbb56109ec54" y="10" width="515" height="1"/>
+		<element kind="line" uuid="9731e4e0-b9e0-4cf2-aaac-cbb56109ec54" x="0" y="10" width="515" height="1"/>
 		<element kind="textField" uuid="f9cfa9ed-8709-413f-9e14-50876f98ab51" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
@@ -101,14 +101,14 @@
 		</element>
 	</pageFooter>
 	<lastPageFooter height="60">
-		<element kind="textField" uuid="8aacdf2b-4aad-40a4-a0b7-adaa73bcd938" y="10" width="515" height="15" hTextAlign="Center" bookmarkLevel="2">
+		<element kind="textField" uuid="8aacdf2b-4aad-40a4-a0b7-adaa73bcd938" x="0" y="10" width="515" height="15" bookmarkLevel="2" hTextAlign="Center">
 			<expression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" address records on this report."]]></expression>
 			<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 			<bookmarkLevelExpression><![CDATA[1]]></bookmarkLevelExpression>
 		</element>
-		<element kind="line" uuid="ade1242b-914a-4ceb-bc11-66ecc903cdab" y="30" width="515" height="1"/>
+		<element kind="line" uuid="ade1242b-914a-4ceb-bc11-66ecc903cdab" x="0" y="30" width="515" height="1"/>
 		<element kind="textField" uuid="789d70a3-9146-4f84-9fff-90e40ad784e1" x="200" y="40" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>

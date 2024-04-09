@@ -2,9 +2,9 @@
 	<property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="50"/>
 	<property name="net.sf.jasperreports.ejbql.query.page.size" value="100"/>
 	<import>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</import>
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="false" italic="true"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="DateFrom" class="java.sql.Date"/>
 	<parameter name="DateTo" class="java.sql.Date"/>
@@ -26,7 +26,7 @@
 		<expression><![CDATA[$F{genre}]]></expression>
 		<groupHeader>
 			<band height="20">
-				<element kind="textField" uuid="7c353143-5934-4045-a8dc-4bba6a941f01" mode="Opaque" y="5" width="515" height="15" backcolor="#C0C0C0" evaluationTime="Group" evaluationGroup="GenreGroup" bookmarkLevel="1" style="Sans_Bold">
+				<element kind="textField" uuid="7c353143-5934-4045-a8dc-4bba6a941f01" mode="Opaque" x="0" y="5" width="515" height="15" backcolor="#C0C0C0" evaluationTime="Group" evaluationGroup="GenreGroup" bookmarkLevel="1" style="Sans_Bold">
 					<expression><![CDATA[String.valueOf($V{GenreCount}) + ". " + String.valueOf($F{genre})]]></expression>
 					<anchorNameExpression><![CDATA[String.valueOf($F{genre})]]></anchorNameExpression>
 					<box leftPadding="5" style="Sans_Bold">
@@ -47,14 +47,14 @@
 		</groupFooter>
 	</group>
 	<title height="70">
-		<element kind="line" uuid="3994d1ce-e349-4b56-ab20-4b8052567f1e" width="515" height="1"/>
-		<element kind="textField" uuid="a50016eb-e600-485f-a63c-b1afa8a79602" y="10" width="515" height="30" hTextAlign="Center" bookmarkLevel="1" blankWhenNull="true" fontSize="22.0" style="Sans_Normal">
+		<element kind="line" uuid="3994d1ce-e349-4b56-ab20-4b8052567f1e" x="0" y="0" width="515" height="1"/>
+		<element kind="textField" uuid="a50016eb-e600-485f-a63c-b1afa8a79602" x="0" y="10" width="515" height="30" fontSize="22.0" bookmarkLevel="1" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 		</element>
 	</title>
 	<pageHeader height="20">
-		<element kind="staticText" uuid="61d35db0-c712-4452-9953-9691f67697b4" mode="Opaque" y="5" width="260" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+		<element kind="staticText" uuid="61d35db0-c712-4452-9953-9691f67697b4" mode="Opaque" x="0" y="5" width="260" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
 			<text><![CDATA[Title]]></text>
 			<box leftPadding="10" rightPadding="10" style="Sans_Bold"/>
 		</element>
@@ -69,7 +69,7 @@
 	</pageHeader>
 	<detail>
 		<band height="45">
-			<element kind="textField" uuid="250da73f-d4e5-4004-b8ad-647b69825959" positionType="Float" y="5" width="260" height="15" textAdjust="StretchHeight">
+			<element kind="textField" uuid="250da73f-d4e5-4004-b8ad-647b69825959" positionType="Float" x="0" y="5" width="260" height="15" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{title}]]></expression>
 				<box leftPadding="10" rightPadding="10"/>
 			</element>
@@ -97,7 +97,7 @@
 		</band>
 	</detail>
 	<pageFooter height="40">
-		<element kind="line" uuid="86b399c1-e27e-4658-a234-ef82e3dade20" y="10" width="515" height="1"/>
+		<element kind="line" uuid="86b399c1-e27e-4658-a234-ef82e3dade20" x="0" y="10" width="515" height="1"/>
 		<element kind="textField" uuid="62376553-5f00-4841-9ff0-71f8e8901dee" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>
@@ -106,13 +106,13 @@
 		</element>
 	</pageFooter>
 	<lastPageFooter height="60">
-		<element kind="textField" uuid="641b85be-da16-4b7d-94c7-512a5cb14b34" y="10" width="515" height="15" hTextAlign="Center" bookmarkLevel="1">
+		<element kind="textField" uuid="641b85be-da16-4b7d-94c7-512a5cb14b34" x="0" y="10" width="515" height="15" bookmarkLevel="1" hTextAlign="Center">
 			<expression><![CDATA["There were " +
 					String.valueOf($V{REPORT_COUNT}) +
 					" movies displayed on this report."]]></expression>
 			<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
 		</element>
-		<element kind="line" uuid="4b460e8a-f0ef-4789-8f11-55d524102df9" y="30" width="515" height="1"/>
+		<element kind="line" uuid="4b460e8a-f0ef-4789-8f11-55d524102df9" x="0" y="30" width="515" height="1"/>
 		<element kind="textField" uuid="b191f294-3fe8-4307-b5a4-c6524e511cf4" x="200" y="40" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>

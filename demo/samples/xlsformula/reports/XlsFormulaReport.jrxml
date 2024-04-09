@@ -1,10 +1,10 @@
 <jasperReport name="XlsFormulaReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fb79de0d-e61d-4c95-9412-a1968d62f3a7">
 	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 	<title height="250">
-		<element kind="staticText" uuid="df00bc39-3b98-47b0-8963-573e2982dc54" width="595" height="150" hTextAlign="Center" vTextAlign="Middle" fontSize="22.0">
+		<element kind="staticText" uuid="df00bc39-3b98-47b0-8963-573e2982dc54" x="0" y="0" width="595" height="150" fontSize="22.0" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[XLS Formula Report]]></text>
 		</element>
-		<element kind="textField" uuid="03e6ff0f-ab29-4d0d-93d3-8d0de4793363" key="textField-1" y="150" width="280" height="23" hTextAlign="Right" vTextAlign="Middle" blankWhenNull="false">
+		<element kind="textField" uuid="03e6ff0f-ab29-4d0d-93d3-8d0de4793363" key="textField-1" x="0" y="150" width="280" height="23" blankWhenNull="false" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[7]]></expression>
 			<property name="net.sf.jasperreports.export.xls.formula" value="7"/>
 			<box rightPadding="5">
@@ -23,7 +23,7 @@
 				<rightPen lineWidth="2.0" lineColor="#C0C0C0"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="847022ab-408c-40b5-9695-c4854d03960e" key="textField-2" y="173" width="280" height="23" hTextAlign="Right" vTextAlign="Middle" blankWhenNull="false">
+		<element kind="textField" uuid="847022ab-408c-40b5-9695-c4854d03960e" key="textField-2" x="0" y="173" width="280" height="23" blankWhenNull="false" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[4]]></expression>
 			<property name="net.sf.jasperreports.export.xls.formula" value="4"/>
 			<box rightPadding="5">
@@ -40,7 +40,7 @@
 				<rightPen lineWidth="2.0" lineColor="#C0C0C0"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="2b17b395-756f-4236-aa02-853b13769b0c" key="textField-3" y="196" width="280" height="23" hTextAlign="Right" vTextAlign="Middle" blankWhenNull="false">
+		<element kind="textField" uuid="2b17b395-756f-4236-aa02-853b13769b0c" key="textField-3" x="0" y="196" width="280" height="23" blankWhenNull="false" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[0]]></expression>
 			<property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/>
 			<box rightPadding="5">
@@ -57,7 +57,7 @@
 				<rightPen lineWidth="2.0" lineColor="#C0C0C0"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="e77c5150-0725-4ad8-a5f1-4b3388d7285b" key="textField-4" y="219" width="280" height="23" hTextAlign="Right" vTextAlign="Middle" blankWhenNull="false">
+		<element kind="textField" uuid="e77c5150-0725-4ad8-a5f1-4b3388d7285b" key="textField-4" x="0" y="219" width="280" height="23" blankWhenNull="false" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[0]]></expression>
 			<propertyExpression name="net.sf.jasperreports.export.xls.formula"><![CDATA["A" + 2 + "-A" + 3]]></propertyExpression>
 			<box rightPadding="5">

@@ -7,7 +7,7 @@
 	<property name="net.sf.jasperreports.export.xls.metadata.subject" value="Shows how the specific XLS features could be used  when exporting to Excel formats."/>
 	<property name="net.sf.jasperreports.export.xls.metadata.author" value="JasperReports Project Team"/>
 	<property name="net.sf.jasperreports.export.xls.metadata.keywords" value="JasperReports, Excel, Formulas, Features"/>
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
@@ -17,19 +17,19 @@
 	<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
 		<defaultValueExpression><![CDATA["\r\n"]]></defaultValueExpression>
 	</parameter>
-	<query language="csv"/>
+	<query language="csv"><![CDATA[]]></query>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="address" class="java.lang.String"/>
 	<field name="city" class="java.lang.String"/>
 	<field name="state" class="java.lang.String"/>
-	<sortField name="city" order="Ascending" type="Field"/>
-	<sortField name="name" order="Ascending" type="Field"/>
+	<sortField name="city"/>
+	<sortField name="name"/>
 	<group name="cityGroup">
 		<expression><![CDATA[$F{city}]]></expression>
 		<groupHeader>
 			<band height="15">
-				<element kind="textField" uuid="a8761e80-fb74-4377-bc43-45923e1992a1" mode="Opaque" width="515" height="15" forecolor="#000000" backcolor="#C0C0C0" fontSize="10.0" style="Sans_Bold">
+				<element kind="textField" uuid="a8761e80-fb74-4377-bc43-45923e1992a1" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#C0C0C0" fontSize="10.0" style="Sans_Bold">
 					<expression><![CDATA[$F{city}]]></expression>
 					<box style="Sans_Bold">
 						<pen lineWidth="0.5" lineColor="#000000"/>
@@ -39,7 +39,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="20">
-				<element kind="textField" uuid="bd49aab9-04c8-49b2-8587-25016f8cc86d" mode="Opaque" width="515" height="15" forecolor="#000000" backcolor="#E0E0E0" hTextAlign="Right" fontSize="10.0" style="Sans_Bold">
+				<element kind="textField" uuid="bd49aab9-04c8-49b2-8587-25016f8cc86d" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#E0E0E0" fontSize="10.0" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$F{city} + " ID count: " + $V{cityGroup_COUNT}]]></expression>
 					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
 					<box style="Sans_Bold">
@@ -53,7 +53,7 @@
 		<expression><![CDATA[$F{name}.substring(0,1)]]></expression>
 		<groupHeader>
 			<band height="10">
-				<element kind="textField" uuid="0072cdb1-aea4-4896-be04-4898ece95a9c" mode="Opaque" width="515" height="10" forecolor="#000000" backcolor="#A0A0A0" fontSize="8.0" style="Sans_Bold">
+				<element kind="textField" uuid="0072cdb1-aea4-4896-be04-4898ece95a9c" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#A0A0A0" fontSize="8.0" style="Sans_Bold">
 					<expression><![CDATA["Names starting with letter " + $F{name}.substring(0,1)+":"]]></expression>
 					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="Body"/>
 					<box style="Sans_Bold">
@@ -64,7 +64,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="10">
-				<element kind="textField" uuid="42a86535-f015-4bbc-b546-f34218081398" mode="Opaque" width="515" height="10" forecolor="#000000" backcolor="#B0B0B0" hTextAlign="Right" fontSize="8.0" style="Sans_Bold">
+				<element kind="textField" uuid="42a86535-f015-4bbc-b546-f34218081398" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#B0B0B0" fontSize="8.0" hTextAlign="Right" style="Sans_Bold">
 					<expression><![CDATA[$F{name}.substring(0,1)+ "-names ID count: " + $V{initialNameGroup_COUNT}]]></expression>
 					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
 					<box style="Sans_Bold">
@@ -75,7 +75,7 @@
 		</groupFooter>
 	</group>
 	<pageHeader height="80">
-		<element kind="textField" uuid="ef5e5d1f-6fc8-4ac3-afb7-48487b62b7b8" mode="Opaque" width="515" height="30" forecolor="#000000" hTextAlign="Center" vTextAlign="Bottom" fontSize="16.0" style="Sans_Bold">
+		<element kind="textField" uuid="ef5e5d1f-6fc8-4ac3-afb7-48487b62b7b8" mode="Opaque" x="0" y="0" width="515" height="30" forecolor="#000000" fontSize="16.0" hTextAlign="Center" vTextAlign="Bottom" style="Sans_Bold">
 			<expression><![CDATA[$P{ReportTitle}]]></expression>
 			<box style="Sans_Bold">
 				<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -83,7 +83,7 @@
 				<rightPen lineWidth="0.5" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="5e0271b8-b687-45d8-967e-5b2b0a286b6e" mode="Opaque" y="30" width="515" height="30" forecolor="#000000" hTextAlign="Center" vTextAlign="Top" pattern="EEE, MMM d, yyyy" fontSize="12.0" style="Sans_Bold">
+		<element kind="textField" uuid="5e0271b8-b687-45d8-967e-5b2b0a286b6e" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000" fontSize="12.0" pattern="EEE, MMM d, yyyy" hTextAlign="Center" vTextAlign="Top" style="Sans_Bold">
 			<expression><![CDATA[$P{ReportDate}]]></expression>
 			<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
 			<box style="Sans_Bold">
@@ -92,7 +92,7 @@
 				<rightPen lineWidth="0.5" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="591c7935-d71e-405d-a829-3d0b3487d782" mode="Opaque" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666" vTextAlign="Middle" style="Sans_Bold">
+		<element kind="staticText" uuid="591c7935-d71e-405d-a829-3d0b3487d782" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666" vTextAlign="Middle" style="Sans_Bold">
 			<text><![CDATA[State]]></text>
 			<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
 			<property name="net.sf.jasperreports.export.xls.column.width" value="110"/>
@@ -129,7 +129,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<element kind="textField" uuid="a5c39a85-537b-443a-964e-311ce6f5c35a" width="104" height="15">
+			<element kind="textField" uuid="a5c39a85-537b-443a-964e-311ce6f5c35a" x="0" y="0" width="104" height="15">
 				<expression><![CDATA[$F{state}]]></expression>
 				<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="Body"/>
 				<box leftPadding="10" rightPadding="10">
@@ -138,7 +138,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="5922b91a-229e-4404-94ef-2831f33c2b84" x="104" width="55" height="15" hTextAlign="Right">
+			<element kind="textField" uuid="5922b91a-229e-4404-94ef-2831f33c2b84" x="104" y="0" width="55" height="15" hTextAlign="Right">
 				<expression><![CDATA[$F{id}]]></expression>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
@@ -146,7 +146,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="f84a17a3-dd55-4044-81b1-46aee61801e2" positionType="Float" x="159" width="157" height="15" textAdjust="StretchHeight">
+			<element kind="textField" uuid="f84a17a3-dd55-4044-81b1-46aee61801e2" positionType="Float" x="159" y="0" width="157" height="15" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{name}]]></expression>
 				<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$F{id}.equals(44) ? "Start" : null]]></propertyExpression>
 				<box leftPadding="10" rightPadding="10">
@@ -155,7 +155,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="53fe7b81-f998-46e1-912e-66383284e4a2" positionType="Float" x="316" width="199" height="15" textAdjust="StretchHeight">
+			<element kind="textField" uuid="53fe7b81-f998-46e1-912e-66383284e4a2" positionType="Float" x="316" y="0" width="199" height="15" textAdjust="StretchHeight">
 				<expression><![CDATA[$F{address}]]></expression>
 				<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]></propertyExpression>
 				<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]]></propertyExpression>

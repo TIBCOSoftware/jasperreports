@@ -4,10 +4,10 @@
 		<field name="color" class="java.lang.String"/>
 	</dataset>
 	<title height="555" splitType="Stretch">
-		<element kind="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" width="802" height="20" hTextAlign="Center" fontSize="16.0">
+		<element kind="staticText" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4" x="0" y="0" width="802" height="20" fontSize="16.0" hTextAlign="Center">
 			<text><![CDATA[Custom Visualization Component - Simple Rectangle]]></text>
 		</element>
-		<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" y="80" width="802" height="475">
+		<element kind="component" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e" x="0" y="80" width="802" height="475">
 			<component kind="customvisualization" evaluationTime="Report">
 				<itemData>
 					<dataset>

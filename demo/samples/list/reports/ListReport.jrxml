@@ -1,8 +1,8 @@
 <jasperReport name="ListReport" language="java" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="250" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="3de5a1ab-15fd-4dec-bc88-dc18453bf715">
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="false" italic="true"/>
-	<style name="Sans_Small" fontName="DejaVu Sans" fontSize="8.0" underline="false" strikeThrough="false" bold="false" italic="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<style name="Sans_Small" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
 	<style name="ListRow" mode="Opaque" backcolor="#FBF1DA">
 		<conditionalStyle backcolor="#E9F4B2">
 			<conditionExpression><![CDATA[$V{REPORT_COUNT} %2 == 0]]></conditionExpression>
@@ -19,13 +19,13 @@
 	<query language="sql"><![CDATA[SELECT City FROM Address GROUP BY City ORDER BY City]]></query>
 	<field name="City" class="java.lang.String"/>
 	<title height="40">
-		<element kind="line" uuid="9275bf56-e377-46d2-937b-9f338a41eb06" width="515" height="1"/>
-		<element kind="staticText" uuid="26fc2f4f-de0f-411a-b386-e67caf96f441" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="line" uuid="9275bf56-e377-46d2-937b-9f338a41eb06" x="0" y="0" width="515" height="1"/>
+		<element kind="staticText" uuid="26fc2f4f-de0f-411a-b386-e67caf96f441" x="0" y="10" width="515" height="30" fontSize="22.0" hTextAlign="Center" style="Sans_Normal">
 			<text><![CDATA[Addresses Report]]></text>
 		</element>
 	</title>
 	<pageHeader height="21">
-		<element kind="staticText" uuid="019469d0-ec4b-4e96-806f-33557f89168d" mode="Opaque" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+		<element kind="staticText" uuid="019469d0-ec4b-4e96-806f-33557f89168d" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
 			<text><![CDATA[Addresses List]]></text>
 		</element>
 	</pageHeader>
@@ -34,10 +34,10 @@
 			<element kind="textField" uuid="ef0654b5-f925-42ed-a611-bc5b3db61c43" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
 				<expression><![CDATA[$F{City}]]></expression>
 			</element>
-			<element kind="staticText" uuid="5f533e26-72bd-4d78-a369-392b29b4d83f" x="110" y="5" width="100" height="15" printRepeatedValues="false" printWhenDetailOverflows="true" style="Sans_Bold">
+			<element kind="staticText" uuid="5f533e26-72bd-4d78-a369-392b29b4d83f" x="110" y="5" width="100" height="15" printWhenDetailOverflows="true" printRepeatedValues="false" style="Sans_Bold">
 				<text><![CDATA[(continued)]]></text>
 			</element>
-			<element kind="component" uuid="a6cc346e-d517-431e-8860-d81cc4e1145f" y="25" width="250" height="20">
+			<element kind="component" uuid="a6cc346e-d517-431e-8860-d81cc4e1145f" x="0" y="25" width="250" height="20">
 				<component kind="list" printOrder="Vertical">
 					<datasetRun uuid="b8180534-701e-4f9a-ad5f-785d1a5fb74b" subDataset="Addresses">
 						<parameter name="City">
@@ -45,8 +45,8 @@
 						</parameter>
 					</datasetRun>
 					<contents height="14">
-						<element kind="frame" uuid="28b3ebcb-1bd3-422d-9468-54216206315d" width="250" height="14" style="ListRow">
-							<element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" y="2" width="15" height="10" hTextAlign="Right" style="Sans_Small">
+						<element kind="frame" uuid="28b3ebcb-1bd3-422d-9468-54216206315d" x="0" y="0" width="250" height="14" style="ListRow">
+							<element kind="textField" uuid="2fba17f5-4547-4f51-a12f-815c7f0589ca" x="0" y="2" width="15" height="10" hTextAlign="Right" style="Sans_Small">
 								<expression><![CDATA[$F{Id}]]></expression>
 							</element>
 							<element kind="textField" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef" positionType="Float" x="20" y="2" width="110" height="10" textAdjust="StretchHeight" style="Sans_Small">
@@ -62,7 +62,7 @@
 		</band>
 	</detail>
 	<pageFooter height="40">
-		<element kind="line" uuid="c1c0630c-2045-4090-8e5c-423f598393d0" y="10" width="515" height="1"/>
+		<element kind="line" uuid="c1c0630c-2045-4090-8e5c-423f598393d0" x="0" y="10" width="515" height="1"/>
 		<element kind="textField" uuid="3d3faa0b-0121-427a-9d57-6250e8d3c866" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>

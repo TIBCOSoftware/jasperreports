@@ -1,5 +1,5 @@
 <jasperReport name="AdventureWorks-Olap4jXMLA-XJoinColumnsReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="e172100a-5fdf-4634-85a8-e8c5b5ac746b">
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
 	<query language="olap4j"><![CDATA[SELECT
 		NON EMPTY { [Measures].[Sales Amount], 
@@ -44,7 +44,7 @@ WHERE ( [Sales Territory].[Southwest] )]]></query>
 		</groupHeader>
 		<groupFooter>
 			<band height="44">
-				<element kind="textField" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d" x="230" y="10" width="100" height="12" hTextAlign="Right" pattern="¤#,##0.###;¤-#,##0.###">
+				<element kind="textField" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d" x="230" y="10" width="100" height="12" pattern="¤#,##0.###;¤-#,##0.###" hTextAlign="Right">
 					<expression><![CDATA[$V{TotalYearlySales}]]></expression>
 				</element>
 				<element kind="textField" uuid="a951e5bc-e085-405b-9f28-894202860eda" x="20" y="10" width="100" height="13">
@@ -64,7 +64,7 @@ WHERE ( [Sales Territory].[Southwest] )]]></query>
 		</groupHeader>
 		<groupFooter>
 			<band height="47">
-				<element kind="textField" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d" x="230" y="10" width="100" height="12" hTextAlign="Right" pattern="¤#,##0.###;¤-#,##0.###">
+				<element kind="textField" uuid="f253a6d6-fb66-43ec-aae8-682de33d666d" x="230" y="10" width="100" height="12" pattern="¤#,##0.###;¤-#,##0.###" hTextAlign="Right">
 					<expression><![CDATA[$V{TotalBizTypeSales}]]></expression>
 				</element>
 				<element kind="textField" uuid="60c3b3f4-261c-4859-8c04-ed3e6428ac61" x="60" y="10" width="150" height="12">
@@ -74,11 +74,11 @@ WHERE ( [Sales Territory].[Southwest] )]]></query>
 		</groupFooter>
 	</group>
 	<pageHeader height="16">
-		<element kind="frame" uuid="424a03ee-0f2d-48d0-9d50-1506a5b7b9c9" mode="Opaque" width="515" height="15" backcolor="#E0E0E0">
-			<element kind="staticText" uuid="d43aafc1-19bd-4f5c-87a6-915ddd1404be" x="180" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="frame" uuid="424a03ee-0f2d-48d0-9d50-1506a5b7b9c9" mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0">
+			<element kind="staticText" uuid="d43aafc1-19bd-4f5c-87a6-915ddd1404be" x="180" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
 				<text><![CDATA[Sales Amount]]></text>
 			</element>
-			<element kind="staticText" uuid="e2398974-785f-4b37-a94f-59ea339a1afa" x="300" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+			<element kind="staticText" uuid="e2398974-785f-4b37-a94f-59ea339a1afa" x="300" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
 				<text><![CDATA[Tax Amount]]></text>
 			</element>
 			<box>
@@ -88,13 +88,13 @@ WHERE ( [Sales Territory].[Southwest] )]]></query>
 	</pageHeader>
 	<detail>
 		<band height="17">
-			<element kind="textField" uuid="d3686bdb-d81c-412c-bd06-8701e28c2116" x="230" width="100" height="15" hTextAlign="Right" pattern="¤#,##0.###;¤-#,##0.###">
+			<element kind="textField" uuid="d3686bdb-d81c-412c-bd06-8701e28c2116" x="230" y="0" width="100" height="15" pattern="¤#,##0.###;¤-#,##0.###" hTextAlign="Right">
 				<expression><![CDATA[$F{SalesAmount}]]></expression>
 			</element>
-			<element kind="textField" uuid="978c01f4-43d2-4521-8e77-cbb590a3009e" x="350" width="100" height="15" hTextAlign="Right" pattern="$#,##0.00">
+			<element kind="textField" uuid="978c01f4-43d2-4521-8e77-cbb590a3009e" x="350" y="0" width="100" height="15" pattern="$#,##0.00" hTextAlign="Right">
 				<expression><![CDATA[$F{TaxAmount}]]></expression>
 			</element>
-			<element kind="textField" uuid="8965ace0-1596-4888-b770-a7dec4e39571" x="60" width="118" height="11">
+			<element kind="textField" uuid="8965ace0-1596-4888-b770-a7dec4e39571" x="60" y="0" width="118" height="11">
 				<expression><![CDATA[$F{Reseller}]]></expression>
 			</element>
 		</band>

@@ -1,9 +1,9 @@
 <jasperReport name="Figures" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
 	<title height="772" splitType="Stretch">
-		<element kind="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" width="555" height="20" hTextAlign="Center" fontSize="16.0">
+		<element kind="staticText" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6" x="0" y="0" width="555" height="20" fontSize="16.0" hTextAlign="Center">
 			<text><![CDATA[Custom Visualization Component - Figures]]></text>
 		</element>
-		<element kind="component" uuid="fbb36477-0a3a-4763-98ce-94237b08671e" y="80" width="555" height="60">
+		<element kind="component" uuid="fbb36477-0a3a-4763-98ce-94237b08671e" x="0" y="80" width="555" height="60">
 			<component kind="customvisualization" evaluationTime="Report">
 				<property name="script" value="figures/figures.min.js"/>
 				<property name="module" value="figures"/>
@@ -15,11 +15,11 @@
 				<property name="showBackground" value="true"/>
 			</component>
 		</element>
-		<element kind="staticText" uuid="2bbb6238-c82f-4ed8-b6df-6dfddcf1036e" y="60" width="555" height="20" fontSize="12.0">
+		<element kind="staticText" uuid="2bbb6238-c82f-4ed8-b6df-6dfddcf1036e" x="0" y="60" width="555" height="20" fontSize="12.0">
 			<text><![CDATA[Showing 2 figures out of 10 selected. Background figures are shown in gray.]]></text>
 		</element>
-		<element kind="frame" uuid="2c57b531-90f4-47e1-bee0-ab1d33b5d704" y="200" width="553" height="192">
-			<element kind="component" uuid="74263625-4f6f-4dc5-b632-2f4ebbbeb26c" width="553" height="192">
+		<element kind="frame" uuid="2c57b531-90f4-47e1-bee0-ab1d33b5d704" x="0" y="200" width="553" height="192">
+			<element kind="component" uuid="74263625-4f6f-4dc5-b632-2f4ebbbeb26c" x="0" y="0" width="553" height="192">
 				<component kind="customvisualization" evaluationTime="Report">
 					<itemData>
 						<item>
@@ -47,10 +47,10 @@
 				<rightPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="a3766664-1e1d-446e-b155-30c994b3f359" y="180" width="554" height="20" fontSize="12.0">
+		<element kind="staticText" uuid="a3766664-1e1d-446e-b155-30c994b3f359" x="0" y="180" width="554" height="20" fontSize="12.0">
 			<text><![CDATA[30 figures out of 30 selected. Vertical alignment set to "middle". Columns set to 20. ]]></text>
 		</element>
-		<element kind="component" uuid="3ceefe60-a7e6-49cf-95a0-1107b8264896" y="500" width="259" height="129">
+		<element kind="component" uuid="3ceefe60-a7e6-49cf-95a0-1107b8264896" x="0" y="500" width="259" height="129">
 			<component kind="customvisualization" evaluationTime="Report">
 				<itemData>
 					<item>
@@ -73,7 +73,7 @@
 				<property name="bgColor" value="#FF00BF"/>
 			</component>
 		</element>
-		<element kind="staticText" uuid="01288581-0195-44d4-a58c-6ee67ab053ce" y="470" width="258" height="20" fontSize="12.0">
+		<element kind="staticText" uuid="01288581-0195-44d4-a58c-6ee67ab053ce" x="0" y="470" width="258" height="20" fontSize="12.0">
 			<text><![CDATA[Single figure filled at 60% (value 0.6).]]></text>
 		</element>
 		<element kind="component" uuid="ad93b2b7-a4e1-42c0-844b-9e43beb325c0" x="280" y="500" width="273" height="129">
@@ -103,8 +103,8 @@
 		<element kind="staticText" uuid="169befe0-22d3-4c4b-a910-97a5b286e0a3" x="280" y="470" width="272" height="20" fontSize="12.0">
 			<text><![CDATA[Custom figure (value 1, figures 2)]]></text>
 		</element>
-		<element kind="line" uuid="304fd50c-b05b-4b05-be6b-809eab357b1f" y="162" width="555" height="1"/>
-		<element kind="line" uuid="e1cec339-0683-4052-a960-1c1a524af234" y="452" width="555" height="1"/>
+		<element kind="line" uuid="304fd50c-b05b-4b05-be6b-809eab357b1f" x="0" y="162" width="555" height="1"/>
+		<element kind="line" uuid="e1cec339-0683-4052-a960-1c1a524af234" x="0" y="452" width="555" height="1"/>
 		<element kind="line" uuid="21a0a113-7eec-4fc4-8822-66e491ccd293" x="268" y="470" width="1" height="159"/>
 	</title>
 	<detail>

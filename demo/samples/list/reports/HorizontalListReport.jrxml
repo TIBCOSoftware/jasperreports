@@ -1,9 +1,9 @@
 <jasperReport name="HorizontalListReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="f287a3c3-3d7f-4f7c-964e-d7be86d21c1d">
-	<style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true" underline="false" strikeThrough="false" bold="false" italic="false"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" underline="false" strikeThrough="false" bold="false" italic="true"/>
-	<style name="Sans_Small" fontName="DejaVu Sans" fontSize="10.0" underline="false" strikeThrough="false" bold="false" italic="false"/>
-	<style name="Sans_SmallBold" fontName="DejaVu Sans" fontSize="10.0" underline="false" strikeThrough="false" bold="true" italic="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<style name="Sans_Small" fontName="DejaVu Sans" fontSize="10.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_SmallBold" fontName="DejaVu Sans" fontSize="10.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
 	<style name="ListCell" mode="Opaque" backcolor="#FBF1DA"/>
 	<dataset name="Addresses" uuid="892be1ef-970f-42c8-ab80-82c91a904605">
 		<parameter name="City" class="java.lang.String"/>
@@ -17,13 +17,13 @@
 	<query language="sql"><![CDATA[SELECT City FROM Address GROUP BY City ORDER BY City]]></query>
 	<field name="City" class="java.lang.String"/>
 	<title height="40">
-		<element kind="line" uuid="e5a65d7a-f538-4acd-820f-96e3e5751e36" width="515" height="1"/>
-		<element kind="staticText" uuid="d4fd8df3-1b29-429d-b231-7840524979a5" y="10" width="515" height="30" hTextAlign="Center" fontSize="22.0" style="Sans_Normal">
+		<element kind="line" uuid="e5a65d7a-f538-4acd-820f-96e3e5751e36" x="0" y="0" width="515" height="1"/>
+		<element kind="staticText" uuid="d4fd8df3-1b29-429d-b231-7840524979a5" x="0" y="10" width="515" height="30" fontSize="22.0" hTextAlign="Center" style="Sans_Normal">
 			<text><![CDATA[Addresses Report]]></text>
 		</element>
 	</title>
 	<pageHeader height="21">
-		<element kind="staticText" uuid="9d616507-cc82-40ad-8ede-6baf184bfa0c" mode="Opaque" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+		<element kind="staticText" uuid="9d616507-cc82-40ad-8ede-6baf184bfa0c" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
 			<text><![CDATA[Addresses List]]></text>
 		</element>
 	</pageHeader>
@@ -32,10 +32,10 @@
 			<element kind="textField" uuid="32f64269-615d-43d9-8620-6bcf827677c5" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
 				<expression><![CDATA[$F{City}]]></expression>
 			</element>
-			<element kind="staticText" uuid="7c8c124d-9697-4ac4-a314-966f9b7f7fb9" x="110" y="5" width="100" height="15" printRepeatedValues="false" printWhenDetailOverflows="true" style="Sans_Bold">
+			<element kind="staticText" uuid="7c8c124d-9697-4ac4-a314-966f9b7f7fb9" x="110" y="5" width="100" height="15" printWhenDetailOverflows="true" printRepeatedValues="false" style="Sans_Bold">
 				<text><![CDATA[(continued)]]></text>
 			</element>
-			<element kind="component" uuid="34fb2fe3-0f33-43ce-84e7-6fd2fb51349f" y="25" width="515" height="40">
+			<element kind="component" uuid="34fb2fe3-0f33-43ce-84e7-6fd2fb51349f" x="0" y="25" width="515" height="40">
 				<component kind="list" printOrder="Horizontal">
 					<datasetRun uuid="25d845a2-169f-4599-9cfc-4414f30138fe" subDataset="Addresses">
 						<parameter name="City">
@@ -43,8 +43,8 @@
 						</parameter>
 					</datasetRun>
 					<contents height="40" width="128">
-						<element kind="frame" uuid="052ddd9f-3f08-47f0-90e0-37f38ec52807" stretchType="ContainerHeight" x="4" width="120" height="38" style="ListCell">
-							<element kind="textField" uuid="740300c0-184f-499d-a651-06c95fef90f8" y="2" width="100" height="12" style="Sans_SmallBold">
+						<element kind="frame" uuid="052ddd9f-3f08-47f0-90e0-37f38ec52807" stretchType="ContainerHeight" x="4" y="0" width="120" height="38" style="ListCell">
+							<element kind="textField" uuid="740300c0-184f-499d-a651-06c95fef90f8" x="0" y="2" width="100" height="12" style="Sans_SmallBold">
 								<expression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]]></expression>
 							</element>
 							<element kind="textField" uuid="0d94253a-1fec-4390-b671-8462daca989b" positionType="Float" x="10" y="14" width="110" height="12" textAdjust="StretchHeight" style="Sans_Small">
@@ -64,7 +64,7 @@
 		</band>
 	</detail>
 	<pageFooter height="40">
-		<element kind="line" uuid="c860179a-e395-4ac1-b129-09073598fd30" y="10" width="515" height="1"/>
+		<element kind="line" uuid="c860179a-e395-4ac1-b129-09073598fd30" x="0" y="10" width="515" height="1"/>
 		<element kind="textField" uuid="4c76f7c9-424f-4a3c-bb19-f3557ac7bf1e" x="200" y="20" width="80" height="15" hTextAlign="Right">
 			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
 		</element>

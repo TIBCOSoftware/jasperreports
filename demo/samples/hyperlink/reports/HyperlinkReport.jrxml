@@ -1,12 +1,12 @@
 <jasperReport name="HyperlinkReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="b6054a7a-8e08-4610-9655-bf6d1d8be6ec" titleNewPage="true" summaryNewPage="true">
 	<background height="742">
-		<element kind="image" uuid="1e5c5ba2-55d4-446c-ba24-8b6fad9eccc0" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
+		<element kind="image" uuid="1e5c5ba2-55d4-446c-ba24-8b6fad9eccc0" x="0" y="0" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom">
 			<expression><![CDATA["jr.watermark.gif"]]></expression>
 		</element>
 	</background>
 	<title height="145">
-		<element kind="frame" uuid="639b254d-ca2e-4922-a66e-efd45e5613d7" mode="Opaque" width="555" height="145" backcolor="#FF99CC">
-			<element kind="textField" uuid="dca53bee-7c10-45ad-8335-238e1f680d98" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+		<element kind="frame" uuid="639b254d-ca2e-4922-a66e-efd45e5613d7" mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#FF99CC">
+			<element kind="textField" uuid="dca53bee-7c10-45ad-8335-238e1f680d98" x="5" y="5" width="450" height="20" fontSize="14.0" bold="true">
 				<expression><![CDATA["This is the TITLE section"]]></expression>
 				<anchorNameExpression><![CDATA["title"]]></anchorNameExpression>
 			</element>
@@ -24,7 +24,7 @@
 				<expression><![CDATA["  >> Click here to go to www.google.com"]]></expression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 			</element>
-			<element kind="image" uuid="82785a38-76be-4973-bea6-1614dbdaeec8" x="310" y="90" width="200" height="30" hImageAlign="Center" vImageAlign="Middle" onErrorType="Error" linkType="Reference" linkTarget="Blank">
+			<element kind="image" uuid="82785a38-76be-4973-bea6-1614dbdaeec8" x="310" y="90" width="200" height="30" linkType="Reference" linkTarget="Blank" hImageAlign="Center" vImageAlign="Middle">
 				<expression><![CDATA["google.gif"]]></expression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
 				<hyperlinkTooltipExpression><![CDATA["Searching for something?"]]></hyperlinkTooltipExpression>
@@ -40,8 +40,8 @@
 		</element>
 	</title>
 	<pageHeader height="145">
-		<element kind="frame" uuid="12ab7d69-93a1-416b-8939-013790160b96" mode="Opaque" width="555" height="145" backcolor="#CCFFCC">
-			<element kind="textField" uuid="47f4ca04-db59-40b0-ae24-677f4c60cadb" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+		<element kind="frame" uuid="12ab7d69-93a1-416b-8939-013790160b96" mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#CCFFCC">
+			<element kind="textField" uuid="47f4ca04-db59-40b0-ae24-677f4c60cadb" x="5" y="5" width="450" height="20" fontSize="14.0" bold="true">
 				<expression><![CDATA["This is the HEADER section of the page number " + String.valueOf($V{PAGE_NUMBER}) + "."]]></expression>
 				<anchorNameExpression><![CDATA["pageHeader_" + String.valueOf($V{PAGE_NUMBER})]]></anchorNameExpression>
 			</element>
@@ -63,8 +63,8 @@
 		</element>
 	</pageHeader>
 	<pageFooter height="145">
-		<element kind="frame" uuid="c6a6e7c2-7b8e-4a37-89ae-c5eaf410cab1" mode="Opaque" width="555" height="145" backcolor="#FFFF99">
-			<element kind="textField" uuid="5b0eb03a-343d-43af-b839-4c44069a9a46" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+		<element kind="frame" uuid="c6a6e7c2-7b8e-4a37-89ae-c5eaf410cab1" mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#FFFF99">
+			<element kind="textField" uuid="5b0eb03a-343d-43af-b839-4c44069a9a46" x="5" y="5" width="450" height="20" fontSize="14.0" bold="true">
 				<expression><![CDATA["This is the FOOTER section of the page number " + String.valueOf($V{PAGE_NUMBER}) + "."]]></expression>
 				<anchorNameExpression><![CDATA["pageFooter_" + String.valueOf($V{PAGE_NUMBER})]]></anchorNameExpression>
 			</element>
@@ -86,8 +86,8 @@
 		</element>
 	</pageFooter>
 	<summary height="145">
-		<element kind="frame" uuid="071ee33d-fa6d-43e5-9461-0cf1c6af0930" mode="Opaque" width="555" height="145" backcolor="#99CCFF">
-			<element kind="textField" uuid="c742532b-29e7-43bf-8f21-58de7530f389" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+		<element kind="frame" uuid="071ee33d-fa6d-43e5-9461-0cf1c6af0930" mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#99CCFF">
+			<element kind="textField" uuid="c742532b-29e7-43bf-8f21-58de7530f389" x="5" y="5" width="450" height="20" fontSize="14.0" bold="true">
 				<expression><![CDATA["This is the SUMMARY section"]]></expression>
 				<anchorNameExpression><![CDATA["summary"]]></anchorNameExpression>
 			</element>
