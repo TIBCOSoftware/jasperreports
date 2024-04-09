@@ -68,7 +68,9 @@ sheet names properties). Since this property supports also expressions, it's com
 In our <code>demo/samples/xlsfeatures/reports/XlsFeaturesReport.jrxml</code> sample one could see an example of usage in the text element labeled 
 <code>ID</code> in the page header:
 <pre><![CDATA[
-  <propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]] ></propertyExpression>]]></pre>
+  <propertyExpression name="net.sf.jasperreports.export.xls.sheet.name">
+    <![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]] >
+  </propertyExpression>]]></pre>
 Therefore each sheet will be labeled with the <code>Customers i</code> text instead of the default <code>Page i</code> (where <code>i</code> stands for 
 the sheet index).
 <br/>
@@ -206,7 +208,9 @@ page of the generated document for all columns excepting <code>State</code> one,
 property discussed above. But on the second page one can see that columns are no more enlarged, on the contrary, they are visibly narrowed down. This is because the 
 <code>Street</code> textfield in the detail section contains a conditional property expression which overrides the document-level setting:
 <pre><![CDATA[
-  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>]]></pre>
+  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio">
+    <![CDATA[$F{id}.equals(44) ? "0.75f" : null]] >
+  </propertyExpression>]]></pre>
 When the record with field value <code>id = 44</code> is rendered (and this happens in the second page) the condition is satisfied, so all columns on the current sheet 
 will be multiplied by 0.75 instead of 1.25. The <code>State</code> column width remains unchanged on the second page too.
 </li>
@@ -455,7 +459,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/xlsfeatures/target/reports</code> directory.

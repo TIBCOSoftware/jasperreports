@@ -126,7 +126,8 @@ Here is the piece of code used to configure the spider chart in the JRXML sample
 <pre><![CDATA[
 <element kind="component" mode="Opaque" x="50" y="90" width="400" height="400">
   <component kind="spiderChart">
-    <chartSettings showLegend="true" backcolor="#00FF00" subtitleColor="#0000FF" legendBackgroundColor="#EEFFEE" titlePosition="Top" customizerClass="SpiderChartCustomizer">
+    <chartSettings showLegend="true" backcolor="#00FF00" subtitleColor="#0000FF" legendBackgroundColor="#EEFFEE" 
+      titlePosition="Top" customizerClass="SpiderChartCustomizer">
       <titleFont italic="true" fontSize="12.0"/>
       <subtitleFont bold="true" fontSize="6.0"/>
       <legendFont fontSize="6.0"/>
@@ -140,11 +141,14 @@ Here is the piece of code used to configure the spider chart in the JRXML sample
         <categoryExpression><![CDATA[$F{category}]] ></categoryExpression>
         <valueExpression><![CDATA[$F{value}]] ></valueExpression>
         <itemHyperlink linkType="Reference" linkTarget="Blank">
-          <hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]] ></hyperlinkReferenceExpression>
+          <hyperlinkReferenceExpression>
+            <![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]] >
+          </hyperlinkReferenceExpression>
         </itemHyperlink>
       </series>
     </dataset>
-    <plot rotation="Anticlockwise" tableOrder="Row" startAngle="39.0" headPercent="0.01" interiorGap="0.2" axisLineColor="#FF0000" axisLineWidth="2.0" labelGap="0.05" backcolor="#FFFF00">
+    <plot rotation="Anticlockwise" tableOrder="Row" startAngle="39.0" headPercent="0.01" interiorGap="0.2" 
+      axisLineColor="#FF0000" axisLineWidth="2.0" labelGap="0.05" backcolor="#FFFF00">
       <labelFont bold="true" italic="true" fontSize="6.0"/>
       <maxValueExpression><![CDATA[10d]] ></maxValueExpression>
     </plot>
@@ -166,7 +170,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/spiderchartcomponent/target/reports</code> directory.

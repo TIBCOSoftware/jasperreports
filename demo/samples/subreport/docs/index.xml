@@ -362,7 +362,7 @@ In AddressReport.jrxml:
   ...
 </jasperReport>]]></pre>
 
-After running the <code>&gt;mvn clean compile exec:java</code> command, the pure data exported with the JSON metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:exec@all</code> command, the pure data exported with the JSON metadata exporter will be available in the 
 <code>demo/samples/subreport/target/reports</code> directory as <code>MasterReport.json</code>.
 <br/>
 <br/>
@@ -379,16 +379,9 @@ This will start the HSQLDB server shipped with the JasperReports distribution pa
 <br/>
 Open a new command prompt/terminal window and set the current folder to demo/samples/subreport within the JasperReports source project and run the following command:
 <br/>
-<code>&gt; mvn clean compile exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 This will generate all supported document types containing the sample report in the demo/samples/subreport/target/reports directory.
     </content>
   </feature>
-  
-  
-  
-  
-  
-  
-
 </sample>

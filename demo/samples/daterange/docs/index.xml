@@ -185,7 +185,7 @@ This sample illustrates how the <code>DATERANGE()</code> function can be used in
 First are shown some relative date ranges with their start/end moments.
 Following is a text field that contains a <code>DATERANGE()</code> function to retrieve a relative date range start:
 <pre><![CDATA[
-<element kind="textField" mode="Transparent" x="195" y="160" width="180" height="20" backcolor="#EEEEEE" vTextAlign="Middle" pattern="EEE, MMM d, yyyy  HH:mm:ss">
+<element kind="textField" mode="Transparent" ... backcolor="#EEEEEE" vTextAlign="Middle" pattern="EEE, MMM d, yyyy  HH:mm:ss">
   <expression><![CDATA[DATERANGE("DAY+3").getStart()]] ></expression>
   <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
 </element>]]></pre>
@@ -227,7 +227,7 @@ This will start the HSQLDB server shipped with the JasperReports distribution pa
 <br/>
 Open a new command prompt/terminal window and set the current folder to demo/samples/daterange within the JasperReports source project and run the following command:
 <br/>
-<code>&gt; mvn clean compile exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 This will generate all supported document types containing the sample report in the demo/samples/daterange/target/reports directory.
     </content>

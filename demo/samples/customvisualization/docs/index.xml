@@ -237,7 +237,8 @@ In this example we have only one file called <code>basic.js</code>, the extensio
 The <code>wrap</code> option is used to be sure that this component will work properly in evnironments like JasperReports IO and JasperReports Server interactive viewers.<br/>
 <br/>
 To generate the final component we can use different tools (i.e. Java or Node).<br/>
-To compile the file using Node, be sure node is installed, then in a command prompt/terminal window set the current folder to the folder in which you created your component (i.e.  <code>demo/samples/customvisualization/components/basic</code> within the JasperReports source project) then run the command:<br/>
+To compile the file using Node, be sure node is installed, then in a command prompt/terminal window set the current folder to the folder in which you created 
+your component (i.e.  <code>demo/samples/customvisualization/components/basic</code> within the JasperReports source project) then run the command:<br/>
 <br/>
 <code>&gt; node ../../libraries/requirejs/r-2.3.5.js -o build.js</code><br/>
 <br/>
@@ -245,7 +246,8 @@ To compile the file using Java, the Rhino JavaScript engine is used. Here is the
 <br/>
 <code>&gt; java -cp /path/to/rhino.jar org.mozilla.javascript.tools.shell.Main -opt -1 ../../libraries/requirejs/r-2.3.5.js -o build.js</code><br/>
 <br/>
-The full reference of the <code>build.js</code> file is available at <a href="https://github.com/requirejs/r.js/blob/master/build/build.js">https://github.com/requirejs/r.js/blob/master/build/build.js</a><br/>
+The full reference of the <code>build.js</code> file is available 
+at <a href="https://github.com/requirejs/r.js/blob/master/build/build.js">https://github.com/requirejs/r.js/blob/master/build/build.js</a><br/>
 <br/>
 We will use this newly create component in a JRXML with the following code:<br/>
 <pre><![CDATA[		
@@ -368,7 +370,11 @@ In order to use our new component, we will have to set the <code>background</cod
     <itemData>
       <dataset>
         <datasetRun subDataset="Sample Dataset">
-          <dataSourceExpression><![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) )]] ></dataSourceExpression>
+          <dataSourceExpression>
+            <![CDATA[new net.sf.jasperreports.json.data.JsonDataSource( 
+              new StringBufferInputStream( "[{ value: 20, color: 'red'},{ value: 35, color: 'green'},{ value: 78, color: 'blue'},{ value: 92, color: 'yellow'}]" ) 
+            )]] >
+          </dataSourceExpression>
         </datasetRun>
       </dataset>
       <item>
@@ -452,7 +458,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/customvisualization/target/reports</code> directory.

@@ -363,7 +363,7 @@ This will start the HSQLDB server shipped with the JasperReports distribution pa
 <br/>
 Open a new command prompt/terminal window and set the current folder to demo/samples/charts within the JasperReports source project and run the following command:
 <br/>
-<code>&gt; mvn clean compile exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 This will generate all supported document types containing the sample report in the demo/samples/charts/target/reports directory.
     </content>

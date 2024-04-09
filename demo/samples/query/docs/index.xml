@@ -539,9 +539,6 @@ of the element to reference the needed style. For instance, for the text element
 	<paragraph lineSpacing="Single"/>
 	<expression><![CDATA[$P{ReportTitle}]] ></expression>
 </element>]]></pre>
-<subtitle name="running_sample">Running the Sample</subtitle>
-<br/>
-<br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
@@ -555,7 +552,7 @@ This will start the HSQLDB server shipped with the JasperReports distribution pa
 <br/>
 Open a new command prompt/terminal window and set the current folder to demo/samples/query within the JasperReports source project and run the following command:
 <br/>
-<code>&gt; mvn clean compile exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 This will generate all supported document types containing the sample report in the demo/samples/query/target/reports directory.
     </content>

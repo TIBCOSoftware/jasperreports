@@ -120,7 +120,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/tabular/target/reports</code> directory.

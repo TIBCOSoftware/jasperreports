@@ -337,7 +337,7 @@ This will start the HSQLDB server shipped with the JasperReports distribution pa
 <br/>
 Open a new command prompt/terminal window and set the current folder to demo/samples/charts within the JasperReports source project and run the following command:
 <br/>
-<code>&gt; mvn clean compile exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 This will generate all supported document types containing the sample report in the demo/samples/charts/target/reports directory.
     </content>
@@ -449,7 +449,7 @@ these settings apply to the &lt;detail/&gt; section:
   <property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
   ...
 </element>]]></pre>
-After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:exec@all</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.csv</code>.
     </content>
   </feature>
@@ -579,7 +579,7 @@ The elements were set as in the following example:
     </element>    ...
   </band>
 </detail>]]></pre>
-After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the XLSX metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:exec@all</code> command the data-centric document exported with the XLSX metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory in 2 forms: <code>FirstJasper.singleSheet.metadata.xlsx</code> - as single sheet document, and 
 <code>FirstJasper.multiSheet.metadata.xlsx</code> - as multisheet Excel document. Notice the differences in text formatting between these files and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
@@ -610,7 +610,7 @@ properties presented in the <a href="#xlsx_metadata_export">The Excel (.xlsx) Me
 <a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.width.metadata">net.sf.jasperreports.export.xls.column.width.metadata</a>.
 <br/>
 <br/>
-After running the <code>&gt;mvn clean compile exec:java</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
+After running the <code>&gt;mvn clean compile exec:exec@all</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.xls</code>.
     </content>
   </feature>

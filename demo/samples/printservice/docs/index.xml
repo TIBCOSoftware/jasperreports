@@ -206,8 +206,10 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     text.setStyle(normalStyle);
     text.setFontSize(14f);
     text.setText(
-      "JasperReports is a powerful report-generating tool that has the ability to deliver rich content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
-      "It is entirely written in Java and can be used in a variety of Java enabled applications, including J2EE or Web applications, to generate dynamic content.\n\n" +
+      "JasperReports is a powerful report-generating tool that has the ability to deliver rich content onto the screen, " + 
+      "to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
+      "It is entirely written in Java and can be used in a variety of Java enabled applications, including J2EE or Web applications, " +
+      "to generate dynamic content.\n\n" +
       "Its main purpose is to help creating page oriented, ready to print documents in a simple and flexible manner."
       );
     page.addElement(text);
@@ -252,7 +254,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/printservice/target/reports</code> directory.

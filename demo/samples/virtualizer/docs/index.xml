@@ -105,6 +105,8 @@ parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 	Setting the maxPages in memory is key. Setting the value too low will result in virtualization occuring when it is not necessary.<br/>
 	Setting it too high could result in an out of memory exception occuring before virtualization has a chance to start. Picking the<br/>
 	correct value for a given system will require some trial and error.
+<br/>
+<br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
@@ -114,7 +116,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 and run the following command:
 <br/>
 <br/>
-<code>&gt; mvn exec:java</code>
+<code>&gt; mvn clean compile exec:exec@all</code>
 <br/>
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/virtualizer/target/reports</code> directory.	
