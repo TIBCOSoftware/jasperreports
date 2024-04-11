@@ -58,7 +58,7 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
  * used.
  * 
  * @see net.sf.jasperreports.engine.JRDataset
- * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetRun()
+ * @see net.sf.jasperreports.charts.JRChartDataset#getDatasetType()
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @JsonDeserialize(as = JRDesignDatasetRun.class)

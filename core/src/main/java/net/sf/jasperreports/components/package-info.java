@@ -71,7 +71,7 @@
  * <li>The component implementation produces
  * {@link net.sf.jasperreports.engine.JRPrintImage} instances when the report is
  * filled. The images can use a custom image renderer
- * ({@link net.sf.jasperreports.engine.Renderable}) implementation.</li>
+ * ({@link net.sf.jasperreports.renderers.Renderable}) implementation.</li>
  * <li>The developed component code is bundled into a JAR and placed on the application's classpath.</li>
  * <li>Report designers can now embed custom charts into JRXMLs.</li>
  * </ul>
@@ -86,21 +86,7 @@
  * time the default implementation
  * {@link net.sf.jasperreports.engine.component.DefaultComponentsBundle} is used.</li>
  * <li>A component bundle includes:
- * <ul>
- * <li>A XML parser object which implements
- * {@link net.sf.jasperreports.engine.component.ComponentsXmlParser}. The
- * default
- * {@link net.sf.jasperreports.engine.component.DefaultComponentXmlParser}
- * implementation can be used in most cases. An XML parser provides:
- * <ul>
- * <li>A namespace to be used for the component bundle.</li>
- * <li>An XML schema to validate component XML fragments. The XML schema is
- * given as both a public location where it can be accessed, and as an internal
- * resource which will be used when parsing reports.</li>
- * <li>A {@link net.sf.jasperreports.engine.component.XmlDigesterConfigurer}
- * implementation which registers XML digester rules that are used to transform
- * at JRXML parse time component XML fragments into Java objects. In many
- * cases, new digester rule classes need to be written.</li>
+ * <li>A set of component types retrieved via {@link net.sf.jasperreports.engine.component.ComponentsBundle#getComponentTypes()} method</li>
  * </ul>
  * </li>
  * <li>One or more component managers,
@@ -116,10 +102,10 @@
  * contains methods to collect report expressions from a component instance, to
  * validate such a component and to create a component object that is included in
  * the compiled report.</li>
- * <li>A component XML writer
- * ({@link net.sf.jasperreports.engine.component.ComponentXmlWriter}
- * implementation) which is responsible for producing a XML representation of
- * component instances.</li>
+ * <li>A component converter
+ * ({@link net.sf.jasperreports.engine.component.ComponentDesignConverter}
+ * implementation) which onverts a component element into a print element that represents a preview
+ * of the component.</li>
  * <li>A factory of component fill instances,
  * {@link net.sf.jasperreports.engine.component.ComponentFillFactory}
  * implementation.</li>

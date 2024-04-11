@@ -32,8 +32,8 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
  * single part component type can be accessed.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see ComponentsEnvironment#getManager(ComponentKey)
- * @see ComponentsBundle#getComponentManager(String)
+ * @see ComponentsEnvironment#getManager(Class)
+ * @see ComponentsBundle#getComponentManager(Class)
  */
 public interface PartComponentManager
 {

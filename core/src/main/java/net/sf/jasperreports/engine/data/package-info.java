@@ -295,7 +295,7 @@
  * </p>
  * <h3>Excel Data Sources</h3>
  * When reporting data is in Microsoft Excel files (XLS or XLSX), the 
- * {@link net.sf.jasperreports.engine.data.ExcelDataSource ExcelDataSource} data source 
+ * {@link net.sf.jasperreports.poi.data.ExcelDataSource ExcelDataSource} data source
  * implementation can be used to read it and feed it into the report. 
  * <p>
  * The XLS data source uses the Apache POI library to load the Excel workbook and read 

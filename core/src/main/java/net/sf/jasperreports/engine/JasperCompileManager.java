@@ -85,7 +85,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * </p><p>
  * If the property is not provided, the facade first tries to see if the JDT compiler from the 
  * Eclipse Foundation is available in the application's classpath. If it is, the
- * {@link net.sf.jasperreports.jdt.JRJdtCompiler} implementation is used.
+ * <code>net.sf.jasperreports.jdt.JRJdtCompiler}</code> implementation is used.
  * </p><p>
  * If the JDT compiler is not available, the compilation facade then tries to locate the JDK
  * 1.3-compatible Java compiler from Sun Microsystems. This is normally found in the
@@ -121,12 +121,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * Note that the classes implementing the {@link net.sf.jasperreports.engine.design.JRCompiler} 
  * interface can also be used directly in
  * the programs without having to call them through this facade class.</dd>
- * <dt>{@link net.sf.jasperreports.engine.xml.JRReportSaxParserFactory#COMPILER_XML_VALIDATION net.sf.jasperreports.compiler.xml.validation}<dt>
- * <dd>The XML validation, which is on by default, can be turned off by setting this
- * configuration property to
- * false. When turned off, the XML parser no longer validates the supplied JRXML
- * against its associated XSD. This might prove useful in some environments, although it is
- * not recommended.</dd>
  * <dt>{@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_CLASSPATH net.sf.jasperreports.compiler.classpath}<dt>
  * <dd>This property
  * supplies the classpath. JDK-based compilers require that the classpath be
@@ -166,7 +160,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @see net.sf.jasperreports.engine.JasperReport
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.design.JRCompiler
- * @see net.sf.jasperreports.jdt.JRJdtCompiler
  * @see net.sf.jasperreports.engine.design.JRVerifier
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlWriter

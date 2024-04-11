@@ -77,7 +77,7 @@
  * </ul>
  * <h3>Chart Rendering</h3>
  * In generated reports the output produced by a chart element is an image element. Image elements are drawn using 
- * implementations of the {@link net.sf.jasperreports.engine.Renderable Renderable} interface. 
+ * implementations of the {@link net.sf.jasperreports.renderers.Renderable Renderable} interface.
  * The <code>renderType</code> attribute specifies the renderer implementation that will be used to render the 
  * chart during export or report display. By default, JasperReports recognizes the following values for this attribute: 
  * <ul>
@@ -143,7 +143,7 @@
  * works with certain datasets: Pie, Category, XY, Time Series, Time Period, XYZ, High-Low and Gantt. 
  * <br/>
  * The JasperReports object model uses the 
- * {@link net.sf.jasperreports.engine.JRChartDataset JRChartDataset} interface to define chart datasets. 
+ * {@link net.sf.jasperreports.charts.JRChartDataset JRChartDataset} interface to define chart datasets.
  * There are implementations of this interface for each of the aforementioned dataset types. 
  * All chart datasets initialize and increment in the same way, and differ only in the type of 
  * data or data series they map. 
@@ -158,7 +158,7 @@
  * chart's appearance and behavior. 
  * <br/>
  * There is, however, a subset of plot properties common to all plot types, exposed in the 
- * {@link net.sf.jasperreports.engine.JRChartPlot JRChartPlot} interface. They are grouped 
+ * {@link net.sf.jasperreports.charts.JRChartPlot JRChartPlot} interface. They are grouped
  * under the <code>&lt;plot&gt;</code> tag in JRXML and can be part of any chart/plot definition in the report 
  * template:
  * <dl>

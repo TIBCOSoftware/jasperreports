@@ -32,8 +32,7 @@ import java.util.Set;
  * The default {@link ComponentsBundle components bundle} implementation.
  *
  * <p>
- * A components bundle consists of a {@link ComponentsXmlParser XML parser}
- * instance and a map of {@link ComponentManager component managers}.
+ * A components bundle consists of a map of {@link ComponentManager component managers}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */

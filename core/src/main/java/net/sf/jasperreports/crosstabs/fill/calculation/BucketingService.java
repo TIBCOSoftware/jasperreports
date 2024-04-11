@@ -103,7 +103,7 @@ public abstract class BucketingService
 	/**
 	 * Creates a crosstab bucketing engine.
 	 * 
-	 * @param serviceContext 
+	 * @param serviceContext the bucketing service context
 	 * @param rowBuckets the row bucket definitions
 	 * @param columnBuckets the column bucket definitions
 	 * @param measures the measure definitions

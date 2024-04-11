@@ -69,8 +69,8 @@
  * JavaScript (<a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a>). 
  * The compiler implementation classes are:
  * <ul>
- * <li>{@link net.sf.jasperreports.compilers.JRGroovyCompiler JRGroovyCompiler}</li>
- * <li>{@link net.sf.jasperreports.compilers.JavaScriptCompiler JavaScriptCompiler}</li>
+ * <li>{@link net.sf.jasperreports.groovy.JRGroovyCompiler JRGroovyCompiler}</li>
+ * <li>{@link net.sf.jasperreports.javascript.JavaScriptCompiler JavaScriptCompiler}</li>
  * </ul>
  * Historically, these compiler implementations used to be shipped as separate samples, 
  * but now they are part of the core library.

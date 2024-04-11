@@ -82,8 +82,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * JavaScript (<a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a>). </p>
  * The related compiler implementation classes are:
  * <ul>
- * <li>{@link net.sf.jasperreports.compilers.JRGroovyCompiler}</li>
- * <li>{@link net.sf.jasperreports.compilers.JavaScriptCompiler}</li>
+ * <li>{@link net.sf.jasperreports.groovy.JRGroovyCompiler}</li>
+ * <li>{@link net.sf.jasperreports.javascript.JavaScriptCompiler}</li>
  * </ul>
  * <p>
  * Since the most common scenario is to use the Java language for writing report

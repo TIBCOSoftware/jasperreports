@@ -140,7 +140,7 @@
  * packaged in a query executer bundle that can be deployed as a single JAR file. This 
  * approach obviates the need to modify existing application files. The query executer 
  * extension point in JasperReports is represented by the 
- * {@link net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle} interface. 
+ * {@link net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle} final class.
  * </p>
  * <h3>SQL Query Executer</h3>
  * The SQL query executer is a JDBC-based executer for SQL queries. 
@@ -187,7 +187,7 @@
  * data. 
  * <p>
  * For reports having an HQL query, the executor factory will automatically define a 
- * parameter named {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PARAMETER_HIBERNATE_SESSION HIBERNATE_SESSION} 
+ * parameter named {@link net.sf.jasperreports.engine.query.HibernateConstants#PARAMETER_HIBERNATE_SESSION HIBERNATE_SESSION}
  * of type <code>org.hibernate.Session</code>. Its value will be used by the query executor to create the query. 
  * </p><p>
  * Like SQL queries, HQL queries can embed two types of parameters:
@@ -199,11 +199,11 @@
  * </ul>
  * The result of a Hibernate query can be obtained in several ways. The Hibernate query 
  * executer chooses the way the query result will be produced based on a property named 
- * {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_RUN_TYPE net.sf.jasperreports.hql.query.run.type}. The run type can be one of the following: 
+ * {@link net.sf.jasperreports.engine.query.HibernateConstants#PROPERTY_HIBERNATE_QUERY_RUN_TYPE net.sf.jasperreports.hql.query.run.type}. The run type can be one of the following:
  * <ul>
  * <li><code>list</code> - The result is fetched using <code>org.hibernate.Query.list()</code>. The result 
  * rows can be fetched all at once or in fixed-sized chunks. To enable paginated result row retrieval, 
- * the {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE net.sf.jasperreports.hql.query.list.page.size} 
+ * the {@link net.sf.jasperreports.engine.query.HibernateConstants#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE net.sf.jasperreports.hql.query.list.page.size}
  * configuration property should have a positive value.</li>
  * <li><code>scroll</code> - The result is fetched using <code>org.hibernate.Query.scroll()</code>.</li>
  * <li><code>iterate</code> - The result is fetched using <code>org.hibernate.Query.iterate()</code>.</li>
@@ -218,14 +218,14 @@
  * eventually cause an OutOfMemory error. If the Hibernate's session cache is regularly 
  * cleared, the memory trap can be avoided. Because flushing data and clearing the cache is 
  * a time-consuming process, you should use it only if really huge datasets are involved. 
- * This is why the {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_CLEAR_CACHE net.sf.jasperreports.hql.clear.cache} property was introduced. 
+ * This is why the {@link net.sf.jasperreports.engine.query.HibernateConstants#PROPERTY_HIBERNATE_CLEAR_CACHE net.sf.jasperreports.hql.clear.cache} property was introduced.
  * Normally, it defaults to false. If set to true, the periodic Hibernate session cache 
  * cleanup is performed after each page fetching. 
  * </p><p>
  * A report/dataset field is mapped to a value from the Hibernate query result either by its 
  * description or its name. By default, the program uses the report field name, but the report 
  * field description property can be used instead if the 
- * {@link net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS net.sf.jasperreports.hql.field.mapping.descriptions} configuration 
+ * {@link net.sf.jasperreports.engine.query.HibernateConstants#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS net.sf.jasperreports.hql.field.mapping.descriptions} configuration
  * property is set to true either in the report template or globally. 
  * </p><p>
  * The mappings are similar to the ones used by JavaBeans data sources, except that select aliases are 
@@ -244,7 +244,7 @@
  * properties to register additional or alternative query language to query executer mappings 
  * </p><p>
  * The Mondrian query executer requires a single connection parameter named 
- * {@link net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory#PARAMETER_MONDRIAN_CONNECTION MONDRIAN_CONNECTION} 
+ * {@link net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory#PARAMETER_MONDRIAN_CONNECTION MONDRIAN_CONNECTION}
  * of type <code>mondrian.olap.Connection</code>.
  * </p><p>
  * MDX queries can contain placeholders for parameters of any type. When the query gets 
@@ -336,7 +336,7 @@
  * manager at runtime; the query executer will run the query using the supplied entity 
  * manager. The entity manager is of type <code>javax.persistence.EntityManager</code> and 
  * should be provided via the 
- * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_ENTITY_MANAGER JPA_ENTITY_MANAGER} 
+ * {@link net.sf.jasperreports.engine.query.EjbqlConstants#PARAMETER_JPA_ENTITY_MANAGER JPA_ENTITY_MANAGER}
  * built-in parameter: 
  * <pre>
  *   Map parameters = new HashMap();
@@ -348,7 +348,7 @@
  * environment and implementation. 
  * <p>
  * An additional parameter named 
- * {@link net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory#PARAMETER_JPA_QUERY_HINTS_MAP JPA_QUERY_HINTS_MAP} 
+ * {@link net.sf.jasperreports.engine.query.EjbqlConstants#PARAMETER_JPA_QUERY_HINTS_MAP JPA_QUERY_HINTS_MAP}
  * allows you to specify query hints for running the query. The parameter value should be a map containing hint values 
  * mapped to hint names. The hints are set using the 
  * </p><p>
@@ -385,7 +385,7 @@
  * no other processing. 
  * </p><p>
  * The result of the query execution is sent to a 
- * {@link net.sf.jasperreports.engine.data.JRJpaDataSource} 
+ * {@link net.sf.jasperreports.jakarta.ejbql.JRJpaDataSource}
  * data source implementation, which iterates 
  * over it and extracts report field values. Fields are mapped to specific values in the query 
  * result by specifying the mapping as field description or field name. 
@@ -424,7 +424,7 @@
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
  * @see net.sf.jasperreports.engine.JRDataSource
  * @see net.sf.jasperreports.engine.JRResultSetDataSource
- * @see net.sf.jasperreports.engine.data.JRJpaDataSource
+ * @see net.sf.jasperreports.jakarta.ejbql.JRJpaDataSource
  * @see net.sf.jasperreports.engine.data.JRXmlDataSource
  * @see net.sf.jasperreports.olap.JRMdxQueryExecuterFactory
  * @see net.sf.jasperreports.olap.JRMondrianDataSource

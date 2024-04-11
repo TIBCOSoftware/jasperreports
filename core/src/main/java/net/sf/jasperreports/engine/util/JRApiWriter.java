@@ -2188,9 +2188,7 @@ public class JRApiWriter
 	
 	/**
 	 * 
-	 * @param element
 	 * @param pen
-	 * @throws IOException
 	 */
 	private void writePen( JRPen pen, String penHolder)
 	{

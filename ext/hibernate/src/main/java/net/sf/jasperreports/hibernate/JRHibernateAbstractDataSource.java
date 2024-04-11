@@ -62,7 +62,6 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	 * 
 	 * @param queryExecuter the query executer
 	 * @param useFieldDescription whether to use field descriptions for fields to results mapping
-	 * @param useIndexOnSingleReturn whether to use indexed addressing even when the query has only one return column
 	 */
 	protected JRHibernateAbstractDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{
@@ -74,7 +73,6 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	/**
 	 * Assigns field readers to report fields.
 	 * 
-	 * @param useIndexOnSingleReturn  whether to use indexed addressing even when the query has only one return column
 	 * @return a report field name to field reader mapping
 	 * @see FieldReader
 	 */
