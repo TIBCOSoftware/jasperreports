@@ -329,9 +329,9 @@ In the main dataset we are interested only in retrieving the <code><b>"totalResu
 To get it, we declared the report query language as <code><b>jsonql</b></code>, and set a related report field named <code><b>totalResults</b></code> 
 as follows:
 <pre><![CDATA[
-<query language="jsonql">
+<queryString language="jsonql">
   <![CDATA[]] >
-</query>
+</queryString>
 <field name="totalResults" class="java.lang.Integer">
   <property name="net.sf.jasperreports.jsonql.field.expression" value="totalResults"/>
 </field>]]></pre>
@@ -365,9 +365,9 @@ The query language in <code>MovieDataset</code> is also <code><b>jsonql</b></cod
 <code><b>"Search"</b></code> array member of the JSON object, in order to retrieve the movie information regarding title, year, movie type and 
 poster:
 <pre><![CDATA[
- <query language="jsonql">
+ <queryString language="jsonql">
    <![CDATA[Search]] >
- </query>
+ </queryString>
  <field name="title" class="java.lang.String">
    <property name="net.sf.jasperreports.jsonql.field.expression" value="Title"/>
  </field>
@@ -437,9 +437,9 @@ Following are presented the main differences exposed by <b>XmlHttpDataAdapterRep
     <parameter name="page" class="java.lang.Integer">
       <property name="net.sf.jasperreports.http.data.url.parameter"/>
     </parameter>
-    <query language="xPath">
+    <queryString language="xPath">
       <![CDATA[/root/result]] >
-    </query>
+    </queryString>
     <field name="title" class="java.lang.String">
       <property name="net.sf.jasperreports.xpath.field.expression" value="@title"/>
     </field>
@@ -457,9 +457,9 @@ Following are presented the main differences exposed by <b>XmlHttpDataAdapterRep
     <property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
     <defaultValueExpression><![CDATA["aliens"]] ></defaultValueExpression>
   </parameter>
-  <query language="xPath">
+  <queryString language="xPath">
     <![CDATA[/root]] >
-  </query>
+  </queryString>
   <field name="totalResults" class="java.lang.Integer">
     <property name="net.sf.jasperreports.xpath.field.expression" value="@totalResults"/>
   </field>

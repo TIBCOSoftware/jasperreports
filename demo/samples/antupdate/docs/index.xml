@@ -201,10 +201,7 @@ Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> 
 <br/>
 In a command prompt/terminal window set the current folder to <code>demo/samples/antupdate</code> within the JasperReports source project and run the <code>&gt; ant test</code> command.
 <br/>
-It will generate updated reports in the <code>demo/samples/antupdate/build/reports</code> directory. 
-<br/>
-<br/>
-Compare the updated JRXMLs with the original ones. Notice the replacement of the 
+It will generate updated reports in the <code>demo/samples/antupdate/build/reports</code> directory. Compare the updated JRXMLs with the original ones. Notice the replacement of the 
 <code>&lt;DOCTYPE ...&gt;</code> line with schema informations added to the report. Also the title band comes with the <code>splitType</code> attribute and report elements provide the 
 <code>uuid</code> atribute. The deprecated <code>border</code> attribute was replaced by the <code>pen</code> element. All these represent changes applied by default in order to get 
 up-to-date report designs, in accordance with the current JasperReports schema. 

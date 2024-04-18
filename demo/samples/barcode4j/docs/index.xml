@@ -91,7 +91,7 @@ Some of the 2D symbologies are enumerated below:
 
   <!-- barcode4j -->
   
-  <feature name="barcode4j" title="Barcode4J Custom Component">
+  <feature name="barcode4j" title="Barcodes (Barcode4J Custom Component)">
     <description>
 Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barcode4j.sourceforge.net/">Barcode4J</a> library.
     </description>

@@ -81,12 +81,12 @@ query language, at fill time the engine calls a specific query executer class to
 retrieve the data and finally create the data source object.
 <br/>
 Anytime a report query is defined one has to specify the query language using the <code>language</code> attribute 
-in the <code>&lt;query/&gt;</code> element. If no language is specified, the <code>SQL</code> is considered 
+in the <code>&lt;queryString/&gt;</code> element. If no language is specified, the <code>SQL</code> is considered 
 by default, for backward compatibility reasons. Below is defined a query written using the <code>HQL</code> language:
 <pre><![CDATA[
-  <query language="hql">
+  <queryString language="hql">
     <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
-  </query>]]></pre>
+  </queryString>]]></pre>
 Query executer implementations are produced in query executer factories. To register a query executer 
 factory for a query language, you have to define a global property named 
 <code>net.sf.jasperreports.query.executer.factory.&lt;language&gt;</code> in the 
@@ -243,12 +243,12 @@ filtered by their city location (see the <a href="#cityfilter"><code>CityFilter<
 string is the following:
 <pre><![CDATA[
   <parameter name="CityFilter" class="java.util.List"/>
-  <query language="hql">
+  <queryString language="hql">
     <![CDATA[select address as address, document.id as documentId, document.total as documentTotal
       from Address as address join address.documents as document
       where city not in ($P{CityFilter})
       order by address.city, address.lastName, address.firstName, address.id]] >
-  </query>]]></pre>
+  </queryString>]]></pre>
 In the query above, because of the table join, customers with no related documents in the 
 <code>DOCUMENTS</code> table are not included.
 <br/>
@@ -265,9 +265,9 @@ Customers are also grouped by their city.
 <br/>
 Now it's time to take a look in the <code>reports/HibernateQueryReport.jrxml</code> file at the report HQL query string:
 <pre><![CDATA[
-  <query language="hql">
+  <queryString language="hql">
     <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
-  </query>]]></pre>
+  </queryString>]]></pre>
 And then, at the <code>Documents</code> subreport, for each customer:
 <pre><![CDATA[
 <element kind="subreport" x="65" y="21" width="50" height="20" removeLineWhenBlank="true">

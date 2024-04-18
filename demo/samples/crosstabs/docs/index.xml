@@ -158,14 +158,14 @@ the entries in both row and column groups</li>
 <b>Note:</b> Based on the <code>ROW_COUNT</code> and <code>COLUMN_COUNT</code> one can generate alternate colors for rows or columns 
 in a crosstab, using <a href="../jasper/index.html#conditionalStylesInReports">conditional styles</a>:
 <pre><![CDATA[
-<style name="RowStyle" isDefault="false" mode="Opaque">
+<style name="RowStyle" default="false" mode="Opaque">
   <conditionalStyle>
     <conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]] ></conditionExpression>
     <style backcolor="#E0E0E0"/>
   </conditionalStyle>
 </style>
 or:
-<style name="ColumnStyle" isDefault="false" mode="Opaque">
+<style name="ColumnStyle" default="false" mode="Opaque">
   <conditionalStyle>
     <conditionExpression><![CDATA[$V{COLUMN_COUNT} % 2 == 0]] ></conditionExpression>
     <style backcolor="#E0E0E0"/>
@@ -323,7 +323,7 @@ characterize a subdataset we need to set:
 <li><code>&lt;property/&gt;</code></li>
 <li><code>&lt;scriptlet/&gt;</code></li>
 <li><code>&lt;parameter/&gt;</code></li>
-<li><code>&lt;query/&gt;</code></li>
+<li><code>&lt;queryString/&gt;</code></li>
 <li><code>&lt;field/&gt;</code></li>
 <li><code>&lt;sortField/&gt;</code></li>
 <li><code>&lt;variable/&gt;</code></li>

@@ -50,18 +50,17 @@ Other methods specified in this interface can be used to obtain the native size 
 actual image that the renderer wraps or the binary data for an image that must be stored 
 in a separate file during export.
 <br/>
-The JasperReports library comes with a default implementation for the <code>JRGraphics2DRenderable</code> interface that 
-wraps images that come from files or binary image data in JPG, GIF, or PNG format. 
-The <api href="net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html">JRImageRenderer</api> class is actually a container 
-for this binary image data, which it uses to load a <code>java.awt.Image</code> object from it, 
-which it then draws on the supplied <code>java.awt.Graphics2D</code> context when the engine 
-requires it. 
+The JasperReports library comes with various implementations for the <code>JRGraphics2DRenderable</code> interface which 
+wrap images that come from files or binary image data in JPG, GIF, or PNG format. 
+The <api href="net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html">JCommonDrawableRendererImpl</api> class is actually 
+a container for binary image data loaded from a <code>org.jfree.ui.Drawable</code> object, which then draws itself on the 
+supplied <code>java.awt.Graphics2D</code> context when the engine requires it.
 <br/>
 Image renderers are serializable because inside the generated document for each image is 
 a renderer object kept as reference, which is serialized along with the whole <code>JasperPrint</code> object. 
 <br/>
 When a <code>JRImageRenderer</code> instance is serialized, so is the binary image data it contains. 
-However, if the image element must be lazy loaded (see the <code>isLazy</code> attribute in the 
+However, if the image element must be lazy loaded (see the <code>lazy</code> attribute in the 
 <a href="../images/index.html#images">Images</a> sample), then the 
 engine will not load the binary image data at report-filling time. Rather, it stores inside 
 the renderer only the <code>java.lang.String</code> location of the image. The actual image data 
@@ -69,12 +68,12 @@ is loaded only when needed for rendering at report-export or view time.
 <br/>
 To simplify the implementation of SVG image renderers, JasperReports ships with an 
 abstract renderer: <api href="net/sf/jasperreports/renderers/AbstractSvgDataToGraphics2DRenderer.html">AbstractSvgDataToGraphics2DRenderer</api>. This 
-implementation contains the code to produce binary image data from the SVG graphic in 
-JPG format. This is needed when the image must be stored in separate files on disk or 
+implementation contains the code to produce binary image data from the SVG graphic format. 
+This is needed when the image must be stored in separate files on disk or 
 delivered in binary format to a consumer (like a web browser). 
 <br/>
 Specific image renderers are called when the class of the <code>&lt;expression/&gt;</code> element 
-is <code>net.sf.jasperreports.engine.JRGraphics2DRenderable</code>. In this case the image expression value should point 
+is <code>net.sf.jasperreports.renderers.Graphics2DRenderable</code>. In this case the image expression value should point 
 to a <code>Graphics2DRenderable</code> object which is designated to render the image.
 <br/>
 <br/>

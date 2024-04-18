@@ -36,7 +36,7 @@ is filled section by section.
 <br/>
 Data sources are very useful when data come as a set of structured records, either extracted from a 
 relational database, or loaded from specific files. In order to become more familiar with data source 
-objects please consult the <a href="../datasources.html#datasources">Data Sources</a> section.
+objects please consult the <a href="../datasources/index.html#datasources">Data Sources</a> section.
 <br/>
 Sometimes data that users need to fill the report with is found in plain text files, in a 
 certain format, such as the popular CSV (comma-separated value).
@@ -282,7 +282,7 @@ Further we see a report parameter containing the record delimiter sequence:
 </parameter>]]></pre>
 Notice also that the query language is set to <code>csv</code>, meaning that the CSV query executer will be enabled to prepare the data source for the report:
 <pre><![CDATA[
-<query language="csv"/>]]></pre>
+<queryString language="csv"/>]]></pre>
 Field names in the report are the same as column names set in the <code>net.sf.jasperreports.csv.column.names</code> property:
 <pre><![CDATA[
 <field name="id" class="java.lang.Integer"/>

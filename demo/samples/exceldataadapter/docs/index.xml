@@ -216,9 +216,9 @@ file:
 <pre><![CDATA[
 <property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQeDataAdapter.jrdax"/>
 ...
-<query language="excel">
+<queryString language="excel">
   <![CDATA[]] >
-</query>
+</queryString>
 <field name="id" class="java.lang.Integer"/>
 <field name="name" class="java.lang.String"/>
 <field name="address" class="java.lang.String"/>

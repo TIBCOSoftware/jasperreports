@@ -11,7 +11,7 @@
   
   <!-- barbecue -->
   
-  <feature name="barbecue" title="Barbecue Custom Component">
+  <feature name="barbecue" title="Barcodes (Barbecue Custom Component)">
     <description>
 Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barbecue.sourceforge.net">Barbecue</a> library.
     </description>
