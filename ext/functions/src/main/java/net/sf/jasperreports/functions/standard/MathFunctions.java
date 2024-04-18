@@ -356,8 +356,8 @@ public final class MathFunctions
 	
 	// ===================== ROUND_CEILING function ===================== //
 	/**
-	 * Returns a BigDecimal number rounded towards positive infinity. For positive values behaves as the {@link ROUND_UP} function, 
-	 * for negative values behaves as the {@link ROUND_DOWN} function.
+	 * Returns a BigDecimal number rounded towards positive infinity. For positive values behaves as the {@link #ROUND_UP} function, 
+	 * for negative values behaves as the {@link #ROUND_DOWN} function.
 	 */
 	@Function("ROUND_CEILING")
 	@FunctionParameters({
@@ -373,8 +373,8 @@ public final class MathFunctions
 	
 	// ===================== ROUND_FLOOR function ===================== //
 	/**
-	 * Returns a BigDecimal number rounded towards negative infinity. For positive values behaves as the {@link ROUND_DOWN} function, 
-	 * for negative values behaves as the {@link ROUND_UP} function.
+	 * Returns a BigDecimal number rounded towards negative infinity. For positive values behaves as the {@link #ROUND_DOWN} function, 
+	 * for negative values behaves as the {@link #ROUND_UP} function.
 	 */
 	@Function("ROUND_FLOOR")
 	@FunctionParameters({
@@ -391,7 +391,7 @@ public final class MathFunctions
 	// ===================== ROUND_HALF_UP function ===================== //
 	/**
 	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded up. 
-	 * Behaves as the {@link ROUND_UP} function if the discarded fraction is ≥ 0.5; otherwise, behaves as the {@link ROUND_DOWN} function.
+	 * Behaves as the {@link #ROUND_UP} function if the discarded fraction is ≥ 0.5; otherwise, behaves as the {@link #ROUND_DOWN} function.
 	 */
 	@Function("ROUND_HALF_UP")
 	@FunctionParameters({
@@ -408,7 +408,7 @@ public final class MathFunctions
 	// ===================== ROUND_HALF_EVEN function ===================== //
 	/**
 	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded towards the even neighbor. 
-	 * Behaves as the {@link ROUND_HALF_UP} function if the digit to the left of the discarded fraction is odd; otherwise, behaves as the {@link ROUND_HALF_DOWN} function. 
+	 * Behaves as the {@link #ROUND_HALF_UP} function if the digit to the left of the discarded fraction is odd; otherwise, behaves as the {@link #ROUND_HALF_DOWN} function. 
 	 * This rounding mode statistically minimizes cumulative error when it is repeatedly applied over a sequence of calculations.
 	 */
 	@Function("ROUND_HALF_EVEN")
@@ -426,7 +426,7 @@ public final class MathFunctions
 	// ===================== ROUND_HALF_DOWN function ===================== //
 	/**
 	 * Returns a BigDecimal number rounded towards its nearest neighbor. If both neighbors are equidistant, the number is rounded down. 
-	 * Behaves as the {@link ROUND_UP} function if the discarded fraction is > 0.5; otherwise, behaves as the {@link ROUND_DOWN} function.
+	 * Behaves as the {@link #ROUND_UP} function if the discarded fraction is > 0.5; otherwise, behaves as the {@link #ROUND_DOWN} function.
 	 */
 	@Function("ROUND_HALF_DOWN")
 	@FunctionParameters({

@@ -31,7 +31,7 @@ alignments, text decorations, etc. JasperReports provides the <code>&lt;style /&
 <br/>
 A <code>&lt;style /&gt;</code> element is defined by the following attributes:
 <ul>
-<li><code>isDefault</code> - indicates whether this style is the document's default style</li>
+<li><code>default</code> - indicates whether this style is the document's default style</li>
 <li><code>style</code> - a reference to the parent style</li>
 <li><code>mode</code> - sets the element's transparency. Possible values are <code>Opaque</code> and <code>Transparent</code>.</li>
 <li><code>forecolor</code> - the foreground color</li>

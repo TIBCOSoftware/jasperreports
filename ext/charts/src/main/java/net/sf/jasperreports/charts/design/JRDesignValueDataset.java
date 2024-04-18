@@ -109,7 +109,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 * Returns the type of this dataset.
 	 *
 	 * @return the type of this dataset - always
-	 *    {@link net.sf.jasperreports.engine.JRChartDataset#VALUE_DATASET VALUE_DATASET}
+	 *    {@link net.sf.jasperreports.charts.JRChartDataset#VALUE_DATASET VALUE_DATASET}
 	 */
 	@Override
 	public byte getDatasetType() {

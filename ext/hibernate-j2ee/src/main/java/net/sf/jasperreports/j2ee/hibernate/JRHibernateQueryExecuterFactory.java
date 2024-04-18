@@ -62,7 +62,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	
 	/**
 	 * Returns an array containing the {@link HibernateConstants#PARAMETER_HIBERNATE_SESSION PARAMETER_HIBERNATE_SESSION} and
-	 * {@link HibernateConstants#PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} parameters.
+	 * {@link #PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} parameters.
 	 */
 	@Override
 	public Object[] getBuiltinParameters()

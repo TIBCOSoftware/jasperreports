@@ -1023,7 +1023,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 	/**
 	 * Replace Unicode characters with RTF Unicode control words
-	 * @param source source text
+	 * @param sourceText source text
 	 * @return text with Unicode characters replaced
 	 */
 	private String handleUnicodeText(String sourceText)

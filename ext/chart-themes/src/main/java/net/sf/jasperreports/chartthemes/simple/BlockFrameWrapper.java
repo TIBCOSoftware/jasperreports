@@ -28,7 +28,7 @@ import org.jfree.chart.block.BlockFrame;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @deprecated only used internally in {@link LegendSettings#setBlockFrame(BlockFrame)}
+ * @deprecated to be removed
  */
 @Deprecated
 public class BlockFrameWrapper implements BlockFrameProvider

@@ -84,14 +84,14 @@
  * from the current <code>jasperreports_extension.properties</code> file. 
  * The signature of the single method that this factory interface exposes is as follows: 
  * </p><p>
- * {@link net.sf.jasperreports.extensions.ExtensionsRegistryFactory#createRegistry(String, JRPropertiesMap) createRegistry(String, JRPropertiesMap)}
+ * {@link net.sf.jasperreports.extensions.ExtensionsRegistryFactory#createRegistry(String, net.sf.jasperreports.engine.JRPropertiesMap) createRegistry(String, JRPropertiesMap)}
  * </p><p>
  * The extension registry obtained from the factory is able to return a list of actual 
  * extension point implementations based on extension point class type. 
  * </p><p>
  * For example, in JasperReports, query executers can be added as extensions in the form of 
  * query executer bundles. The predefined query executer extension point in JasperReports 
- * is represented by the {@link net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle} 
+ * is represented by the {@link net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle}
  * interface, from which query 
  * executer implementation are retrieved based on the query language name. The extension 
  * registry implementation is expected to return a list of query executer factory bundles in 
@@ -114,7 +114,7 @@
  * interface that can be used to load extensions from a Spring bean XML file.
  * <p> 
  * This convenience extension registry factory implementation is the 
- * {@link net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory} class 
+ * {@link net.sf.jasperreports.spring.SpringExtensionsRegistryFactory} class
  * and works by loading a Spring beans XML file and using beans of specific types as 
  * extensions. 
  * </p><p>
@@ -122,13 +122,13 @@
  * {@link net.sf.jasperreports.extensions.DefaultExtensionsRegistry#PROPERTY_REGISTRY_PREFIX net.sf.jasperreports.extension.&lt;registry_id&gt;.spring.beans.resource} to 
  * be present in the properties map passed to the 
  * </p><p>
- * <code>{@link net.sf.jasperreports.extensions.ExtensionsRegistryFactory#createRegistry(String, JRPropertiesMap) createRegistry(String, JRPropertiesMap)}</code>
+ * <code>{@link net.sf.jasperreports.extensions.ExtensionsRegistryFactory#createRegistry(String, net.sf.jasperreports.engine.JRPropertiesMap) createRegistry(String, JRPropertiesMap)}</code>
  * </p><p>
  * method. The value of this property must resolve to a resource name 
  * which is loaded from the context class loader, and parsed as a Spring beans XML file. 
  * </p><p>
  * Once the Spring beans XML file is loaded, this factory creates a 
- * {@link net.sf.jasperreports.extensions.SpringExtensionsRegistry} instance which 
+ * {@link net.sf.jasperreports.spring.SpringExtensionsRegistry} instance which
  * will use the bean factory. 
  * This Spring-based extension registry factory is used by the built-in chart themes extensions mechanism. 
  * 

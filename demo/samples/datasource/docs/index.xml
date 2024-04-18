@@ -266,7 +266,7 @@ Let's take a look at related methods in the /src/DataSourceApp.java file:
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ]]></pre>
-In order to figure out more on custom data sources behavior, just test this sample by running from the command line the <code>mvn clean compile exec:java -Dexec.args="fill1 view"</code> command. 
+In order to figure out more on custom data sources behavior, just test this sample by running from the command line the <code>mvn clean compile exec:java -Dexec.args="compile fill1 view"</code> command. 
 It will generate the sample report in the /build/reports directory, filling it with data extracted from the <code>CustomDataSource</code> object.
     </content>
   </feature>
@@ -487,8 +487,8 @@ Let's take a look at related report filling methods in the /src/DataSourceApp.ja
  }
 ]]></pre>
 In order to figure out more on JavaBean data sources behavior, just test this sample by running from the command line the 
-<code>mvn clean compile exec:java -Dexec.args="fill3 view"</code> command and then 
-<code>mvn clean compile exec:java -Dexec.args="fill4 view"</code>. 
+<code>mvn clean compile exec:java -Dexec.args="compile fill3 view"</code> command and then 
+<code>mvn clean compile exec:java -Dexec.args="compile fill4 view"</code>. 
 It will generate the sample report filling it with data extracted from a <code>JRBeanArrayDataSource</code> data source, 
 and then the same report will be generated with data extracted from a <code>JRBeanCollectionDataSource</code> data source.
     </content>

@@ -74,13 +74,13 @@ sorting through the report query, or use the <code>&lt;sortField/&gt;</code> ele
 Any group in a report can be customized through its attributes:
 <ul>
 <li><code>name</code> - Acts as a group identifier. This attribute is mandatory, and should be unique per report.</li>
-<li><code>isStartNewColumn</code> - Instructs the engine to start a new column when a new group starts. The default 
+<li><code>startNewColumn</code> - Instructs the engine to start a new column when a new group starts. The default 
 value is <code>false</code>.</li>
-<li><code>isStartNewPage</code> - Instructs the engine to start a new page when a new group starts. The default 
+<li><code>startNewPage</code> - Instructs the engine to start a new page when a new group starts. The default 
 value is <code>false</code>.</li>
-<li><code>isResetPageNumber</code> - If <code>true</code>, when a new group starts, the built-in <code>PAGE_NUMBER</code> 
+<li><code>resetPageNumber</code> - If <code>true</code>, when a new group starts, the built-in <code>PAGE_NUMBER</code> 
 variable will be reset. The default value is <code>false</code>.</li>
-<li><code>isReprintHeaderOnEachPage</code> - Instructs the engine to print the group header on each page containing 
+<li><code>reprintHeaderOnEachPage</code> - Instructs the engine to print the group header on each page containing 
 the group data. The default value is <code>false</code>.</li>
 <li><code>minHeightToStartNewPage</code> - Represents the minimum amount of vertical space at 
 the bottom of the page or column, measured in pixels, that prevents the group from starting a 

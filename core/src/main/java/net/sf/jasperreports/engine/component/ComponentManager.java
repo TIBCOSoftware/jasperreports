@@ -30,8 +30,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * single component type can be accessed.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see ComponentsEnvironment#getManager(ComponentKey)
- * @see ComponentsBundle#getComponentManager(String)
+ * @see ComponentsEnvironment#getManager(Component)
+ * @see ComponentsBundle#getComponentManager(Class)
  */
 public interface ComponentManager
 {

@@ -241,7 +241,7 @@ public class JRDesignGenericElement extends JRDesignElement implements JRGeneric
 	/**
 	 * Sets the name of the evaluation group.
 	 * 
-	 * @param evaluationGroupName the evaluation group's name
+	 * @param evaluationGroup the evaluation group's name
 	 * @see #getEvaluationGroup()
 	 */
 	public void setEvaluationGroup(String evaluationGroup)

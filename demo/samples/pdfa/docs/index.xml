@@ -65,7 +65,7 @@ the rendered visual appearance of a document). Level B is a lower level of confo
 regarding the visual appearance of electronic documents, but not their internal structure or semantic properties. All constraints described in the section 
 above must be applied to PDF/A-1b compliant documents. <br/>Also, PDF/A-1b documents may contain only scanned images without any representation of text. 
 OCR text that supports indexing or extraction of text is permitted, but only if it is invisible.<br/>This conformance level requires the use of PDF 1.4<br/><br/></li>
-<li>PDF/A-1b (<b>a</b>ccessible PDF/A-1 conformance level includes all the PDF/A-1b rules, plus a set of rules regarding the document accessibility and reading order). 
+<li>PDF/A-1a (<b>a</b>ccessible PDF/A-1 conformance level includes all the PDF/A-1b rules, plus a set of rules regarding the document accessibility and reading order). 
 PDF/A-1a requires a representation of the logical structure of the document as specified in section 6.8 of <a href="https://www.iso.org/standard/38920.html">ISO 19005-1:2005</a>. 
 It is recommended to capture a document's logical structure hierarchy to the finest granularity possible. The standard also indicates that "PDF/A-1 writers should not 
 add structural or semantic information that is not explicitly or implicitly present in the source material solely for the purpose of achieving conformance." 

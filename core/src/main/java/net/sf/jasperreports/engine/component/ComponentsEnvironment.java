@@ -127,7 +127,7 @@ public final class ComponentsEnvironment
 	/**
 	 * Returns a component manager that corresponds to a particular component type.
 	 * 
-	 * @param component the component type
+	 * @param componentType the component type
 	 * @return the manager for the component type
 	 * @throws JRRuntimeException if the registry does not contain the specified
 	 * component

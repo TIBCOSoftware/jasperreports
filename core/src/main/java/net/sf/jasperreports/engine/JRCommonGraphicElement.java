@@ -45,7 +45,7 @@ import net.sf.jasperreports.jackson.util.PenSerializer;
  * <h3>Background Fill Style</h3>
  * The <code>fill</code> attribute specifies the style of the background of the graphic elements. The
  * only style currently supported is the solid fill style, which is also the default
- * (<code>fill="Solid"</code>). The {@link #getFillValue()} method can 
+ * (<code>fill="Solid"</code>). The {@link #getFill()} method can
  * be used to access the fill setting.
  * <h3>Line Settings</h3>
  * Other common settings for graphic elements are the line width, line style and the line color. These are 

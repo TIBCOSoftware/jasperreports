@@ -101,27 +101,27 @@
 * <li>QRCode barcode can control its error correction level using the <code>errorCorrectionLevel</code> attribute.</li>
 * </ul>
 * The object model for the barcode components uses 
-* {@link net.sf.jasperreports.components.barcode4j.BarcodeComponent BarcodeComponent} 
+* {@link net.sf.jasperreports.barcode4j.BarcodeComponent BarcodeComponent}
 * as base class and concrete classes for each barcode type. 
 * <p>
 * When a report that contains barcodes is filled, the data and attributes of the barcode are 
 * collected into an object and passed to an image producer whose responsibility is to create 
 * a renderer for the barcode. The image producer implements the 
-* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer BarcodeImageProducer} 
+* {@link net.sf.jasperreports.barcode4j.BarcodeImageProducer BarcodeImageProducer}
 * interface. As for Barbecue barcode elements, the resulting images have the size of the 
 * design barcode element and use <code>RetainShape</code> as scale type. 
 * </p><p>
 * Determining which image producer to use for a barcode component element relies on 
 * custom properties defined at the element, report and global levels. The 
-* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer} property can 
+* {@link net.sf.jasperreports.barcode4j.BarcodeImageProducer#PROPERTY_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer} property can
 * have a value of the name of the class that implements the image producer interface or an 
 * alias that has been set for such a class, using a property of the form 
-* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;}. 
+* {@link net.sf.jasperreports.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;}.
 * JasperReports has two barcode image producer implementations: one which renders the 
 * barcode in SVG format and one which renders the barcode as a rasterized image. The 
 * first implementation is registered under the <code>svg</code> alias and is used by default; 
 * the second one has <code>image</code> as alias and can be used by changing the 
-* {@link net.sf.jasperreports.components.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;} 
+* {@link net.sf.jasperreports.barcode4j.BarcodeImageProducer#PROPERTY_PREFIX_IMAGE_PRODUCER net.sf.jasperreports.components.barcode4j.image.producer.&lt;alias&gt;}
 * property at any level. 
 * </p><p>
 * The SVG barcode image producer uses the Barcode4J API to export the barcode to SVG, 

@@ -116,7 +116,7 @@ public final class PartComponentsEnvironment
 	 * Returns a component manager that corresponds to a particular component
 	 * type key.
 	 * 
-	 * @param componentKey the component type key
+	 * @param component the component type key
 	 * @return the manager for the component type
 	 * @throws JRRuntimeException if the registry does not contain the specified
 	 * component type

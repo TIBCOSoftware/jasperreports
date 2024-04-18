@@ -51,6 +51,8 @@
     Once the Scriptlet has been referenced in the report, during the Filling stage of the Report Life Cycle, the JasperReports API will ensure to call the appropriate methods within the Scriptlet.
     <br/>
     It is within these methods you will place your own logic to manipulate data in the report.
+    <br/>
+    <br/>
    <subtitle name="usage">What does a Scriptlet do?</subtitle>
     <br/>
     <br/>

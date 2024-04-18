@@ -67,15 +67,15 @@ horizontally and vertically aligned within its report element. Two attributes ar
 <li><code>vAlign</code> - specifies the vertical alignment. Possible values are: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
 </ul>
 </li>
-<li><code>isUsingCache</code> - flag that indicates if an image should be loaded each time it gets displayed in a report, or 
+<li><code>usingCache</code> - flag that indicates if an image should be loaded each time it gets displayed in a report, or 
 if it should be loaded only once and then stored in a memory cache for better performance. For images with static content applying the 
-caching mechanism is strongly recommended. When one set the <code>isUsingCache</code> attribute to 
+caching mechanism is strongly recommended. When one set the <code>usingCache</code> attribute to 
 <code>true</code>, the reporting engine will try to recognize previously loaded images using their specified source. 
 This caching functionality is available for image elements whose expressions return 
-objects of any type as the image source. The <code>isUsingCache</code> flag is set to <code>true</code> by 
+objects of any type as the image source. The <code>usingCache</code> flag is set to <code>true</code> by 
 default for images having <code>java.lang.String</code> expressions and to <code>false</code> for all other 
 types. </li>
-<li><code>isLazy</code> - flag that specifies whether the image should be loaded and processed during report filling or 
+<li><code>lazy</code> - flag that specifies whether the image should be loaded and processed during report filling or 
 during exporting, in case that the image is not available at fill time. By default this flag is set to <code>false</code>. 
 When it is set to <code>true</code>, an image path String is stored at fill time instead of the image itself, and during the 
 exporting process the image will be loaded from the location read from this path String. For example, this sample contains an 
@@ -135,8 +135,8 @@ The first image in the report is loaded from the current folder at export time.
   </box>
 </element>
 ]]></pre>
-The last image in the report template is loaded from  <a href="https://jasperreports.sourceforge.net">https://jasperreports.sourceforge.net</a>> 
-file in this sample and is scaled to retain the image shape. It also provides a hyperlink expression pointing to its remote location:
+The last image in the report template is loaded from  <a href="https://jasperreports.sourceforge.net">https://jasperreports.sourceforge.net</a>
+website and is scaled to retain the image shape. It also provides a hyperlink expression pointing to its remote location:
 <pre><![CDATA[
 <element kind="image" mode="Opaque" 
   x="400" width="150" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" onErrorType="Icon" linkType="Reference" lazy="true">

@@ -38,7 +38,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * {@link #PROPERTY_XPATH_EXECUTER_FACTORY net.sf.jasperreports.xpath.executer.factory} property.
  * The class should have a public default constructor so that it can be instantiated via reflection.
  * <p/>
- * By default, {@link JaxenXPathExecuter XPath executers} based on <a href="http://www.cafeconleche.org/jaxen/" target="_blank">Jaxen</a>
+ * By default, {@link net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuter XPath executers} based on <a href="http://www.cafeconleche.org/jaxen/" target="_blank">Jaxen</a>
  * are used.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

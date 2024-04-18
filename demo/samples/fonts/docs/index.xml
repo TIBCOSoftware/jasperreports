@@ -27,7 +27,7 @@ How to format texts using fonts properties.
 <br/>
 <br/>
 Any text is represented by a character sequence with particular formatting settings. 
-Some of these appearance settings can be specified using the <code>&lt;font/&gt;</code> tag available in 
+Some of these appearance settings can be specified using the attributes available in 
 the <code>&lt;element/&gt;</code> tag. If there are shared font settings among several text elements, 
 we strongly encourage people to group them in report styles defined in style templates (see the 
 <a href="../templates/index.html">Templates</a> sample). 
@@ -64,9 +64,9 @@ Another interesting feature is that each text element inherits font and style at
 element inherits these attributes from its parent, etc. If no styles and/or fonts are defined for elements, the default style 
 declared in the <code>&lt;jasperReport/&gt;</code> root element will be applied.
 <br/>
-A default style is characterized by the <code>isDefault</code> flag attribute. For instance:
+A default style is characterized by the <code>default</code> flag attribute. For instance:
 <pre><![CDATA[
-<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" bold="false" italic="false" underline="false" strikeThrough="false"/>]]></pre>
+<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8" bold="false" italic="false" underline="false" strikeThrough="false"/>]]></pre>
 However, defining default styles or fonts in JasperReports is not mandatory. If no font is defined for a given element, the engine looks either 
 for the inherited font attributes, or, if no attributes are found on this way, it looks for the 
 <br/>

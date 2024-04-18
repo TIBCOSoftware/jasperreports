@@ -52,7 +52,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * rendered during the report-filling process.
  * <p/>
  * Whether a page break or a column break should be introduced is specified using the <code>type</code>
- * attribute available for this element (see {@link #getTypeValue()}). By default, page breaks are created.
+ * attribute available for this element (see {@link #getType()}). By default, page breaks are created.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
