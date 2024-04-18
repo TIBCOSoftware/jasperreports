@@ -11,7 +11,7 @@ Shows how Java 1.5 could be used inside report templates.
 
 [Report Compilers](../groovy/index.html#reportcompilers)
 
-## Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)
+## <a name='java1.5'>Using</a> Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

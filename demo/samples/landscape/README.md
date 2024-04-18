@@ -7,7 +7,7 @@ Shows how reports can be generated and printed in "Landscape" page format.
 
 [Creating Landscape Orientation Report Templates](#landscape)
 
-## Creating Landscape Orientation Report Templates
+## <a name='landscape'>Creating</a> Landscape Orientation Report Templates
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

@@ -7,7 +7,7 @@ Shows how the functions could be used inside report template expressions.
 
 [Custom Functions in Report Expressions](#functions)
 
-##Custom Functions in Report Expressions
+## <a name='functions'>Custom</a> Functions in Report Expressions
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

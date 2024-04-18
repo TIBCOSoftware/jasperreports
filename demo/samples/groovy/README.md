@@ -7,7 +7,7 @@ Shows how the Groovy scripting languages could be used inside report templates.
 [Report Compilers](#reportcompilers)\
 [Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)](#groovy)
 
-## Report Compilers
+## <a name='reportcompilers'>Report</a> Compilers
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -156,7 +156,7 @@ To figure out more on report compiling process, take a look at the Groovy sample
 
 ---
 
-## Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)
+## <a name='groovy'>Using</a> the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

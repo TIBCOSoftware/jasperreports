@@ -7,7 +7,7 @@ Shows how images could be used in a report template.
 
 [Images](#images)
 
-## Images
+## <a name='images'>Images</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

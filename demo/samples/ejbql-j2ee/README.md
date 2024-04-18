@@ -9,7 +9,7 @@ Shows how EJBQL could be used in reports, based on the legacy Java EE API.
 
 [Query Executers](../hibernate/index.html#queryexecuters)
 
-## EJBQL Query Executer
+## <a name='top'>EJBQL</a> Query Executer
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

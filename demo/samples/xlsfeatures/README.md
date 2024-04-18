@@ -7,7 +7,7 @@ Shows how the specific Excel features could be turned on when exporting to Excel
 
 [Advanced Excel Features](#xlsfeatures)
 
-## Advanced Excel Features
+## <a name='xlsfeatures'>Advanced</a> Excel Features
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

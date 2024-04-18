@@ -7,7 +7,7 @@ Shows how table-of-contents structures could be created for the generated report
 
 [Creating Table-Of-Contents Structures](#tableofcontents)
 
-## Creating Table-Of-Contents Structures
+## <a name='tableofcontents'>Creating</a> Table-Of-Contents Structures
 <div style="text-align:right; width:100%">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
 
 **Description / Goal**\

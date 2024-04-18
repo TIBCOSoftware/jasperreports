@@ -7,7 +7,7 @@ Shows how formulas could be introduced in reports exported to XLS format.
 
 [Exporting XLS Formulas](#xlsformula)
 
-## Exporting XLS Formulas
+## <a name='xlsformula'>Exporting</a> XLS Formulas
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

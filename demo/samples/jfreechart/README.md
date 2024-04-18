@@ -7,7 +7,7 @@ Shows how third-party charting APIs could be used for rendering charts as images
 
 [Rendering Images Using Third Party APIs (JFreeChart Library)](#jfreechart)
 
-## Rendering Images Using Third Party APIs (JFreeChart Library)
+## <a name='jfreechart'>Rendering</a> Images Using Third Party APIs (JFreeChart Library)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

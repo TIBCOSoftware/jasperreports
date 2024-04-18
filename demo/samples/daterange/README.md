@@ -7,7 +7,7 @@ Shows different ways the DATERANGE function can be used to generate a complex do
 
 [Date Range](#daterange)
 				
-## Date Range
+## <a name='top'>Date</a> Range
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

@@ -11,7 +11,7 @@ Shows how text in different languages could be used inside reports.
 
 [Font Extensions](../fonts/index.html#fontextensions)
 
-## Creating Reports in Any Language Using Unicode Support
+## <a name='unicode'>Creating</a> Reports in Any Language Using Unicode Support
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

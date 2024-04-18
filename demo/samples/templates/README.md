@@ -7,7 +7,7 @@ Shows how to work with style templates.
 
 [Style Templates](#templates)
 
-## Style Templates
+## <a name='templates'>Style</a> Templates
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

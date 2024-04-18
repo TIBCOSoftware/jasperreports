@@ -7,7 +7,7 @@ Shows how third-party charting APIs could be used for rendering charts as images
 
 [Rendering Images Using Third Party APIs (XChart Library)](#xchart)
 
-## Rendering Images Using Third Party APIs (XChart Library)
+## <a name='xchart'>Rendering</a> Images Using Third Party APIs (XChart Library)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

@@ -8,7 +8,7 @@ Shows how the JSONQL data source and the JSONQL query executer implementations c
 [JSONQL Data Source](#jsonqldatasource)\
 [The JSONQL query language](#jsonql)
 
-## JSONQL Data Source
+## <a name='jsonqldatasource'>JSONQL</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
 
 **Description / Goal**\
@@ -147,7 +147,7 @@ It will generate all supported document types containing the sample report in th
 
 ---
 
-## The JSONQL query language
+## <a name='jsonql'>The</a> JSONQL query language
 <div style="text-align:right; width:100%">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
 
 **Description / Goal**\

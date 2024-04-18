@@ -7,7 +7,7 @@ Shows how reports can be designed and exported in a way that hides the existence
 
 [Suppress Pagination](#nopagebreak)
 
-## Suppress Pagination
+## <a name='nopagebreak'>Suppress</a> Pagination
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

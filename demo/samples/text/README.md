@@ -7,7 +7,7 @@ Shows how the pure text exporter could be used to export reports to simple text 
 
 [Exporting to Pure Text Format](#textexport)
 
-## Exporting to Pure Text Format
+## <a name='textexport'>Exporting</a> to Pure Text Format
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

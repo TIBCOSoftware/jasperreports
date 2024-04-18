@@ -7,7 +7,7 @@ Shows how to work with paragraphs.
 
 [Paragraphs](#paragraphs)
 
-## Paragraphs
+## <a name='paragraphs'>Paragraphs</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

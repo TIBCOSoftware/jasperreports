@@ -7,7 +7,7 @@ Shows how JavaScript based visualizations could be included in reports using the
 
 [Custom Visualization Components](#customvisualization)
 
-## Custom Visualization Components
+## <a name='customvisualization'>Custom</a> Visualization Components
 <div style="text-align:right; width:100%">Documented by <a href='mailto:gt78@users.sourceforge.net'>Giulio Toffoli</a></div>
 
 **Description / Goal**\

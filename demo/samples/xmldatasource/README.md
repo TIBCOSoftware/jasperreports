@@ -13,7 +13,7 @@ Shows how the built-in XPath-based data source could be used for reporting out o
 [Data Sources](../datasource/index.html#datasources)\
 [Subreports](../subreports/index.html#subreports)
 
-## XML Data Source
+## <a name='xmldatasource'>XML</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -53,7 +53,7 @@ Before running the sample, please consult the next section regarding the XPath q
 
 ---
 
-## XPath Query Executer
+## <a name='xpathqueryexecuter'>XPath</a> Query Executer
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

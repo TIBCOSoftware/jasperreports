@@ -7,7 +7,7 @@ Shows how the JSON data source and the JSON query executer implementations could
 
 [JSON Data Source](#jsondatasource)
 
-## JSON Data Source
+## <a name='jsondatasource'>JSON</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

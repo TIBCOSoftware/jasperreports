@@ -11,7 +11,7 @@ Shows how the styled-text feature works in static and dynamic text elements.
 
 [Creating Styled Text Using a Markup Language](../markup/index.html#markup)
 
-## Styled Text
+## <a name='styledtext'>Styled</a> Text
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

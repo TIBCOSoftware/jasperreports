@@ -9,7 +9,7 @@ Main Features in This Sample
 [Generating the JRXML Source File for an In-Memory Report Template Object](#xmlwriter)\
 [Creating Watermarks and Page Backgrounds](#watermark)
 
-## Hyperlinks
+## <a name='hyperlinks'>Hyperlinks</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -165,7 +165,7 @@ It will generate all supported document types containing the sample report in th
 
 ---
 
-## Generating the JRXML Source File for an In-Memory Report Template Object
+## <a name='xmlwriter'>Generating</a> the JRXML Source File for an In-Memory Report Template Object
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -210,7 +210,7 @@ Another case where the JRXML representation differs from the original JRXML file
 
 ---
 
-## Creating Watermarks and Page Backgrounds
+## <a name='watermark'>Creating</a> Watermarks and Page Backgrounds
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

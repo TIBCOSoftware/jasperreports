@@ -7,7 +7,7 @@ Shows how to generate PDF/A compliant documents.
 
 [Generating PDF/A compliant documents](#pdfa)
 
-## Generating PDF/A compliant documents
+## <a name='pdfa'>Generating</a> PDF/A compliant documents
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

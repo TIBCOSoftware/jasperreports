@@ -8,7 +8,7 @@ Shows how to create accessible reports.
 [Designing Accessible Reports](#accessible)
 				
 
-## Designing Accessible Reports
+## <a name='accessible'>Designing</a> Accessible Reports
 <div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 

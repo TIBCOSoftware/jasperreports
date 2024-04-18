@@ -7,7 +7,7 @@ Shows how multi-column report templates could be filled horizontally.
 
 [Creating Horizontally-Filled, Multi-Column Reports](#horizontal)
 
-### Creating Horizontally-Filled, Multi-Column Reports
+## <a name='horizontal'>Creating</a> Horizontally-Filled, Multi-Column Reports
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

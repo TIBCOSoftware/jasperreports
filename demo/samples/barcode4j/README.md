@@ -9,7 +9,7 @@ Shows how barcodes could be included in reports using the Barcode4J component.
 [Barcodes (Barcode4J Custom Component)](#barcode4j)
 				
 
-## Barcodes
+## <a name='barcodes'>Barcodes</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \
@@ -64,7 +64,7 @@ Some of the 2D symbologies are enumerated below:
 
 ---
 
-## Barcode4J Custom Component
+## <a name='barcode4j'>Barcode4J</a> Custom Component
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \

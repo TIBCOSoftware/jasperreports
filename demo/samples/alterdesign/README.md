@@ -7,7 +7,7 @@ Shows how compiled report templates can be modified on-the-fly without requiring
 
 [Altering Compiled Report Templates](#alterdesign)
 				
-## Altering Compiled Report Templates 
+## <a name='alterdesign'>Altering</a> Compiled Report Templates 
  <div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 **Description / Goal**	

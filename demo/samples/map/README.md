@@ -7,7 +7,7 @@ Illustrates the usage of the map component element.
 
 [Using the Built-in Map Component](#map)
 
-## Using the Built-in Map Component
+## <a name='map'>Using</a> the Built-in Map Component
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

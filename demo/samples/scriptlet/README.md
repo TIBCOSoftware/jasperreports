@@ -6,9 +6,9 @@ Shows how the scriptlets could be used to manipulate data during report filling.
 ### Main Features in This Sample
 
 [Scriptlets](#scriptlets)\
-[Alternate Row Colors In The Detail Section](../scriptlet/index.html#alternaterowcolor)
+[Alternate Row Colors In The Detail Section](#alternaterowcolor)
 
-## Scriptlets
+## <a name='scriptlets'>Scriptlets</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
 
 **Description / Goal**\
@@ -101,7 +101,7 @@ How do you use a Scriptlet in a report? A Scriptlet can be associated with a Rep
 
 ---
 
-## Alternate Row Colors In The Detail Section
+## <a name='alternaterowcolor'>Alternate</a> Row Colors In The Detail Section
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

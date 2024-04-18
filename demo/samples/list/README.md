@@ -6,7 +6,7 @@ Illustrates the usage of the list component element.
 
 [Using the Built-in List Component](#list)
 
-## Using the Built-in List Component
+## <a name='list'>Using</a> the Built-in List Component
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

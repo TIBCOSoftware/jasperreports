@@ -8,7 +8,7 @@ Shows how to work with fonts.
 [Fonts](#fonts)\
 [Font Extensions](#fontextensions)
 
-## Fonts
+## <a name='top'>Fonts</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -90,7 +90,7 @@ It will generate all supported document types containing the sample report in th
 
 ---
 
-## Font Extensions
+## <a name='fontextensions'>Font</a> Extensions
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

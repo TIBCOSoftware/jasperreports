@@ -11,7 +11,7 @@ Shows how the chart element could be used to render different types of charts.
 ### Secondary Features
 [Datasets](../crosstabs/index.html#datasets)
 				
-## Charts
+## <a name='charts'>Charts</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -251,7 +251,8 @@ This will generate all supported document types containing the sample report in 
 <div style="text-align:right; width:100%"><a href='#top'>top</a></div>
 
 ---
-## Altering Charts (Chart Customizers)
+
+## <a name='chartcustomizers'>Altering</a> Charts (Chart Customizers)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

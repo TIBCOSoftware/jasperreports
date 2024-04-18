@@ -7,7 +7,7 @@ Shows how rotated text could be used in report templates.
 
 [Rotated Text](#rotation)
 
-## Rotated Text
+## <a name='rotation'>Rotated</a> Text
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

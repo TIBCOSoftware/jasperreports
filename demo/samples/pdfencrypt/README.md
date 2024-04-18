@@ -7,7 +7,7 @@ Shows how reports could be encrypted when exported to PDF.
 
 [Encrypted PDF](#pdfencrypt)
 
-## Encrypted PDF
+## <a name='pdfencrypt'>Encrypted</a> PDF
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

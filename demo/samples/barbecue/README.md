@@ -11,7 +11,7 @@ Shows how barcodes could be included in reports using the Barbecue component.
 
 [Barcodes](../barcode4j/index.html#barcodes)
 
-## Barcodes (Barbecue Custom Component)
+## <a name='top'>Barcodes</a> (Barbecue Custom Component)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \

@@ -6,9 +6,9 @@ Shows how subreport could be used to create complex document layouts.
 ### Main Features in This Sample
 
 [Subreports](#subreports)\
-[Exporting to JSON Format Using Report Metadata](../subreport/index.html#jsonmetadataexport)
+[Exporting to JSON Format Using Report Metadata](#jsonmetadataexport)
 
-## Subreports
+## <a name='subreports'>Subreports</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
 
 **Description / Goal**\
@@ -136,7 +136,7 @@ By default `net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory` is 
 
 ---
 
-## Exporting to JSON Format Using Report Metadata
+## <a name='jsonmetadataexport'>Exporting</a> to JSON Format Using Report Metadata
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

@@ -6,7 +6,7 @@ Shows how XChart components can be included in reports.
 
 [Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)](#xchartcomponent)
 
-## Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)
+## <a name='xchartcomponent'>Implementing</a> Custom Components to Embed Third Party Visualisation Tools (XChart Library)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

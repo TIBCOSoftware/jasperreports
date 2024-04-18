@@ -10,7 +10,7 @@ Shows how the Excel data source implementation could be used to fill reports.
 ### Secondary Features
 [Data Sources](../datasource/index.html#datasources)
 
-## Excel Data Source
+## <a name='exceldatasource'>Excel</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

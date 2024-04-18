@@ -7,7 +7,7 @@ Shows how dynamic text fields can stretch to display their entire content and di
 
 [Stretching Text Fields](#stretch)
 
-## Stretching Text Fields
+## <a name='stretch'>Stretching</a> Text Fields
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

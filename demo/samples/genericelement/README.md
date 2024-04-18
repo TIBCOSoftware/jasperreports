@@ -7,7 +7,7 @@ Shows how generic elements embedded in reports can be managed at export time by 
 
 [Generic Elements](#genericelements)
 
-## Generic Elements
+## <a name='genericelements'>Generic</a> Elements
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

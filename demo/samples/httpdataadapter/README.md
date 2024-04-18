@@ -12,7 +12,7 @@ Shows how the HTTP data adapters can be used to fill reports.
 [JSONQL Data Source](../jsonqldatasource/index.html#jsonqldatasource)\
 [XML Data Source](../xmldatasource/index.html#xmldatasource)
 
-### HTTP Data Adapter
+## <a name='httpdataadapter'>HTTP</a> Data Adapter
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

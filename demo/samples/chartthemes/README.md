@@ -11,7 +11,7 @@ Shows how the chart themes could be used to change the look and feel of all char
 [Charts](../charts/index.html#charts)
 [Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)
 				
-## Enhancing Charts Look and Feel (Chart Themes)
+## <a name='chartthemes'>Enhancing</a> Charts Look and Feel (Chart Themes)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

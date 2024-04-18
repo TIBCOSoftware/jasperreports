@@ -7,7 +7,7 @@ Illustrates the usage of the table component element.
 
 [Using the Built-in Table Component](#table)
 
-## Using the Built-in Table Component
+## <a name='table'>Using</a> the Built-in Table Component
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

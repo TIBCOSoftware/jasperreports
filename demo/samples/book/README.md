@@ -11,8 +11,7 @@ Shows how report parts can be used.
 
 [Creating Table-Of-Contents Structures](../tableofcontents/index.html#tableofcontents)
 				
-
-## Report Parts (Book Reports) 
+## <a name='parts'>Report</a> Parts (Book Reports) 
 <div style="text-align:right; width:100%">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
 
 **Description / Goal**\

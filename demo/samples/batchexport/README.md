@@ -7,7 +7,7 @@ Shows how multiple reports could be concatenated during export.
 
 [Exporting Multiple Reports into a Single Output File (Batch Export)](#batchexport)
 				
-## Exporting Multiple Reports into a Single Output File (Batch Export)
+## <a name='batchexport'>Exporting</a> Multiple Reports into a Single Output File (Batch Export)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

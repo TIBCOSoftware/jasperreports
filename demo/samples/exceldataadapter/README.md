@@ -10,7 +10,7 @@ Shows how the Excel data adapters can be used to fill reports.
 ### Secondary Features
 [Excel Data Source](../exceldatasource/index.html#exceldatasource)
 
-## Excel Data Adapter
+## <a name='exceldataadapter'>Excel</a> Data Adapter
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

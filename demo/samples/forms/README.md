@@ -6,7 +6,7 @@ Shows how to generate editable PDF content using JasperReports.
 
 [Generating Editable PDF Content](#pdfforms)
 
-## Generating Editable PDF Content
+## <a name='pdfforms'>Generating</a> Editable PDF Content
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

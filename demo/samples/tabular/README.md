@@ -8,7 +8,7 @@ Shows how a table structure could be created using simple text elements and thei
 [Creating Table-like Structures](#tabular)\
 [Using PDF tags to create tables in generated PDF documents](../tabular/index.html#taggedpdf)
 
-## Creating Table-like Structures
+## <a name='tabular'>Creating</a> Table-like Structures
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -100,7 +100,7 @@ It will generate all supported document types containing the sample report in th
 
 ---
 
-## Using PDF tags to create tables in generated PDF documents
+## <a name='taggedpdf'>Using</a> PDF tags to create tables in generated PDF documents
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

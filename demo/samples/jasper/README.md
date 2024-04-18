@@ -12,7 +12,7 @@ Shows how different features of the library could be used to generate a complex 
 [Conditional Styles in Reports](#conditionalStylesInReports)\
 [Updating current date and slide numbers in PPTX export](#pptxfields)
 
-## Data Grouping
+## <a name='groups'>Data</a> Grouping
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -271,7 +271,7 @@ This will generate all supported document types containing the sample report in 
 
 ---
 
-## Exporting to CSV Format Using Report Metadata
+## <a name='csvmetadataexport'>Exporting</a> to CSV Format Using Report Metadata
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -354,7 +354,7 @@ command the data-centric document exported with the CSV metadata exporter will b
 
 ---
 
-## Exporting to XLSX Format Using Report Metadata
+## <a name='xlsxmetadataexport'>Exporting</a> to XLSX Format Using Report Metadata
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -471,7 +471,7 @@ command the data-centric document exported with the XLSX metadata exporter will 
 
 ---
 
-## Exporting to XLS Format Using Report Metadata
+## <a name='xlsmetadataexport'>Exporting</a> to XLS Format Using Report Metadata
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -493,7 +493,7 @@ command the data-centric document exported with the Excel 2003 metadata exporter
 
 ---
 
-## Conditional Styles in Reports
+## <a name='conditionalStylesInReports'>Conditional</a> Styles in Reports
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -560,7 +560,7 @@ One can see above that on each even row the element forecolor becomes blue. More
 
 ---
 
-## Updating current date and slide numbers in PPTX export
+## <a name='pptxfields'>Updating</a> current date and slide numbers in PPTX export
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

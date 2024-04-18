@@ -11,7 +11,7 @@ Shows how the JavaScript language could be used inside report templates.
 
 [Report Compilers](../groovy/index.html#reportcompilers)
 
-## Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)
+## <a name='javascript'>Using</a> the JavaScript Language for Report Expressions (JavaScript Report Compiler)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

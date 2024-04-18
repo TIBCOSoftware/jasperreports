@@ -8,7 +8,7 @@ Shows how HQL could be used in reports.
 [Hibernate (HQL) Query Executer](#hibernate_j2ee)\
 [Query Executers](#queryexecuters)
 
-## Query Executers
+## <a name='queryexecuters'>Query</a> Executers
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -63,7 +63,7 @@ Another way to register new query executer factories, without modifying existing
 
 ---
 
-## Hibernate (HQL) Query Executer
+## <a name='hibernate_j2ee'>Hibernate</a> (HQL) Query Executer
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

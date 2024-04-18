@@ -5,14 +5,14 @@ Shows how the report query can be build dynamically using report parameters.
 
 ### Main Features in This Sample
 
-[Parameterized Queries (Dynamic Queries)](#query)
+[Parameterized Queries (Dynamic Queries)](#query)\
+[Using Conditional Styles Defined in Style Templates](#conditionalStylesInTemplates)
 
 ### Secondary Features
 
 [Creating Watermarks and Page Backgrounds](../hyperlink/index.html#watermark)
-[Using Conditional Styles Defined in Style Templates](#conditionalStylesInTemplates)
 
-## Parameterized Queries (Dynamic Queries)	Documented by  , Sanda Zaharia
+## <a name='query'>Parameterized</a> Queries (Dynamic Queries)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a>, <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -286,7 +286,7 @@ If we run the report again and pass two values into `$P{ExcludedCities}`:
 
 ---
 
-## Conditional Styles in Style Templates
+## <a name='conditionalStylesInTemplates'>Conditional</a> Styles in Style Templates
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

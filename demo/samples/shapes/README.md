@@ -7,7 +7,7 @@ Shows how various graphic elements could be used inside report templates.
 
 [Lines, Rectangles, Ellipses (Shapes)](#shapes)
 
-## Lines, Rectangles, Ellipses (Shapes)
+## <a name='shapes'>Lines</a>, Rectangles, Ellipses (Shapes)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

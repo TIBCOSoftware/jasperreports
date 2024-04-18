@@ -7,7 +7,7 @@ Shows how the Java Print Service API could be used to print reports.
 
 [Printing Reports Using the Java Print Service API](#printservice)
 
-## Printing Reports Using the Java Print Service API
+## <a name='printservice'>Printing</a> Reports Using the Java Print Service API
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

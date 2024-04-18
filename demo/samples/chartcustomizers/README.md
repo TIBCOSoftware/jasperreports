@@ -8,11 +8,9 @@ Shows how to use multiple chart customizers on the same chart
 [Multiple Chart Customizers](#chartcustomizers)
 
 ### Secondary Features
-[Charts](https://jasperreports.sourceforge.net/sample.reference/charts/index.html#charts)
-[Altering Charts (Chart Customizers)](https://jasperreports.sourceforge.net/sample.reference/charts/index.html#chartcustomizers)
-				
-
-## Multiple Chart Customizers
+[Charts](../charts/index.html#charts)
+[Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)				
+## <a name='chartcustomizers'>Multiple</a> Chart Customizers
 <div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 **Description / Goal**\

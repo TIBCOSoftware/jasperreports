@@ -9,7 +9,7 @@ Crosstab and subdataset sample.
 [Datasets](#datasets)\
 [Dynamic Styles](#dynamic_styles)
 				
-## Crosstabs
+## <a name='crosstabs'>Crosstabs</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -179,7 +179,7 @@ This will generate all supported document types containing the sample report in 
 
 ---
 
-## Datasets
+## <a name='datasets'>Datasets</a>
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -232,7 +232,7 @@ The `subDataset` attribute is mandatory and contains the name of the subdataset 
 
 ---
 
-## Dynamic Styles
+## <a name='dynamic_styles'>Dynamic</a> Styles
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

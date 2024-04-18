@@ -7,7 +7,7 @@ Shows how a report could be rendered in different languages.
 [Internationalized Report Templates](#i18n)\
 [Updating current date and slide numbers in PPTX export](#pptxfields)
 
-## Internationalized Report Templates
+## <a name='i18n'>Internationalized</a> Report Templates
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -93,7 +93,7 @@ It will generate all supported document types containing the sample report in th
 
 ---
 
-## Updating current date and slide numbers in PPTX export
+## <a name='pptxfields'>Updating</a> current date and slide numbers in PPTX export
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

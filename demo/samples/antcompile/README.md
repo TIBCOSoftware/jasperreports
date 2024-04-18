@@ -13,7 +13,7 @@ Shows how multiple JRXML files can be compiled in batch mode using the ANT build
 [Report Compilers](../groovy/index.html#reportcompilers)
 				
 
-## Compiling Multiple Report Template Files Using the Ant Build Tool
+## <a name='antcompile'>Compiling</a> Multiple Report Template Files Using the Ant Build Tool
 <div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 
@@ -112,7 +112,7 @@ Depending on the report expression language they are mapped to, other report com
 
 ---
 
-## Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)
+## <a name='antdecompile'>Generating</a> the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\

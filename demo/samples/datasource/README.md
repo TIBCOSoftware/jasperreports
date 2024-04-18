@@ -10,7 +10,7 @@ Shows how custom or JavaBean-based data source implementations could be used to 
 [JavaBean Data Sources](#javabeandatasources)\
 [TableModel Data Source](#tablemodeldatasource)
 
-## Data Sources
+## <a name='datasources'>Data</a> Sources
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -95,7 +95,7 @@ public void dispose([JRDataSource](https://jasperreports.sourceforge.net/api/net
 
 ---
 
-## Custom Data Source
+## <a name='customdatasource'>Custom</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -207,7 +207,7 @@ command. It will generate the sample report in the `/target/reports` directory, 
 
 ---
 
-## `JavaBean` Data Sources
+## `JavaBean` <a name='javabeandatasources'>Data</a> Sources
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
@@ -383,7 +383,7 @@ It will generate the sample report filling it with data extracted from a [JRBean
 
 ---
 
-## TableModel Data Source
+## <a name='tablemodeldatasource'>TableModel</a> Data Source
 <div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
