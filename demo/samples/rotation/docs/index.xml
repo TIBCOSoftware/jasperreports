@@ -38,7 +38,7 @@ The vertical alignment will change from <code>Top</code> to <code>Bottom</code>,
 <br/>
 Performing various combinations between horizontal alignment, vertical alignment and text's flow direction, leads to a large set of paragraph positions relative to its textbox container.
 <br/>
-In JasperReports calculations related to text rotation are done at export time, based on the text element's <code>textAlignment</code>, <code>verticalAlignment</code> and <code>rotation</code> attributes values.
+In JasperReports calculations related to text rotation are done at export time, based on the text element's <code>hTextAlign</code>, <code>vTextAlign</code> and <code>rotation</code> attributes values.
 <br/>
 <br/>
 <b>Examples of combining horizontal alignment, vertical alignment and rotation in a &lt;textElement /&gt; element.</b>
@@ -52,57 +52,57 @@ Values allowed for the text rotation are: <code>None</code>, <code>Left</code>, 
 <br/>
 Below are some possible combinations between them:
 <ul>
-<li><code>textAlignment="Left"</code></li>
-<li><code>verticalAlignment="Top"</code></li>
+<li><code>hTextAlign="Left"</code></li>
+<li><code>vTextAlign="Top"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
 This is the case already described in the <b>Rotating paragraphs</b> section above. The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from bottom to top.
 <br/>
 <ul>
-<li><code>textAlignment="Center"</code></li>
-<li><code>verticalAlignment="Bottom"</code></li>
+<li><code>hTextAlign="Center"</code></li>
+<li><code>vTextAlign="Bottom"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from bottom to top.
 <br/>
 <ul>
-<li><code>textAlignment="Right"</code></li>
-<li><code>verticalAlignment="Middle"</code></li>
+<li><code>hTextAlign="Right"</code></li>
+<li><code>vTextAlign="Middle"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned center, vertically aligned top, and the text will flow from bottom to top.
 <br/>
 <ul>
-<li><code>textAlignment="Left"</code></li>
-<li><code>verticalAlignment="Middle"</code></li>
+<li><code>hTextAlign="Left"</code></li>
+<li><code>vTextAlign="Middle"</code></li>
 <li><code>rotation="UpsideDown"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from right to left.
 <br/>
 <ul>
-<li><code>textAlignment="Right"</code></li>
-<li><code>verticalAlignment="Top"</code></li>
+<li><code>hTextAlign="Right"</code></li>
+<li><code>vTextAlign="Top"</code></li>
 <li><code>rotation="UpsideDown"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from right to left.
 <br/>
 <ul>
-<li><code>textAlignment="Right"</code></li>
-<li><code>verticalAlignment="Middle"</code></li>
+<li><code>hTextAlign="Right"</code></li>
+<li><code>vTextAlign="Middle"</code></li>
 <li><code>rotation="Right"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned center, vertically aligned bottom, and the text will flow from top to bottom.
 <br/>
 <ul>
-<li><code>textAlignment="Center"</code></li>
-<li><code>verticalAlignment="Bottom"</code></li>
+<li><code>hTextAlign="Center"</code></li>
+<li><code>vTextAlign="Bottom"</code></li>
 <li><code>rotation="Right"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned left, vertically aligned middle, and the text will flow from top to bottom.
 <br/>
 <ul>
-<li><code>textAlignment="Left"</code></li>
-<li><code>verticalAlignment="Top"</code></li>
+<li><code>hTextAlign="Left"</code></li>
+<li><code>vTextAlign="Top"</code></li>
 <li><code>rotation="Right"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned top, and the text will flow from top to bottom.
@@ -112,8 +112,8 @@ Below is a code snippet showing how to set text alignment and rotation in a stat
 <pre><![CDATA[
 <element kind="staticText" mode="Opaque" x="100" width="90" height="350" backcolor="#C0C0C0" hTextAlign="Center" vTextAlign="Bottom" rotation="Left">
   <text><![CDATA[rotation="Left" 
-    textAlignment="Center" 
-    verticalAlignment="Bottom"]] ></text>
+    hTextAlign="Center"
+    vTextAlign="Bottom"]] ></text>
 </element>]]></pre>
 <b>Running the Sample</b>
 <br/>

@@ -46,8 +46,7 @@ A paragraph can be aligned both horizontally and vertically.
 <br/>
 For the horizontal alignment we can choose one of the following options:
 <ul>
-<li>set the <code>textAlignment</code> attribute in the <code>&lt;element/&gt;</code> tag that is associated with the text element in the JRXML file</li>
-<li>set the <code>hTextAlign</code> attribute in a report style that will be applied to the text element</li>
+<li>set the <code>hTextAlign</code> attribute in the <code>&lt;element/&gt;</code> tag or in a report style that will be applied to the text element</li>
 <li>set the <code>net.sf.jasperreports.style.hTextAlign</code> style feature property per report element</li>
 </ul>
 Possible values for the above settings are stored in <api href="net/sf/jasperreports/engine/type/hTextAlignEnum.html">hTextAlignEnum</api> class: 
@@ -59,8 +58,7 @@ Possible values for the above settings are stored in <api href="net/sf/jasperrep
 </ul>
 For the vertical alignment, the following options are available:
 <ul>
-<li>set the <code>verticalAlignment</code> attribute in the <code>&lt;element/&gt;</code> tag that is associated with the text element in the JRXML file</li>
-<li>set the <code>vTextAlign</code> attribute in a report style that will be applied to the text element</li>
+<li>set the <code>vTextAlign</code> attribute in the <code>&lt;element/&gt;</code> tag or a report style that will be applied to the text element</li>
 <li>set the <code>net.sf.jasperreports.style.vTextAlign</code> style feature property per report element</li>
 </ul>
 Possible values for the vertical text alignment are stored in <api href="net/sf/jasperreports/engine/type/vTextAlignEnum.html">vTextAlignEnum</api> class: 
