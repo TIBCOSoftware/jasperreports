@@ -8,8 +8,8 @@ Shows how the chart themes could be used to change the look and feel of all char
 [Enhancing Charts Look and Feel (Chart Themes)](#chartthemes)
 
 ### Secondary Features
-[Charts](../charts/index.html#charts)
-[Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)
+[Charts](../charts/README.md#charts)
+[Altering Charts (Chart Customizers)](../charts/README.md#chartcustomizers)
 				
 ## <a name='chartthemes'>Enhancing</a> Charts Look and Feel (Chart Themes)
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>

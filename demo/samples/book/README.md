@@ -9,7 +9,7 @@ Shows how report parts can be used.
 
 ### Secondary Features
 
-[Creating Table-Of-Contents Structures](../tableofcontents/index.html#tableofcontents)
+[Creating Table-Of-Contents Structures](../tableofcontents/README.md#tableofcontents)
 				
 ## <a name='parts'>Report</a> Parts (Book Reports) 
 <div align="right">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
@@ -20,7 +20,7 @@ On report parts.
 **Since:** 6.0.0
 
 **Other Samples**\
-[/demo/samples/tableofcontents](../tableofcontents/index.html)
+[/demo/samples/tableofcontents](../tableofcontents/README.md)
 
 
 ### What is a report part

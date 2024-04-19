@@ -16,8 +16,8 @@ How to render images in reports using the build-in image element.
 **Since:** 0.1.0
 
 **Other Samples**\
-[/demo/samples/horizontal](../horizontal/index.html)\
-[/demo/samples/jasper](../jasper/index.html)
+[/demo/samples/horizontal](../horizontal/README.md)\
+[/demo/samples/jasper](../jasper/README.md)
 
 ### Images in JasperReports
 
@@ -67,7 +67,7 @@ The value returned by the image expression is the source for the image to be dis
 
 ### Image Hyperlinks
 
-In JasperReports image elements provide hyperlink support. All available hyperlink expressions are allowed to be part of an image element. See also the [hyperlink](../hyperlink/index.html) sample.
+In JasperReports image elements provide hyperlink support. All available hyperlink expressions are allowed to be part of an image element. See also the [hyperlink](../hyperlink/README.md) sample.
 
 ### Image Examples
 

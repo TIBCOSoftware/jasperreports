@@ -110,8 +110,8 @@ Shows how to get alternate row colors in a detail section using conditional styl
 **Since:** 1.2.0
 
 **Other Samples**\
-[/demo/samples/crosstabs](../crosstabs/index.html)\
-[/demo/samples/list](../list/index.html)
+[/demo/samples/crosstabs](../crosstabs/README.md)\
+[/demo/samples/list](../list/README.md)
 
 ### Alternate Row Colors In The Detail Section
 
@@ -128,7 +128,7 @@ The first requirement is accomplished with the help of report built-in counting 
 - `PAGE_COUNT` - if each new detail page should start with the same row color
 - `COLUMN_COUNT` - if each new detail page column should start with the same row color
 - `<group_name>_COUNT` - if each new group of records should start with the same row color
-- `ROW_COUNT` - available only for crosstabs; the `ROW_COUNT` variable returns the current row number in a crosstab. An example of conditional styles in a crosstab can be found in the [Crosstabs](../crosstabs/index.html) sample.
+- `ROW_COUNT` - available only for crosstabs; the `ROW_COUNT` variable returns the current row number in a crosstab. An example of conditional styles in a crosstab can be found in the [Crosstabs](../crosstabs/README.md) sample.
 
 The conditional style required at point (2) is illustrated in the scriptlet sample like below:
 ```
@@ -141,8 +141,8 @@ The conditional style required at point (2) is illustrated in the scriptlet samp
 Here, the odd rows in the `CityGroup` will be rendered in the default background color (usually white), and the even ones will be rendered in gray.
 
 Other examples of generating alternate rows can be found in:
-- [Crosstabs](../crosstabs/index.html) sample, based on the built-in `ROW_COUNT` and `COLUMN_COUNT` variables.
-- [Crosstabs](../crosstabs/index.html) sample, based on the built-in `REPORT_COUNT` variable.
+- [Crosstabs](../crosstabs/README.md) sample, based on the built-in `ROW_COUNT` and `COLUMN_COUNT` variables.
+- [Crosstabs](../crosstabs/README.md) sample, based on the built-in `REPORT_COUNT` variable.
 
 ### Running the Sample
 

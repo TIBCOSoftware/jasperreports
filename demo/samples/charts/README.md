@@ -9,7 +9,7 @@ Shows how the chart element could be used to render different types of charts.
 [Altering Charts (Chart Customizers)](#chartcustomizers)
 
 ### Secondary Features
-[Datasets](../crosstabs/index.html#datasets)
+[Datasets](../crosstabs/README.md#datasets)
 				
 ## <a name='charts'>Charts</a>
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -261,7 +261,7 @@ How to make various changes to a generated chart using the [JFreeChart API](http
 **Since:** 1.1.1
 
 **Other Samples	**\
-[/demo/samples/chartthemes](../chartthemes/index.html)
+[/demo/samples/chartthemes](../chartthemes/README.md)
 
 
 ### Chart Customizers and Chart Themes

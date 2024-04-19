@@ -10,8 +10,8 @@ Shows how the CSV data source and the CSV query executer implementations could b
 
 ### Secondary Features
 
-[Data Sources](../datasource/index.html#datasources)\
-[Query Executers](../hibernate/index.html#queryexecuters)
+[Data Sources](../datasource/README.md#datasources)\
+[Query Executers](../hibernate/README.md#queryexecuters)
 
 ## <a name='csvdatasource'>CSV</a> Data Source
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -22,12 +22,12 @@ How to fill a report using data from a CSV file.
 **Since:** 1.2.0
 
 **Other Samples**\
-[/demo/samples/datasource](../datasource/index.html)
+[/demo/samples/datasource](../datasource/README.md)
 
 ### CSV Data Sources
 
 Report filling is one of the basic steps during the report generation. After the report compilation, significant report data are read from the report data source, or calculated from report expressions, and the generated [JasperReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperReport.html) object is filled section by section\
-Data sources are very useful when data come as a set of structured records, either extracted from a relational database, or loaded from specific files. In order to become more familiar with data source objects please consult the [Data Sources](../datasources/index.html#datasources) section.\
+Data sources are very useful when data come as a set of structured records, either extracted from a relational database, or loaded from specific files. In order to become more familiar with data source objects please consult the [Data Sources](../datasources/README.md#datasources) section.\
 Sometimes data that users need to fill the report with is found in plain text files, in a certain format, such as the popular `CSV` (comma-separated value).
 
 JasperReports provides an implementation for such a data source, by wrapping the CSV data from a text file into a [JRCsvDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRCsvDataSource.html). The CSV data source usually needs to read a file from disk, or at least from an input stream.
@@ -148,10 +148,10 @@ How to fill a report using the CSV query executer.
 **Since:** 4.0.0
 
 **Other Samples**\
-[/demo/samples/ejbql](../ejbql/index.html)\
-[/demo/samples/hibernate](../hibernate/index.html)\
-[/demo/samples/mondrian](../mondrian/index.html)\
-[/demo/samples/xmldatasource](../xmldatasource/index.html)\
+[/demo/samples/ejbql](../ejbql/README.md)\
+[/demo/samples/hibernate](../hibernate/README.md)\
+[/demo/samples/mondrian](../mondrian/README.md)\
+[/demo/samples/xmldatasource](../xmldatasource/README.md)\
 
 ### Using The CSV Query Executer
 

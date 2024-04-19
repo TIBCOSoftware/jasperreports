@@ -102,7 +102,7 @@ Shows how to use PPTX fields to update some predefined values such as current da
 **Since:** 6.8.0
 
 **Other Samples**\
-[/demo/samples/jasper](../jasper/index.html)
+[/demo/samples/jasper](../jasper/README.md)
 
 ### PPTX field example
 
@@ -115,4 +115,4 @@ The following example of a datetime PPTX field property can be found in the `i18
 ```
 At export time this text element will be translated into a PPTX field that generates automatic current date.
 
-Another example of a slidenum PPTX field can be found in the [jasper]((../jasper/index.html)) sample.
+Another example of a slidenum PPTX field can be found in the [jasper]((../jasper/README.md)) sample.

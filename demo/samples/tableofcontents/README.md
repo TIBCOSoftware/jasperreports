@@ -16,7 +16,7 @@ How to create a table of contents with hyperlinks at the beginning of a document
 **Since:** 6.0.0
 
 **Other Samples**\
-[/demo/samples/book](../book/index.html)
+[/demo/samples/book](../book/README.md)
 
 Table Of Contents - Overview
 

@@ -9,7 +9,7 @@ Shows how barcodes could be included in reports using the Barbecue component.
 
 ### Secondary Features
 
-[Barcodes](../barcode4j/index.html#barcodes)
+[Barcodes](../barcode4j/README.md#barcodes)
 
 ## <a name='top'>Barcodes</a> (Barbecue Custom Component)
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -21,7 +21,7 @@ Shows how to render barcodes in a report, using the barcode component based on t
 
 ### The Barbecue Library
 
-As shown in the [Barcodes](../barcode4j/index.html#barcodes) section, the use of barcodes became universal. Depending on particular needs, there are several barcode specifications, called symbologies. This sample illustrates how to use the built-in component based on the open source [Barbecue](http://barbecue.sourceforge.net/) library.
+As shown in the [Barcodes](../barcode4j/README.md#barcodes) section, the use of barcodes became universal. Depending on particular needs, there are several barcode specifications, called symbologies. This sample illustrates how to use the built-in component based on the open source [Barbecue](http://barbecue.sourceforge.net/) library.
 
 The [Barbecue](http://barbecue.sourceforge.net/) library supports the following barcode formats:
 

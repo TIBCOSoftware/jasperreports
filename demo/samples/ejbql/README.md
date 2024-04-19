@@ -9,7 +9,7 @@ Shows how EJBQL could be used in reports.
 
 ### Secondary Features
 
-[Query Executers](../hibernate/index.html#queryexecuters)
+[Query Executers](../hibernate/README.md#queryexecuters)
 
 ## <a name='ejbql'>EJBQL</a> Query Executer
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>

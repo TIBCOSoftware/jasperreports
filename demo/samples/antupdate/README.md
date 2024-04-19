@@ -8,8 +8,8 @@ Shows how multiple JRXML files can be updated in batch mode using the ANT build 
 
 ### Secondary Features
 
-- [Compiling Multiple Report Template Files Using the Ant Build Tool](../antcompile/index.html#antcompile)
-- [Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)](../antcompile/index.html#antdecompile)
+- [Compiling Multiple Report Template Files Using the Ant Build Tool](../antcompile/README.md#antcompile)
+- [Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)](../antcompile/README.md#antdecompile)
 
 ## <a name='antupdate'>Updating</a> Multiple Report Template Files Using the Ant Build Tool
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>

@@ -9,8 +9,8 @@ Shows how the HTTP data adapters can be used to fill reports.
 
 ### Secondary Features
 
-[JSONQL Data Source](../jsonqldatasource/index.html#jsonqldatasource)\
-[XML Data Source](../xmldatasource/index.html#xmldatasource)
+[JSONQL Data Source](../jsonqldatasource/README.md#jsonqldatasource)\
+[XML Data Source](../xmldatasource/README.md#xmldatasource)
 
 ## <a name='httpdataadapter'>HTTP</a> Data Adapter
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -21,8 +21,8 @@ How to fill a report using data from an HTTP request returning XML or JSON file.
 **Since:**
 
 **Other Samples**\
-[/demo/samples/jsonqldatasource](../jsonqldatasource/index.html)\
-[/demo/samples/xmldatasource](../xmldatasource/index.html)
+[/demo/samples/jsonqldatasource](../jsonqldatasource/README.md)\
+[/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### Accessing Data over HTTP
 

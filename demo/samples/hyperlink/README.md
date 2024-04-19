@@ -174,8 +174,8 @@ How to generate the JRXML representation of an in-memory report template object.
 **Since:** 0.3.2
 
 **Other Samples**\
-[/demo/samples/noxmldesign](../noxmldesign/index.html)\
-[/demo/samples/antcompile](../antcompile/index.html)\
+[/demo/samples/noxmldesign](../noxmldesign/README.md)\
+[/demo/samples/antcompile](../antcompile/README.md)\
 
 A JRXML representation can be extracted from the following in-memory report template objects (both instances of [JRReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRReport.html) type):
 - [`JasperDesign`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) editable objects, representing in-memory report design templates

@@ -16,8 +16,8 @@ How to render images using the [XChart](https://knowm.org/open-source/xchart/) l
 **Since:** 6.4.3
 
 **Other Samples**\
-[/demo/samples/scriptlets](../scriptlets/index.html)
-[/demo/samples/jfreechart](../jfreechart/index.html)
+[/demo/samples/scriptlets](../scriptlets/README.md)
+[/demo/samples/jfreechart](../jfreechart/README.md)
 
 ### The XChart Sample
 

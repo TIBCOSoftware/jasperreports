@@ -9,7 +9,7 @@ Shows how the JavaScript language could be used inside report templates.
 
 ### Secondary Features
 
-[Report Compilers](../groovy/index.html#reportcompilers)
+[Report Compilers](../groovy/README.md#reportcompilers)
 
 ## <a name='javascript'>Using</a> the JavaScript Language for Report Expressions (JavaScript Report Compiler)
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -20,13 +20,13 @@ How to use JavaScript to write report expressions.
 **Since:** 3.1.2
 
 **Other Samples**\
-[/demo/samples/antcompile](../antcompile/index.html)\
-[/demo/samples/groovy](../groovy/index.html)\
-[/demo/samples/java1.5](../java1.5/index.html)
+[/demo/samples/antcompile](../antcompile/README.md)\
+[/demo/samples/groovy](../groovy/README.md)\
+[/demo/samples/java1.5](../java1.5/README.md)
 
 ### JavaScript Scripting Example
 
-The main purpose of this sample is to show how the JavaScript compiler implementation works. Useful information about the default JavaScript compiler implementation can be found [here](../groovy/index.html#jsCompiler).
+The main purpose of this sample is to show how the JavaScript compiler implementation works. Useful information about the default JavaScript compiler implementation can be found [here](../groovy/README.md#jsCompiler).
 
 This sample contains report expressions written using JavaScript. The [JavaScriptCompiler](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/compilers/JavaScriptCompiler.html) default implementation creates the JavaScript-related expression evaluator during the report compilation and prepares the JasperReport object for the filling process.
 

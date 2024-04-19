@@ -16,13 +16,13 @@ How to render tabular data using the built-in table component and a subdataset.
 **Since:** 3.7.2
 
 **Other Samples**\
-[/demo/samples/tabular](../tabular/index.html)
-[/demo/samples/list](../√/index.html)
-[/demo/samples/pdfa](../pdfa/index.html)
+[/demo/samples/tabular](../tabular/README.md)
+[/demo/samples/list](../√/README.md)
+[/demo/samples/pdfa](../pdfa/README.md)
 
 ### The Built-in Table Component - Overview
 
-Tables represent one of the most popular layout for data reporting, especially when numeric data are involved. Tables are necessary when data has to be organized in distinct rows and columns in order to be displayed. One could consider tables as groups of distinct columns sharing the same number of rows, populated with significant data. Such kind of simple tabular layout could be designed using either report elements along with their border to form a table-like structure (as shown in the [Tabular](../tabular/index.html) Sample), or a built-in list component with elements organized on a row in the list content (see the [List Component](../list/index.html) Sample).
+Tables represent one of the most popular layout for data reporting, especially when numeric data are involved. Tables are necessary when data has to be organized in distinct rows and columns in order to be displayed. One could consider tables as groups of distinct columns sharing the same number of rows, populated with significant data. Such kind of simple tabular layout could be designed using either report elements along with their border to form a table-like structure (as shown in the [Tabular](../tabular/README.md) Sample), or a built-in list component with elements organized on a row in the list content (see the [List Component](../list/README.md) Sample).
 
 But what if the table deals with a very complex structure, where table headers are present side by side with column headers, or column group footers are mixed together with single column footers, or particular cells span over multiple rows and/or columns? In this case tabular and list layouts require more and more elaborated work in order to put all this information together. \
 A dedicated tool is needed instead. And here comes the JR built-in table component to demonstrate its utility.
@@ -50,7 +50,7 @@ Finally, to make a table component fully functional, a `datasetRun` declaration 
 
 ### The Table Component Sample
 
-Now let's see a table component in action. The table defined in the `TableReport.jrxml` is similar to that one defined in the [Tabular](//.tabular/index.html) sample: it contains three independent columns with column headers and footers, plus a column group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is a fragment from the related code, that contains the definition of the first column in the table:
+Now let's see a table component in action. The table defined in the `TableReport.jrxml` is similar to that one defined in the [Tabular](//.tabular/README.md) sample: it contains three independent columns with column headers and footers, plus a column group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is a fragment from the related code, that contains the definition of the first column in the table:
 ```
 <element kind="component" y="50" width="555" height="100" style="Table">
   <component kind="table">

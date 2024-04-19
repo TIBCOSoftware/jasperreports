@@ -9,7 +9,7 @@ Shows how the styled-text feature works in static and dynamic text elements.
 
 ### Secondary Features
 
-[Creating Styled Text Using a Markup Language](../markup/index.html#markup)
+[Creating Styled Text Using a Markup Language](../markup/README.md#markup)
 
 ## <a name='styledtext'>Styled</a> Text
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -102,7 +102,7 @@ And the last fragment is obtained by processing the following:
 	<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n
 	<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n
 ```
-For more information about the recommended text formatting solution, please take a look at the [Markup](../markup/index.html) Sample.
+For more information about the recommended text formatting solution, please take a look at the [Markup](../markup/README.md) Sample.
 
 ### Running the Sample
 

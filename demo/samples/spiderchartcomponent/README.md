@@ -16,7 +16,7 @@ How to configure the built-in spider chart component rendered by the JFreeChart 
 **Since:** 3.7.4
 
 **Other Samples**\
-[/demo/samples/jfreechart](../jfreechart/index.html)
+[/demo/samples/jfreechart](../jfreechart/README.md)
 
 ### The Built-in Spider Chart Component - Overview
 

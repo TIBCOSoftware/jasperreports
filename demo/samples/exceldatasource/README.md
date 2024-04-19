@@ -8,7 +8,7 @@ Shows how the Excel data source implementation could be used to fill reports.
 [Excel Data Source](#exceldatasource)
 
 ### Secondary Features
-[Data Sources](../datasource/index.html#datasources)
+[Data Sources](../datasource/README.md#datasources)
 
 ## <a name='exceldatasource'>Excel</a> Data Source
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -25,16 +25,16 @@ How to fill a report using data from an Excel file.
 
 Report filling is one of the basic operations during the report generation. After the report compilation, report data are read from the report data source, and/or calculated from report expressions, and the generated report sections are filled one by one.
 
-Data sources are very useful when data come as a set of structured records, either extracted from a relational database, or loaded from specific files. In order to become more familiar with data source objects please consult the [Data Sources](../datasource/index.html#datasources) section.
+Data sources are very useful when data come as a set of structured records, either extracted from a relational database, or loaded from specific files. In order to become more familiar with data source objects please consult the [Data Sources](../datasource/README.md#datasources) section.
 
 When reporting data is stored in Microsoft Excel files (XLS or XLSX), the [ExcelDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/poi/data/ExcelDataSource.html) data source implementation can be used to read it and feed it into the report.
 
 The Excel data source uses the [Apache POI](https://poi.apache.org/) library to load the Excel workbook and read from it. Instances of this data source can be created by supplying either an in-memory workbook object, a file, or an input stream to read the data from.\
-Report-field mapping for this data source implementation is very similar to the CSV data source field-mapping explained in the [CSV Data Source](../csvdatasource/index.html#csvdatasource) sample. It works on the assumption that the workbook contains data in a tabular form (rows are records and columns contain report-field values). The main difference is that one can specify a given sheet to be used as single sheet data source using the [XLS_SHEET_SELECTION](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_SHEET_SELECTION) parameter or report property.
+Report-field mapping for this data source implementation is very similar to the CSV data source field-mapping explained in the [CSV Data Source](../csvdatasource/README.md#csvdatasource) sample. It works on the assumption that the workbook contains data in a tabular form (rows are records and columns contain report-field values). The main difference is that one can specify a given sheet to be used as single sheet data source using the [XLS_SHEET_SELECTION](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_SHEET_SELECTION) parameter or report property.
 
 ### Excel Data Source Example
 
-In our example data records are stored in the `/data/MultisheetXlsDataSource.data.xls` file and the `MultisheetXlsxDataSource.data.xlsx` file respectively, depending on the Excel file format (XLS vs XLSX). It contains the same records as in the [CSV Data Source](../csvdatasource/index.html#csvdatasource) sample, but the `city` and `id` columns are separated by an empty column (ie. records contain in fact 6 fields, but the second field in each record is always empty).
+In our example data records are stored in the `/data/MultisheetXlsDataSource.data.xls` file and the `MultisheetXlsxDataSource.data.xlsx` file respectively, depending on the Excel file format (XLS vs XLSX). It contains the same records as in the [CSV Data Source](../csvdatasource/README.md#csvdatasource) sample, but the `city` and `id` columns are separated by an empty column (ie. records contain in fact 6 fields, but the second field in each record is always empty).
 
 There are no column headers in the Excel files. This means that column names are set independently, as shown in the `getDataSource()` method in the `/src/ExcelDataSourceApp.java` file:
 ```

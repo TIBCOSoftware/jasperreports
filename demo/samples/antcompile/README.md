@@ -10,7 +10,7 @@ Shows how multiple JRXML files can be compiled in batch mode using the ANT build
 
 ### Secondary Features
 
-[Report Compilers](../groovy/index.html#reportcompilers)
+[Report Compilers](../groovy/README.md#reportcompilers)
 				
 
 ## <a name='antcompile'>Compiling</a> Multiple Report Template Files Using the Ant Build Tool
@@ -23,9 +23,9 @@ How to compile all your JRXML report source files at application build time usin
 **Since:** 0.4.6
 
 **Other Samples** \
-[/demo/samples/groovy](../groovy/index.html)\
-[/demo/samples/java1.5](../java1.5/index.html)\
-[/demo/samples/javascript](../javascript/index.html)
+[/demo/samples/groovy](../groovy/README.md)\
+[/demo/samples/java1.5](../java1.5/README.md)\
+[/demo/samples/javascript](../javascript/README.md)
 
 
 The JRXML files represent the source files for static report templates. These report templates need to be prepared for use at runtime by compiling them into `*.jasper` files, which are basically serialized [JasperReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperReport.html) objects, ready for filling with data.

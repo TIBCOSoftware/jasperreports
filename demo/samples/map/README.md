@@ -109,15 +109,15 @@ Below is a list of valid `itemProperty` names:
 - `longitude` - floating-point value
 - `address` - optional; string value; considered only when latitude and/or longitude are missing or empty
 - `title` - string value
-- `url` - string value. Link to a page or document that will be open when the marker is clicked on. See also [Info Windows](../map/index.html#infoWindows)
+- `url` - string value. Link to a page or document that will be open when the marker is clicked on. See also [Info Windows](../map/README.md#infoWindows)
 - `target` - string value. The target window/frame to load the marker URL. Allowed values are:
     - `_blank` - the URL is loaded into a new window
     - `_parent` - the URL is loaded into the parent frame
     - `_self` - the URL replaces the current page
     - `_top` - the URL replaces any framesets that may be loaded
     - a valid window/frame name
-- `icon` - string value (representing the icon URL). See also [Custom Icons](../map/index.html#customIcons)
-- `shadow` - string value (representing the shadow icon URL). See also [Custom Icons](../map/index.html#customIcons)
+- `icon` - string value (representing the icon URL). See also [Custom Icons](../map/README.md#customIcons)
+- `shadow` - string value (representing the shadow icon URL). See also [Custom Icons](../map/README.md#customIcons)
 - `color` - string value representing the color for the default pin icons. This property is taken into account when none of icon or icon.url properties are set. Its value may represent:
     - one of the predefined color names in the following list (see also https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/type/ColorEnum.html):
         - `black`
@@ -146,7 +146,7 @@ Below is a list of valid `itemProperty` names:
 - `optimized` - boolean value
 - `raiseOnDrag` - boolean value
 - `visible` - boolean value
-- `size` - predefined string value. This property is considered for static maps only. See the [Google Static Maps](../map/index.html#googleStaticMaps) section.
+- `size` - predefined string value. This property is considered for static maps only. See the [Google Static Maps](../map/README.md#googleStaticMaps) section.
 
 ### Custom Icons
 

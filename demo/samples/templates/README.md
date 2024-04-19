@@ -16,7 +16,7 @@ How to reuse report style definitions from external style templates.
 **Since:** 2.0.0
 
 **Other Samples**\
-[/demo/samples/query](../query/index.html)
+[/demo/samples/query](../query/README.md)
 
 ### Styles in JasperReports
 
@@ -72,7 +72,7 @@ The `<jasperTemplate />` element is the root of a style template file. The `<tem
 
 The `<style />` element is identical to the element with the same name from report design templates (JRXML files).
 
-**Note:** Conditional styles may be defined in style templates only when the condition expression is a simple reference to a Boolean report parameter, field or variable (see the [Query](../query/index.html#conditionalStylesInTemplates) sample).
+**Note:** Conditional styles may be defined in style templates only when the condition expression is a simple reference to a Boolean report parameter, field or variable (see the [Query](../query/README.md#conditionalStylesInTemplates) sample).
 
 This limitation is caused by the fact that more complex expressions can only be interpreted in the context of a single report definition.
 

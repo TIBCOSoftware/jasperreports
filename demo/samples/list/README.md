@@ -15,7 +15,7 @@ How to render simple listings using the built-in list component and a subdataset
 **Since:** 3.5.1
 
 **Other Samples**\
-[/demo/samples/table](../table/index.html)
+[/demo/samples/table](../table/README.md)
 
 ###The Built-in List Component - Overview
 

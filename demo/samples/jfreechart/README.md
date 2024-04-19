@@ -16,13 +16,13 @@ How to render images using the JFreeChart library.
 **Since:** 0.6.0
 
 **Other Samples**\
-[/demo/samples/xchart](../xchart/index.html)
+[/demo/samples/xchart](../xchart/README.md)
 
 ### Rendering Graphic Objects
 
 Usually, the mechanism of producing complex images, charts and other graphic objects is part of some more specialized Java libraries, and does not represent one of the JasperReports goals. However, one of its important goals is to easily integrate within a generated report charts, barcodes and other graphics produced by third party libraries.
 
-This integration is based on the fact that great majority of graphic objects produced by these libraries can output to image files or in-memory Java image objects. Then all these generated image objects can be handled by the JasperReports engine using a common image element, as described in the [Images](../images/index.html) sample.
+This integration is based on the fact that great majority of graphic objects produced by these libraries can output to image files or in-memory Java image objects. Then all these generated image objects can be handled by the JasperReports engine using a common image element, as described in the [Images](../images/README.md) sample.
 
 One problem is that the content of an image element can come either directly from an image file like a JPG, GIF, PNG, or can be a Scalable Vector Graphics (SVG) file that is rendered using some business logic or a dedicated graphics API related to a specific charting or a barcode library. In this case, JasperReports treats all kind of images in a very transparent way because it relies on a special interface called [Graphics2DRenderable](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/Graphics2DRenderable.html) to offer a common way to render images.
 
@@ -36,7 +36,7 @@ For instance, the [JCommonDrawableRendererImpl](https://jasperreports.sourceforg
 
 Image renderers are serializable because inside the generated document for each image is a renderer object kept as reference, which is serialized along with the whole [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object.
 
-When a [Graphics2DRenderable](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/Graphics2DRenderable.html) instance is serialized, so is the binary image data it contains. However, if the image element must be lazy loaded (see the `lazy` attribute in the [Images](../images/index.html) sample), then the engine will not load the binary image data at report-filling time. Rather, it stores inside the renderer only the `java.lang.String` location of the image. The actual image data is loaded only when needed for rendering at report-export or view time.
+When a [Graphics2DRenderable](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/Graphics2DRenderable.html) instance is serialized, so is the binary image data it contains. However, if the image element must be lazy loaded (see the `lazy` attribute in the [Images](../images/README.md) sample), then the engine will not load the binary image data at report-filling time. Rather, it stores inside the renderer only the `java.lang.String` location of the image. The actual image data is loaded only when needed for rendering at report-export or view time.
 
 To simplify the implementation of SVG image renderers, JasperReports ships with an abstract renderer: [AbstractSvgDataToGraphics2DRenderer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/AbstractSvgDataToGraphics2DRenderer.html). This implementation contains the code to produce binary image data from the SVG graphic format. 
 

@@ -18,11 +18,11 @@ Explains how to design reports that produce accessible content.
 **Since:** 6.19.0
 
 **Other Samples** \
-[/demo/samples/crosstabs](../crosstabs/index.html)\
-[/demo/samples/markup](../markup/index.html)\
-[/demo/samples/styledtext](../styledtext/index.html)\
-[/demo/samples/table](../table/index.html)\
-[/demo/samples/pdfa](../pdfa/index.html)
+[/demo/samples/crosstabs](../crosstabs/README.md)\
+[/demo/samples/markup](../markup/README.md)\
+[/demo/samples/styledtext](../styledtext/README.md)\
+[/demo/samples/table](../table/README.md)\
+[/demo/samples/pdfa](../pdfa/README.md)
 
 
 JasperReports library accessibility support currently covers HTML and PDF export formats and allows screen readers to correctly identify and read through the following types of structured content:
@@ -98,7 +98,7 @@ Having said that, here are the main rules to follow when designing accessible ta
 - make use of the text element border and padding properties and not the border or padding properties of the parent table cell;
 
 Table-like structures can be rendered without using the table component. But in such case, it would be the responsibility of the person designing the report to make use of the appropriate custom properties at element level to markup the overall table container, its column headers, its rows and cells, which otherwise would not be recognizable as a semantic table by the screen reader tool, but seemingly as a flat series of text elements without structure.\
-This is not a recommended technique to produce accessible tables, but if needed, an example can be found in the [tabular](../tabular/index.html) sample.
+This is not a recommended technique to produce accessible tables, but if needed, an example can be found in the [tabular](../tabular/README.md) sample.
 
 ### Crosstabs
 

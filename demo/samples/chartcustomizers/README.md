@@ -8,8 +8,8 @@ Shows how to use multiple chart customizers on the same chart
 [Multiple Chart Customizers](#chartcustomizers)
 
 ### Secondary Features
-[Charts](../charts/index.html#charts)\
-[Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)				
+[Charts](../charts/README.md#charts)\
+[Altering Charts (Chart Customizers)](../charts/README.md#chartcustomizers)				
 ## <a name='chartcustomizers'>Multiple</a> Chart Customizers
 <div align="right">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 

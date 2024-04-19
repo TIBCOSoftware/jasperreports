@@ -16,9 +16,9 @@ How to implement a custom report compiler and how to register it with a custom d
 **Since:** 0.6.6
 
 **Other Samples**\
-[/demo/samples/antcompile](../antcompile/index.html)\
-[/demo/samples/java1.5](../java1.5/index.html)\
-[/demo/samples/javascript](../javascript/index.html)
+[/demo/samples/antcompile](../antcompile/README.md)\
+[/demo/samples/java1.5](../java1.5/README.md)\
+[/demo/samples/javascript](../javascript/README.md)
 
 ### Compiling Report Templates
 
@@ -165,9 +165,9 @@ How to use Groovy scripting for report expressions.
 **Since:** 1.2.2
 
 **Other Samples**\
-[/demo/samples/antcompile](../antcompile/index.html)\
-[/demo/samples/java1.5](../java1.5/index.html)\
-[/demo/samples/javascript](../javascript/index.html)
+[/demo/samples/antcompile](../antcompile/README.md)\
+[/demo/samples/java1.5](../java1.5/README.md)\
+[/demo/samples/javascript](../javascript/README.md)
 
 ### Groovy Scripting Example
 

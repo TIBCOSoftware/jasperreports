@@ -9,7 +9,7 @@ Shows how the text markup feature works in static and dynamic text elements.
 
 ### Secondary Features
 
-[Styled Text](../styledtext/index.html#styledtext)
+[Styled Text](../styledtext/README.md#styledtext)
 
 ## <a name='markup'>Creating</a> Styled Text Using a Markup Language
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -32,7 +32,7 @@ In such cases, the solution is to use specific markup tags inside the text conte
 Here comes the `markup` option attribute to accomplish its job. It specifies type of markup language that will be used inside the text element, and may have the following values:
 
 - `none` - The content of the text element is plain text. There is nothing to be processed. This is the default value.
-- `styled` - The content of the text element is styled text, the JasperReports proprietary XML type of markup text. It overrides the deprecated `isStyledText` attribute. (See the [Styled text](../styledtext/index.html) sample)
+- `styled` - The content of the text element is styled text, the JasperReports proprietary XML type of markup text. It overrides the deprecated `isStyledText` attribute. (See the [Styled text](../styledtext/README.md) sample)
 - `html` - The content of the text element is Hyper Text Markup Language
 - `rtf` - The content of the text element is Rich Text Format
 

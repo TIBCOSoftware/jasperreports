@@ -10,7 +10,7 @@ Shows how the report query can be build dynamically using report parameters.
 
 ### Secondary Features
 
-[Creating Watermarks and Page Backgrounds](../hyperlink/index.html#watermark)
+[Creating Watermarks and Page Backgrounds](../hyperlink/README.md#watermark)
 
 ## <a name='query'>Parameterized</a> Queries (Dynamic Queries)
 <div align="right">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a>, <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -295,14 +295,14 @@ How to declare conditional styles in style templates and refer them in the repor
 **Since:** 6.20.0
 
 **Other Samples**\
-[/demo/samples/templates](../templates/index.html)\
-[/demo/samples/jasper](../jasper/index.html)
+[/demo/samples/templates](../templates/README.md)\
+[/demo/samples/jasper](../jasper/README.md)
 
 ### Defining Conditional Styles in Style Templates
 
 The most convenient way to configure a report element appearance is to use the style attribute for that element. Any type of report element can use this attribute to reference a report style definition, and to inherit all applicable properties declared in that style.
 
-In case there are several reports that need to work with very similar (or identical) styles, a good practice would be to define those styles only once in an external style template file (`*.jrtx`), and then refer to this template everywhere it is needed. All styles defined in a style template become visible in the report after it is referenced via the `<template/>` tag. For more information about style templates you could take a look at [Templates](../templates/index.html)) sample.
+In case there are several reports that need to work with very similar (or identical) styles, a good practice would be to define those styles only once in an external style template file (`*.jrtx`), and then refer to this template everywhere it is needed. All styles defined in a style template become visible in the report after it is referenced via the `<template/>` tag. For more information about style templates you could take a look at [Templates](../templates/README.md)) sample.
 
 In our report sample we can see this style template declaration:
 ```
@@ -310,7 +310,7 @@ In our report sample we can see this style template declaration:
 ```
 In various situations we need to configure elements' L&F depending on certain conditions that will be evaluated at runtime. For instance, generating alternate row colors in a table with a large number of rows, or using different text styles and colors that depend on the current value of the element. In such cases we need a tool for setting up different style features for the same element or cell. Conditional styles are used to solve this problem. They can be defined either in the report itself, or, for some particular values, in style templates.
 
-For more information about conditional styles defined in reports you could take a look at [Jasper](../jasper/index.html)) sample.
+For more information about conditional styles defined in reports you could take a look at [Jasper](../jasper/README.md)) sample.
 
 Starting with JasperReports v.6.20.0 conditional styles can be also defined in a style template file, with respect to the following requirement:
 

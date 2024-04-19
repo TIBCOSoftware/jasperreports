@@ -16,7 +16,7 @@ How to turn on Excel specific features to improve the generated document in Exce
 **Since:** 4.1.1
 
 **Other Samples**\
-[/demo/samples/xlsformula](../xlsformula/index.html)
+[/demo/samples/xlsformula](../xlsformula/README.md)
 
 ### Pixel-Perfect Document Representation and Excel Output Format
 
@@ -278,7 +278,7 @@ The value of this property could be any expression (including `null`). When such
 
 Generated documents usually represent standalone, self-consistent pieces of information and don't require additional content from other documents in order to become meaningful. But sometimes a generated document may not uncover the whole picture. Let's imagine, for instance, a book where chapters are appended one at a time after they are completed. Or an Excel document where sheets are organized per years. Each new year comes with a new sheet to be added into the existing document. In this case there should be a possibility to concatenate our generated document with other existing ones.
 
-A solution would be to use the batch export functionality as explained in the [Batch Export](../batchexport/index.html#batchexport) Sample. The main inconvenient here is that all documents to be concatenated should be available as [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects. But what if we have no [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects, but valid Excel documents instead? The batch export has no answers for this.
+A solution would be to use the batch export functionality as explained in the [Batch Export](../batchexport/README.md#batchexport) Sample. The main inconvenient here is that all documents to be concatenated should be available as [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects. But what if we have no [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects, but valid Excel documents instead? The batch export has no answers for this.
 
 In order to solve this kind of requirements, two new exporter properties were added starting with v4.5.1:
 

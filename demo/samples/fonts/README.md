@@ -18,7 +18,7 @@ How to format texts using fonts properties.
 
 ### Characters and Fonts
 
-Any text is represented by a character sequence with particular formatting settings. Some of these appearance settings can be specified using the attributes available in the <element/> tag. If there are shared font settings among several text elements, we strongly encourage people to group them in report styles defined in style templates (see the [Templates](../templates/index.html) sample).
+Any text is represented by a character sequence with particular formatting settings. Some of these appearance settings can be specified using the attributes available in the <element/> tag. If there are shared font settings among several text elements, we strongly encourage people to group them in report styles defined in style templates (see the [Templates](../templates/README.md) sample).
 
 The main font settings available in JasperReports are:
 
@@ -99,7 +99,7 @@ How to ship the required fonts with your report templates when deploying them in
 **Since:** 3.1.3
 
 **Other Samples**\
-[/demo/samples/unicode](../unicode/index.html)
+[/demo/samples/unicode](../unicode/README.md)
 
 ### About Fonts Extension
 

@@ -9,7 +9,7 @@ Shows how Java 1.5 could be used inside report templates.
 
 ### Secondary Features
 
-[Report Compilers](../groovy/index.html#reportcompilers)
+[Report Compilers](../groovy/README.md#reportcompilers)
 
 ## <a name='java1.5'>Using</a> Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -20,13 +20,13 @@ How to use Java 1.5 language specific features inside report expressions.
 **Since:** 1.1.1
 
 **Other Samples**\
-[/demo/samples/antcompile](../antcompile/index.html)\
-[/demo/samples/groovy](../groovy/index.html)\
-[/demo/samples/javascript](../javascript/index.html)
+[/demo/samples/antcompile](../antcompile/README.md)\
+[/demo/samples/groovy](../groovy/README.md)\
+[/demo/samples/javascript](../javascript/README.md)
 
 ### Java 1.5 Scripting Example
 
-The main purpose of this sample is to show how the Java 1.5 compiler implementation works. Useful information about various Java compiler implementations can be found [here](../groovy/index.html#javaCompilers).
+The main purpose of this sample is to show how the Java 1.5 compiler implementation works. Useful information about various Java compiler implementations can be found [here](../groovy/README.md#javaCompilers).
 
 This sample contains report expressions written using Java 1.5. The [JRJdtCompiler](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/jdt/JRJdtCompiler.html) default implementation is Java 1.5-compatible and is strongly recommended to use it when handling Java 1.5-related expressions.
 

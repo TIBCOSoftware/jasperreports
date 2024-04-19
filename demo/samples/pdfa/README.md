@@ -16,10 +16,10 @@ How to use PDF/A conformance settings to generate various levels of PDF/A docume
 **Since:** 3.1.2
 
 **Other Samples**\
-[/demo/samples/accessible](../accessible/index.html)\
-[/demo/samples/jasper](../jasper/index.html)\
-[/demo/samples/table](../table/index.html)\
-[/demo/samples/tabular](../tabular/index.html)
+[/demo/samples/accessible](../accessible/README.md)\
+[/demo/samples/jasper](../jasper/README.md)\
+[/demo/samples/table](../table/README.md)\
+[/demo/samples/tabular](../tabular/README.md)
 
 ### PDF/A conformance overview
 

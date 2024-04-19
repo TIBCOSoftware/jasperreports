@@ -9,7 +9,7 @@ Shows how text in different languages could be used inside reports.
 
 ### Secondary Features
 
-[Font Extensions](../fonts/index.html#fontextensions)
+[Font Extensions](../fonts/README.md#fontextensions)
 
 ## <a name='unicode'>Creating</a> Reports in Any Language Using Unicode Support
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -20,14 +20,14 @@ How to create reports in any language using unicode support.
 **Since:** 0.1.0
 
 **Other Samples**\
-[/demo/samples/fonts](../fonts/index.html)
-[/demo/samples/i18n](../i18n/index.html)
+[/demo/samples/fonts](../fonts/README.md)
+[/demo/samples/i18n](../i18n/README.md)
 
 ### Working with Texts in JasperReports
 
 Working with texts needs some dedicated tools to process both character representations and text formatting properties. Any text can be considered as a character sequence with a particular representation structure. The text appearance consists in both layout (or paragraph) and font settings. But while in most cases the text layout remains invariant, font settings may change when running the report in different locales. As already known, different languages need different character sets with respect to specific characters representation.
 
-Therefore, working with texts means first of all working with fonts. A detailed discussion about how to use fonts in JasperReports can be found in both [Fonts](../fonts/index.html#fonts) and [Font Extensions](../fonts/index.html#fontextensions) sections of the [Fonts](../fonts/index.html) sample.
+Therefore, working with texts means first of all working with fonts. A detailed discussion about how to use fonts in JasperReports can be found in both [Fonts](../fonts/README.md#fonts) and [Font Extensions](../fonts/README.md#fontextensions) sections of the [Fonts](../fonts/README.md) sample.
 
 One of the main features concerning the text content in a given report is the possibility to internationalize it. That means the same report can be run without any hardcoded modification in different localized environments, using different languages and other localization settings. The only thing to pay attention to is to provide an appropriate set of font files able to get correct representations for characters in report texts.
 

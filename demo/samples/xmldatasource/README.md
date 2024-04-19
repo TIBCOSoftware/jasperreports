@@ -9,9 +9,9 @@ Shows how the built-in XPath-based data source could be used for reporting out o
 [XPath Query Executer](#xpathqueryexecuter)
 
 ### Secondary Features
-[Query Executers](../hibernate/index.html#queryexecuters)\
-[Data Sources](../datasource/index.html#datasources)\
-[Subreports](../subreports/index.html#subreports)
+[Query Executers](../hibernate/README.md#queryexecuters)\
+[Data Sources](../datasource/README.md#datasources)\
+[Subreports](../subreports/README.md#subreports)
 
 ## <a name='xmldatasource'>XML</a> Data Source
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -62,10 +62,10 @@ How to fill reports using embedded XPath queries.
 **Since:** 1.2.0
 
 **Other Samples**\
-[/demo/samples/csvdatasource](../csvdatasource/index.html)\
-[/demo/samples/ejbql](../ejbql/index.html)\
-[/demo/samples/hibernate](../hibernate/index.html)\
-[/demo/samples/mondrian](../mondrian/index.html)
+[/demo/samples/csvdatasource](../csvdatasource/README.md)\
+[/demo/samples/ejbql](../ejbql/README.md)\
+[/demo/samples/hibernate](../hibernate/README.md)\
+[/demo/samples/mondrian](../mondrian/README.md)
 
 ### The XPath Query Executer
 

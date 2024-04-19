@@ -18,7 +18,7 @@ Shows how to render barcodes in a report, using the barcode components that are 
 **Since:** 3.5.2
 
 **Other Samples**\
-[/demo/samples/barbecue](../barbecue/index.html)
+[/demo/samples/barbecue](../barbecue/README.md)
 
 ### Barcode Overview
 

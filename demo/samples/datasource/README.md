@@ -19,9 +19,9 @@ How to fill reports using data source objects.
 **Since:** 0.1.0
 
 **Other Samples**\
-[/demo/samples/csvdatasource](../csvdatasource/index.html)\
-[/demo/samples/xlsdatasource](../xlsdatasource/index.html)\
-[/demo/samples/xmldatasource](../xmldatasource/index.html)
+[/demo/samples/csvdatasource](../csvdatasource/README.md)\
+[/demo/samples/xlsdatasource](../xlsdatasource/README.md)\
+[/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### Data Sources
 

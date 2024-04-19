@@ -17,7 +17,7 @@ How to use the built-in subreport element to create nested content.
 **Since:** 0.3.0
 
 **Other Samples**\
-[/demo/samples/xmldatasource](../xmldatasource/index.html)
+[/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### What is a Subreport
 
@@ -78,7 +78,7 @@ ORDER BY Product.ID
 What this means is the `Product` report executes for each row in the Master report's ResultSet and displays results related to the `city` field in that row.\
 (Remember: Fields map to the data source, in this case to columns returned in the Result Set).
 
-For more information on modifying report queries please view the [Query](../query/index.html) Sample.
+For more information on modifying report queries please view the [Query](../query/README.md) Sample.
 
 ### The `<connectionExpression/>` tag
 
@@ -145,7 +145,7 @@ Shows how to export the report to JSON format using metadata associated with rep
 **Since:** 6.0.0
 
 **Other Samples**\
-[/demo/samples/jasper](../jasper/index.html)
+[/demo/samples/jasper](../jasper/README.md)
 
 ### Pixel-Perfect Requirement and JSON Output Format
 
@@ -181,7 +181,7 @@ If present, this setting provides the path to a JSON schema file that will be us
 - the `_children` property (mandatory for array-type nodes), which defines the type of the objects in the array.
 - other properties that describe the object.
 
-An example of JSON schema can be found in `MasterReport.schema.json` file in the [subreport](../subreport/index.html) sample directory:
+An example of JSON schema can be found in `MasterReport.schema.json` file in the [subreport](../subreport/README.md) sample directory:
 ```
 {
   _type: 'array',

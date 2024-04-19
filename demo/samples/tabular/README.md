@@ -6,7 +6,7 @@ Shows how a table structure could be created using simple text elements and thei
 ### Main Features in This Sample
 
 [Creating Table-like Structures](#tabular)\
-[Using PDF tags to create tables in generated PDF documents](../tabular/index.html#taggedpdf)
+[Using PDF tags to create tables in generated PDF documents](../tabular/README.md#taggedpdf)
 
 ## <a name='tabular'>Creating</a> Table-like Structures
 <div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
@@ -17,13 +17,13 @@ How to create tables using text elements and their border.
 **Since:** 0.6.3
 
 **Other Samples**\
-[/demo/samples/table](../table/index.html)
-[/demo/samples/list](../√/index.html)
-[/demo/samples/pdfa](../pdfa/index.html)
+[/demo/samples/table](../table/README.md)
+[/demo/samples/list](../√/README.md)
+[/demo/samples/pdfa](../pdfa/README.md)
 
 ### Table-like Structures - Overview
 
-Whenever data has to be organized in distinct rows and columns, a table structure should be created, or at least emulated, in order to display these data. Before the built-in [table component](../table/index.html) being included in the JasperReports library, the most common way to represent tabular data was to create table-like structures based on particular styles and layout configuration of the report elements. For instance, if elements in a detail band are configured to share the same y-coordinate and the same height, they will result as perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, leading to a table-like structure organized in rows and columns.
+Whenever data has to be organized in distinct rows and columns, a table structure should be created, or at least emulated, in order to display these data. Before the built-in [table component](../table/README.md) being included in the JasperReports library, the most common way to represent tabular data was to create table-like structures based on particular styles and layout configuration of the report elements. For instance, if elements in a detail band are configured to share the same y-coordinate and the same height, they will result as perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, leading to a table-like structure organized in rows and columns.
 
 To obtain excellent results with table-like structures, it's recommended to carefully set the related layout attributes and styles, in order to get elements perfectly aligned, horizontally and vertically. Styles and box elements may also be used to individualize cell borders, backgrounds, forecolors, cell paddings, alternative row colors, etc.
 Attributes that should be carefully handled are:

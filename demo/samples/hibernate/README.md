@@ -17,18 +17,18 @@ How to implement a custom query executer and how to associate it with a custom r
 **Since:** 1.2.0
 
 **Other Samples**\
-[/demo/samples/csvdatasource](../csvdatasource/index.html)\
-[/demo/samples/ejbql](../ejbql/index.html)\
-[/demo/samples/mondrian](../mondrian/index.html)\
-[/demo/samples/xmldatasource](../xmldatasource/index.html)
+[/demo/samples/csvdatasource](../csvdatasource/README.md)\
+[/demo/samples/ejbql](../ejbql/README.md)\
+[/demo/samples/mondrian](../mondrian/README.md)\
+[/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### Data Sources and Report Queries
 
-Report generation relies on creating report templates, compiling and filling them with data. At fill time, the data necessary to populate the compiled report should be provided to the engine. Usually the engine expects to receive these data already stored in a [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) object as the report data source (see the [Data Source](../datasource/index.html) sample for a complete reference).
+Report generation relies on creating report templates, compiling and filling them with data. At fill time, the data necessary to populate the compiled report should be provided to the engine. Usually the engine expects to receive these data already stored in a [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) object as the report data source (see the [Data Source](../datasource/README.md) sample for a complete reference).
 
 There are situations when creating from scratch a filled [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) object is quite impossible (for instance, data are stored in relational databases with thousands of records, or in huge XML files. In this case, automatic generation of filled [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) objects is required.
 
-One possibility is to instruct the engine how to retrieve the necessary data and then create a related JRDataSource. The most common way to get relevant data is to filter them by running a query and picking up filtered data from the data container. For more information about report queries, please consult the [Query](../query/index.html) sample.
+One possibility is to instruct the engine how to retrieve the necessary data and then create a related JRDataSource. The most common way to get relevant data is to filter them by running a query and picking up filtered data from the data container. For more information about report queries, please consult the [Query](../query/README.md) sample.
 
 ### Query Executers
 

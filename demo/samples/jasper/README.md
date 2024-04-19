@@ -21,7 +21,7 @@ How to group data at different levels and perform aggregate calculations using r
 **Since:** 0.1.0
 
 **Other Samples**\
-[/demo/samples/datasource](../datasource/index.html)
+[/demo/samples/datasource](../datasource/README.md)
 
 ### Grouping Data in JasperReports
 
@@ -502,10 +502,10 @@ Shows how to define and use a conditional style in a report template.
 **Since:** 1.2.0
 
 **Other Samples**\
-[/demo/samples/scriptlet](../scriptlet/index.html)\
-[/demo/samples/crosstabs](../crosstabs/index.html)\
-[/demo/samples/list](../list/index.html)\
-[/demo/samples/query](../query/index.html)
+[/demo/samples/scriptlet](../scriptlet/README.md)\
+[/demo/samples/crosstabs](../crosstabs/README.md)\
+[/demo/samples/list](../list/README.md)\
+[/demo/samples/query](../query/README.md)
 
 ### Conditional Styles
 
@@ -514,7 +514,7 @@ In JasperReports using styles represents the most common way to generate the rep
 However, there are situations when the L&F depends on certain conditions determined only at runtime. A common example is the necessity to use alternate row colors in a table with a large number of rows, in order to better distinguish between them. When the total number of rows is unknown at report design time, or if the row is used in the detail section, a tool for setting up different backgrounds for the same cell is definitely required.
 
 And here come conditional styles to get some help. They can be defined either in the report itself, or, for some particular values, in style templates.
-For more information about conditional styles defined in style templates you could take a look at the [Query](../query/index.html#conditionalStylesInTemplates) sample.
+For more information about conditional styles defined in style templates you could take a look at the [Query](../query/README.md#conditionalStylesInTemplates) sample.
 
 Next we'll present conditional styles defined in reports.
 
@@ -553,8 +553,8 @@ One can see above that on each even row the element forecolor becomes blue. More
 **Note:**
 
 - By default, the style condition expressions are evaluated during the report filling at the moment they are actually used. The conditional expression evaluation is performed with the current values of referenced variables and fields in that moment, regardless of the evaluationTime attribute of the element itself.If the condition expression of the style needs a delayed evaluation, just like the value of the text field or the image element that uses the conditional style, the `net.sf.jasperreports.style.evaluation.time.enabled` configuration property should be set to true.
-- Conditional styles may be defined in style templates only when the condition expression is a simple reference to a Boolean report parameter, field or variable (see [Query](../query/index.html#conditionalStylesInTemplates) sample). Also, styles defined in style templates can be used as parent styles for conditional styles defined in the report.
-- Other examples of conditional styles can be found in [Query](../query/index.html), [Scriptlet](../scriptlet/index.html), [List](../list/index.html) and [Crosstabs](../crosstabs/index.html) samples.
+- Conditional styles may be defined in style templates only when the condition expression is a simple reference to a Boolean report parameter, field or variable (see [Query](../query/README.md#conditionalStylesInTemplates) sample). Also, styles defined in style templates can be used as parent styles for conditional styles defined in the report.
+- Other examples of conditional styles can be found in [Query](../query/README.md), [Scriptlet](../scriptlet/README.md), [List](../list/README.md) and [Crosstabs](../crosstabs/README.md) samples.
 
 <div align="right"><a href='#top'>top</a></div>
 
@@ -569,7 +569,7 @@ Shows how to use PPTX fields to update some predefined values such as current da
 **Since:** 6.8.0
 
 **Other Samples**\
-[/demo/samples/i18n](../i18n/index.html)
+[/demo/samples/i18n](../i18n/README.md)
 
 ### Exporting text elements as PPTX fields
 
@@ -613,4 +613,4 @@ The following example can be found in the `FirstJasper.jrxml` file:
 ```
 At export time this text element will be translated into a PPTX field that generates automatic slide number.
 
-Another example of a datetime PPTX field can be found in the [i18n](../i18n/index.html) sample.
+Another example of a datetime PPTX field can be found in the [i18n](../i18n/README.md) sample.
