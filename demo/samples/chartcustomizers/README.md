@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Chart Customizers Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="position: absolute; right: 0px;"/>
+# <a name='top'>JasperReports</a> - Chart Customizers Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to use multiple chart customizers on the same chart
 
@@ -11,7 +11,7 @@ Shows how to use multiple chart customizers on the same chart
 [Charts](../charts/index.html#charts)\
 [Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)				
 ## <a name='chartcustomizers'>Multiple</a> Chart Customizers
-<div style="text-align:right; right: 0px;">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
+<div align="right">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 **Description / Goal**\
 How to make various changes to a generated chart using the [JFreeChart API](http://jfree.org/jfreechart/), using one or more chart customizer on the same report.
