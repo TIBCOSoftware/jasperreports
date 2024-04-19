@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Crosstabs Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Crosstabs Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Crosstab and subdataset sample.
 
@@ -10,7 +10,7 @@ Crosstab and subdataset sample.
 [Dynamic Styles](#dynamic_styles)
 				
 ## <a name='crosstabs'>Crosstabs</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use the built-in crosstab element to display aggregated data.
@@ -175,12 +175,12 @@ Open a new command prompt/terminal window and set the current folder to `demo/sa
 ```
 This will generate all supported document types containing the sample report in the `demo/samples/crosstabs/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='datasets'>Datasets</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to make use of subdatasets for chart elements and crosstab elements.
@@ -228,12 +228,12 @@ Anytime a dataset is referenced by another report element, a `dataset run` is in
 ```
 The `subDataset` attribute is mandatory and contains the name of the subdataset to be used during the chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of the report is used by default.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='dynamic_styles'>Dynamic</a> Styles
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to make use of dynamic style features in to customize the appearance of report elements.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Images Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Images Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how images could be used in a report template.
 
@@ -8,7 +8,7 @@ Shows how images could be used in a report template.
 [Images](#images)
 
 ## <a name='images'>Images</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to render images in reports using the build-in image element.

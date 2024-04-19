@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Hyperlink Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Hyperlink Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how hyperlinks and anchors could be used in report templates.
 
@@ -10,7 +10,7 @@ Main Features in This Sample
 [Creating Watermarks and Page Backgrounds](#watermark)
 
 ## <a name='hyperlinks'>Hyperlinks</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use hyperlinks and anchors for text elements and image elements.
@@ -161,12 +161,12 @@ In a command prompt/terminal window set the current folder to `demo/samples/hype
 ```
 It will generate all supported document types containing the sample report in the `demo/samples/hyperlink/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='xmlwriter'>Generating</a> the JRXML Source File for an In-Memory Report Template Object
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to generate the JRXML representation of an in-memory report template object.
@@ -211,7 +211,7 @@ Another case where the JRXML representation differs from the original JRXML file
 ---
 
 ## <a name='watermark'>Creating</a> Watermarks and Page Backgrounds
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to generate a watermark image in a document.

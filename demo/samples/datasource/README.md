@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how custom or JavaBean-based data source implementations could be used to fill reports.
 
@@ -11,7 +11,7 @@ Shows how custom or JavaBean-based data source implementations could be used to 
 [TableModel Data Source](#tablemodeldatasource)
 
 ## <a name='datasources'>Data</a> Sources
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill reports using data source objects.
@@ -91,12 +91,12 @@ public JRField[] getFields(JasperReport report) throws JRException, UnsupportedO
 public [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) create(JasperReport report) throws JRException;
 public void dispose([JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) dataSource) throws JRException;
 ```
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='customdatasource'>Custom</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to implement a custom data source from scratch.
@@ -203,12 +203,12 @@ In order to figure out more on custom data sources behavior, just test this samp
 ```
 command. It will generate the sample report in the `/target/reports` directory, filling it with data extracted from the `CustomDataSource` object.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## `JavaBean` <a name='javabeandatasources'>Data</a> Sources
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill reports with collections or arrays of JavaBean objects.
@@ -379,12 +379,12 @@ mvn clean compile exec:java -Dexec.args="compile fill4 view"
 ```
 It will generate the sample report filling it with data extracted from a [JRBeanArrayDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html) data source, and then the same report will be generated with data extracted from a[JRBeanCollectionDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html) data source.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='tablemodeldatasource'>TableModel</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to wrap a custom TableModel implementation into a report data source.

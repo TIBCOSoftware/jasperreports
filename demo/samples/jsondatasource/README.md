@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JSON Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - JSON Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSON data source and the JSON query executer implementations could be used to fill reports.
 
@@ -8,7 +8,7 @@ Shows how the JSON data source and the JSON query executer implementations could
 [JSON Data Source](#jsondatasource)
 
 ## <a name='jsondatasource'>JSON</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill a report using data from a JSON file.

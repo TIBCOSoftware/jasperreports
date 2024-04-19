@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Table of Contents Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Table of Contents Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how table-of-contents structures could be created for the generated reports.
 
@@ -8,7 +8,7 @@ Shows how table-of-contents structures could be created for the generated report
 [Creating Table-Of-Contents Structures](#tableofcontents)
 
 ## <a name='tableofcontents'>Creating</a> Table-Of-Contents Structures
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
+<div align="right">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
 
 **Description / Goal**\
 How to create a table of contents with hyperlinks at the beginning of a document.

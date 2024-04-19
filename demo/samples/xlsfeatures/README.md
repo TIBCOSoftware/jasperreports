@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Advanced Excel Features Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Advanced Excel Features Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the specific Excel features could be turned on when exporting to Excel formats.
 
@@ -8,7 +8,7 @@ Shows how the specific Excel features could be turned on when exporting to Excel
 [Advanced Excel Features](#xlsfeatures)
 
 ## <a name='xlsfeatures'>Advanced</a> Excel Features
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to turn on Excel specific features to improve the generated document in Excel formats.

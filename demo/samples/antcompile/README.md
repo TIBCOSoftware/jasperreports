@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Ant Compile Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Ant Compile Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.
 
@@ -14,7 +14,7 @@ Shows how multiple JRXML files can be compiled in batch mode using the ANT build
 				
 
 ## <a name='antcompile'>Compiling</a> Multiple Report Template Files Using the Ant Build Tool
-<div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
+<div align="right">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 
 **Description / Goal**	\
@@ -108,12 +108,12 @@ In our sample, we use the default report compiler, which is the JDT-based compil
 
 Depending on the report expression language they are mapped to, other report compiler implementations might produce script files instead of Java files, for report expression evaluation. The `keepjava` and the `tempdir` attributes will still work for them, except that the files that will be kept into the temporary location will not be Java source files but script files, also helpful for debugging.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='antdecompile'>Generating</a> the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to re-create the JRXML source files for multiple compiled report templates using the Ant build tool. This is useful in cases where only the compiled `*.jasper` files of older reports are available, the initial `*.jrxml `source files being lost.

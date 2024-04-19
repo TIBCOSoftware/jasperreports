@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - PDF Encrypt Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - PDF Encrypt Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports could be encrypted when exported to PDF.
 
@@ -8,7 +8,7 @@ Shows how reports could be encrypted when exported to PDF.
 [Encrypted PDF](#pdfencrypt)
 
 ## <a name='pdfencrypt'>Encrypted</a> PDF
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to produce encrypted PDF reports.

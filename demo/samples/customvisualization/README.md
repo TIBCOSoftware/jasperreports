@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Custom Visualization Components Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Custom Visualization Components Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how JavaScript based visualizations could be included in reports using the Custom Visualization Component.
 
@@ -8,7 +8,7 @@ Shows how JavaScript based visualizations could be included in reports using the
 [Custom Visualization Components](#customvisualization)
 
 ## <a name='customvisualization'>Custom</a> Visualization Components
-<div style="text-align:right; width:100%">Documented by <a href='mailto:gt78@users.sourceforge.net'>Giulio Toffoli</a></div>
+<div align="right">Documented by <a href='mailto:gt78@users.sourceforge.net'>Giulio Toffoli</a></div>
 
 **Description / Goal**\
 Shows how to render a custom visualization in a report, using the custom visualization component shipped with the JasperReports library.

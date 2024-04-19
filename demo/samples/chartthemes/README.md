@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Chart Themes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Chart Themes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart themes could be used to change the look and feel of all chart types.
 
@@ -12,7 +12,7 @@ Shows how the chart themes could be used to change the look and feel of all char
 [Altering Charts (Chart Customizers)](../charts/index.html#chartcustomizers)
 				
 ## <a name='chartthemes'>Enhancing</a> Charts Look and Feel (Chart Themes)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Customizing the appearance of all charts created using the chart element, across an entire application.

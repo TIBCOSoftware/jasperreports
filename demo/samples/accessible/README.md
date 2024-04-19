@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Accessible Reports Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Accessible Reports Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to create accessible reports.
 
@@ -9,7 +9,7 @@ Shows how to create accessible reports.
 				
 
 ## <a name='accessible'>Designing</a> Accessible Reports
-<div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
+<div align="right">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 
 **Description / Goal**	\

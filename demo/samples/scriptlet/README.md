@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Scriptlet Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Scriptlet Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the scriptlets could be used to manipulate data during report filling.
 
@@ -9,7 +9,7 @@ Shows how the scriptlets could be used to manipulate data during report filling.
 [Alternate Row Colors In The Detail Section](#alternaterowcolor)
 
 ## <a name='scriptlets'>Scriptlets</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
+<div align="right">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
 
 **Description / Goal**\
 How to perform custom calculation and tailor the report filling process using report scriptlets implementations.
@@ -97,12 +97,12 @@ How do you use a Scriptlet in a report? A Scriptlet can be associated with a Rep
 ```
 **Note:** The fully qualified reference is used for the Scriptlet class.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='alternaterowcolor'>Alternate</a> Row Colors In The Detail Section
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to get alternate row colors in a detail section using conditional styles.

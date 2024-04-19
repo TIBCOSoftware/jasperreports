@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JFreeChart Spider Chart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - JFreeChart Spider Chart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in spider chart component can be included in reports.
 
@@ -8,7 +8,7 @@ Shows how the built-in spider chart component can be included in reports.
 [Using the Built-in Spider Chart Component](#spiderchartcomponent)
 
 ## <a name='spiderchartcomponent'>Using</a> the Built-in Spider Chart Component
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to configure the built-in spider chart component rendered by the JFreeChart library.

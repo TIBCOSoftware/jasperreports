@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Report Parts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Report Parts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how report parts can be used.
 
@@ -12,7 +12,7 @@ Shows how report parts can be used.
 [Creating Table-Of-Contents Structures](../tableofcontents/index.html#tableofcontents)
 				
 ## <a name='parts'>Report</a> Parts (Book Reports) 
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
+<div align="right">Documented by <a href='mailto:lchirita@users.sourceforge.net'>Lucian Chirita</a></div>
 
 **Description / Goal**\
 On report parts.

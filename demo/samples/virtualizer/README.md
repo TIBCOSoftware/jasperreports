@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Virtualizer Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Virtualizer Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.
 
@@ -8,7 +8,7 @@ Shows how very large reports could be generated using a report virtualizer to op
 [Generating Very Large Documents Using Report Virtualizers](#virtualizer)
 
 ## <a name='virtualizer'>Generating</a> Very Large Documents Using Report Virtualizers
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
+<div align="right">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
 
 **Description / Goal**\
 How to generate very large documents using report virtualizers that optimize memory consumption.

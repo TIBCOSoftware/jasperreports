@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Markup Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Markup Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the text markup feature works in static and dynamic text elements.
 
@@ -12,7 +12,7 @@ Shows how the text markup feature works in static and dynamic text elements.
 [Styled Text](../styledtext/index.html#styledtext)
 
 ## <a name='markup'>Creating</a> Styled Text Using a Markup Language
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to format text using a markup language such as HTML and/or RTF.

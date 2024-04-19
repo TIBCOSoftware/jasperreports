@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - List Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - List Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Illustrates the usage of the list component element.
 
 ### Main Features in This Sample
@@ -7,7 +7,7 @@ Illustrates the usage of the list component element.
 [Using the Built-in List Component](#list)
 
 ## <a name='list'>Using</a> the Built-in List Component
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to render simple listings using the built-in list component and a subdataset.

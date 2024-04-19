@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XChart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - XChart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how XChart components can be included in reports.
 
 ### Main Features in This Sample
@@ -7,7 +7,7 @@ Shows how XChart components can be included in reports.
 [Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)](#xchartcomponent)
 
 ## <a name='xchartcomponent'>Implementing</a> Custom Components to Embed Third Party Visualisation Tools (XChart Library)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to implement a custom component to wrap charts rendered by the [XChart](https://knowm.org/open-source/xchart/) library.

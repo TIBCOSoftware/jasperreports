@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Rotation Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Rotation Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how rotated text could be used in report templates.
 
@@ -8,7 +8,7 @@ Shows how rotated text could be used in report templates.
 [Rotated Text](#rotation)
 
 ## <a name='rotation'>Rotated</a> Text
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to rotate text elements.

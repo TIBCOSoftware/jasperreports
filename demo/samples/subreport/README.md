@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Subreport Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Subreport Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how subreport could be used to create complex document layouts.
 
@@ -9,7 +9,7 @@ Shows how subreport could be used to create complex document layouts.
 [Exporting to JSON Format Using Report Metadata](#jsonmetadataexport)
 
 ## <a name='subreports'>Subreports</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
+<div align="right">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a></div>
 
 **Description / Goal**\
 How to use the built-in subreport element to create nested content.
@@ -132,12 +132,12 @@ The JasperReports property: `net.sf.jasperreports.subreport.runner.factory` can 
 
 By default `net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory` is used, however if `net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory` is set, then a Javaflow approach will be used to fill the reports rather than threads. If this option is chosen, then the Jakarta Commons Javaflow jar must be included in the application classpath. Other alternatives for processing different queries in the same report are usage of the `List` element and Sub Datasets.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='jsonmetadataexport'>Exporting</a> to JSON Format Using Report Metadata
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to export the report to JSON format using metadata associated with report elements at design time, to mark JSON tree nodes.

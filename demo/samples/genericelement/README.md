@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Generic Element Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Generic Element Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how generic elements embedded in reports can be managed at export time by custom handlers.
 
@@ -8,7 +8,7 @@ Shows how generic elements embedded in reports can be managed at export time by 
 [Generic Elements](#genericelements)
 
 ## <a name='genericelements'>Generic</a> Elements
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to implement and use generic elements to embed custom content into reports.

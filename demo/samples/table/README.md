@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Table Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Table Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the table component element.
 
@@ -8,7 +8,7 @@ Illustrates the usage of the table component element.
 [Using the Built-in Table Component](#table)
 
 ## <a name='table'>Using</a> the Built-in Table Component
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to render tabular data using the built-in table component and a subdataset.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Text Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Text Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the pure text exporter could be used to export reports to simple text files.
 
@@ -8,7 +8,7 @@ Shows how the pure text exporter could be used to export reports to simple text 
 [Exporting to Pure Text Format](#textexport)
 
 ## <a name='textexport'>Exporting</a> to Pure Text Format
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to export reports to plain text files.

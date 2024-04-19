@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XML Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - XML Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in XPath-based data source could be used for reporting out of XML data.
 
@@ -14,7 +14,7 @@ Shows how the built-in XPath-based data source could be used for reporting out o
 [Subreports](../subreports/index.html#subreports)
 
 ## <a name='xmldatasource'>XML</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill a report using data from an XML file.
@@ -49,12 +49,12 @@ Patterns should be non-localized and in accordance with the `java.text.DecimalFo
 
 Before running the sample, please consult the next section regarding the XPath query executer.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='xpathqueryexecuter'>XPath</a> Query Executer
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill reports using embedded XPath queries.

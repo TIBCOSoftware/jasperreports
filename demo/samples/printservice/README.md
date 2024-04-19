@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Print Service Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Print Service Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Java Print Service API could be used to print reports.
 
@@ -8,7 +8,7 @@ Shows how the Java Print Service API could be used to print reports.
 [Printing Reports Using the Java Print Service API](#printservice)
 
 ## <a name='printservice'>Printing</a> Reports Using the Java Print Service API
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to print reports to network printers looked-up for based on their name, properties or printing capabilities.

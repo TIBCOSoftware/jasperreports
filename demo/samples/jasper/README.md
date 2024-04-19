@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Jasper Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Jasper Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how different features of the library could be used to generate a complex document.
 
@@ -13,7 +13,7 @@ Shows how different features of the library could be used to generate a complex 
 [Updating current date and slide numbers in PPTX export](#pptxfields)
 
 ## <a name='groups'>Data</a> Grouping
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to group data at different levels and perform aggregate calculations using report groups.
@@ -267,12 +267,12 @@ Open a new command prompt/terminal window and set the current folder to `demo/sa
 ```
 This will generate all supported document types containing the sample report in the `demo/samples/jasper/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='csvmetadataexport'>Exporting</a> to CSV Format Using Report Metadata
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to export the report to CSV format using metadata associated with report elements at design time, to mark data columns.
@@ -350,12 +350,12 @@ After running the
 ```
 command the data-centric document exported with the CSV metadata exporter will be available in the `demo/samples/jasper/build/reports` directory as `FirstJasper.metadata.csv`.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='xlsxmetadataexport'>Exporting</a> to XLSX Format Using Report Metadata
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to export the report to XLSX format using metadata associated with report elements at design time, to mark data columns.
@@ -467,12 +467,12 @@ command the data-centric document exported with the XLSX metadata exporter will 
 - `FirstJasper.singleSheet.metadata.xlsx` - as single sheet document, and
 - `FirstJasper.multiSheet.metadata.xlsx` - as multisheet Excel document. Notice the differences in text formatting between these files and the `FirstJasper.metadata.csv` CSV document.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='xlsmetadataexport'>Exporting</a> to XLS Format Using Report Metadata
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to export the report to XLS format using metadata associated with report elements at design time, to mark data columns.
@@ -489,12 +489,12 @@ After running the
 ```
 command the data-centric document exported with the Excel 2003 metadata exporter will be available in the `demo/samples/jasper/build/reports` directory as `FirstJasper.metadata.xls`.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='conditionalStylesInReports'>Conditional</a> Styles in Reports
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to define and use a conditional style in a report template.
@@ -556,12 +556,12 @@ One can see above that on each even row the element forecolor becomes blue. More
 - Conditional styles may be defined in style templates only when the condition expression is a simple reference to a Boolean report parameter, field or variable (see [Query](../query/index.html#conditionalStylesInTemplates) sample). Also, styles defined in style templates can be used as parent styles for conditional styles defined in the report.
 - Other examples of conditional styles can be found in [Query](../query/index.html), [Scriptlet](../scriptlet/index.html), [List](../list/index.html) and [Crosstabs](../crosstabs/index.html) samples.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='pptxfields'>Updating</a> current date and slide numbers in PPTX export
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to use PPTX fields to update some predefined values such as current date or slide number.

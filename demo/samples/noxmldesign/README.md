@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - No XML Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - No XML Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how in-memory JasperDesign objects can be created without using the JRXML design template, but only the API directly.
 
@@ -8,7 +8,7 @@ Shows how in-memory JasperDesign objects can be created without using the JRXML 
 [Creating In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)](#noxmldesign)
 
 ## <a name='noxmldesign'>Creating</a> In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to create in-memory JasperDesign objects without processing a JRXML file, using the object model of the JasperReports API.

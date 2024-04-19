@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Query Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Query Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the report query can be build dynamically using report parameters.
 
@@ -13,7 +13,7 @@ Shows how the report query can be build dynamically using report parameters.
 [Creating Watermarks and Page Backgrounds](../hyperlink/index.html#watermark)
 
 ## <a name='query'>Parameterized</a> Queries (Dynamic Queries)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a>, <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:lshannon@users.sourceforge.net'>Luke Shannon</a>, <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to pass parameter references to report queries and how to change the report query at runtime.
@@ -282,12 +282,12 @@ If we run the report again and pass two values into `$P{ExcludedCities}`:
     2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #2 (ExcludedCities[1] of type java.lang.String): Boston
 ```
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='conditionalStylesInTemplates'>Conditional</a> Styles in Style Templates
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to declare conditional styles in style templates and refer them in the report.

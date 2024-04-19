@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Alter Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Alter Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how compiled report templates can be modified on-the-fly without requiring recompilation.
 
@@ -8,7 +8,7 @@ Shows how compiled report templates can be modified on-the-fly without requiring
 [Altering Compiled Report Templates](#alterdesign)
 				
 ## <a name='alterdesign'>Altering</a> Compiled Report Templates 
- <div style="text-align:right; width:100%">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
+ <div align="right">Documented by <a href='mailto:teodord@users.sourceforge.net'>Teodor Danciu</a></div>
 
 **Description / Goal**	
 

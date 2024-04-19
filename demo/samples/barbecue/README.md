@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Barbecue Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Barbecue Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how barcodes could be included in reports using the Barbecue component.
 
@@ -12,7 +12,7 @@ Shows how barcodes could be included in reports using the Barbecue component.
 [Barcodes](../barcode4j/index.html#barcodes)
 
 ## <a name='top'>Barcodes</a> (Barbecue Custom Component)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \
 Shows how to render barcodes in a report, using the barcode component based on the Barbecue library.

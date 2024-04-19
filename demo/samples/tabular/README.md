@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Tabular Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Tabular Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how a table structure could be created using simple text elements and their border.
 
@@ -9,7 +9,7 @@ Shows how a table structure could be created using simple text elements and thei
 [Using PDF tags to create tables in generated PDF documents](../tabular/index.html#taggedpdf)
 
 ## <a name='tabular'>Creating</a> Table-like Structures
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to create tables using text elements and their border.
@@ -96,12 +96,12 @@ In a command prompt/terminal window set the current folder to `demo/samples/tabu
 ```
 It will generate all supported document types containing the sample report in the `demo/samples/tabular/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='taggedpdf'>Using</a> PDF tags to create tables in generated PDF documents
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to create tables in generated PDF documents using PDF tags.

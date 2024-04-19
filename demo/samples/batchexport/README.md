@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Batch Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Batch Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple reports could be concatenated during export.
 
@@ -8,7 +8,7 @@ Shows how multiple reports could be concatenated during export.
 [Exporting Multiple Reports into a Single Output File (Batch Export)](#batchexport)
 				
 ## <a name='batchexport'>Exporting</a> Multiple Reports into a Single Output File (Batch Export)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Several reports can be exported together to form a single resulting document.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Functions Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Functions Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the functions could be used inside report template expressions.
 
@@ -8,7 +8,7 @@ Shows how the functions could be used inside report template expressions.
 [Custom Functions in Report Expressions](#functions)
 
 ## <a name='functions'>Custom</a> Functions in Report Expressions
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use JasperReports built-in functions inside expressions

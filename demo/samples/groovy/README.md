@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Groovy Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Groovy Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how the Groovy scripting languages could be used inside report templates.
 
 ### Main Features in This Sample
@@ -8,7 +8,7 @@ Shows how the Groovy scripting languages could be used inside report templates.
 [Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)](#groovy)
 
 ## <a name='reportcompilers'>Report</a> Compilers
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to implement a custom report compiler and how to register it with a custom defined report expression language.
@@ -152,12 +152,12 @@ The report template compilation task supports nested `src` and `classpath` eleme
 
 To figure out more on report compiling process, take a look at the Groovy sample below, and to the other related samples enumerated in the **Other Samples** section.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='groovy'>Using</a> the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use Groovy scripting for report expressions.

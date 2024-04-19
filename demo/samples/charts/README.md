@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Charts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Charts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart element could be used to render different types of charts.
 
@@ -12,7 +12,7 @@ Shows how the chart element could be used to render different types of charts.
 [Datasets](../crosstabs/index.html#datasets)
 				
 ## <a name='charts'>Charts</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to render different types of charts using the built-in chart element.
@@ -248,12 +248,12 @@ Open a new command prompt/terminal window and set the current folder to `demo/sa
 ```
 This will generate all supported document types containing the sample report in the `demo/samples/charts/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='chartcustomizers'>Altering</a> Charts (Chart Customizers)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to make various changes to a generated chart using the [JFreeChart API](http://jfree.org/jfreechart/), which is used by JasperReports to draw the charts created with the built-in chart element.

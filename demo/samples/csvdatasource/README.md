@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - CSV Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - CSV Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the CSV data source and the CSV query executer implementations could be used to fill reports.
 
@@ -14,7 +14,7 @@ Shows how the CSV data source and the CSV query executer implementations could b
 [Query Executers](../hibernate/index.html#queryexecuters)
 
 ## <a name='csvdatasource'>CSV</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill a report using data from a CSV file.
@@ -135,12 +135,12 @@ In a command prompt/terminal window set the current folder to demo/samples/csvda
 
 It will generate all supported document types containing the sample report in the `demo/samples/csvdatasource/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='csvqueryexecuter'>CSV</a> Query Executer
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill a report using the CSV query executer.

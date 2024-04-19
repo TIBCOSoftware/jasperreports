@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - I18n Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - I18n Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how a report could be rendered in different languages.
 
 ### Main Features in This Sample
@@ -8,7 +8,7 @@ Shows how a report could be rendered in different languages.
 [Updating current date and slide numbers in PPTX export](#pptxfields)
 
 ## <a name='i18n'>Internationalized</a> Report Templates
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to generate reports in different languages using internationalization support.
@@ -89,12 +89,12 @@ In a command prompt/terminal window set the current folder to `demo/samples/i18n
 ```
 It will generate all supported document types containing the sample report in the `demo/samples/i18n/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='pptxfields'>Updating</a> current date and slide numbers in PPTX export
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 Shows how to use PPTX fields to update some predefined values such as current date or slide number.

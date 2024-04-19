@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Map Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Map Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the map component element.
 
@@ -8,7 +8,7 @@ Illustrates the usage of the map component element.
 [Using the Built-in Map Component](#map)
 
 ## <a name='map'>Using</a> the Built-in Map Component
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to render maps using the built-in map component.

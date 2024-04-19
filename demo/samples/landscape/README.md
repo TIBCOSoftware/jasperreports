@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Landscape Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Landscape Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports can be generated and printed in "Landscape" page format.
 
@@ -8,7 +8,7 @@ Shows how reports can be generated and printed in "Landscape" page format.
 [Creating Landscape Orientation Report Templates](#landscape)
 
 ## <a name='landscape'>Creating</a> Landscape Orientation Report Templates
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to create landscape orientation reports.

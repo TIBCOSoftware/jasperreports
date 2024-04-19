@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JSONQL Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - JSONQL Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSONQL data source and the JSONQL query executer implementations could be used to fill reports.
 
@@ -9,7 +9,7 @@ Shows how the JSONQL data source and the JSONQL query executer implementations c
 [The JSONQL query language](#jsonql)
 
 ## <a name='jsonqldatasource'>JSONQL</a> Data Source
-<div style="text-align:right; width:100%">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
+<div align="right">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
 
 **Description / Goal**\
 How to fill a report with data from a JSON file using the JSONQL query language.
@@ -143,12 +143,12 @@ In a command prompt/terminal window set the current folder to `demo/samples/json
 ```
 It will generate all supported document types containing the sample report in the `demo/samples/jsonqldatasource/target/reports` directory.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='jsonql'>The</a> JSONQL query language
-<div style="text-align:right; width:100%">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
+<div align="right">Documented by <a href='mailto:narcism@users.sourceforge.net'>Narcis Marcu</a></div>
 
 **Description / Goal**\
 Detailed description of the JSONQL query language.

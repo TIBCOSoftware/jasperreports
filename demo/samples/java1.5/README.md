@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Java 1.5 Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Java 1.5 Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how Java 1.5 could be used inside report templates.
 
@@ -12,7 +12,7 @@ Shows how Java 1.5 could be used inside report templates.
 [Report Compilers](../groovy/index.html#reportcompilers)
 
 ## <a name='java1.5'>Using</a> Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use Java 1.5 language specific features inside report expressions.

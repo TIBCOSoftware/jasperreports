@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Hibernate Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Hibernate Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how HQL could be used in reports.
 
@@ -9,7 +9,7 @@ Shows how HQL could be used in reports.
 [Query Executers](#queryexecuters)
 
 ## <a name='queryexecuters'>Query</a> Executers
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to implement a custom query executer and how to associate it with a custom report query language.
@@ -59,12 +59,12 @@ A query executer factory should implement the [QueryExecuterFactory](https://jas
 
 Another way to register new query executer factories, without modifying existing application files, is to register them as JasperReports extensions. One or more query executer implementations can be packaged in a query executer bundle that can be deployed as a single JAR file. The extension point for query executers is represented by the [JRQueryExecuterFactoryBundle](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRQueryExecuterFactoryBundle.html) interface.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='hibernate_j2ee'>Hibernate</a> (HQL) Query Executer
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to fill reports using embedded Hibernate (HQL) queries.

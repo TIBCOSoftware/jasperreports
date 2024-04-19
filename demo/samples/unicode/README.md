@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Unicode Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Unicode Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how text in different languages could be used inside reports.
 
@@ -12,7 +12,7 @@ Shows how text in different languages could be used inside reports.
 [Font Extensions](../fonts/index.html#fontextensions)
 
 ## <a name='unicode'>Creating</a> Reports in Any Language Using Unicode Support
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to create reports in any language using unicode support.

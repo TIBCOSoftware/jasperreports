@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Barcode4J Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - Barcode4J Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how barcodes could be included in reports using the Barcode4J component.
 
@@ -10,7 +10,7 @@ Shows how barcodes could be included in reports using the Barcode4J component.
 				
 
 ## <a name='barcodes'>Barcodes</a>
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \
 Shows how to render barcodes in a report, using the barcode components that are shipped with the JasperReports library.
@@ -60,12 +60,12 @@ Some of the 2D symbologies are enumerated below:
 - `QRCode` - Standard ISO/IEC 18004:2006
 - etc.
 
-<div style="text-align:right; width:100%"><a href='#top'>top</a></div>
+<div align="right"><a href='#top'>top</a></div>
 
 ---
 
 ## <a name='barcode4j'>Barcode4J</a> Custom Component
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal** \
 Shows how to render barcodes in a report, using the barcode component based on the Barcode4J library.

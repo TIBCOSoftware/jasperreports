@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - PDF/A Conformance Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" style="float:right"/>
+# <a name='top'>JasperReports</a> - PDF/A Conformance Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to generate PDF/A compliant documents.
 
@@ -8,7 +8,7 @@ Shows how to generate PDF/A compliant documents.
 [Generating PDF/A compliant documents](#pdfa)
 
 ## <a name='pdfa'>Generating</a> PDF/A compliant documents
-<div style="text-align:right; width:100%">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
 
 **Description / Goal**\
 How to use PDF/A conformance settings to generate various levels of PDF/A documents.

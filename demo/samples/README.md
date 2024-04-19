@@ -1,5 +1,5 @@
 
-# JasperReports - Sample Reference (version 7.0.0)
+# JasperReports - Sample Reference (version 7.0.0) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 This document lists all the major features of the JasperReports library, as shown in the samples shipped with the project's source code package.
 
 - [Download All Sample Source Files](https://sourceforge.net/projects/jasperreports/files/jasperreports/JasperReports%20/jasperreports--project.zip/download)
