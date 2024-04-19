@@ -20,7 +20,7 @@ How to fill reports using data source objects.
 
 **Other Samples**\
 [/demo/samples/csvdatasource](../csvdatasource/README.md)\
-[/demo/samples/xlsdatasource](../xlsdatasource/README.md)\
+[/demo/samples/exceldatasource](../exceldatasource/README.md)\
 [/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### Data Sources
