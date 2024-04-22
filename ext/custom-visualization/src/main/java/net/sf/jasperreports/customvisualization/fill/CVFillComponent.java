@@ -27,7 +27,6 @@ import static net.sf.jasperreports.web.util.WebConstants.PROPERTIES_WEB_RESOURCE
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,9 +68,8 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.ResourceInfo;
 
 
-public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
+public class CVFillComponent extends BaseFillComponent implements FillContextProvider
 {
-	private static final long serialVersionUID = CVConstants.SERIAL_VERSION_UID;
 	private static final Log log = LogFactory.getLog(CVFillComponent.class);
 
 	private final CVComponent component;

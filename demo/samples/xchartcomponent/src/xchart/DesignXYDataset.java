@@ -28,6 +28,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
@@ -38,7 +39,7 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 public class DesignXYDataset extends JRDesignElementDataset implements XYDataset
 {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private List<XYSeries> xySeriesList;
 

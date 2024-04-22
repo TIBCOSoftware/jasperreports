@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.util.ReportDeserializer;
+import net.sf.jasperreports.jackson.util.ReportDeserializer;
 
 
 /**

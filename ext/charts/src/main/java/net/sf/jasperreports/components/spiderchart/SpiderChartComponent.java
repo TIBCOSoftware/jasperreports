@@ -33,6 +33,7 @@ import net.sf.jasperreports.components.charts.ChartDataset;
 import net.sf.jasperreports.components.charts.ChartPlot;
 import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
@@ -50,7 +51,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport, JRCloneable
 {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_CHART_SETTINGS = "chartSettings";
 	

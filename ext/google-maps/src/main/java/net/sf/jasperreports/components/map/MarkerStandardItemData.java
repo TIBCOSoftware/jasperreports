@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -31,7 +32,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  */
 public class MarkerStandardItemData extends StandardMarkerItemData 
 {
-	private static final long serialVersionUID = -6250861878178353956L; // identical to StandardMarkerItemData.serialVersionUID
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public MarkerStandardItemData() {
     }

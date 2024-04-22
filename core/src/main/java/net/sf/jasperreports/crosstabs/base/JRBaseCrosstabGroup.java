@@ -29,6 +29,7 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -45,7 +46,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7685014062058258277L;//it's OK to have calculated UID here, because we missed it when first releasing this class
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected String name;
 	protected CrosstabTotalPositionEnum totalPosition = CrosstabTotalPositionEnum.NONE;

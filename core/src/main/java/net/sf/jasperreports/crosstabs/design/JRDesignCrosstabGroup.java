@@ -29,6 +29,7 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstabGroup;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabGroup;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -44,7 +45,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3142244933088846956L;//it's OK to have calculated UID here, because we missed it when first releasing this class
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String PROPERTY_BUCKET = "bucket";
 

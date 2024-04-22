@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.util;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 
 /**
  * Utility class used to pair two objects.
@@ -34,7 +36,7 @@ import java.io.Serializable;
 //FIXME use generics everywhere
 public class Pair<T, U> implements Serializable
 {
-	private static final long serialVersionUID = 1; //too late to replace this now
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final T o1;
 	private final U o2;

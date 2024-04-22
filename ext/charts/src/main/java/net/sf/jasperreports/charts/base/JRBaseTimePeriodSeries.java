@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.JRTimePeriodSeries;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -40,7 +41,7 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 608;// too late to replace this now
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	protected JRExpression seriesExpression;
 	

@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.ReportDeserializer;
+import net.sf.jasperreports.jackson.util.ReportDeserializer;
 
 
 /**

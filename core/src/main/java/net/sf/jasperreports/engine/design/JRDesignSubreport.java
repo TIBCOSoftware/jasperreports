@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.base.JRBaseSubreport;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.ReportDeserializer;
+import net.sf.jasperreports.jackson.util.ReportDeserializer;
 
 
 /**

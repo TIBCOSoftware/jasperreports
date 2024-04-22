@@ -42,6 +42,8 @@ The content of a spider chart component is structured in 3 complementary element
 <li><code>spiderPlot</code> - stores settings available for the spider web plot</li>
 </ul>
 As any other component element, the spider chart provides the <code>evaluationTime</code> and <code>evaluationGroup</code> attributes.
+<br/>
+<br/>
 <subtitle name="chartSettings">Chart Settings In The Spider Chart Component</subtitle>
 <br/>
 <br/>
@@ -91,9 +93,6 @@ category series. It contains the same structure as the <code>&lt;categoryDataset
 <li><code>dataset</code></li>
 <li><code>categorySeries</code></li>
 </ul> 
-Again, the <code>jr:</code> prefix may be omitted in a regular JRXML file.
-<br/>
-<br/>
 <subtitle name="spiderPlot">The Spider Web Plot</subtitle>
 <br/>
 <br/>

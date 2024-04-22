@@ -27,11 +27,11 @@ import java.awt.Color;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
@@ -65,7 +65,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 10001;// too late to replace this now
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_BACKCOLOR = "backcolor";
 	
