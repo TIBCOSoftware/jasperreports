@@ -1,5 +1,5 @@
 
-# JasperReports - Horizontal Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Horizontal Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multi-column report templates could be filled horizontally.
 

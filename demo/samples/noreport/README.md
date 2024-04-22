@@ -1,5 +1,5 @@
 
-# JasperReports - No Report Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No Report Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how final documents can be created without using the reporting engine, but only the API directly.
 

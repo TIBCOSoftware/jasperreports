@@ -1,5 +1,5 @@
 
-# JasperReports - Subreport Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Subreport Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how subreport could be used to create complex document layouts.
 

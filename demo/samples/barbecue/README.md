@@ -1,5 +1,5 @@
 
-# JasperReports - Barbecue Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Barbecue Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how barcodes could be included in reports using the Barbecue component.
 

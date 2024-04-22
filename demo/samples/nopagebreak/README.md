@@ -1,5 +1,5 @@
 
-# JasperReports - No Page Break Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No Page Break Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports can be designed and exported in a way that hides the existence of page breaks.
 

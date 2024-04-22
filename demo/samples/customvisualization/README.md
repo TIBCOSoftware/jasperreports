@@ -1,5 +1,5 @@
 
-# JasperReports - Custom Visualization Components Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Custom Visualization Components Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how JavaScript based visualizations could be included in reports using the Custom Visualization Component.
 

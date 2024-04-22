@@ -1,5 +1,5 @@
 
-# JasperReports - CSV Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - CSV Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the CSV data source and the CSV query executer implementations could be used to fill reports.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - Scriptlet Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Scriptlet Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the scriptlets could be used to manipulate data during report filling.
 

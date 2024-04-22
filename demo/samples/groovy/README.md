@@ -1,5 +1,5 @@
 
-# JasperReports - Groovy Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Groovy Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how the Groovy scripting languages could be used inside report templates.
 
 ### Main Features in This Sample

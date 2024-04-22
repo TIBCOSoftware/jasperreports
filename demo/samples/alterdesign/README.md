@@ -1,5 +1,5 @@
 
-# JasperReports - Alter Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Alter Design Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how compiled report templates can be modified on-the-fly without requiring recompilation.
 

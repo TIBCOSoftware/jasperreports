@@ -1,5 +1,5 @@
 
-# JasperReports - PDF Encrypt Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF Encrypt Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports could be encrypted when exported to PDF.
 

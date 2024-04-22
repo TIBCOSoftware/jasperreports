@@ -1,5 +1,5 @@
 
-# JasperReports - Print Service Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Print Service Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Java Print Service API could be used to print reports.
 

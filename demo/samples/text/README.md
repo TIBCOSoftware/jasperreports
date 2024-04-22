@@ -1,5 +1,5 @@
 
-# JasperReports - Text Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Text Export Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the pure text exporter could be used to export reports to simple text files.
 

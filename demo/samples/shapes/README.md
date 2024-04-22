@@ -1,5 +1,5 @@
 
-# JasperReports - Shapes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Shapes Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how various graphic elements could be used inside report templates.
 

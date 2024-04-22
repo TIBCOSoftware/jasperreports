@@ -1,5 +1,5 @@
 
-# JasperReports - Charts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Charts Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart element could be used to render different types of charts.
 

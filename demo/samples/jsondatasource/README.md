@@ -1,5 +1,5 @@
 
-# JasperReports - JSON Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JSON Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSON data source and the JSON query executer implementations could be used to fill reports.
 

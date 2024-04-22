@@ -1,5 +1,5 @@
 
-# JasperReports - Batch Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Batch Export Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple reports could be concatenated during export.
 

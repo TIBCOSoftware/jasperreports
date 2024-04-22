@@ -1,5 +1,5 @@
 
-# JasperReports - Paragraph Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Paragraph Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to work with paragraphs.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - Tabular Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Tabular Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how a table structure could be created using simple text elements and their border.
 

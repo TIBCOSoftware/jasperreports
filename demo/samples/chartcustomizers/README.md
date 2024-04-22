@@ -1,5 +1,5 @@
 
-# JasperReports - Chart Customizers Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Chart Customizers Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to use multiple chart customizers on the same chart
 

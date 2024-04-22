@@ -1,5 +1,5 @@
 
-# JasperReports - Ant Compile Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Ant Compile Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - PDF Forms Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF Forms Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how to generate editable PDF content using JasperReports.
 
 ### Main Features in This Sample

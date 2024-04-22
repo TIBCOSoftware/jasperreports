@@ -1,5 +1,5 @@
 
-# JasperReports - XChart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XChart Component Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how XChart components can be included in reports.
 
 ### Main Features in This Sample

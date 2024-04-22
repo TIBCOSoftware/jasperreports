@@ -1,5 +1,5 @@
 
-# JasperReports - Table of Contents Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Table of Contents Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how table-of-contents structures could be created for the generated reports.
 

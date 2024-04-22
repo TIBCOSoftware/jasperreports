@@ -1,5 +1,5 @@
 
-# JasperReports - Advanced Excel Features Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Advanced Excel Features Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the specific Excel features could be turned on when exporting to Excel formats.
 

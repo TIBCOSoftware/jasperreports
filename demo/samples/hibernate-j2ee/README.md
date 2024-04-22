@@ -1,5 +1,5 @@
 
-# JasperReports - Hibernate Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Hibernate Sample (Using Legacy Java EE API) <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how HQL could be used in reports.
 

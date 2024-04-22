@@ -1,5 +1,5 @@
 
-# JasperReports - XChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XChart Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how third-party charting APIs could be used for rendering charts as images.
 

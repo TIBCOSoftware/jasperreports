@@ -1,5 +1,5 @@
 
-# JasperReports - XML Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XML Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in XPath-based data source could be used for reporting out of XML data.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - Date Range Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Date Range Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows different ways the DATERANGE function can be used to generate a complex document.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - Map Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Map Component Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the map component element.
 

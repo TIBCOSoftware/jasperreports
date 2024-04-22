@@ -1,5 +1,5 @@
 
-# JasperReports - PDF/A Conformance Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF/A Conformance Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to generate PDF/A compliant documents.
 

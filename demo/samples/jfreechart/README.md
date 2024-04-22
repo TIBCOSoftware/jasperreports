@@ -1,5 +1,5 @@
 
-# JasperReports - JFreeChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JFreeChart Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how third-party charting APIs could be used for rendering charts as images.
 

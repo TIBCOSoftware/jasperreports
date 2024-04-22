@@ -1,5 +1,5 @@
 
-# JasperReports - Query Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Query Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the report query can be build dynamically using report parameters.
 

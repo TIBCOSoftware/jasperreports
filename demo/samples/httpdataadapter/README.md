@@ -1,5 +1,5 @@
 
-# JasperReports - HTTP Data Adapter Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - HTTP Data Adapter Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the HTTP data adapters can be used to fill reports.
 

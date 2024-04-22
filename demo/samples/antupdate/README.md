@@ -1,4 +1,4 @@
-# JasperReports - Ant Update Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Ant Update Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.
 

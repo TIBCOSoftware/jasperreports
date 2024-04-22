@@ -1,5 +1,5 @@
 
-# JasperReports - Jasper Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Jasper Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how different features of the library could be used to generate a complex document.
 

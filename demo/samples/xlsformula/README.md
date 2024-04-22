@@ -1,5 +1,5 @@
 
-# JasperReports - XLS Formula Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XLS Formula Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how formulas could be introduced in reports exported to XLS format.
 

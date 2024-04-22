@@ -1,5 +1,5 @@
 
-# JasperReports - Hyperlink Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Hyperlink Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how hyperlinks and anchors could be used in report templates.
 

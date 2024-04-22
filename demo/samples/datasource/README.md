@@ -1,5 +1,5 @@
 
-# JasperReports - Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how custom or JavaBean-based data source implementations could be used to fill reports.
 

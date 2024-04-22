@@ -1,5 +1,5 @@
 
-# JasperReports - Styled Text Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Styled Text Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the styled-text feature works in static and dynamic text elements.
 

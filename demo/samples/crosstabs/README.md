@@ -1,5 +1,5 @@
 
-# JasperReports - Crosstabs Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Crosstabs Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Crosstab and subdataset sample.
 

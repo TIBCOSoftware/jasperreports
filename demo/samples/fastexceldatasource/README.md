@@ -1,3 +1,3 @@
 
-# JasperReports - Fastexcel Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Fastexcel Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 This page is under construction

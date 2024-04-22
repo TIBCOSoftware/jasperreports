@@ -1,5 +1,5 @@
 
-# JasperReports - No XML Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No XML Design Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how in-memory JasperDesign objects can be created without using the JRXML design template, but only the API directly.
 

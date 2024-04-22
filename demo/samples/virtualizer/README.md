@@ -1,5 +1,5 @@
 
-# JasperReports - Virtualizer Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Virtualizer Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.
 

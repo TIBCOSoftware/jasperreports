@@ -1,5 +1,5 @@
 
-# JasperReports - Unicode Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Unicode Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how text in different languages could be used inside reports.
 

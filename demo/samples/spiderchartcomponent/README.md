@@ -1,5 +1,5 @@
 
-# JasperReports - JFreeChart Spider Chart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JFreeChart Spider Chart Component Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in spider chart component can be included in reports.
 

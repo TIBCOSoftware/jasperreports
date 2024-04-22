@@ -1,5 +1,5 @@
 
-# JasperReports - Landscape Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Landscape Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports can be generated and printed in "Landscape" page format.
 

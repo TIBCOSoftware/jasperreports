@@ -1,5 +1,5 @@
 
-# JasperReports - Accessible Reports Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Accessible Reports Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to create accessible reports.
 

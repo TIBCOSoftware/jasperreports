@@ -1,5 +1,5 @@
 
-# JasperReports - Table Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Table Component Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the table component element.
 

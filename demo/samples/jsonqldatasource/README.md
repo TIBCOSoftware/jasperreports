@@ -1,5 +1,5 @@
 
-# JasperReports - JSONQL Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JSONQL Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSONQL data source and the JSONQL query executer implementations could be used to fill reports.
 

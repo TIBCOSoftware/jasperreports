@@ -1,5 +1,5 @@
 
-# JasperReports - JavaScript Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JavaScript Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JavaScript language could be used inside report templates.
 

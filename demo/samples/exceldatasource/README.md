@@ -1,5 +1,5 @@
 
-# JasperReports - Excel Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Excel Data Source Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Excel data source implementation could be used to fill reports.
 

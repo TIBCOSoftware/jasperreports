@@ -1,5 +1,5 @@
 
-# JasperReports - Rotation Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Rotation Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how rotated text could be used in report templates.
 

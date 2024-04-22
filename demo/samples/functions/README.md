@@ -1,5 +1,5 @@
 
-# JasperReports - Functions Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Functions Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the functions could be used inside report template expressions.
 

@@ -1,5 +1,5 @@
 
-# JasperReports - Java 1.5 Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Java 1.5 Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how Java 1.5 could be used inside report templates.
 

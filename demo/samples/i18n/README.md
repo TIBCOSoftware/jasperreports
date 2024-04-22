@@ -1,5 +1,5 @@
 
-# JasperReports - I18n Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - I18n Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how a report could be rendered in different languages.
 
 ### Main Features in This Sample

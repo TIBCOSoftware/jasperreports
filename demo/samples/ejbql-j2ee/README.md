@@ -1,5 +1,5 @@
 
-# JasperReports - EJBQL Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - EJBQL Sample (Using Legacy Java EE API) <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how EJBQL could be used in reports, based on the legacy Java EE API.
 

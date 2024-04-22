@@ -1,5 +1,5 @@
 
-# JasperReports - Markup Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Markup Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the text markup feature works in static and dynamic text elements.
 

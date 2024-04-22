@@ -1,5 +1,5 @@
 
-# JasperReports - Stretch Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Stretch Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how dynamic text fields can stretch to display their entire content and different ways to put a border around such text fields.
 

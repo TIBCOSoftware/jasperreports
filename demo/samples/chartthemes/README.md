@@ -1,5 +1,5 @@
 
-# JasperReports - Chart Themes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Chart Themes Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart themes could be used to change the look and feel of all chart types.
 

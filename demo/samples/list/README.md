@@ -1,5 +1,5 @@
 
-# JasperReports - List Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - List Component Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Illustrates the usage of the list component element.
 
 ### Main Features in This Sample

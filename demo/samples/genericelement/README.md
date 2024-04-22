@@ -1,5 +1,5 @@
 
-# JasperReports - Generic Element Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Generic Element Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how generic elements embedded in reports can be managed at export time by custom handlers.
 
