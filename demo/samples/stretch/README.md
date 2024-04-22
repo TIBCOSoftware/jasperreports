@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Stretch Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Stretch Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how dynamic text fields can stretch to display their entire content and different ways to put a border around such text fields.
 
@@ -82,6 +82,7 @@ In some situations preserving the initial layout takes precedence over any other
 ### Text Truncation and Element Stretching Examples
 
 This sample provides some examples of element stretching and text truncations. One can see various combinations between different elements stretching attributes (`positionType, stretchType, textAdjust`):
+
 ```
 <element kind="elementGroup">
   <element kind="line" positionType="Float" stretchType="ElementGroupHeight" x="145" y="5" width="1" height="1" printWhenDetailOverflows="true"/>
@@ -98,11 +99,14 @@ by setting a property. This sentence might not fit fully in the space reserved f
   <property name="net.sf.jasperreports.text.truncate.at.char" value="true"/>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/stretch ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/stretch/target/reports` directory.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Crosstabs Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Crosstabs Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Crosstab and subdataset sample.
 
@@ -94,6 +94,7 @@ The current value of a measure calculation is stored in a variable having the sa
 - `COLUMN_COUNT` - variable that counts the columns in a column group
 
 **Note:** Based on the `ROW_COUNT` and `COLUMN_COUNT` one can generate alternate colors for rows or columns in a crosstab, using conditional styles:
+
 ```
 <style name="RowStyle" default="false" mode="Opaque">
   <conditionalStyle>
@@ -108,8 +109,8 @@ or:
     <style backcolor="#E0E0E0"/>
   </conditionalStyle>
 </style>
-
 ```
+
 ### Crosstab Cells
 
 A crosstab cell is a rectangular report element that can contain any kind of other report element, except subreports, charts, and crosstabs. Usually, crosstab cells can be either detail cells (when its both row/column correspond to a bucket value), or total cells (when at least the row or column corresponds to a group total value).
@@ -164,15 +165,19 @@ This is the most complex report sample.
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/crosstabs` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/crosstabs/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -219,6 +224,7 @@ User-defined datasets are declared as <subDataset/> elements. To completely char
 Subdatasets are useful only in conjunction with some other complex elements, such as charts and crosstabs, that need to iterate through data not belonging to the main report data source itself, to retrieve specific data for the chart or perform data bucketing for the crosstab. Just simply declaring a dataset at the report level does not have any effect. The dataset has to be further referenced by a chart or crosstab element, in order to be used.
 
 Anytime a dataset is referenced by another report element, a `dataset run` is instantiated. A `dataset run` supplies additional information about either the appropriate data source to be iterated, or the database connection string. It comes also with its own parameters and/or parameters map. Dataset runs are similar to subreports in the way parameters and the data source/connection are passed in. For instance:
+
 ```
 <datasetRun subDataset="Customer_Quantity">
   <parameter name="CityParam">
@@ -226,6 +232,7 @@ Anytime a dataset is referenced by another report element, a `dataset run` is in
   </parameter>
 </datasetRun>
 ```
+
 The `subDataset` attribute is mandatory and contains the name of the subdataset to be used during the chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of the report is used by default.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -320,6 +327,7 @@ All the above properties are exclusively used to override features of the elemen
 This is because styles cannot be defined at element level, and dynamic style features are intended only for overriding an existing style attribute for that element. For dynamic style definitions one can use conditional styles in the report.
 
 Following is an example of dynamic style features declared for a given element in JRXML:
+
 ```
 <element kind="textField" x="0" y="0" width="0" height="10">
   ...
@@ -328,11 +336,12 @@ Following is an example of dynamic style features declared for a given element i
   <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$P{Backcolor}]] ></propertyExpression>
   <propertyExpression name="net.sf.jasperreports.style.fontName"><![CDATA[$V{FontName}]] ></propertyExpression>
 </element>
-
 ```
+
 ### Dynamic Styles Example
 
 The `OrdersReport.jrxml` file in the crosstabs sample uses a dynamic style feature in order to allow different background color tones in crosstab cells, based on the value of the cell content relative to the grand total. For elements in detail cells the backcolor style feature was set using the following property expression:
+
 ```
 <element kind="textField" mode="Opaque" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="OrderCountStyle">
   <expression><![CDATA[$V{OrderCount}]] ></expression>
@@ -343,6 +352,7 @@ The `OrdersReport.jrxml` file in the crosstabs sample uses a dynamic style featu
                   255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]] ></propertyExpression>
 </element>
 ```
+
 After running the sample we'll see the red background of crosstab cells colored more or less intensely depending on the value of the `OrderCount` measure as percent of `OrderCount_CountryRow_FreightColumn_ALL` quantity. Cells with `OrderCount = 0` display a white background.
 
 

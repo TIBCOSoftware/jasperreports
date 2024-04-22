@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - No Report Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No Report Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how final documents can be created without using the reporting engine, but only the API directly.
 
@@ -49,6 +49,7 @@ Therefore, creating a [JasperPrint](https://jasperreports.sourceforge.net/api/ne
 
 This sample shows how to create an in-memory [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object. The sample doesn't contain any JRXML template file. The [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object is hardcoded in the `src/NoReportApp.java` file (see the `getJasperPrint()` method).
 Report compilation and filling are no more necessary.
+
 ```
 private static JasperPrint getJasperPrint() throws JRException
 {
@@ -160,7 +161,9 @@ private static JasperPrint getJasperPrint() throws JRException
   return jasperPrint;
 }
 ```
+
 The Ant `compile` task is no longer necessary. When the fill task is performed, the only things it has to perform is to call the `getJasperPrint()` method, which produces an already filled [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object, and to save this in-memory object in a `*.jrprint` file:
+
 ```
   public void fill() throws JRException
   {
@@ -172,11 +175,14 @@ The Ant `compile` task is no longer necessary. When the fill task is performed, 
     System.err.println("Filling time : " + (System.currentTimeMillis() - start));
   }
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/noreport` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/noreport/target/reports` directory.

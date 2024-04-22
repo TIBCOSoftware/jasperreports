@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how custom or JavaBean-based data source implementations could be used to fill reports.
 
@@ -85,12 +85,14 @@ When creating a report template using GUI tools, a special tool for customizing 
 This is the standard way to plug custom data sources into a design tool.
 
 A custom implementation of this interface should implement the following methods that allow creating and disposing of data source objects and also methods for listing the available report fields inside the data source if possible:
+
 ```
 public boolean supportsGetFieldsOperation();
 public JRField[] getFields(JasperReport report) throws JRException, UnsupportedOperationException;
 public [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) create(JasperReport report) throws JRException;
 public void dispose([JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) dataSource) throws JRException;
 ```
+
 <div align="right"><a href='#top'>top</a></div>
 
 ---
@@ -112,6 +114,7 @@ The datasource sample shows how to implement some of the data sources enumerated
 - if the argument is `fill4` then data will be extracted from the `CustomBeanFactory` object as `JavaBean` Collection.
 
 When the argument is `fill1` the data source is created from scratch. It contains an array of `Object` arrays, representing records of data, and a record index:
+
 ```
  private Object[][] data =
   {
@@ -149,7 +152,9 @@ When the argument is `fill1` the data source is created from scratch. It contain
 
   private int index = -1;
 ```
+
 The `next()` and `getFieldValue(JRField)` methods are implemented in order to make possible iteration through data records and field values retrieving for a given record. Field names are assumed to be: `the_city`, `id`, `name` and `street`, in this order (see the `/src/CustomDataSource.java` source file).
+
 ```
  public boolean next() throws JRException
  {
@@ -182,7 +187,9 @@ The `next()` and `getFieldValue(JRField)` methods are implemented in order to ma
   return value;
  }
 ```
+
 At fill time a `CustomDataSource` object is passed as argument to the `fillReportToFile()` method in the [JasperFillManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperFillManager.html) class (see the the `/src/DataSourceApp.java` file): Let's take a look at related methods in the `/src/DataSourceApp.java` file:
+
 ```
  public void fill1() throws JRException
  {
@@ -197,10 +204,13 @@ At fill time a `CustomDataSource` object is passed as argument to the `fillRepor
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ```
+
 In order to figure out more on custom data sources behavior, just test this sample by running from the command line the 
+
 ```
-> mvn clean compile exec:java -Dexec.args="compile fill1 view"
+.> mvn clean compile exec:java -Dexec.args="compile fill1 view"
 ```
+
 command. It will generate the sample report in the `/target/reports` directory, filling it with data extracted from the `CustomDataSource` object.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -234,6 +244,7 @@ A special field mapping can be used to access the current `JavaBean` object itse
 ### JavaBean Data Sources Example
 
 In our concrete example a factory class is used to provide `JavaBean` data sources either as `JavaBean` arrays or as `JavaBean` collections. The `JavaBean` is defined in the `/src/CustomBean.java` file. It contains 4 accessible properties, and a supplementary `getMe()` method which returns a reference to the object itself:
+
 ```
 public class CustomBean
 {
@@ -281,13 +292,17 @@ public class CustomBean
  }
 }
 ```
+
 Note that one of the `CustomBean` properties is named `city`. In the report template there is no corresponding field named `city`. A field named `the_city` exists instead. In this case, the field mapping is done through the `net.sf.jasperreports.javabean.field.property` custom field property, as described in the [JavaBean Data Sources](#javaBeanDS) section. The `CustomBean` object is referred to as me, with the associated getter `getMe()` method:
+
 ```
   <field name="the_city" class="java.lang.String">
     <property name="net.sf.jasperreports.javabean.field.property" value="me.city"/>
   </field>
 ```
+
 The factory class is defined in the `/src/CustomBeanFactory.java` file. It contains an array of CustomBean objects and two getter methods:
+
 ```
 public class CustomBeanFactory
 {
@@ -336,12 +351,14 @@ public class CustomBeanFactory
  }
 }
 ```
+
 Using the same report template, it could be filled with data provided either as `CustomBean` array or as `CustomBean` Collection, depending on the fill argument used with the mvn command:
 
 - if the argument is `fill3` then data will be extracted as `JavaBean` array, using the `getBeanArray()` method. At fill time, a [JRBeanArrayDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html) object is passed as argument to the `fillReportToFile()` method in the [JasperFillManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperFillManager.html) class.
 - if the argument is `fill4` then data will be extracted as `JavaBean` Collection (`java.util.List`), using the `getBeanCollection()` method. At fill time, a [JRBeanCollectionDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html) object is passed as argument to the `fillReportToFile()` method in the [JasperFillManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperFillManager.html) class.
 
 Let's take a look at related report filling methods in the `/src/DataSourceApp.java` file:
+
 ```
  public void fill3() throws JRException
  {
@@ -369,14 +386,19 @@ Let's take a look at related report filling methods in the `/src/DataSourceApp.j
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ```
+
 In order to figure out more on `JavaBean` data sources behavior, just test this sample by running from the command line the 
+
 ```
-mvn clean compile exec:java -Dexec.args="compile fill3 view"
+.> mvn clean compile exec:java -Dexec.args="compile fill3 view"
 ```
+
 command and then 
+
 ```
-mvn clean compile exec:java -Dexec.args="compile fill4 view"
+.> mvn clean compile exec:java -Dexec.args="compile fill4 view"
 ```
+
 It will generate the sample report filling it with data extracted from a [JRBeanArrayDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html) data source, and then the same report will be generated with data extracted from a[JRBeanCollectionDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html) data source.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -404,6 +426,7 @@ An example of `TableModel` data source implementation is provided in the followi
 ### TableModel Data Source Example
 
 In our example the `TableModel` data source is implemented in the `/src/CustomTableModel.java` file. It contains an array of column names and an array of `Object` arrays, representing records of data in the data source. Column names are identical to their related field names in the report template: `the_city, id, name` and `street`. Methods required by the `javax.swing.table.AbstractTableModel` parent class are also implemented.
+
 ```
  public class CustomTableModel extends AbstractTableModel
  {
@@ -468,7 +491,9 @@ In our example the `TableModel` data source is implemented in the `/src/CustomTa
   }
  }
 ```
+
 When the `mvn` command is used with the `fill2` argument, at fill time a [JRTableModelDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRTableModelDataSource.html) object is passed as argument to the `fillReportToFile()` method in the [JasperFillManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperFillManager.html) class (see the `/src/DataSourceApp.java` file):
+
 ```
  public void fill2() throws JRException
  {
@@ -483,11 +508,14 @@ When the `mvn` command is used with the `fill2` argument, at fill time a [JRTabl
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/datasource` within the JasperReports source project and run the following command:
 
-> mvn clean compile exec:exec@all
+```
+.> mvn clean compile exec:exec@all
+```
 
 It will generate all supported document types containing the sample report in the `demo/samples/datasource/target/reports` directory.

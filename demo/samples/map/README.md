@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Map Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Map Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the map component element.
 
@@ -288,6 +288,7 @@ The JRXML sample contains five map components that illustrate how various settin
 **Map #1: Simple Road Map**
 
 The first map is loaded from the `reports/MapReport1.jrxml` template, and illustrates a road map with minimal settings. There are no markers and no additional information on the map:
+
 ```
 <element kind="component" positionType="Float" y="255" width="515" height="326">
   <component kind="googlemap" evaluationTime="Report" onErrorType="Icon">
@@ -298,9 +299,11 @@ The first map is loaded from the `reports/MapReport1.jrxml` template, and illust
   </component>
 </element>
 ```
+
 **Map #2: Satellite Map with Default Marker Icons**
 
 The second map is loaded from the `reports/MapReport2.jrxml` template. One can notice the `mapType="satellite" mapScale="1" imageType="jpg"` attribute settings. The satellite map also contains a set of 5 markers with default icons and tooltips enabled. All marker settings are grouped in the `<markerData/>` section which collects its data from the `MarkersDataset` subdataset. Data with invalid latitude/longitude values are skipped due to the `<filterExpression/>` in the subdataset:
+
 ```
 <dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
@@ -313,7 +316,9 @@ The second map is loaded from the `reports/MapReport2.jrxml` template. One can n
   </filterExpression>
 </dataset>
 ```
+
 The map component configuration is the following:
+
 ```
 <element kind="component" positionType="Float" y="150" width="515" height="326">
   <component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
@@ -344,9 +349,11 @@ The map component configuration is the following:
 </component>
 </element>
 ```
+
 **Map #3: Terrain Map with Custom Marker Icons**
 
 The 3rd map is a terrain sample loaded from the r`eports/MapReport3.jrxml` template. It comes with the same set of markers as Map #2, but this time marker icons are loaded from custom URLs, with the specified width and height. Below is the map component configuration (and the subdataset):
+
 ```
 <dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
@@ -395,11 +402,13 @@ The 3rd map is a terrain sample loaded from the r`eports/MapReport3.jrxml` templ
   </component>
 </element>
 ```
+
 **Map #4: Satellite Map with Marker Hyperlinks and Paths**
 
 In the 4th sample loaded from the `reports/MapReport4.jrxml` template the same set of markers with default icons are placed on a satellite map. This time marker icons display custom colors, and in static maps only, custom sizes. Marker tooltips are disabled, but markers provide hyperlinks. Clicking on a marker icon will open a new browser window/tab with related information. In addition, all markers are connected to form a green polygonal contour and two of them are also connected with a blue line.
 
 Two additional subdatasets were added in order to generate path styles and path data.See the configuration below:
+
 ```
 <dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
@@ -528,9 +537,11 @@ Two additional subdatasets were added in order to generate path styles and path 
   </component>
 </element>
 ```
+
 **Map #5: Hybrid Map with Custom Icons and Info Windows**
 
 The last sample is loaded from `reports/MapReport5.jrxml` template. Markers provide custom icons and tooltips. Clicking on a marker icon will open an info window with related information about the marker position. The value of the `infowindow.content` property is a HTML fragment with escaped open and end tags.
+
 ```
 <dataset name="MarkersDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
@@ -585,11 +596,14 @@ The last sample is loaded from `reports/MapReport5.jrxml` template. Markers prov
   </component>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/map` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/map/target/reports` directory.

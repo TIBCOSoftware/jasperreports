@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Query Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Query Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the report query can be build dynamically using report parameters.
 
@@ -46,19 +46,23 @@ report user (example: A user may provide a start and end date for which they wan
 
 Using `$P{}` in the report query is for situations where the query is fixed at design time and you only wish to inject values into the
 query before it is executed.
+
 ```
   <query>
     <![CDATA[SELECT Id, FirstName, LastName, Street, City
       FROM Address WHERE City = $P{CityParam}]] >
   </query>
 ```
+
 If we changed the query this way and turned on Debugging for the [JRJdbcQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html) in an application running this report,
 we would get an output like this (the hosting application also collected the value for the parameter and supplied it to JasperReports
 when it was time to Fill the report):
+
 ```
     2010-03-11 12:47:53,648 DEBUG JRJdbcQueryExecuter,http-8080-5:155 - SQL query string: SELECT Id, FirstName, LastName, Street, City FROM Address WHERE City = ?
     2010-03-11 12:47:53,660 DEBUG JRJdbcQueryExecuter,http-8080-5:252 - Parameter #1 (city of type java.lang.String): New York
 ```
+
 In this case the query as seen above and the parameter are passed to the database via the JDBC Driver (MySQL in this example) to be executed.
 
 As report developers we don't have to worry about adding quotes around the String value for city in the query as that will be done for us.
@@ -68,17 +72,21 @@ This illustrates one way of injecting values into the query.
 **`$P!{}`**
 
 Using `$P!{}` allows you to modify the query syntax itself. The query in the sample uses this:
+
 ```
   <query>
     <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField
       FROM Address ORDER BY $P!{OrderClause}]] >
   </query>
 ```
+
 If we run the report in an application and collect values for the parameters (`OrderBy` was given the value `'LastName'`) we will see an output like this:
+
 ```
     2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address ORDER BY LastName
     2010-03-11 13:01:05,821 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #1 (ExcludedCities[0] of type java.lang.String): New York
 ```
+
 Here we can see the value of `$P!{OrderClause}` was added into the query directly by JasperReports. For this reason, when working with `$P!{}` you must ensure
 any values collected will not result in a syntax error in the query as they will be inserted directly into the query. However this does give us the power
 to modify the query entirely. For example we could have set the whole `'ORDER BY'` clause using `$P!{}`, or chosen to omit it entirely.
@@ -88,6 +96,7 @@ to modify the query entirely. For example we could have set the whole `'ORDER BY
 There are also cases when just using $P{} in the report query is not enough, because parts of the query need to be dynamically built, depending on one or more report parameter values, in order to construct a valid query. The most common case is the `<column_name> = $P{<param_name>}` equality clause. When the value of the parameter is null, the expression `<column_name> = NULL` becomes invalid and it has to be replaced with `<column_name> IS NULL`. Another case comes with `IN` and `NOT IN` query clauses that need to use a collection report parameter as a list of values, unavailable for the simple `$P{}` syntax.
 
 Such complex query clauses are introduced into the query using the $X{} syntax. The general form of a `$X{}` clause is `$X{functionName, param1, param2,...}`.
+
 ```
   <query>
     <![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField
@@ -96,7 +105,9 @@ Such complex query clauses are introduced into the query using the $X{} syntax. 
       ORDER BY $P!{OrderClause}]] >
   </query>
 ```
+
 Similar to the `$P{}` explanation above, `$X{}` results in ? being added to the query before submitting it to the DB. Also submitted are the values collected leaving it to the JDBC driver to add the values in and ensure the syntax of the query is correct.
+
 ```
     2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string:
       SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE City NOT IN (?) ORDER BY LastName
@@ -264,6 +275,7 @@ If the right parameter's value is null, the function constructs a `<column_name>
 If both parameter values are null, the function generates a SQL clause that will always evaluate to `true` (e.g. `0 = 0`).
 
 In this sample the query string contains a `$X{NOTIN, City, ExcludedCities}` piece of code:
+
 ```
   <parameter name="ExcludedCities" class="java.util.Collection"/>
   <parameter name="OrderClause" class="java.lang.String"/>
@@ -274,7 +286,9 @@ In this sample the query string contains a `$X{NOTIN, City, ExcludedCities}` pie
       ORDER BY $P!{OrderClause}]] >
   </query>
 ```
+
 If we run the report again and pass two values into `$P{ExcludedCities}`:
+
 ```
     2010-03-11 13:25:23,300 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string:
       SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField FROM Address WHERE City NOT IN (?, ?) ORDER BY LastName
@@ -305,9 +319,11 @@ The most convenient way to configure a report element appearance is to use the s
 In case there are several reports that need to work with very similar (or identical) styles, a good practice would be to define those styles only once in an external style template file (`*.jrtx`), and then refer to this template everywhere it is needed. All styles defined in a style template become visible in the report after it is referenced via the `<template/>` tag. For more information about style templates you could take a look at [Templates](../templates/README.md)) sample.
 
 In our report sample we can see this style template declaration:
+
 ```
   <template><![CDATA["ReportStyles.jrtx"]] ></template>
 ```
+
 In various situations we need to configure elements' L&F depending on certain conditions that will be evaluated at runtime. For instance, generating alternate row colors in a table with a large number of rows, or using different text styles and colors that depend on the current value of the element. In such cases we need a tool for setting up different style features for the same element or cell. Conditional styles are used to solve this problem. They can be defined either in the report itself, or, for some particular values, in style templates.
 
 For more information about conditional styles defined in reports you could take a look at [Jasper](../jasper/README.md)) sample.
@@ -326,6 +342,7 @@ Complex expressions are not allowed. And because they represent a condition, the
 ### Conditional Styles in the Query Sample
 
 Let's take a look at the content of the external `ReportStyles.jrtx` template file. We'll see the following style definitions:
+
 ```
   <jasperTemplate>
     <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true"/>
@@ -348,6 +365,7 @@ Let's take a look at the content of the external `ReportStyles.jrtx` template fi
     </style>
   </jasperTemplate>
 ```
+
 There are 3 static styles in this template, followed by 3 conditional styles:
 
 - The `RowStyle` depends on the $V{ConditionalRow} boolean variable and configures the element's backcolor when the condition is met. It will be used in the report to generate alternate row colors in a tabular structure.
@@ -355,47 +373,61 @@ There are 3 static styles in this template, followed by 3 conditional styles:
 - The `TitleStyle` depends on the `$P{ConditionalParam}` boolean parameter and configures the element's font size and font weight when the condition is met. It will decorate the report title in our sample.
 
 Now let's see how were these styles referred to in the report. First, we referenced the external style template file:
+
 ```
   <template><![CDATA["ReportStyles.jrtx"]] ></template>
 ```
+
 Then, we declared a boolean parameter, for instance named `ConditionalParam`:
+
 ```
 <parameter name="ConditionalParam" class="java.lang.Boolean">
   <defaultValueExpression><![CDATA[true]] ></defaultValueExpression>
 </parameter>
 ```
+
 Then, we have a report query that retrieves at least a `Boolean` field (here identified as `ConditionalField`):
+
 ```
 <query language="sql"><![CDATA[SELECT Id, FirstName, LastName, Street, City, (Id < 30) as ConditionalField
   FROM Address
   WHERE $X{NOTIN, City, ExcludedCities}
   ORDER BY $P!{OrderClause}]] ></query>
 ```
+
 Finally, we have a boolean report variable (named `ConditionalRow`) that depends on the built-in `CityGroup_COUNT` variable:
+
 ```
   <variable name="ConditionalRow" resetType="Group" resetGroup="CityGroup" class="java.lang.Boolean">
     <expression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]] ></expression>
     <initialValueExpression><![CDATA[null]] ></initialValueExpression>
   </variable>
 ```
+
 After ensuring the needed parameter, field or variable are present in the report, we just use the style attribute of the element to reference the needed style. For instance, for the text element in the title section:
+
 ```
 <element kind="textField" y="10" width="515" height="35" hTextAlign="Center" blankWhenNull="true" style="TitleStyle">
 	<paragraph lineSpacing="Single"/>
 	<expression><![CDATA[$P{ReportTitle}]] ></expression>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/query` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/query/target/reports` directory.

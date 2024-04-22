@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Text Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Text Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the pure text exporter could be used to export reports to simple text files.
 
@@ -48,10 +48,12 @@ Other useful configuration settings are:
 The `demo/samples/text/reports/TextReport.jrxml` template contains an example of report design prepared for the plain text export.
 
 One has to pay attention to the following properties defined in the report:
+
 ```
 <property name="net.sf.jasperreports.export.text.character.width" value="7.238"/>
 <property name="net.sf.jasperreports.export.text.character.height" value="13.948"/>
 ```
+
 They assume that characters are 7.238px wide and 13.948px high. Having a page width of 798px and a page height of 1000px, it follows that pages in the generated text document will count 110 characters per line and 71 lines per page.
 
 Also notice that element sizes are set enough large to make room for all their content to be represented in the plain text output.
@@ -60,13 +62,17 @@ Also notice that element sizes are set enough large to make room for all their c
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/text ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/text/target/reports` directory.

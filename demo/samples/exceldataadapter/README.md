@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Excel Data Adapter Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Excel Data Adapter Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Excel data adapters can be used to fill reports.
 
@@ -51,6 +51,7 @@ When reporting data is stored in Microsoft Excel files (either XLSX or XLS forma
 ### The Excel Data Adapter
 
 The built-in Excel data adapter tool can be used to create and populate an Excel data source. Necessary parameters or properties can be set using the existing [ExcelDataAdapter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/excel/ExcelDataAdapter.html) implementation:
+
 ```
 public interface ExcelDataAdapter extends XlsDataAdapter
 {
@@ -78,6 +79,7 @@ public interface XlsDataAdapter extends DataAdapter
   public void setSheetSelection(String sheetSelection);
 }
 ```
+
 All operations required to create and populate the Excel data source are performed in the [ExcelDataAdapterService](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/excel/ExcelDataAdapterService.html) class.
 The `isQueryExecuterMode()` setting specifies whether the built-in [ExcelQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/ExcelQueryExecuter.html) class will be used to prepare the data source. If not set, the data source will be created and populated by the [ExcelDataAdapterService](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/excel/ExcelDataAdapterService.html).
 
@@ -92,6 +94,7 @@ There are 4 distinct configurations in this sample, all of them saved in the dat
 - `ExcelXlsxQeDataAdapter.jrdax` - reads data from the same XLSX data file, but works in query executer mode
 
 Below is the content of the `ExcelXlsDataAdapter.jrdax`:
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <excelDataAdapter class="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
@@ -117,6 +120,7 @@ Below is the content of the `ExcelXlsDataAdapter.jrdax`:
   <format>xls</format>
 </excelDataAdapter>
 ```
+
 One can see there are 6 columns with their 0-based indexes (0,2,3,4,5,6) and appropriate names: (`city, id, name, address, state, date`). The second column (ie the one having the index 1) is an empty column, so it can be omitted. Dates are represented using the `"yyyy-MM-dd"` date pattern and numbers are represented as integer values with the `"#,##0"` number pattern. The first row in the data file may not be used as column names holder and the data adapter doesn't work in query executer mode.
 
 Data are read from a single sheet named `xlsdatasource2`. This is the second sheet in the data file.
@@ -131,6 +135,7 @@ For each data adapter there is a JRXML file to be compiled, filled and exported 
 
 Settings for data adapter are very simple in JRXML files. We need to set the `net.sf.jasperreports.data.adapter` report property to point to the appropriate data adapter configuration. We also have to define the fields to be picked up from the data source.\
 For instance, in the `ExcelXlsDataAdapterReport.jrxml` we have the following settings:
+
 ```
 <property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsDataAdapter.jrdax"/>
 ...
@@ -146,11 +151,13 @@ For instance, in the `ExcelXlsDataAdapterReport.jrxml` we have the following set
 ...
 <filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]] ></filterExpression>
 ```
+
 We can notice that data can be sorted as well as filtered in such a dataset.
 
 Similar settings can be found in the `ExcelXlsxDataAdapterReport.jrxml` file.
 
 If the data adapter is designed to work in query executer mode (ie `<queryExecuterMode>true</queryExecuterMode>`), we need to add a query string in the JRXML file. The query language should be set to `"excel"` (or `"EXCEL"`). An example can be seen in the `ExcelXlsQeDataAdapterReport.jrxml` file:
+
 ```
 <property name="net.sf.jasperreports.data.adapter" value="/data/ExcelXlsQeDataAdapter.jrdax"/>
 ...
@@ -169,9 +176,11 @@ If the data adapter is designed to work in query executer mode (ie `<queryExecut
 ...
 <filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]] ></filterExpression>
 ```
+
 Similar settings can be found in the `ExcelXlsxQeDataAdapterReport.jrxml` file.
 
 After having all the necessary input prepared as shown above, we can now fill the report. See the `fill()` method in the `src/ExcelDataAdapterApp.java` class:
+
 ```
 public void fill() throws JRException
 {
@@ -215,13 +224,16 @@ public void fill() throws JRException
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 One can notice that there are no data source or connection parameters for the `fillReportToFile(...)` method. The data adapter will prepare for us the needed data source before filling the report.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/exceldataadapter` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/exceldataadapter/target/reports` directory.

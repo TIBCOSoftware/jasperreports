@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Tabular Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Tabular Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how a table structure could be created using simple text elements and their border.
 
@@ -38,6 +38,7 @@ Attributes that should be carefully handled are:
 The `TabularReport.jrxml` in the sample shows how to create a table using the page header section to generate the table header, the detail section to generate the table rows, and the column footer section to generate column footers. If the JRXML file is open with a report design viewer (such as iReport or JasperStudio), one can see the elements being perfectly aligned, both horizontally and vertically.
 
 Let's take a closer look at how the last three elements in the page header section were configured:
+
 ```
 <pageHeader height="30">
   ...
@@ -77,6 +78,7 @@ Let's take a closer look at how the last three elements in the page header secti
   </element>
 </pageHeader>
 ```
+
 Notice that the `Header 4` element is only 15 pixels high, while the band height is 30. It means that there is left some unused space below this static text. It starts from `y=0, x=300` and is `255` pixels wide.
 
 The next element labeled `Header 4.1` starts from `y=15` and is `15` pixels high. Vertically, it fits perfectly in the unused space below the `Header 4` element. But its `width=155` pixels is not enough to fill the entire available horizontal space. So, we still have unused space in this layout design.
@@ -91,9 +93,11 @@ It should also be noticed how the box elements were designed, piece by piece, to
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/tabular` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/tabular/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -159,6 +163,7 @@ To find out more about tagged PDF output see the "Section 508 Compliance" chapte
 Tags in Tabular Sample
 
 In the tabular sample one can notice the presence of all properties enumerated above, with their values depending on the element's position within the table. Properties are listed below in the same order they are defined in the report template:
+
 ```
 <property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 <property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
@@ -211,4 +216,5 @@ In the tabular sample one can notice the presence of all properties enumerated a
 <property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
 <property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
 ```
+
 The generated PDF document is Section 508 compliant and can be read aloud by dedicated reader tools.

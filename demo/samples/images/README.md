@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Images Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Images Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how images could be used in a report template.
 
@@ -74,6 +74,7 @@ In JasperReports image elements provide hyperlink support. All available hyperli
 This reports/ImagesReport.jrxml report template contains a series of image examples, having a specific combination of the attributes above.
 
 The first image in the report is loaded from the current folder at export time.
+
 ```
 <element kind="image" width="150" height="40" onErrorType="Error">
   <expression><![CDATA["dukesign.jpg"]] ></expression>
@@ -82,7 +83,9 @@ The first image in the report is loaded from the current folder at export time.
   </box>
 </element>
 ```
+
 The last image in the report template is loaded from https://jasperreports.sourceforge.net website and is scaled to retain the image shape. It also provides a hyperlink expression pointing to its remote location:
+
 ```
 <element kind="image" mode="Opaque"
   x="400" width="150" height="100" backcolor="#DDFFDD" scaleImage="RetainShape" onErrorType="Icon" linkType="Reference" lazy="true">
@@ -90,11 +93,14 @@ The last image in the report template is loaded from https://jasperreports.sourc
   <hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]] ></hyperlinkReferenceExpression>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/images` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/images/target/reports` directory.

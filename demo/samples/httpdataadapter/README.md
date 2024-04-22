@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - HTTP Data Adapter Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - HTTP Data Adapter Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the HTTP data adapters can be used to fill reports.
 
@@ -29,6 +29,7 @@ How to fill a report using data from an HTTP request returning XML or JSON file.
 An HTTP data adapter is a data file-based data adapter that uses an [HttpDataLocation](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/http/HttpDataLocation.html) object, in order to gain access to remote data over HTTP and retrieve content that can be mapped to a custom (usually JSONQL or XML) data source.
 
 [DataFile](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/DataFile.html)-based adapters (such as [JsonDataAdapter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/json/JsonDataAdapter.html) or [XmlDataAdapter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/xml/XmlDataAdapter.html)) can be converted into HTTP data adapters by declaring their [DataFile](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/DataFile.html) element of type [HttpDataLocation](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/http/HttpDataLocation.html):
+
 ```
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
   <name>JSON Http Data Adapter</name>
@@ -38,7 +39,9 @@ An HTTP data adapter is a data file-based data adapter that uses an [HttpDataLoc
   ...
 </jsonDataAdapter>
 ```
+
 or
+
 ```
 <xmlDataAdapter class="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
   <name>XML Http Data Adapter</name>
@@ -48,6 +51,7 @@ or
   ...
 </xmlDataAdapter>
 ```
+
 The [HttpDataLocation](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/http/HttpDataLocation.html) object encapsulates the following information, related to a given HTTP request:
 
 - `method` - the request method name, which may be one of the following (see [RequestMethod](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/dataadapters/http/RequestMethod.html)):
@@ -142,6 +146,7 @@ This sample provides 2 examples based on the HTTP data adapter: one of them will
 Following are the 2 data adapter definitions:
 
 - Content of the JSON Data Adapter (see `data/JsonHttpDataAdapter.jrdax` file provided in this sample directory):
+
 ```
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
   <name>JSON Http Data Adapter</name>
@@ -158,7 +163,9 @@ Following are the 2 data adapter definitions:
   <selectExpression></selectExpression>
 </jsonDataAdapter>
 ```
+
 - Content of the XML Data Adapter (see `data/XmlHttpDataAdapter.jrdax` file provided in this sample directory):
+
 ```
 <xmlDataAdapter class="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
   <name>XML Http Data Adapter</name>
@@ -175,6 +182,7 @@ Following are the 2 data adapter definitions:
   <selectExpression></selectExpression>
 </xmlDataAdapter>
 ```
+
 We can observe that the above data adapters are quite similar:
 - both of them provide a `<dataFile/>` element of type `httpDataLocation`, therefore they also became HTTP data adapters
 - both of them are based on a HTTP request `GET` method
@@ -203,6 +211,7 @@ Each JRXML report:
 - provides the same output layout in the form of a paginated list of movies information.
 
 Following are presented the settings in the `JsonHttpDataAdapterReport.jrxml` file:
+
 ```
 <jasperReport name="JsonHttpDataAdapterReport" language="java" columnCount="3" pageWidth="595" pageHeight="842"
   columnWidth="171" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
@@ -234,6 +243,7 @@ Following are presented the settings in the `JsonHttpDataAdapterReport.jrxml` fi
   ...
 </jasperReport>
 ```
+
 Both the main dataset and `MoviesDataset` require information from `JsonHttpDataAdapter.jrdax` file via `net.sf.jasperreports.data.adapter` property.
 
 With these settings, the web service URL will look like:
@@ -241,6 +251,7 @@ With these settings, the web service URL will look like:
 http://www.omdbapi.com/?r=json
 
 In response the web service will return a JSON object in the following format:
+
 ```
 {
   "Search":[
@@ -252,6 +263,7 @@ In response the web service will return a JSON object in the following format:
   "Response":"True"
 }
 ```
+
 Here we have:
 - a `"Search"` property which is an array of the first 10 movies information objects
 - a `"totalResults"` number that represents the number of records returned by this query
@@ -259,6 +271,7 @@ Here we have:
 
 In the main dataset we are interested only in retrieving the `"totalResults"` number, in order to use it in the page header.\
 To get it, we declared the report query language as `jsonql`, and set a related report field named `totalResults` as follows:
+
 ```
 <query language="jsonql">
   <![CDATA[]] >
@@ -267,14 +280,17 @@ To get it, we declared the report query language as `jsonql`, and set a related 
   <property name="net.sf.jasperreports.jsonql.field.expression" value="totalResults"/>
 </field>
 ```
+
 One can observe the associated `net.sf.jasperreports.jsonql.field.expression` property that links the `totalResults` field name to the `"totalResults"` number provided by the JSON object.
 
 `MoviesDataset` comes with one dataset parameter, related to request URL parameters via properties:
+
 ```
  <parameter name="page" class="java.lang.Integer">
    <property name="net.sf.jasperreports.http.data.url.parameter"/>
  </parameter>
 ```
+
 The `page` parameter adds pagination (each page contains by default 10 results) to the request URL.\
 The `net.sf.jasperreports.http.data.url.parameter` property has no value in this case, meaning that the name of the appended URL parameter is also `page`.\
 Since there is no default value for this parameter, its value will be provided during report execution at runtime.
@@ -286,6 +302,7 @@ http://www.omdbapi.com/?r=json&page=2
 Note: The http://www.omdbapi.com/?r=json& request URL has the same effect as http://www.omdbapi.com/?r=json&page=1
 
 The query language in `MovieDataset` is also `jsonql`, but now we perform a `JSONQL` query on the `"Search"` array member of the JSON object, in order to retrieve the movie information regarding title, year, movie type and poster:
+
 ```
  <query language="jsonql">
    <![CDATA[Search]] >
@@ -303,11 +320,13 @@ The query language in `MovieDataset` is also `jsonql`, but now we perform a `JSO
    <property name="net.sf.jasperreports.jsonql.field.expression" value="Poster"/>
  </field>
 ```
+
 Here we have parameter properties with case sensitive values.
 
 For instance, the title report field is linked to the `"Title"` member of the JSON object representing the movie information in the `"Search"` array.
 
 All these fields are used in a list component that uses the `MovieDataset` as dataset, based on title and page parameter values:
+
 ```
 <jr:list printOrder="Vertical">
   <datasetRun subDataset="MoviesDataset">
@@ -323,7 +342,9 @@ All these fields are used in a list component that uses the `MovieDataset` as da
   </jr:listContents>
 </jr:list>
 ```
+
 The other subdataset in the report (i.e `FetchDataset`) is used in conjunction with an empty data source, in order to allow paginated results to be rendered page by page during the report execution.
+
 ```
 <detail>
   <band height="65" splitType="Stretch">
@@ -340,11 +361,13 @@ The other subdataset in the report (i.e `FetchDataset`) is used in conjunction w
   </band>
 </detail>
 ```
+
 As already stated, the `XmlHttpDataAdapterReport.jrxml` file looks similar to `JsonHttpDataAdapterReport.jrxml` file.
 
 Report parameters definitions are the same in both JRXML files. Query languages and dataset field definitions are slightly different.
 
 Following are presented the main differences exposed by `XmlHttpDataAdapterReport.jrxml`:
+
 ```
 <jasperReport name="XmlHttpDataAdapterReport" ...>
 <property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.jrdax"/>
@@ -388,9 +411,11 @@ Following are presented the main differences exposed by `XmlHttpDataAdapterRepor
   ...
 </jasperReport>
 ```
+
 this JRXML file requires information from `data/XmlHttpDataAdapter.jrdax` data adapter for both main dataset and `MoviesDataset`.
 
 The response content will be delivered in the following XML format:
+
 ```
 <root totalResults="213" response="True">
   <result title="Aliens" year="1986" imdbID="tt0090605" type="movie" poster="https://.../...jpg"/>
@@ -398,16 +423,20 @@ The response content will be delivered in the following XML format:
   ...
 </root>
 ```
+
 the query language is set to `xPath` (instead of `jsonql`) in both main dataset and `MoviesDataset`; in `MoviesDataset` the xPath query is performed over the `/root/result` nodes; 
 the web service URL will look like: http://www.omdbapi.com/?r=xml&s=aliens in main dataset and http://www.omdbapi.com/?r=xml&s=aliens&page=2 in `MoviesDataset`
 field properties have different names and values
 in main dataset:
+
 ```
 <field name="totalResults" class="java.lang.Integer">
   <property name="net.sf.jasperreports.xpath.field.expression" value="@totalResults"/>
 </field>
 ```
-and in MoviesDataset:
+
+and in `MoviesDataset`:
+
 ```
 <field name="title" class="java.lang.String">
   <property name="net.sf.jasperreports.xpath.field.expression" value="@title"/>
@@ -422,11 +451,14 @@ and in MoviesDataset:
   <property name="net.sf.jasperreports.xpath.field.expression" value="@poster"/>
 </field>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/httpdataadapter` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/httpdataadapter/target/reports` directory.

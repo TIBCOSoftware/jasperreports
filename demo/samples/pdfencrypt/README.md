@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - PDF Encrypt Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF Encrypt Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports could be encrypted when exported to PDF.
 
@@ -58,6 +58,7 @@ Permissions can be combined by applying bitwise OR to them.
 ### Encrypted PDF Example
 
 This sample makes use of the above export parameters in order to generate an encrypted document. Taking a look at the `pdf()` method in the `src/PdfEncryptApp.java` file, one can see how to set them all:
+
 ```
   SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
   configuration.setEncrypted(true);
@@ -67,11 +68,14 @@ This sample makes use of the above export parameters in order to generate an enc
   configuration.setPermissions(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING);
   exporter.setConfiguration(configuration);
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/pdfencrypt` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/pdfencrypt/target/reports` directory.

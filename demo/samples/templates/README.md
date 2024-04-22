@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Templates Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Templates Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to work with style templates.
 
@@ -80,6 +80,7 @@ Each style must specify a name, and the style names have to be unique inside a s
 Also, styles defined in style templates can be used as parent styles for styles defined in the report.
 
 The following is an example of a styles template file which refers a base template file named `base_styles.jrtx`, overrides 2 parent styles and defines other 3 own styles:
+
 ```
 <jasperTemplate>
   <template>base_styles.jrtx</template>
@@ -90,11 +91,13 @@ The following is an example of a styles template file which refers a base templa
   <style name="Serif Note" underline="true" style="Serif"/>
 </jasperTemplate>
 ```
+
 A report can use style templates by explicitly referring them in its definition. References to a style templates are included in JRXML reports as `<template />` elements. Such an element contains an expression that is resolved at fill time to a style template instance.
 
 The `template` expression can only use constants/literals and report parameters. Variables and fields cannot be used because the template expressions are evaluated before the report calculation engine is initialized. If the `template` expression evaluates to null, the engine ignores the template reference.
 
 Below is an example of how to reference a style template in a report:
+
 ```
 <jasperReport ...>
   <template>”report_styles.jrtx”</template>
@@ -105,7 +108,9 @@ Below is an example of how to reference a style template in a report:
   <parameter name=”StyleTemplateURL” class=”java.net.URL”/>
   ...
 ```
+
 Style template locations are interpreted in the same manner as image or subreport locations, that is, the engine attempts to load the location as an URL, a disk file or a classpath resource. The `class` attribute in the `<template />` element represents the class for the style template source expression. Possible values are:
+
 ```
 java.lang.String
 java.io.File
@@ -113,11 +118,14 @@ java.net.URL
 java.io.InputStream
 net.sf.jasperreports.engine.JRTemplate
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/templates ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/templates/target/reports` directory.

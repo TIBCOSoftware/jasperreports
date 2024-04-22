@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Fonts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Fonts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to work with fonts.
 
@@ -43,13 +43,17 @@ For more information about how to set the character encoding, please consult the
 Another interesting feature is that each text element inherits font and style attributes from its parent element. And each parent element inherits these attributes from its parent, etc. If no styles and/or fonts are defined for elements, the default style declared in the `<jasperReport/>` root element will be applied.
 
 A default style is characterized by the `default` flag attribute. For instance:
+
 ```
 <style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8" bold="false" italic="false" underline="false" strikeThrough="false"/>
 ```
+
 However, defining default styles or fonts in JasperReports is not mandatory. If no font is defined for a given element, the engine looks either for the inherited font attributes, or, if no attributes are found on this way, it looks for the
+
 ```
 net.sf.jasperreports.default.font.name
 ```
+
 property in the `/src/default.jasperreports.properties` file. Its value defines the name of the font family to be used when font properties are not explicitly defined for a text element or inherited from its parent.
 
 The main default font properties and their values defined in the `/src/default.jasperreports.properties` file are:
@@ -69,21 +73,25 @@ This sample shows some practical examples of using fonts and font attributes in 
 Because this sample uses a font extension based on the `Lobster Two` open source font files, and logical JVM font names also, it is strongly recommended to consult first the [Font Extensions](#fontextensions) section below, and then to compile and run the sample.
 
 In the example below, a series of font attributes are defined for the static text element:
+
 ```
 <element kind="staticText" y="350" width="150" height="40" fontName="Monospaced"
     pdfFontName="Courier-Oblique" italic="true" underline="true" fontSize="12.0">
   <text><![CDATA[The quick brown fox jumps over the lazy dog.]] ></text>
 </element>
 ```
+
 One can say that this text will use a monospaced character set, 12 pts sized, underlined and oblique, and when exporting to PDF format, the equivalent fonts will be `Courier-Oblique`.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/fonts` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/fonts/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -117,10 +125,12 @@ Therefore, this is not the best way to control fonts in JasperReports. A much be
 Let's take a look into the `/ext/fonts` directory. It contains the `DejaVu` font extension available as default font for all samples shipped with the JasperReports project distribution package.
 
 As known from extensions support, any JasperReports extension provides a `jasperreports_extension.properties` file in its root package, required by the JasperReports extension mechanism. This file is used to describe the content of the extension JAR file and consists in the following lines:
+
 ```
 net.sf.jasperreports.extension.registry.factory.simple.font.families=net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory
 net.sf.jasperreports.extension.simple.font.families.dejavu=net/sf/jasperreports/fonts/fonts.xml
 ```
+
 The [SimpleFontExtensionsRegistryFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fonts/SimpleFontExtensionsRegistryFactory.html) class represents an implementation of the [ExtensionsRegistryFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/extensions/ExtensionsRegistryFactory.html) interface, used to instantiate a font extension registry.
 The extension registry obtained from the factory is able to return a list of actual extension point implementations based on extension point class type.\
 The second line provides the path to the XML file describing the actual font extension. The XML file in this case is named `fonts.xml`.
@@ -141,6 +151,7 @@ and some mappings for logical JVM fonts available for HTML exporters:
 - `Monospaced`
 
 Let's take a look at the `DejaVu Sans` family. All the font family settings already discussed can be found in the example below:
+
 ```
   <fontFamily name="DejaVu Sans">
     <normal>net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf</normal>
@@ -160,6 +171,7 @@ Let's take a look at the `DejaVu Sans` family. All the font family settings alre
     -->
   </fontFamily>
 ```
+
 The name attribute and the `<normal/>` font face represent required elements in a font family definition, while all the others are optional.
 
 The name of the font family will be used as the `fontName` attribute of the text element or style in the report template. The `fontName` together with the bold and italic attributes of the text field or style in the report help to locate and load the appropriate font face from the family. If a particular font face is not present or declared in the family, then the normal font face will be used instead.
@@ -173,6 +185,7 @@ However, if a given font family needs to be represented for locales supported by
 The `<pdfEncoding/>` and `<pdfEmbedded/>` are used to specify the PDF encoding attribute and the PDF embedding flag, and people are strongly encouraged to use them instead of deprecated `pdfEncoding` and `pdfEmbedded` attributes available in the JRXML <element/> tag.
 
 Now, let's take a look at logical JVM fonts mappings:
+
 ```
   <fontFamily name="SansSerif">
     <exportFonts>
@@ -190,12 +203,15 @@ Now, let's take a look at logical JVM fonts mappings:
     </exportFonts>
   </fontFamily>
 ```
+
 Here the DejaVu font families are added to the font families list available for HTML at export time.
 
 Once you have the TTF files, the jasperreports_extension.properties and `fonts.xml` files, you can pack them together in a JAR file, and then put the JAR in your application's classpath, in order to make the new fonts available to your reports, wherever the application might run.
 
 For more details about deploying fonts as extensions, you can take a look at the [fonts](../fonts) sample provided with the JasperReports project distribution package, which adds one more font extension for another open source font called `Lobster Two`. Running the sample using the
+
 ``` 
-> mvn clean compile exec:java -Dexec.args="compile fontsXml"
+.> mvn clean compile exec:java -Dexec.args="compile fontsXml"
 ```
+
 command will generate in the `demo/samples/fonts/build/reports` a font extension xml file named `fonts.xml`. This file contains all font families available in the already installed font extensions.

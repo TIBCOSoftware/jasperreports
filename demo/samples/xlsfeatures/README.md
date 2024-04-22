@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Advanced Excel Features Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Advanced Excel Features Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the specific Excel features could be turned on when exporting to Excel formats.
 
@@ -36,11 +36,13 @@ To solve such kind of problems, 2 new export custom properties were added:
 - Another way is to use the [`net.sf.jasperreports.export.xls.sheet.name`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_SHEET_NAME) property. It may be set at element level and, if present, will override all other settings for the current sheet name (ie the sheet name provided by the [`getSheetNames()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetNames()) exporter setting or by the document-level sheet names properties). Since this property supports also expressions, it's completely suitable for dynamic sheet names.
 
 In our `demo/samples/xlsfeatures/reports/XlsFeaturesReport.jrxml` sample one could see an example of usage in the text element labeled `ID` in the page header:
+
 ```
   <propertyExpression name="net.sf.jasperreports.export.xls.sheet.name">
     <![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]] >
   </propertyExpression>
 ```
+
 Therefore each sheet will be labeled with the `Customers <i>` text instead of the default `Page <i>` (where `i` stands for the sheet index).
 
 ### Format Pattern Property
@@ -52,10 +54,13 @@ Here comes the `pattern` attribute of textfields to solve the problem. For almos
 An older way to realize this translation is to use the [`getFormatPatternsMap()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/XlsExporterConfiguration.html#getFormatPatternsMap()) exporter setting at runtime, with the same inconvenient of the need of Java hardcoding.
 
 Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property
+
 ```
 net.sf.jasperreports.export.xls.pattern
 ```
+
 To see it in action, take a look at the current date textfield in the `XlsFeaturesReport.jrxml` sample's `<pageHeader/>` section:
+
 ```
 <element kind="textField" pattern="EEE, MMM d, yyyy" ...>
 	<expression><![CDATA[$P{ReportDate}]] ></expression>
@@ -63,6 +68,7 @@ To see it in action, take a look at the current date textfield in the `XlsFeatur
 	...
 </element>
 ```
+
 In this case the `EEE, MMM d, yyyy` pattern, completely valid in Java but generating unreadable content for Excel, is replaced with the equivalent `ddd, mmm d, yyyy` pattern when exporting report to Excel.
 
 ### Format Pattern Properties
@@ -80,6 +86,7 @@ An element-level property `net.sf.jasperreports.export.xls.pattern` takes preced
 An example of working with these properties can be found in the `FormatPatternsMap.jrxml` JRXML sample. Here there are some textfields with Java format patterns declared in their pattern attribute, that are unreadable in Excel. They are translated into Excel patterns using the `net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}` properties declared in `jasperreports.properties` file.
 
 The JRXML sample:
+
 ```
 <element kind="textField" pattern="EEE, MMM d, yyyy" ...>
 	<expression><![CDATA[new java.util.Date()]] ></expression>
@@ -102,13 +109,16 @@ The JRXML sample:
 
 ...
 ```
+
 The jasperreports.properties file:
+
 ```
 # whitespaces in property key should be prefixed with '\'
 net.sf.jasperreports.export.xls.pattern.EEE,\ MMM\ d,\ yyyy=ddd, MMM dd, yyyy
 net.sf.jasperreports.export.xls.pattern.#,##0.00¤=#,##0.00$
 net.sf.jasperreports.export.xls.pattern.#,##0.00=#,##0.00%
 ```
+
 In this case the `'EEE, MMM d, yyyy'` pattern is replaced with the equivalent `'ddd, mmm dd, yyyy'` pattern when exporting report to Excel. `'#,##0.00¤'` is replaced with `'#,##0.00$'` and `'#,##0.00'` is replaced with `'#,##0.00%'`.
 
 ### Column Width Adjustment Properties
@@ -118,9 +128,11 @@ One of the most frequently encountered problems when exporting documents to Exce
 In all these cases, we have the possibility to adjust the column width by setting a more appropriate width (in pixels) for that column, in order to minimize the difference between JR and Excel calculations. The [`net.sf.jasperreports.export.xls.column.width`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_WIDTH) and [`net.sf.jasperreports.export.xls.column.width.ratio`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExcelAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO) properties are introduced to accomplish this task.
 
 1. If the width adjustment is required for particular columns, it could be done using the `net.sf.jasperreports.export.xls.column.width` property. Its value is represented in pixels, and can be set at element level only, to values greater or less than the element's width. When exporting to Excel, the value of this property will be considered instead. One can see this property set in the `XlsFeaturesReport.jrxml` sample for the element labeled `State`:
+
 ```
   <property name="net.sf.jasperreports.export.xls.column.width" value="110"/>
 ```
+
 This means that the column width is no more dependent on element widths on that column, its value being calculated as the equivalent value in character widths for 110 pixels. When running the sample one can see that the State column width remains fixed while other column widths are changing according to other settings present in the report.
 
 2. If the width adjustment is required for all columns in a sheet or in the entire document, the use of the `net.sf.jasperreports.export.xls.column.width` property per each distinct column could be bypassed with `the net.sf.jasperreports.export.xls.column.width.ratio` property. Its value, a floating point number, represents the ratio used to adjust all column widths in the sheet or in the document. When it's defined at report level all columns in the document will be affected, and when it's defined at element level only columns present in the current sheet will be affected. Settings at element level override settings at document level. 
@@ -128,15 +140,19 @@ This means that the column width is no more dependent on element widths on that 
 This behavior is illustrated in the JRXML sample as it follows:
 
 First, the net.sf.jasperreports.export.xls.column.width.ratio property is declared at document level:
+
 ```
   <property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>
 ```
+
 This means that all column widths in the document should be multiplied by a 1.25 factor, unless conditions with higher priority are met. This is what happens in the first page of the generated document for all columns excepting State one, with the fixed 110 pixels width (see the `net.sf.jasperreports.export.xls.column.width.ratio`) property discussed above. But on the second page one can see that columns are no more enlarged, on the contrary, they are visibly narrowed down. This is because the Street textfield in the detail section contains a conditional property expression which overrides the document-level setting:
+
 ```
   <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio">
     <![CDATA[$F{id}.equals(44) ? "0.75f" : null]] >
   </propertyExpression>
 ```
+
 When the record with field value id = 44 is rendered (and this happens in the second page) the condition is satisfied, so all columns on the current sheet will be multiplied by 0.75 instead of 1.25. The `State` column width remains unchanged on the second page too.
 
 ### Setting Sheet Tab Colors
@@ -144,12 +160,15 @@ When the record with field value id = 44 is rendered (and this happens in the se
 In order to obtain colored sheet tabs, one can set the custom property [`net.sf.jasperreports.export.xls.sheet.tab.color`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_TAB_COLOR), either in a jasperreports.properties file or at report or element level in JRXML. The value of this property serves as default for the [`getSheetTabColor()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetTabColor()) configuration setting. Usually, the property value can be written as a `#`-prefixed CSS color string (for instance: `"#FF0000"`).
 
 If the property is set at report level, then all sheet tabs in the generated document will expose this color. In our sample you can notice the
+
 ```
   <property name="net.sf.jasperreports.export.xls.sheet.tab.color" value="#00FF00"/>
 ```
+
 setting at report level. This will produce green tabs for all sheets in the report, unless another property set at report level will override this value.
 
 If the property is set at element level, it will produce a colored tab only for the sheet the element belongs to. As usual, element-level setting do override report-level settings. If there are several elements in a sheet that provide this property, will be considered only the property of the last exported element in that sheet. In our sample there is an element-level property set for the `$F{address}` textfield where id is 44:
+
 ```
 <element kind="textField" positionType="Float" x="316" width="199" height="15" textAdjust="StretchHeight">
   <expression><![CDATA[$F{address}]] ></expression>
@@ -165,6 +184,7 @@ If the property is set at element level, it will produce a colored tab only for 
   ...
 </element>
 ```
+
 According to this one, the tab color of the sheet containing this element will turn to red, overriding the green value set at report level. Running the sample you will notice in the generated XLSX output the first green tab (due to report-level settings) and the second red tab (due to element-level settings).
 
 **Note:** the Tab Color property is considered only for the XLSX and ODS output channels. It has no effect for the older XLS output format.
@@ -190,10 +210,12 @@ and\
 The element-level properties can take a predefined set of values: `Left` and `Right` for the `net.sf.jasperreports.export.xls.freeze.column.edge`, `Top` and `Bottom` for the `net.sf.jasperreports.export.xls.freeze.row.edge`.
 
 The last 2 freeze pane properties are illustrated in the `XlsFeaturesReport.jrxml` sample report: the column edge is set for the `State` element and the row edge is set for the `Street` element, both in the page header:
+
 ```
   <property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
   <property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>
 ```
+
 These settings instruct the engine that the left columns to the State element and all rows above, including the current row, are "frozen".
 
 ### The Autofilter Property
@@ -206,17 +228,23 @@ In editable Excel documents data can be autofiltered allowing users to show/hide
 If multiple Start or End values are found in the same sheet, only the last encountered are considered.
 
 To see how it works, take a look at the following settings in the `XlsFeaturesReport.jrxml` sample:
+
 ```
 <property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
 ```
+
 for the `State` element in the page header; all column data lists will be placed on this row, and the data range will start immediately below this cell
+
 ```
 <propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]></propertyExpression/>
 ```
+
 for the `Street` field in the detail section; therefore for the first page only the data range will end on the last Street detail cell (because all `Street` detail cells do provide this property). For all other pages there is no autofilter `End` value defined, and the data range contains only data in the column enclosing the autofilter `Start` value.
+
 ```
 <propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$F{id}.equals(44) ? "Start" : null]]></propertyExpression/>
 ```
+
 for the `Name` textfield in the detail section. There are 2 occurrences of the autofilter `Start` value in the second sheet. One is given by the setting of the `State` element in the page header, the other is set in the `Name` detail textfield. At export time, the last encountered setting is provided by the detail element, therefore in the second sheet the data range will start on the `Nam`e column, immediately below the row with field `valueid=44`. Because there is no autofilter `End` value defined on the second sheet, the data range contains only current column data.
 
 ### The Outline Row Level Property
@@ -226,6 +254,7 @@ Another noticeable feature is the row outline grouping on different indentation 
 Doing so, a `net.sf.jasperreports.export.xls.outline.level.2` property means that its value is correlated with the outline level `2`, so the current row belongs to a row group with outline level `2`. According to Office Open XML specs, allowed values for outline levels are positive integer values from `1` to `7`.
 
 The value of this property could be any expression (including `null`). When such a property occurrence is met, the suffix indicates the outline level for that row. If multiple properties with the same prefix are defined for the same row, the deepest outline level is considered for that row. To end an outline row group one has to set the related outline level property with the `End` value. This is a special property value which instructs the JR engine that the current row group of that level ends on that row. This is the most simple way to perform outline row grouping at Excel export time. The `XlsFeaturesReport.jrxml` report sample shows an example of howto:
+
 ```
 <group name="cityGroup">
   <expression><![CDATA[$F{city}]] ></expression>
@@ -307,7 +336,9 @@ See how this property was set in the `MacroReport.jrxml` sample at report level 
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/xlsfeatures` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/xlsfeatures/target/reports` directory.

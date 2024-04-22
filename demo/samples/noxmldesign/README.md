@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - No XML Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No XML Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how in-memory JasperDesign objects can be created without using the JRXML design template, but only the API directly.
 
@@ -46,6 +46,7 @@ Therefore, creating a [JasperDesign](https://jasperreports.sourceforge.net/api/n
 ### The No XML Design Sample
 
 This sample shows how to create an in-memory [JasperDesign](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) instance. The sample doesn't contain any JRXML template file. The [JasperDesign](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) object is hardcoded in the `src/NoXmlDesignApp.java` file (see the `getJasperDesign()` method).
+
 ```
   private static JasperDesign getJasperDesign() throws JRException
   {
@@ -339,7 +340,9 @@ This sample shows how to create an in-memory [JasperDesign](https://jasperreport
     return jasperDesign;
   }
 ```
+
 The ant `compile` task only calls the `getJasperDesign()` method to load the [JasperDesign](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) object created above, and compiles it into a `.jasper `file, which is further used at report filling time:
+
 ```
   public void compile() throws JRException
   {
@@ -351,11 +354,14 @@ The ant `compile` task only calls the `getJasperDesign()` method to load the [Ja
     System.err.println("Compile time : " + (System.currentTimeMillis() - start));
   }
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/noxmldesign` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/noxmldesign/target/reports` directory.

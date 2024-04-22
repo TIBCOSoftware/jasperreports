@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Print Service Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Print Service Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Java Print Service API could be used to print reports.
 
@@ -48,6 +48,7 @@ Once located a print service, it is associated with a `java.awt.print.PrinterJob
 ### The Java Print Service Sample
 
 This sample shows how to use the Java print service exporter to print a generated report. One can see there is no .JRXML file, because the report is generated at fill time using report generation APIs (see the `fill()` and `getJasperPrint()` methods in the `src/PrintServiceApp.java` class file):
+
 ```
   public void fill() throws JRException
   {
@@ -171,7 +172,9 @@ This sample shows how to use the Java print service exporter to print a generate
     return jasperPrint;
   }
 ```
+
 Once saved the `PrintServiceReport.jrprint` file, it will be loaded and sent to the available printer when calling the print() method. A print dialog will popup before sending the print job:
+
 ```
   public void print() throws JRException
   {
@@ -198,11 +201,14 @@ Once saved the `PrintServiceReport.jrprint` file, it will be loaded and sent to 
     System.err.println("Printing time : " + (System.currentTimeMillis() - start));
   }
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/printservice` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/printservice/target/reports` directory.

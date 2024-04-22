@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Custom Visualization Components Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Custom Visualization Components Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how JavaScript based visualizations could be included in reports using the Custom Visualization Component.
 
@@ -45,6 +45,7 @@ Also, a custom visualization component may contain, but not required, one or man
 - `itemData` - used in case the component needs to process or represent any data. An `itemData` contains a `<dataset/>` and a list of `<item/>` elements. Each item encapsulates a list of `itemProperty` elements to configure that item.
 
 For instance:
+
 ```
 <element kind="component" y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
@@ -68,6 +69,7 @@ For instance:
   </component>
 </element>
 ```
+
 ### Main Properties
 
 Since the custom visualization component works like a wrapper, its definition is very generic and based on simple properties (`itemProperty`). There are four common properties that can be used with any custom visualization component:
@@ -103,9 +105,11 @@ Each custom visualization is composed by one or more JavaScript files that are c
 This optimization process creates a single minified JavaScript file which represents the custom visualization component referenced inside the report template by means of the script property described above.
 
 To generate the components from the sources, in a command prompt/terminal window set the current folder to `demo/samples/customvisualization` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean exec:java -Dexec.args="components"
+.> mvn clean exec:java -Dexec.args="components"
 ```
+
 The generated components will be saved in `demo/samples/customvisualization/build/components`, each in its own directory.
 
 ### Creating Your Own Custom Visualization Component
@@ -120,6 +124,7 @@ It is also important to notice that producing an SVG image provides much better 
 
 Let's create a simple component named `simplerectangle` which displays a simple SVG rectangle.
 We start by creating a file called `simplerectangle.js`. The content of this file would be something like:
+
 ```
 define('simplerectangle', [], function () {
 
@@ -151,8 +156,10 @@ define('simplerectangle', [], function () {
   };
 });
 ```
+
 The instanceData object passed to our function holds all the properties and data series defined in the component configuration.\
 The simplest instanceData object would look like:
+
 ```
 {  
    "module":"simplerectangle",
@@ -164,7 +171,9 @@ The simplest instanceData object would look like:
    "series":[]
 }
 ```
+
 In order to generate the RequireJS module, we create a build.js file as follow:
+
 ```
 ({
   optimize: 'none',
@@ -182,6 +191,7 @@ In order to generate the RequireJS module, we create a build.js file as follow:
   out: "simplerectangle.min.js"
 })
 ```
+
 We list the files to combine in paths, in the form of
 module: `'path_to_file'`. In this example we have only one file called `basic.js`, the extension `.js` is omitted.
 
@@ -189,16 +199,21 @@ The wrap option is used to be sure that this component will work properly in env
 
 To generate the final component we can use different tools (i.e. Java or Node).\
 To compile the file using Node, be sure node is installed, then in a command prompt/terminal window set the current folder to the folder in which you created your component (i.e. `demo/samples/customvisualization/components/basic` within the JasperReports source project) then run the command:
+
 ```
 > node ../../libraries/requirejs/r-2.3.5.js -o build.js
 ```
+
 To compile the file using Java, the Rhino JavaScript engine is used. Here is the command to run:
+
 ```
 > java -cp /path/to/rhino.jar org.mozilla.javascript.tools.shell.Main -opt -1 ../../libraries/requirejs/r-2.3.5.js -o build.js
 ```
+
 The full reference of the build.js file is available at https://github.com/requirejs/r.js/blob/master/build/build.js
 
 We will use this newly create component in a JRXML with the following code:
+
 ```
 <element kind="component" y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
@@ -222,10 +237,12 @@ We will use this newly create component in a JRXML with the following code:
   </component>
 </element>
 ```
+
 Our component creates a rectangle by using pure JavaScript and currently it does not use any data coming from the report.
 
 Let's improve it and start rendering real data. We will create a new component named `d3rectangle` and use a JavaScript library to simplify the way we generate our SVG code.
 `D3.js` is an extremely powerful library to display data by generating SVG. We start by declaring a dependency to `d3.js` in our `build.js` file as follow:
+
 ```
 ({
   optimize: 'none',
@@ -244,13 +261,16 @@ Let's improve it and start rendering real data. We will create a new component n
   out: "d3rectangle.min.js"
 })
 ```
+
 The `D3` function needs to be specified in our module definition in the following way:
+
 ```
 define('d3rectangle', ['d3'], function (d3) {
 
   return function (instanceData) {
     ...
 ```
+
 At this point the `d3` library is at our disposal. We will display a set of vertical lines inside our rectangle. To do that, we will need to provide some data to the component by means of series. We expect our series to have two fields:
 - `value` - which will be used to determine the horizontal position of our line
 - `color` - a string defining the color used to plot the line
@@ -258,6 +278,7 @@ At this point the `d3` library is at our disposal. We will display a set of vert
 We will also provide a property to set the background color for our rectangle, which we will call `background`.
 
 Here is the code of our d3 based visualization:
+
 ```
 define('d3rectangle', ['d3'], function (d3) {
 
@@ -308,7 +329,9 @@ define('d3rectangle', ['d3'], function (d3) {
   };
 });
 ```
+
 In order to use our new component, we will have to set the background property and define a sub-dataset to provide the values for the lines:
+
 ```
 <element kind="component"  y="80" width="802" height="475">
   <component kind="customvisualization" evaluationTime="Report">
@@ -333,6 +356,7 @@ In order to use our new component, we will have to set the background property a
   </component>
 </element>
 ```
+
 ### Custom Visualization JRXML Samples
 
 This sample contains 6 JRXML files, one for each custom visualization component
@@ -371,6 +395,8 @@ Running the Sample
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/customvisualization` within the JasperReports source project and run the following command:
 
-> mvn clean compile exec:exec@all
+```
+.> mvn clean compile exec:exec@all
+```
 
 It will generate all supported document types containing the sample report in the `demo/samples/customvisualization/target/reports` directory.

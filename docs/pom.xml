@@ -139,10 +139,66 @@
 				</dependencies>
 			</plugin>
 			<plugin>
+			  	<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>${maven-replacer-plugin.version}</version>
+				<executions>
+					<execution> 
+						<phase>prepare-package</phase>
+						<goals> 
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<ignoreMissingFile>true</ignoreMissingFile>
+					<file>${project.build.directory}/docs/resources/header.html</file>
+					<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
+					<regex>false</regex>
+					<token>v.version</token>
+					<value> (version ${revision})</value>
+				</configuration>
+			</plugin>
+			<plugin>
+			    <groupId>com.ruleoftech</groupId>
+			    <artifactId>markdown-page-generator-plugin</artifactId>
+			    <version>${maven-markdown-page-generator-plugin.version}</version>
+			    <executions>
+			        <execution>
+			     	<id>convert-to-html</id>
+			            <phase>prepare-package</phase>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			    <configuration>
+			        <inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
+			        <outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
+			        <headerHtmlFile>${project.build.directory}/docs/resources/header.html</headerHtmlFile>
+			        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
+			        <inputEncoding>UTF-8</inputEncoding>
+			        <outputEncoding>UTF-8</outputEncoding>
+			        <recursiveInput>true</recursiveInput>
+			        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+			  </configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>${exec-maven-plugin.version}</version>
 				<executions>
+					<execution>
+						<id>replace-version</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>package</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>		   
+						</configuration>
+					</execution>
 					<execution>
 						<id>config-reference</id>
 						<configuration>
@@ -152,6 +208,17 @@
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}/../</workingDirectory>		   
+						</configuration>
+					</execution>
+					<execution>
+						<id>convert-to-html</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>package</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -186,10 +253,12 @@
 						<configuration>
 							<executable>mvn</executable>
 							<arguments>
+								<argument>exec:exec@replace-version</argument>
 								<argument>exec:exec@javadoc</argument>
 								<argument>exec:exec@config-reference</argument>
 								<argument>exec:exec@functions-reference</argument>
 								<argument>xml:transform</argument>
+								<argument>exec:exec@convert-to-html</argument>
 								<argument>resources:copy-resources@copy-resources</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>		   

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - PDF Forms Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF Forms Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how to generate editable PDF content using JasperReports.
 
 ### Main Features in This Sample
@@ -51,6 +51,7 @@ When this property is not set, the border is inherited from the element's `pen` 
 The border thickness is rounded and recalculated to have one of the following values compatible with PDF: [1,2,3]. In case we need some input field content to be read-only, we can set the `net.sf.jasperreports.export.pdf.field.read.only` flag for that element.
 
 Example:
+
 ```
 <element kind="ellipse" positionType="Float" mode="Opaque" width="25" height="25">
   <pen lineWidth="1.0"/>
@@ -61,11 +62,13 @@ Example:
   <property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
 </element>
 ```
+
 ### Text Input Fields
 
 Textboxes are text input fields. They can be either single line or multi line textboxes. To specify which kind of textbox is considered, we can set the following flag property per report element: `net.sf.jasperreports.export.pdf.field.text.multiline`. The initial text content of the input field is provided by the net.sf.jasperreports.export.pdf.field.value custom property and in case that one is missing, then the actual text content of the JasperReports text element is used instead.
 
 Example:
+
 ```
 <element kind="textField" positionType="Float" mode="Opaque"
   x="250" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" hTextAlign="Right" fontName="DejaVu Serif" fontSize="24.0">
@@ -81,6 +84,7 @@ Example:
 List and combobox input fields can be populated by setting the following property: `net.sf.jasperreports.export.pdf.field.choices`. Its value contains list items separated by a special character or set of characters provided by the `net.sf.jasperreports.export.pdf.field.choice.separators` property. If not set, the default separator is `'|'`.
 
 Example:
+
 ```
 <element kind="textField" positionType="Float" mode="Opaque" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00"
 hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
@@ -94,7 +98,9 @@ hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   </box>
 </element>
 ```
+
 In case we need the textbox in the combobox field to be editable, we can set the `net.sf.jasperreports.export.pdf.field.combo.edit` property per combobox element, while the a preselected value can be set using the `net.sf.jasperreports.export.pdf.field.value` property:
+
 ```
 <element kind="textField" ... forecolor="#0000FF" backcolor="#FFFF00" hTextAlign="Center" fontName="DejaVu Serif" bold="true" fontSize="24.0">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
@@ -115,6 +121,7 @@ In order to properly set a checkbox we need to know how it's decorated and wheth
 - `Star` - specifies a star type decoration
 
 To indicate if the checkbox is checked when the PDF document is open, we can use the `net.sf.jasperreports.export.pdf.field.checked` property, as in the following example:
+
 ```
 <element kind="ellipse"  positionType="Float" mode="Opaque" width="25" height="25">
   <pen lineWidth="1.0"/>
@@ -131,6 +138,7 @@ To indicate if the checkbox is checked when the PDF document is open, we can use
 Radio groups are radio option input fields grouped together so that only a single option can be selected at a time. To group together several radio options we can use the `net.sf.jasperreports.export.pdf.field.name property`. By assigning the same name for multiple JasperReports elements, they will be automatically grouped as radio options. To decorate these radio elements we can use the same `net.sf.jasperreports.export.pdf.field.check.type` property with the same possible values as for checkboxes. Also, to indicate which option is selected when opening the document, we can use the `net.sf.jasperreports.export.pdf.field.checked` property.
 
 Example:
+
 ```
 <element kind="textField" positionType="Float" mode="Opaque" x="250" width="25" height="25">
   <expression><![CDATA["This text does not matter in PDF export."]] ></expression>
@@ -164,6 +172,7 @@ Example:
 </element>
 ...
 ```
+
 **Known Limitations and Issues**
 
 - Radio groups cannot overflow on the next page.
@@ -173,7 +182,9 @@ Example:
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/forms` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/forms/target/reports` directory.

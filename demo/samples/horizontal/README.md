@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Horizontal Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Horizontal Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multi-column report templates could be filled horizontally.
 
@@ -53,21 +53,27 @@ The `reports/HorizontalReport.jrxml` template in this sample contains a 3-column
 
 - set the column count: `columnCount="3"`
 - set the print (filling) order: `printOrder="Horizontal"`
-- set the column width and column spacing, according them to the available page width and margins: 
+- set the column width and column spacing, according them to the available page width and margins:
+
 ```
 pageWidth="595" pageHeight="842" columnWidth="175" columnSpacing="5" leftMargin="30" rightMargin="30"
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/horizontal` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/horizontal/target/reports` directory.

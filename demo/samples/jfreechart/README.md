@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JFreeChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JFreeChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how third-party charting APIs could be used for rendering charts as images.
 
@@ -49,11 +49,14 @@ Specific image renderers are called when the class of the `<expression/>` elemen
 This sample shows how to integrate a JFreeChart pie chart into a report, letting the JFreeChart engine to draw itself the chart.
 
 In order to put together both the JFreeChart chart and the Graphics2DRenderable renderer, the `JFreeChartReport.jrxml` template provides a scriptlet class atribute:
+
 ```
 scriptletClass="JFreeChartScriptlet"
 ```
+
 The scriptlet class source is available as `JFreeChartScriptlet.java` file in the src directory.
 In the `afterReportInit()` method, a chart object is created, with all necessary information to be represented:
+
 ```
   DefaultPieDataset dataset = new DefaultPieDataset();
   dataset.setValue("Java", 43.2d);
@@ -77,9 +80,11 @@ In the `afterReportInit()` method, a chart object is created, with all necessary
   plot.setForegroundAlpha(0.5f);
   plot.setNoDataMessage("No data to display");
 ```
+
 The resulting chart is passed to a [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class constructor. The [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) constructor needs an `org.jfree.ui.Drawable` object, characterized by its own `draw()` method. A JFreeChart chart represents such a `Drawable` object.
 
 The `render()` method in the [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class just calls the `Drawable` object's own `draw()` method, and all the rendering process will be executed by this dedicated API:
+
 ```
 public JCommonDrawableRenderer(Drawable drawable)
 {
@@ -94,28 +99,37 @@ public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Re
   }
 }
 ```
+
 Once the renderer gets available, one have to instruct the JasperReports engine to use it. The new renderer is passed to the engine in the `Chart` report variable:
+
 ```
   this.setVariableValue("Chart", new JCommonDrawableRendererImpl(chart));
 ```
+
 This variable is referred to in the `reports/JFreeChartReport.jrxml` file:
+
 ```
   <variable name="Chart" calculation="System" class="net.sf.jasperreports.renderers.Renderable"/>
 ```
+
 Now, let's take a look at the `image` element itself:
+
 ```
  <element kind="image" y="110" width="515" height="300" scaleImage="Clip" hImageAlign="Center" onErrorType="Error" linkType="Reference">
    <expression><![CDATA[$V{Chart}]] ></expression>
    <hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]] ></hyperlinkReferenceExpression>
  </element>
 ```
+
 The image expression class is `net.sf.jasperreports.renderers.Renderable`, and its value points to the `Chart` report variable prepared in the report scriptlet.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/jfreechart` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/jfreechart/target/reports` directory.

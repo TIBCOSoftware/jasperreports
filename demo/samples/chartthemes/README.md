@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Chart Themes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Chart Themes Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart themes could be used to change the look and feel of all chart types.
 
@@ -35,18 +35,21 @@ Chart themes make use of the new extension support introduced in JasperReports v
 The extension support allows users to add chart themes to a JasperReports deployment without the need to change any configuration file. Simply dropping a JAR into the classpath will make the chart themes it comes with, automatically available to the JasperReports engine.
 
 In order to create a single chart theme or several chart themes available as an extension to JasperReports, one must first implement the `net.sf.jasperreports.charts.ChartTheme` interface. This interface represents an implementation of a chart theme and has only one method:
+
 ```
 public JFreeChart createChart(ChartContext charContext) throws JRException;
 ```
+
 Basically, the whole purpose of a chart theme implementation is to create `JFreeChart` objects out of the incoming `net.sf.jasperreports.charts.ChartContext` object that is passed as parameter.\
 The chart context contains all the runtime information needed including the original chart element definition from the report template, the ability to evaluate expressions at runtime, the chart dataset, a label generator and the locale. In the future, more runtime information could be added to the chart context interface, if needed, without affecting the already existing chart theme implementations.\
 Secondly, the user must implement the `net.sf.jasperreports.charts.ChartThemeBundle` interface in order to make the chart themes available by giving them names and putting them together in a bundle. A chart theme bundle can contain one or more chart themes that are found by name.
 The chart theme bundle interface has only two methods:
+
 ```
 public String[] getChartThemeNames();
 public ChartTheme getChartTheme(String themeName);
-
 ```
+
 Once the chart theme bundle was created, it has to be added as an extension to JR. In order to do this, the `net.sf.jasperreports.extensions.ExtensionsRegistryFactory` interface must be implemented. This factory implementation will be responsible for creating an `net.sf.jasperreports.extensions.ExtensionsRegistry` object, which in turn will provide a list of chart theme bundles, including the one the user has just created above.
 JasperReports will be able to automatically detect the presence of the custom chart theme bundle through its built-in extension support, if all the above mentioned classes (chart themes, chart bundle and extension registry factory) are put in a single JAR file and inside the root folder of this JAR file, a file named `jasperreports_extension.properties` is present.
 This properties file placed in the root of the JAR, has to have a property in the form `net.sf.jasperreports.extension.registry.factory.<arbitrary_suffix>` that would be the name of a class that implements the `net.sf.jasperreports.extensions.ExtensionsRegistryFactory` interface, mentioned above.
@@ -69,6 +72,7 @@ This implementation is based on the Spring Framework platform, and uses Spring b
 The implementation comes with 4 different sample chart themes, identified by their names: generic, default.spring, eye.candy.sixties, aegean. The generic chart theme is the parent implementation, and all Spring-based chart themes should extend it.
 In the chartThemesBeans.xml file found in `/ext/jasperreports-chart-themes/src/main/java/net/sf/jasperreports/chartthemes/spring/beans` directory are mapped both the chart theme bundle class, and the parent chart theme named generic. The other Spring-based themes are mapped each one in a separate xml file (see the `aegeanChartPropertiesBean.xml` file, for example), which are referred in the `chartThemesBeans.xml` by their resource name.
 Below is the theme bundle bean:
+
 ```
   <bean id="themeBundle" class="net.sf.jasperreports.chartthemes.ChartThemeMapBundle">
     <property name="themes">
@@ -88,8 +92,8 @@ Below is the theme bundle bean:
       </map>
     </property>
   </bean>
-
 ```
+
 The generic chart theme bean is referenced by `id="genericChartTheme"` and contains 4 bean elements related to the 4 chart settings categories:
 - `defaultChartPropertiesMap` - contains general chart settings
 - `defaultPlotPropertiesMap` - contains general plot settings
@@ -98,10 +102,12 @@ The generic chart theme bean is referenced by `id="genericChartTheme"` and conta
 
 Any newly created chart theme should be saved in a new xml file. This file should be added to `chartThemesBeans.xml` resource imports, and the chart theme's name has to be added to the theme bundle bean. After that, the new theme will be available.
 In order to make available Spring-based chart themes, in the `jasperreports_extension.properties` file the following lines should be uncommented:
+
 ```
 net.sf.jasperreports.extension.registry.factory.chart.theme=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory
 net.sf.jasperreports.extension.chart.theme.spring.beans.resource=net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml
 ```
+
 All other lines in the file have to be commented.
 
 **Castor XML Mapping-based chart theme implementation**
@@ -137,8 +143,8 @@ First we'll see the `net.sf.jasperreports.chartthemes.simple.ChartThemeSettings`
       <bind-xml node="element"/>
     </field>
   </class>
-
 ```
+
 Then each field above is described in its own class. For example, the LegendSettings:
 
 ```
@@ -169,9 +175,10 @@ Then each field above is described in its own class. For example, the LegendSett
       <bind-xml node="element"/>
     </field>
   </class>
-
 ```
+
 And finally, any object type involved in the class definitions above is also mapped in this xml file:
+
 ```
   <class name="net.sf.jasperreports.chartthemes.simple.ColorProvider">
     <map-to xml="color"/>
@@ -179,8 +186,8 @@ And finally, any object type involved in the class definitions above is also map
       <bind-xml node="attribute"/>
     </field>
   </class>
-
 ```
+
 All classes mapped above correspond to a related java implementation. You can see them in the `net.sf.jasperreports.chartthemes.simple` package.
 
 Now, in order to create a new XML Mapping-based chart theme, one have to write an xml file with the `.jrctx` extension which is handled by Castor via marshalling/unmarshalling processes.
@@ -192,8 +199,8 @@ In order to make available Castor XML Mapping-based chart themes, in the `jasper
 ```
 net.sf.jasperreports.extension.registry.factory.xml.chart.themes=net.sf.jasperreports.chartthemes.simple.XmlChartThemeExtensionsRegistryFactory
 net.sf.jasperreports.xml.chart.theme.simple=net/sf/jasperreports/chartthemes/simple/simple.jrctx
-
 ```
+
 All other lines in the file have to be commented.
 
 ### Using chart themes
@@ -212,14 +219,16 @@ Changing the chart theme is also possible at chart element level using the theme
 <chart theme="theme_name">
 ...
 </chart>
-
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/samples/chartthemes` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/chartthemes/target/reports` directory.
 

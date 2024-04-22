@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Hibernate Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Hibernate Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how HQL could be used in reports.
 
@@ -44,11 +44,13 @@ Query executer implementations can benefit from using [JRAbstractQueryExecuter](
 There are several query languages, related to the data storage type. One can use SQL for retrieving data from relational databases, XPath or XQuery for navigating through XML elements in a document, HQL when performing queries using hibernate, etc. Depending on the query language, at fill time the engine calls a specific query executer class to execute the query, retrieve the data and finally create the data source object.
 
 Anytime a report query is defined one has to specify the query language using the language attribute in the <query/> element. If no language is specified, the SQL is considered by default, for backward compatibility reasons. Below is defined a query written using the HQL language:
+
 ```
   <query language="hql">
     <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
   </query>
 ```
+
 Query executer implementations are produced in query executer factories. To register a query executer factory for a query language, you have to define a global property named `net.sf.jasperreports.query.executer.factory.<language>` in the `/src/default.jasperreports.properties` file. The same mechanism can be used to override the built-in query executers for a query language, for instance to use a custom query executer for SQL queries.
 
 A query executer factory should implement the [QueryExecuterFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/QueryExecuterFactory.html) interface with the following methods:
@@ -79,9 +81,11 @@ One of these middle-tier tools dedicated to data access is Hibernate (today: Hib
 
 In order to perform queries, Hibernate uses HQL (the **H**ibernate **Q**uery **L**anguage), its specific query language with a syntax almost similar to SQL (one can find the HQL basics [here](http://docs.jboss.org/hibernate/core/3.3/reference/en/html/queryhql.html)).
 So, we have a dedicated tool to interrogate a database, and a related query language. Now it's time to register a new query executer factory:
+
 ```
 net.sf.jasperreports.query.executer.factory.hql=net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory
 ```
+
 The [JRHibernateQueryExecuterFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/hibernate/JRHibernateQueryExecuterFactory.html) creates [JRHibernateQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/hibernate/JRHibernateQueryExecuter.html) instances to handle data access through Hibernate APIs. The factory automatically defines a parameter named `HIBERNATE_SESSION` of type `org.hibernate.Session`, used by the query executer to create the query.
 
 HQL queries can embed two types of parameters:
@@ -102,6 +106,7 @@ The HQL query execution can be configured via the following properties:
 This sample shows how to perform queries and retrieve data from a relational database using Hibernate. The output consists in two separate reports: the standalone document AddressesReport, and the HibernateQueryReport which contains a subreport. Two tables in the HSQLDB database are involved: `ADDRESS` and `DOCUMENT`.
 
 The Hibernate configuration information is kept in the `src/hibernate.cfg.xml` file:
+
 ```
 <hibernate-configuration>
 
@@ -118,11 +123,13 @@ The Hibernate configuration information is kept in the `src/hibernate.cfg.xml` f
 
 </hibernate-configuration>
 ```
+
 In order to create a Hibernate session one has to specify the properties and mapping resources in the `<session-factory>` element above.
 
 In our case there are two mapping resources configurated in the XML files below:
 
 1. `src/Address.hbm.xml` mapping the `Address` entity object (See the `src/Address.java` file) to the `ADDRESS` table in the database:
+
 ```
   <hibernate-mapping>
 
@@ -144,7 +151,9 @@ In our case there are two mapping resources configurated in the XML files below:
 
   </hibernate-mapping>
 ```
+
 2. `src/Document.hbm.xml` mapping the `Document` entity object (See the `src/Document.java` file) to the `DOCUMENT` table in the database:
+
 ```
   <hibernate-mapping>
 
@@ -160,9 +169,11 @@ In our case there are two mapping resources configurated in the XML files below:
 
   </hibernate-mapping>
 ```
+
 One can see above that an `Address` object contains a set of `Document` objects, all with the same `ADDRESSID` value. The one-to-many relationship between the `ADDRESS` table and `DOCUMENT` is intermediated by the `ADDRESS.ADDRESSID` foreign key column.
 
 The `AddressReport` enumerates customers with their addresses and related documents and document totals, filtered by their city location (see the `CityFilter` parameter). The HQL query string is the following:
+
 ```
   <parameter name="CityFilter" class="java.util.List"/>
   <query language="hql">
@@ -172,6 +183,7 @@ The `AddressReport` enumerates customers with their addresses and related docume
       order by address.city, address.lastName, address.firstName, address.id]] >
   </query>
 ```
+
 In the query above, because of the table join, customers with no related documents in the `DOCUMENTS` table are not included.
 
 The `HibernateQueryReport` report retrieves all customer addresses from the `ADDRESS` table, without taking into account if there are or no customer related documents in the `DOCUMENTS` table. Customers are also filtered by the `CityFilter` parameter. If related documents exist, their data are retrieved using the `DocumentsReport` subreport (see the `reports/DocumentsReport.jrxml` file).
@@ -180,19 +192,24 @@ Here customers with no related documents are included too.\
 Customers are also grouped by their city.
 
 Now it's time to take a look in the `reports/HibernateQueryReport.jrxml` file at the report HQL query string:
+
 ```
   <query language="hql">
     <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
   </query>
 ```
+
 And then, at the `Documents` subreport, for each customer:
+
 ```
 <element kind="subreport" x="65" y="21" width="50" height="20" removeLineWhenBlank="true">
   <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
   <expression><![CDATA["DocumentsReport.jasper"]] ></expression>
 </element>
 ```
+
 The `CityFilter` parameter and all other report parameters are created in the `src/HibernateApp.java` class file, via the `getParameters(Session session)` method:
+
 ```
 private static Map<String, Object> getParameters(Session session)
 {
@@ -208,7 +225,9 @@ private static Map<String, Object> getParameters(Session session)
   return parameters;
 }
 ```
+
 At fill time, a Hibernate session is created and a transaction gets started. Report parameters are set and then the two compiled reports are filled with data. If all goes ok, the transaction is then rolled back and the session is closed:
+
 ```
 public void fill() throws JRException
 {
@@ -235,17 +254,22 @@ public void fill() throws JRException
   sessionFactory.close();
 }
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/hibernate` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/hibernate/target/reports` directory.

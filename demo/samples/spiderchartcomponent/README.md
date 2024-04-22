@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JFreeChart Spider Chart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JFreeChart Spider Chart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in spider chart component can be included in reports.
 
@@ -55,11 +55,14 @@ The attributes below are also available for the <chartSettings> element, with si
 - `customizerClass`
 - `renderType`
 
-**Note:** The main difference here is that the chart customizer must be an implementation of the [ChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/components/charts/ChartCustomizer.html) interface that exposes the 
+**Note:** The main difference here is that the chart customizer must be an implementation of the [ChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/components/charts/ChartCustomizer.html) interface that exposes the
+
 ```
 public void customize(JFreeChart chart, ChartComponent chartComponent)
 ```
+
 method adapted for chart components. The easiest way to implement this interface is by extending the context-aware [AbstractChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/components/charts/AbstractChartCustomizer.html) class in order to get access to the component element with its properties, for a completely flexible chart customization:
+
 ```
 public void customize(JFreeChart chart, ChartComponent chartComponent)
 {
@@ -100,6 +103,7 @@ One can also define the `labelFont` element for the spider plot, and a `maxValue
 ### The Spider Chart Sample
 
 Here is the piece of code used to configure the spider chart in the JRXML sample:
+
 ```
 <element kind="component" mode="Opaque" x="50" y="90" width="400" height="400">
   <component kind="spiderChart">
@@ -132,6 +136,7 @@ Here is the piece of code used to configure the spider chart in the JRXML sample
   </component>
 </element>
 ```
+
 The resulting spider chart will have a green background, an italicized title and a blue subtitle, a legend with its own background color and font size, and a plot with rotation anticlockwise, start angle = 39deg, red axis, yellow backcolor and italicized bold labels on axis. See also how the interior gaps and axis line widths were set.
 
 Note also that the plot outline in the spider chart is customized via the `SpiderChartCustomizer` class.
@@ -140,7 +145,9 @@ Note also that the plot outline in the spider chart is customized via the `Spide
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/spiderchartcomponent ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/spiderchartcomponent/target/reports` directory.

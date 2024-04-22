@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Date Range Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Date Range Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows different ways the DATERANGE function can be used to generate a complex document.
 
@@ -82,13 +82,14 @@ The `DATERANGE()` function uses the report `Locale` and `Timezone` to evaluate d
 ### The Date Range Sample
 
 This sample illustrates how the `DATERANGE()` function can be used in expressions and SQL clause functions. First are shown some relative date ranges with their start/end moments. Following is a text field that contains a `DATERANGE()` function to retrieve a relative date range start:
+
 ```
 <element kind="textField" mode="Transparent" ... backcolor="#EEEEEE" vTextAlign="Middle" pattern="EEE, MMM d, yyyy  HH:mm:ss">
   <expression><![CDATA[DATERANGE("DAY+3").getStart()]] ></expression>
   <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
 </element>
-
 ```
+
 In the next report section are shown some examples of how to use the `DATERANGE()` function to generate single (fixed) date range objects. See this text field for guidance:
 
 ```
@@ -97,15 +98,17 @@ In the next report section are shown some examples of how to use the `DATERANGE(
   <expression><![CDATA[DATERANGE("2017-05-01 14:25:48").getEnd()]] ></expression>
   <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
 </element>
-
 ```
+
 In order to be used in a SQL clause, a report parameter of type `DateRange` is declared as follows:
+
 ```
 <parameter name="StartDate" class="net.sf.jasperreports.types.date.DateRange">
   <defaultValueExpression><![CDATA[DATERANGE("1996-09-01")]] ></defaultValueExpression>
 </parameter>
 
 ```
+
 It will be used in this parameterized query:
 
 ```
@@ -115,21 +118,25 @@ SELECT * FROM Orders WHERE
     AND $X{[GREATER, OrderDate, StartDate} 
     ORDER BY ShipCountry, ShipCity, OrderDate
 </query>
-
 ```
+
 As a result, the report data source will include only orders newer than September 1, 1996.
 
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/daterange` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/daterange/target/reports` directory.

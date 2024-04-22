@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Unicode Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Unicode Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how text in different languages could be used inside reports.
 
@@ -38,9 +38,11 @@ And here is where this sample comes to show us how to.
 An important feature to consider when working with texts, especially if they are intended to be internationalized, is the character encoding. That's because different charsets provide their own character representation for the same character code.
 
 Usually the encoding attribute is specified in the header of the JRXML file and is used at report compilation time to decode the XML content. For instance, if the report contains French words only and characters such as ç, é, â , then the `ISO-8859-1` (a.k.a `Latin-1`) encoding is sufficient:
+
 ```
   <?xml version="1.0" encoding="ISO-8859-1"?>
 ```
+
 As seen above, ideally would be to choose the encoding fit to the minimal character set which can correctly represent all the characters in the document. But how about documents containing words in multiple languages? And how about internationalized texts?
 
 Concerning multilanguage documents (i.e. documents containing words spelled in several languages), one should choose the encoding adapted to the minimal character set able to correctly represent all the characters in the document, even if they belong to different languages. One of the character encodings able to handle multilingual documents is the `UTF-8`, used as default encoding value by JasperReports.
@@ -50,9 +52,11 @@ As for internationalized texts, these are usually kept in resource bundle files 
 More than that, different languages are supported by different character encodings, so each time we need to run a report in a localized environment, we have to know which is the most appropriate character encoding for the generated document language. In this case, the `encoding` property defined in the JRXML file itself might be no more useful.
 
 To solve this kind of issues an export custom property was introduced:
+
 ```
 net.sf.jasperreports.export.character.encoding
 ```
+
 which defaults to UTF-8 too. This default value is set in the `default.jasperreports.properties` file.
 
 For more specific options at export time, the [`getEncoding()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/WriterExporterOutput.html#getEncoding()) export output setting or the equivalent [PROPERTY_CHARACTER_ENCODING](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/WriterExporterOutput.html#PROPERTY_CHARACTER_ENCODING) property are also available.
@@ -66,6 +70,7 @@ When such a notation is encountered, the engine calls for the appropriate charac
 The sample provides a multilingual document containing several pieces of text written using the Unicode escape sequence.
 
 Localized Unicode pieces of text are stored in document parameters:
+
 ```
   <parameter name="GreekText" class="java.lang.String" forPrompting="false">
     <defaultValueExpression>
@@ -93,15 +98,20 @@ Localized Unicode pieces of text are stored in document parameters:
     </defaultValueExpression>
   </parameter>
 ```
+
 When running the report, one can see that not only different languages can be grouped together on the same page, but they can be mixed into the same text element too:
+
 ```
 <expression class="java.lang.String"><![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]></expression>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/unicode ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/unicode/target/reports` directory.

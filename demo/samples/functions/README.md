@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Functions Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Functions Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the functions could be used inside report template expressions.
 
@@ -70,6 +70,7 @@ Next, let's see a step-by-step example of adding custom functions to JasperRepor
 ### Coding Samples
 
 - `DateTimeCategory.java`:
+
 ```
   package net.sf.jasperreports.functions.standard;
 
@@ -85,11 +86,13 @@ Next, let's see a step-by-step example of adding custom functions to JasperRepor
   {
   }
 ```
+
 Notice the `@FunctionCategory` annotation to ensure it is a function category class.
 
 - `DateTimeFunctions.java`
 
 Below is a code fragment extracted from the function class `DateTimeFunctions`:
+
 ```
 package net.sf.jasperreports.functions.standard;
 
@@ -172,6 +175,7 @@ public final class DateTimeFunctions
   // ...
 }
 ```
+
 Notice the `@FunctionCategories({DateTimeCategory.class})` annotation at class level, ensuring that all methods (functions) in this class are Date/Time functions.
 
 Public methods (excepting the overloaded ones) expose a `@Function` annotation necessary as function identifier. For overloaded methods the `@Function` and other annotations are declared only once, since these methods are sharing the same function name but provide different number of parameters. An example is given by the `WEEKDAY` overloaded method.
@@ -181,6 +185,7 @@ Also notice how parameters are annotated where they are present: the `@FunctionP
 ### I18n and Localization
 
 2 related code fragments are shown below. The first one comes from the default `jasperreports_messages.properties file`:
+
 ```
 net.sf.jasperreports.functions.standard.DateTimeCategory.description                           = Category for date and time manipulation functions
 net.sf.jasperreports.functions.standard.DateTimeCategory.name                                  = Date & Time
@@ -193,7 +198,9 @@ net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.name             
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.description                = The year of the new date
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.name                       = Year
 ```
+
 The other one is the Italian translation of this fragment in the `jasperreports_messages_it.properties` file:
+
 ```
 net.sf.jasperreports.functions.standard.DateTimeCategory.description                           = Categoria di funzioni per la manipolazione di date e tempo
 net.sf.jasperreports.functions.standard.DateTimeCategory.name                                  = Data e tempo
@@ -206,24 +213,29 @@ net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.name             
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.description                = L''anno della data
 net.sf.jasperreports.functions.standard.DateTimeFunctions.DATE.year.name                       = Anno
 ```
+
 Running the sample by default, all output texts will result in English. Changing the `REPORT_LOCALE` to `Italian` will translate the output texts into Italian.
 
-### <a name='top'>JasperReports</a>_extension.properties
+### JasperReports_extension.properties
 
 Following is the content of the related `jasperreports_extension.properties` file:
+
 ```
 net.sf.jasperreports.extension.registry.factory.functions=net.sf.jasperreports.functions.FunctionsRegistryFactory
 net.sf.jasperreports.extension.functions.datetime=net.sf.jasperreports.functions.standard.DateTimeFunctions
 net.sf.jasperreports.extension.functions.math=net.sf.jasperreports.functions.standard.MathFunctions, net.sf.jasperreports.functions.standard.LogicalFunctions
 net.sf.jasperreports.extension.functions.text=net.sf.jasperreports.functions.standard.TextFunctions
 ```
+
 Here the `{registry_id}` is assumed to be `functions`. There are 3 different function classes properties with specific `{property_suffix}`-es. Math and logical functions are declared in a comma separated list.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/functions` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/functions/target/reports` directory.

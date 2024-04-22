@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Jasper Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Jasper Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how different features of the library could be used to generate a complex document.
 
@@ -99,6 +99,7 @@ This sample illustrates how groups can be used to produce documents with complex
 The 2-column layout is given by the `columnCount="2"` attribute setting in the `<jasperReport/>` element.
 
 Further, one can see the report query retrieving data ordered by the `ShipCountry` field:
+
 ```
 <query language="sql"><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]] ></query>
 Next in the report are defined some variables related to groups:
@@ -130,7 +131,9 @@ Next in the report are defined some variables related to groups:
   <expression><![CDATA[$V{FirstLetterGroup_COUNT} <= 1 ? $V{PAGE_NUMBER} : 0]] ></expression>
 </variable>
 ```
+
 Now let's take a look at the groups themselves:
+
 ```
 <group name="FirstLetterGroup" minHeightToStartNewPage="200" startNewColumn="true" reprintHeaderOnEachPage="true">
   <expression><![CDATA[$V{FirstLetter}]] ></expression>
@@ -175,6 +178,7 @@ Now let's take a look at the groups themselves:
   </groupFooter>
 </group>
 ```
+
 According to the group expression above, the `FirstLetterGroup` groups data with the same first letter of the `ShipCountry` field. All countries starting with the same letter will be grouped together. When the first letter changes, the `FirstLetterGroup` group will break.
 
 One can see also, from attribute settings, that this group will start in a new column, each time printing its header too, and requires a minimum 200px amount of vertical space in order to prevent starting on a new page by its own.
@@ -186,6 +190,7 @@ Other report variables, such as `FreightSumFirstLetterGroup` and `FreightSumRepo
 Now let's jump to the next group in the report. The `FirstLetterGroup` group contains records for all countries starting with the same letter. It means that for groups containing more than one country, records for different countries are mixed together, and this might be not a very good idea. Obviously, a better data grouping procedure is required. For instance, to create a child group inside the FirstLetterGroup for each distinct country starting with that letter. So, the information will become more readable and significant than before.
 
 This is what the second group in the report does, the `CountryGroup`:
+
 ```
 <group name="CountryGroup" reprintHeaderOnEachPage="true">
   <expression><![CDATA[$F{ShipCountry}]] ></expression>
@@ -232,6 +237,7 @@ This is what the second group in the report does, the `CountryGroup`:
   </groupFooter>
 </group>
 ```
+
 Here one can observe another built-in counting variable: `CountryGroup_COUNT`. Again some other report variables are used to perform various calculations: `DateHighestCountryGroup`, `FreightSumCountryGroup`, `FreightSumFirstLetterGroup`. The group header will also be reprinted on each new page.
 
 At this stage we can represent data in a user-friendly form, well separated by countries and country first letters, in a 2-columns layout. What else could be done to separate data better than that?
@@ -239,6 +245,7 @@ At this stage we can represent data in a user-friendly form, well separated by c
 Well, there is one more thing. What if for a given country there are thousands of records? One after one, after one, and so on. Thousands of records looking the same, with nothing special to separate them, increasing a lot the eye's effort... It doesn't sound very good, indeed.
 
 This is why the third group in the report is present. It is an empty dummy group that breaks after every 5 records, introducing a supplementary amount of vertical space between the resulting 5-records groups:
+
 ```
 <group name="BreakGroup">
   <expression><![CDATA[$V{BreakGroup_COUNT} > 5]] ></expression>
@@ -250,21 +257,26 @@ This is why the third group in the report is present. It is an empty dummy group
   </groupFooter>
 </group>
 ```
+
 Once finished the data grouping work, the report template continues with its usual sections, such as title, title, pageHeader, columnHeader, detail, columnFooter, pageFooter and summary.
 
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/jasper` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/jasper/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -299,12 +311,14 @@ A possibility to extract relevant data from a pixel-perfect [JasperPrint](https:
 Before starting the export work, the CSV metadata exporter looks for the presence of the column names by calling the `getColumnNames()` exporter configuration setting. One can populate this setting either directly, using the APIs, or by collecting values from the `net.sf.jasperreports.export.csv.column.names.{suffix}` properties at report level. If present, they provide a comma-separated list of column names, each one referencing a column that should be exported. For accurate results it's recommended that the column names in the list to follow the same order as the original columns.
 
 Below is an example of populating the column names via JasperReports APIs:
+
 ```
 JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
 SimpleCsvMetadataExporterConfiguration configuration = new SimpleCsvMetadataExporterConfiguration();
 configuration.setColumnNames(new String[]{"Name,Id"});
 exporter.setConfiguration(configuration);
 ```
+
 It ensures that only 2 columns will be printed out: the column with names and the column with Ids.
 
 Now, that we have the column names, it's time to see which elements will be exported into these columns and how. Let's introduce the other metadata properties:
@@ -315,6 +329,7 @@ Now, that we have the column names, it's time to see which elements will be expo
 - `net.sf.jasperreports.export.csv.data` - element-level property containing the exported value for that element. By default is considered the text value of the report element itself.
 
 In this sample only five columns are exported to CSV format: `ShipCountry, Order, ShipCity, ShipRegion` and `OrderDate`. Column headers are not exported and for the ShipCity column the exported data is customized using the `net.sf.jasperreports.export.csv.data` property. All these settings apply to the `<detail/>` section:
+
 ```
 <element kind="textField"  x="1" width="35" height="11" hTextAlign="Right" style="OrderIdStyle">
   <expression><![CDATA[$F{OrderID}]] ></expression>
@@ -344,10 +359,13 @@ In this sample only five columns are exported to CSV format: `ShipCountry, Order
   ...
 </element>
 ```
+
 After running the 
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 command the data-centric document exported with the CSV metadata exporter will be available in the `demo/samples/jasper/build/reports` directory as `FirstJasper.metadata.csv`.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -379,6 +397,7 @@ Another property, which is specific to XLSX metadata export only, is `net.sf.jas
 In this sample the following columns are exported to XLSX format: `JasperImage` (which is a picture), `LineShape` (a shape element), `ShipCountry`, `Order`, `ShipCity`, `ShipRegion` and `OrderDate`. Column headers are exported too, and for the `ShipCity` column the exported data is customized using the `net.sf.jasperreports.export.xls.data` property.
 
 The elements were set as in the following example:
+
 ```
 <groupHeader>
   <band height="15">
@@ -459,10 +478,13 @@ The elements were set as in the following example:
   </band>
 </detail>
 ```
+
 After running the
+
 ```
 >mvn clean compile exec:exec@all
 ```
+
 command the data-centric document exported with the XLSX metadata exporter will be available in the `demo/samples/jasper/build/reports` directory in 2 forms:
 - `FirstJasper.singleSheet.metadata.xlsx` - as single sheet document, and
 - `FirstJasper.multiSheet.metadata.xlsx` - as multisheet Excel document. Notice the differences in text formatting between these files and the `FirstJasper.metadata.csv` CSV document.
@@ -484,9 +506,11 @@ Shows how to export the report to XLS format using metadata associated with repo
 This metadata exporter can be used to export data in an older Microsoft Excel format (Excel 2003, or `".xls"`). It is strongly recommended to use the XLSX metadata exporter instead. The XLSX metadata exporter is described in the **"The Excel (.xlsx) Metadata Exporter** feature section of this document. All metadata export properties presented in the **The Excel (.xlsx) Metadata Exporter** feature are also applicable for the Excel 2003 metadata exporter, except `net.sf.jasperreports.export.xls.column.width.metadata`.
 
 After running the
+
 ```
 >mvn clean compile exec:exec@all
 ```
+
 command the data-centric document exported with the Excel 2003 metadata exporter will be available in the `demo/samples/jasper/build/reports` directory as `FirstJasper.metadata.xls`.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -519,6 +543,7 @@ For more information about conditional styles defined in style templates you cou
 Next we'll present conditional styles defined in reports.
 
 Conditional styles consist in two elements: a Boolean condition expression and a style. When the condition evaluates to true, the corresponding style is applied. In this sample one can see a conditional style definition:
+
 ```
   <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="8.0" default="true" bold="false" italic="false" underline="false" strikeThrough="false"/>
   ...
@@ -528,6 +553,7 @@ Conditional styles consist in two elements: a Boolean condition expression and a
   </conditionalStyle>
 </style>
 ```
+
 The `OrderIdStyle` defined above derives from the `Sans_Normal` parent style. Usually, elements with `OrderIdStyle` will have the default black forecolor and a normal font weight. But when the condition expression evaluates to true (this happens each time the `OrderID` field value is a multiple of 10) the element's style changes: the forecolor becomes red and the font is displayed in bold style.
 
 Therefore, when applied, a conditional style will override the properties of its parent style.
@@ -535,6 +561,7 @@ Therefore, when applied, a conditional style will override the properties of its
 A style definition may contain many conditional styles, any of them inheriting from the parent style. In this case, all conditions that evaluate to true will append their own style properties to the existing style, in the same order they were defined in the report (the second style will be appended to the first one, and so on). If more than one conditional style affect the same style property, the property value will be done by the first conditional style in the styles sequence which evaluates its condition to `true`.
 
 Here is a more elaborate example:
+
 ```
 <style name="alternateStyle" fontName="Arial" forecolor="red">
   <conditionalStyle forecolor="blue">
@@ -548,6 +575,7 @@ Here is a more elaborate example:
   </conditionalStyle>
 </style>
 ```
+
 One can see above that on each even row the element forecolor becomes blue. More than that, if the `AMOUNT` field value is greater than 10,000, the second conditional style evaluates to `true`, and the element displays in bold font (this doesn't affect the red color or blue color set by the first conditional style, because the forecolor and font weight properties do not interfere). Further, if the `AMOUNT` field value is greater than 20,000, the font style becomes italic, without affecting the font color. But because any value greater than 20,000 is also greater than 10,000, then the `bold="false"` font setting is not applied anymore, because both conditions >10,000 and >20,000 evaluate to true and `bold="true"` style was appended first.
 
 **Note:**
@@ -578,9 +606,11 @@ The following situations may frequently occur when working with PowerPoint prese
 - a presentation needs to display the current date each time it is running.
 
 In such cases we need values to be automatically updated, and this can be done if text elements are exported as PPTX fields with specific behavior. To do so, one can set the following text element property:
+
 ```
 net.sf.jasperreports.export.pptx.field.type
 ```
+
 There are 2 possible values for this property:
 - `slidenum` - applies to text elements that store numeric values, and associates these elements with autogenerated slide numbers
 - `datetime` - applies to text elements that store date/time values and associates these elements with the current date/time
@@ -605,12 +635,14 @@ If none of the above patterns are set for the element, the date/time will be dis
 ### PPTX field example
 
 The following example can be found in the `FirstJasper.jrxml` file:
+
 ```
 <element kind="textField"  x="200" y="5" width="75" height="20" hTextAlign="Right" fontSize="14.0">
   <expression><![CDATA[$V{PAGE_NUMBER}]] ></expression>
   <property name="net.sf.jasperreports.export.pptx.field.type" value="slidenum"/>
 </element>
 ```
+
 At export time this text element will be translated into a PPTX field that generates automatic slide number.
 
 Another example of a datetime PPTX field can be found in the [i18n](../i18n/README.md) sample.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Subreport Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Subreport Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how subreport could be used to create complex document layouts.
 
@@ -49,6 +49,7 @@ The Subreport can return data to the main report using variables.
 In this example the Master Report contains the `Address` and `Product` reports embedded as Subreport elements.
 
 Lets begin by review the configuration of the Subreport element for the `Products` Subreport.
+
 ```
 <element kind="subreport" x="5" y="25" width="325" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
   <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
@@ -59,12 +60,14 @@ Lets begin by review the configuration of the Subreport element for the `Product
   </parameter>
 </element>
 ```
+
 This element is in the Detail band of the Master report. This means this Subreport will be executed with each record in the Master report's Result Set.
 
 ### The `<parameter/>` Tag
 
 This tag indicates a Parameter in the Product report is being filled by the Master report. In this case, its the `City` field in the Master report filling the `City` Parameter of the `Product` report.\
 If we look at the query of the Product report we see that the value of the `City` parameter is injected into the Query to constrain the Results:
+
 ```
 SELECT Product.ID AS ID, Product.Name AS Name,
 Positions.Quantity AS Quantity, Positions.Price AS Price
@@ -75,6 +78,7 @@ Positions.ProductID = Product.ID AND
 Address.City = $P{City}
 ORDER BY Product.ID
 ```
+
 What this means is the `Product` report executes for each row in the Master report's ResultSet and displays results related to the `city` field in that row.\
 (Remember: Fields map to the data source, in this case to columns returned in the Result Set).
 
@@ -86,9 +90,11 @@ This tag specifies the JRDataSource to be used to fill the subreport. In this ca
 This parameter contains a reference to JDBC Connection that was used to fill the Master Report. This is best practice when working with Subreports which need to be filled with the same JDBC Connection as the Master report.
 
 In situations where your Subreport doesn't use a data source (the report may just contain some text and/or images) a reference to the `JREmptyDataSource` can be passed in here:
+
 ```
 <dataSourceExpression><![ CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]] ></dataSourceExpression>
 ```
+
 ### The `<returnValue/>` tag
 
 This tag indicates the value passed from the subreport to the Master report. The calulcation indicates if the value should be accumlated or just passed directly up.\
@@ -98,11 +104,13 @@ In this case the calculation is Sum, meaning the `PriceSum` variable in the Subr
 
 This tag indicates where the design of the Subreport can be located. Note the class. In this example the expression is returning a `JasperReport` object.\
 The subreport expression represents a very powerful place for extensions/integratoins. Ternary operators can be used here to load different Subreports based on different conditions in the report. Also external Java classes can be called in this expression, provided they return a `JasperReport` reference, the subreport design can be obtained or created using Java. In the `SubreportApp.java` the `JasperReport` reference is obtained by loading a `.jasper` (serialized `JasperReport` object) file from the file system.
+
 ```
 JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
 ```
 
 Lets review the `Address` Report configuration.
+
 ```
 <element kind="subreport" positionType="Float" x="335" y="25" width="175" height="20" backcolor="#99CCFF" removeLineWhenBlank="true">
   <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
@@ -113,6 +121,7 @@ Lets review the `Address` Report configuration.
   </parameter>
 </element>
 ```
+
 The main differences are here:
 
 - `returnValue`: No calculation is set. The default is `None`, which means the variable `REPORT_COUNT` variable in the subreport will be passed directly to the Master.
@@ -182,6 +191,7 @@ If present, this setting provides the path to a JSON schema file that will be us
 - other properties that describe the object.
 
 An example of JSON schema can be found in `MasterReport.schema.json` file in the [subreport](../subreport/README.md) sample directory:
+
 ```
 {
   _type: 'array',
@@ -209,6 +219,7 @@ An example of JSON schema can be found in `MasterReport.schema.json` file in the
   }
 }
 ```
+
 The above schema instructs the engine to export data into an array of objects, each of them containing a `City`, an array of products and an array of customers. A product is defined by its `Id, Name, Quantity` and `Price` properties, while a customer is characterized by a `Name` and a `Street`
 
 If no schema is provided at export time, then the output structure will be deduced from the elements marked for JSON export, in accordance with `net.sf.jasperreports.export.json.path` and/or `net.sf.jasperreports.export.json.{type}.{arbitrary_path}` metadata properties.
@@ -227,6 +238,7 @@ To control the appearance of the name of the member properties in an object, the
 
 In this sample the JSON schema is referenced in `MasterReport.jrxml`. For each `City` given in the master report, a list of products is retrieved based on the `ProductReport.jrxml` subreport, and a list of customers is collected based on the `AddressRport.jrxml` subreport. Below are some coding fragments that show the use of properties discussed above:
 In `MasterReport.jrxml`:
+
 ```
 <jasperReport ...>
   <property name="net.sf.jasperreports.export.json.schema" value="reports/MasterReport.schema.json"/>
@@ -243,7 +255,9 @@ In `MasterReport.jrxml`:
   ...
 </jasperReport>
 ```
+
 In ProductReport.jrxml:
+
 ```
 <jasperReport ...>
   ...
@@ -276,7 +290,9 @@ In ProductReport.jrxml:
   ...
 </jasperReport>
 ```
+
 In AddressReport.jrxml:
+
 ```
 <jasperReport ...>
   ...
@@ -296,23 +312,30 @@ In AddressReport.jrxml:
   ...
 </jasperReport>
 ```
+
 After running the
+
 ```
 >mvn clean compile exec:exec@all
 ```
+
 command, the pure data exported with the JSON metadata exporter will be available in the `demo/samples/subreport/target/reports` directory as `MasterReport.json`.
 
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/subreport ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/subreport/target/reports` directory.

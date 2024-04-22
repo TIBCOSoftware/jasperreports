@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XChart Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how third-party charting APIs could be used for rendering charts as images.
 
@@ -24,16 +24,21 @@ How to render images using the [XChart](https://knowm.org/open-source/xchart/) l
 This sample illustrates an interesting example of report scriptlets working in collaboration with third-party APIs, in order to output a chart image generated with the [XChart](https://knowm.org/open-source/xchart/) library.
 
 First let's see the `XChartReport.jrxml` template in the `samples/xcharts/reports` directory. It provides a `scriptletClass="XChartScriptlet"` attribute, and a parametrized image element:
+
 ```
 <element kind="image" y="70" width="515" height="400" scaleImage="Clip" hImageAlign="Center" onErrorType="Error">
   <expression><![CDATA[$V{ChartImage}]] ></expression>
 </element>
 ```
+
 The `java.awt.Image` object is stored in the `ChartImage` report variable:
+
 ```
 <variable name="ChartImage" class="java.awt.Image" calculation="System"/>
 ```
+
 To see how the `ChartImage` variable was "calculated", let's dig a little into the `XChartScriptlet.java` file in the src directory:
+
 ```
 public void afterReportInit() throws JRScriptletException
 {
@@ -64,6 +69,7 @@ public void afterReportInit() throws JRScriptletException
   }
 }
 ```
+
 Here an area chart is created after the report initialization, using APIs in the [XChart](https://knowm.org/open-source/xchart/) library. The chart is rendered as a `java.awt.Image` and stored in the `ChartImage` variable. From now on, the chart image is ready to be used by the report filler when needed.
 
 And that's all the story here. With only a report scriptlet and a third-party library, one could embed interesting, complex, spectacular objects in a given report.
@@ -72,7 +78,9 @@ And that's all the story here. With only a report scriptlet and a third-party li
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/xchart` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/xchart/target/reports` directory.

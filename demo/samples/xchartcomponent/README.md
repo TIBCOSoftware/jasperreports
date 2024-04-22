@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XChart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XChart Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how XChart components can be included in reports.
 
 ### Main Features in This Sample
@@ -23,6 +23,7 @@ On the API side, the chart component is represented by the `xchart.XYChartCompon
 ### The XChart Component - Schema
 
 Here is the structure of the XY chart component:
+
 ```
 <element name="XYChart" substitutionGroup="jr:component">
   <complexType>
@@ -72,6 +73,7 @@ Here is the structure of the XY chart component:
   </complexType>
 </element>
 ```
+
 A well defined XY chart configuration contains:
 
 - an `XYDataset` - the XY chart dataset characterized by its dataset and XYSeries elements.
@@ -96,11 +98,14 @@ Each `XYSeries` element is characterized by:
 ### Embedding The XChart Component
 
 The `src/jasperreports_extension.properties` file contains the following entries:
+
 ```
 net.sf.jasperreports.extension.registry.factory.xchart=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory
 net.sf.jasperreports.extension.xchart.spring.beans.resource=xchart/xchart_beans.xml
 ```
+
 Hence this component will be registered as Spring-based extension, in accordance with beans defined in the `src/xchart/xchart_beans.xml`:
+
 ```
 <bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
   <property name="xmlParser">
@@ -142,7 +147,9 @@ Hence this component will be registered as Spring-based extension, in accordance
   </property>
 </bean>
 ```
+
 The `src/xchart` directory contains all necessary implementation APIs for this component:
+
 ```
 CompiledXYDataset.java
 DesignXYDataset.java
@@ -166,6 +173,7 @@ XYSeriesFactory.java
 ### The XChart Component - Sample
 
 An example of how to use the XY area chart component is illustrated in the `reports/XYChart.jrxml` template:
+
 ```
 <style name="chartStyle" backcolor="#DDDDDD">
   <box>
@@ -207,7 +215,9 @@ An example of how to use the XY area chart component is illustrated in the `repo
   </xc:XYChart>
 </componentElement>
 ```
+
 The report is filled using a CSV data source based on the `data/xyDatasource.csv` file, as shown in `src/XChartApp.java`:
+
 ```
 public void fill() throws JRException
 {
@@ -233,13 +243,16 @@ public void fill() throws JRException
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 The CSV datasource is stored in the `xyDatasource` parameter that will be passed to the XY chart dataset at runtime. The output will be an XY area chart with three different series, having the amount probability on the x-axis and the amount on the y-axis. The series colors are also provided by the CSV datasource parameter.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/xchartcomponent ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/xchartcomponent/target/reports` directory.

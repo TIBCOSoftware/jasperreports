@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Hyperlink Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Hyperlink Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how hyperlinks and anchors could be used in report templates.
 
@@ -41,11 +41,13 @@ The type of the hyperlink is stored in an attribute named `hyperlinkType`. This 
 ### Hyperlink Expressions
 
 Depending on the standard hyperlink type specified, one or two of the following expressions are evaluated and used to build the reference to which the hyperlink element will point:
+
 ```
 <hyperlinkReferenceExpression>
 <hyperlinkAnchorExpression>
 <hyperlinkPageExpression>
 ```
+
 Note that the first two should always return `java.lang.String` and the third should return `java.lang.Integer` values. A remote anchor requires both `<hyperlinkReferenceExpression>` and `<hyperlinkAnchorExpression>` to be present. A remote page requires both `<hyperlinkReferenceExpression>` and `<hyperlinkPageExpression>` to be present.
 
 ### Hyperlink Target
@@ -96,24 +98,29 @@ If present in a text field or image element declaration, the `<anchorNameExpress
 Some of the document formats, such as PDF, have built-in support for tables of contents and bookmarks. To allow you to make use of this, JasperReports lets you transform anchors into document bookmarks. To be used as bookmarks, anchors should have an indentation level set. To do this, set a positive integer value for the `bookmarkLevel` attribute available for all hyperlink elements in JasperReports. In case you need to set the bookmark level dynamically, you could use the element's `<bookmarkLevelExpression/>` instead. It will override the `bookmarkLevel` attribute.
 
 **Creating a Local Anchor Example**
+
 ```
 <element kind="textField" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
   <expression><![CDATA["This is the TITLE section"]] ></expression>
   <anchorNameExpression><![CDATA["title"]] ></anchorNameExpression>
 </element>
 ```
+
 The `<anchorNameExpression>` tag was used here in order to associate a local anchor, named title, with this text field.
 
 **Creating a Local Anchor Hyperlink Example**
+
 ```
 <element kind="textField" x="5" y="35" width="300" height="15" forecolor="#FF0000" linkType="LocalAnchor">
   <expression><![CDATA["  >> Click here to go to the title section."]] ></expression>
   <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
 </element>
 ```
+
 The hyperlink created using the `<hyperlinkAnchorExpression>` tag points to the local anchor created above.
 
 **Creating a Local Page Hyperlink Example**
+
 ```
 <element kind="textField" x="5" y="65" width="300" height="15" forecolor="#008000" linkType="LocalPage">
   <expression><![CDATA["  >> Click here to go to the second page."]] ></expression>
@@ -121,18 +128,22 @@ The hyperlink created using the `<hyperlinkAnchorExpression>` tag points to the 
   ...
 </element>
 ```
+
 The hyperlink created using the `<hyperlinkPageExpression>` tag points to the second page of the current document.
 
 **Creating a Reference Hyperlink Example**
+
 ```
 <element kind="textField" x="5" y="95" width="300" height="15" linkType="Reference" linkTarget="Blank">
   <expression><![CDATA["  >> Click here to go to www.google.com"]] ></expression>
   <hyperlinkReferenceExpression><![CDATA["http://www.google.com"]] ></hyperlinkReferenceExpression>
 </element>
 ```
+
 The hyperlink created using the `<hyperlinkReferenceExpression>` tag points to the www.google.com site.
 
 **Creating a Remote Anchor Hyperlink Example**
+
 ```
 <element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
   <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
@@ -140,9 +151,11 @@ The hyperlink created using the `<hyperlinkReferenceExpression>` tag points to t
   <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
 </element>
 ```
+
 The hyperlink created using the `<hyperlinkReferenceExpression>` and `<hyperlinkAnchorExpression>` tags points to an anchor named title found in the `HyperlinkReport.pdf` document, saved in the current directory.
 
 **Creating a Remote Page Hyperlink Example**
+
 ```
 <element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
   <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
@@ -150,15 +163,18 @@ The hyperlink created using the `<hyperlinkReferenceExpression>` and `<hyperlink
   <hyperlinkPageExpression>2</hyperlinkPageExpression>
 </element>
 ```
+
 The hyperlink created using the `<hyperlinkReferenceExpression>` and `<hyperlinkPageExpression>` tags points to the second page of the `HyperlinkReport.pdf` document, saved in the current directory.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/hyperlink` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/hyperlink/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -186,14 +202,17 @@ In-memory template objects can be created either from direct usage of the Jasper
 Once obtained such an in-memory object, its structure can be read and transformed into a JRXML representation with the help of [JasperCompileManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperCompileManager.html) facade class, which comes with different public static methods for both compiling report templates and extracting the JRXML representation from in-memory report template objects. Extracting and writing the JRXML content is done when one of the multiple `writeReportToXmlFile(...)`, `writeReportToXmlStream(...)` or `writeReportToXml(...)` methods in the facade is called.
 
 In this sample a new JRXML file is generated from an in-memory compiled report template by running the command
+
 ```
 >mvn clean compile exec:java -Dexec.args="compile writeXml"
 ```
+
 from command line.
 
 The Ant compile task associated with the compile argument will create an in-memory compiled report template from the existing `reports/HyperlinkReport.jrxml` sample file. The compiled report template will be saved on disk as `HyperlinkReport.jasper` file (in the `target/reports` folder of this sample).
 
 The subsequent `writeXml` call will load the `HyperlinkReport.jasper` file into memory, then will extract the JRXML representation from this object and will save the representation on disk as `HyperlinkReport.jasper.jrxml` file (also in `target/reports` folder). The `writeXml` target is executing the `writeXml()` method in `HyperlinkApp` class (see `src/HyperlinkApp.java` file):
+
 ```
 public void writeXml() throws JRException
 {
@@ -202,6 +221,7 @@ public void writeXml() throws JRException
   System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 Here is shown how a static `writeReportToXmlFile(String)` method of JasperCompileManager is requested. Going further, any of the writeReportToXml...(...) methods in [JasperCompileManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperCompileManager.html) will call a related `write(...)` method of [JRXmlWriter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlWriter.html) utility class. Public `write(...)` and `writeReport(...)` methods in this utility class perform all the JRXML extraction work, in accordance with their parameters.
 
 The generated JRXML representation depends on both the in-memory object and [JRXmlWriter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlWriter.html) versions. If these versions are the same, the JRXML representation should look also the same as the original JRXML file, otherwise the JRXML representation might look slightly different (some older JRXML features are deprecated or replaced in newer versions).
@@ -229,6 +249,7 @@ In order to handle page backgrounds, there is a special section in JasperReports
 **Using the Background Section Example**
 
 Below is an example of how to embed an image into document's page background. The image is loaded from the `jr.watermark.gif` file placed in the current directory.
+
 ```
 <background height="742">
   <element kind="image" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
@@ -236,3 +257,4 @@ Below is an example of how to embed an image into document's page background. Th
   </element>
 </background>
 ```
+

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Batch Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Batch Export Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple reports could be concatenated during export.
 
@@ -26,29 +26,37 @@ Once generated, a [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf
 - a set of export configuration settings to be applied either globally or per each report in the list
 
 Exporter builtin implementations acquire input data based on methods inherited from their [JRAbstractExporter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html) super class. When extending the [JRAbstractExporter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html) class, one can reuse the
+
 ```
 public void setExporterInput(ExporterInput exporterInput)
 ```
+
 method to deal with the report sources and export configuration settings.
 
 As shown in the method signature, all we need is an [ExporterInput](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInput.html) object. This object must implement the
+
 ```
 public List<ExporterInputItem> getItems()
 ```
+
 method in order to retrieve a list of [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) objects. Each [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) in the list contains a single [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object along with its related export configuration settings. Methods in the [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) interface are:
 - `public JasperPrint getJasperPrint()` - return the [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object
 - `public ReportExportConfiguration getConfiguration()` - return export configuration settings to be applied for the [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object
 
 Global configuration settings per exporter can be configured using the
+
 ```
 public void setConfiguration(C configuration)
 ```
+
 method in the [JRAbstractExporter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html) class. This method accepts an [ExporterConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterConfiguration.html) object that contain common export settings available for the exporter itself; they do not depend on particular reports and will be applied globally during the export. An example of global setting is the use of custom color palette in the Excel output. This is a global setting for the Excel app itself, rather than a report setting, so it should be set globally per export.
 
 Another way to provide configuration settings globally is to use the overloaded
+
 ```
 public void setConfiguration(RC configuration)
 ```
+
 method in the [JRAbstractExporter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractExporter.html) class. It requires a [ReportExportConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ReportExportConfiguration.html) object. This object contains common report-specific export settings and will be applied during the report per each report in the list.
 
 ### Builtin implementations
@@ -149,7 +157,9 @@ public void fill() throws JRException
 }
 
 ```
+
 Let's see now the batch export to the PDF output:
+
 ```
 public void pdf() throws JRException
 {
@@ -172,20 +182,25 @@ public void pdf() throws JRException
   System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 }
 ```
-One can see that a list of [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects is loaded from previously created *.jrprint files. The list is used to populate the exporter input data, using the `SimpleExporterInput` builtin implementation: :
+
+One can see that a list of [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects is loaded from previously created *.jrprint files. The list is used to populate the exporter input data, using the `SimpleExporterInput` builtin implementation:
+
 ```
 exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
 ```
+
 Based on the list of [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects, the `SimpleExporterInput` will create and save a list of corresponding [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) objects.
 
 Next, a global configuration setting is supplied to the exporter, using the `SimplePdfExporterConfiguration` implementation. This will instruct the exporter to take into account the batch export mode when creating bookmarks.
+
 ```
 SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
 configuration.setCreatingBatchModeBookmarks(true);
 exporter.setConfiguration(configuration);
-
 ```
+
 Another example is the batch export to Excel 2007 (XLSX) output format:
+
 ```
 public void xlsx() throws JRException
 {
@@ -208,22 +223,26 @@ public void xlsx() throws JRException
   System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 The main difference here is the global use of the `SimpleXlsxReportConfiguration` class, the builtin implementation of the [ReportExportConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ReportExportConfiguration.html) interface fot the XLSX output format:
+
 ```
 SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 configuration.setOnePagePerSheet(false);
 exporter.setConfiguration(configuration);
-
 ```
+
 This configuration setting may differ from report to report, but when it's set on the exporter like above, it means that the same setting will be applied to al reports in the list. To have different settings per each report, we need to set a [ReportExportConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ReportExportConfiguration.html) to each [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) in the list.
 
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/samples/batchexport` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/batchexport/target/reports` directory.
 
 

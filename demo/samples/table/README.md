@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Table Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Table Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Illustrates the usage of the table component element.
 
@@ -51,6 +51,7 @@ Finally, to make a table component fully functional, a `datasetRun` declaration 
 ### The Table Component Sample
 
 Now let's see a table component in action. The table defined in the `TableReport.jrxml` is similar to that one defined in the [Tabular](//.tabular/README.md) sample: it contains three independent columns with column headers and footers, plus a column group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is a fragment from the related code, that contains the definition of the first column in the table:
+
 ```
 <element kind="component" y="50" width="555" height="100" style="Table">
   <component kind="table">
@@ -89,6 +90,7 @@ Now let's see a table component in action. The table defined in the `TableReport
   <property name="net.sf.jasperreports.export.pptx.frame.as.table" value="true"/>
 </element>
 ```
+
 Notice that the column declaration contains a `columnHeader, columnFooter` and a `detailCell`.
 
 The subsequent column grouping the report includes a `columnHeader` declaration and two separate columns. The group `columnHeader` will be shared by all columns in the group, inheriting the width of the column group. Individual column headers will be printed on a separate row, under the common group header. To keep the table rows consistency, the `rowSpan="2"` setting was required in the header declarations for the first three individual columns in the table.
@@ -101,7 +103,9 @@ It should also be noticed how `box` elements and `style` attributes were used to
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/table ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/table/target/reports` directory.

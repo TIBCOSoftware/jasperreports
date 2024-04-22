@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Markup Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Markup Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the text markup feature works in static and dynamic text elements.
 
@@ -41,36 +41,45 @@ If the `html` or `rtf` values are set, then the engine calls a dedicated markup 
 ### The Markup Sample
 
 This sample contains 3 structured text paragraphs.\
-The first one is formatted using the `markup="styled"` value:
+The first one is formatted using the `markup="styled"` value\:
+
 ```
-<element kind="staticText" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0">
-  <text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing
-    styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the
-    <style forecolor="blue" isItalic="true">markup</style> attribute available for the
-    <style isBold="true" forecolor="magenta">textElement</style>
-    tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using
-    nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags,
-    including <a type="Reference" href="http://jasperreports.sf.net" target="Blank">
+<element kind="staticText" mode="Opaque" width="555" height="110" backcolor="#C0C0C0" markup="styled" fontSize="16.0"> 
+  <text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing 
+    styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the 
+    <style forecolor="blue" isItalic="true">markup</style> attribute available for the 
+    <style isBold="true" forecolor="magenta">textElement</style> 
+    tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using 
+    nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, 
+    including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"> 
     <style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]] ></text>
 </element>
 ```
-The second paragraph is read from the `rtf.txt` file in the `/reports` folder and stored in the `$P{RtfText}` parameter. Its content gets decoded using the RTF markup processor:
+
+The second paragraph is read from the `rtf.txt` file in the `/reports` folder and stored in the `$P{RtfText}` parameter. Its content gets decoded using the RTF markup processor\:
+
 ```
 <element kind="textField"positionType="Float" mode="Opaque" y="120" width="555" height="110" backcolor="#C0C0C0" markup="rtf" textAdjust="StretchHeight" fontSize="16.0">
   <expression><![CDATA[$P{RtfText}]] ></expression>
 </element>
 ```
-The third paragraph is read from the `html.txt` file in the `/reports` folder and stored in the `$P{HtmlText}` parameter. Its content gets decoded using the HTML markup processor:
+
+The third paragraph is read from the `html.txt` file in the `/reports` folder and stored in the `$P{HtmlText}` parameter. Its content gets decoded using the HTML markup processor\:
+
 ```
 <element kind="textField" positionType="Float" mode="Opaque" y="240" width="555" height="110" backcolor="#C0C0C0" markup="html" textAdjust="StretchHeight" fontSize="16.0">
   <expression><![CDATA[$P{HtmlText}]] ></expression>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
-In a command prompt/terminal window set the current folder to `demo/samples/markup` within the JasperReports source project and run the following command:
+In a command prompt/terminal window set the current folder to `demo/samples/markup` within the JasperReports source project and run the following command\:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvnn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/markup/target/reports` directory.
+

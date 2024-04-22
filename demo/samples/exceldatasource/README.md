@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Excel Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Excel Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the Excel data source implementation could be used to fill reports.
 
@@ -37,6 +37,7 @@ Report-field mapping for this data source implementation is very similar to the 
 In our example data records are stored in the `/data/MultisheetXlsDataSource.data.xls` file and the `MultisheetXlsxDataSource.data.xlsx` file respectively, depending on the Excel file format (XLS vs XLSX). It contains the same records as in the [CSV Data Source](../csvdatasource/README.md#csvdatasource) sample, but the `city` and `id` columns are separated by an empty column (ie. records contain in fact 6 fields, but the second field in each record is always empty).
 
 There are no column headers in the Excel files. This means that column names are set independently, as shown in the `getDataSource()` method in the `/src/ExcelDataSourceApp.java` file:
+
 ```
 private static ExcelDataSource getDataSource(String fileName) throws JRException
 {
@@ -60,9 +61,11 @@ private static ExcelDataSource getDataSource(String fileName) throws JRException
   return ds;
 }
 ```
+
 Column names are the same as in the CSV example: `city, id, name, address` and `state`. But they are associated with particular column indexes: 0, 2, 3, 4, 5. The empty column's index (1) is skipped, and doing so, the empty content of the second column will be neglected.
 The [ExcelDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/poi/data/ExcelDataSource.html) object prepared above is passed to the engine at fill time (see again the `/src/ExcelDataSourceApp.java` file).\
 The following method uses the XLS data source:
+
 ```
 public void fill1() throws JRException
 {
@@ -80,7 +83,9 @@ public void fill1() throws JRException
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 The following method uses the XLSX data source:
+
 ```
 public void fill2() throws JRException
 {
@@ -98,7 +103,9 @@ public void fill2() throws JRException
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 The `IncludedStates` parameter defined above is used for data filtering. Only records with `Active` or `Trial` states will be taken into account:
+
 ```
   <parameter name="IncludedStates" class="java.util.Set"/>
 
@@ -111,7 +118,9 @@ The `IncludedStates` parameter defined above is used for data filtering. Only re
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/exceldatasource` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/exceldatasource/target/reports` directory.

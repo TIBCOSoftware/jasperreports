@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JSONQL Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JSONQL Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSONQL data source and the JSONQL query executer implementations could be used to fill reports.
 
@@ -40,10 +40,13 @@ The examples are based on the restructured `data/northwind.json` source file.
 
 It is triggered when the jsonql language is specified:
 - at report level:
+
 ```
 <query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>
 ```
+
 - or in the data adapter:
+
 ```
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
   ...
@@ -51,6 +54,7 @@ It is triggered when the jsonql language is specified:
   ...
 </jsonDataAdapter>
 ```
+
 The [JsonQLQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQLQueryExecuter.html) uses the query string to produce a [JsonQLDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/data/JsonQLDataSource.html) instance, based on the same built-in parameters (or equivalent report properties) as for the existing [JsonDataSource](jsonqldatasource). This query executer is registered via [JsonQLQueryExecuterFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQLQueryExecuterFactory.html) factory class.
 
 As in the case of the existing JSON query executer, in order to prepare the data source, the JSONQL query executer looks for the [JSON_INPUT_STREAM](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM) parameter that contains the JSON source objects in the form of an `java.io.InputStream`. If no [JSON_INPUT_STREAM](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM) parameter is provided, then the query executer looks for the alternate `net.sf.jasperreports.json.source` String parameter or report property that stores the path to the location of the JSON source file.
@@ -73,13 +77,17 @@ In the next section you can see how these additional parameters are provided in 
 In our example, the data is stored as a hierarchy of `Northwind.Customers.Orders` objects in the `data/northwind.json` file.
 
 The JSONQL configuration is done in the `data/northwindDataAdapter.jrdax` data adapter file that is provided in the `reports/NorthwindOrdersReport.jrxml` via the report property:
+
 ```
 <property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.jrdax"/>
 ```
+
 In the `NorthwindOrdersReport` we run a JSONQL query in order to retrieve orders from anywhere:
+
 ```
 <query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>
 ```
+
 In reversed order of application, the query simply translates to: `"Select the children(.*) of Orders - with size greater than 1 - from anywhere"`
 
 This query is possible since the Orders property of each customer is an array. Therefore we can apply an array specific filtering function to each value for the Orders property. In this case we are interested in the Orders that have more than one element.
@@ -89,6 +97,7 @@ The "get children" expression `.*` is necessary here because without it we would
 The properties (fields) that we are interested in are:
 
 - properties of the order itself: `OrderID, OrderDate` and `Freight`:
+
 ```
 <field name="Id" class="java.lang.String">
   <property name="net.sf.jasperreports.jsonql.field.expression" value="OrderID"/>
@@ -114,7 +123,9 @@ that are obtained by going up 2 levels
   <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA["^^[\"Company Name\"]"]] ></propertyExpression>
 </field>
 ```
+
 The rest of the configuration necessary for this sample to work is done in the data adapter file: `data/northwindDataAdapter.jrdax`
+
 ```
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
@@ -126,6 +137,7 @@ The rest of the configuration necessary for this sample to work is done in the d
   <numberPattern>#,##0.##</numberPattern>
 </jsonDataAdapter>
 ```
+
 Here we specify:
 
 - the source file with the JSON data: `/data/northwind.json`
@@ -138,9 +150,11 @@ Here we specify:
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/jsonqldatasource` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/jsonqldatasource/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -160,6 +174,7 @@ Detailed description of the JSONQL query language.
 JSONQL is a language used for querying JSON data structures. It appeared from the need to perform more complex JSON traversals and filtering. JSONQL is not compatible with the existing JSON language due to its possibly complicated syntax.
 
 We typically write JSONQL queries in query expressions marked with the appropriate `jsonql` language:
+
 ```
 <query language="jsonql"><![CDATA[ ..Orders(@size > 1).* ]] ></query>
 ```
@@ -167,13 +182,17 @@ We typically write JSONQL queries in query expressions marked with the appropria
 ### Syntax
 
 A JSONQL query is an expression containing one or more chained members:
+
 ```
 [member1][member2]...[memberN]
 ```
+
 For example, in the following expression:
+
 ```
 Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997")
 ```
+
 we distinguish the following members:
 
 - `[Northwind]`
@@ -188,24 +207,30 @@ When successful, the final result of the JSONQL expression is a collection of JS
 ### Absolute expressions
 
 Absolute expressions start with the `$` symbol placed in front of the first member expression:
+
 ```
 $.Northwind.Customers[0]["Company Name"]
 ```
+
 or
+
 ```
 $["Northwind"].Customers[0]["Company Name"]
 ```
+
 etc.
 
 When used in the report's query, it makes no difference if an expression is absolute or not. The result is always calculated from the root of the JSON data.
 
 The only place where the absolute expression matters is the field's property expression. For example:
+
 ```
 <field name="FirstCustomerCompanyName" class="java.lang.String">
   <description><![CDATA[ The company name of the first customer]] ></description>
   <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "$.Northwind.Customers[0][\"Company Name\"]" ]] ></propertyExpression>
 </field>
 ```
+
 defines a field whose value is calculated directly from the root Northwind object and not relative to the field in the dataSet produced by the query.
 `
 You may want to use an absolute expression like this when the value you are interested in is not part of any of the results produced by the main dataSet's query.
@@ -214,7 +239,8 @@ You may want to use an absolute expression like this when the value you are inte
 
 Comments are supported inside JSONQL expressions. A JSONQL expression can be a single or multi-line expression, therefore we have single line comments and multi-line comments:
 
-- Single line comments start with the // symbol:
+- Single line comments start with the `//` symbol:
+
 ```
 Northwind
   .Customers
@@ -222,9 +248,11 @@ Northwind
   .*
   //(Freight > 200 && OrderDate *= "1997")
 ```
+
 Here we comment out the entire filtering expression.
 
 - Multi-line comments start with `/*` and end with `*/` symbols:
+
 ```
 Northwind
   .Customers
@@ -232,20 +260,25 @@ Northwind
   .*
   (Freight > 200 && OrderDate *= "1997")*/
 ```
+
 Here we comment out everything that follows the `Customers` member.
 
 We can also use the multi-line comment inside a single line JSONQL expression:
+
 ```
 Northwind.Customers.Orders.*(Freight > 200 /*&& OrderDate *= "1997"*/)
 ```
+
 Here we comment out only a part of the filtering expression.
 
 ### JSONQL Members
 
 A member is an expression that tells us how to navigate a single level (up or down or anywhere down) into the JSON tree. The generic member expression has this form:
+
 ```
 [direction][key(s)][filterExpression]
 ```
+
 The tables below presents all the supported member types within a JSONQL expression. Only the `[direction][key(s)]` part is shown here as the `[filterExpression]` is applicable to all member types and will be described separately.
 
 <table class="doctable">
@@ -643,9 +676,11 @@ The tables below presents all the supported member types within a JSONQL express
 
 Each member expression described above can be accompanied by a filter expression.\
 Let's consider the following JSONQL expression:
+
 ```
  Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997")
 ```
+
 It contains the following members:
 
 - `[Northwind]`
@@ -654,9 +689,11 @@ It contains the following members:
 - `[.*(Freight > 200 && OrderDate *= "1997")]`
 
 Members `#1`, `#2` and `#3` contain no filter expression, only `#4` does:
+
 ```
  (Freight > 200 && OrderDate *= "1997")
 ```
+
 In this case we have a compound filter expression made out of two basic filter expressions joined by the logical and(`&&`) operator.
 
 The filter expression is evaluated as member results are added to the whole expression's result.

@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Generic Element Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Generic Element Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how generic elements embedded in reports can be managed at export time by custom handlers.
 
@@ -40,6 +40,7 @@ Generic element handlers are also specific to a report exporter. Currently only 
 ### Generic Elements Sample
 
 This sample shows how to embed a special HTML snippet into a report to show content coming from a public website. The `GenericElementReport.jrxml` file contains two generic elements configured to embed specific statistics widgets for the JasperReports project, provided by the [Open Hub](http://ohloh.net/) site.
+
 ```
 <element kind="generic" y="100" width="400" height="200" style="widget1">
   <genericType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="languages"/>
@@ -54,6 +55,7 @@ This sample shows how to embed a special HTML snippet into a report to show cont
   </parameter>
 </element>
 ```
+
 Both generic elements share the same namespace, but they have different names. This means that there are two different types (languages and stats) to be processed at export time using specific export handlers.
 
 In our example both languages and stats types are processed identically, using the same handler. One can see the handler class in the `src/net/sf/jasperreports/ohloh` directory:
@@ -65,6 +67,7 @@ To register these handlers, two properties were defined in the `jasperreports_ex
 - `net.sf.jasperreports.extension.jr.statistics.spring.beans.resource=net/sf/jasperreports/ohloh/beans.xml` - is pointing to the Spring `beans.xml` XML bundle.
 
 In the `beans.xml` file is configured the export handlers bundle associated with the http://jasperreports.sourceforge.net/jasperreports/ohloh namespace:
+
 ```
 <bean id="ohlohExportHandlerBundle"
     class="net.sf.jasperreports.engine.export.DefaultElementHandlerBundle">
@@ -104,6 +107,7 @@ In the `beans.xml` file is configured the export handlers bundle associated with
   <property name="widgetName" value="project_basic_stats"/>
 </bean>
 ```
+
 Notice the `languages` and `stats` keys in the exporter bundle map, each one providing a handler for the HTML format.
 
 Also notice the Spring bean property `widgetName` defined for all export handlers, in order to store the widget name required at export time.
@@ -111,18 +115,22 @@ Also notice the Spring bean property `widgetName` defined for all export handler
 Further, one can see that `net.sf.jasperreports.ohloh.OhlohWidgetHtmlHandler` class handles both `languages` and `stats` for the HTML output, preparing a `<script/>` snippet to be included in the generated HTML document, in order to request a specific widget from the Open Hub site.
 
 Now it's time go back to generic elements in the JRXML file. The only two parameters required by the Open Hub site in order to process the requested[Open Hub](http://ohloh.net/) statistics, are the project ID and the widget name. Therefore, both generic elements in the JRXML contain the following generic element parameter:
+
 ```
 <genericElementParameter name="ProjectID">
   <valueExpression class="java.lang.Integer"><![CDATA[$P{JRProjectID}]] ></valueExpression>
 </genericElementParameter>
 ```
+
 The widget name parameter is injected as Spring bean property, as shown above.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/genericelement` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/genericelement/target/reports` directory.

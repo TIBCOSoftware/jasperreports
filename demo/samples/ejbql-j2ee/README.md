@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - EJBQL Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - EJBQL Sample (Using Legacy Java EE API) <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how EJBQL could be used in reports, based on the legacy Java EE API.
 
@@ -35,13 +35,17 @@ Two built-in parameters are involved in the query execution:
 - [`JPA_QUERY_HINTS_MAP`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/j2ee/ejbql-j2ee/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP) - that contains a map with hint values mapped on hint names, to be used when running the query. Hints can also be specified statically by using report properties. The query executer treats any report property in the category `net.sf.jasperreports.ejbql.query.hint.{hintName}` as a hint by interpreting the property suffix as the hint name and the property value as the hint value.
 
 An example of query hint property is the following:
+
 ```
 <property name="net.sf.jasperreports.ejbql.query.hint.cacheType" value="Shared"/>
 ```
+
 A separate report property can be used to paginate the query result in order to control the amount of Java heap space used by the query executer while filling the report. The property can be set in the following manner:
+
 ```
 <property name="net.sf.jasperreports.ejbql.query.page.size" value="500"/>
 ```
+
 meaning that the query result will be fetched in chunks containing 500 rows each. The pagination is achieved via the `javax.persistence.Query.setMaxResults()` and `setFirstResult()` methods.\
 Obviously, using pagination could result in performance loss. Therefore enabling it is primarily recommended when the query results are very large.
 
@@ -64,6 +68,7 @@ The movie database sample in the `demo/samples/ejbql` directory is structured as
 - the `lib` directory contains 3-rd party jars with necessary persistence APIs
 - the `reports` directory contains, as usual, report templates (1 master and 2 subreports)
 - the `src` directory contains a META-INF subdirectory with the persistence.xml persistence configuration file:
+
 ```
 <persistence-unit name="pu1">
   <!-- Provider class name is required in Java SE -->
@@ -84,7 +89,9 @@ The movie database sample in the `demo/samples/ejbql` directory is structured as
   </properties>    
 </persistence-unit>
 ```
+
 the annotated entity classes mapped on the tables in the database: `Person, Movie, Cast` and `Varia`. Corresponding tables are specified in the `@Table` annotation:
+
 ```
 @Entity
 @Table(name="movie_cast")
@@ -92,11 +99,13 @@ public class Cast {
 ...
 }
 ```
+
 the `EjbqlApp.java` file that hosts the `main` method.
 
 The `reports/JRMDbReport.jrxml` master report is structured to present movies in the database along with their additional informations, such as casting, awards, quotes, etc. Casts are managed separately in the `reports/JRMDbCastSubreport.jrxml` template, and the rest of additional information is provided by the `reports/JRMDbVariaSubreport.jrxml`
 
 Looking into the `reports/JRMDbReport.jrxml`, one could notice the specific hint properties, the EJB QL query syntax, report fields declarations and how the subreports were set:
+
 ```
 ...
 <property name="net.sf.jasperreports.ejbql.query.hint.fetchSize" value="50"/>
@@ -136,6 +145,7 @@ Looking into the `reports/JRMDbReport.jrxml`, one could notice the specific hint
 </detail>
 ...
 ```
+
 The `Movie` entities provide an id, a director (who is a `Person` entity), a title, a genre, releaseDate and a collection of cast entities. Notice the report field `director.name` that refers to the name property in the director entity.
 
 The casts collection in the cast field is passed as a [JRBeanCollectionDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html) to the casting subreport.
@@ -143,12 +153,15 @@ The casts collection in the cast field is passed as a [JRBeanCollectionDataSourc
 The Varia subreport has no expression for data source/connection, but takes the built-in [`PARAMETER_JPA_ENTITY_MANAGER`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/j2ee/ejbql-j2ee/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER) parameter into consideration, and the movie ID, in order to identify the `Varia` entities related to the movie.
 
 The `reports/JRMDbCastSubreport.jrxml` provides no query, because the data source comes already prepared here. There are two fields declared in the report:
+
 ```
 <field name="actor.name" class="java.lang.String"/>
 <field name="character" class="java.lang.String"/>
 ```
+
 Again, the actor.name field references the name property in the actor entity of type `Person`.
 In the `reports/JRMDbVariaSubreport.jrxml` one could notice the presence of an EJB QL query and field descriptions based on column positions:
+
 ```
 ...
 <parameter name="MovieId" class="java.lang.Integer"/>
@@ -171,13 +184,17 @@ In the `reports/JRMDbVariaSubreport.jrxml` one could notice the presence of an E
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/ejbql-j2ee` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/ejbql-j2ee/target/reports` directory.

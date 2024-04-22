@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XLS Formula Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XLS Formula Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how formulas could be introduced in reports exported to XLS format.
 
@@ -44,9 +44,11 @@ The JasperReports engine provides a feature which allows using a formula as cont
 The formula will affect the text field value only when the document will be exported to XLS or XLSX format, and will be neglected when exporting the document to other formats. All other exporters will take into account the value given by the `<expression />` element.
 
 But first of all one have to ensure that cells are enabled to detect their own data type. By default all data are exported as text only. Enabling the cell type detection can be done setting the export hint property `net.sf.jasperreports.export.xls.detect.cell.type` to `true`:
+
 ```
 <property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
 ```
+
 In JasperReports a formula can be stored using the [PROPERTY_CELL_FORMULA](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/ExcelAbstractExporter.html#PROPERTY_CELL_FORMULA) text field property.
 
 The property name is `net.sf.jasperreports.export.xls.formula`, and usually its value is a string containing the formula expression. The expression can be a very simple one, or a more and more complex, as needed.
@@ -59,15 +61,18 @@ Although in Excel any formula expression should start with the `"="` sign, the J
 ### Formula usage examples
 
 The `XlsFormulaReport.jrxml` sample report illustrates how to use the cell formula property in several cases. It contains 2 cells, `A2` and `A3`, having simple static values (given by very simple formulas, as will be seen below), a cell `A4` containing the sum of `A2` and `A3` calculated using static data, and a cell `A5` containing the difference between `A2` and `A3` calculated using a dynamic expression.
+
 ```
 A2 = 7;
 A3 = 4;
 A4 = SUM(7,4) = 11;
 A5 = A2 - A3 = 3.
 ```
+
 Below are some pieces of code showing how formulas should be written:
 
 The text field containing the `A2` cell's value:
+
 ```
 <element kind="textField" key="textField-1"...>
   <expression><![CDATA[7]] ></expression>
@@ -75,12 +80,14 @@ The text field containing the `A2` cell's value:
   ...
 </element>
 ```
+
 Two things of interest are here:
 
 - The `<property name="net.sf.jasperreports.export.xls.formula" value="7"/>` element, containing the most simple formula possible. The number 7 could be considered itself as a formula result.
 - The `<expression class="java.lang.Integer">0</expression>` element, containing also the value of 0. This value will be exported to all other output formats but XLS, instead of the formula property.
 
 Next, the text field containing the `A4` cell's value:
+
 ```
 <element kind="textField" ...>
   <expression><![CDATA[0]] ></expression>
@@ -88,10 +95,12 @@ Next, the text field containing the `A4` cell's value:
   ...
 </element>
 ```
+
 Again, the `<property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/>` element contains only a `sum` formula, and not the effective value. When exported to XLS format, Excel will calculate the correct value and will write it in the cell.\
 All other exporters will consider that the A4 value is 0, as shown in the `<expression />` tag.
 
 Finally, the text field containing the `A5` cell's value:
+
 ```
 <element kind="textField" ...>
   <expression><![CDATA[0]] ></expression>
@@ -99,6 +108,7 @@ Finally, the text field containing the `A5` cell's value:
   ...
 </element>
 ```
+
 Here was used a `<propertyExpression />` instead of simple `<property />`, and the formula expression is more complicated, and needs a `CDATA` section to be written. In a `CDATA` section could be used any dynamic expression we need, containing also variable names, parameter names, field names, and any other valid java expression.
 
 The value of `A5` will be calculated by Excel when opening the generated Excel document, and for other output formats the 0 value will be exported.
@@ -107,7 +117,9 @@ The value of `A5` will be calculated by Excel when opening the generated Excel d
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/xlsformula` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/xlsformula/target/reports` directory.

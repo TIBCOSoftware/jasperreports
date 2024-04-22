@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Chart Customizers Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Chart Customizers Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to use multiple chart customizers on the same chart
 
@@ -24,15 +24,20 @@ When the chart customizer feature was first introduced, only one chart customize
 Although a chart customizer gives great flexibility in altering or enhancing the output of the chart element, having only one such object did not allow easy reuse and piling/stacking up several chart customizer at a time.
 
 Support for multiple chart customizers per chart element was introduced using custom properties at chart element level having their names in the following format:
+
 ```
 net.sf.jasperreports.customizer.class.{arbitrary_name}
 ```
+
 Such a property is supposed to specify the name of a class that implements the [JRChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/JRChartCustomizer.html) interface and has an empty constructor. This constructor is used to instantiate a chart customizer object at report fill time and is then called to customizer the chart output. The `{arbitrary_name}` suffix of the property is optional and represents the name of the chart customizer. This value will be injected into the chart customizer object using the `setName(String)` method in case the chart customizer implements the [NamedChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/NamedChartCustomizer.html) interface.
 The name of the chart customizer allows the chart object to identify additional custom properties at chart element level which are considered to be its own and help configure it, because they contain the name as part of the full property name which have the following format:
+
 ```
 net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}
 ```
+
 Here follows an example in which the domain axis of an XY line chart is configured by setting the minimum and maximum values of the axis as well as the distance between ticks:
+
 ```
 <element kind="chart" chartType="xyLine" width="555" height="300" evaluationTime="Report">
   ...
@@ -42,7 +47,6 @@ Here follows an example in which the domain axis of an XY line chart is configur
   <property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
   ...
 </element>
-
 ```
 
 ### Packaged Chart Customizers

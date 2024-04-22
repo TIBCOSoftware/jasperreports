@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Alter Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Alter Design Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how compiled report templates can be modified on-the-fly without requiring recompilation.
 
@@ -40,6 +40,7 @@ If you open the `reports/AlterDesignReport.jrxml` source file in the current sam
   <pen lineWidth="4.0"/>
 </element>
 ```
+
 Notice the key attribute in each rectangle <element> tag. This attribute represents an user defined value that will help us locate the rectangle element inside the reports section later on.
 
 Open the `src/AlterDesignApp.java` source file in the current sample and go to the `fill()` method corresponding to the `fill` ant task.
@@ -50,6 +51,7 @@ File sourceFile = new File("target/reports/AlterDesignReport.jasper");
 ...
 JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 ```
+
 Then for each of the three rectangles found in the title section of the report template, we change the forecolor and the backcolor using runtime random color codes. Each rectangle is looked up for inside the parent section using its unique user defined key value, as specified in the JRXML.
 
 ```
@@ -65,6 +67,7 @@ rectangle = (JRRectangle)jasperReport.getTitle().getElementByKey("third.rectangl
 rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
 rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 ```
+
 In addition to changing rectangle colors, we also change the font size and the font style to the first report style, as defined in the JRXML.
 
 ```
@@ -72,18 +75,20 @@ JRStyle style = jasperReport.getStyles()[0];
 style.setFontSize(16f);
 style.setItalic(Boolean.TRUE);
 ```
+
 The in-memory report template is then passed to the report filling process, the result being a document which will have the rectangle colors and style properties as specified above, different from the static values they had in the original report template loaded from the file.
 
 ```
 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
 ```
+
 ### Running the sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 To test this sample, open a command prompt and go to the /demo/samples/alterdesign folder of the JR project source tree. Type the following command:
 
 ```
-> mvn clean compile exec:java -Dexec.args="compile fill view"
+.> mvn clean compile exec:java -Dexec.args="compile fill view"
 ```
 
 Every time you run this command, you should be seeing the same result, but with different random colors for the 3 rectangles.

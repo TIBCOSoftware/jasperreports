@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Barcode4J Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Barcode4J Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how barcodes could be included in reports using the Barcode4J component.
 
@@ -159,6 +159,7 @@ Specific attributes for this component are enumerated below:
 ### Barcode4J Samples
 
 Some examples of howto use the available Barcode4j components are given in the JRXML sample:
+
 ```
 <element kind="component" x="130" y="100" width="200" height="30" style="Barcode">
   <component kind="barcode4j:Code128" moduleWidth="1.0">
@@ -250,11 +251,14 @@ Some examples of howto use the available Barcode4j components are given in the J
   </component>
 </element>
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/samples/barcode4j` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/barcode4j/target/reports` directory.

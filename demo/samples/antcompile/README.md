@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Ant Compile Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Ant Compile Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.
 
@@ -48,6 +48,7 @@ Open the `build.xml` file in the current sample and notice how the custom Ant ta
   <classpath refid="classpath"/>
 </taskdef>
 ```
+
 This task definition uses a `<classpath>` element which contains the JasperReports JAR and all its required dependencies.
 
 Then, the custom `jrc` task is used to compile report templates having the `*.jrxml` file extension found under the sample's `reports` folder. This source folder is specified using the `srcdir` attribute of the `jrc` task in the `compile1` target of the `build.xml` file:
@@ -159,7 +160,9 @@ new JRXmlWriter(jasperReportsContext).write(jasperReport, destFileName, "UTF-8")
 The [JRXmlWriter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlWriter.html) tool provides dedicated methods for writing the report prologue, report properties, styles, datasets, sections and elements.
 
 To see the effective result of the decompile task, just run the following command in the root directory of the sample:
+
 ```
 > ant clean javac compile1 decompile
 ```
+
  You will see in the `build/reports/com/bar` and `build/reports/com/foo` output directories both the compiled `*.jasper` and the decompiled `*.jrxml` files.

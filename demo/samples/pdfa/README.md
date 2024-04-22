@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - PDF/A Conformance Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - PDF/A Conformance Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to generate PDF/A compliant documents.
 
@@ -190,7 +190,9 @@ To illustrate various levels of PDF/A conformance, this sample contains the foll
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/pdfa` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/pdfa/target/reports` directory.

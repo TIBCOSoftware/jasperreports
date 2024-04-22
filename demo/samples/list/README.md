@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - List Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - List Component Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Illustrates the usage of the list component element.
 
 ### Main Features in This Sample
@@ -43,6 +43,7 @@ The `contents` element can be customized with 2 attributes:
 ###The List Component Sample
 
 This sample shows how to use the built-in list component for both `Vertical` and `Horizontal` printing order. In the `ListReport.jrxml` sample is configured a `Vertical` list component as follows:
+
 ```
 <element kind="component" y="25" width="250" height="20">
   <component kind="list" printOrder="Vertical">
@@ -67,9 +68,11 @@ This sample shows how to use the built-in list component for both `Vertical` and
   </component>
 </element>
 ```
+
 A list containing the `ID, name` and `address` is generated for each `city` in the datasource and list entries are printed in the default `Vertical` order.
 
 For the horizontally printed list, let's take a look to the `HorizontalListReport.jrxml` sample:
+
 ```
 <element kind="component" y="25" width="515" height="40">
   <component kind="list" printOrder="Horizontal">
@@ -98,19 +101,24 @@ For the horizontally printed list, let's take a look to the `HorizontalListRepor
   </component>
 </element>
 ```
+
 Here each list entry is printed one after another horizontally, for each `city` in the datasource.
 
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/list` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/list/target/reports` directory.

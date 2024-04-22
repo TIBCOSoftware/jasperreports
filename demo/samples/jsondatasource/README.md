@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - JSON Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - JSON Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the JSON data source and the JSON query executer implementations could be used to fill reports.
 
@@ -36,6 +36,7 @@ JSON stands for **J**ava**S**cript **O**bject **N**otation and represents an ope
     - there are no reserved words
 
 Let's see, for instance, the JSON objects inside the `data/northwind.json` source file:
+
 ```
 {"Northwind": {
   "Customers": [
@@ -105,6 +106,7 @@ Let's see, for instance, the JSON objects inside the `data/northwind.json` sourc
   ]
 }}
 ```
+
 There is a `Northwind` parent object enclosing 2 comma-separated objects: `Customers` and `Orders`.
 
 The `Customers` object contains a list of similar structured objects, each representing a customer with the following properties:
@@ -139,10 +141,13 @@ The `Orders` object contains a list of order objects, each one exposing the foll
 ### The JSON Query Executer
 
 Properties within a JSON object can be accessed using the period notation. Therefore we have the possibility to query a JSON data source, like below:
+
 ```
 Northwind.Orders
 ```
+
 or
+
 ```
 Northwind.Orders[0].OrderID
 ```
@@ -150,21 +155,27 @@ Northwind.Orders[0].OrderID
 This can be used as a JSON query expression language to navigate through objects hierarchy in a source document and retrieve their information, based on a tree representation of objects. The query string is processed using the [Jackson](http://wiki.fasterxml.com/JacksonHome) library APIs.
 
 For instance, one can specify the following expression to produce a list of JSON objects as the report query:
+
 ```
 <query language="json"><![CDATA[Northwind.Customers]] ></query>
 ```
+
 This query returns a list containing all customer elements in the Customers object. If we need to retrieve only customers from USA, the query have to be refined as:
+
 ```
 <query language="json">
   <![CDATA[Northwind.Customers(Country == USA)]] >
 </query>
 ```
+
 The JSON query language also supports parameters, in order to allow dynamic queries. Parameters are processed at runtime and replaced by their values. For instance, if we define the `Country` parameter that holds the name of a given country, the parameterized query will look like:
+
 ```
 <parameter name="Country" class="java.lang.String"/>
 ...
 <query language="json"><![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] ></query>
 ```
+
 The built-in JSON query executer (see the [JsonQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuter.html) class) is a tool that uses the query string to produce a [JsonDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/data/JsonDataSource.html) instance, based on specific built-in parameters (or equivalent report properties). This query executer is registered via [JsonQueryExecuterFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html) factory class.
 
 In order to prepare the data source, the JSON query executer looks for the [JSON_INPUT_STREAM](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM) parameter that contains the JSON source objects in the form of an `java.io.InputStream`. If no [JSON_INPUT_STREAM](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/json/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM) parameter is provided, then the query executer looks for the alternate `net.sf.jasperreports.json.source` String parameter or report property that stores the path to the location of the JSON source file.
@@ -187,14 +198,19 @@ In the next section you can see how these additional parameters are provided in 
 In our example data are stored as a hierarchy of `Northwind.Customers` and `Northwind.Orders` objects in the `data/northwind.json` file.
 
 The source file name is provided in the `reports/JsonCustomersReport.jrxml` via the report property:
+
 ```
 <property name="net.sf.jasperreports.json.source" value="data/northwind.json"/>
 ```
+
 In the `JsonCustomersReport` we run a JSON query in order to retrieve only the customers:
+
 ```
 <query language="json"><![CDATA[Northwind.Customers]] ></query>
 ```
+
 The only `Customer` properties (fields) we are interested in are `CustomerID` and `CompanyName`:
+
 ```
 <field name="CustomerID" class="java.lang.String">
   <property name="net.sf.jasperreports.json.field.expression" value="CustomerID"/>
@@ -203,7 +219,9 @@ The only `Customer` properties (fields) we are interested in are `CustomerID` an
   <property name="net.sf.jasperreports.json.field.expression" value="CompanyName"/>
 </field>
 ```
+
 Additional parameters are passed to the report execution in the `/src/JsonDataSourceApp.java` class (see the `fill()` method):
+
 ```
 public void fill() throws JRException
 {
@@ -219,7 +237,9 @@ public void fill() throws JRException
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 Each customer in the datasource requires an Orders subreport. Data source and parameters are transmitted from the master report:
+
 ```
 <element kind="subreport" ... backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
   <expression><![CDATA["JsonOrdersReport.jasper"]] ></expression>
@@ -244,6 +264,7 @@ Each customer in the datasource requires an Orders subreport. Data source and pa
 The `CustomerID` parameter is required in order to filter data in the subreport.
 
 Next, in the reports/JsonOrdersReport.jrxml file one can see a parametrized query. All orders related to a given `CustomerID` are retrieved:
+
 ```
 <query language="json"><![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]] ></query>
 From each order we collect the following properties:
@@ -260,11 +281,14 @@ From each order we collect the following properties:
   <property name="net.sf.jasperreports.json.field.expression" value="Freight"/>
 </field>
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/jsondatasource` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/jsondatasource/target/reports` directory.

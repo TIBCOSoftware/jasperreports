@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Report Parts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Report Parts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how report parts can be used.
 
@@ -44,6 +44,7 @@ The following fragment in JRXML illustrates how a part looks like:
   </component>
 </part>
 ```
+
 The print when expression is evaluate in order to determine whether the part is to be printed.
 The name expression provides a user visible name for the part. If the name expression is not defined, the name of the subreport is used. Certain report viewers (such as the JasperReports Swing viewer and the JasperReports Server report viewer) will display tabs for documents generated from part reports. Each part in the report is shown as a tab, and the part name is used as tab label.\
 The optional evaluation time attributes determine the moment at which the part is evaluated and filled. Parts with delayed evaluation are inserted at their original position in the document, you can have a report that has a first part evaluated after all subsequent parts.\
@@ -55,6 +56,7 @@ Group evaluated parts are printed when a group of the report dataset breaks and 
 JasperReports contains a report part infrastructure that makes use of pluggable part component implementations. A part component is assumed to produce pages that are included in the generated document.\
 The only part implementation currently built into JasperReports uses on a report templates to generate pages. Such a part is called a subreport part.\
 A subreport part has the following structure in JRXML:
+
 ```
 <part>
   <partNameExpression><![CDATA["ReportPart1"]] ></partNameExpression>
@@ -66,6 +68,7 @@ A subreport part has the following structure in JRXML:
   </component>
 </part>
 ```
+
 The semantics of the elements is equivalent to that of subreport elements. One difference from subreport elements is that there are no explicit `dataSourceExpression` and `connectionExpression` elements. One can send a data source or a JDBC connection to a subreport part by defining a subreportParameter that uses `REPORT_DATA_SOURCE` or `REPORT_CONNECTION` as parameter name.
 
 ### Master page variables

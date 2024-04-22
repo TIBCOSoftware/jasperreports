@@ -1,4 +1,4 @@
-# <a name='top'>JasperReports</a> - Ant Update Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Ant Update Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.
 
@@ -37,9 +37,11 @@ After report templates are identified and loaded into [JasperDesign](https://jas
 ### Report Updaters
 
 Changes can be very easily applied on report designs using specific [ReportUpdater](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/ReportUpdater.html) implementations. Classes that inherit from the [ReportUpdater](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/ReportUpdater.html) interface should implement the following method:
+
 ```
 public JasperDesign update(JasperDesign jasperDesign)
 ```
+
 in order to perform specific modifications on the [JasperDesign](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) object.
 
 The [JRAntUpdateTask](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/ant/JRAntUpdateTask.html) accepts any number of report updaters to be added to its updaters list. Update operations will be applied sequential in the same order as the report updaters were added to the list. A small example of report updater implementations can be found in the` /src/com/update` directory of our sample (see the `StyleUpdater.java` and `RenewUuidsUpdater.java` files) sample. This report updater changes the font size, color and weight of the default report style.
@@ -48,6 +50,7 @@ The [JRAntUpdateTask](https://jasperreports.sourceforge.net/api/net/sf/jasperrep
 
 First, let's take a look at how the `demo/samples/antupdate` sample is structured, to see if this structure is conserved after reports are updated.
 The reports directory is the root for the following tree:
+
 ```
                                reports
                                   |
@@ -59,12 +62,14 @@ The reports directory is the root for the following tree:
                                   |
                              ignoreme.txt
 ```
+
 One can notice the presence of the `ignoreme.txt` file in the `/reports/com` folder. This is not a report template, hence it will be not considered for update.
 Both `BarReport.jrxml` and `FooReport.jrxml` sources contain a title section with a `printWhenExpression`:
 
 - `<printWhenExpression><![CDATA[com.bar.SomeBarClass.isToPrint()]]></printWhenExpression>` - in `BarReport.jrxml`
 - `<printWhenExpression><![CDATA[com.foo.SomeFooClass.isToPrint()]]></printWhenExpression>` - in `FooReport.jrxml`
 The `com.bar.SomeBarClass` and `com.foo.SomeFooClass` sources are located in the `/src` directory as follows:
+
 ```
                                  src
                                   |
@@ -79,9 +84,11 @@ The `com.bar.SomeBarClass` and `com.foo.SomeFooClass` sources are located in the
                            StyleUpdater.java
 							RenewUuidsUpdater.java
 ```
+
 and the related classes will be saved into the `build/classes` directory and added to the classpath.
 
 Now let's update these report templates. There are some specific Ant targets declared in the `build.xml` file:
+
 ```
 <target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag." depends="define-jru"> 
   <mkdir dir="./build/reports"/> 
@@ -128,17 +135,23 @@ Now let's update these report templates. There are some specific Ant targets dec
   </jrc>
 </target>
 ```
+
 When `update1` target is called, the root directory for the JRXML sources, the destination folder and the source file type (`*.jrxml`) will be passed as parameters to the updater Ant task. The root source directory will be recursively scanned and any JRXML file in the path will be localized. Other file types (see the `ignoreme.txt`) will be ignored.
 By default, the Ant updater task updates sources based on timestamp differences between source and destination files, or on schema changes. Updated JRXML files will reflect all these changes and syntax updates.
 Also notice here the commented block:
+
+```
 <!--
 <updater>com.update.RenewUuidsUpdater</updater>
 <updater>com.update.StyleUpdater</updater>
 -->
+``` 
+
 that calls the `RenewUuidsUpdater` and `StyleUpdater` after source files are scanned. When the `<updater>` tag is present, default updates will be executed anyway, but the related report updater is also called to perform its specific update operations. In order to see how they act, just uncomment this block and run the sample again. If enabled, the `StyleUpdater` will modify the report Arial_Normal style attributes for font color (`blue: #0000FF`), font size (`14px`) and font weight (`bold`). The UUIDs for elements in the updated reports will be updated too.
 
 When `update2` target is called, sources are passed to the Ant task as file set in the `<src>` tag. Once again we can see that only `*.jrxml` files are allowed. This target also provides a commented `<updater>` tag. Default updates will be performed in this case. If the `<updater>` tag is uncommented, StyleUpdater will also execute its update operations.
 After the batch update the destination folder tree will look like this:
+
 ```
                                 build
                                   |
@@ -150,6 +163,7 @@ After the batch update the destination folder tree will look like this:
                              |         |
                 BarReport.jrxml       FooReport.jrxml
 ```
+
 Both `BarReport.jrxml`and `FooReport.jrxml` are present, but the `ignoreme.txt` is obviously missing.
 
 If the updated reports have to be also compiled, the `<compileUpdated>` specific target can be executed to accomplish this need. It will compile all JRXML files found in the destination folder tree. Compiled reports also conserve the tree structure and will be saved in the `build/classes` directory.
@@ -163,12 +177,14 @@ It will generate updated reports in the `demo/samples/antupdate/build/reports` d
 
 Compare the updated JRXMLs with the original ones. Notice that the title band comes with the `splitType` attribute and report elements provide the `uuid` atribute. The deprecated `border` attribute was replaced by the `pen` element. All these represent changes applied by default in order to get up-to-date report designs, in accordance with the current JasperReports model.
 Then uncomment the block:
+
 ```
 <!--
 <updater>com.update.RenewUuidsUpdater</updater>
 <updater>com.update.StyleUpdater</updater>
 -->
 ```
+
 in the update1 target and run again the `> ant test` command. The build directory will be cleaned up, then the `update1` target will be executed. The updated JRXMLs will be saved in the destination folder. Then the `update2` target will be executed, but because there are no newer default updates to be performed, this target will do nothing. It won't override changes performed by the `update1` target. When opening the updated JRXMLs we'll see that style modifications introduced by the `update1` task are still present after the consequent execution of `update2`.
 
 To have updated AND compiled reports in the destination folder, just run the run the `> ant test compileUpdated` command. The compiled `*.jasper` reports will be available in the `demo/samples/antupdate/build/classes` directory.

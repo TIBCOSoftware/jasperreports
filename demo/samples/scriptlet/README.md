@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Scriptlet Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Scriptlet Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the scriptlets could be used to manipulate data during report filling.
 
@@ -43,21 +43,27 @@ The method `afterGroupInit` contains all the most interesting logic and will be 
 
 A developer can read the values from Fields (which map to the data source), Values and Parameters from the report into variables within the Scriptlet.
 Examples of this can be seen in afterGroupInit method. In this method we obtain the value of a variable and a field from the report as it is filling:
+
 ```
     String allCities = (String)this.getVariableValue("AllCities");
 	String city = (String)this.getFieldValue("City");
 ```
+
 In the first line of code we get the value of the AllCities variable, the second we get the value of the Field `"City"`.\
 It is important to note we get these values at the time of the event this method in the Scriptlet corresponds with.\
 In this case, after a JasperReports group has been initalized, the logic in this report will be executed (provided the check on the group name performed at the start of the method is successful).\
 In the same method we see an example of how to write to a variable in the report:
+
 ```
 	this.setVariableValue("AllCities", sbuffer.toString());
 ```
+
 The important part when ensuring a variable in your report template is filled by a Scriptlet (or subreport) is to ensure the Variable has a calculation type of `'System'` in the report design:
+
 ```
 	<variable name="AllCities" class="java.lang.String" calculation="System"/>
 ```
+
 Also notice that there is **no** Variable Expression.
 
 Make sure you remember these two points when creating Variables in your own report with values supplied by Scriptlets.
@@ -65,22 +71,28 @@ Make sure you remember these two points when creating Variables in your own repo
 ### Creating Helper Methods
 
 At the end of the class a extra method called hello has been defined:
+
 ```
 	public String hello() throws JRScriptletException
 	{
 		return "Hello! I'm the report's scriptlet object.";
 	}
 ```
+
 This is an example of a method that can added to the Scriptlet that actually returns a value, rather than setting a Variable.
 
 The `ScripletReport.jrxml` has a method in the Summary band that illustrates how to use such a method. The expression is:
+
 ```
 	$P{REPORT_SCRIPTLET}.hello()
 ```
+
 The Parameter referenced is a built-in Parameter managed by the JasperReports API and contains a reference to the Scriptlet.\
 As can be seen the `hello()` method is called. The Type of the TextField containing this expression is String.\
-This corresponds to the type returned by the method in the Scriptlet.`
+This corresponds to the type returned by the method in the Scriptlet.
+
 How do you use a Scriptlet in a report? A Scriptlet can be associated with a Report by adding a `scriptletClass` property to the JasperReports tag:
+
 ```
     <jasperReport
     name="ListReport"
@@ -95,6 +107,7 @@ How do you use a Scriptlet in a report? A Scriptlet can be associated with a Rep
     bottomMargin="50"
     scriptletClass="com.myproject.reporting.MyScriptlet">
 ```
+
 **Note:** The fully qualified reference is used for the Scriptlet class.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -131,6 +144,7 @@ The first requirement is accomplished with the help of report built-in counting 
 - `ROW_COUNT` - available only for crosstabs; the `ROW_COUNT` variable returns the current row number in a crosstab. An example of conditional styles in a crosstab can be found in the [Crosstabs](../crosstabs/README.md) sample.
 
 The conditional style required at point (2) is illustrated in the scriptlet sample like below:
+
 ```
 <style name="AlternateDetail">
   <conditionalStyle mode="Opaque" backcolor="#C0C0C0">
@@ -138,6 +152,7 @@ The conditional style required at point (2) is illustrated in the scriptlet samp
   </conditionalStyle>
 </style>
 ```
+
 Here, the odd rows in the `CityGroup` will be rendered in the default background color (usually white), and the even ones will be rendered in gray.
 
 Other examples of generating alternate rows can be found in:
@@ -148,13 +163,17 @@ Other examples of generating alternate rows can be found in:
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/scriptlet` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/scriptlet/target/reports` directory.

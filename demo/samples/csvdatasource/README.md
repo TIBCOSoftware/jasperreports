@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - CSV Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - CSV Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the CSV data source and the CSV query executer implementations could be used to fill reports.
 
@@ -55,6 +55,7 @@ Another problem when working with CSV files is related to data types. Handling d
 ### CSV Data Source Example
 
 In our example data records are stored in the /data/CsvDataSource.txt file. Although the file extension is `.txt`, it contains structured data according to the CSV rules:
+
 ```
   "Dallas",47,"Janet Fuller","445 Upland Pl.","Trial"
   "Lyon",38,"Andrew Heiniger","347 College Av.","Active"
@@ -87,7 +88,9 @@ In our example data records are stored in the /data/CsvDataSource.txt file. Alth
   "San Francisco",7,"James Peterson","231 Upland Pl.","Active"
   "Oslo",42,"Robert Ott","503 Seventh Av.","Trial"
 ```
+
 The file has no header row with column names. Column names are set independently, as shown in the `getDataSource()` method in the `/src/CsvDataSourceApp.java` file:
+
 ```
   private static JRCsvDataSource getDataSource() throws JRException
   {
@@ -98,9 +101,11 @@ The file has no header row with column names. Column names are set independently
     return ds;
   }
 ```
+
 The five column names are: `city, id, name, address` and `state`, in this particular order. Field names are identical to the column names defined here.
 
 The [JRCsvDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRCsvDataSource.html) object prepared above is passed to the engine at fill time (see again the `/src/CsvDataSourceApp.java` file):
+
 ```
   public void fill() throws JRException
   {
@@ -118,7 +123,9 @@ The [JRCsvDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperrep
     System.err.println("Filling time : " + (System.currentTimeMillis() - start));
   }
 ```
+
 The `IncludedStates` parameter defined above is used for data filtering. Only records with `Active` or `Trial` states will be taken into account:
+
 ```
   <parameter name="IncludedStates" class="java.util.Set"/>
 
@@ -126,12 +133,15 @@ The `IncludedStates` parameter defined above is used for data filtering. Only re
 
   <filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]]></filterExpression>
 ```
+
 Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to demo/samples/csvdatasource within the JasperReports source project and run the following command:
 
-> mvn clean compile exec:exec@all
+```
+.> mvn clean compile exec:exec@all
+```
 
 It will generate all supported document types containing the sample report in the `demo/samples/csvdatasource/target/reports` directory.
 
@@ -180,23 +190,30 @@ Once all this input information is loaded, the query executer will lookup for th
 An example of CSV Query Executer is available in the `reports/CsvQueryExecuterReport.jrxml` template.
 
 There are two properties set at report level:
+
 ```
 <property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
 <property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
 ```
+
 The first one stores the column names, the last one stores a relative path to the CSV resource file.
 
 Further we see a report parameter containing the record delimiter sequence:
+
 ```
 <parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
   <defaultValueExpression><![CDATA["\r\n"]] ></defaultValueExpression>
 </parameter>
 ```
+
 Notice also that the query language is set to csv, meaning that the CSV query executer will be enabled to prepare the data source for the report:
+
 ```
 <query language="csv"/>
 ```
+
 Field names in the report are the same as column names set in the `net.sf.jasperreports.csv.column.names` property:
+
 ```
 <field name="id" class="java.lang.Integer"/>
 <field name="name" class="java.lang.String"/>
@@ -204,7 +221,9 @@ Field names in the report are the same as column names set in the `net.sf.jasper
 <field name="city" class="java.lang.String"/>
 <field name="state" class="java.lang.String"/>
 ```
+
 In the `src/CsvDataSourceApp.java` one can see the absence of the data source or connection info at fill time:
+
 ```
 // query executer filling
 {
@@ -221,6 +240,7 @@ In the `src/CsvDataSourceApp.java` one can see the absence of the data source or
   System.err.println("Report : CsvQueryExecuterReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
 }
 ```
+
 This is because the report datasource will be provided by the query executer.
 To see the result, run the sample as shown here, and take a look at `CsvQueryExecuterReport.*` documents in the `build/reports` output folder.
 

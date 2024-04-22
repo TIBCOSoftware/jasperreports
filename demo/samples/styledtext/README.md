@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Styled Text Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Styled Text Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the styled-text feature works in static and dynamic text elements.
 
@@ -46,6 +46,7 @@ The `<style>` tag has various attributes for altering the color, font, or other 
 This sample contains various styled text paragraphs, illustrating the use of the styled text tags enumerated above.
 
 The first paragraph is obtained by processing the following fragment:
+
 ```
     This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing
 	styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by
@@ -55,31 +56,39 @@ The first paragraph is obtained by processing the following fragment:
 	<a type="Reference" href="http://jasperreports.sf.net" target="Blank">
 	<style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.
 ```
+
 The next one is obtained by processing the following fragment:
+
 ```
 	This text field element contains styled text displaying the text-only version of the
 	<style size=\"12\" isBold=\"true\" forecolor=\"black\">^<style forecolor=\"#808080\">Jasper</style>
 	<style forecolor=\"#990000\">Reports</style></style> logo and some <font size=\"10\"><sup>superscript</sup></font>
 	text and <font size=\"10\"><sub>subscript</sub></font> text.
 ```
-Then the text in the left column is obtained by processing the following fragment:
-```
-	Here is the list with the attributes supported by the <style isBold="true">style</style>
-	tag used to format the text content inside a styled text element:
 
-	fontName
+Then the text in the left column is obtained by processing the following fragment:
+
+```
+	Here is the list with the attributes supported by the <style isBold="true">style</style> 
+	tag used to format the text content inside a styled text element: 
+
+	fontName 
 	<style size="32">size</style>
 	<style isBold="true">isBold</style>
 	<style isItalic="true">isItalic</style>
 	<style isUnderline="true">isUnderline</style>
 	<style isStrikeThrough="true">isStrikeThrough</style>
-	pdfFontName
-	pdfEncoding
-	isPdfEmbedded
+	pdfFontName 
+	pdfEncoding 
+	isPdfEmbedded 
 	<style forecolor="red">forecolor</style>
 	<style backcolor="blue" forecolor="white" isBold="true">backcolor</style>
+```
+
 The text in the column to the right is obtained by processing the following fragment:
-	Here is the list with the supported HTML tags :
+
+```
+	Here is the list with the supported HTML tags : 
 
 	<font size="12">&lt;font size=&quot;12&quot;&gt;</font>
 	<font color="red">&lt;font color=&quot;red&quot;&gt;</font>
@@ -92,23 +101,30 @@ The text in the column to the right is obtained by processing the following frag
 	A bulleted list:
 	<li>item 1 &lt;li&gt;</li>
 ```
+
 The next paragraph is obtained by processing the following fragment:
+
 ```
 	ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;
 	ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;
 ```
+
 And the last fragment is obtained by processing the following:
+
 ```
 	<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n
 	<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n
 ```
+
 For more information about the recommended text formatting solution, please take a look at the [Markup](../markup/README.md) Sample.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/styledtext ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/styledtext/target/reports` directory.

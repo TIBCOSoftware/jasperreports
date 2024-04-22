@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Paragraph Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Paragraph Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how to work with paragraphs.
 
@@ -20,6 +20,7 @@ How to format texts using paragraph properties.
 When we place text content in a report element, we may need to make it look like a distinct paragraph. The information needed in this case can be retrieved either from the element's style (where we have attributes for text alignment), or from the `<paragraph/>` tag that is available within `<style/>` and/or `<element/>`.
 
 Example:
+
 ```
   <element kind="textField" hTextAlign="Right">
     <paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
@@ -29,6 +30,7 @@ Example:
   <expression>...</expression>
 </element>
 ```
+
 ### Paragraph Alignment
 
 A paragraph can be aligned both horizontally and vertically.\
@@ -56,6 +58,7 @@ Possible values for the vertical text alignment are stored in [VerticalTextAlign
 - `Justified`
 
 Examples:
+
 ```
 <style name="MyParagraphStyle" hTextAlign="Center" vTextAlign="Middle" ... />
 ...
@@ -63,13 +66,17 @@ Examples:
   <expression>...</expression>
  </element>
 ```
+
 or:
+
 ```
  <element kind="textField"  hTextAlign="Center" vTextAlign="Middle"...>
   <expression>...</expression>
  </element>
 ```
+
 or:
+
 ```
  <element kind="textField" ...>
   <expression>...</expression>
@@ -77,6 +84,7 @@ or:
   <property name="net.sf.jasperreports.style.vTextAlign" value="Middle"/>  
  </element>
 ```
+
 ### Line Spacing
 
 For a given paragraph one can apply various settings for line spacing, as attributes of the `<paragraph/>` tag associated with the text element:
@@ -92,6 +100,7 @@ For a given paragraph one can apply various settings for line spacing, as attrib
 - `spacingAfter` - refers to the spacing after the paragraph (in pixels)
 
 Example:
+
 ```
   <element kind="textField" style="indentStyle" ...>
     <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" style="indentStyle">
@@ -100,6 +109,7 @@ Example:
     <expression>...</expression>
   </element>
 ```
+
 ### Paragraph Indentation
 
 JasperReports also supports paragraph indentation, which can be customized using the following attributes of the `<paragraph/>` tag:
@@ -108,6 +118,7 @@ JasperReports also supports paragraph indentation, which can be customized using
 - `rightIndent` - represents the right indent (in pixels) of the paragraph
 
 Example:
+
 ```
   <style name="indentStyle" mode="Transparent" backcolor="#FFFFFF" style="myDefault">
     <paragraph firstLineIndent="20" leftIndent="35" rightIndent="20" style="myDefault"/>
@@ -116,6 +127,7 @@ Example:
     </box>
   </style>
 ```
+
 ### Tab Stops
 
 In a given text element we can configure custom tab stops as well, by placing a sequence of `<tabStop/>` elements inside a `<paragraph/>` tag. A custom tab stop is completely characterized by its position and alignment:
@@ -129,10 +141,13 @@ In a given text element we can configure custom tab stops as well, by placing a 
 Another useful setting is the tab stop width (in pixels) of the paragraph, that can be customized using the `tabStopWidth` attribute of the `<paragraph/>`.
 
 Examples:
+
 ```
 <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" tabStopWidth="20"/>
 ```
+
 or
+
 ```
 <paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
   <tabStop position="20"/>
@@ -140,6 +155,7 @@ or
   <tabStop position="80" alignment="Right"/>
 </paragraph>
 ```
+
 ### Default Values for Paragraph Settings
 
 In case we need the same paragraph settings to be applied for all reports that share the same context, we can use the following properties that can be set on the report context:
@@ -153,6 +169,7 @@ In case we need the same paragraph settings to be applied for all reports that s
 - `net.sf.jasperreports.default.tab.stop.width` - sets the default value for the tab stop width
 
 Following are the default values as stored in the `default.jasperreports.properties` file:
+
 ```
 net.sf.jasperreports.default.line.spacing.size=1
 net.sf.jasperreports.default.first.line.indent=0
@@ -162,11 +179,14 @@ net.sf.jasperreports.default.spacing.before=0
 net.sf.jasperreports.default.spacing.after=0
 net.sf.jasperreports.default.tab.stop.width=40
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/paragraphs` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/paragraphs/target/reports` directory.

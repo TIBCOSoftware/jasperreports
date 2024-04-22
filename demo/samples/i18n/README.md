@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - I18n Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - I18n Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 Shows how a report could be rendered in different languages.
 
 ### Main Features in This Sample
@@ -39,43 +39,57 @@ If an application relies on the built-in Swing viewer to display generated repor
 ### Internationalization Example
 
 Let's take a look into the /src folder of this sample. There are several .properties files containing localized messages corresponding to the same keys. For example, in the `i18n.properties` file (which is the default resource bundles file), we'll find a line having the key `text.message`, and the associated message `The program picked up {0} as a random number.`:
+
 ```
 text.message=The program picked up {0} as a random number.
 ```
+
 In the localized `i18n_pt_PT.properties` file, the same line will read:
+
 ```
 text.message=O programa escolheu acima {0} como um número aleatório.
 ```
+
 Images can be also localized. There are several `.gif` files in the `/src` folder, containing images of national flags. When a report locale is set, the corresponding national flag image will be loaded and inserted into the generated report. The engine reads the localized `.gif` name using the `image.flag` key present in the resource bundle files.
 
 Now, in the `reports/I18nReport.jrxml` template, the root name of the default resource bundle is specified using the `resourceBundle` attribute in the `<jasperReport />` element:
+
 ```
 resourceBundle="i18n"
 ```
+
 In order to set localized texts or images in their placeholders, either the `$R{}` syntax or the related `msg()` or `str()` methods should be used.
 
 For images (the `$R{}` syntax):
+
 ```
 <element kind="image" positionType="Float" x="20" y="30" width="100" height="50" scaleImage="Clip" onErrorType="Error">
   <expression><![CDATA[$R{image.flag}]] ></expression>
 </element>
 ```
+
 For texts (the `$R{}` syntax):
+
 ```
 <element kind="textField" positionType="Float" x="20" y="100" width="530" height="20" hTextAlign="Justified" ...>
   <expression><![CDATA[$R{text.paragraph1}]] ></expression>
 </element>
 ```
+
 or (the `msg()` method):
+
 ```
 <element kind="textField positionType="Float" x="20" y="210" width="530" height="20" textAdjust="StretchHeight" fontSize="14.0" ...>
   <expression><![CDATA[msg($R{text.message}, $P{number})]] ></expression>
 </element>
 ```
-When you run the sample in order to visualize it from within the built-in Swing viewer (by typing the 
+
+When you run the sample in order to visualize it from within the built-in Swing viewer (by typing the
+
 ```
 mvn clean compile exec:java -Dexec.args="compile fill view"
 ```
+
 command in a command line), you will be asked for the report locale twice. That's because your first choice is used at fill time in order to generate the localized report, and the second choice is used for customizing the viewer itself.
 
 For example, if you choose first the `fr_FR - français (France)` from the drop-down list, and then `pt_PT - português (Portugal)`, your report will be written in French, but all controls in the viewer (buttons, text boxes, drop-down lists) will have Portuguese tooltips.
@@ -84,9 +98,11 @@ For example, if you choose first the `fr_FR - français (France)` from the drop-
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/i18n` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/i18n/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -107,12 +123,14 @@ Shows how to use PPTX fields to update some predefined values such as current da
 ### PPTX field example
 
 The following example of a datetime PPTX field property can be found in the `i18n.jrxml` file:
+
 ```
 <element kind="textField" positionType="Float" x="20" width="530" height="20" hTextAlign="Right" pattern="EEEE, MMMM dd, yyyy" fontSize="14.0">
   <expression><![CDATA[new Date()]] ></expression>
   <property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
 </element>
 ```
+
 At export time this text element will be translated into a PPTX field that generates automatic current date.
 
 Another example of a slidenum PPTX field can be found in the [jasper]((../jasper/README.md)) sample.

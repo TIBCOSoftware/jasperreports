@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - XML Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - XML Data Source Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the built-in XPath-based data source could be used for reporting out of XML data.
 
@@ -70,9 +70,11 @@ How to fill reports using embedded XPath queries.
 ### The XPath Query Executer
 
 XPath (the XML Path language) is an expression language with specific syntax used to navigate through nodes in an XML document and retrieve their information, based on a tree representation of XML documents. When using XML data sources, one can specify an XPath expression that produces the list of nodes/records as the report query:
+
 ```
   <query language="xPath"><![CDATA[/Northwind/Orders[CustomerID='ALFKI']]]></query>
 ```
+
 This query returns a list containing only Orders elements with `CustomerID` set to `ALFKI`.
 
 In the case of the XPath language the query executer factory (see the [JRXPathQueryExecuterFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html) class) registers a parameter named [XML_DATA_DOCUMENT](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_DATA_DOCUMENT) of type `org.w3c.dom.Document`. The XPath query executer (see the [JRXPathQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRXPathQueryExecuter.html) class) runs the XPath query against this document and stores the result in an in-memory [JRXmlDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRXmlDataSource.html) object. For more information about XML data sources please consult the XML Data Sources above section.
@@ -93,6 +95,7 @@ For more information about the XPath syntax and queries, one can consult the off
 In our example data records are stored as node elements in the `data/northwind.xml` file.
 
 The `<Northwind/>` root element contains two children types: `<Customers/>` and `<Orders/>`. Below is an example of a `<Customers/> `entity, completely characterized by the following elements:
+
 ```
   <Customers>
     <CustomerID>ALFKI</CustomerID>
@@ -107,7 +110,9 @@ The `<Northwind/>` root element contains two children types: `<Customers/>` and 
     <Fax>030-0076545</Fax>
   </Customers>
 ```
+
 And below is an example of an <Orders/> entity:
+
 ```
   <Orders>
     <OrderID>10643</OrderID>
@@ -125,13 +130,17 @@ And below is an example of an <Orders/> entity:
     <ShipCountry>Germany</ShipCountry>
   </Orders>
 ```
+
 One can see that an `<Orders>` element has a `<CustomerID>` property which points to the `<CustomerID>` element in the `<Customers>` node, just like a foreign key in a relational database. One can identify a one-to-many relationship between `<Customers>` and `<Orders>`.
 
 In order to navigate through elements in the `Northwind.xml` document, an XPath query executer implementation should be specified using the `net.sf.jasperreports.xpath.executer.factory` property. In our case it is set in the `src/jasperreports.properties` file:
+
 ```
 net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.jaxen.util.xml.JaxenXPathExecuterFactory
 ```
+
 Two [JRXmlDataSource]([JRXmlDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRXmlDataSource.html)) objects are necessary to store the two element types. One of them will be populated with `Customers` records. In this case record field names are given by the property names in the `<Customers/>` node:
+
 ```
 CustomerID
 CompanyName
@@ -145,7 +154,9 @@ Country
 Phone
 Fax
 ```
+
 The other [JRXmlDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRXmlDataSource.html) object will be populated with `Orders` records. For this record type, field names are:
+
 ```
 OrderID
 CustomerID
@@ -161,16 +172,20 @@ ShipCity
 ShipPostalCode
 ShipCountry
 ```
+
 As we'll see later, not all fields above are required by the generated report.
 
 There are two JRXML files in the reports directory. The `CustomersReport.jrxml` is the main report template. The `OrdersReport.jrxml` is used for generate subreports for the main report.\
 The main report iterates through available customers in the XML data source, and prints for each of them the `Customer ID`, the `Company Name` and the own list of ship orders. The orders list exposes only the `Order ID`, `Order Date`, `Ship City` and `Freight` fields. For each customer are calculated the orders count and the total freight.
 
 In the `CustomersReport.jrxml` template the query language and XPath query expression are declared in the `<query/>` expression:
+
 ```
   <query language="xPath"><![CDATA[/Northwind/Customers]]></query>
 ```
+
 The fields required for each Customer in the main report are:
+
 ```
   <field name="CustomerID" class="java.lang.String">
     <property name="net.sf.jasperreports.xpath.field.expression" value="CustomerID"/>
@@ -179,7 +194,9 @@ The fields required for each Customer in the main report are:
     <property name="net.sf.jasperreports.xpath.field.expression" value="CompanyName"/>
   </field>
 ```
+
 The `OrdersReport` subreport is called when the orders list has to be completed for each customers:
+
 ```
 <element kind="subreport" printRepeatedValues="false" removeLineWhenBlank="true" ...>
   <expression><![CDATA["OrdersReport.jasper"]] ></expression>
@@ -203,15 +220,19 @@ The `OrdersReport` subreport is called when the orders list has to be completed 
   </parameter>
 </element>
 ```
+
 The Number pattern, Date pattern, Locale and time zone parameters above are necessary for data formatting. The `CustomerID` parameter is required in order to filter data in the subreport.
 
 The `<query/>` expression in the `reports/OrdersReport.jrxml` template is:
+
 ```
   <query language="xPath"><![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]></query>
 ```
+
 Only `Orders` with the given `CustomerID` are taken into account.
 
 The only fields required from an `Orders` record are:
+
 ```
   <field name="Id" class="java.lang.String">
 	<property name="net.sf.jasperreports.xpath.field.expression" value="OrderID"/>
@@ -226,7 +247,9 @@ The only fields required from an `Orders` record are:
 	<property name="net.sf.jasperreports.xpath.field.expression" value="Freight"/>
   </field>
 ```
+
 In the `src/XmlDataSourceApp.java` all necessary information is prepared to be sent at fill time: the parsed `Northwind` document, data formatting parameters and the `CustomersReport` compiled report:
+
 ```
   public void fill() throws JRException
   {
@@ -243,11 +266,14 @@ In the `src/XmlDataSourceApp.java` all necessary information is prepared to be s
   	System.err.println("Filling time : " + (System.currentTimeMillis() - start));
   }
 ```
+
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/xmldatasource` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/xmldatasource/target/reports` directory.

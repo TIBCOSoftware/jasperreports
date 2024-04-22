@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Landscape Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Landscape Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports can be generated and printed in "Landscape" page format.
 
@@ -26,18 +26,22 @@ Values allowed for this attribute are:
 By default, in JasperReports pages are visualized as `Portrait`. The `orientation` being an attribute at report level, its value applies to all pages in the generated document.
 
 Below is a code snippet showing how to set in a report the Landscape orientation:
+
 ```
 <jasperReport name="LandscapeReport" language="java"
   pageWidth="842" pageHeight="595" orientation="Landscape"
   columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 ```
+
 Here one can observe that pageWidth and pageHeight values were interchanged and the `orientation` attribute takes the `Landscape` value.
 
 ### Running the Sample
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/landscape` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/landscape/target/reports` directory.

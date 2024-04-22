@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Charts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Charts Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how the chart element could be used to render different types of charts.
 
@@ -238,14 +238,17 @@ Following are the specific plot properties for different chart types:
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/charts` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/charts/target/reports` directory.
 
 <div align="right"><a href='#top'>top</a></div>
@@ -279,6 +282,7 @@ However, it is recommended to implement and work with chart themes instead of ch
 ### A Simple Chart Customizer Class Example
 
 When one implements the [JRChartCustomizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/JRChartCustomizer.html) interface, the only method which has to be implemented is:
+
 ```
 public void customize(JFreeChart chart, JRChart jasperChart);
 ```
@@ -299,13 +303,16 @@ public class BarChartCustomizer implements JRChartCustomizer
   }
 }
 ```
+
 The `customize()` method gets applied after the `JFreeChart` object is already created. Then, the only thing one have to do is to take this `JFreeChart` object and modify its characteristics according to some more specific needs.
 
 In the example above, two older series colors were replaced with new ones in the bar renderer, and so, the color scheme was altered for the Bar chart.
 Now, one have to tell to the JasperReports engine that a given chart should be customized using this customizer class. In the `reports/BarChartReport.jrxml` file this class is set as chart customizer:
+
 ```
 <element kind="chart" chartType="bar" ... customizerClass="BarChartCustomizer" ...>
   ...
 </element>
 ```
+
 **Note:** When running the Charts sample, one can see that the Bar chart generated reports are the only with their items colored in green and orange. All the other generated reports are sharing another color scheme.

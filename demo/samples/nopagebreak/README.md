@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - No Page Break Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - No Page Break Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how reports can be designed and exported in a way that hides the existence of page breaks.
 
@@ -24,11 +24,13 @@ In the case where no batch export is implied, all document pages share the same 
 But there are situations, especially for web-oriented applications, where pagination is irrelevant and it causes the document to be displayed improperly. For instance, when exporting documents to HTML format, one might prefer to display it as a continuous scrollable page rather than a succession of pages separated by visible empty spaces. Or, when exporting to Excel in a single sheet document, a layout without visible page breaks would be preferred.
 
 This is why the engine needs to be instructed how to handle page breaks in various situations. A possibility would be to completely ignore the pagination, with no respect to the output document format. Responsible for this kind of approach is the `ignorePagination` flag property. It can be found among the `<jasperReport/>` element attributes:
+
 ```
 <jasperReport ... ignorePagination="true" ...>
 ...
 </jasperReport>
 ```
+
 When `ignorePagination` is set to true, the report-filling engine will generate the document on a single, very long page. Running the generated report to any output format, a single page document will be visualized.
 
 While this is the desired behavior for some document types, such as HTML, XML or XLS, it's quite uncomfortably for documents with page-oriented layout (like PDF, DOCX, etc) to be displayed as single very long pages, without the possibility to navigate between pages.
@@ -70,6 +72,7 @@ This sample works with the default value for the `ignorePagination` flag, which 
 In the `NoPageBreakApp.java` one can see how the export parameters responsible for page breaks handling are set.
 
 - For the HTML exporter (see the `html()` method):
+
 ```
   SimpleHtmlExporterConfiguration exporterConfig = new SimpleHtmlExporterConfiguration();
   exporterConfig.setBetweenPagesHtml("");
@@ -79,33 +82,42 @@ In the `NoPageBreakApp.java` one can see how the export parameters responsible f
   reportConfig.setRemoveEmptySpaceBetweenRows(true);
   exporter.setConfiguration(reportConfig);
 ```
+
 - And for XLS and XLSX exporters (see `xls()` and `xlsx()` methods)
     - XLS:
+    
 ```
   SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
   configuration.setOnePagePerSheet(false);
   configuration.setRemoveEmptySpaceBetweenRows(true);
   exporter.setConfiguration(configuration);
 ```
+
     - XLSX:
+    
 ```
   SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
   configuration.setOnePagePerSheet(false);
   configuration.setRemoveEmptySpaceBetweenRows(true);
   exporter.setConfiguration(configuration);
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
+
 ```
-> mvn exec:java
+.> mvn exec:java
 ```
+
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/nopagebreak` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 This will generate all supported document types containing the sample report in the `demo/samples/nopagebreak/target/reports` directory.
 

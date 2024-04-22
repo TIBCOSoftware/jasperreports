@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Virtualizer Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Virtualizer Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.
 
@@ -43,21 +43,25 @@ Each of this will be discussed in greater detail in the proceeding sections of t
 Virtualization is not configured in the JRXML. The details around the implementation of the virtualizer can be seen in the sample Java application that is used to run the report: `VirtualizerApp.java.`
 
 In the `fillReport()` method we can see where the virtualizer is instantiated:
+
 ```
 // creating the virtualizer
 JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
 ```
+
 The [JRFileVirtualizer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRFileVirtualizer.html) is created with a `maxSize` of 2 and `"tmp"` as the name of the directory to store data.\
 This means once 2 pages of the filled report have been created in memory, the virtualizer will begin to store the data required during the filling in the "tmp" directory.
 
 A single instance of this object can be shared over multiple reports. However, this does mean that the max page number will be respected for all reports that are generated simultaneously.
 
 In the `fillReport(JRFileVirtualizer virtualizer)` method we can see how the virtualizer is configured for use during the filling process:
+
 ```
 //Preparing parameters
 Map parameters = new HashMap();
 parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 ```
+
 The virtualizer must be configured as a parameter passed in during filling.
 
 
@@ -90,7 +94,9 @@ Setting the `maxPages` in memory is key. Setting the value too low will result i
 
 Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
 In a command prompt/terminal window set the current folder to `demo/samples/virtualizer ` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/virtualizer/target/reports` directory.

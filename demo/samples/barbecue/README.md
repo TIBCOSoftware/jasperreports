@@ -1,5 +1,5 @@
 
-# <a name='top'>JasperReports</a> - Barbecue Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+# JasperReports - Barbecue Sample <img src="https://jasperreports.sourceforge.net/resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
 
 Shows how barcodes could be included in reports using the Barbecue component.
 
@@ -139,12 +139,15 @@ The sample shows how can be used the barbecue component to compute various barco
 </element>
 ...
 ```
+
 ### Running the Sample
 
 Running the sample requires the [Apache Maven](https://maven.apache.org) library. Make sure that `maven` is already installed on your system (version 3.6 or later).\
 In a command prompt/terminal window set the current folder to `demo/samples/barbecue` within the JasperReports source project and run the following command:
+
 ```
-> mvn clean compile exec:exec@all
+.> mvn clean compile exec:exec@all
 ```
+
 It will generate all supported document types containing the sample report in the `demo/samples/barbecue/target/reports` directory.
 
