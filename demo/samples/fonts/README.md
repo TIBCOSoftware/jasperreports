@@ -89,7 +89,7 @@ Running the sample requires the Apache Maven library. Make sure that maven is al
 In a command prompt/terminal window set the current folder to `demo/samples/fonts` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 It will generate all supported document types containing the sample report in the `demo/samples/fonts/target/reports` directory.
@@ -211,7 +211,7 @@ Once you have the TTF files, the jasperreports_extension.properties and `fonts.x
 For more details about deploying fonts as extensions, you can take a look at the [fonts](../fonts) sample provided with the JasperReports project distribution package, which adds one more font extension for another open source font called `Lobster Two`. Running the sample using the
 
 ``` 
-.> mvn clean compile exec:java -Dexec.args="compile fontsXml"
+> mvn clean compile exec:java -Dexec.args="compile fontsXml"
 ```
 
 command will generate in the `demo/samples/fonts/build/reports` a font extension xml file named `fonts.xml`. This file contains all font families available in the already installed font extensions.

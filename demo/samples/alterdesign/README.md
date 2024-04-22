@@ -88,7 +88,7 @@ Running the sample requires the [Apache Maven](https://maven.apache.org) library
 To test this sample, open a command prompt and go to the /demo/samples/alterdesign folder of the JR project source tree. Type the following command:
 
 ```
-.> mvn clean compile exec:java -Dexec.args="compile fill view"
+> mvn clean compile exec:java -Dexec.args="compile fill view"
 ```
 
 Every time you run this command, you should be seeing the same result, but with different random colors for the 3 rectangles.

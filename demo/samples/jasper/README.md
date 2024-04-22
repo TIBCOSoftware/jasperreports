@@ -266,7 +266,7 @@ Running the sample requires the [Apache Maven](https://maven.apache.org) library
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
 
 ```
-.> mvn exec:java
+> mvn exec:java
 ```
 
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
@@ -274,7 +274,7 @@ This will start the `HSQLDB` server shipped with the JasperReports distribution 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/jasper` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 This will generate all supported document types containing the sample report in the `demo/samples/jasper/target/reports` directory.
@@ -363,7 +363,7 @@ In this sample only five columns are exported to CSV format: `ShipCountry, Order
 After running the 
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 command the data-centric document exported with the CSV metadata exporter will be available in the `demo/samples/jasper/build/reports` directory as `FirstJasper.metadata.csv`.

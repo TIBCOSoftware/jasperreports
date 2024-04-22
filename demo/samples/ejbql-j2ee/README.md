@@ -186,7 +186,7 @@ Running the sample requires the [Apache Maven](https://maven.apache.org) library
 In a command prompt/terminal window set the current folder to `demo/hsqldb` within the JasperReports source project and run the following command:
 
 ```
-.> mvn exec:java
+> mvn exec:java
 ```
 
 This will start the `HSQLDB` server shipped with the JasperReports distribution package. Let this terminal running the `HSQLDB` server.
@@ -194,7 +194,7 @@ This will start the `HSQLDB` server shipped with the JasperReports distribution 
 Open a new command prompt/terminal window and set the current folder to `demo/samples/ejbql-j2ee` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 This will generate all supported document types containing the sample report in the `demo/samples/ejbql-j2ee/target/reports` directory.

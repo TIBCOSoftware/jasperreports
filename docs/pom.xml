@@ -143,21 +143,37 @@
 				<artifactId>replacer</artifactId>
 				<version>${maven-replacer-plugin.version}</version>
 				<executions>
-					<execution> 
+					<execution>
+						<id>replace-version</id> 
 						<phase>prepare-package</phase>
 						<goals> 
 							<goal>replace</goal>
 						</goals>
+						<configuration>
+							<ignoreMissingFile>true</ignoreMissingFile>
+							<file>${project.build.directory}/docs/resources/header.html</file>
+							<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
+							<regex>false</regex>
+							<token>v.version</token>
+							<value> (version ${revision})</value>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-relative-link</id> 
+						<phase>package</phase>
+						<goals> 
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<ignoreMissingFile>true</ignoreMissingFile>
+							<file>${project.build.directory}/docs/sample.reference/README.html</file>
+							<outputFile>${project.build.directory}/docs/sample.reference/README.html</outputFile>
+							<regex>false</regex>
+							<token>../../</token>
+							<value>../</value>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<ignoreMissingFile>true</ignoreMissingFile>
-					<file>${project.build.directory}/docs/resources/header.html</file>
-					<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
-					<regex>false</regex>
-					<token>v.version</token>
-					<value> (version ${revision})</value>
-				</configuration>
 			</plugin>
 			<plugin>
 			    <groupId>com.ruleoftech</groupId>
@@ -181,6 +197,7 @@
 			        <outputEncoding>UTF-8</outputEncoding>
 			        <recursiveInput>true</recursiveInput>
 			        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+			        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
 			  </configuration>
 			</plugin>
 			<plugin>
@@ -200,17 +217,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>config-reference</id>
-						<configuration>
-							<executable>mvn</executable>
-							<arguments>
-								<argument>compile</argument>
-								<argument>-Dmaven.buildNumber.doCheck=false</argument>
-							</arguments>
-							<workingDirectory>${project.basedir}/../</workingDirectory>		   
-						</configuration>
-					</execution>
-					<execution>
 						<id>convert-to-html</id>
 						<configuration>
 							<executable>mvn</executable>
@@ -219,6 +225,28 @@
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-relative-link</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>package</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>		   
+						</configuration>
+					</execution>
+					<execution>
+						<id>config-reference</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>compile</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}/../</workingDirectory>		   
 						</configuration>
 					</execution>
 					<execution>
@@ -254,11 +282,12 @@
 							<executable>mvn</executable>
 							<arguments>
 								<argument>exec:exec@replace-version</argument>
+								<argument>exec:exec@convert-to-html</argument>
+								<argument>exec:exec@replace-relative-link</argument>
 								<argument>exec:exec@javadoc</argument>
 								<argument>exec:exec@config-reference</argument>
 								<argument>exec:exec@functions-reference</argument>
 								<argument>xml:transform</argument>
-								<argument>exec:exec@convert-to-html</argument>
 								<argument>resources:copy-resources@copy-resources</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>		   

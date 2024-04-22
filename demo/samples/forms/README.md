@@ -184,7 +184,7 @@ Running the sample requires the Apache Maven library. Make sure that maven is al
 In a command prompt/terminal window set the current folder to `demo/samples/forms` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 It will generate all supported document types containing the sample report in the `demo/samples/forms/target/reports` directory.

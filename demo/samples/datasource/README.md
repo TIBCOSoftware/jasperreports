@@ -208,7 +208,7 @@ At fill time a `CustomDataSource` object is passed as argument to the `fillRepor
 In order to figure out more on custom data sources behavior, just test this sample by running from the command line the 
 
 ```
-.> mvn clean compile exec:java -Dexec.args="compile fill1 view"
+> mvn clean compile exec:java -Dexec.args="compile fill1 view"
 ```
 
 command. It will generate the sample report in the `/target/reports` directory, filling it with data extracted from the `CustomDataSource` object.
@@ -390,13 +390,13 @@ Let's take a look at related report filling methods in the `/src/DataSourceApp.j
 In order to figure out more on `JavaBean` data sources behavior, just test this sample by running from the command line the 
 
 ```
-.> mvn clean compile exec:java -Dexec.args="compile fill3 view"
+> mvn clean compile exec:java -Dexec.args="compile fill3 view"
 ```
 
 command and then 
 
 ```
-.> mvn clean compile exec:java -Dexec.args="compile fill4 view"
+> mvn clean compile exec:java -Dexec.args="compile fill4 view"
 ```
 
 It will generate the sample report filling it with data extracted from a [JRBeanArrayDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanArrayDataSource.html) data source, and then the same report will be generated with data extracted from a[JRBeanCollectionDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRBeanCollectionDataSource.html) data source.
@@ -515,7 +515,7 @@ Running the sample requires the Apache Maven library. Make sure that maven is al
 In a command prompt/terminal window set the current folder to `demo/samples/datasource` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 It will generate all supported document types containing the sample report in the `demo/samples/datasource/target/reports` directory.

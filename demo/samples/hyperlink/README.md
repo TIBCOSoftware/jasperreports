@@ -172,7 +172,7 @@ Running the sample requires the Apache Maven library. Make sure that maven is al
 In a command prompt/terminal window set the current folder to `demo/samples/hyperlink` within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 It will generate all supported document types containing the sample report in the `demo/samples/hyperlink/target/reports` directory.
@@ -191,9 +191,10 @@ How to generate the JRXML representation of an in-memory report template object.
 
 **Other Samples**\
 [/demo/samples/noxmldesign](../noxmldesign/README.md)\
-[/demo/samples/antcompile](../antcompile/README.md)\
+[/demo/samples/antcompile](../antcompile/README.md)
 
-A JRXML representation can be extracted from the following in-memory report template objects (both instances of [JRReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRReport.html) type):
+A JRXML representation can be extracted from the following in-memory report template objects (both instances of [`JRReport`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRReport.html) type):
+
 - [`JasperDesign`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) editable objects, representing in-memory report design templates
 - [`JasperReport`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperReport.html) read-only objects, representing in-memory compiled report templates
 

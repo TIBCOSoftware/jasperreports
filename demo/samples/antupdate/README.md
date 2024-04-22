@@ -82,7 +82,7 @@ The `com.bar.SomeBarClass` and `com.foo.SomeFooClass` sources are located in the
                                 update
                                   |
                            StyleUpdater.java
-							RenewUuidsUpdater.java
+					 RenewUuidsUpdater.java
 ```
 
 and the related classes will be saved into the `build/classes` directory and added to the classpath.

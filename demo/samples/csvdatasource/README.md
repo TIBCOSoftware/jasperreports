@@ -140,7 +140,7 @@ Running the sample requires the [Apache Maven](https://maven.apache.org) library
 In a command prompt/terminal window set the current folder to demo/samples/csvdatasource within the JasperReports source project and run the following command:
 
 ```
-.> mvn clean compile exec:exec@all
+> mvn clean compile exec:exec@all
 ```
 
 It will generate all supported document types containing the sample report in the `demo/samples/csvdatasource/target/reports` directory.
