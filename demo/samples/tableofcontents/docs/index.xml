@@ -192,6 +192,8 @@ is built based on these bookmarks:
 ]]></pre>
 One can see also an example of special <code>MASTER_CURRENT_PAGE</code> and <code>MASTER_TOTAL_PAGES</code> variables usage, 
 along with the new <code>evaluationTime</code> type <code>Master</code>.
+<br/>
+<br/>
 <b>Running the Sample</b>
 <br/>
 <br/>
