@@ -28,6 +28,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.renderers.AbstractRenderer;
@@ -41,7 +42,7 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
  */
 public class UnusedSpaceImageRenderer extends AbstractRenderer implements Graphics2DRenderable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	// transparent light grey
 	private static final Color FILL = new Color(224, 224, 224, 128);

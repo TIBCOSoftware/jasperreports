@@ -36,6 +36,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -51,9 +52,9 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-import net.sf.jasperreports.engine.util.ReportDeserializer;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.jackson.util.ReportDeserializer;
 
 
 /**
@@ -65,7 +66,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_ICON_POSITION = "iconPosition";
 	public static final String PROPERTY_LABEL_FILL = "labelFill";

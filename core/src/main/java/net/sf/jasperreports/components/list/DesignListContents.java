@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.list;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 
 /**
@@ -34,7 +35,7 @@ public class DesignListContents extends JRDesignElementGroup implements
 		ListContents
 {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_HEIGHT = "height";
 	public static final String PROPERTY_WIDTH = "width";

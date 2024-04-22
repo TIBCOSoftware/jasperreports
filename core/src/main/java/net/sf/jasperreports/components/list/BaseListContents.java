@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.list;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
@@ -34,7 +35,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 public class BaseListContents extends JRBaseElementGroup implements ListContents
 {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final int height;
 	private final Integer width;

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.items.StandardItemData;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -35,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class StandardMarkerItemData extends StandardItemData implements MarkerItemData 
 {
-	private static final long serialVersionUID = -6250861878178353956L; // obtained from serialver command
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
     public static final String PROPERTY_SERIES_NAME_EXPRESSION = "seriesNameExpression";
     public static final String PROPERTY_MARKER_CLUSTERING_EXPRESSION = "markerClusteringExpression";

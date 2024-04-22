@@ -34,6 +34,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -53,7 +54,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class StandardSubreportPartComponent implements Serializable, SubreportPartComponent, JRChangeEventsSupport
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	protected Boolean usingCache;
 

@@ -64,7 +64,6 @@ import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
-import net.sf.jasperreports.engine.util.ReportDeserializer;
 
 
 /**

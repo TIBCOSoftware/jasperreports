@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -45,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public class StandardListComponent implements Serializable, ListComponent, JRChangeEventsSupport
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_PRINT_ORDER = "printOrder";
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";

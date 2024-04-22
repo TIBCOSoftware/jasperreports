@@ -36,6 +36,7 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
@@ -244,7 +245,7 @@ public class ImageElementTest extends BaseElementsTests
 
 	private static final class CustomRenderer extends AbstractRenderToImageDataRenderer
 	{
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		protected final String a;
 		
