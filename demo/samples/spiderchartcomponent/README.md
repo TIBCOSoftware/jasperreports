@@ -25,6 +25,7 @@ Spider charts (also known as radar charts) are very useful when multivariate dat
 The JR built-in spider chart was developed as component element in order to illustrate how to implement custom components based on the [JFreeChart](http://www.jfree.org/jfreechart/) charting engine. The component in this case should output a [JFreeChart](http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/JFreeChart.html) object, collecting its data from an usual [CategoryDataset](http://www.jfree.org/jfreechart/api/javadoc/org/jfree/data/category/CategoryDataset.html), but rendering it as a spider web based on the [SpiderWebPlot](http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html) API.
 
 The content of a spider chart component is structured in 3 complementary elements:
+
 - `chartSettings` - stores general settings for the generated chart object such as title, subtitles and chart legend. Plot settings are not included.
 - `spiderDataset` - stores appropriate settings for the category dataset
 - `spiderPlot` - stores settings available for the spider web plot
@@ -75,6 +76,7 @@ public void customize(JFreeChart chart, ChartComponent chartComponent)
 ### The Spider Dataset
 
 The spider dataset is a [JRElementDataset](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRElementDataset.html) based on category series. It contains the same structure as the `<categoryDataset>` element in usual JR charts:
+
 - `dataset`
 - `categorySeries`
 

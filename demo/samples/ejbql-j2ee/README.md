@@ -22,7 +22,7 @@ How to fill reports using embedded EJBQL queries (using legacy Java EE API).
 [/demo/samples/csvdatasource](../csvdatasource)\
 [/demo/samples/hibernate](../hibernate)\
 [/demo/samples/mondrian](../mondrian)\
-[/demo/samples/xmldatasource](../xmldatasource)\
+[/demo/samples/xmldatasource](../xmldatasource)
 
 ### The EJB QL/JPA Query Executer
 

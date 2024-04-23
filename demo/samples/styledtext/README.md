@@ -31,6 +31,7 @@ If `markup="styled"` is set, the engine gets notified that the text element cont
 ### Styled Text Markup Tags
 
 The JasperReports proprietary markup language is called styled text and is an XML based format in which the style of any portion of text inside a text element can be changed by embedding that portion inside a `<style>` tag or other simple HTML tag from the following list:
+
 - `<b>`
 - `<u>`
 - `<i>`
@@ -39,6 +40,7 @@ The JasperReports proprietary markup language is called styled text and is an XM
 - `<sub>`
 - `<li>`
 - `<br>`
+
 The `<style>` tag has various attributes for altering the color, font, or other style properties of the text. From the standard HTML `<font>` tag, only the fontFace, color, and size attributes are recognized by the JasperReports engine. Each individual style property is inherited from the overall text element or from the parent `<style>` tag when nested `<style>` tags are used.
 
 ### The Styled Text Sample

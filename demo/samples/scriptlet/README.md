@@ -23,6 +23,7 @@ Luckily JasperReports provides us with a simple and powerful means of doing this
 ### What is a Scriptlet?
 
 A Scriptlet is a Java Class that extends one of the two following classes:
+
 - [`JRDefaultScriptlet`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDefaultScriptlet.html)
 - [`JRAbstractScriptlet`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRAbstractScriptlet.html)
 
@@ -137,6 +138,7 @@ To obtain alternate row colors, two things are necessary:
 - a conditional style with specific style properties for odd or even rows
 
 The first requirement is accomplished with the help of report built-in counting variables:
+
 - `REPORT_COUNT - if the row color alternation does not depend on the page, column or group breaks
 - `PAGE_COUNT` - if each new detail page should start with the same row color
 - `COLUMN_COUNT` - if each new detail page column should start with the same row color
@@ -156,6 +158,7 @@ The conditional style required at point (2) is illustrated in the scriptlet samp
 Here, the odd rows in the `CityGroup` will be rendered in the default background color (usually white), and the even ones will be rendered in gray.
 
 Other examples of generating alternate rows can be found in:
+
 - [Crosstabs](../crosstabs/README.md) sample, based on the built-in `ROW_COUNT` and `COLUMN_COUNT` variables.
 - [Crosstabs](../crosstabs/README.md) sample, based on the built-in `REPORT_COUNT` variable.
 

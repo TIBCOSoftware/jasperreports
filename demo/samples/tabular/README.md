@@ -17,8 +17,8 @@ How to create tables using text elements and their border.
 **Since:** 0.6.3
 
 **Other Samples**\
-[/demo/samples/table](../table/README.md)
-[/demo/samples/list](../√/README.md)
+[/demo/samples/table](../table/README.md)\
+[/demo/samples/list](../√/README.md)\
 [/demo/samples/pdfa](../pdfa/README.md)
 
 ### Table-like Structures - Overview
@@ -27,6 +27,7 @@ Whenever data has to be organized in distinct rows and columns, a table structur
 
 To obtain excellent results with table-like structures, it's recommended to carefully set the related layout attributes and styles, in order to get elements perfectly aligned, horizontally and vertically. Styles and box elements may also be used to individualize cell borders, backgrounds, forecolors, cell paddings, alternative row colors, etc.
 Attributes that should be carefully handled are:
+
 - `x`
 - `y`
 - `width`

@@ -58,6 +58,7 @@ If the scale type for the image is `Clip` or `RetainShape` and the actual image 
 ### Image Expression
 
 The value returned by the image expression is the source for the image to be displayed. The image expression is introduced by the <expression/> element and can return values from only the limited range of classes listed following:
+
 - `java.lang.String`
 - `java.io.File`
 - `java.net.URL`

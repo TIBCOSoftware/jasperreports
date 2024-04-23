@@ -18,6 +18,7 @@ How to rotate text elements.
 ### Rotating paragraphs
 
 There are three possibilities to rotate a text paragraph:
+
 - to the left
 - to the right
 - upside-down

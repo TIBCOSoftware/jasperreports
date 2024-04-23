@@ -20,12 +20,12 @@ How to render maps using the built-in map component.
 The map component in JasperReports exposes some of the main characteristics necessary to generate the most common Google maps, but feature upgrades for this component are planned for future development.
 
 **Important notes:**
-1. **The JR built-in map component is based on the public [Google Maps APIs](http://code.google.com/apis/maps/documentation/javascript/reference.html) licensed under the [Creative Commons Attribution 3.0 License](http://creativecommons.org/licenses/by/3.0). Prior to start using this component, please consult both Google [terms of service](https://developers.google.com/maps/terms) and Google [site policies](https://developers.google.com/readme/policies) pages.\
-Ensure the map component in your application is used in accordance with these terms and conditions.**
+1. **The JR built-in map component is based on the public [Google Maps APIs](http://code.google.com/apis/maps/documentation/javascript/reference.html) licensed under the [Creative Commons Attribution 3.0 License](http://creativecommons.org/licenses/by/3.0). Prior to start using this component, please consult both Google [terms of service](https://developers.google.com/maps/terms) and Google [site policies](https://developers.google.com/readme/policies) pages.**\
+**Ensure the map component in your application is used in accordance with these terms and conditions.**
 
-2. **In order to get accurate results with Google maps, you need to set the `net.sf.jasperreports.components.map.key` property with an appropriate Google API key value.\
-The Google API key must be enabled for Google Javascript API, Google Maps Static API and Google Geocoding API. More information about API keys can be found at [Google Maps Platform](https://developers.google.com/maps/gmp-get-started).\
-The `net.sf.jasperreports.components.map.key` property can be set either in the report itself or per report context.**
+2. **In order to get accurate results with Google maps, you need to set the `net.sf.jasperreports.components.map.key` property with an appropriate Google API key value.**\
+**The Google API key must be enabled for Google Javascript API, Google Maps Static API and Google Geocoding API. More information about API keys can be found at [Google Maps Platform](https://developers.google.com/maps/gmp-get-started).**\
+**The `net.sf.jasperreports.components.map.key` property can be set either in the report itself or per report context.**
 
 The current map component is characterized by the `kind="googlemap"` attribute and contains the following structure:
 
@@ -46,17 +46,16 @@ The current map component is characterized by the `kind="googlemap"` attribute a
 ### Map Attributes
 
 One can customize the map component using the following attributes:
+
 - `mapType` - indicates the map type. Possible values are:
     - `roadmap` (default)
     - `satellite`
     - `terrain`
     - `hybrid`
-
 - `mapScale` - represents the scale value used to return higher-resolution map images when working with high resolution screens available on mobile devices. Possible values are:
     - `1` (default)
     - `2`
     - `4` (for Business customers only)
-
 - `imageType` - represents the image format of the map. Possible values are:
     - `png` (default)
     - `png8`
@@ -64,7 +63,6 @@ One can customize the map component using the following attributes:
     - `gif`
     - `jpg`
     - `jpg-baseline`
-
 - `onErrorType` - Applies to static maps only. This attribute specifies the behavior of the engine when the image is not available. Possible values are:
     - `Error` - An exception is raised when loading the map image. This is the default behavior.
     - `Blank` - The exception is ignored and the map image displays as blank.
@@ -105,6 +103,7 @@ To avoid such exceptions when using a subdataset, use a `<filterExpression>` to 
 The intensive use of the address property is not recommended, because it will definitely slow the report generation. Try to use the latitude and longitude properties when they are available.
 
 Below is a list of valid `itemProperty` names:
+
 - `latitude` - floating-point value
 - `longitude` - floating-point value
 - `address` - optional; string value; considered only when latitude and/or longitude are missing or empty
@@ -137,7 +136,6 @@ Below is a list of valid `itemProperty` names:
     - the color RGB value.
 - `label` - string value representing the label for the default pin icons. This property is taken into account when none of icon or icon.url properties are set.\
 **Note:** Unlike interactive maps, Google static maps require single uppercase alphanumeric character labels. If multiple character labels are set, the JR engine will process the entire label for dynamic maps and only the first character in the label for static maps. Labels are displayed only for default and mid sized markers, small and tiny markers provide no capability to display labels.
-
 - `cursor` - string value
 - `zIndex` - integer value
 - `clickable` - boolean value
@@ -160,7 +158,6 @@ Both icon and shadow properties indicate an image location, without any addition
     - `icon.origin.y` - integer value representing the vertical position of the image within a sprite, if any, in pixels. Default value is `0`.
     - `icon.anchor.x` - integer value representing the horizontal position to anchor an image with respect to the location of the marker on the map. Default value is `0`.
     - `icon.anchor.y` - integer value representing the vertical position to anchor an image with respect to the location of the marker on the map. Default value is `0`.
-
 - For shadow icons:
     - `shadow.url` - string value (representing the custom shadow icon URL). If set, it takes precedence over the shadow property.
     - `shadow.width` - integer value representing the shadow icon width, in pixels. To be considered, `shadow.height` must be also set.
@@ -273,6 +270,7 @@ In these conditions, not all item properties defined for markers are considered 
 
 If no size is set, the default icon is loaded with its normal size.\
 For similar reasons, path style properties considered in static maps are the following:
+
 - `strokeColor`
 - `strokeOpacity`
 - `strokeWeight`

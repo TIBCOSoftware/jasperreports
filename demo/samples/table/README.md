@@ -16,8 +16,8 @@ How to render tabular data using the built-in table component and a subdataset.
 **Since:** 3.7.2
 
 **Other Samples**\
-[/demo/samples/tabular](../tabular/README.md)
-[/demo/samples/list](../√/README.md)
+[/demo/samples/tabular](../tabular/README.md)\
+[/demo/samples/list](../√/README.md)\
 [/demo/samples/pdfa](../pdfa/README.md)
 
 ### The Built-in Table Component - Overview

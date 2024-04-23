@@ -130,6 +130,7 @@ The main differences are here:
 ### Is there performance concerns with Subreports?
 
 The answer to this depends on your system, data source and your report design. A few points to note on Subreports:
+
 - Each subreport execution may spawn a new thread (see below).
 - As the subreport executes more objects will be created in Heap Memory.
 
@@ -166,6 +167,7 @@ Shows how to export the report to JSON format using metadata associated with rep
 - the data value
 
 Document pagination and visual layout are not important in this case:
+
 - no page margins and other padding settings;
 - no page numbers;
 - no repetition of page headers;

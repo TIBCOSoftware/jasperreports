@@ -59,25 +59,20 @@ In order to obtain persistent accessible documents one should:
     - avoid elements overlapping
     - avoid background images\
 PDF/A-1a requires the use of PDF 1.4.
-
 3. PDF/A-2b (basic PDF/A-2 conformance level) requires the use of PDF 1.7 (see also [ISO 32000-1:2008](https://www.iso.org/standard/51502.html)). Conformance rules are described in [ISO 19005-2:2011](https://www.iso.org/standard/50655.html) and encapsulates all rules for PDF/A-1b. Additionally includes support for:
     - compressed Object and XRef streams (for smaller file sizes)
     - PDF/A-compliant file attachments, portable collections and PDF packages, archiving of sets of documents as individual documents in one file
     - transparency for graphical elements
     - JPEG 2000 compression\
 PDF/A-2b imposes a few additional constraints on number of color channels, bit depth, and colorspaces for compatibility with versions of PDF/X and PDF/E current in 2010.
-
 4. PDF/A-2u (unicode PDF/A-2 conformance level) represents the PDF/A-2b conformance level with the additional requirement that all text in the document have Unicode equivalents.
-
 5. PDF/A-2a (accessible PDF/A-2 conformance level) defines rules for enhanced accessibility and includes the representation of the logical structure of the document, as specified in section 6.8 of [ISO 19005-2:2011](https://www.iso.org/standard/50655.html).
-
 6. PDF/A-3b (basic PDF/A-2 conformance level) requires the use of PDF 1.7 (see also [ISO 32000-1:2008](https://www.iso.org/standard/51502.html)). Conformance rules are described in [ISO 19005-2:2011](https://www.iso.org/standard/50655.html) and encapsulates all rules for PDF/A-2b. PDF/A-3 is equivalent to PDF/A-2, except for allowing files in any format to be embedded. Each embedded file in a PDF/A-3 document must be identified in a file specification dictionary (as described in section 7.11.3 of ISO 32000-1:2008). The inclusion of a human-readable description of the file is recommended.
-
 7. PDF/A-3u (unicode PDF/A-3 conformance level) represents the PDF/A-34b conformance level with the additional requirement that all text in the document have Unicode equivalents.
-
 8. PDF/A-3a (accessible PDF/A-3 conformance level) rules are similar to PDF/A-2a.
 
 For more information and guidance related to PDF/A conformance levels, also see the following:
+
 - [PDF/A-1](https://www.loc.gov/preservation/digital/formats/fdd/fdd000125.shtml)
 - [PDF/A-2](https://www.loc.gov/preservation/digital/formats/fdd/fdd000319.shtml)
 - [PDF/A-3](https://www.loc.gov/preservation/digital/formats/fdd/fdd000360.shtml)
@@ -125,7 +120,7 @@ To enable accessibility in generated documents a set of export parameters are av
 
 - Tagged Documents
    - [`isTagged()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isTagged()) - Exporter configuration setting used to turn on the creation of hidden structural tags. By default the feature is turned off.
-    - [`net.sf.jasperreports.export.pdf.tagged`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_TAGGED) - Configuration property used as default for the isTagged() setting above. It can be set at global or report level.
+   - [`net.sf.jasperreports.export.pdf.tagged`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_TAGGED) - Configuration property used as default for the isTagged() setting above. It can be set at global or report level.
 
 - Tag Language
    - [`getTagLanguage()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getTagLanguage()) - Export configuration setting used to specify the language to be used in the language tag of the generated PDF.
@@ -138,6 +133,7 @@ The following property can be set per element in JRXML:
 [`net.sf.jasperreports.export.accessibility.tag`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/AccessibilityUtil.html#PROPERTY_ACCESSIBILITY_TAG)
 
 This property that specifies the type of accessible content introduced by the element. Possible values are:
+
 - `H1`
 - `H2`
 - `H3`

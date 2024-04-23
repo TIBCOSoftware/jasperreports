@@ -79,6 +79,7 @@ In case no `method` element is specified, the default method name depends on the
 Regarding the other elements (`url, username, urlParameter`, etc), we can send all this information via the usual report parameters, since data adapters are in fact parameter contributor objects.
 
 The following predefined parameter properties let us configure the HTTP request, and always override the similar information declared in data adapter:
+
 1. [net.sf.jasperreports.http.data.method](https://jasperreports.sourceforge.net/config.reference.html#net.sf.jasperreports.http.data.method)
     - is specified per dataset or at report parameter level
     - if declared per dataset, its value is mandatory and represents the HTTP request method used by the data adapter
@@ -184,6 +185,7 @@ Following are the 2 data adapter definitions:
 ```
 
 We can observe that the above data adapters are quite similar:
+
 - both of them provide a `<dataFile/>` element of type `httpDataLocation`, therefore they also became HTTP data adapters
 - both of them are based on a HTTP request `GET` method
 - both of them provide the same base URL: https://www.omdbapi.com - a web service URL to retrieve various movies information in terms of title, year, IMDb ID, type, poster image
@@ -205,6 +207,7 @@ The JRXML files are found in the `reports` folder of this JasperReports sample.
 Like the above data adapters, they look almost similar, the only differences being related to data adapter type, query language and dataset field properties (because these are also related to the query language).
 
 Each JRXML report:
+
 - contains 2 subdatasets (`FetchDataset` and `MoviesDataset`)
 - sends similar requests over HTTP
 - perform similar queries on their data source
@@ -265,6 +268,7 @@ In response the web service will return a JSON object in the following format:
 ```
 
 Here we have:
+
 - a `"Search"` property which is an array of the first 10 movies information objects
 - a `"totalResults"` number that represents the number of records returned by this query
 - a boolean `"Response"` which is `"True"` in our case, and lets us know that there were no errors/failures during this web service call
@@ -424,10 +428,8 @@ The response content will be delivered in the following XML format:
 </root>
 ```
 
-the query language is set to `xPath` (instead of `jsonql`) in both main dataset and `MoviesDataset`; in `MoviesDataset` the xPath query is performed over the `/root/result` nodes; 
-the web service URL will look like: http://www.omdbapi.com/?r=xml&s=aliens in main dataset and http://www.omdbapi.com/?r=xml&s=aliens&page=2 in `MoviesDataset`
-field properties have different names and values
-in main dataset:
+- the query language is set to `xPath` (instead of `jsonql`) in both main dataset and `MoviesDataset`; in `MoviesDataset` the xPath query is performed over the `/root/result` nodes; 
+- the web service URL will look like: http://www.omdbapi.com/?r=xml&s=aliens in main dataset and http://www.omdbapi.com/?r=xml&s=aliens&page=2 in `MoviesDataset` field properties have different names and values in main dataset:
 
 ```
 <field name="totalResults" class="java.lang.Integer">

@@ -154,7 +154,7 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
   position: absolute;
   top: 0px;
   left: 0px;
-  padding-top: 45px;
+  padding-top: 20px;
   padding-left: 45px;
   display: inline-block;
   font-size: 20pt;
@@ -164,7 +164,7 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
   position: absolute;
   top: 0px;
   right: 0px;
-  padding-top: 55px;
+  padding-top: 30px;
   padding-right: 45px;
   display: inline-block;
 }

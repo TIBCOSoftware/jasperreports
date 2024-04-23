@@ -185,7 +185,7 @@
 							<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
 							<regex>false</regex>
 							<token>v.version</token>
-							<value> (version ${revision})</value>
+							<value>version ${revision}</value>
 						</configuration>
 					</execution>
 					<execution>
@@ -314,12 +314,10 @@
 								<argument>exec:exec@replace-version</argument>
 								<argument>exec:exec@convert-to-html</argument>
 								<argument>exec:exec@replace-relative-link</argument>
-								<!--
 								<argument>exec:exec@javadoc</argument>
 								<argument>exec:exec@config-reference</argument>
 								<argument>exec:exec@functions-reference</argument>
 								<argument>xml:transform</argument>
-								-->
 								<argument>resources:copy-resources@copy-resources</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>		   

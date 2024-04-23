@@ -24,6 +24,7 @@ The necessity of generic elements comes from the fact that some output formats d
 ### Generic Elements Structure
 
 In order to be well defined, a generic element must contain:
+
 - an element of `kind = generic`
 - a `genericType` attribute - that identifies the class/type the generic element belongs to. Export element handlers are registered with generic element types, in order to uniformly handle elements of the same type. Types are characterized by:
     - `namespace` - usually an URI associated with an organization or a product
@@ -59,6 +60,7 @@ This sample shows how to embed a special HTML snippet into a report to show cont
 Both generic elements share the same namespace, but they have different names. This means that there are two different types (languages and stats) to be processed at export time using specific export handlers.
 
 In our example both languages and stats types are processed identically, using the same handler. One can see the handler class in the `src/net/sf/jasperreports/ohloh` directory:
+
 - `OhlohWidgetHtmlHandler` - registered for the HTML output format
 
 To register these handlers, two properties were defined in the `jasperreports_extension.properties` file:

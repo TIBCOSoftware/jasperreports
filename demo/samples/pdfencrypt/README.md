@@ -36,6 +36,7 @@ Opening the document with the user password enables some additional operations t
 ### Encrypted PDF in JasperReports
 
 When exporting to the PDF format the engine has to know five additional things about the generated document and uses five dedicated exporter parameters for this:
+
 - Is the document encrypted? The export configuration setting [`isEncrypted()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#isEncrypted()) answers to this question. If set to true, it instructs the exporter to encrypt the resulting PDF document. By default PDF files are not encrypted.\
 One can use the related [PROPERTY_ENCRYPTED](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED) flag property for the same purpose.
 - Which key to use for the encrypted document? By default the PDF exporter uses a 40-bit key for encryption, but if needed, it can use a 128-bit one. Setting the [`is128BitKey()`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#is128BitKey()) configuration setting or the equivalent [PROPERTY_128_BIT_KEY](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/pdf/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY) flag property to true will instruct the engine to use a 128-bit key.

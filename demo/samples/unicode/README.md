@@ -20,7 +20,7 @@ How to create reports in any language using unicode support.
 **Since:** 0.1.0
 
 **Other Samples**\
-[/demo/samples/fonts](../fonts/README.md)
+[/demo/samples/fonts](../fonts/README.md)\
 [/demo/samples/i18n](../i18n/README.md)
 
 ### Working with Texts in JasperReports

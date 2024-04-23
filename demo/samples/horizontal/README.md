@@ -36,6 +36,7 @@ The report-filling manager class covers only the most common scenarios. However,
 ### Reporting Data
 
 JasperReports can make use of any data that the parent application might have for generating reports because it relies on two simple things: the report parameters and the report data source.
+
 - **Report parameters** represent single-named values that are passed to the engine at report-filling time. The report parameter values are always packed in a `java.util.Map` object, having the parameter names as keys.
 - **Data sources** represent a set of tabular data made of virtual rows and columns that the engine uses for iteration during the report-filling process. Normally, the engine works with an instance of the [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) interface, from which it extracts the data when filling the report. If no data source can be retrieved using this interface, there is another possibility to get a data source: the manager class provides a set of report-filling methods that receive a `java.sql.Connection` object as a parameter. This way, data can be retrieved by executing a query on a database related to this connection parameter. More on data sources can be found at **Data Source / Query Executer** section [here](../sample.reference.html#DataSourceQueryExecuter).
 
@@ -44,6 +45,7 @@ JasperReports can make use of any data that the parent application might have fo
 JasperReports templates allow documents to be structured into multiple columns, like a newspaper. The column-count attribute in the `<jasperReport />` root element specifies the number of columns in the document. If this number is not specified, a single-column document is considered by default. When multiple-column report templates are used, the order used for filling those columns is important.
 
 There are two possible column filling orders, specified by the `printOrder` attribute in the `<jasperReport />` element:
+
 - `Vertical` - the filling process run first from top to bottom and then from left to right; the first column is entirely filled, then the second one, the third, etc.
 - `Horizontal` - the filling process run first from left to right and then from top to bottom; the first row is filled in any column, then the second row, etc.
 

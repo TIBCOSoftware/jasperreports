@@ -39,6 +39,7 @@ The examples are based on the restructured `data/northwind.json` source file.
 ### The JSONQL Query Executer
 
 It is triggered when the jsonql language is specified:
+
 - at report level:
 
 ```
@@ -667,6 +668,7 @@ The tables below presents all the supported member types within a JSONQL express
 </table>
 
 <sup>(1)</sup> A Legal JavaScript Identifier is a character sequence that:
+
 - must start with one of: letter(lowercase or uppercase), `$` or `_`
 - and can be followed by any combination of letter, `$`, `_` or digit(`0-9`).
 

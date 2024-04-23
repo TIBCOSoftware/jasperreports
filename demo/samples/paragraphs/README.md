@@ -40,6 +40,7 @@ For the horizontal alignment we can choose one of the following options:
 - set the `net.sf.jasperreports.style.hTextAlign` style feature property per report element
 
 Possible values for the above settings are stored in [HorizontalTextAlignEnum](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/type/HorizontalTextAlignEnum.html) class:
+
 - `Left` - default value
 - `Center`
 - `Right`
@@ -88,6 +89,7 @@ or:
 ### Line Spacing
 
 For a given paragraph one can apply various settings for line spacing, as attributes of the `<paragraph/>` tag associated with the text element:
+
 - `lineSpacing` - describes the type of line spacing for the paragraph. Possible values for this attribute are stored in the [LineSpacingEnum](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/type/LineSpacingEnum.html) class:
     - `Single` - normal spacing between lines; this is the default value.
     - `1_1_2` - spacing between lines set to 50% more than normal
@@ -113,6 +115,7 @@ Example:
 ### Paragraph Indentation
 
 JasperReports also supports paragraph indentation, which can be customized using the following attributes of the `<paragraph/>` tag:
+
 - `firstLineIndent` - represents the indent (in pixels) of the first line of text
 - `leftIndent` - represents the left indent (in pixels) of the paragraph
 - `rightIndent` - represents the right indent (in pixels) of the paragraph

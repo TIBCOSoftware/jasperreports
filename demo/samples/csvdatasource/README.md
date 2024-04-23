@@ -161,7 +161,7 @@ How to fill a report using the CSV query executer.
 [/demo/samples/ejbql](../ejbql/README.md)\
 [/demo/samples/hibernate](../hibernate/README.md)\
 [/demo/samples/mondrian](../mondrian/README.md)\
-[/demo/samples/xmldatasource](../xmldatasource/README.md)\
+[/demo/samples/xmldatasource](../xmldatasource/README.md)
 
 ### Using The CSV Query Executer
 

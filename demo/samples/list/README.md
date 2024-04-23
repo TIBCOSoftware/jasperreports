@@ -17,7 +17,7 @@ How to render simple listings using the built-in list component and a subdataset
 **Other Samples**\
 [/demo/samples/table](../table/README.md)
 
-###The Built-in List Component - Overview
+### The Built-in List Component - Overview
 
 The most common way to process data from datasources/queries different from the report's datasource/query is to use subreports. But working with subreports always requires to create and compile separate report templates, one per each subreport, even for the most simple situation that can be imagined.
 

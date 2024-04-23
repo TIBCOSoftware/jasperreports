@@ -149,6 +149,7 @@ Since JasperReports v4.0.1, the following built-in clause functions are also ava
 **The `$X{EQUAL, <column_name>, <parameter_name>}` clause function**
 
 The function expects three mandatory clause tokens:
+
 - The first token represents the function ID and always takes the fixed value `EQUAL`.
 - The second token is the SQL column (or column combination) to be used in the clause.
 - The third token is the name of the report parameter that contains the value to compare to.
@@ -159,6 +160,7 @@ If the parameter's value is null, the function generates a <column_name> IS NULL
 **The `$X{NOTEQUAL, <column_name>, <parameter_name>}` clause function**
 
 The function expects three mandatory clause tokens:
+
 - The first token represents the function ID and always takes the fixed value `NOTEQUAL`.
 - The second token is the SQL column (or column combination) to be used in the clause.
 - The third token is the name of the report parameter that contains the value to compare to.
@@ -333,6 +335,7 @@ Starting with JasperReports v.6.20.0 conditional styles can be also defined in a
 The `<conditionExpression/>` used to particularize a style must be a simple parameter/field/variable reference.
 
 In other words, the `<conditionExpression/>` is only allowed to have one of the following forms:
+
 - `$P{parameter_name}`
 - `$F{field_name}`
 - `$V{variable_name}`
