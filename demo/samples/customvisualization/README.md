@@ -41,6 +41,7 @@ As for any other component element, the `evaluationTime` and `evaluationGroup` a
     - `Icon`
 
 Also, a custom visualization component may contain, but not required, one or many children elements in the following category:
+
 - `itemProperty` - represent a custom setting for the component element
 - `itemData` - used in case the component needs to process or represent any data. An `itemData` contains a `<dataset/>` and a list of `<item/>` elements. Each item encapsulates a list of `itemProperty` elements to configure that item.
 
@@ -73,6 +74,7 @@ For instance:
 ### Main Properties
 
 Since the custom visualization component works like a wrapper, its definition is very generic and based on simple properties (`itemProperty`). There are four common properties that can be used with any custom visualization component:
+
 - `script` - the location of the JavaScript file implementing the component
 - `module` - (optional) the name of the JavaScript module to be loaded by using `RequireJs` (if not specified, the base name of the JavaScript file without extensions will be assumed as name of the module)
 - `css` - (optional) the location of a CSS file eventually used by the component
@@ -93,6 +95,7 @@ The `Sparkline` sample uses a subdataset to populate a simple series of values. 
 ### Custom Visualization Component Samples
 
 This sample contains the implementation of 6 custom visualizations:
+
 - **Simple Rectangle** - A very simple visualization to explain the basics of creating your own Custom Visualization Component.
 - **D3 Rectangle** - An improved version of Simple Rectangle which use d3.js. The component accepts a configuration parameter and displays vertical lines based on provided data.
 - **Figures** - A d3.js based visualization to represent a quantity by using figures.
@@ -272,6 +275,7 @@ define('d3rectangle', ['d3'], function (d3) {
 ```
 
 At this point the `d3` library is at our disposal. We will display a set of vertical lines inside our rectangle. To do that, we will need to provide some data to the component by means of series. We expect our series to have two fields:
+
 - `value` - which will be used to determine the horizontal position of our line
 - `color` - a string defining the color used to plot the line
 

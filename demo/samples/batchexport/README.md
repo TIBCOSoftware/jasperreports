@@ -19,6 +19,7 @@ Several reports can be exported together to form a single resulting document.
 ### Exporter Input - API Overview
 
 Once generated, a [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object may be exported to various output formats such as PDF, HTML, XML, CSV, RTF, Excel, MSWord, PPTX, etc. The JasperReports library includes a builtin exporter class for each output format enumerated here. An exporter should be able to handle a wide range of report sources, along with their specific export configuration settings. In order to perform the export, exporters require some specific input data:
+
 - a single [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) or a list of [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) objects to be exported at a time; these objects may:
     - be in-memory objects
     - come from the network through an input stream
@@ -40,6 +41,7 @@ public List<ExporterInputItem> getItems()
 ```
 
 method in order to retrieve a list of [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) objects. Each [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) in the list contains a single [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object along with its related export configuration settings. Methods in the [ExporterInputItem](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ExporterInputItem.html) interface are:
+
 - `public JasperPrint getJasperPrint()` - return the [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object
 - `public ReportExportConfiguration getConfiguration()` - return export configuration settings to be applied for the [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object
 
@@ -91,7 +93,7 @@ Below is a list of the builtin implementations for the exporter input APIs (see 
     - `SimpleXlsxExporterConfiguration` class - global setting for the XLSX export
 
 
-[- ReportExportConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ReportExportConfiguration.html) interface:
+- [ReportExportConfiguration](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/export/ReportExportConfiguration.html) interface:
 
     - `SimpleCsvReportConfiguration` class - report setting for the CSV export
     - `SimpleCsvMetadataReportConfiguration` class - report setting for the CSV metadata export

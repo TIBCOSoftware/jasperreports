@@ -55,6 +55,7 @@ The [Barbecue](http://barbecue.sourceforge.net/) library supports the following 
 - USPS
 
 It also provides support for multiple output formats:
+
 - PNG
 - GIF
 - JPEG

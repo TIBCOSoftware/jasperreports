@@ -51,6 +51,7 @@ Some of linear symbologies are highly standardized, some others are niche-orient
 - etc.
 
 Some of the 2D symbologies are enumerated below:
+
 - `Aztec Code` - International Standard ISO/IEC 24778
 - `Codablock` - Not standardized.
 - `Code 16K` - Based on linear Code 128.
@@ -76,6 +77,7 @@ Shows how to render barcodes in a report, using the barcode component based on t
 
 Today barcodes are present almost everywhere: in wholesales as well as in retails, on the bills, in airports, libraries, banks, hospitals, hotels, theaters, amusement parks, on the internet, and the list could continue... Due to this ubiquity, there is an increasing need of barcode components in the reporting area. Powerful reporting engines should now provide support for as many as possible barcode symbologies. To cover a large category of customer needs, JR comes with 2 built-in barcode components, and in addition, it also makes room for other complementary implementations. This sample illustrates how to use the built-in component mostly based on the open source Barcode4J library.
 The Barcode4J library supports the following symbologies:
+
 - linear:
     - `Code 25` – Interleaved 2 of 5
     - `Codabar`
@@ -95,6 +97,7 @@ The Barcode4J library supports the following symbologies:
 Note: The `QRCode` 2D-symbology being not yet supported in Barcode4J, its related component implementation in JasperReports is based on the ZXing library.
 
 Multiple output formats are also supported:
+
 - SVG
 - EPS
 - Bitmap images (such as PNG or JPEG)
@@ -104,6 +107,7 @@ Multiple output formats are also supported:
 ### The Barcode4J Component
 
 Each of [Barcode4jComponent](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/barcode4j/Barcode4jComponent.html) supported symbologies enumerated above is characterized by a common structure of elements and attributes described in the Barcode4j parent element, and their specific difference given as additional extracontent:
+
 - [Codabar](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/barcode4j/CodabarComponent.html)
 - [Code39](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/barcode4j/Code39Component.html)
 - [Code128](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/barcode4j/Code128Component.html)

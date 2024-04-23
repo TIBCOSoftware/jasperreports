@@ -24,6 +24,7 @@ Crosstabs can be used with any level of data (nominal, ordinal, interval, or rat
 Crosstabs are also interesting due to their flexible layout capabilities. When a crosstab does not fit on a page, then either a column or row break occurs, and the crosstab splits into several pieces. Depending on the remaining available space, the crosstab could continue on the same page, or it could overflow onto a new page.
 
 A crosstab element is characterized by the following attributes:
+
 - `isRepeatColumnHeaders` - indicates whether the column headers should be placed in front of columns each time a row break occurs. The default value is `true`.
 - `isRepeatRowHeaders` - indicates whether the row headers should be placed in front of rows each time a column break occurs. The default value is `true`.
 - `columnBreakOffset` - when a column break occurs, indicates the amount of vertical space, measured in pixels, before the subsequent crosstab piece to be placed below the previous one on the same page. The default value is `10`.
@@ -40,6 +41,7 @@ Like charts, crosstabs can handle by themselves collections of data. They can ac
 ### Data Grouping in Crosstab
 
 The crosstab calculation engine aggregates data by iterating through the associated dataset records. In order to aggregate data, one need to group them first. In a crosstab rows and columns are based on specific group items, called buckets. A bucket definition should contain:
+
 - `bucketExpression` - the expression to be evaluated in order to obtain data group items
 - `comparatorExpression` - needed in the case the natural ordering of the values is not the best choice
 - `orderByExpression` - indicates the value used to sort data
@@ -47,6 +49,7 @@ The crosstab calculation engine aggregates data by iterating through the associa
 ### Row Groups
 
 Any number of row groups can be declared within a crosstab. The first row group will enclose the second one, the second one will enclose the third one, and so on. A row group is characterized by the following attributes:
+
 - `name` - the name identifying the row group; this attribute is required.
 - `width` - the width in pixels of the row group header
 - `totalPosition` - specifies the position of the row containing total values relative to the row group. Possible values are: `Start, End, None`. The default value is `None`.
@@ -61,6 +64,7 @@ and contains the following elements:
 ### Column Groups
 
 Any number of column groups can be declared within a crosstab. Like row groups, outer column groups are enclosing inner column groups, in the same order as they were declared. A column group is characterized by the following attributes:
+
 - `name` - the name identifying the column group; this attribute is required.
 - `height` - the height in pixels of the column group header
 - `totalPosition` - specifies the position of the column containing total values relative to the column group. Possible values are: `Start, End, None`. The default value is `None`.
@@ -115,6 +119,7 @@ or:
 
 A crosstab cell is a rectangular report element that can contain any kind of other report element, except subreports, charts, and crosstabs. Usually, crosstab cells can be either detail cells (when its both row/column correspond to a bucket value), or total cells (when at least the row or column corresponds to a group total value).
 Depending on their position within the crosstab, or on their special meaning, crosstab cell types are described below:
+
 - `<crosstabHeaderCell>` - this is the topmost left crosstab cell, where row headers and column headers meet.
 - `<crosstabCell>` - these are the regular detail cells, with no `rowTotalGroup` or `columnTotalGroup` attribute declarations within their body. For these cells the width and height attributes are mandatory.
 - `<crosstabCell>` - if at least the `rowTotalGroup` or `columnTotalGroup` declaration is present, this cell becomes a total cell. With a `rowTotalGroup` attribute, it will display a column total for that row group. With a columnTotalGroup attribute, it will display a row total for that column group.
@@ -145,7 +150,8 @@ The report uses settings already present in the OrdersReport template, but due t
 
 - The crosstab is placed in the report detail section.
 - It works with the `Customer_Quantity` subdataset.
-It uses settings already present in the OrdersReport template.
+
+It uses settings already present in the OrdersReport template.\
 A `<whenNoDataCell>` crosstab cell is declared within. If no records present in the dataset, the No data is printed instead.
 
 4. **ShipmentsReport**
@@ -205,6 +211,7 @@ One can consider the main dataset responsible for iterating through the report d
 ### Subdatasets and Dataset Runs
 
 User-defined datasets are declared as <subDataset/> elements. To completely characterize a subdataset we need to set:
+
 - Subdataset attributes:
     - `name`
     - `scriptletClass`

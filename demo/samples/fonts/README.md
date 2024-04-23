@@ -142,10 +142,13 @@ Font families described in the `fonts.xml` file consist in up to 4 font faces: `
 In order to completely describe a font family extension, one have to indicate the mapping between the font faces and font files, the `pdfEncoding` and `pdfEmbedded` attributes, equivalent font face names available for dedicated exporters, such as the HTML exporter) and a list of supported locales, because font files usually support only certain languages.
 
 The fonts.xml file includes 3 different font families:
+
 - `DejaVu Sans`
 - `DejaVu Serif`
 - `DejaVu Sans Mono`
+
 and some mappings for logical JVM fonts available for HTML exporters:
+
 - `SansSerif`
 - `Serif`
 - `Monospaced`

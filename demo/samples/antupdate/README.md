@@ -68,6 +68,7 @@ Both `BarReport.jrxml` and `FooReport.jrxml` sources contain a title section wit
 
 - `<printWhenExpression><![CDATA[com.bar.SomeBarClass.isToPrint()]]></printWhenExpression>` - in `BarReport.jrxml`
 - `<printWhenExpression><![CDATA[com.foo.SomeFooClass.isToPrint()]]></printWhenExpression>` - in `FooReport.jrxml`
+
 The `com.bar.SomeBarClass` and `com.foo.SomeFooClass` sources are located in the `/src` directory as follows:
 
 ```

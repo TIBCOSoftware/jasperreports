@@ -168,6 +168,7 @@ How to fill a report using the CSV query executer.
 The other (and highly recommended) option available for preparing a [JRCsvDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/JRCsvDataSource.html) is to let the JasperReports built-in CSV query executer to prepare one for us. When the query language is set to `CSV` or `csv`, the CSV query executer registered for this language will take the responsibilty to create and populate the needed CSV data source.
 
 JasperReports ships with a default implementation of the CSV query executer, named [JRCsvQueryExecuter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRCsvQueryExecuter.html).In order to create a valid CSV data source this query executer needs:
+
 - To access the resource containing the CSV data. Depending on its type, the resource could be located using one of the following:
     - [`CSV_READER`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_READER) parameter, if the resource is available as java.io.Reader object
     - [`CSV_INPUT_STREAM`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_INPUT_STREAM) parameter, if the resource is available as java.io.InpuStream object

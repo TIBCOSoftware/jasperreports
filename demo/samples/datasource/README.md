@@ -28,13 +28,10 @@ How to fill reports using data source objects.
 Data sources are structured data containers used when filling generated reports. Compiled [JasperReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperReport.html) objects are now prepared to encapsulate their dynamic part of data within the generated report template.
 The filling process relies on expression evaluations, variable calculations and successive iterations through the records of the supplied data source object. Every report section is filled step-by-step.
 Usually, data are loaded into data source objects. The engine expects to receive either a [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) object as the data source of the report that it has to fill, or a `java.sql.Connection` when the report data is found in a relational database.
-The [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) interface is very simple. Only two methods should implemented here:
+The [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) interface is very simple. Only two methods should be  implemented here:
 
-`public boolean next() throws JRException;`
-- called on the data source object by the reporting engine when iterating through the data at report-filling time
-
-`public Object getFieldValue(JRField jrField) throws JRException;`
-- provides the value for each report field in the current data source record
+- `public boolean next() throws JRException;` - called on the data source object by the reporting engine when iterating through the data at report-filling time
+- `public Object getFieldValue(JRField jrField) throws JRException;` - provides the value for each report field in the current data source record
 
 It is important to notice that the only way to retrieve data from the data source is by using the report fields. As a structured object, a data source object is more like a table with columns and rows containing data in the table cells. The rows of this table are the records through which the reporting engine iterates when filling the report and each column should be mapped to a report field, so that we can make use of the data source content in the report expressions. There are several default implementations of the [JRDataSource](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRDataSource.html) interface, depending on the way the records in the data source are acquired.
 
@@ -108,6 +105,7 @@ How to implement a custom data source from scratch.
 ### Custom Data Sources
 
 The datasource sample shows how to implement some of the data sources enumerated in the [Data Source Implementations](#dsImplementations) section. Using the same report template, it could be filled with data provided by any of these data sources, depending on the fill argument used with the ant command:
+
 - if the argument is `fill1` then data will be extracted from the `CustomDataSource` object.
 - if the argument is `fill2` then data will be extracted from the `CustomTableModel` object.
 - if the argument is `fill3` then data will be extracted from the `CustomBeanFactory` object as `JavaBean` array.

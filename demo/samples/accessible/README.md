@@ -26,6 +26,7 @@ Explains how to design reports that produce accessible content.
 
 
 JasperReports library accessibility support currently covers HTML and PDF export formats and allows screen readers to correctly identify and read through the following types of structured content:
+
 - headings (h1 to h6)
 - bulleted and numbered lists
 - images and graphics alternate texts
@@ -74,6 +75,7 @@ The styled text feature as well as the HTML markup feature of text elements in t
 Simply by using `<ul>`, `<ol>` and `<li>` tags in a text field configured to render styled text or HTML markup text is enough to create accessible bulleted or numbered lists.
 
 For numbered lists, the `<ol>` tag should be used and this tag supports two attributes:
+
 - `type`: Specifies the kind of marker to use in the list. The possible values for the type attribute are as follows:
     - 1 Default. Decimal numbers (1, 2, 3, 4)
     - a Alphabetically ordered list, lowercase (a, b, c, d)

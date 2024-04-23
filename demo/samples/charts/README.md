@@ -78,6 +78,7 @@ Chart-specific settings are grouped under the `<dataset />` and  `<plot />` chil
 - `<hyperlinkParameter />`
 
 Attributes available for all chart types are:
+
 - `isShowLegend` - indicates whether the legend will be rendered visible
 - `evaluationTime` - indicates the moment when chart goes rendered. Default value is `Now`
 - `evaluationGroup` - used to specify the group at which to render the chart, when evaluationTime is `Group`
@@ -91,6 +92,7 @@ Attributes available for all chart types are:
 ### Chart Rendering
 
 In generated reports, the output produced by a chart element is an image element. Image elements are drawn using implementations of the [Renderable](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/Renderable.html) interface. Charts have an attribute called `renderType` which specifies the renderer implementation that will be used to render the chart during export or report display. By default, JasperReports recognizes the following values for this attribute:
+
 - `draw` - the chart is drawn directly on the target graphic context using the [JFreeChart API](http://jfree.org/jfreechart/).
 - `image` - an image is first produced from the chart and this image in turn gets rendered onto the target graphic context.
 - `svg` - the chart is transformed into the Scalable Vector Graphics format and from that format is then rendered onto the target graphic context.
@@ -108,6 +110,7 @@ A chart dataset is an entity which can get initialized and incremented at specif
 Several types of chart datasets are available in JasperReports because each type of chart works with a certain dataset type. A dataset type is stored in the `kind` attribute of the `<dataset/>` element. Available dataset types are: `pie, category, xy, timeSeries, timePeriod, xyz, highLow, value` and `gantt`.
 
 The JasperReports object model uses the [JRChartDataset](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/JRChartDataset.html) interface to define chart datasets. There are implementations of this interface for each of the aforementioned dataset types. All chart datasets initialize and increment in the same way, and differ only in the type of data or data series they map. The increment or reset type and increment or reset groups can be specified by setting the dataset common attributes below:
+
 - `resetType`
 - `resetGroup`
 - `incrementType`
@@ -127,6 +130,7 @@ A type of `pie` dataset series is characterized by the following expressions:
 **Category Dataset**
 
 A type of `category` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - indicates the name of the series. This expression can return any `java.lang.Comparable` object.
 - `<categoryExpression />` - returns the name of the category for each value inside the series specified by the series expression. Categories are `java.lang.Comparable` objects.
 - `<valueExpression />` - produces the values that correspond to each category in the dataset. Values are always `java.lang.Number` objects.
@@ -136,6 +140,7 @@ A type of `category` dataset series is characterized by the following expression
 **XY Dataset**
 
 A type of `xy` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - indicates the name of the series. This expression can return any `java.lang.Comparable` object.
 - `<xValueExpression />` - returns the `java.lang.Number` value representing the X value from the (x, y) pair that will be added to the current data series.
 - `<yValueExpression />` - returns the `java.lang.Number` value representing the Y value from the (x, y) pair that will be added to the current data series.
@@ -145,6 +150,7 @@ A type of `xy` dataset series is characterized by the following expressions:
 **XYZ Dataset**
 
 A type of `xyz` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - indicates the name of the series. This expression can return any `java.lang.Comparable` object.
 - `<xValueExpression />` - returns the `java.lang.Number` value representing the X value from the (x, y, z) item that will be added to the current data series.
 - `<yValueExpression />` - returns the `java.lang.Number` value representing the Y value from the (x, y, z) item that will be added to the current data series.
@@ -169,6 +175,7 @@ The `timePeriod` attribute specifies the type of the data series inside the data
 - `Millisecond`
 
 A type of `timeSeries` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - indicates the name of the series. This expression can return any `java.lang.Comparable` object.
 - `<timePeriodExpression />` - returns a `java.util.Date` value from which the engine will extract the corresponding time period depending on the value set for the `timePeriod` attribute mentioned above.
 - `<valueExpression />` - returns the `java.lang.Number` value to associate with the corresponding time period value when incrementing the current series of the dataset.
@@ -178,16 +185,18 @@ A type of `timeSeries` dataset series is characterized by the following expressi
 **Time Period Dataset**
 
 A type of `timePeriod` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - indicates the name of the series. This expression can return any `java.lang.Comparable` object.
 - `<startDateExpression />` - specifies the beginning of the date interval with which the numeric value will be associated when it is added to the time period series.
 - `<endDateExpression />` - specifies the end of the date interval with which the numeric value will be associated when it is added to the time period series.
 - `<valueExpression />` - returns the java.lang.Number value to associate with the current date interval specified by the start date and end date expressions.
 - `<labelExpression />` - if this expression is missing, the chart will display default labels for each item in the chart. Use this expression, which returns `java.lang.String` values, to customize the item labels for the chart.
-- `<itemHyperlink /> - sets hyperlinks associated with chart items
+- `<itemHyperlink />` - sets hyperlinks associated with chart items
 
 **High Low Dataset**
 
 A type of `highLow` dataset series is characterized by the following expressions:
+
 - `<seriesExpression />` - currently only one series is supported inside a High-Low or Candlestick chart. However, this single series must be identified by a `java.lang.Comparable` value returned by this expression, and it must also be used as the series name in the chart’s legend.
 - `<dateExpression />` - returns the date to which the current (`high, low, open, close, volume`) item refers.
 - `<highExpression />` - returns a `java.lang.Number` value, which will be part of the data item added to the series when the dataset gets incremented.
@@ -212,6 +221,7 @@ Common plot attributes are:
 - `orientation` - specifies whether plot items will be rendered horizontally or vertically. Possible values are `Horizontal` and `Vertical`. The default is `Vertical`.
 - `backgroundAlpha` - specifies the background transparency for the plot.
 - `foregroundAlpha` - specifies the foreground transparency for the plot.
+
 A plot contains also a `<seriesColor />` element which customize colors for series, and their position within in the color sequence.
 
 ### Specific Settings for Chart Plots

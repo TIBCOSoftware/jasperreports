@@ -38,6 +38,7 @@ Notice that since void methods are useless in an expression, properly implemente
 ### Functions Annotations
 
 Custom function classes are characterized by specific class and method-level annotations. Annotations metadata collected at runtime are used to facilitate the function call mechanism, even in complex i18n environments.
+
 - Class-level annotations:
     - [`@FunctionCategories`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/functions/annotations/FunctionCategories.html) - stores metadata for an array of [`FunctionCategory`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/functions/annotations/FunctionCategory.html) classes, used as category identifiers when functions are grouped by categories. A given function may belong to different categories. The annotation can be declared as class or method-level. As class-level declaration, it applies to all methods in the class.
     - [`@FunctionCategory`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/functions/annotations/FunctionCategory.html) - stores metadata for any element in the [`@FunctionCategories`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/functions/annotations/FunctionCategories.html) array

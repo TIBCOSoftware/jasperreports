@@ -58,7 +58,11 @@ public interface ExcelDataAdapter extends XlsDataAdapter
   public ExcelFormatEnum getFormat();
   public void setFormat(ExcelFormatEnum format);
 }
+```
+
 Settings inherited from the XlsDataAdapter are presented below:
+
+```
 public interface XlsDataAdapter extends DataAdapter
 {
   public String getDatePattern();
@@ -88,6 +92,7 @@ The `isQueryExecuterMode()` setting specifies whether the built-in [ExcelQueryEx
 Now we'll see how to configure and use the built-in Excel data adapter in order to obtain a valid data source.
 
 There are 4 distinct configurations in this sample, all of them saved in the data folder:
+
 - `ExcelXlsDataAdapter.jrdax` - reads data from a XLS data file (see `data/XlsDataSource.data.xls` Excel file) and works in direct data source mode
 - `ExcelXlsQeDataAdapter.jrdax` - reads data from the same XLS data file, but works in query executer mode
 - `ExcelXlsxDataAdapter.jrdax` - reads data from a XLSX data file (see `data/XlsxDataSource.data.xlsx` Excel file) and works in direct data source mode
@@ -128,6 +133,7 @@ Data are read from a single sheet named `xlsdatasource2`. This is the second she
 The other 3 data adapter configurations are set in a similar way, with differences regarding the data file, the query executer mode and the sheet selection.
 
 For each data adapter there is a JRXML file to be compiled, filled and exported to various output formats:
+
 - `reports/ExcelXlsDataAdapterReport.jrxml` - uses `ExcelXlsDataAdapter.jrdax`, that works in direct data source mode
 - `reports/ExcelXlsQeDataAdapterReport.jrxml` - uses `ExcelXlsQeDataAdapter.jrdax`, that works in query executer mode
 - `reports/ExcelXlsxDataAdapterReport.jrxml` - uses `ExcelXlsxDataAdapter.jrdax`, that works in direct data source mode

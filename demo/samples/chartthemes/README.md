@@ -58,6 +58,7 @@ This properties file placed in the root of the JAR, has to have a property in th
 
 In order to customize a chart, a sum of specific settings should be configured in a given chart theme. Then, when a chart gets created, if its own settings are not present, they are read from the related chart theme. For example, if chart's own title position is not set, then the title position will be set using the chart theme's title position attribute.
 Chart settings are grouped in 4 main categories:
+
 - general chart settings: available to all chart types. For example, the title color, the legend position, the chart border, etc.
 - general plot settings: referring to the chart's plot, like: plot background color, orientation, gridlines, etc.
 - general axis settings: referring to the chart's axis: axis color, label angle, tick marks count, etc.
@@ -95,6 +96,7 @@ Below is the theme bundle bean:
 ```
 
 The generic chart theme bean is referenced by `id="genericChartTheme"` and contains 4 bean elements related to the 4 chart settings categories:
+
 - `defaultChartPropertiesMap` - contains general chart settings
 - `defaultPlotPropertiesMap` - contains general plot settings
 - `defaultAxisPropertiesMap` - contains axis settings

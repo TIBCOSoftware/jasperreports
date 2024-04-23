@@ -40,6 +40,7 @@ Each input field needs a unique identifier within the PDF form. This can be set 
 
 The background color, forecolor and text formatting inside a generated input field are inherited from the JasperReports element. For the border style we need to set the following property, with values compatible with PDF border styles: `net.sf.jasperreports.export.pdf.field.border.style`.\
 Possible values are:
+
 - `Solid` - solid border
 - `Dashed` - dashed border
 - `Beveled` - beveled border
@@ -113,6 +114,7 @@ In case we need the textbox in the combobox field to be editable, we can set the
 ### Checkbox Input Field
 
 In order to properly set a checkbox we need to know how it's decorated and whether it's checked or no. We can set the checkbox appearance by using the `net.sf.jasperreports.export.pdf.field.check.type` property with the following possible values:
+
 - `Check` - specifies a checkbox type decoration
 - `Circle` - specifies a circle tipe decoration
 - `Cross` - specifies a cross type decoration

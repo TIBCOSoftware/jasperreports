@@ -26,10 +26,12 @@ A date range is a time period completely characterized by its start date and end
 - `public Date getEnd()` - to retrieve a `java.util.Date` object, representing the end date
 
 There are 2 kind of DateRange objects:
+
 - single date object - a date range where the start date is the same as the end date
 - relative date range - a date range calculated relatively to the current date, where the start date and the end date are different and depend on the time unit, that can be set as day, week, month, etc.
 
 The built-in `DATERANGE()` custom function is implemented to generate [DateRange](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/types/date/DateRange.html) objects within JRXML reports. It can be used in expressions and SQL function clauses (using the `$X{}` syntax). The `DATERANGE()` function accepts either a `String` parameter or a `java.util.Date`. If called with a `java.util.Date` parameter, a single date object object will be generated. In case of a `String` parameter, the result depends on how the `String` parameter is constructed. If the `String` represents a valid date (for instance "2000-01-23") a single date object is returned. If the `String` parameter is in the form of `<keyword> <+|-> <number>`, a relative date range object will be delivered. In this expression the `<keyword>` represents the time unit and may have one of the following values:
+
 - `DAY` - the date range will be calculated based on days relative to the current date
 - `WEEK` - the date range will be calculated based on weeks relative to the current date
 - `MONTH` - the date range will be calculated based on months relative to the current date

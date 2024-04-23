@@ -31,6 +31,7 @@ The EJB QL query executer adds support for reporting on EJB 3.0 persistent entit
 The built-in EJB QL query executer is registered by default for queries having `EJBQL` or `ejbql` set as their language. This mapping can be changed by using the related JasperReports properties (see properties in the category `net.sf.jasperreports.query.executer.factory.{language}`).
 
 Two built-in parameters are involved in the query execution:
+
 - [`PARAMETER_JPA_ENTITY_MANAGER`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/j2ee/ejbql-j2ee/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER) - that specifies the entity manager to be used for executing the query, depending on the particular `EJB/JPA` environment and implementation
 - [`JPA_QUERY_HINTS_MAP`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/j2ee/ejbql-j2ee/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP) - that contains a map with hint values mapped on hint names, to be used when running the query. Hints can also be specified statically by using report properties. The query executer treats any report property in the category `net.sf.jasperreports.ejbql.query.hint.{hintName}` as a hint by interpreting the property suffix as the hint name and the property value as the hint value.
 
@@ -59,6 +60,7 @@ The result of the query execution is sent to a data source implementation, which
 ### The EJB QL/JPA Query Executer Sample
 
 The movie database sample in the `demo/samples/ejbql` directory is structured as follows:
+
 - the `data` directory contains the SQL script that creates and populates the following tables in the built-in HSQL database:
     - `PERSON` - stores people IDs and names
     - `MOVIE` - stores movie ID, director, title, genre and release date informations
