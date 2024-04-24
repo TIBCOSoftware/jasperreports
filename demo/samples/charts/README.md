@@ -273,7 +273,7 @@ How to make various changes to a generated chart using the [JFreeChart API](http
 
 **Since:** 1.1.1
 
-**Other Samples	**\
+**Other Samples**\
 [/demo/samples/chartthemes](../chartthemes/README.md)
 
 

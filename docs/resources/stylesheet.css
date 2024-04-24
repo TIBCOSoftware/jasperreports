@@ -151,27 +151,10 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
 }
 
 .top1 {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  padding-top: 20px;
-  padding-left: 45px;
-  display: inline-block;
-  font-size: 20pt;
+	width: 100%;
+	text-align: right;
+	display: inline-block;
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
 }
-
-.top2 {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding-top: 30px;
-  padding-right: 45px;
-  display: inline-block;
-}
-
-.footer {
-	font-size: 10pt;
-	font-style: bold;
-	color: #8888FF;
-}
-
