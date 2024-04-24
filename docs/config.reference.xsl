@@ -15,8 +15,6 @@
 <head>
 <title>JasperReports <xsl:value-of select="$version"/> - Configuration Reference</title>
 <link rel="stylesheet" href="resources/stylesheet.css"/>
-<style type="text/css">
-</style>
 </head>
 <body bgcolor="#FFFFFF">
 <xsl:if test="$sf.net = 'true'">
@@ -33,11 +31,11 @@ ga('send', 'pageview');
 </xsl:if>
 
 <a name="top"/>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table class="top0">
   <tr>
-    <td colspan="2" align="right">
+  	<td align="left"><img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="left"/> &#160;&#160;&#160;&#160; <span class="top1">version <xsl:value-of select="$version"/></span><br/></td>
+    <td align="right">
 <span class="element"><xsl:element name="a">
-<xsl:attribute name="href">JasperReports-Ultimate-Guide-3.pdf</xsl:attribute>JasperReports Ultimate Guide</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">sample.reference/README.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
@@ -51,16 +49,16 @@ ga('send', 'pageview');
       <hr size="1"/>
     </td>
   </tr>
+ </table>
+ <article class="body">
+ <table class="top0"> 
   <tr valign="middle">
-    <td nowrap="true">
-<span class="title">JasperReports - Configuration Reference (version <xsl:value-of select="$version"/>)</span>
-    </td>
-    <td align="right">
-<img src="resources/jasperreports.svg" border="0"/>
+    <td>
+<span class="title">JasperReports - Configuration Reference</span>
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td>
       <hr size="1"/>
     </td>
   </tr>
@@ -184,7 +182,7 @@ ga('send', 'pageview');
     </td>
   </tr>
 </table>
-
+</article>
 </body>
 </html>
 </xsl:template>

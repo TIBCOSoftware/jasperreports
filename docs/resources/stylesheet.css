@@ -151,10 +151,29 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
 }
 
 .top1 {
-	width: 100%;
-	text-align: right;
-	display: inline-block;
 	font-family: Courier New, Courier, serif;
-	font-size: 12pt;
-	font-weight: normal;
+	font-size: 16pt;
+	font-weight: bold;
 }
+
+table.top0 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 100%;
+	border-spacing: 0px;
+	border-style: none;
+}
+
+article.body {
+	box-sizing: border-box;
+	min-width: 200px;
+	margin: 0 auto;
+	padding-top: 0px;
+	padding-left: 45px;
+	padding-right: 45px;
+}
+
+a {
+	color: #0969da;
+}
+
