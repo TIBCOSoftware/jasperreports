@@ -84,6 +84,10 @@
 				                  <name>version</name>
 				                  <value>${revision}</value>
 				                </parameter>
+				                <parameter>
+				                  <name>sf.net</name>
+				                  <value>${sf.net}</value>
+				                </parameter>
 			              	</parameters>							
 						</transformationSet>
 						<transformationSet>
@@ -101,6 +105,10 @@
 				                  <name>version</name>
 				                  <value>${revision}</value>
 				                </parameter>
+				                <parameter>
+				                  <name>sf.net</name>
+				                  <value>${sf.net}</value>
+				                </parameter>
 			              	</parameters>							
 						</transformationSet>
 						<transformationSet>
@@ -117,6 +125,10 @@
 				                <parameter>
 				                  <name>version</name>
 				                  <value>${revision}</value>
+				                </parameter>
+				                <parameter>
+				                  <name>sf.net</name>
+				                  <value>${sf.net}</value>				                
 				                </parameter>
 			              	</parameters>							
 						</transformationSet>
@@ -171,8 +183,17 @@
 							<file>${project.build.directory}/docs/resources/header.html</file>
 							<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
 							<regex>false</regex>
-							<token>@version</token>
-							<value>${revision}</value>
+							<replacements>
+								<replacement>
+									<token>@version</token>
+									<value>${revision}</value>
+								</replacement>
+								<replacement>
+									<token>&lt;script&gt;&lt;/script&gt;</token>
+									<!-- change the active profile to 'site' in order to include statistics -->
+									<value>${sf.statistics}</value>
+								</replacement>
+						</replacements>						
 						</configuration>
 					</execution>
 					<execution>
