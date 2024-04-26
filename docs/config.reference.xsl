@@ -33,7 +33,8 @@ ga('send', 'pageview');
 <a name="top"/>
 <table class="top0">
   <tr>
-  	<td align="left"><img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="left"/> &#160;&#160;&#160;&#160; <span class="top1">version <xsl:value-of select="$version"/></span><br/></td>
+  	<td align="left" width="10px"><img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="left"/></td>
+  	<td align="left"> &#160;&#160;&#160;&#160; <span class="attribute">version <xsl:value-of select="$version"/></span></td>
     <td align="right">
 <span class="element"><xsl:element name="a">
 <xsl:attribute name="href">sample.reference/README.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
@@ -41,11 +42,10 @@ ga('send', 'pageview');
 <xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">http://community.jaspersoft.com/wiki/jasperreports-library-faqs</xsl:attribute>FAQ</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
-<br/>
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="3">
       <hr size="1"/>
     </td>
   </tr>
