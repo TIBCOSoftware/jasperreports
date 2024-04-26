@@ -24,14 +24,15 @@ produce pixel-perfect documents that can be viewed, printed or exported in a var
 formats including HTML, PDF, Excel, OpenOffice, MS Word and other.
 
 _**Documentation:**_
-- [JasperReports Ultimate Guide](https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf)
-- [Samples Reference](https://jasperreports.sourceforge.net/sample.reference.html)
-- [Schema Reference](https://jasperreports.sourceforge.net/schema.reference.html)
+
+- [Samples Reference](https://jasperreports.sourceforge.net/sample.reference/README.html)
 - [Configuration Reference](https://jasperreports.sourceforge.net/config.reference.html)
 - [Functions Reference](https://jasperreports.sourceforge.net/function.reference.html)
 - [FAQ](http://community.jaspersoft.com/wiki/jasperreports-library-faqs)
 - [API (Javadoc)](https://jasperreports.sourceforge.net/api/index.html)
 - [Discussion Forums](https://community.jaspersoft.com/project/jasperreports-library/answers)
+- **Older resources:**
+    - [JasperReports Ultimate Guide](https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf) (version 3.0)
 <br/>
 <br/>
 
@@ -98,7 +99,7 @@ The project has a separate artifact for tests under the `/tests`, which can be r
 
     mvn clean test
 
-The project documentation consists of schema reference, configuration reference, samples reference, functions reference and the aggregated Javadoc.
+The project documentation consists of general overview, configuration reference, samples reference, functions reference and the aggregated Javadoc.
 It can be all generated using the following command in the `/docs` folder of the project:
 
     mvn clean exec:exec@docs

@@ -156,6 +156,13 @@ table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
 	font-weight: bold;
 }
 
+.version {
+	font-family: Courier New, Courier, serif;
+	font-size: 14pt;
+	font-weight: bold;
+	color: #000000;
+}
+
 table.top0 {
 	padding-top: 20px;
 	padding-bottom: 20px;

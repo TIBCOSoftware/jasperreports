@@ -20,7 +20,7 @@
 	<properties>
 		<maven.install.skip>false</maven.install.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
-		<!-- change this property to true to enable online statistics -->
+		<!-- set this property to true to enable online statistics -->
 		<sf.net>false</sf.net>
 	</properties>
 	<build>
@@ -39,7 +39,7 @@
 						<configuration>
 							<outputDirectory>${project.build.directory}/docs</outputDirectory>
 							<resources>
-								<resource>
+								<resource>								
 									<directory>resources</directory>
 									<targetPath>resources</targetPath>
 								</resource>
@@ -149,19 +149,37 @@
 			            <goals>
 			                <goal>generate</goal>
 			            </goals>
+					    <configuration>
+					        <inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
+					        <outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
+					        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
+					        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
+					        <inputEncoding>UTF-8</inputEncoding>
+					        <outputEncoding>UTF-8</outputEncoding>
+					        <recursiveInput>true</recursiveInput>
+					        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+					        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
+					  	</configuration>
+			        </execution>
+			        <execution>
+			     	<id>convert-root-to-html</id>
+			            <phase>prepare-package</phase>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+					    <configuration>
+					        <inputDirectory>..</inputDirectory>
+					        <outputDirectory>${project.build.directory}/docs</outputDirectory>
+					        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
+					        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
+					        <inputEncoding>UTF-8</inputEncoding>
+					        <outputEncoding>UTF-8</outputEncoding>
+					        <recursiveInput>false</recursiveInput>
+					        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+					        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
+					  	</configuration>
 			        </execution>
 			    </executions>
-			    <configuration>
-			        <inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
-			        <outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
-			        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
-			        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
-			        <inputEncoding>UTF-8</inputEncoding>
-			        <outputEncoding>UTF-8</outputEncoding>
-			        <recursiveInput>true</recursiveInput>
-			        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
-			        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
-			  </configuration>
 			</plugin>
 			<plugin>
 			  	<groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -179,8 +197,8 @@
 							<file>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</file>
 							<outputFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</outputFile>
 							<regex>false</regex>
-									<token>@version</token>
-									<value>${revision}</value>
+							<token>@version</token>
+							<value>${revision}</value>
 						</configuration>
 					</execution>
 					<execution>
@@ -191,7 +209,7 @@
 						</goals>
 						<configuration>
 							<includes>
-								<include>${project.build.directory}/docs/sample.reference/**/README.html</include> 
+								<include>${project.build.directory}/docs/**/README.html</include> 
 							</includes> 
 							<regex>false</regex>
 							<replacements>
@@ -225,6 +243,33 @@
 							<value>../</value>
 						</configuration>
 					</execution>
+					<execution>
+						<id>replace-root-links</id> 
+						<phase>package</phase>
+						<goals> 
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<ignoreMissingFile>true</ignoreMissingFile>
+							<file>${project.build.directory}/docs/README.html</file>
+							<outputFile>${project.build.directory}/docs/README.html</outputFile>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>../</token> 
+									<value></value>
+								</replacement>
+								<replacement>
+									<token>https://jasperreports.sourceforge.net/</token>
+									<value></value>
+								</replacement>
+								<replacement>
+									<token>JasperReports-Ultimate-Guide-3.pdf</token>
+									<value>https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -255,6 +300,17 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>convert-root-to-html</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>package</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
 						<id>replace-version</id>
 						<configuration>
 							<executable>mvn</executable>
@@ -267,6 +323,17 @@
 					</execution>
 					<execution>
 						<id>replace-relative-link</id>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>package</argument>
+								<argument>-Dmaven.buildNumber.doCheck=false</argument>
+							</arguments>
+							<workingDirectory>${project.basedir}</workingDirectory>		   
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-root-links</id>
 						<configuration>
 							<executable>mvn</executable>
 							<arguments>
@@ -321,8 +388,10 @@
 							<arguments>
 								<argument>exec:exec@replace-header</argument>
 								<argument>exec:exec@convert-to-html</argument>
+								<argument>exec:exec@convert-root-to-html</argument>
 								<argument>exec:exec@replace-version</argument>
 								<argument>exec:exec@replace-relative-link</argument>
+								<argument>exec:exec@replace-root-links</argument>
 								<argument>exec:exec@javadoc</argument>
 								<argument>exec:exec@config-reference</argument>
 								<argument>exec:exec@functions-reference</argument>

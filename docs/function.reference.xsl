@@ -35,10 +35,11 @@ ga('send', 'pageview');
 <a name="top"/>
 <table class="top0">
   <tr>
-  	<td align="left" width="10px"><img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="left"/></td>
-  	<td align="left"> &#160;&#160;&#160;&#160; <span class="attribute">version <xsl:value-of select="$version"/></span></td>
+  	<td align="left"><img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="left"/></td>
+  	<td align="left"><span class="version">version <xsl:value-of select="$version"/></span></td>
     <td align="right">
 <span class="element"><xsl:element name="a">
+<xsl:attribute name="href">README.html</xsl:attribute>Home</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">sample.reference/README.html</xsl:attribute>Samples</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">function.reference.html</xsl:attribute>Functions</xsl:element> - <xsl:element name="a">
