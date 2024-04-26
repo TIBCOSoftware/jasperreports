@@ -239,26 +239,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>offline</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<sf.net>false</sf.net>
-				<sf.statistics>&lt;script&gt;&lt;/script&gt;</sf.statistics>
-			</properties>
-		</profile>
-		<profile>
-			<id>online</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<sf.net>true</sf.net>
-				<sf.statistics>&lt;script&gt;(function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,&apos;script&apos;,&apos;//www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);ga(&apos;create&apos;, &apos;UA-399158-5&apos;, &apos;sourceforge.net&apos;);ga(&apos;send&apos;, &apos;pageview&apos;);&lt;/script&gt;</sf.statistics>
-			</properties>
-		</profile>
-	</profiles>
 </project>

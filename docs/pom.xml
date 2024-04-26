@@ -20,6 +20,8 @@
 	<properties>
 		<maven.install.skip>false</maven.install.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
+		<!-- change this property to true to enable online statistics -->
+		<sf.net>false</sf.net>
 	</properties>
 	<build>
 		<outputDirectory>${project.build.directory}/docs</outputDirectory>
@@ -40,12 +42,6 @@
 								<resource>
 									<directory>resources</directory>
 									<targetPath>resources</targetPath>
-								</resource>
-								<resource>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>JasperReports-Ultimate-Guide-3.pdf</include>
-									</includes>
 								</resource>
 								<resource>
 									<directory>${project.build.directory}/site/apidocs</directory>
@@ -158,7 +154,7 @@
 			    <configuration>
 			        <inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
 			        <outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
-			        <headerHtmlFile>${project.build.directory}/docs/resources/header.html</headerHtmlFile>
+			        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
 			        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
 			        <inputEncoding>UTF-8</inputEncoding>
 			        <outputEncoding>UTF-8</outputEncoding>
@@ -180,20 +176,11 @@
 						</goals>
 						<configuration>
 							<ignoreMissingFile>true</ignoreMissingFile>
-							<file>${project.build.directory}/docs/resources/header.html</file>
-							<outputFile>${project.build.directory}/docs/resources/header.html</outputFile>
+							<file>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</file>
+							<outputFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</outputFile>
 							<regex>false</regex>
-							<replacements>
-								<replacement>
 									<token>@version</token>
 									<value>${revision}</value>
-								</replacement>
-								<replacement>
-									<token>&lt;script&gt;&lt;/script&gt;</token>
-									<!-- change the active profile to 'site' in order to include statistics -->
-									<value>${sf.statistics}</value>
-								</replacement>
-						</replacements>						
 						</configuration>
 					</execution>
 					<execution>
