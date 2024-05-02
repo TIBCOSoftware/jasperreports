@@ -1,37 +1,22 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/engine/base/ElementStore</className>
-		<differenceType>7012</differenceType>
-		<method>*deepSize()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/PdfExporterConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*getMetadataProducer()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/pdf/PdfDocument</className>
-		<differenceType>7012</differenceType>
-		<method>*addProducer(java.lang.String)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/XlsxRunHelper</className>
-		<differenceType>7009</differenceType>
-		<method>*exportProps(java.util.Map, java.util.Map, java.util.Locale)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/JRStringUtil</className>
-		<differenceType>7002</differenceType>
-		<method>*escapeJSONString(java.lang.String)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/properties/PropertyConstants</className>
-		<differenceType>6011</differenceType>
-		<field>VERSION_6_20_7</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/XlsxRunHelper</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxDocumentHelper</className>
 		<differenceType>7004</differenceType>
-		<method>*XlsxRunHelper(net.sf.jasperreports.engine.JasperReportsContext, java.io.Writer, java.lang.String)</method>
+		<method>*exportHeader()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxDocumentHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*exportSection(net.sf.jasperreports.engine.PrintPageFormat, net.sf.jasperreports.engine.export.JRGridLayout, boolean)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/JRDocxExporter</className>
+		<differenceType>6001</differenceType>
+		<field>nature</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/DocxReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*isBackgroundAsHeader()</method>
 	</difference>
 </differences>

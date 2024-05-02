@@ -96,7 +96,7 @@
 		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
 		<maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
-		<dependency-check-maven.version>9.0.7</dependency-check-maven.version>
+		<dependency-check-maven.version>9.1.0</dependency-check-maven.version>
 		<exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
 		<maven-compiler-plugin.version>3.12.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>

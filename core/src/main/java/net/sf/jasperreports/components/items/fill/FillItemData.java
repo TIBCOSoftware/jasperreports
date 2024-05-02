@@ -95,6 +95,14 @@ public abstract class FillItemData
 	/**
 	 *
 	 */
+	public void initialize()
+	{
+		evaluatedItems = null;
+	}
+	
+	/**
+	 *
+	 */
 	public void evaluateItems(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		if (itemsList != null)
