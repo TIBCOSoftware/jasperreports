@@ -418,37 +418,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		write(">\n");
 	}
-	
-	
-	/**
-	 *
-	 */
-	public void exportRow(int index, int rowHeight, boolean isAutoFit, XlsRowLevelInfo levelInfo) 
-	{
-		if (index > 0)
-		{
-			write("</row>\n");
-		}
-		else
-		{
-			if (!colsWriter.isEmpty())
-			{
-				write("<cols>\n");
-				colsWriter.writeData(writer);
-				write("</cols>\n");
-			}
-			write("<sheetData>\n");
-		}
-		index++;
-		write("<row r=\"" + index + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
-		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
-		{
-			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
-		}
-		write(">\n");
-	}
-	
-	
+			
 	/**
 	 *
 	 */
