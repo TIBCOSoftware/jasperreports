@@ -30,17 +30,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -104,9 +100,6 @@ public class JRXmlWriter
 	 *
 	 */
 	private JasperReportsContext jasperReportsContext;
-	
-	private List<Pattern> excludePropertiesPattern;
-	private boolean excludeUuids;
 
 	/**
 	 *
@@ -120,27 +113,6 @@ public class JRXmlWriter
 	public JRXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		
-		initExcludeProperties();
-	}
-
-
-	private void initExcludeProperties()
-	{
-		JasperReportsContext context = jasperReportsContext == null 
-				? DefaultJasperReportsContext.getInstance() : jasperReportsContext;
-		List<PropertySuffix> excludeProperties = JRPropertiesUtil.getInstance(context).getProperties(
-				PREFIX_EXCLUDE_PROPERTIES);
-		
-		excludePropertiesPattern = new ArrayList<>(excludeProperties.size());
-		for (PropertySuffix propertySuffix : excludeProperties)
-		{
-			String regex = propertySuffix.getValue();
-			Pattern pattern = Pattern.compile(regex);
-			excludePropertiesPattern.add(pattern);
-		}
-
-		excludeUuids = JRPropertiesUtil.getInstance(context).getBooleanProperty(PROPERTY_EXCLUDE_UUIDS);
 	}
 
 
@@ -150,24 +122,6 @@ public class JRXmlWriter
 	public JRReport getReport()
 	{
 		return report;
-	}
-
-
-	/**
-	 *
-	 */
-	public boolean isExcludeUuids()
-	{
-		return excludeUuids;
-	}
-
-
-	/**
-	 *
-	 */
-	public void setExcludeUuids(boolean excludeUuids)
-	{
-		this.excludeUuids = excludeUuids;
 	}
 
 
@@ -291,34 +245,18 @@ public class JRXmlWriter
 	 */
 	protected void writeReport(JRReport report, String encoding, Writer out) throws IOException
 	{
-		List<ReportWriter> writers = jasperReportsContext.getExtensions(ReportWriter.class);
-		for (ReportWriter reportWriter : writers)
+		List<ReportWriterFactory> writerFactories = jasperReportsContext.getExtensions(ReportWriterFactory.class);
+		for (ReportWriterFactory writerFactory : writerFactories)
 		{
-			boolean written = reportWriter.writeReport(jasperReportsContext, report, encoding, out);
+			ReportWriter reportWriter = writerFactory.createReportWriter(jasperReportsContext);
+			boolean written = reportWriter.writeReport(report, encoding, out);
 			if (written)
 			{
 				return;
 			}
 		}
-		//TODO legacyxml
+		//FIXME7 legacyxml
 		throw new JRRuntimeException("Unable to write report");
-	}
-	
-	//TODO legacyxml
-	protected boolean isPropertyToWrite(JRPropertiesHolder propertiesHolder, String propertyName)
-	{
-		// currently the properties holder does not matter, we just look at the property name
-		boolean toWrite = true;
-		for (Pattern pattern : excludePropertiesPattern)
-		{
-			if (pattern.matcher(propertyName).matches())
-			{
-				// excluding
-				toWrite = false;
-				break;
-			}
-		}
-		return toWrite;
 	}
 	
 	

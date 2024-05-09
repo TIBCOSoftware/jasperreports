@@ -56,9 +56,9 @@ import net.sf.jasperreports.engine.util.MessageProviderFactory;
 import net.sf.jasperreports.engine.util.ResourceBundleMessageProviderFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JacksonReportLoader;
-import net.sf.jasperreports.engine.xml.JacksonReportWriter;
+import net.sf.jasperreports.engine.xml.JacksonReportWriterFactory;
 import net.sf.jasperreports.engine.xml.ReportLoader;
-import net.sf.jasperreports.engine.xml.ReportWriter;
+import net.sf.jasperreports.engine.xml.ReportWriterFactory;
 
 
 /**
@@ -153,9 +153,9 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				{
 					return (List<T>) Collections.singletonList(JacksonReportLoader.instance());
 				}
-				else if (ReportWriter.class.equals(extensionType))
+				else if (ReportWriterFactory.class.equals(extensionType))
 				{
-					return (List<T>) Collections.singletonList(JacksonReportWriter.instance());
+					return (List<T>) Collections.singletonList(JacksonReportWriterFactory.instance());
 				}
 				return null;
 			}

@@ -267,16 +267,17 @@ public class JRXmlTemplateWriter
 	protected static void writeTemplate(JasperReportsContext jasperReportsContext, 
 			JRTemplate template, Writer out, String encoding) throws IOException
 	{
-		List<ReportWriter> writers = jasperReportsContext.getExtensions(ReportWriter.class);
-		for (ReportWriter reportWriter : writers)
+		List<ReportWriterFactory> writerFactories = jasperReportsContext.getExtensions(ReportWriterFactory.class);
+		for (ReportWriterFactory writerFactory : writerFactories)
 		{
-			boolean written = reportWriter.writeTemplate(jasperReportsContext, template, encoding, out);
+			ReportWriter reportWriter = writerFactory.createReportWriter(jasperReportsContext);
+			boolean written = reportWriter.writeTemplate(template, encoding, out);
 			if (written)
 			{
 				return;
 			}
 		}
-		//TODO legacyxml
+		//FIXME7 legacyxml
 		throw new JRRuntimeException("Unable to write template");
 	}
 	

@@ -41,15 +41,15 @@ import net.sf.jasperreports.jackson.util.JacksonUtil;
 public class JacksonReportWriter implements ReportWriter
 {
 
-	private static final JacksonReportWriter INSTANCE = new JacksonReportWriter();
+	private final JasperReportsContext jasperReportsContext;
 	
-	public static JacksonReportWriter instance()
+	public JacksonReportWriter(JasperReportsContext jasperReportsContext)
 	{
-		return INSTANCE;
+		this.jasperReportsContext = jasperReportsContext;
 	}
 
 	@Override
-	public boolean writeReport(JasperReportsContext jasperReportsContext, JRReport report, String encoding, Writer out)
+	public boolean writeReport(JRReport report, String encoding, Writer out)
 			throws IOException
 	{
 		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(report, JRXmlWriter.PROPERTY_REPORT_VERSION);
@@ -62,7 +62,7 @@ public class JacksonReportWriter implements ReportWriter
 	}
 
 	@Override
-	public boolean writeTemplate(JasperReportsContext jasperReportsContext, JRTemplate template, String encoding,
+	public boolean writeTemplate(JRTemplate template, String encoding,
 			Writer out) throws IOException
 	{
 		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlWriter.PROPERTY_REPORT_VERSION);

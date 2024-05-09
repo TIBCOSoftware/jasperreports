@@ -54,6 +54,7 @@ import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -64,6 +65,7 @@ import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
+import net.sf.jasperreports.engine.xml.ReportWriterConfiguration;
 
 
 /**
@@ -77,7 +79,7 @@ public class JacksonUtil
 	private static final String OBJECT_MAPPER_CONTEXT_KEY = "net.sf.jasperreports.jackson.object.mapper";
 	private static final String XML_MAPPER_CONTEXT_KEY = "net.sf.jasperreports.jackson.xml.mapper";
 	
-	private JasperReportsContext jasperReportsContext;
+	private final JasperReportsContext jasperReportsContext;
 	
 	
 	private final static DefaultXmlPrettyPrinter TAB_XML_PRETTY_PRINTER = new DefaultXmlPrettyPrinter();
@@ -196,12 +198,15 @@ public class JacksonUtil
 			}
 		}
 		
+		ReportWriterConfiguration reportWriterConfig = new ReportWriterConfiguration(jasperReportsContext);
+		
 		SimpleModule module = new SimpleModule();
 		// these global mappings are here only for implementations that need context or for third-party classes/interfaces
 		module.addDeserializer(JRReport.class, new ReportDeserializer(jasperReportsContext));
-		module.addSerializer(UUID.class, new UuidSerializer(jasperReportsContext));
+		module.addSerializer(UUID.class, new UuidSerializer(reportWriterConfig.isExcludeUuids()));
 		module.addSerializer(Color.class, new ColorSerializer());
 		module.addDeserializer(Color.class, new ColorDeserializer());
+		module.addSerializer(JRPropertiesMap.class, new PropertiesMapSerializer(reportWriterConfig));
 		// for our own classes and interfaces, we use class level annotations
 //		module.addSerializer(JRExpression.class, new ExpressionSerializer());
 //		module.addDeserializer(JRExpression.class, new ExpressionDeserializer());

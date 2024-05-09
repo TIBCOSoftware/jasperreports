@@ -30,10 +30,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -44,11 +40,11 @@ public class UuidSerializer extends StdScalarSerializer<UUID>
 	
 	private boolean excludeUuids;
 
-	public UuidSerializer(JasperReportsContext jasperReportsContext) 
+	public UuidSerializer(boolean excludeUuids) 
 	{
 		super((Class<UUID>)null);
 		
-		this.excludeUuids = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRXmlWriter.PROPERTY_EXCLUDE_UUIDS, false);
+		this.excludeUuids = excludeUuids;
 	}
 
 	@Override

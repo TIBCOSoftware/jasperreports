@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.xml.ReportWriterConfiguration;
 
 
 /**
@@ -39,15 +40,13 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 public class PropertiesMapSerializer extends StdSerializer<JRPropertiesMap>
 {
 	private static final long serialVersionUID = 1L;
+	private final ReportWriterConfiguration reportWriterConfig;
 
-	public PropertiesMapSerializer()
+	public PropertiesMapSerializer(ReportWriterConfiguration reportWriterConfig)
 	{
-		this(null);
-	}
-
-	public PropertiesMapSerializer(Class<JRPropertiesMap> vc)
-	{
-		super(vc);
+		super((Class<JRPropertiesMap>)null);
+		
+		this.reportWriterConfig = reportWriterConfig;
 	}
 
 	@Override
@@ -66,18 +65,21 @@ public class PropertiesMapSerializer extends StdSerializer<JRPropertiesMap>
 			jgen.writeStartArray();
 			for (String name : propertiesMap.getOwnPropertyNames())
 			{
-				jgen.writeStartObject();
-				if (xgen != null)
+				if (reportWriterConfig.isPropertyToWrite(name))
 				{
-					xgen.setNextIsAttribute(true);
+					jgen.writeStartObject();
+					if (xgen != null)
+					{
+						xgen.setNextIsAttribute(true);
+					}
+					jgen.writeStringField("name", name);
+					String value = propertiesMap.getProperty(name);
+					if (value != null)
+					{
+						jgen.writeStringField("value", value);
+					}
+					jgen.writeEndObject();
 				}
-				jgen.writeStringField("name", name);
-				String value = propertiesMap.getProperty(name);
-				if (value != null)
-				{
-					jgen.writeStringField("value", value);
-				}
-				jgen.writeEndObject();
 			}
 			jgen.writeEndArray();
 		}

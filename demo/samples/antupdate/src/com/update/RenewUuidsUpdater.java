@@ -26,9 +26,9 @@ package com.update;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.ReportUpdater;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -44,8 +44,9 @@ public class RenewUuidsUpdater implements ReportUpdater
 	@Override
 	public JasperDesign update(JasperDesign jasperDesign)
 	{
-		JRXmlWriter writer = new JRXmlWriter(DefaultJasperReportsContext.getInstance());
-		writer.setExcludeUuids(true);
+		SimpleJasperReportsContext localContext = new SimpleJasperReportsContext();
+		localContext.setProperty(JRXmlWriter.PROPERTY_EXCLUDE_UUIDS, Boolean.TRUE.toString());
+		JRXmlWriter writer = new JRXmlWriter(localContext);
 		String jrxml = writer.write(jasperDesign, StandardCharsets.UTF_8.name());
 		
 		try

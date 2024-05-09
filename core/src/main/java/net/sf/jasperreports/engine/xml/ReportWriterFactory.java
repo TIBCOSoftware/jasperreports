@@ -23,21 +23,14 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface ReportWriter
+public interface ReportWriterFactory
 {
 	
-	boolean writeReport(JRReport report, String encoding, Writer out) throws IOException;
-	
-	boolean writeTemplate(JRTemplate template, String encoding, Writer out) throws IOException;
+	ReportWriter createReportWriter(JasperReportsContext jasperReportsContext);
 
 }

@@ -22,6 +22,11 @@
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
+		<copy todir="./build/classes">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
 	</target> 
 
 	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag." depends="prepare-sample-classpath"> 

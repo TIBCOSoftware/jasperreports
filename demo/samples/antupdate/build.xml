@@ -59,6 +59,11 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
+		<copy todir="./build/classes">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
 	</target> 
 
 	<target name="define-jrc" depends="prepare-sample-classpath">
