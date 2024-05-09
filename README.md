@@ -41,7 +41,7 @@ _**Documentation:**_
 **Jaspersoft® Studio** - *report designer for the JasperReports Library*
 
 The report templates for the *JasperReports Library* are XML files which can be edited using a powerful,
-open source, Eclipse-based report designer called [Jaspersoft Studio](https://community.jaspersoft.com/downloads/community-edition/).
+free to use, Eclipse-based report designer called [Jaspersoft Studio](https://community.jaspersoft.com/downloads/community-edition/).
 Using *Jaspersoft Studio*, reports can be built out of any data source and can have their look and feel 
 formatted for printing or on-screen reading, or can be deployed to a *JasperReports Server* instance, 
 *JasperReports IO* repository or to a custom application using the *JasperReports Library* implementation
