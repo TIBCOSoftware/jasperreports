@@ -411,7 +411,7 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
+		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + (isAutoFit ? 0 : rowHeight) + "\"");
 		if (levelInfo != null && levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
