@@ -25,7 +25,6 @@
 		<module>chartthemes</module>
 		<module>crosstabs</module>
 		<module>csvdatasource</module>
-		<module>customvisualization</module>
 		<module>datasource</module>
 		<module>daterange</module>
 		<module>ejbql</module>
