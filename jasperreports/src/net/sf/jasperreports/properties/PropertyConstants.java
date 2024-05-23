@@ -260,6 +260,12 @@ public interface PropertyConstants
 	
 	String VERSION_6_20_6 = JRConstants.VERSION_6_20_6;
 	
-	String VERSION_6_20_7 = "6.20.7";
+	String VERSION_6_21_0 = "6.21.0";
+	
+	String VERSION_6_21_2 = "6.21.2";
+	
+	String VERSION_6_21_3 = "6.21.3";
+	
+	String VERSION_6_21_4 = "6.21.4";
 	
 }

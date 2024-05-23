@@ -34,7 +34,6 @@ import com.adobe.internal.xmp.XMPMeta;
 import com.adobe.internal.xmp.XMPMetaFactory;
 import com.adobe.internal.xmp.options.PropertyOptions;
 import com.adobe.internal.xmp.options.SerializeOptions;
-import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
@@ -137,7 +136,12 @@ class XmpWriter
 			xmp.setObjectName("");
 
 			xmp.setProperty(XMPConst.NS_DC, DublinCoreSchema.FORMAT, FORMAT_PDF);
-			xmp.setProperty(XMPConst.NS_PDF, PDF_PRODUCER, Document.getVersion());
+			
+			String producer = extractInfo(PdfName.PRODUCER);
+			if (producer != null)
+			{
+				xmp.setProperty(XMPConst.NS_PDF, PDF_PRODUCER, producer);
+			}
 
 			if (pdfWriter.getPDFXConformance() == PdfWriter.PDFA1A || this.conformance == PdfaConformanceEnum.PDFA_1A)
 			{
@@ -181,7 +185,11 @@ class XmpWriter
 			}
 
 			xmp.setProperty(XMPConst.NS_XMP, XMP_CREATE_DATE, ((PdfDate) info.get(PdfName.CREATIONDATE)).getW3CDate());
-			xmp.setProperty(XMPConst.NS_XMP, XMP_MODIFY_DATE, ((PdfDate) info.get(PdfName.MODDATE)).getW3CDate());
+			PdfDate modifiedDate = (PdfDate) info.get(PdfName.MODDATE);
+			if (modifiedDate != null)
+			{
+				xmp.setProperty(XMPConst.NS_XMP, XMP_MODIFY_DATE, modifiedDate.getW3CDate());
+			}
 
 			String title = extractInfo(PdfName.TITLE);
 			if (title != null)

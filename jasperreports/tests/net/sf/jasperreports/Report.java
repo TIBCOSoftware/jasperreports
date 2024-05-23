@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -43,9 +42,6 @@ import java.util.function.BiConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.data.BuiltinDataFileServiceFactory;
-import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
-import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVirtualizer;
@@ -53,7 +49,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
@@ -94,11 +89,6 @@ public class Report
 	public void init()
 	{
 		jasperReportsContext = new SimpleJasperReportsContext();
-		// for some reason data adapter extensions are not registered by default
-		jasperReportsContext.setExtensions(ParameterContributorFactory.class, 
-				Collections.singletonList(DataAdapterParameterContributorFactory.getInstance()));
-		jasperReportsContext.setExtensions(DataFileServiceFactory.class, 
-				Collections.singletonList(BuiltinDataFileServiceFactory.instance()));
 		
 		try
 		{

@@ -977,6 +977,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				creator = depCreator;
 			}
 			document.addCreator(creator);
+			String producer = configuration.getMetadataProducer();
+			if( producer != null )
+			{
+				document.addProducer(producer);
+			}
 			
 			//accessibility check: tab order follows the structure of the document
 			pdfWriter.setTabOrderStructure();
@@ -2243,8 +2248,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		AttributedCharacterIterator iterator = as.getIterator();
 		Locale locale = getTextLocale(textElement);
 		 
-		boolean firstChunk = true;
-		while(runLimit < text.length() && (runLimit = iterator.getRunLimit()) <= text.length())
+		boolean firstChunk = true; //FIXMENOW will have multiple anchors in case multiple paragraphs in same text element?
+		while (runLimit < text.length() && (runLimit = iterator.getRunLimit()) <= text.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 			PdfTextChunk chunk = getChunk(attributes, text.substring(iterator.getIndex(), runLimit), locale);
@@ -3340,25 +3345,26 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	{
 		String anchorName = anchor.getAnchorName();
 		
-		if (anchorName == null)
-		{
-			anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
-		}
-		
 		if (anchorName != null)
 		{
 			chunk.setLocalDestination(anchorName);
-
-			if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		}
+		
+		
+		if (anchor.getBookmarkLevel() != JRAnchor.NO_BOOKMARK)
+		{
+			if (anchorName == null)
 			{
-				int x = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
-						? getOffsetX() + element.getX() 
-						: getOffsetY() + element.getY();
-				int y = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
-						? getOffsetY() + element.getY() 
-						: getOffsetX() + element.getX();
-				addBookmark(anchor.getBookmarkLevel(), anchorName, x, y);
+				anchorName = element instanceof JRPrintText ? ((JRPrintText)element).getFullText() : null;
 			}
+			
+			int x = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
+					? getOffsetX() + element.getX() 
+					: getOffsetY() + element.getY();
+			int y = OrientationEnum.PORTRAIT.equals(pageFormat.getOrientation()) 
+					? getOffsetY() + element.getY() 
+					: getOffsetX() + element.getX();
+			addBookmark(anchor.getBookmarkLevel(), anchorName, x, y);
 		}
 	}
 

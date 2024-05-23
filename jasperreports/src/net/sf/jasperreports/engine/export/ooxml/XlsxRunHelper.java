@@ -25,7 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
-import java.io.Writer;
+import java.io.StringWriter;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
@@ -55,12 +55,23 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public XlsxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
+	public XlsxRunHelper(
+		JasperReportsContext jasperReportsContext, 
+		String exporterKey
+		)
 	{
-		super(jasperReportsContext, writer);
+		super(jasperReportsContext, new StringWriter());
 		this.exporterKey = exporterKey;
 	}
 
+
+	/**
+	 *
+	 */
+	public String getSharedString()
+	{
+		return ((StringWriter)writer).toString();
+	}
 
 	/**
 	 *
@@ -69,21 +80,21 @@ public class XlsxRunHelper extends BaseHelper
 	{
 		if (text != null)
 		{
-			write("<r>\n");
+			write("<r>");
 			if (isStyledText)
 			{
 				exportProps(getAttributes(style), attributes, locale);
 			}
 			write("<t xml:space=\"preserve\">");
 			write(JRStringUtil.xmlEncode(text, invalidCharReplacement));
-			write("</t></r>\n");
+			write("</t></r>");
 		}
 	}
 
 	/**
 	 *
 	 */
-	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
+	private void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
 	{
 
 		boolean isOpen = false;

@@ -1,58 +1,22 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxDocumentHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*exportHeader()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxDocumentHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*exportSection(net.sf.jasperreports.engine.PrintPageFormat, net.sf.jasperreports.engine.export.JRGridLayout, boolean)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/JRDocxExporter</className>
+		<differenceType>6001</differenceType>
+		<field>nature</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/DocxReportConfiguration</className>
 		<differenceType>7012</differenceType>
-		<method>*isIncludeElementUUID()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
-		<differenceType>7009</differenceType>
-		<method>*executeTask(java.lang.String)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/AbstractSampleApp</className>
-		<differenceType>7009</differenceType>
-		<method>*usage()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillObjectFactory</className>
-		<differenceType>7002</differenceType>
-		<method>*getDatasets()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature</className>
-		<differenceType>7006</differenceType>
-		<method>*getFreeze*Edge(net.sf.jasperreports.engine.JRPrintElement)</method>
-		<to>net.sf.jasperreports.engine.export.type.CellEdgeEnum</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRHyperlink</className>
-		<differenceType>7012</differenceType>
-		<method>*getHyperlinkTargetValue()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/MarkerStandardItemData</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/charts/JRTimeSeriesDataset</className>
-		<differenceType>7012</differenceType>
-		<method>*etTimePeriod*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/charts/type/ScaleTypeEnum</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/type/NamedValueEnum</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/charts/ChartPlot</className>
-		<differenceType>7002</differenceType>
-		<method>*getOrientation()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/spiderchart/*Plot</className>
-		<differenceType>7002</differenceType>
-		<method>*getOrientation()</method>
+		<method>*isBackgroundAsHeader()</method>
 	</difference>
 </differences>

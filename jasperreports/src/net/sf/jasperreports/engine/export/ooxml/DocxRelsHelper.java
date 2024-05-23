@@ -84,6 +84,14 @@ public class DocxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
+	public void exportHeader(int headerIndex)
+	{
+		write(" <Relationship Id=\"header" + headerIndex + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/header\" Target=\"header" + headerIndex + ".xml\"/>\n");
+	}
+	
+	/**
+	 * 
+	 */
 	public void exportFooter()
 	{
 		write("</Relationships>\n");

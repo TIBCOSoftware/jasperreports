@@ -103,18 +103,18 @@
 	<detail>
 		<band height="20">
 			<textField>
-				<reportElement style="FieldStyle" mode="Opaque" x="0" y="0" width="55" height="19" uuid="21d5b9b3-0c48-489a-95ce-436044902f49"/>
+				<reportElement style="FieldStyle" x="0" y="0" width="55" height="19" uuid="21d5b9b3-0c48-489a-95ce-436044902f49"/>
 				<box rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="RowStyle" positionType="Float" mode="Opaque" x="55" y="0" width="205" height="19" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
+				<reportElement style="RowStyle" positionType="Float" x="55" y="0" width="205" height="19" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="RowStyle" positionType="Float" mode="Opaque" x="260" y="0" width="255" height="19" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
+				<reportElement style="RowStyle" positionType="Float" x="260" y="0" width="255" height="19" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 			</textField>

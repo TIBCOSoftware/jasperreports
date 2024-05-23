@@ -103,6 +103,7 @@ public class FillItemDataset extends JRFillElementDataset
 	protected void customInitialize()
 	{
 		//evaluatedMarkers = null;
+		itemData.initialize();
 	}
 
 	@Override

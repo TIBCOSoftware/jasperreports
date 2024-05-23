@@ -26,9 +26,15 @@ package net.sf.jasperreports.export.pdf.classic;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
+//TODO delete?
+
 /**
+ * <b>No longer used, OpenPDF 1.3.32 supports disabling glyph substitution.</b>
+ * 
+ * <p>
  * Exception raised when Apache FOP based glyph substitution is disabled, but
  * the patched version OpenPDF library has not been detected.
+ * </p>
  * 
  * <p>
  * The OpenPDF library (used by the JasperReports PDF exporter) performs glyph 

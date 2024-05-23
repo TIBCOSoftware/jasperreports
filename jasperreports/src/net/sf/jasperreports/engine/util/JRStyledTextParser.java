@@ -121,6 +121,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String NODE_li = "li";
 	private static final String NODE_a = "a";
 	private static final String NODE_param = "param";
+	private static final String NODE_reference = "reference";
+	private static final String NODE_note = "note";
 	private static final String ATTRIBUTE_fontName = "fontName";
 	private static final String ATTRIBUTE_fontFace = "face";
 	private static final String ATTRIBUTE_color = "color";
@@ -411,6 +413,22 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(GREATER);
 		}
 
+		Boolean isReference = (Boolean)attrs.get(JRTextAttribute.REFERENCE);
+		if (Boolean.TRUE.equals(isReference))
+		{
+			sb.append(LESS);
+			sb.append(NODE_reference);
+			sb.append(GREATER);
+		}
+
+		Boolean isNote = (Boolean)attrs.get(JRTextAttribute.REFERENCE);
+		if (Boolean.TRUE.equals(isNote))
+		{
+			sb.append(LESS);
+			sb.append(NODE_note);
+			sb.append(GREATER);
+		}
+
 		JRPrintHyperlink hlink = (JRPrintHyperlink)attrs.get(JRTextAttribute.HYPERLINK);
 		if (hlink != null)
 		{
@@ -485,6 +503,20 @@ public class JRStyledTextParser implements ErrorHandler
 			sb.append(GREATER);
 		}
 
+		if (Boolean.TRUE.equals(isNote))
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_note);
+			sb.append(GREATER);
+		}
+		
+		if (Boolean.TRUE.equals(isReference))
+		{
+			sb.append(LESS_SLASH);
+			sb.append(NODE_reference);
+			sb.append(GREATER);
+		}
+		
 		if (isSuper || isSub)
 		{
 			sb.append(LESS_SLASH);
@@ -929,6 +961,28 @@ public class JRStyledTextParser implements ErrorHandler
 						
 					hyperlink.addHyperlinkParameter(parameter);
 				}
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_reference.equalsIgnoreCase(node.getNodeName()))
+			{
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
+				styleAttrs.put(JRTextAttribute.REFERENCE, Boolean.TRUE);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_note.equalsIgnoreCase(node.getNodeName()))
+			{
+				Map<Attribute,Object> styleAttrs = new HashMap<>();
+				styleAttrs.put(JRTextAttribute.NOTE, Boolean.TRUE);
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
