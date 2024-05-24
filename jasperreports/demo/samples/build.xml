@@ -199,6 +199,13 @@
 		</java>
 	</target>
 	
+	<target name="xlsxMetadata" depends="prepare-test-classpath">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="xlsxMetadata"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
+	
 	<target name="jsonMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jsonMetadata"/>
