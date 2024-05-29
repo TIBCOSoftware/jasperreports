@@ -29,7 +29,7 @@
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.chart.util.Rotation;
 
@@ -56,15 +56,15 @@ public class JFreeChartScriptlet extends JRDefaultScriptlet
 		dataset.setValue("Perl", 1.0d);
 
 		JFreeChart chart = 
-			ChartFactory.createPieChart3D(
-				"Pie Chart 3D Demo 1",
+			ChartFactory.createPieChart(
+				"Pie Chart Demo 1",
 				dataset,
 				true,
 				true,
 				false
 				);
 
-		PiePlot3D plot = (PiePlot3D) chart.getPlot();
+		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setStartAngle(290);
 		plot.setDirection(Rotation.CLOCKWISE);
 		plot.setForegroundAlpha(0.5f);

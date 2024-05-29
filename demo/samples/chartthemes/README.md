@@ -19,6 +19,17 @@ Customizing the appearance of all charts created using the chart element, across
 
 **Since:** 3.1.0
 
+**IMPORTANT NOTIFICATION:**
+<div style="border:1px solid #6A5ACD;padding:10px;">
+As explained in this [Migration note](https://github.com/jfree/jfreechart?tab=readme-ov-file#migration), since JFreeChart v.1.5.0 all (pseudo) 3D charts have been removed. As a consequence, the (pseudo) 3D effect is no longer visible for 3D charts used in JasperReports Library v.7.0.0 and newer. The affected charts are the following:
+
+- Bar3DChart (`chartType="bar3D"`)
+- StackedBar3DChart (`chartType="stackedBar3D"`)
+- Pie3DChart (`chartType="pie3D"`)
+
+3D charts are now marked for deprecation and will be removed.
+</div>
+
 ### Why are chart themes necessary?
 
 - **Chart theme**
