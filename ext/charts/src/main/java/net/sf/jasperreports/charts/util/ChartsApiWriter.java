@@ -39,7 +39,6 @@ import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
-import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRGanttSeries;
@@ -66,6 +65,7 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.design.JRDesignChart;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.TimePeriodEnum;
@@ -740,7 +740,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public void writePie3DChart( JRChart chart, String chartName)
 	{
@@ -1057,7 +1057,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public void writeBar3DPlot( JRBar3DPlot plot, String chartName)
 	{
@@ -1118,7 +1118,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public void writeBar3DChart( JRChart chart, String chartName)
 	{
@@ -1166,7 +1166,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public void writeStackedBar3DChart( JRChart chart, String chartName)
 	{

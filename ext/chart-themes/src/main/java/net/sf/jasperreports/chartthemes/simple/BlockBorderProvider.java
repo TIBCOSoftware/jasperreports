@@ -28,7 +28,7 @@ import java.awt.Paint;
 
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.block.BlockFrame;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;

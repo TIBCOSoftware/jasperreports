@@ -167,13 +167,13 @@ Then each field above is described in its own class. For example, the LegendSett
     <field name="font" type="net.sf.jasperreports.engine.JRFont">
       <bind-xml auto-naming="deriveByClass" node="element"/>
     </field>
-    <field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+    <field name="horizontalAlignment" type="org.jfree.chart.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
       <bind-xml node="attribute"/>
     </field>
-    <field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+    <field name="verticalAlignment" type="org.jfree.chart.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
       <bind-xml node="attribute"/>
     </field>
-    <field name="padding" type="org.jfree.ui.RectangleInsets">
+    <field name="padding" type="org.jfree.chart.ui.RectangleInsets">
       <bind-xml node="element"/>
     </field>
   </class>

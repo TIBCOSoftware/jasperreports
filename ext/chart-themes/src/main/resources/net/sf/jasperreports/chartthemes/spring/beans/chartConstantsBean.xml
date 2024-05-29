@@ -30,23 +30,23 @@
 	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
 	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
 
-	<util:constant id="rectangleEdgeTop" static-field="org.jfree.ui.RectangleEdge.TOP"/>
-	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.ui.RectangleEdge.LEFT"/>
-	<util:constant id="rectangleEdgeBottom" static-field="org.jfree.ui.RectangleEdge.BOTTOM"/>
-	<util:constant id="rectangleEdgeRight" static-field="org.jfree.ui.RectangleEdge.RIGHT"/>
+	<util:constant id="rectangleEdgeTop" static-field="org.jfree.chart.ui.RectangleEdge.TOP"/>
+	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.chart.ui.RectangleEdge.LEFT"/>
+	<util:constant id="rectangleEdgeBottom" static-field="org.jfree.chart.ui.RectangleEdge.BOTTOM"/>
+	<util:constant id="rectangleEdgeRight" static-field="org.jfree.chart.ui.RectangleEdge.RIGHT"/>
 	
-	<util:constant id="centerHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.CENTER"/>
-	<util:constant id="leftHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.LEFT"/>
-	<util:constant id="rightHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.RIGHT"/>
+	<util:constant id="centerHorizontalAlignment" static-field="org.jfree.chart.ui.HorizontalAlignment.CENTER"/>
+	<util:constant id="leftHorizontalAlignment" static-field="org.jfree.chart.ui.HorizontalAlignment.LEFT"/>
+	<util:constant id="rightHorizontalAlignment" static-field="org.jfree.chart.ui.HorizontalAlignment.RIGHT"/>
 	
-	<util:constant id="topVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.TOP"/>
-	<util:constant id="centerVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.CENTER"/>
-	<util:constant id="bottomVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.BOTTOM"/>
+	<util:constant id="topVerticalAlignment" static-field="org.jfree.chart.ui.VerticalAlignment.TOP"/>
+	<util:constant id="centerVerticalAlignment" static-field="org.jfree.chart.ui.VerticalAlignment.CENTER"/>
+	<util:constant id="bottomVerticalAlignment" static-field="org.jfree.chart.ui.VerticalAlignment.BOTTOM"/>
 	
 	<util:constant id="blockBorderNone" static-field="org.jfree.chart.block.BlockBorder.NONE"/>
 	
-	<util:constant id="unitTypeAbsolute" static-field="org.jfree.util.UnitType.ABSOLUTE"/>
-	<util:constant id="unitTypeRelative" static-field="org.jfree.util.UnitType.RELATIVE"/>
+	<util:constant id="unitTypeAbsolute" static-field="org.jfree.chart.util.UnitType.ABSOLUTE"/>
+	<util:constant id="unitTypeRelative" static-field="org.jfree.chart.util.UnitType.RELATIVE"/>
 	
 	<util:constant id="plotOrientationHorizontal" static-field="org.jfree.chart.plot.PlotOrientation.HORIZONTAL"/>
 	<util:constant id="plotOrientationVertical" static-field="org.jfree.chart.plot.PlotOrientation.VERTICAL"/>

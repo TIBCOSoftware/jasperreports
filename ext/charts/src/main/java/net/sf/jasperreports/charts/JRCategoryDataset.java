@@ -31,7 +31,7 @@ import net.sf.jasperreports.charts.design.JRDesignCategoryDataset;
 
 /**
  * This dataset accommodates one or more data series consisting of values associated with 
- * categories. It is used to render Bar, Bar 3D, Stacked Bar, Line, Area, and Stacked Area 
+ * categories. It is used to render Bar, Stacked Bar, Line, Area, and Stacked Area 
  * charts 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)

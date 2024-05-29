@@ -37,52 +37,11 @@ import net.sf.jasperreports.charts.design.JRDesignBar3DPlot;
  * allows customization of the labels for both of its axes and the display of the item labels
  * 
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
+ * @deprecated To be removed
  */
 @JsonTypeName("bar3D")
 @JsonDeserialize(as = JRDesignBar3DPlot.class)
-public interface JRBar3DPlot extends JRCategoryPlot
+public interface JRBar3DPlot extends JRBarPlot
 {
-
-	/**
-	 * @return the x offset
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Double getXOffsetDouble();
-	
-	/**
-	 * @return a {@link net.sf.jasperreports.charts.JRItemLabel JRItemLabel} object 
-	 * representing the item label
-	 */
-	public JRItemLabel getItemLabel();
-	
-	/**
-	 * Sets the x offset
-	 * @param xOffset the x offset
-	 */
-	public void setXOffset(Double xOffset);
-	
-	/**
-	 * @return the y offset
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Double getYOffsetDouble();
-	
-	/**
-	 * Sets the y offset
-	 * @param yOffset the y offset
-	 */
-	public void setYOffset(Double yOffset);
-	
-	/**
-	 * @return a flag that specifies whether the labels are to be shown or not
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Boolean getShowLabels();
-
-	/**
-	 * Sets a flag that specifies whether the labels are to be shown or not
-	 * @param isShowLabels the show labels flag
-	 */
-	public void setShowLabels(Boolean isShowLabels);
 
 }

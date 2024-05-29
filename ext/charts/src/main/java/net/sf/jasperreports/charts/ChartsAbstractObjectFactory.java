@@ -40,7 +40,7 @@ public interface ChartsAbstractObjectFactory extends ChartVisitor
 
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public abstract JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot);
 
@@ -98,7 +98,7 @@ public interface ChartsAbstractObjectFactory extends ChartVisitor
 	public abstract JRBarPlot getBarPlot(JRBarPlot barPlot);
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public abstract JRBar3DPlot getBar3DPlot( JRBar3DPlot barPlot );
 

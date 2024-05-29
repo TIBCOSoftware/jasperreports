@@ -26,9 +26,9 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.io.Serializable;
 
 import org.jfree.chart.block.BlockFrame;
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.VerticalAlignment;
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.VerticalAlignment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

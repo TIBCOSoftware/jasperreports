@@ -53,7 +53,6 @@ import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.DialShape;
 import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -67,7 +66,6 @@ import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.StandardDialFrame;
 import org.jfree.chart.plot.dial.StandardDialScale;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -77,7 +75,6 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRendererState;
-import org.jfree.chart.renderer.xy.XYLine3DRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
@@ -87,16 +84,15 @@ import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.GradientPaintTransformType;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.ui.GradientPaintTransformType;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
+import org.jfree.chart.ui.TextAnchor;
 
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
@@ -236,42 +232,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	@Override
 	protected JFreeChart createPie3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createPie3DChart();
-
-		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		JRPie3DPlot jrPiePlot = (JRPie3DPlot)getPlot();
-		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels();
-		if (isShowLabels && piePlot3D.getLabelGenerator() != null)
-		{
-			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-			piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		}
-		piePlot3D.setDarkerSides(true);
-		piePlot3D.setDepthFactor(0.1);
-// does not work for 3D
-//		piePlot3D.setShadowXOffset(5);
-//		piePlot3D.setShadowYOffset(10);
-//		piePlot3D.setShadowPaint(new GradientPaint(
-//				0,
-//				getChart().getHeight() / 2,
-//				new Color(41, 120, 162),
-//				0,
-//				getChart().getHeight(),
-//				Color.white)
-//		);
-
-		PieDataset pieDataset = piePlot3D.getDataset();
-		if (pieDataset != null)
-		{
-			for (int i = 0; i < pieDataset.getItemCount(); i++)
-			{
-				piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
-			}
-		}
-
-		piePlot3D.setCircular(true);
-		return jfreeChart;
+		return createPieChart();
 	}
 
 
@@ -325,42 +286,14 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	@Override
 	protected JFreeChart createBar3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createBar3DChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
-
-		barRenderer3D = new GradientBarRenderer3D(barRenderer3D);
-		categoryPlot.setRenderer(barRenderer3D);
-
-		barRenderer3D.setItemMargin(0);
-		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
-
-		barRenderer3D.setItemMargin(0);
-
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if (categoryDataset != null)
-		{
-			for (int i = 0; i < categoryDataset.getRowCount(); i++)
-			{
-				barRenderer3D.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
-			}
-		}
-		return jfreeChart;
+		return createBarChart();
 	}
 
 
 	@Override
 	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createStackedBar3DChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
-		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-
-		//CategoryDataset categoryDataset = categoryPlot.getDataset();
-		barRenderer3D.setItemMargin(0);
-		return jfreeChart;
+		return createStackedBarChart();
 	}
 
 
@@ -424,7 +357,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		lineRenderer.setUseFillPaint(true);
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
 		boolean isShowLines = scatterPlot.getShowLines() == null ? false : scatterPlot.getShowLines();
-		lineRenderer.setBaseLinesVisible(isShowLines);
+		lineRenderer.setDefaultLinesVisible(isShowLines);
 		XYDataset xyDataset = xyPlot.getDataset();
 		if (xyDataset != null)
 		{
@@ -446,14 +379,14 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
-		XYLine3DRenderer line3DRenderer = new XYLine3DRenderer();
+		XYLineAndShapeRenderer line3DRenderer = new XYLineAndShapeRenderer();
 
 
-		line3DRenderer.setBaseToolTipGenerator(lineRenderer.getBaseToolTipGenerator());
+		line3DRenderer.setDefaultToolTipGenerator(lineRenderer.getDefaultToolTipGenerator());
 		line3DRenderer.setURLGenerator(lineRenderer.getURLGenerator());
-		line3DRenderer.setBaseStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		line3DRenderer.setBaseLinesVisible(lineRenderer.getBaseLinesVisible());
-		line3DRenderer.setBaseShapesVisible(lineRenderer.getBaseShapesVisible());
+		line3DRenderer.setDefaultStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		line3DRenderer.setDefaultLinesVisible(lineRenderer.getDefaultLinesVisible());
+		line3DRenderer.setDefaultShapesVisible(lineRenderer.getDefaultShapesVisible());
 		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 		XYDataset xyDataset = xyPlot.getDataset();
 		if (xyDataset != null)
@@ -461,13 +394,13 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
 				line3DRenderer.setSeriesStroke(i, stroke);
-				line3DRenderer.setSeriesLinesVisible(i, lineRenderer.getBaseLinesVisible());
-				line3DRenderer.setSeriesShapesVisible(i, lineRenderer.getBaseShapesVisible());
+				line3DRenderer.setSeriesLinesVisible(i, lineRenderer.getDefaultLinesVisible());
+				line3DRenderer.setSeriesShapesVisible(i, lineRenderer.getDefaultShapesVisible());
 			}
 		}
-		line3DRenderer.setXOffset(2);
-		line3DRenderer.setYOffset(2);
-		line3DRenderer.setWallPaint(ChartThemesConstants.GRAY_PAINT_134);
+//		line3DRenderer.setXOffset(2);
+//		line3DRenderer.setYOffset(2);
+//		line3DRenderer.setWallPaint(ChartThemesConstants.GRAY_PAINT_134);
 
 		xyPlot.setRenderer(line3DRenderer);
 		return jfreeChart;
@@ -479,7 +412,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createLineChart();
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setBaseStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		lineRenderer.setDefaultStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 //		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 		for (int i = 0; i < lineRenderer.getRowCount(); i++)
@@ -535,7 +468,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				true
 				);
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelsVisible(true);
+		categoryRenderer.setDefaultItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
 		barRenderer.setSeriesPaint(0, ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(3));
 		barRenderer.setSeriesPaint(1, ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(0));
@@ -1092,7 +1025,7 @@ class SquareXYAreaRenderer extends XYAreaRenderer
 
 	public SquareXYAreaRenderer(XYAreaRenderer parent)
 	{
-		super(XYAreaRenderer.AREA, parent.getBaseToolTipGenerator(), parent.getURLGenerator());
+		super(XYAreaRenderer.AREA, parent.getDefaultToolTipGenerator(), parent.getURLGenerator());
 	}
 
 	@Override
@@ -1218,21 +1151,23 @@ class GradientXYBubbleRenderer extends XYBubbleRenderer
 
 			int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
 			int rangeAxisIndex = plot.getRangeAxisIndex(rangeAxis);
-			updateCrosshairValues(crosshairState, x, y, domainAxisIndex,
+			// FIXME: use updateCrosshairValues with the appropriate parameters
+			/*
+		 	updateCrosshairValues(crosshairState, x, y, domainAxisIndex,
 					rangeAxisIndex, transX, transY, orientation);
+			*/
 		}
 	}
 }
 
-class GradientBarRenderer3D extends BarRenderer3D
+class GradientBarRenderer3D extends BarRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public GradientBarRenderer3D(BarRenderer3D barRenderer3D)
+	public GradientBarRenderer3D(BarRenderer barRenderer3D)
 	{
-		super(barRenderer3D.getXOffset(), barRenderer3D.getYOffset());
-		setBaseItemLabelGenerator(barRenderer3D.getBaseItemLabelGenerator());
-		setBaseItemLabelsVisible(barRenderer3D.getBaseItemLabelsVisible());
+		setDefaultItemLabelGenerator(barRenderer3D.getDefaultItemLabelGenerator());
+		setDefaultItemLabelsVisible(barRenderer3D.getDefaultItemLabelsVisible());
 	}
 
 	@Override
@@ -1257,9 +1192,9 @@ class GradientBarRenderer3D extends BarRenderer3D
 		double value = dataValue.doubleValue();
 
 		Rectangle2D adjusted = new Rectangle2D.Double(dataArea.getX(),
-			dataArea.getY() + getYOffset(),
-			dataArea.getWidth() - getXOffset(),
-			dataArea.getHeight() - getYOffset());
+			dataArea.getY(),
+			dataArea.getWidth(),
+			dataArea.getHeight());
 
 		PlotOrientation orientation = plot.getOrientation();
 
@@ -1293,13 +1228,13 @@ class GradientBarRenderer3D extends BarRenderer3D
 		g2.fill(bar);
 
 		double x0 = bar.getMinX();
-		double x1 = x0 + getXOffset();
+		double x1 = x0;
 		double x2 = bar.getMaxX();
-		double x3 = x2 + getXOffset();
+		double x3 = x2;
 
-		double y0 = bar.getMinY() - getYOffset();
+		double y0 = bar.getMinY();
 		double y1 = bar.getMinY();
-		double y2 = bar.getMaxY() - getYOffset();
+		double y2 = bar.getMaxY();
 		double y3 = bar.getMaxY();
 
 		GeneralPath bar3dRight = null;

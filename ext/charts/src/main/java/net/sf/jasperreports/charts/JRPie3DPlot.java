@@ -42,49 +42,12 @@ import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
  * <li>the <code>showLabels</code> flag</li>
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed
  */
 @JsonTypeName("pie3D")
 @JsonDeserialize(as = JRDesignPie3DPlot.class)
-public interface JRPie3DPlot extends JRChartPlot
+public interface JRPie3DPlot extends JRPiePlot
 {
 
-	public static final double DEPTH_FACTOR_DEFAULT = 0.2;
-	
-	/**
-	 * @return a numeric value ranging from 0 to 1 that represents the depth of the pie as 
-	 * a percentage of the height of the plot area.
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Double getDepthFactorDouble();
-	
-	/**
-	 * @return a flag that specifies a circular form for the 3D pie
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Boolean getCircular();
-	
-	/**
-	 * @return the format pattern for labels
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public String getLabelFormat();
-	
-	/**
-	 * @return the format pattern for legend labels
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public String getLegendLabelFormat();
-
-	/**
-	 * @return a {@link net.sf.jasperreports.charts.JRItemLabel JRItemLabel} object 
-	 * representing the item label
-	 */
-	public JRItemLabel getItemLabel();
-	
-	/**
-	 * @return a flag that specifies whether labels are to be shown or not
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	public Boolean getShowLabels();
-	
+	public static final double DEPTH_FACTOR_DEFAULT = 0.0;
 }

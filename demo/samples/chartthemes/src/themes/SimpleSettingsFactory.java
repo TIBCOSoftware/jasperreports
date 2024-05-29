@@ -31,11 +31,11 @@ import java.util.List;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.ui.Align;
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.VerticalAlignment;
-import org.jfree.util.UnitType;
+import org.jfree.chart.ui.Align;
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.VerticalAlignment;
+import org.jfree.chart.util.UnitType;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.chartthemes.simple.AxisSettings;

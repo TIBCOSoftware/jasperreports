@@ -114,7 +114,9 @@ public class ChartsBaseObjectFactory implements ChartsAbstractObjectFactory
 		return basePiePlot;
 	}
 
-
+	/**
+	 * @deprecated To be removed
+	 */
 	@Override
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
@@ -129,7 +131,7 @@ public class ChartsBaseObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return basePie3DPlot;
+		return (JRPie3DPlot)basePie3DPlot;
 	}
 
 
@@ -321,8 +323,8 @@ public class ChartsBaseObjectFactory implements ChartsAbstractObjectFactory
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
+	/**
+	 * @deprecated To be removed
 	 */
 	@Override
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
@@ -337,7 +339,7 @@ public class ChartsBaseObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return baseBarPlot;
+		return (JRBar3DPlot)baseBarPlot;
 	}
 
 

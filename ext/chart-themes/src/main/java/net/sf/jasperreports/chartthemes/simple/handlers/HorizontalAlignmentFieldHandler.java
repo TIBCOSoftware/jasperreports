@@ -24,7 +24,7 @@
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.jfree.ui.HorizontalAlignment;
+import org.jfree.chart.ui.HorizontalAlignment;
 
 
 /**

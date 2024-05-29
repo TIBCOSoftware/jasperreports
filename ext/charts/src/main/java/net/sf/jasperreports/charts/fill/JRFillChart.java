@@ -60,7 +60,6 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartCustomizer;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
-import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
@@ -80,6 +79,7 @@ import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.NamedChartCustomizer;
+import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.base.JRBaseChart;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.ChartTypeEnum;
@@ -195,12 +195,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case BAR:
-				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
-				break;
 			case BAR3D:
 				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case BUBBLE:
 				dataset = (JRFillChartDataset) factory.getXyzDataset((JRXyzDataset) chart.getDataset());
@@ -227,24 +224,18 @@ public class JRFillChart extends JRFillElement implements JRChart
 				dataset = ((JRFillMultiAxisPlot)plot).getMainDataset();
 				break;
 			case PIE:
-				dataset = (JRFillChartDataset) factory.getPieDataset((JRPieDataset) chart.getDataset());
-				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
-				break;
 			case PIE3D:
 				dataset = (JRFillChartDataset) factory.getPieDataset((JRPieDataset) chart.getDataset());
-				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
+				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
 				break;
 			case SCATTER:
 				dataset = (JRFillChartDataset) factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
 				break;
 			case STACKEDBAR:
-				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
-				break;
 			case STACKEDBAR3D:
 				dataset = (JRFillChartDataset) factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case THERMOMETER:
 				dataset = (JRFillChartDataset) factory.getValueDataset((JRValueDataset) chart.getDataset());

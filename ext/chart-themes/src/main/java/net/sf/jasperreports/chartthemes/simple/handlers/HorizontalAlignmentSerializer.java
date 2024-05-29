@@ -25,7 +25,7 @@ package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import java.io.IOException;
 
-import org.jfree.ui.HorizontalAlignment;
+import org.jfree.chart.ui.HorizontalAlignment;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

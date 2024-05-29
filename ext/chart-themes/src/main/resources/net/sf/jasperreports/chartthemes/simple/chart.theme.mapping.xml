@@ -59,7 +59,7 @@
 		<field name="textAntiAlias" type="java.lang.Boolean">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="padding" type="org.jfree.ui.RectangleInsets">
+		<field name="padding" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 	</class>
@@ -81,13 +81,13 @@
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
-		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+		<field name="horizontalAlignment" type="org.jfree.chart.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+		<field name="verticalAlignment" type="org.jfree.chart.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="padding" type="org.jfree.ui.RectangleInsets">
+		<field name="padding" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 	</class>
@@ -109,16 +109,16 @@
 		<field name="font" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByClass" node="element"/>
 		</field>
-		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+		<field name="horizontalAlignment" type="org.jfree.chart.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+		<field name="verticalAlignment" type="org.jfree.chart.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="frame" type="net.sf.jasperreports.chartthemes.simple.BlockFrameProvider">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<field name="padding" type="org.jfree.ui.RectangleInsets">
+		<field name="padding" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 	</class>
@@ -149,7 +149,7 @@
 		<field name="labelRotation" type="java.lang.Double">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="padding" type="org.jfree.ui.RectangleInsets">
+		<field name="padding" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 		<field name="outlineVisible" type="java.lang.Boolean">
@@ -233,7 +233,7 @@
 		<field name="labelFont" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<field name="labelInsets" type="org.jfree.ui.RectangleInsets">
+		<field name="labelInsets" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 		<field name="labelVisible" type="java.lang.Boolean">
@@ -245,7 +245,7 @@
 		<field name="tickLabelFont" type="net.sf.jasperreports.engine.JRFont">
 			<bind-xml auto-naming="deriveByField" node="element"/>
 		</field>
-		<field name="tickLabelInsets" type="org.jfree.ui.RectangleInsets">
+		<field name="tickLabelInsets" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 		<field name="tickLabelsVisible" type="java.lang.Boolean">
@@ -308,10 +308,10 @@
 		</field>
 	</class>
 	
-	<class name="org.jfree.ui.RectangleInsets" verify-constructable="false">
+	<class name="org.jfree.chart.ui.RectangleInsets" verify-constructable="false">
 		<map-to xml="insets"/>
 		<!--FIXMETHEME
-		<field name="unitType" type="org.jfree.util.UnitType" get-method="getUnitType" set-method="%1" handler="net.sf.jasperreports.chartthemes.simple.handlers.UnitTypeFieldHandler">
+		<field name="unitType" type="org.jfree.chart.util.UnitType" get-method="getUnitType" set-method="%1" handler="net.sf.jasperreports.chartthemes.simple.handlers.UnitTypeFieldHandler">
 			<bind-xml node="attribute"/>
 		</field>
 		-->
@@ -362,7 +362,7 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.BlockBorderProvider">
 		<map-to xml="block-border"/>
-		<field name="insets" type="org.jfree.ui.RectangleInsets">
+		<field name="insets" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 		<field name="paint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
@@ -372,7 +372,7 @@
 	
 	<class name="net.sf.jasperreports.chartthemes.simple.LineBorderProvider">
 		<map-to xml="line-border"/>
-		<field name="insets" type="org.jfree.ui.RectangleInsets">
+		<field name="insets" type="org.jfree.chart.ui.RectangleInsets">
 			<bind-xml node="element"/>
 		</field>
 		<field name="lineStroke" type="java.awt.Stroke">

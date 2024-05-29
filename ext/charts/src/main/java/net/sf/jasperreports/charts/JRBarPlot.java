@@ -82,5 +82,21 @@ public interface JRBarPlot extends JRCategoryPlot
 	 * @param isShowLabels the show labels flag
 	 */
 	public void setShowLabels( Boolean isShowLabels );
+	
+	/**
+	 * @return always 0. The 3D effect is always ignored.
+	 */
+	@JacksonXmlProperty(isAttribute = true)
+	default Double getXOffsetDouble() {
+		return 0.0;
+	}
+	
+	/**
+	 * @return always 0. The 3D effect is always ignored.
+	 */
+	@JacksonXmlProperty(isAttribute = true)
+	default Double getYOffsetDouble() {
+		return 0.0;
+	}
 
 }

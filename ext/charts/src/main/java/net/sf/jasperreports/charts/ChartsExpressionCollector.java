@@ -261,7 +261,7 @@ public class ChartsExpressionCollector// extends JRExpressionCollector
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed
 	 */
 	public void collect(JRBar3DPlot barPlot)
 	{

@@ -31,7 +31,7 @@ import java.awt.Stroke;
 
 import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.block.LineBorder;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;

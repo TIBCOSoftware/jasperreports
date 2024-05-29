@@ -36,12 +36,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.jfree.chart.HashUtilities;
+import org.jfree.chart.HashUtils;
 import org.jfree.chart.plot.dial.DialLayerChangeEvent;
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialPointer.Pointer;
 import org.jfree.chart.plot.dial.DialScale;
-import org.jfree.io.SerialUtilities;
+import org.jfree.chart.util.SerialUtils;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -234,7 +234,7 @@ public class ScaledDialPointer extends Pointer
 	@Override
 	public int hashCode() {
 		int result = super.hashCode();
-		result = HashUtilities.hashCode(result, this.fillPaint);
+		result = HashUtils.hashCode(result, this.fillPaint);
 		return result;
 	}
 
@@ -247,7 +247,7 @@ public class ScaledDialPointer extends Pointer
 	 */
 	private void writeObject(ObjectOutputStream stream) throws IOException {
 		stream.defaultWriteObject();
-		SerialUtilities.writePaint(this.fillPaint, stream);
+		SerialUtils.writePaint(this.fillPaint, stream);
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class ScaledDialPointer extends Pointer
 	private void readObject(ObjectInputStream stream)
 			throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();
-		this.fillPaint = SerialUtilities.readPaint(stream);
+		this.fillPaint = SerialUtils.readPaint(stream);
 	}
 
 }

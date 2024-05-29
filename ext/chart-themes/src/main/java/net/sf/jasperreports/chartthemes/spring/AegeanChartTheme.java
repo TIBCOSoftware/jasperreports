@@ -42,7 +42,6 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DialShape;
 import org.jfree.chart.plot.MeterPlot;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.ThermometerPlot;
 import org.jfree.chart.plot.XYPlot;
@@ -53,7 +52,6 @@ import org.jfree.chart.plot.dial.DialPointer;
 import org.jfree.chart.plot.dial.DialTextAnnotation;
 import org.jfree.chart.plot.dial.StandardDialFrame;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
@@ -66,13 +64,12 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
 
 import net.sf.jasperreports.charts.JRChartPlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -165,8 +162,8 @@ public class AegeanChartTheme extends GenericChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		xyPlot.setDomainGridlinesVisible(false);
 		XYLineAndShapeRenderer plotRenderer = (XYLineAndShapeRenderer) ((XYPlot)jfreeChart.getPlot()).getRenderer();
-		plotRenderer.setBaseShapesFilled(false);
-		plotRenderer.setBaseStroke(new BasicStroke(1f));
+		plotRenderer.setDefaultShapesFilled(false);
+		plotRenderer.setDefaultStroke(new BasicStroke(1f));
 		return jfreeChart;
 	}
 
@@ -206,81 +203,20 @@ public class AegeanChartTheme extends GenericChartTheme
 	@Override
 	protected JFreeChart createPie3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createPie3DChart();
-
-		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		JRPie3DPlot jrPiePlot = (JRPie3DPlot)getPlot();
-		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels();
-		if(isShowLabels && piePlot3D.getLabelGenerator() != null)
-		{
-			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-			piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		}
-		piePlot3D.setDarkerSides(true);
-		piePlot3D.setDepthFactor(0.07);
-//does not work for 3D
-//		piePlot3D.setShadowXOffset(5);
-//		piePlot3D.setShadowYOffset(10);
-//		piePlot3D.setShadowPaint(new GradientPaint(
-//				0,
-//				getChart().getHeight() / 2,
-//				new Color(41, 120, 162),
-//				0,
-//				getChart().getHeight(),
-//				Color.white)
-//		);
-
-		PieDataset pieDataset = piePlot3D.getDataset();
-		if(pieDataset != null)
-		{
-			for(int i = 0; i < pieDataset.getItemCount(); i++)
-			{
-				piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
-			}
-		}
-		piePlot3D.setCircular(true);
-		return jfreeChart;
+		return createPieChart();
 	}
 
 	@Override
 	protected JFreeChart createBar3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createBar3DChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
-		barRenderer3D.setItemMargin(0);
-		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		//categoryPlot.setOrientation(PlotOrientation.HORIZONTAL);
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
-		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
-			{
-				barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
-			}
-		}
-		return jfreeChart;
+		return createBarChart();
 	}
 
 
 	@Override
 	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
-		JFreeChart jfreeChart = super.createStackedBar3DChart();
-		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
-		BarRenderer3D barRenderer3D = (BarRenderer3D)categoryPlot.getRenderer();
-		barRenderer3D.setWallPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		barRenderer3D.setItemMargin(0);
-		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
-		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
-			{
-				barRenderer3D.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
-			}
-		}
-		return jfreeChart;
+		return createStackedBarChart();
 	}
 
 
@@ -341,7 +277,7 @@ public class AegeanChartTheme extends GenericChartTheme
 //				true
 //				);
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelsVisible(true);
+		categoryRenderer.setDefaultItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
 		@SuppressWarnings("unchecked")
 		List<Paint> seriesPaints = (List<Paint>)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
