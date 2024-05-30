@@ -56,6 +56,12 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	/**
 	 *
 	 */
+	public static final JRTextAttribute REFERENCE = new JRTextAttribute("REFERENCE");
+	public static final JRTextAttribute NOTE = new JRTextAttribute("NOTE");
+	
+	/**
+	 *
+	 */
 	public static final JRTextAttribute HYPERLINK = new JRTextAttribute("HYPERLINK");
 	
 	/**

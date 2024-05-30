@@ -2098,51 +2098,54 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 		
 	private void exportHeaderRow(int columnsCount, Map<String, Object> currentRow, Map<String, Object> repeatedValues) throws JRException
 	{
-		for (int i = 0; i < columnsCount; i++) 
+		if (currentRow.get(CURRENT_ROW_HEIGHT) != null)
 		{
-			String columnName = columnNames.get(i);
-			JRPrintElement element = currentRow.get(columnName) == null
-					? (JRPrintElement) repeatedValues.get(columnName)
-					: (JRPrintElement) currentRow.get(columnName);
-			if (element != null) 
+			for (int i = 0; i < columnsCount; i++) 
 			{
-				if (rowIndex == 0) 
-				{
-					String width = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH_METADATA);
-					width = width == null || width.isEmpty()
-							? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH)
-							: width;
-					Integer columnWidth = width == null || width.isEmpty() 
-							? element.getWidth()
-							: Integer.valueOf(width);
-					setColumnWidth(i, columnWidth, false);
-				}
-				if (!columnHeadersRow.containsKey(columnName)) 
-				{
-					JRPrintText headerElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
-					headerElement.setText(columnName);
-					headerElement.setMode(ModeEnum.TRANSPARENT);
-					headerElement.setWidth(element.getWidth());
-					headerElement.setHeight(element.getHeight());
-					headerElement.setX(element.getX());
-					headerElement.setY(0);
-					columnHeadersRow.put(columnName, headerElement);
-				}
-			}
-		}
-		
-		if ((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
-		{
-			sheetHelper.exportRow((Integer) currentRow.get(CURRENT_ROW_HEIGHT), false, null);
-			for (int i = 0; i < columnsCount; i++) {
 				String columnName = columnNames.get(i);
-				JRPrintText element = columnHeadersRow.get(columnName) == null
-						? new JRBasePrintText(jasperPrint.getDefaultStyleProvider())
-						: (JRPrintText) columnHeadersRow.get(columnName);
-				exportText(element, i, 0, null, null);
-				rowSpanStartIndexesMap.put(columnName, rowSpanStartIndexesMap.get(columnName)+1);
+				JRPrintElement element = currentRow.get(columnName) == null
+						? (JRPrintElement) repeatedValues.get(columnName)
+						: (JRPrintElement) currentRow.get(columnName);
+				if (element != null) 
+				{
+					if (rowIndex == 0) 
+					{
+						String width = element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH_METADATA);
+						width = width == null || width.isEmpty()
+								? element.getPropertiesMap().getProperty(PROPERTY_COLUMN_WIDTH)
+								: width;
+						Integer columnWidth = width == null || width.isEmpty() 
+								? element.getWidth()
+								: Integer.valueOf(width);
+						setColumnWidth(i, columnWidth, false); // FIXMENOW should we take care of autofit column here as well?
+					}
+					if (!columnHeadersRow.containsKey(columnName)) 
+					{
+						JRPrintText headerElement = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+						headerElement.setText(columnName);
+						headerElement.setMode(ModeEnum.TRANSPARENT);
+						headerElement.setWidth(element.getWidth());
+						headerElement.setHeight(element.getHeight());
+						headerElement.setX(element.getX());
+						headerElement.setY(0);
+						columnHeadersRow.put(columnName, headerElement);
+					}
+				}
 			}
-			++rowIndex;
+			
+			if ((rowIndex == 0 && getCurrentItemConfiguration().isWriteHeader())) 
+			{
+				sheetHelper.exportRow((Integer) currentRow.get(CURRENT_ROW_HEIGHT), false, null);
+				for (int i = 0; i < columnsCount; i++) {
+					String columnName = columnNames.get(i);
+					JRPrintText element = columnHeadersRow.get(columnName) == null
+							? new JRBasePrintText(jasperPrint.getDefaultStyleProvider())
+							: (JRPrintText) columnHeadersRow.get(columnName);
+					exportText(element, i, 0, null, null);
+					rowSpanStartIndexesMap.put(columnName, rowSpanStartIndexesMap.get(columnName)+1);
+				}
+				++rowIndex;
+			}
 		}
 	}
 	

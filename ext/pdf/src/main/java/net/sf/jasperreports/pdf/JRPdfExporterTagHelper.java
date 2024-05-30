@@ -186,24 +186,42 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public class JRPdfExporterTagHelper implements StyledTextListWriter
 {
-	/**
-	 * @deprecated Replaced by styled text and HTML markup based bulleted and numbered lists. 
-	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_L = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.l";
-	/**
-	 * @deprecated Replaced by styled text and HTML markup based bulleted and numbered lists. 
-	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_LI = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.li";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_4
+			)
+	public static final String PROPERTY_TAG_LBL = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.lbl";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_4
+			)
+	public static final String PROPERTY_TAG_LBODY = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.lbody";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_4
+			)
+	public static final String PROPERTY_TAG_REFERENCE = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.reference";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_21_4
+			)
+	public static final String PROPERTY_TAG_NOTE = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.note";
 	/**
 	 * @deprecated Replaced by {@link AccessibilityUtil#PROPERTY_ACCESSIBILITY_TAG} and {@link AccessibilityTagEnum#H1}.
 	 */
@@ -484,7 +502,7 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 	{
 		if (isTagged)
 		{
-			PdfStructureEntry imageTag = pdfStructure.beginTag(allTag, "Image");
+			PdfStructureEntry imageTag = pdfStructure.beginTag(tagStack.peek(), "Image");
 			if (printImage.getHyperlinkTooltip() != null)
 			{
 				imageTag.putString("Alt", printImage.getHyperlinkTooltip());
@@ -497,6 +515,7 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 		if (isTagged)
 		{
 			pdfStructure.endTag();
+			isTagEmpty = false;
 		}
 	}
 
@@ -579,7 +598,19 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LI);
 			if (PdfConstants.TAG_START.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
 			{
-				createListItemStartTag(element);
+				createStartTag(element, "LI");
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LBL);
+			if (PdfConstants.TAG_START.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
+			{
+				createStartTag(element, "Lbl");
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LBODY);
+			if (PdfConstants.TAG_START.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
+			{
+				createStartTag(element, "LBody");
 			}
 
 			createStartHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
@@ -588,6 +619,18 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 			createStartHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
 			createStartHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
 			createStartHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_REFERENCE);
+			if (PdfConstants.TAG_START.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
+			{
+				createStartTag(element, "Reference");
+			}
+
+			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_NOTE);
+			if (PdfConstants.TAG_START.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
+			{
+				createStartTag(element, "Note");
+			}
 		}
 	}
 
@@ -704,20 +747,23 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 	}
 		
 	
-	protected void createListItemStartTag(JRPrintElement element)
+	protected void createStartTag(JRPrintElement element, String pdfTag)
 	{
-		PdfStructureEntry listItemTag = pdfStructure.createTag(tagStack.peek(), "LI");
+		PdfStructureEntry tag = pdfStructure.createTag(tagStack.peek(), pdfTag);
 		//pdfContentByte.beginMarkedContentSequence(tableHeaderTag);
-		listItemTag.putArray("K");
-		tagStack.push(listItemTag);
+		tag.putArray("K");
+		tagStack.push(tag);
 		isTagEmpty = true;
 	}
-
+	
 	
 	protected void createEndTags(JRPrintElement element)// throws DocumentException, IOException, JRException
 	{
 		if (element.hasProperties())
 		{
+			createEndTag(element, PROPERTY_TAG_NOTE);
+			createEndTag(element, PROPERTY_TAG_REFERENCE);
+			
 			createEndHeadingTags(element, PROPERTY_TAG_H6, AccessibilityTagEnum.H6);
 			createEndHeadingTags(element, PROPERTY_TAG_H5, AccessibilityTagEnum.H5);
 			createEndHeadingTags(element, PROPERTY_TAG_H4, AccessibilityTagEnum.H4);
@@ -725,21 +771,11 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 			createEndHeadingTags(element, PROPERTY_TAG_H2, AccessibilityTagEnum.H2);
 			createEndHeadingTags(element, PROPERTY_TAG_H1, AccessibilityTagEnum.H1);
 
-			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_LI);
-			if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
-			{
-				//pdfContentByte.endMarkedContentSequence();
-				
-				if (isTagEmpty)
-				{
-					pdfStructure.beginTag(tagStack.peek(), "Span");
-					pdfStructure.endTag();
-				}
-				
-				tagStack.pop();
-			}
+			createEndTag(element, PROPERTY_TAG_LBODY);
+			createEndTag(element, PROPERTY_TAG_LBL);
+			createEndTag(element, PROPERTY_TAG_LI);
 
-			prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_L);
+			String prop = element.getPropertiesMap().getProperty(PROPERTY_TAG_L);
 			if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
 			{
 				//pdfContentByte.endMarkedContentSequence();
@@ -765,34 +801,9 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 				tagStack.pop();
 			}
 			
-			prop = element.getPropertiesMap().getProperty(PdfConstants.PROPERTY_TAG_TD);
-			if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
-			{
-				//pdfContentByte.endMarkedContentSequence();
-				
-				if (isTagEmpty)
-				{
-					pdfStructure.beginTag(tagStack.peek(), "Span");
-					pdfStructure.endTag();
-				}
-
-				tagStack.pop();
-			}
+			createEndTag(element, PdfConstants.PROPERTY_TAG_TD);
+			createEndTag(element, PdfConstants.PROPERTY_TAG_TH);
 			
-			prop = element.getPropertiesMap().getProperty(PdfConstants.PROPERTY_TAG_TH);
-			if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
-			{
-				//pdfContentByte.endMarkedContentSequence();
-				
-				if (isTagEmpty)
-				{
-					pdfStructure.beginTag(tagStack.peek(), "Span");
-					pdfStructure.endTag();
-				}
-				
-				tagStack.pop();
-			}
-
 			prop = element.getPropertiesMap().getProperty(PdfConstants.PROPERTY_TAG_TR);
 			if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
 			{
@@ -847,7 +858,24 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 			tagStack.pop();
 		}
 	}
-
+	
+	protected void createEndTag(JRPrintElement element, String pdfTagProp)
+	{
+		String prop = element.getPropertiesMap().getProperty(pdfTagProp);
+		if (PdfConstants.TAG_END.equals(prop) || PdfConstants.TAG_FULL.equals(prop))
+		{
+			//pdfContentByte.endMarkedContentSequence();
+			
+			if (isTagEmpty)
+			{
+				pdfStructure.beginTag(tagStack.peek(), "Span");
+				pdfStructure.endTag();
+			}
+			
+			tagStack.pop();
+		}
+	}
+	
 	@Override
 	public void startUl() 
 	{
@@ -875,7 +903,7 @@ public class JRPdfExporterTagHelper implements StyledTextListWriter
 	@Override
 	public void startLi(boolean noBullet) 
 	{
-		createListItemStartTag(null);
+		createStartTag(null, "LI");
 	}
 
 	@Override

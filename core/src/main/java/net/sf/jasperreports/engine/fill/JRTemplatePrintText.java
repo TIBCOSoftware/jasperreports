@@ -81,6 +81,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private RunDirectionEnum runDirection;
+	private Float averageCharWidth;
 	private float textHeight;
 	
 	// we're no longer setting this at fill time, all format attributes are in the template.
@@ -297,6 +298,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setRunDirection(RunDirectionEnum runDirection)
 	{
 		this.runDirection = runDirection;
+	}
+
+	@Override
+	public Float getAverageCharWidth()
+	{
+		return averageCharWidth;
+	}
+		
+	@Override
+	public void setAverageCharWidth(Float averageCharWidth)
+	{
+		this.averageCharWidth = averageCharWidth;
 	}
 
 	@Override

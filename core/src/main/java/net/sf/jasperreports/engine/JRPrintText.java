@@ -190,6 +190,16 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	/**
 	 *
 	 */
+	public Float getAverageCharWidth();
+		
+	/**
+	 *
+	 */
+	public void setAverageCharWidth(Float averageCharWidth);
+		
+	/**
+	 *
+	 */
 	public float getTextHeight();
 		
 	/**

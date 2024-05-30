@@ -35,6 +35,7 @@ public class SimpleMeasuredText implements JRMeasuredText
 	private float leadingOffset;
 	private float lineSpacingFactor;
 	private float textWidth;
+	private float averageCharWidth;
 	private float textHeight;
 	private int textOffset;
 	private boolean paragraphCut;
@@ -77,6 +78,17 @@ public class SimpleMeasuredText implements JRMeasuredText
 	public float getTextWidth()
 	{
 		return textWidth;
+	}
+
+	@Override
+	public float getAverageCharWidth() 
+	{
+		return averageCharWidth;
+	}
+
+	public void setAverageCharWidth(float averageCharWidth)
+	{
+		this.averageCharWidth = averageCharWidth;
 	}
 
 	public void setTextHeight(float textHeight)

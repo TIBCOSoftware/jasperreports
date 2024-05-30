@@ -61,6 +61,7 @@ public class TextLoader
 		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_markup, text::setMarkup);
 		xmlLoader.setFloatAttribute(JRXmlConstants.ATTRIBUTE_lineSpacingFactor, text::setLineSpacingFactor);
 		xmlLoader.setFloatAttribute(JRXmlConstants.ATTRIBUTE_leadingOffset, text::setLeadingOffset);
+		xmlLoader.setFloatAttribute(JRXmlConstants.ATTRIBUTE_averageCharWidth, text::setAverageCharWidth);
 		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, text::setLinkType);
 		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, text::setLinkTarget);
 		xmlLoader.setAttribute(JRXmlConstants.ATTRIBUTE_anchorName, text::setAnchorName);

@@ -57,6 +57,7 @@ import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_WHITE_
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -72,10 +73,12 @@ import net.sf.jasperreports.engine.export.type.CellEdgeEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRXlsAbstractExporterNature extends AbstractExporterNature
+public abstract class JRXlsAbstractExporterNature extends AbstractExporterNature
 {
 	protected boolean isIgnoreGraphics;
 	protected boolean isIgnorePageMargins;
+
+	private final float averageCharWidthFactor;
 
 	/**
 	 * 
@@ -90,12 +93,8 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		super(jasperReportsContext, filter);
 		this.isIgnoreGraphics = isIgnoreGraphics;
 		this.isIgnorePageMargins = isIgnorePageMargins;
-	}
-	
-	@Override
-	public JRPropertiesUtil getPropertiesUtil()
-	{
-		return propertiesUtil;
+		
+		this.averageCharWidthFactor = getPropertiesUtil().getFloatProperty(ExcelAbstractExporter.PROPERTY_AVERAGE_CHAR_WIDTH_FACTOR);
 	}
 	
 	@Override
@@ -193,9 +192,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getColumnAutoFit(JRPrintElement element)
 	{
 		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
-				)
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
+			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
@@ -210,9 +209,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getShowGridlines(JRPrintElement element)
 	{
 		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(PROPERTY_SHOW_GRIDLINES)
-				)
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_SHOW_GRIDLINES)
+			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
@@ -224,9 +223,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getIgnoreCellBackground(JRPrintElement element)
 	{
 		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(PROPERTY_IGNORE_CELL_BACKGROUND)
-				)
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_IGNORE_CELL_BACKGROUND)
+			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
@@ -252,9 +251,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getWhitePageBackground(JRPrintElement element)
 	{
 		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(PROPERTY_WHITE_PAGE_BACKGROUND)
-				)
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_WHITE_PAGE_BACKGROUND)
+			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
@@ -263,8 +262,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		return null;
 	}
 	
-	public Integer getCustomColumnWidth(JRPrintElement element) {
-		if (element.hasProperties()
+	public Integer getColumnWidth(JRPrintElement element, boolean columnAutoFit) 
+	{
+		if (
+			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH)
 			)
 		{
@@ -272,10 +273,34 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getIntegerProperty(element, ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
 		}
+		else if (columnAutoFit)
+		{
+			if (element instanceof JRPrintText)
+			{
+				JRPrintText textElement = (JRPrintText)element;
+				Integer truncateIndex = textElement.getTextTruncateIndex();
+				if (truncateIndex != null)
+				{
+					Float averageCharWidth = textElement.getAverageCharWidth();
+					if (averageCharWidth != null && averageCharWidth > 0)
+					{
+						int maxLineLength = 0;
+						StringTokenizer tkzer =  new StringTokenizer(textElement.getFullText(), "\n");
+						while (tkzer.hasMoreTokens())
+						{
+							String token = tkzer.nextToken();
+							maxLineLength = Math.max(maxLineLength, token.length());
+						}
+						return (int)(maxLineLength * averageCharWidth * averageCharWidthFactor);
+					}
+				}
+			}
+		}
 		return null;
 	}
 	
-	public Float getColumnWidthRatio(JRPrintElement element) {
+	public Float getColumnWidthRatio(JRPrintElement element) 
+	{
 		if (element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(PROPERTY_COLUMN_WIDTH_RATIO)
 			)
@@ -384,7 +409,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			List<PropertySuffix> propertySuffixes = propertiesUtil.getProperties(PROPERTY_DEFINED_NAMES_PREFIX);
+			List<PropertySuffix> propertySuffixes = getPropertiesUtil().getProperties(PROPERTY_DEFINED_NAMES_PREFIX);
 			if (propertySuffixes != null && !propertySuffixes.isEmpty())
 			{
 				return propertySuffixes.toArray(new PropertySuffix[propertySuffixes.size()]);
@@ -420,12 +445,38 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			}
 		}
 
-		Integer columnCustomWidth = getCustomColumnWidth(element);
-		Integer cutColumnCustomWidth = (Integer)cut.getProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH);
-		if (columnCustomWidth != null && (cutColumnCustomWidth == null || cutColumnCustomWidth < columnCustomWidth))
+		Integer columnWidth = getColumnWidth(element, Boolean.TRUE.equals(columnAutoFit));
+		if (columnWidth != null)
 		{
-			cut.setProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
+			int existingColSpanWidth = 0;
+			for (int colIndex = col1; colIndex < col2; colIndex++)
+			{
+				Cut lcCut = xCuts.getCut(colIndex);
+				Integer cutColumnWidth = (Integer)lcCut.getProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH);
+				cutColumnWidth =
+					cutColumnWidth == null 
+					? xCuts.getCutOffset(colIndex + 1) - xCuts.getCutOffset(colIndex)  
+					: cutColumnWidth;
+				existingColSpanWidth += cutColumnWidth; 
+			}
+			
+			if (columnWidth > existingColSpanWidth)
+			{
+				int columnWidthIncrease = (columnWidth - existingColSpanWidth) / (col2 - col1);
+				for (int colIndex = col1; colIndex < col2; colIndex++)
+				{
+					Cut lcCut = xCuts.getCut(colIndex);
+					Integer cutColumnWidth = (Integer)lcCut.getProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH);
+					cutColumnWidth =
+						cutColumnWidth == null 
+						? xCuts.getCutOffset(colIndex + 1) - xCuts.getCutOffset(colIndex)  
+						: cutColumnWidth;
+					lcCut.setProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, cutColumnWidth + columnWidthIncrease);
+				}
+			}
 		}
+		/*
+		*/
 	}
 	
 	@Override

@@ -698,7 +698,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 
 		boolean isAutoFit = yCut.hasProperty(PROPERTY_AUTO_FIT_ROW) 
-				&& (Boolean)yCut.getProperty(PROPERTY_AUTO_FIT_ROW);
+				? (Boolean)yCut.getProperty(PROPERTY_AUTO_FIT_ROW)
+				: getCurrentItemConfiguration().isAutoFitRow();
 		if (!isAutoFit)
 		{
 			row.setHeightInPoints(lastRowHeight);
