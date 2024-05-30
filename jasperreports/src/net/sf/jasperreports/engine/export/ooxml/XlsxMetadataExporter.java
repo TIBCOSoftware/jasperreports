@@ -2117,7 +2117,7 @@ public class XlsxMetadataExporter extends ExcelAbstractExporter<XlsxMetadataRepo
 						Integer columnWidth = width == null || width.isEmpty() 
 								? element.getWidth()
 								: Integer.valueOf(width);
-						setColumnWidth(i, columnWidth, false);
+						setColumnWidth(i, columnWidth, false); // FIXMENOW should we take care of autofit column here as well?
 					}
 					if (!columnHeadersRow.containsKey(columnName)) 
 					{

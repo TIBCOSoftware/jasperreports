@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -31,10 +35,6 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.Attributes;
 
 
 /**
@@ -114,6 +114,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 		if (leadingOffset != null && leadingOffset.length() > 0)
 		{
 			text.setLeadingOffset(Float.parseFloat(leadingOffset));
+		}
+
+		String averageCharWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_averageCharWidth);
+		if (averageCharWidth != null && averageCharWidth.length() > 0)
+		{
+			text.setAverageCharWidth(Float.parseFloat(averageCharWidth));
 		}
 
 		text.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));

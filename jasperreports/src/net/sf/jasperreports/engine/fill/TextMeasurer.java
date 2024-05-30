@@ -248,6 +248,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected int spacingBefore;
 		protected float textWidth;
 		protected float textHeight;
+		protected float averageCharWidth;
 		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
 		protected boolean isParagraphCut;
@@ -278,6 +279,12 @@ public class TextMeasurer implements JRTextMeasurer
 		public float getTextWidth()
 		{
 			return textWidth;
+		}
+		
+		@Override
+		public float getAverageCharWidth()
+		{
+			return averageCharWidth;
 		}
 		
 		@Override
@@ -1041,7 +1048,13 @@ public class TextMeasurer implements JRTextMeasurer
 			
 			measuredState.isLeftToRight = isLeftToRight;//run direction is per layout; but this is the best we can do for now
 			measuredState.spacingBefore = jrParagraph.getSpacingBefore();
-			measuredState.textWidth = Math.max(measuredState.textWidth, (crtSegment == null ? 0 : (crtSegment.rightX - leftPadding)));//FIXMENOW is RTL text actually working here?
+			int crtCharCount = lineWrapper.paragraphPosition() - lineStartPosition;
+			float crtTextWidth = (crtSegment == null ? 0 : (crtSegment.rightX - leftPadding));//FIXMENOW is RTL text actually working here?
+			if (crtTextWidth > measuredState.textWidth)
+			{
+				measuredState.textWidth = crtTextWidth;
+				measuredState.averageCharWidth = crtTextWidth / crtCharCount;
+			}
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 
@@ -1070,7 +1083,7 @@ public class TextMeasurer implements JRTextMeasurer
 			//
 			measuredState.textHeight += maxDescent;
 			
-			measuredState.textOffset += lineWrapper.paragraphPosition() - lineStartPosition;
+			measuredState.textOffset += crtCharCount;
 			
 			if (lineWrapper.paragraphPosition() < lineWrapper.paragraphEnd())
 			{

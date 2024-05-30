@@ -71,4 +71,20 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 		return isToExport && super.isToExport(element);
 	}
 	
+	
+	@Override
+	public Integer getColumnWidth(JRPrintElement element, boolean columnAutoFit) 
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, ExcelAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
+		}
+		return null;
+	}
+
 }

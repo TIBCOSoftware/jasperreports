@@ -602,9 +602,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 	
-	protected void adjustColumnWidth(String columnName, int columnWidth, Boolean isAutofit) 
+	protected void adjustColumnWidth(String columnName, int columnWidth, boolean columnAutofit) 
 	{
-		if(isAutofit != null && isAutofit) 
+		if (columnAutofit) 
 		{
 			columnWidths.put(columnName, Integer.MAX_VALUE);
 		} 
@@ -804,7 +804,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			boolean repeatValue = getPropertiesUtil().getBooleanProperty(textElement, PROPERTY_REPEAT_VALUE, false);
 			
 			setColumnName(currentColumnName);
-			adjustColumnWidth(currentColumnName, textElement.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(textElement));
+			boolean columnAutoFit = Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement));
+			adjustColumnWidth(currentColumnName, textElement.getWidth(), columnAutoFit);
 			adjustRowHeight(textElement.getHeight(), isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getRowAutoFit(textElement)));
 			
 			final short forecolor = getWorkbookColor(textElement.getForecolor()).getIndex();
@@ -830,7 +831,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					(short)0,
 					null,
 					(BoxStyle)null, 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isWrapText(textElement) || columnAutoFit,
 					isCellLocked(textElement),
 					isCellHidden(textElement),
 					isShrinkToFit(textElement)
@@ -843,7 +844,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					rotation,
 					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 					new BoxStyle(textElement), 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isWrapText(textElement) || columnAutoFit,
 					isCellLocked(textElement),
 					isCellHidden(textElement),
 					isShrinkToFit(textElement)

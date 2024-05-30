@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.export.ExcelAbstractExporter;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -114,6 +115,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private float textWidth;
+	private float averageCharWidth;
 	private float textHeight;
 	//private int elementStretchHeightDelta;
 	private int textStart;
@@ -145,6 +147,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private boolean dynamicScaleFontStepLimit;
 	private Integer defaultCutTextMaxHeight;
 	private boolean dynamicCutTextMaxHeight;
+	
+	protected final boolean keepAverageCharWidth;
 
 	/**
 	 *
@@ -163,6 +167,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicConsumeSpaceOnOverflow = hasDynamicProperty(PROPERTY_CONSUME_SPACE_ON_OVERFLOW);
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		this.dynamicScaleFontStepLimit = hasDynamicProperty(PROPERTY_SCALE_FONT_STEP_LIMIT);
+		
+		this.keepAverageCharWidth = filler.getPropertiesUtil().getBooleanProperty(parent, ExcelAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
 		
 		this.fillStyleObjectsMap = new HashMap<>();
 	}
@@ -183,6 +189,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicScaleFontStepLimit = textElement.dynamicScaleFontStepLimit;
 		this.defaultCutTextMaxHeight = textElement.defaultCutTextMaxHeight;
 		this.dynamicCutTextMaxHeight = textElement.dynamicCutTextMaxHeight;
+
+		this.keepAverageCharWidth = textElement.keepAverageCharWidth;
 
 		this.fillStyleObjectsMap = textElement.fillStyleObjectsMap;
 	}
@@ -437,7 +445,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		this.textWidth = textWidth;
 	}
-
+		
+	/**
+	 *
+	 */
+	public float getAverageCharWidth()
+	{
+		return averageCharWidth;
+	}
+		
+	/**
+	 *
+	 */
+	protected void setAverageCharWidth(float averageCharWidth)
+	{
+		this.averageCharWidth = averageCharWidth;
+	}
+	
 	/**
 	 *
 	 */
@@ -757,6 +781,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		isLeftToRight = measuredText.isLeftToRight();
 		setTextWidth(measuredText.getTextWidth());
+		setAverageCharWidth(measuredText.getAverageCharWidth());
 		setTextHeight(measuredText.getTextHeight());
 		
 		//elementStretchHeightDelta = 0;

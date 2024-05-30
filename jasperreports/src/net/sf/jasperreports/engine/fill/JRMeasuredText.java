@@ -56,6 +56,13 @@ public interface JRMeasuredText
 	float getTextWidth();
 
 	/**
+	 * Returns the text's average character width.
+	 * 
+	 * @return the text's average character width
+	 */
+	float getAverageCharWidth();
+
+	/**
 	 * Returns the text's measure height.
 	 * 
 	 * @return the text's measure height

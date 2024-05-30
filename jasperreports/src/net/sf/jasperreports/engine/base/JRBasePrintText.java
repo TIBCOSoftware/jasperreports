@@ -81,6 +81,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight;
+	protected Float averageCharWidth;
 	protected String markup;
 	protected TextFormat textFormat;
 	protected String anchorName;
@@ -318,6 +319,19 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	{
 		this.runDirectionValue = runDirectionValue;
 	}
+
+	@Override
+	public Float getAverageCharWidth()
+	{
+		return averageCharWidth;
+	}
+
+	@Override
+	public void setAverageCharWidth(Float averageCharWidth)
+	{
+		this.averageCharWidth = averageCharWidth;
+	}
+
 	@Override
 	public float getTextHeight()
 	{

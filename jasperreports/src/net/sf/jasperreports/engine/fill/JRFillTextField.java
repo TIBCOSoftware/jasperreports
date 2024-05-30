@@ -959,7 +959,12 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());
+		if (keepAverageCharWidth)
+		{
+			text.setAverageCharWidth(getAverageCharWidth());
+		}
 		text.setTextHeight(getTextHeight());
+
 		//FIXME rotation and run direction?
 
 		//FIXME do we need to do this when the value is String?

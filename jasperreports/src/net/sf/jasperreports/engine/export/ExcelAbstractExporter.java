@@ -284,6 +284,18 @@ public abstract class ExcelAbstractExporter<RC extends XlsReportConfiguration, C
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
+	
+	/**
+	 * Property specifying the multiplication factor to be used when calculating the column width for auto fit columns
+	 * on top of the fill-time calculated average char width.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_21_4,
+			valueType = Float.class
+			)
+	public static final String PROPERTY_AVERAGE_CHAR_WIDTH_FACTOR = XLS_EXPORTER_PROPERTIES_PREFIX + "average.char.width.factor";
 
 	/**
 	 * Property prefix used to indicate the current outline row level, and when necessary, the ending row of the current outline row 

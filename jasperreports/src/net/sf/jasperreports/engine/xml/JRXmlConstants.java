@@ -701,6 +701,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_textHeight = "textHeight";
 	public static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
 	public static final String ATTRIBUTE_leadingOffset = "leadingOffset";
+	public static final String ATTRIBUTE_averageCharWidth = "averageCharWidth";
 	public static final String ATTRIBUTE_valueClass = "valueClass";
 
 	/**
