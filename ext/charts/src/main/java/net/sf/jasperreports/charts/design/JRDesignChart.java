@@ -624,12 +624,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case BAR:
-				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBarPlot(plot, this);
-				break;
 			case BAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBar3DPlot(plot, this);
+				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case BUBBLE:
 				dataset = new JRDesignXyzDataset(dataset);
@@ -656,24 +653,18 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignMultiAxisPlot(plot, this);
 				break;
 			case PIE:
-				dataset = new JRDesignPieDataset(dataset);
-				plot = new JRDesignPiePlot(plot, this);
-				break;
 			case PIE3D:
 				dataset = new JRDesignPieDataset(dataset);
-				plot = new JRDesignPie3DPlot(plot, this);
+				plot = new JRDesignPiePlot(plot, this);
 				break;
 			case SCATTER:
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignScatterPlot(plot, this);
 				break;
 			case STACKEDBAR:
-				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBarPlot(plot, this);
-				break;
 			case STACKEDBAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
-				plot = new JRDesignBar3DPlot(plot, this);
+				plot = new JRDesignBarPlot(plot, this);
 				break;
 			case THERMOMETER:
 				dataset = new JRDesignValueDataset(dataset);

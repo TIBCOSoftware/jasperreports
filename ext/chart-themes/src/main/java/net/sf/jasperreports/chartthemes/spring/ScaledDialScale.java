@@ -33,8 +33,8 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.StandardDialScale;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.TextAnchor;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -127,7 +127,7 @@ public class ScaledDialScale extends StandardDialScale
 			if (this.getTickLabelsVisible()) {
 				if (!firstLabel || this.getFirstTickLabelVisible()) {
 					g2.setFont(this.getTickLabelFont());
-					TextUtilities.drawAlignedString(
+					TextUtils.drawAlignedString(
 							this.getTickLabelFormatter().format(v), g2, 
 							(float) pt2.getX(), (float) pt2.getY(), 
 							TextAnchor.CENTER);

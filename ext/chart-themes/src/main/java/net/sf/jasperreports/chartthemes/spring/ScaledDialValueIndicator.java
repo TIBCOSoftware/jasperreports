@@ -31,9 +31,9 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialValueIndicator;
-import org.jfree.text.TextUtilities;
-import org.jfree.ui.RectangleAnchor;
-import org.jfree.ui.Size2D;
+import org.jfree.chart.text.TextUtils;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.Size2D;
 
 import net.sf.jasperreports.engine.JRConstants;
 
@@ -95,7 +95,7 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 		// calculate the bounds of the template value
 		FontMetrics fm = g2.getFontMetrics(this.getFont());
 		String s = this.getNumberFormat().format(this.getTemplateValue());
-		Rectangle2D tb = TextUtilities.getTextBounds(s, g2, fm);
+		Rectangle2D tb = TextUtils.getTextBounds(s, g2, fm);
 
 		// align this rectangle to the frameAnchor
 		Rectangle2D bounds = RectangleAnchor.createRectangle(new Size2D(
@@ -117,10 +117,10 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 
 		// now find the text anchor point
 		String valueStr = this.getNumberFormat().format(ChartThemesUtilities.getScaledValue(plot.getValue(this.getDatasetIndex()), scale));
-		Point2D pt2 = RectangleAnchor.coordinates(bounds, this.getValueAnchor());
+		Point2D pt2 = this.getValueAnchor().getAnchorPoint(bounds);
 		g2.setPaint(this.getPaint());
 		g2.setFont(this.getFont());
-		TextUtilities.drawAlignedString(valueStr, g2, (float) pt2.getX(),
+		TextUtils.drawAlignedString(valueStr, g2, (float) pt2.getX(),
 				(float) pt2.getY(), this.getTextAnchor());
 
 	}

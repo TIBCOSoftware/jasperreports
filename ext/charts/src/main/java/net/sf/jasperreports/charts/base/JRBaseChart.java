@@ -185,12 +185,9 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case BAR:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
-				break;
 			case BAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case BUBBLE:
 				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
@@ -217,24 +214,18 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getMultiAxisPlot((JRMultiAxisPlot) chart.getPlot());
 				break;
 			case PIE:
-				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
-				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
-				break;
 			case PIE3D:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
-				plot = factory.getPie3DPlot((JRPie3DPlot) chart.getPlot());
+				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
 				break;
 			case SCATTER:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
 				break;
 			case STACKEDBAR:
-				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
-				break;
 			case STACKEDBAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
-				plot = factory.getBar3DPlot((JRBar3DPlot) chart.getPlot());
+				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
 			case THERMOMETER:
 				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());

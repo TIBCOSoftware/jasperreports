@@ -27,7 +27,19 @@ How to render different types of charts using the built-in chart element.
 
 The JasperReports library does not produce charts and graphics itself. However, it can easily integrate charts, barcodes, and graphics produced by other more specialized Java libraries.
 The great majority of available Java libraries that produce charts and graphics can output to image files or in-memory Java image objects. And such image objects can be integrated into a JasperReports document using a normal image element.
-To simplify the integration of charts inside reports, JasperReports provides a specific value for the `kind` attribute of the report elements. In case of charts, this value is  `chart`.
+To simplify the integration of charts inside reports, JasperReports provides a specific attribute setting: `kind=chart` for the report elements.
+This sample contains various charts based on the JasperReports Chart component that are generated using the [JFreeChart](https://www.jfree.org/jfreechart/) library.
+
+**IMPORTANT NOTIFICATION:**
+<div style="border:1px solid #6A5ACD;padding:10px;">
+As explained in this [Migration note](https://github.com/jfree/jfreechart?tab=readme-ov-file#migration), since JFreeChart v.1.5.0 all (pseudo) 3D charts have been removed. As a consequence, the (pseudo) 3D effect is no longer visible for 3D charts used in JasperReports Library v.7.0.0 and newer. The affected charts are the following:
+
+- Bar3DChart (`chartType="bar3D"`)
+- StackedBar3DChart (`chartType="stackedBar3D"`)
+- Pie3DChart (`chartType="pie3D"`)
+
+3D charts are now marked for deprecation and will be removed.
+</div>
 
 ### Chart Types
 
@@ -35,12 +47,12 @@ In a JRXML file a chart element is characterized by the `kind=&quot;chart&quot;`
 Chart types are specified in the `chartType` attribute of the chart report element. Possible values for the `chartType` attribute are:
 
 - `pie` - a combination of a Pie dataset and a Pie plot.
-- `pie3D` - groups a Pie dataset and a Pie 3D plot.
+- `pie3D` - **deprecated**. The 3D effect is no longer visible. Groups a Pie dataset and a Pie plot.
 - `bar` - a basic combination of a Category dataset and a Bar plot.
-- `bar3D` - wraps a Category dataset and a Bar 3D plot.
+- `bar3D` - **deprecated**. The 3D effect is no longer visible. Wraps a Category dataset and a Bar plot.
 - `xyBar` - supports Time Period datasets, Time Series datasets, and XY datasets, and uses a Bar plot to render the axis and the items.
 - `stackedBar` - uses data from a Category dataset and renders its content using a Bar plot.
-- `stackedBar3D` - uses data from a Category dataset and renders its content using a Bar 3D plot.
+- `stackedBar3D` - **deprecated**. The 3D effect is no longer visible. Uses data from a Category dataset and renders its content using a Bar plot.
 - `line` - groups a Category dataset and a Line plot.
 - `xyLine` - groups an XY dataset and a Line plot.
 - `area` - items from a Category dataset are rendered using an Area plot.
@@ -229,9 +241,9 @@ A plot contains also a `<seriesColor />` element which customize colors for seri
 Following are the specific plot properties for different chart types:
 
 - `pie` - it has no specific settings
-- `pie` - contains the `depthFactor` attribute, a numeric value ranging from 0 to 1 that represents the depth of the pie as a percentage of the height of the plot area.
+- `pie3D` - **deprecated**. The 3D effect is no longer visible. Contains the `depthFactor` attribute, a numeric value ranging from 0 to 1 that represents the depth of the pie as a percentage of the height of the plot area.
 - `bar` - one can show or hide tick labels, tick marks or item labels, and provides settings for both axis.
-- `bar3D` - provides the same settings as the `bar` plot, and generates a 3D effect using the `xOffset` and `yOffset` attributes.
+- `bar3D` - **deprecated**. The 3D effect is no longer visible. Provides the same settings as the `bar` plot, and generates a 3D effect using the `xOffset` and `yOffset` attributes.
 - `line` - one can show or hide lines connecting item points, can show or hide shapes associated with item points, and provides settings for both axis.
 - `scatter` - like the `line` plot, it can show or hide lines connecting item points, can show or hide shapes associated with item points, and provides settings for both axis.
 - `area` - provides settings for both axis.

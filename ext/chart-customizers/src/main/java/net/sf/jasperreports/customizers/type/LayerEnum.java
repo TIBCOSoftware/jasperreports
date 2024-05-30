@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.customizers.type;
 
-import org.jfree.ui.Layer;
+import org.jfree.chart.ui.Layer;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedEnum;

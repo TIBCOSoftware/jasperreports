@@ -148,7 +148,8 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 					RegularTimePeriod.createInstance(
 						ChartUtil.getTimePeriod(getTimePeriod()), 
 						crtTimeSeries.getTimePeriod(), 
-						getTimeZone()
+						getTimeZone(),
+						getLocale()
 						);
 
 				series.addOrUpdate(tp, crtTimeSeries.getValue());

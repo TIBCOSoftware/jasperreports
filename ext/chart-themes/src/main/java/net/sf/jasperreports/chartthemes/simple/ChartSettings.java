@@ -26,7 +26,7 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Stroke;
 import java.io.Serializable;
 
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

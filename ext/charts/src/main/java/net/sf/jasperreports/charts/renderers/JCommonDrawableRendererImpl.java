@@ -26,7 +26,7 @@ package net.sf.jasperreports.charts.renderers;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import org.jfree.ui.Drawable;
+import org.jfree.chart.ui.Drawable;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;

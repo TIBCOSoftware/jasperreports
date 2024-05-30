@@ -24,41 +24,23 @@
 package net.sf.jasperreports.charts.base;
 
 import net.sf.jasperreports.charts.ChartCopyObjectFactory;
-import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartPlot;
-import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed
  */
-public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
+public class JRBasePie3DPlot extends JRBasePiePlot
 {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_CIRCULAR = "isCircular";
-	
-	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
-	
-	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
-	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
-	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
-	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
-	
-	protected Double depthFactorDouble;
-	protected Boolean circular;
-	protected String labelFormat;
-	protected String legendLabelFormat;
-	
-	protected JRItemLabel itemLabel;
-	protected Boolean showLabels;
-
+		
 	/**
 	 *
 	 */
@@ -70,17 +52,6 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	protected JRBasePie3DPlot(JRChartPlot chartPlot, JRChart chart, ChartCopyObjectFactory copyObjectFactory)
 	{
 		super(chartPlot, chart);
-		
-		JRPie3DPlot pie3DPlot = chartPlot instanceof JRPie3DPlot ? (JRPie3DPlot)chartPlot : null;
-		
-		if (pie3DPlot == null)
-		{
-			itemLabel = copyObjectFactory.copyItemLabel(null, chart);
-		}
-		else
-		{
-			itemLabel = copyObjectFactory.copyItemLabel(pie3DPlot.getItemLabel(), chart);
-		}
 	}
 
 	
@@ -90,123 +61,6 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public JRBasePie3DPlot(JRPie3DPlot pie3DPlot, ChartsBaseObjectFactory factory)
 	{
 		super(pie3DPlot, factory);
-		
-		depthFactorDouble = pie3DPlot.getDepthFactorDouble();
-		circular = pie3DPlot.getCircular();
-		labelFormat = pie3DPlot.getLabelFormat();
-		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
-		itemLabel = new JRBaseItemLabel(pie3DPlot.getItemLabel(), factory);
-		showLabels = pie3DPlot.getShowLabels();
-	}
-
+	}	
 	
-	@Override
-	public Double getDepthFactorDouble()
-	{
-		return depthFactorDouble;
-	}
-	
-	@Override
-	public JRItemLabel getItemLabel()
-	{
-		return itemLabel;
-	}
-	
-	/**
-	 *
-	 */
-	public void setDepthFactor(Double depthFactor)
-	{
-		Double old = this.depthFactorDouble;
-		this.depthFactorDouble = depthFactor;
-		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactorDouble);
-	}
-	
-	@Override
-	public void collectExpressions(ChartsExpressionCollector collector)
-	{
-	}
-
-
-	@Override
-	public Boolean getCircular() {
-		return circular;
-	}
-
-	/**
-	 * @param isCircular the isCircular to set
-	 */
-	public void setCircular(Boolean isCircular) {
-		Boolean old = this.circular;
-		this.circular = isCircular;
-		getEventSupport().firePropertyChange(PROPERTY_CIRCULAR, old, this.circular);
-	}
-
-	/**
-	 * @return the labelFormat
-	 */
-	@Override
-	public String getLabelFormat() {
-		return labelFormat;
-	}
-
-
-	/**
-	 * @param labelFormat the labelFormat to set
-	 */
-	public void setLabelFormat(String labelFormat) {
-		String old = this.labelFormat;
-		this.labelFormat = labelFormat;
-		getEventSupport().firePropertyChange(PROPERTY_LABEL_FORMAT, old, this.labelFormat);
-	}
-
-	
-	/**
-	 * @return the legendLabelFormat
-	 */
-	@Override
-	public String getLegendLabelFormat() {
-		return legendLabelFormat;
-	}
-
-
-	/**
-	 * @param legendLabelFormat the legendLabelFormat to set
-	 */
-	public void setLegendLabelFormat(String legendLabelFormat) {
-		String old = this.legendLabelFormat;
-		this.legendLabelFormat = legendLabelFormat;
-		getEventSupport().firePropertyChange(PROPERTY_LEGEND_LABEL_FORMAT, old, this.legendLabelFormat);
-	}
-
-	/**
-	 * @param itemLabel the itemLabel to set
-	 */
-	public void setItemLabel(JRItemLabel itemLabel) {
-		JRItemLabel old = this.itemLabel;
-		this.itemLabel = itemLabel;
-		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
-	}
-
-	@Override
-	public Boolean getShowLabels(){
-		return showLabels;
-	}
-
-	/**
-	 *
-	 */
-	public void setShowLabels( Boolean showLabels ){
-		Boolean old = this.showLabels;
-		this.showLabels = showLabels;
-		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
-	}
-	
-	@Override
-	public Object clone(JRChart parentChart) 
-	{
-		JRBasePie3DPlot clone = (JRBasePie3DPlot) super.clone(parentChart);
-		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
-		return clone;
-	}
 }

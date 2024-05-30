@@ -32,7 +32,7 @@ Other methods specified in this interface can be used to obtain the native size 
 
 The JasperReports library comes with various implementations for the [Graphics2DRenderable](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/renderers/Graphics2DRenderable.html) interface, which wrap images that come from files or binary image data in JPG, GIF, or PNG format. 
 
-For instance, the [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class is actually a container for binary image data loaded from a `org.jfree.ui.Drawable` object, which then draws itself on the supplied `java.awt.Graphics2D` context when the engine requires it.
+For instance, the [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class is actually a container for binary image data loaded from a `org.jfree.chart.ui.Drawable` object, which then draws itself on the supplied `java.awt.Graphics2D` context when the engine requires it.
 
 Image renderers are serializable because inside the generated document for each image is a renderer object kept as reference, which is serialized along with the whole [JasperPrint](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperPrint.html) object.
 
@@ -66,22 +66,22 @@ In the `afterReportInit()` method, a chart object is created, with all necessary
   dataset.setValue("Perl", 1.0d);
 
   JFreeChart chart =
-    ChartFactory.createPieChart3D(
-      "Pie Chart 3D Demo 1",
+    ChartFactory.createPieChart(
+      "Pie Chart Demo 1",
       dataset,
       true,
       true,
       false
       );
 
-  PiePlot3D plot = (PiePlot3D) chart.getPlot();
+  PiePlot plot = (PiePlot) chart.getPlot();
   plot.setStartAngle(290);
   plot.setDirection(Rotation.CLOCKWISE);
   plot.setForegroundAlpha(0.5f);
   plot.setNoDataMessage("No data to display");
 ```
 
-The resulting chart is passed to a [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class constructor. The [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) constructor needs an `org.jfree.ui.Drawable` object, characterized by its own `draw()` method. A JFreeChart chart represents such a `Drawable` object.
+The resulting chart is passed to a [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class constructor. The [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) constructor needs an `org.jfree.chart.ui.Drawable` object, characterized by its own `draw()` method. A JFreeChart chart represents such a `Drawable` object.
 
 The `render()` method in the [JCommonDrawableRendererImpl](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/charts/renderers/JCommonDrawableRendererImpl.html) class just calls the `Drawable` object's own `draw()` method, and all the rendering process will be executed by this dedicated API:
 

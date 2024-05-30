@@ -41,8 +41,8 @@
  * <li>The chart dataset (which groups chart data-related settings)</li>
  * <li>The chart plot (which groups visual settings related to the way the chart items are rendered)</li>
  * </ul>
- * JasperReports currently supports the following types of charts: Pie, Pie 3D, Bar, Bar 3D, 
- * XY Bar, Stacked Bar, Stacked Bar 3D, Line, XY Line, Area, Stacked Area, XY Area, Scatter Plot, 
+ * JasperReports currently supports the following types of charts: Pie, Bar, 
+ * XY Bar, Stacked Bar, Line, XY Line, Area, Stacked Area, XY Area, Scatter Plot, 
  * Bubble, Time Series, High-Low-Open-Close, Candlestick and Gantt. 
  * <br/>
  * For each type of chart there is a special JRXML tag that groups various chart settings, 

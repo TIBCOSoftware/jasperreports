@@ -28,8 +28,8 @@ import java.awt.Color;
 
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.Plot;
-import org.jfree.ui.Layer;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.Layer;
+import org.jfree.chart.ui.RectangleInsets;
 
 import net.sf.jasperreports.charts.JRAbstractChartCustomizer;
 import net.sf.jasperreports.customizers.type.LayerEnum;

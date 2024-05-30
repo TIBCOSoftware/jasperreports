@@ -131,7 +131,9 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 		return fillPiePlot;
 	}
 
-
+	/**
+	 * @deprecated To be removed
+	 */
 	@Override
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
@@ -146,7 +148,7 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return fillPie3DPlot;
+		return (JRPie3DPlot)fillPie3DPlot;
 	}
 
 
@@ -395,7 +397,9 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 		return fillTimePeriodSeries;
 	}
 
-
+	/**
+	 * @deprecated To be removed
+	 */
 	@Override
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
@@ -407,7 +411,7 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return fillBarPlot;
+		return (JRBar3DPlot)fillBarPlot;
 	}
 
 

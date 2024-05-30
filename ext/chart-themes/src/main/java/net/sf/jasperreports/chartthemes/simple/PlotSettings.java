@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleInsets;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

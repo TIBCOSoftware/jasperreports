@@ -38,7 +38,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
- * This dataset is useful for rendering Pie or Pie 3D charts. Data required for such charts 
+ * This dataset is useful for rendering Pie charts. Data required for such charts 
  * comes in the form of key-value pairs. Each pair represents a slice in the pie chart.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -83,7 +83,7 @@ public interface JRPieDataset extends JRChartDataset
 
 	/**
 	 * @return an array of {@link JRPieSeries} objects representing the 
-	 * series for the Pie or Pie 3D chart
+	 * series for the Pie chart
 	 * @see JRPieSeries
 	 */
 	@JacksonXmlElementWrapper(useWrapping = false)
