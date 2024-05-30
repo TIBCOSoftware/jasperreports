@@ -3859,6 +3859,19 @@ The property itself defaults to <code>false</code> (for backward compatibility r
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.background.as.header -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.background.as.header">
+    <description>
+This property specifies whether the report's background section elements should be placed inside the DOCX header section, usually to achieve a watermark effect.
+<br/>
+It serves as default value for the 
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isBackgroundAsHeader()">isBackgroundAsHeader()</api> DOCX export configuration setting.
+The property itself defaults to <code>false</code>.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.flash.element.allow.script.access -->
   
   <configProperty name="net.sf.jasperreports.export.flash.element.allow.script.access">
@@ -5132,6 +5145,16 @@ Allowed values are:
 <li><code>true</code></li>
 <li><code>false</code> - this is the default value.</li>
 </ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.average.char.width.factor -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.average.char.width.factor">
+    <description>
+This property specifies the multiplication factor to be applied to the report fill time calculated average char width that is used 
+to estimate the text length for XLS/XLSX/ODS export column autofit feature.
     </description>
   </configProperty>
   
@@ -6623,6 +6646,24 @@ Property used to associate a PDF LI tag with this element.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.tag.lbl -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.lbl">
+    <description>
+Property used to associate a PDF Lbl tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.lbody -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.lbody">
+    <description>
+Property used to associate a PDF LBody tag with this element.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.tag.h1 -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
@@ -6673,6 +6714,24 @@ Property used to associate a PDF H5 tag with this element.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h6">
     <description>
 Property used to associate a PDF H6 tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.reference -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.reference">
+    <description>
+Property used to associate a PDF Reference tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.note -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.note">
+    <description>
+Property used to associate a PDF Note tag with this element.
     </description>
   </configProperty>
   
