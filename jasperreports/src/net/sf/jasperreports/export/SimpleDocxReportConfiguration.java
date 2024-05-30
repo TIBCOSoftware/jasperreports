@@ -33,6 +33,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean isFlexibleRowHeight;
 	private Boolean isIgnoreHyperlink;
 	private Boolean isNewLineAsParagraph;
+	private Boolean isBackgroundAsHeader;
 
 	
 	/**
@@ -96,5 +97,19 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 	public void setNewLineAsParagraph(Boolean isNewLineAsParagraph)
 	{
 		this.isNewLineAsParagraph = isNewLineAsParagraph;
+	}
+	
+	@Override
+	public Boolean isBackgroundAsHeader()
+	{
+		return isBackgroundAsHeader;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setBackgroundAsHeader(Boolean isBackgroundAsHeader)
+	{
+		this.isBackgroundAsHeader = isBackgroundAsHeader;
 	}
 }

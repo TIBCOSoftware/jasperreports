@@ -430,7 +430,7 @@ class TypeTextValueHandler implements TextValueHandler
 	
 	@Override
 	public void handle(StringTextValue textValue) throws JRException {
-		type = "inlineStr";
+		type = "s";
 	}
 	
 	public String getType()

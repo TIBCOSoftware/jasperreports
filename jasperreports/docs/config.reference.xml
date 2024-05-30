@@ -4498,6 +4498,18 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.metadata.producer -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.metadata.producer">
+    <description>
+Property that contains the producer information to use for the generated PDF metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataProducer()">getMetadataProducer()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.metadata.keywords -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.metadata.keywords">
@@ -7589,9 +7601,9 @@ Flag that determines whether glyph substitution based on Apache FOP is enabled.
 The flag is set to <code>false</code> by default, disabling glyph substitution.
 <p>
 When Apache FOP is present on the classpath, glyph substitution can only be disabled
-by using a patched version of OpenPDF (1.3.30.jaspersoft.x from 
+when using OpenPDF 1.3.32 and newer, or a version patched by Jaspersoft (1.3.30.jaspersoft.x from 
 <a href="https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/">https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/com/github/librepdf/openpdf/</a>).
-The property needs to be explicitly set to <code>true</code> when using a standard/unpatched version of OpenPDF together with Apache FOP. 
+The property needs to be explicitly set to <code>true</code> when using an unpatched version of OpenPDF older than 1.3.32 together with Apache FOP. 
 </p>
 <p>
 Also see the <a href="#net.sf.jasperreports.export.pdf.classic.document.language">net.sf.jasperreports.export.pdf.classic.document.language</a>

@@ -103,6 +103,18 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
+	 * Property that provides a default value for the {@link #isBackgroundAsHeader()} export configuration flag.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_21_3,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_BACKGROUND_AS_HEADER = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "background.as.header";
+
+	/**
 	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
 	 * <p>
 	 * If set to <code>false</code>, the frame contents will be integrated into the master/page table.
@@ -159,4 +171,13 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isIgnoreHyperlink();
+	
+	/**
+	 * @see #PROPERTY_BACKGROUND_AS_HEADER
+	 */
+	@ExporterProperty(
+		value=PROPERTY_BACKGROUND_AS_HEADER, 
+		booleanDefault=true
+		)
+	public Boolean isBackgroundAsHeader();
 }

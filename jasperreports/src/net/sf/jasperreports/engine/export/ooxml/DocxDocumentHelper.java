@@ -53,7 +53,7 @@ public class DocxDocumentHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader()
+	public void exportHeader(PrintPageFormat pageFormat)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<w:document\n");
@@ -74,7 +74,7 @@ public class DocxDocumentHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportSection(PrintPageFormat pageFormat, JRGridLayout pageGridLayout, boolean lastPage)
+	public void exportSection(PrintPageFormat pageFormat, JRGridLayout pageGridLayout, int headerIndex, boolean lastPage)
 	{
 		if (!lastPage)
 		{
@@ -82,6 +82,8 @@ public class DocxDocumentHelper extends BaseHelper
 			write("    <w:pPr>\n");
 		}
 		write("  <w:sectPr>\n");
+		write("   <w:headerReference w:type=\"default\" r:id=\"header" + headerIndex + "\"/>\n");
+		write("   <w:type w:val=\"continuous\"/>\n");
 		write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageFormat.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(pageFormat.getPageHeight()) + "\"");
 		write(" w:orient=\"" + (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
 		

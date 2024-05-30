@@ -2,6 +2,27 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.21.3 (2024-04-18)
+---------------------------------------------
+
+- allow background section elements to be exported as page header content in the DOCX exporter
+so that watermark type effects could be achieved;  
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.21.2 (2024-02-12)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.21.0 (2023-12-01)
 ---------------------------------------------
 

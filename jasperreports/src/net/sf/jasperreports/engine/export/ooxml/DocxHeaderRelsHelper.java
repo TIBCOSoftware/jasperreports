@@ -21,27 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export.pdf;
+package net.sf.jasperreports.engine.export.ooxml;
+
+import java.io.Writer;
+import java.util.HashSet;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public interface PdfDocument
+public class DocxHeaderRelsHelper extends DocxRelsHelper
 {
+	private Set<String> rels = new HashSet<String>();
 
-	void addTitle(String title);
+	/**
+	 * 
+	 */
+	public DocxHeaderRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
+	{
+		super(jasperReportsContext, writer);
+	}
 
-	void addAuthor(String author);
+	@Override
+	public void exportHeader()
+	{
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
+	}
 
-	void addSubject(String subject);
-
-	void addKeywords(String keywords);
-
-	void addCreator(String creator);
-
-	void addProducer(String producer);
-
-	void open();
-
+	@Override
+	public void exportImage(String imageName)
+	{
+		if (!rels.contains(imageName))
+		{
+			super.exportImage(imageName);
+			
+			rels.add(imageName);
+		}
+	}
+	
 }
