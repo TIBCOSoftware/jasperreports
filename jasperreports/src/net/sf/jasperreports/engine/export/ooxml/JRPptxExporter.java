@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -1118,7 +1119,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				slideHelper.write("l");
 				break;
 		}
-		slideHelper.write("\">\n");
+		slideHelper.write("\"");
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		{
+			slideHelper.write(" rtl=\"1\"");
+		}
+		slideHelper.write(">\n");
 		slideHelper.write("<a:lnSpc><a:spcPct");
 		slideHelper.write(" val=\"");
 		switch (text.getParagraph().getLineSpacing())
