@@ -78,12 +78,12 @@ public interface JRPiePlot extends JRChartPlot
 	public Boolean getShowLabels();
 	
 	/**
-	 * @return always 0. The 3D effect is always ignored.
+	 * @return always null. The 3D effect is always ignored.
 	 */
 	@JacksonXmlProperty(isAttribute = true)
 	default Double getDepthFactorDouble()
 	{
-		return 0.0;
+		return null;
 	}
 	
 }
