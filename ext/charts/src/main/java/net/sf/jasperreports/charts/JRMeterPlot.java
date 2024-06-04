@@ -97,7 +97,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 * @return the size of the Meter face in degrees
 	 */
 	@JacksonXmlProperty(isAttribute = true)
-	public Integer getMeterAngleInteger();
+	public Integer getMeterAngle();
 
 	/**
 	 * Returns the name of the units that the Meter is displaying.  This value will be

@@ -46,7 +46,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
 	public static final String PROPERTY_SHOW_LABELS = "isShowLabels";
-	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
 
 	protected Boolean circular;
 	protected String labelFormat;
@@ -55,7 +54,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	protected JRItemLabel itemLabel;
 	protected Boolean showLabels;
 
-	protected Double depthFactorDouble;
 	/**
 	 *
 	 */
@@ -92,9 +90,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		legendLabelFormat = piePlot.getLegendLabelFormat();
 		itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), factory);
 		showLabels = piePlot.getShowLabels();
-		
-		// 3D features are ignored:
-		depthFactorDouble = null;
 	}
 	
 	@Override
@@ -185,19 +180,6 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		this.showLabels = showLabels;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
-	
-	/**
-	 *
-	 */
-	public void setDepthFactor(Double depthFactor)
-	{
-		Double old = this.depthFactorDouble;
-		// depthFactorDouble is always null; 3D effect is ignored
-		this.depthFactorDouble = null;
-		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactorDouble);
-	}
-	
-	
 
 	@Override
 	public Object clone(JRChart parentChart) 

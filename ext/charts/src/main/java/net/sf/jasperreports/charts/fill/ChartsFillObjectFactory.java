@@ -25,7 +25,6 @@ package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.ChartsAbstractObjectFactory;
 import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
@@ -40,7 +39,6 @@ import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRPieSeries;
@@ -132,10 +130,10 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 	}
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
 	@Override
-	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
+	public net.sf.jasperreports.charts.JRPie3DPlot getPie3DPlot(net.sf.jasperreports.charts.JRPie3DPlot pie3DPlot)
 	{
 		JRFillPie3DPlot fillPie3DPlot = null;
 
@@ -148,7 +146,7 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return (JRPie3DPlot)fillPie3DPlot;
+		return fillPie3DPlot;
 	}
 
 
@@ -398,10 +396,10 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 	}
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
 	@Override
-	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
+	public net.sf.jasperreports.charts.JRBar3DPlot getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
 
 		if (barPlot != null){
@@ -411,7 +409,7 @@ public class ChartsFillObjectFactory implements ChartsAbstractObjectFactory
 			}
 		}
 
-		return (JRBar3DPlot)fillBarPlot;
+		return fillBarPlot;
 	}
 
 

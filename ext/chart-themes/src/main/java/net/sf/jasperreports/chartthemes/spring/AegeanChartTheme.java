@@ -329,7 +329,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 
 		chartPlot.setDialOutlinePaint(Color.BLACK);
-		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger();
+		int meterAngle = jrPlot.getMeterAngle() == null ? 180 : jrPlot.getMeterAngle();
 		// Set the size of the meter
 		chartPlot.setMeterAngle(meterAngle);
 

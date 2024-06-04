@@ -79,7 +79,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The extend of the meter face in degrees.  It will always be centered
 	 * around the straight up position.
 	 */
-	protected Integer meterAngleInteger;
+	protected Integer meterAngle;
 
 	/**
 	 * Optional description of what the meter is displaying.  It will be
@@ -169,7 +169,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 			}
 		}
 
-		meterAngleInteger = meterPlot.getMeterAngleInteger();
+		meterAngle = meterPlot.getMeterAngle();
 		units = meterPlot.getUnits();
 		tickInterval = meterPlot.getTickInterval();
 		tickCount = meterPlot.getTickCount();
@@ -203,9 +203,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public Integer getMeterAngleInteger()
+	public Integer getMeterAngle()
 	{
-		return meterAngleInteger;
+		return meterAngle;
 	}
 
 	@Override

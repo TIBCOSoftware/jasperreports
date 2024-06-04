@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.ChartVisitorFactory;
 import net.sf.jasperreports.charts.ChartsExpressionCollector;
 import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
@@ -42,7 +41,6 @@ import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
@@ -185,10 +183,17 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getAreaPlot((JRAreaPlot) chart.getPlot());
 				break;
 			case BAR:
-			case BAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
+			case BAR3D:
+			{
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				@SuppressWarnings("deprecation") 
+				JRChartPlot depPlot = factory.getBar3DPlot((net.sf.jasperreports.charts.JRBar3DPlot) chart.getPlot());
+				plot = depPlot;
+				break;
+			}
 			case BUBBLE:
 				dataset = factory.getXyzDataset((JRXyzDataset) chart.getDataset());
 				plot = factory.getBubblePlot((JRBubblePlot) chart.getPlot());
@@ -214,19 +219,33 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 				plot = factory.getMultiAxisPlot((JRMultiAxisPlot) chart.getPlot());
 				break;
 			case PIE:
-			case PIE3D:
 				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
 				plot = factory.getPiePlot((JRPiePlot) chart.getPlot());
 				break;
+			case PIE3D:
+			{
+				dataset = factory.getPieDataset((JRPieDataset) chart.getDataset());
+				@SuppressWarnings("deprecation") 
+				JRChartPlot depPlot = factory.getPie3DPlot((net.sf.jasperreports.charts.JRPie3DPlot) chart.getPlot());
+				plot = depPlot;
+				break;
+			}
 			case SCATTER:
 				dataset = factory.getXyDataset((JRXyDataset) chart.getDataset());
 				plot = factory.getScatterPlot((JRScatterPlot) chart.getPlot());
 				break;
 			case STACKEDBAR:
-			case STACKEDBAR3D:
 				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
 				plot = factory.getBarPlot((JRBarPlot) chart.getPlot());
 				break;
+			case STACKEDBAR3D:
+			{
+				dataset = factory.getCategoryDataset((JRCategoryDataset) chart.getDataset());
+				@SuppressWarnings("deprecation") 
+				JRChartPlot depPlot = factory.getBar3DPlot((net.sf.jasperreports.charts.JRBar3DPlot) chart.getPlot());
+				plot = depPlot;
+				break;
+			}
 			case THERMOMETER:
 				dataset = factory.getValueDataset((JRValueDataset) chart.getDataset());
 				plot = factory.getThermometerPlot((JRThermometerPlot) chart.getPlot());
