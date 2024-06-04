@@ -42,12 +42,20 @@ import net.sf.jasperreports.charts.design.JRDesignPie3DPlot;
  * <li>the <code>showLabels</code> flag</li>
  * </ul>
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed
+ * @deprecated To be removed.
  */
 @JsonTypeName("pie3D")
 @JsonDeserialize(as = JRDesignPie3DPlot.class)
 public interface JRPie3DPlot extends JRPiePlot
 {
 
-	public static final double DEPTH_FACTOR_DEFAULT = 0.0;
+	public static final double DEPTH_FACTOR_DEFAULT = 0.2;
+	
+	/**
+	 * @return a numeric value ranging from 0 to 1 that represents the depth of the pie as 
+	 * a percentage of the height of the plot area.
+	 */
+	@JacksonXmlProperty(isAttribute = true)
+	public Double getDepthFactor();
+	
 }

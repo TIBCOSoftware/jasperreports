@@ -29,7 +29,6 @@ import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.ChartVisitor;
 import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
@@ -39,6 +38,7 @@ import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
+import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRGanttSeries;
@@ -48,7 +48,6 @@ import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRLinePlot;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRMultiAxisPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRPieSeries;
@@ -65,7 +64,6 @@ import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXySeries;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
-import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.design.JRDesignChart;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.charts.type.TimePeriodEnum;
@@ -632,7 +630,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			parent.write( "JRMeterInterval " + meterIntervalName + " = new JRMeterInterval();\n");
 			parent.write( meterIntervalName + ".setLabel(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(interval.getLabel()));
 			parent.write( meterIntervalName + ".setBackgroundColor({0});\n", interval.getBackgroundColor());
-			parent.write( meterIntervalName + ".setAlpha({0});\n", interval.getAlphaDouble());
+			parent.write( meterIntervalName + ".setAlpha({0});\n", interval.getAlpha());
 			writeDataRange( interval.getDataRange(), meterIntervalName, "DataRange");
 			parent.write( parentName + ".addInterval(" + meterIntervalName + ");\n");
 			parent.flush();
@@ -740,7 +738,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
 	public void writePie3DChart( JRChart chart, String chartName)
 	{
@@ -750,7 +748,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			writeChart( chart, chartName);
 			writePieDataset( (JRPieDataset)chart.getDataset(), chartName, "PieDataset");
 			// write plot
-			JRPie3DPlot plot = (JRPie3DPlot) chart.getPlot();
+			net.sf.jasperreports.charts.JRPie3DPlot plot = (net.sf.jasperreports.charts.JRPie3DPlot) chart.getPlot();
 			if(plot != null)
 			{
 				String plotName = chartName + "Pie3DPlot";
@@ -759,7 +757,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 				parent.write( plotName + ".setCircular({0});\n", parent.getBooleanText(plot.getCircular()));
 				parent.write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				parent.write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
-				parent.write( plotName + ".setDepthFactor({0});\n", plot.getDepthFactorDouble());
+				parent.write( plotName + ".setDepthFactor({0});\n", plot.getDepthFactor());
 				
 				writePlot( plot, plotName);
 				writeItemLabel( plot.getItemLabel(),plotName, "ItemLabel");
@@ -1057,17 +1055,17 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 	}
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
-	public void writeBar3DPlot( JRBar3DPlot plot, String chartName)
+	public void writeBar3DPlot( net.sf.jasperreports.charts.JRBar3DPlot plot, String chartName)
 	{
 		if(plot != null)
 		{
 			String plotName = chartName + "Bar3DPlot";
 			parent.write( "JRDesignBar3DPlot " + plotName + " = (JRDesignBar3DPlot)" + chartName + ".getPlot();\n");
 			parent.write( plotName + ".setShowLabels({0});\n", parent.getBooleanText(plot.getShowLabels()));
-			parent.write( plotName + ".setXOffset({0});\n", plot.getXOffsetDouble());
-			parent.write( plotName + ".setYOffset({0});\n", plot.getYOffsetDouble());
+			parent.write( plotName + ".setXOffset({0});\n", plot.getXOffset());
+			parent.write( plotName + ".setYOffset({0});\n", plot.getYOffset());
 			writePlot( plot, plotName);
 			
 			writeItemLabel( plot.getItemLabel(), plotName, "ItemLabel");
@@ -1118,7 +1116,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
 	public void writeBar3DChart( JRChart chart, String chartName)
 	{
@@ -1127,7 +1125,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.BAR3D);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
+			writeBar3DPlot( (net.sf.jasperreports.charts.JRBar3DPlot) chart.getPlot(), chartName);
 			parent.flush();
 		}
 	}
@@ -1166,7 +1164,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 
 
 	/**
-	 * @deprecated To be removed
+	 * @deprecated To be removed.
 	 */
 	public void writeStackedBar3DChart( JRChart chart, String chartName)
 	{
@@ -1175,7 +1173,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 			parent.write( "JRDesignChart " + chartName + " = new JRDesignChart(jasperDesign, ChartTypeEnum.STACKEDBAR3D);\n");
 			writeChart( chart, chartName);
 			writeCategoryDataSet( (JRCategoryDataset) chart.getDataset(), chartName, "CategoryDataset");
-			writeBar3DPlot( (JRBar3DPlot) chart.getPlot(), chartName);
+			writeBar3DPlot( (net.sf.jasperreports.charts.JRBar3DPlot) chart.getPlot(), chartName);
 			parent.flush();
 		}
 	}
@@ -1540,7 +1538,7 @@ public class ChartsApiWriter implements ChartVisitor // extends JRApiWriter
 				
 				parent.write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
 				parent.write( plotName + ".setShape({0});\n", plot.getShape());
-				parent.write( plotName + ".setMeterAngle({0, number, #});\n", plot.getMeterAngleInteger());
+				parent.write( plotName + ".setMeterAngle({0, number, #});\n", plot.getMeterAngle());
 				
 				parent.write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
 				parent.write( plotName + ".setTickInterval({0});\n", plot.getTickInterval());

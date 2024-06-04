@@ -74,13 +74,13 @@
 								<highExpression><![CDATA[2000.0d]]></highExpression>
 							</dataRange>
 						</interval>
-						<interval label="Med" backgroundColor="#FFFF00" alphaDouble="0.4">
+						<interval label="Med" backgroundColor="#FFFF00" alpha="0.4">
 							<dataRange>
 								<lowExpression><![CDATA[2000.0d]]></lowExpression>
 								<highExpression><![CDATA[12000.0d]]></highExpression>
 							</dataRange>
 						</interval>
-						<interval label="Large" backgroundColor="#66CC66" alphaDouble="0.5">
+						<interval label="Large" backgroundColor="#66CC66" alpha="0.5">
 							<dataRange>
 								<lowExpression><![CDATA[12000.0d]]></lowExpression>
 								<highExpression><![CDATA[17500.0d]]></highExpression>

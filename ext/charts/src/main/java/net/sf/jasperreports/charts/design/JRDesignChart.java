@@ -624,10 +624,17 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignAreaPlot(plot, this);
 				break;
 			case BAR:
-			case BAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
+			case BAR3D:
+			{
+				dataset = new JRDesignCategoryDataset(dataset);
+				@SuppressWarnings("deprecation")
+				JRChartPlot depPlot = new JRDesignBar3DPlot(plot, this);
+				plot = depPlot;
+				break;
+			}
 			case BUBBLE:
 				dataset = new JRDesignXyzDataset(dataset);
 				plot = new JRDesignBubblePlot(plot, this);
@@ -653,19 +660,33 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignMultiAxisPlot(plot, this);
 				break;
 			case PIE:
-			case PIE3D:
 				dataset = new JRDesignPieDataset(dataset);
 				plot = new JRDesignPiePlot(plot, this);
 				break;
+			case PIE3D:
+			{
+				dataset = new JRDesignPieDataset(dataset);
+				@SuppressWarnings("deprecation")
+				JRChartPlot depPlot = new JRDesignPie3DPlot(plot, this);
+				plot = depPlot;
+				break;
+			}
 			case SCATTER:
 				dataset = new JRDesignXyDataset(dataset);
 				plot = new JRDesignScatterPlot(plot, this);
 				break;
 			case STACKEDBAR:
-			case STACKEDBAR3D:
 				dataset = new JRDesignCategoryDataset(dataset);
 				plot = new JRDesignBarPlot(plot, this);
 				break;
+			case STACKEDBAR3D:
+			{
+				dataset = new JRDesignCategoryDataset(dataset);
+				@SuppressWarnings("deprecation")
+				JRChartPlot depPlot = new JRDesignBar3DPlot(plot, this);
+				plot = depPlot;
+				break;
+			}
 			case THERMOMETER:
 				dataset = new JRDesignValueDataset(dataset);
 				plot = new JRDesignThermometerPlot(plot, this);

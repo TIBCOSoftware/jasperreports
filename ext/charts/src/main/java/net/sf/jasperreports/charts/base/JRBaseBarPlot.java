@@ -54,10 +54,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 
 	public static final String PROPERTY_SHOW_TICK_MARKS = "isShowTickMarks";
 
-	public static final String PROPERTY_X_OFFSET = "xOffset";
-	
-	public static final String PROPERTY_Y_OFFSET = "yOffset";
-	
 	protected JRExpression categoryAxisLabelExpression;
 	protected JRFont categoryAxisLabelFont;
 	protected Color categoryAxisLabelColor;
@@ -86,8 +82,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	
 	protected JRItemLabel itemLabel;
 
-	private Double xOffsetDouble;
-	private Double yOffsetDouble;
 
 	/**
 	 *
@@ -153,11 +147,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 		
 		itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), factory);
-		
-		// 3D features are ignored:
-		xOffsetDouble = 0.0;
-		yOffsetDouble =0.0;
-		
 	}
 
 	@Override
@@ -371,20 +360,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_TICK_LABELS, old, this.showTickLabels);
 	}
 
-	public void setXOffset( Double xOffset ){
-		Double old = this.xOffsetDouble;
-		// xOffsetDouble is always null; 3D effect is ignored
-		this.xOffsetDouble = null;
-		getEventSupport().firePropertyChange(PROPERTY_X_OFFSET, old, this.xOffsetDouble);
-	}
-	
-	public void setYOffset( Double yOffset ){
-		Double old = this.yOffsetDouble;
-		// yOffsetDouble is always null; 3D effect is ignored
-		this.yOffsetDouble = null;
-		getEventSupport().firePropertyChange(PROPERTY_Y_OFFSET, old, this.yOffsetDouble);
-	}
-	
 	@Override
 	public void collectExpressions(ChartsExpressionCollector collector)
 	{

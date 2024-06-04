@@ -59,6 +59,7 @@ import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartCustomizer;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
+import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
@@ -77,7 +78,6 @@ import net.sf.jasperreports.charts.JRValueDataset;
 import net.sf.jasperreports.charts.JRXyDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.NamedChartCustomizer;
-import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.base.JRBaseChart;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.ChartTypeEnum;
@@ -1382,7 +1382,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		Color color = interval.getBackgroundColor();
 		float[] components = color.getRGBColorComponents(null);
-		float alpha = (float)(interval.getAlphaDouble() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlphaDouble());
+		float alpha = (float)(interval.getAlpha() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlpha());
 
 		Color alphaColor = new Color(components[0], components[1], components[2], alpha);
 

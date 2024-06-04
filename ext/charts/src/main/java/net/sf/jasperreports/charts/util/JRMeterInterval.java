@@ -66,7 +66,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 * Transparency of the interval's color.  1.0 is fully opaque, 0.0 is
 	 * fully transparent.
 	 */
-	protected Double alphaDouble;
+	protected Double alpha;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -88,7 +88,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		dataRange = new JRBaseDataRange(meterInterval.getDataRange(), factory);
 		label = meterInterval.getLabel();
 		backgroundColor = meterInterval.getBackgroundColor();
-		alphaDouble = meterInterval.getAlphaDouble();
+		alpha = meterInterval.getAlpha();
 	}
 
 	/**
@@ -163,9 +163,9 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 * @return the transparency
 	 */
 	@JacksonXmlProperty(isAttribute = true)
-	public Double getAlphaDouble()
+	public Double getAlpha()
 	{
-		return alphaDouble;
+		return alpha;
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	 */
 	public void setAlpha(Double alpha)
 	{
-		this.alphaDouble = alpha;
+		this.alpha = alpha;
 	}
 
 	@Override

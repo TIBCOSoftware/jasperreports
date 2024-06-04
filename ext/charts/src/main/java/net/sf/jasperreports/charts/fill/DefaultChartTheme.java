@@ -81,6 +81,9 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
@@ -92,9 +95,6 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.chart.ui.RectangleAnchor;
-import org.jfree.chart.ui.RectangleEdge;
-import org.jfree.chart.ui.TextAnchor;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -109,6 +109,7 @@ import net.sf.jasperreports.charts.JRChart;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRChartDataset;
 import net.sf.jasperreports.charts.JRChartPlot;
+import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRHighLowPlot;
 import net.sf.jasperreports.charts.JRItemLabel;
@@ -119,7 +120,6 @@ import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
@@ -1617,7 +1617,7 @@ public class DefaultChartTheme implements ChartTheme
 		Color color = interval.getBackgroundColor() == null ? getChart().getBackcolor() : interval.getBackgroundColor();//FIXMETHEME check this null protection
 		float[] components = color.getRGBColorComponents(null);
 
-		float alpha = (float)(interval.getAlphaDouble() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlphaDouble());
+		float alpha = (float)(interval.getAlpha() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlpha());
 		Color alphaColor = new Color(components[0], components[1], components[2], alpha);
 
 		return new MeterInterval(label, range, alphaColor, null, alphaColor);
@@ -1652,7 +1652,7 @@ public class DefaultChartTheme implements ChartTheme
 		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
 
 		// Set the size of the meter
-		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger();
+		int meterAngle = jrPlot.getMeterAngle() == null ? 180 : jrPlot.getMeterAngle();
 		chartPlot.setMeterAngle(meterAngle);
 
 		// Set the units - this is just a string that will be shown next to the

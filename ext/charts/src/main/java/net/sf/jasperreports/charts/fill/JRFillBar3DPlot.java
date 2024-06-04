@@ -23,38 +23,41 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.charts.JRBar3DPlot;
-import net.sf.jasperreports.charts.JRItemLabel;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed
+ * @deprecated To be removed.
  */
-public class JRFillBar3DPlot extends JRFillBarPlot
+public class JRFillBar3DPlot extends JRFillBarPlot implements JRBar3DPlot
 {
 	/**
 	 * 
 	 */
-	public JRFillBar3DPlot( JRBar3DPlot barPlot, ChartsFillObjectFactory factory ){
+	public JRFillBar3DPlot( JRBar3DPlot barPlot, ChartsFillObjectFactory factory )
+	{
 		super( barPlot, factory );
+	}
 
-		JRFillObjectFactory parentFactory = factory.getParent();
+	@Override
+	public Double getXOffset() 
+	{
+		return ((JRBar3DPlot)parent).getXOffset();
+	}
 
-		categoryAxisLabelFont = parentFactory.getFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
-		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = parentFactory.getFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
-		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
-		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
-		
-		valueAxisLabelFont = parentFactory.getFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
-		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = parentFactory.getFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
-		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
-		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
+	@Override
+	public void setXOffset(Double xOffset) 
+	{
+	}
+
+	@Override
+	public Double getYOffset() 
+	{
+		return ((JRBar3DPlot)parent).getYOffset();
+	}
+
+	@Override
+	public void setYOffset(Double yOffset) 
+	{
 	}
 }

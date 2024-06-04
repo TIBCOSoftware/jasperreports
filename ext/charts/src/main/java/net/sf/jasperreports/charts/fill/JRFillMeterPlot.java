@@ -71,9 +71,9 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	@Override
-	public Integer getMeterAngleInteger()
+	public Integer getMeterAngle()
 	{
-		return ((JRMeterPlot)parent).getMeterAngleInteger();
+		return ((JRMeterPlot)parent).getMeterAngle();
 	}
 
 	@Override

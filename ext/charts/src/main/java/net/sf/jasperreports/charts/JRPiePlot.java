@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -76,14 +75,4 @@ public interface JRPiePlot extends JRChartPlot
 	 */
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
-	
-	/**
-	 * @return always null. The 3D effect is always ignored.
-	 */
-	@JacksonXmlProperty(isAttribute = true)
-	default Double getDepthFactorDouble()
-	{
-		return null;
-	}
-	
 }

@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>jasperreports-charts</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Charts 2D</name>
-	<description>JasperReports Charts 2D</description>
+	<name>JasperReports Charts</name>
+	<description>JasperReports Charts</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>

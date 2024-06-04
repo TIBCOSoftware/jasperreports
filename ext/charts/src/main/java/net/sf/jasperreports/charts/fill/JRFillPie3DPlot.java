@@ -23,15 +23,14 @@
  */
 package net.sf.jasperreports.charts.fill;
 
-import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPie3DPlot;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed
+ * @deprecated To be removed.
  */
-public class JRFillPie3DPlot extends JRFillPiePlot
+public class JRFillPie3DPlot extends JRFillPiePlot implements JRPie3DPlot
 {
 
 
@@ -42,4 +41,12 @@ public class JRFillPie3DPlot extends JRFillPiePlot
 	{
 		super(pie3DPlot, factory);
 	}
+		
+	
+	@Override
+	public Double getDepthFactor()
+	{
+		return ((JRPie3DPlot)parent).getDepthFactor();
+	}
+
 }

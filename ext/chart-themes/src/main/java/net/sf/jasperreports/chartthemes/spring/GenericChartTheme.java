@@ -88,6 +88,13 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.ui.HorizontalAlignment;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.chart.ui.VerticalAlignment;
+import org.jfree.chart.util.UnitType;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.GanttCategoryDataset;
@@ -99,13 +106,6 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.chart.ui.HorizontalAlignment;
-import org.jfree.chart.ui.RectangleAnchor;
-import org.jfree.chart.ui.RectangleEdge;
-import org.jfree.chart.ui.RectangleInsets;
-import org.jfree.chart.ui.TextAnchor;
-import org.jfree.chart.ui.VerticalAlignment;
-import org.jfree.chart.util.UnitType;
 
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
@@ -1439,7 +1439,7 @@ public class GenericChartTheme implements ChartTheme
 		Color color = interval.getBackgroundColor() != null ? interval.getBackgroundColor() : (Color)ChartThemesConstants.TRANSPARENT_PAINT;
 		float[] components = color.getRGBColorComponents(null);
 
-		float alpha = (float)(interval.getAlphaDouble() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlphaDouble());
+		float alpha = (float)(interval.getAlpha() == null ? JRMeterInterval.DEFAULT_TRANSPARENCY : interval.getAlpha());
 		Color alphaColor = new Color(components[0], components[1], components[2], alpha);
 
 		return new MeterInterval(label, range, alphaColor, null, alphaColor);
@@ -1476,7 +1476,7 @@ public class GenericChartTheme implements ChartTheme
 		chartPlot.setRange(convertRange(jrPlot.getDataRange()));
 
 		// Set the size of the meter
-		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger();
+		int meterAngle = jrPlot.getMeterAngle() == null ? 180 : jrPlot.getMeterAngle();
 		chartPlot.setMeterAngle(meterAngle);
 
 		// Set the units - this is just a string that will be shown next to the

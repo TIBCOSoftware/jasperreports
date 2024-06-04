@@ -32,15 +32,19 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed
+ * @deprecated To be removed.
  */
-public class JRBasePie3DPlot extends JRBasePiePlot
+public class JRBasePie3DPlot extends JRBasePiePlot implements JRPie3DPlot
 {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DEPTH_FACTOR = "depthFactor";
 		
+	protected Double depthFactor;
+
 	/**
 	 *
 	 */
@@ -61,6 +65,25 @@ public class JRBasePie3DPlot extends JRBasePiePlot
 	public JRBasePie3DPlot(JRPie3DPlot pie3DPlot, ChartsBaseObjectFactory factory)
 	{
 		super(pie3DPlot, factory);
-	}	
+		
+		depthFactor = pie3DPlot.getDepthFactor();
+	}
+
 	
+	@Override
+	public Double getDepthFactor()
+	{
+		return depthFactor;
+	}
+	
+	/**
+	 *
+	 */
+	public void setDepthFactor(Double depthFactor)
+	{
+		Double old = this.depthFactor;
+		this.depthFactor = depthFactor;
+		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactor);
+	}
+
 }

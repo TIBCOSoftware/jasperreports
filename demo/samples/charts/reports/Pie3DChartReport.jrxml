@@ -78,7 +78,7 @@
 							<valueExpression><![CDATA[$V{FreightSumCountryGroup}]]></valueExpression>
 						</series>
 					</dataset>
-					<plot foregroundAlpha="0.5" depthFactorDouble="0.2" labelFormat="{0} {2}" legendLabelFormat="{0} {1}">
+					<plot foregroundAlpha="0.5" depthFactor="0.2" labelFormat="{0} {2}" legendLabelFormat="{0} {1}">
 						<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
 					</plot>
 				</element>

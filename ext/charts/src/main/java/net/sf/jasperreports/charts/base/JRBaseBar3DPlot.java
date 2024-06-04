@@ -31,12 +31,22 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
- * @deprecated To be removed
+ * @deprecated To be removed.
  */
-public class JRBaseBar3DPlot extends JRBaseBarPlot
+public class JRBaseBar3DPlot extends JRBaseBarPlot implements JRBar3DPlot 
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
+	public static final String PROPERTY_X_OFFSET = "xOffset";
+	
+	public static final String PROPERTY_Y_OFFSET = "yOffset";
+	
+	private Double xOffset;
+	private Double yOffset;
+	
+	/**
+	 * 
+	 */
 	public JRBaseBar3DPlot(JRChartPlot plot, JRChart chart)
 	{
 		this(plot, chart, ChartCopyBaseObjectFactory.instance());
@@ -54,6 +64,32 @@ public class JRBaseBar3DPlot extends JRBaseBarPlot
 	public JRBaseBar3DPlot(JRBar3DPlot barPlot, ChartsBaseObjectFactory factory )
 	{
 		super( barPlot, factory );
+		
+		xOffset = barPlot.getXOffset();
+		yOffset = barPlot.getYOffset();
+	}
+
+	@Override
+	public Double getXOffset(){
+		return xOffset;
 	}
 	
+	@Override
+	public void setXOffset( Double xOffset ){
+		Double old = this.xOffset;
+		this.xOffset = xOffset;
+		getEventSupport().firePropertyChange(PROPERTY_X_OFFSET, old, this.xOffset);
+	}
+	
+	@Override
+	public Double getYOffset(){
+		return yOffset;
+	}
+	
+	@Override
+	public void setYOffset( Double yOffset ){
+		Double old = this.yOffset;
+		this.yOffset = yOffset;
+		getEventSupport().firePropertyChange(PROPERTY_Y_OFFSET, old, this.yOffset);
+	}
 }
