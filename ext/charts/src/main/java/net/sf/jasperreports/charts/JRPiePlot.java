@@ -75,5 +75,4 @@ public interface JRPiePlot extends JRChartPlot
 	 */
 	@JacksonXmlProperty(isAttribute = true)
 	public Boolean getShowLabels();
-	
 }
