@@ -34,8 +34,10 @@ _**Documentation:**_
 - [FAQ](http://community.jaspersoft.com/wiki/jasperreports-library-faqs)
 - [API (Javadoc)](https://jasperreports.sourceforge.net/api/index.html)
 - [Discussion Forums](https://community.jaspersoft.com/project/jasperreports-library/answers)
-- **Older resources:**
-    - [JasperReports Ultimate Guide](https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf) (version 3.0)
+
+_**Older resources:**_
+
+- [JasperReports Ultimate Guide](https://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf) (version 3.0)
 <br/>
 <br/>
 

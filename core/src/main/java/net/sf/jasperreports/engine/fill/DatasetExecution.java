@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
@@ -144,7 +145,9 @@ public class DatasetExecution
 		@Override
 		public JRFillGroup getGroup(JRGroup group)
 		{
-			return super.getGroup(null);
+			JRDesignGroup dummyGroup = new JRDesignGroup();
+			dummyGroup.setName("DUMMY_GROUP");
+			return super.getGroup(dummyGroup);
 		}
 	}
 	
