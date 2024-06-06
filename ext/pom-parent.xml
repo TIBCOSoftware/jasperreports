@@ -15,6 +15,7 @@
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
 		<maven.test.skip>false</maven.test.skip>
+		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
 	</properties>
 	<dependencies>
 		<dependency>

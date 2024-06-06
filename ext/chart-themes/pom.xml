@@ -17,9 +17,6 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.jfree</groupId>
@@ -27,12 +24,6 @@
 			<version>${jfreechart.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>gnujaxp</groupId>
-					<artifactId>gnujaxp</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

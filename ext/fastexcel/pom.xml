@@ -17,9 +17,6 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.dhatim</groupId>

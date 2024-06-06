@@ -9,17 +9,14 @@
 	</parent>
 	<artifactId>jasperreports-xalan</artifactId>
 	<packaging>jar</packaging>
-	<name>JasperReports Xalan Data Source (Deprecated)</name>
-	<description>JasperReports Xalan Data Source (Deprecated)</description>
+	<name>JasperReports Xalan Data Source</name>
+	<description>JasperReports Xalan Data Source</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<scm>
 		<connection>${scmConnection}</connection>
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<owasp.suppression.file>${basedir}/../../owasp-suppressions.xml</owasp.suppression.file>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -31,7 +28,7 @@
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
-			<version>2.7.2</version>
+			<version>2.7.3</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

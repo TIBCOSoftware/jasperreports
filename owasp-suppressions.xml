@@ -8,5 +8,8 @@
 		<cve>CVE-2023-45960</cve>
 		<cve>CVE-2015-0897</cve>
 		<cve>CVE-2023-34411</cve>
+		<cve>CVE-2023-52070</cve>
+		<cve>CVE-2024-22949</cve>
+		<cve>CVE-2024-23076</cve>
 	</suppress>
 </suppressions>
