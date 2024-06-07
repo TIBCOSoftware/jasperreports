@@ -997,7 +997,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
 				startedHyperlink, 
 				isNewLineAsParagraph,
-				text.getRunDirectionValue() == RunDirectionEnum.RTL
+				text.getRunDirection() == RunDirectionEnum.RTL
 				);
 		}
 

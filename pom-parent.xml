@@ -122,7 +122,7 @@
 		<velocity.version>2.3</velocity.version>
 		<javax.persistence-api.version>2.2</javax.persistence-api.version>
 		<lucene.version>8.11.2</lucene.version>
-		<antlr.version>2.7.5</antlr.version>
+		<antlr.version>2.7.7</antlr.version>
 		<spring.version>5.3.27</spring.version>
 		<poi.version>5.2.2</poi.version>
 		<rhino.version>1.7.14</rhino.version>

@@ -1104,7 +1104,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				break;
 		}
 		slideHelper.write("\"");
-		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		if (text.getRunDirection() == RunDirectionEnum.RTL)
 		{
 			slideHelper.write(" rtl=\"1\"");
 		}
