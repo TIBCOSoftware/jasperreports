@@ -568,6 +568,42 @@ Property which specifies if the size of each page should be increased to accommo
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.tag.l -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.l">
+    <description>
+Property used to associate a PDF L tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.li -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.li">
+    <description>
+Property used to associate a PDF LI tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.lbl -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.lbl">
+    <description>
+Property used to associate a PDF Lbl tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.lbody -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.lbody">
+    <description>
+Property used to associate a PDF LBody tag with this element.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.tag.h1 -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
@@ -622,11 +658,20 @@ Property used to associate a PDF H6 tag with this element.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.pdf.tag.l -->
+  <!-- net.sf.jasperreports.export.pdf.tag.reference -->
   
-  <configProperty name="net.sf.jasperreports.export.pdf.tag.l">
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.reference">
     <description>
-Property used to associate a PDF L tag with this element.
+Property used to associate a PDF Reference tag with this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.note -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.note">
+    <description>
+Property used to associate a PDF Note tag with this element.
     </description>
   </configProperty>
   
@@ -639,15 +684,6 @@ Property that specifies the language that the exporter should put in the languag
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/pdf/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> PDF export configuration setting.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.pdf.tag.li -->
-  
-  <configProperty name="net.sf.jasperreports.export.pdf.tag.li">
-    <description>
-Property used to associate a PDF LI tag with this element.
     </description>
   </configProperty>
   

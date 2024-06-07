@@ -113,8 +113,6 @@ public class PptxParagraphHelper extends BaseHelper
 			text.getParagraph() 
 			);
 
-//		exportRunDirection(text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL ? "rl" : null);
-
 		exportPropsFooter();
 	}
 	

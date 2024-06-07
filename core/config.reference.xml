@@ -3126,8 +3126,21 @@ It serves as default value for the
 The property itself defaults to <code>false</code> (for backward compatibility reasons).
     </description>
   </configProperty>
-
-
+  
+  
+  <!-- net.sf.jasperreports.export.docx.background.as.header -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.background.as.header">
+    <description>
+This property specifies whether the report's background section elements should be placed inside the DOCX header section, usually to achieve a watermark effect.
+<br/>
+It serves as default value for the 
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isBackgroundAsHeader()">isBackgroundAsHeader()</api> DOCX export configuration setting.
+The property itself defaults to <code>false</code>.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.flash.element.allow.script.access -->
 
   <configProperty name="net.sf.jasperreports.export.flash.element.allow.script.access">
@@ -3738,8 +3751,18 @@ Allowed values are:
 </ul>
     </description>
   </configProperty>
-
-
+  
+  
+  <!-- net.sf.jasperreports.export.xls.average.char.width.factor -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.average.char.width.factor">
+    <description>
+This property specifies the multiplication factor to be applied to the report fill time calculated average char width that is used 
+to estimate the text length for XLS/XLSX/ODS export column autofit feature.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.collapse.row.span -->
 
   <configProperty name="net.sf.jasperreports.export.xls.collapse.row.span">

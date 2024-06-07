@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
@@ -995,7 +996,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
 				startedHyperlink, 
-				isNewLineAsParagraph
+				isNewLineAsParagraph,
+				text.getRunDirectionValue() == RunDirectionEnum.RTL
 				);
 		}
 
@@ -1013,7 +1015,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink, boolean isNewLineJustified)
+	protected void exportStyledText(
+		JRStyle style, 
+		JRStyledText styledText, 
+		Locale locale, 
+		boolean hiddenText, 
+		boolean startedHyperlink, 
+		boolean isNewLineJustified,
+		boolean rtl
+		)
 	{
 		StyledTextWriteContext context = new StyledTextWriteContext();
 		
@@ -1030,7 +1040,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while (runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
 			Map<Attribute,Object> attributes = iterator.getAttributes();
 
@@ -1066,7 +1076,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					hiddenText,
 					invalidCharReplacement,
 					elementBackcolor,
-					isNewLineJustified
+					isNewLineJustified,
+					rtl
 					);
 
 				if (localHyperlink)

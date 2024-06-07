@@ -75,10 +75,11 @@ public class DocxRunHelper extends BaseHelper
 		Map<Attribute,Object> attributes, 
 		String text, 
 		Locale locale, 
-		boolean hiddenText, 
+		boolean hiddenText,
 		String invalidCharReplacement, 
 		Color backcolor, 
-		boolean isNewLineAsParagraph
+		boolean isNewLineAsParagraph,
+		boolean rtl
 		)
 	{
 		if (text != null)
@@ -90,7 +91,8 @@ public class DocxRunHelper extends BaseHelper
 					attributes, 
 					locale, 
 					hiddenText, 
-					highlightText
+					highlightText,
+					rtl
 				);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
@@ -130,6 +132,7 @@ public class DocxRunHelper extends BaseHelper
 			getAttributes(style), 
 			locale, 
 			false, 
+			false,
 			false
 			);
 	}
@@ -142,7 +145,8 @@ public class DocxRunHelper extends BaseHelper
 		Map<Attribute,Object> attrs, 
 		Locale locale, 
 		boolean hiddenText, 
-		boolean highlightText
+		boolean highlightText,
+		boolean rtl
 		)
 	{
 		write("       <w:rPr>\n");
@@ -245,6 +249,11 @@ public class DocxRunHelper extends BaseHelper
 			write("        <w:vanish/>\n");
 		}
 		
+		if (rtl)
+		{
+			write("        <w:rtl/>\n");
+		}
+
 		write("       </w:rPr>\n");
 	}
 	
