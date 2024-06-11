@@ -20,6 +20,12 @@
 			<version>${xchart.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>de.erichseifert.vectorgraphics2d</groupId>
+					<artifactId>VectorGraphics2D</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
