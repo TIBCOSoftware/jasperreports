@@ -7,11 +7,11 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<!--
-		<Logger name="net.sf.jasperreports.Report" level="debug"/>
-		-->
 		<Root level="error">
 			<AppenderRef ref="STDOUT"/>
 		</Root>
+		<!--
+		<Logger name="net.sf.jasperreports.Report" level="debug"/>
+		-->
 	</Loggers>
 </Configuration>

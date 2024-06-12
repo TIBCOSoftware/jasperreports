@@ -10,11 +10,9 @@
 		<Root level="error">
 			<AppenderRef ref="STDOUT"/>
 		</Root>
-
 		<!--
 		<Logger name="net.sf.jasperreports.components.map" level="trace"/>
 		<Logger name="net.sf.jasperreports.chrome.BrowserService" level="debug"/>
 		-->
-
 	</Loggers>
 </Configuration>
