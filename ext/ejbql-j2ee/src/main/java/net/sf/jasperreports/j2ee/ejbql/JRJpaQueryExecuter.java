@@ -62,7 +62,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * <pre>
  * Map parameters = new HashMap();
  * EntityManager em = emf.createEntityManager();
- * parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
+ * parameters.put(EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER, em);
  * JasperRunManager.runReportToPdfFile(fileName, parameters);
  * </pre>
  * </code>
@@ -97,8 +97,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * hints.put("anyName", anyObject());
  * Map parameters = new HashMap();
  * EntityManager em = emf.createEntityManager();
- * parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, em);
- * parameters.put(JRJpaQueryExecuterFactory.PARAMETER_JPA_QUERY_HINTS_MAP, hints);
+ * parameters.put(EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER, em);
+ * parameters.put(EjbqlConstants.PARAMETER_JPA_QUERY_HINTS_MAP, hints);
  * JasperRunManager.runReportToPdfFile(fileName, parameters);
  * </pre>
  * </code>

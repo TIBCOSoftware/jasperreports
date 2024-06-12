@@ -341,7 +341,7 @@
  * <pre>
  *   Map parameters = new HashMap();
  *   javax.persistence.EntityManager entityManager = createEntityManager();
- *   parameters.put( JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER, entityManager );
+ *   parameters.put( EjbqlConstants.PARAMETER_JPA_ENTITY_MANAGER, entityManager );
  *   JasperFillManager.fillReport(jasperReport, parameters);
  * </pre>
  * The means of getting hold of an entity manager depends on the particular EJB/JPA 
