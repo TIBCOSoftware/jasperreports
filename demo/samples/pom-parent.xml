@@ -140,7 +140,7 @@
 						<configuration>
 							<executable>mvn</executable>
 							<arguments>
-								<argument>exec:java@test</argument>  
+								<argument>exec:java@test</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>

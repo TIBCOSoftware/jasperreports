@@ -72,19 +72,19 @@
 							<outputDir>${project.build.directory}</outputDir>
 							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-								   <targetName>config.reference.xml</targetName>
+									<targetName>config.reference.xml</targetName>
 								</fileMapper>
 							</fileMappers>
 							<parameters>
-				                <parameter>
-				                  <name>version</name>
-				                  <value>${revision}</value>
-				                </parameter>
-				                <parameter>
-				                  <name>sf.net</name>
-				                  <value>${sf.net}</value>
-				                </parameter>
-			              	</parameters>							
+								<parameter>
+									<name>version</name>
+									<value>${revision}</value>
+								</parameter>
+								<parameter>
+									<name>sf.net</name>
+									<value>${sf.net}</value>
+								</parameter>
+							</parameters>							
 						</transformationSet>
 						<transformationSet>
 							<dir>${project.build.directory}</dir>
@@ -93,19 +93,19 @@
 							<outputDir>${project.build.directory}/docs</outputDir>
 							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-								   <targetExtension>.html</targetExtension>
+									<targetExtension>.html</targetExtension>
 								</fileMapper>
 							</fileMappers>
 							<parameters>
-				                <parameter>
-				                  <name>version</name>
-				                  <value>${revision}</value>
-				                </parameter>
-				                <parameter>
-				                  <name>sf.net</name>
-				                  <value>${sf.net}</value>
-				                </parameter>
-			              	</parameters>							
+								<parameter>
+									<name>version</name>
+									<value>${revision}</value>
+								</parameter>
+								<parameter>
+									<name>sf.net</name>
+									<value>${sf.net}</value>
+								</parameter>
+							</parameters>							
 						</transformationSet>
 						<transformationSet>
 							<dir>${basedir}</dir>
@@ -114,19 +114,19 @@
 							<outputDir>${project.build.directory}/docs</outputDir>
 							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-								   <targetName>function.reference.html</targetName>
+									<targetName>function.reference.html</targetName>
 								</fileMapper>
 							</fileMappers>
 							<parameters>
-				                <parameter>
-				                  <name>version</name>
-				                  <value>${revision}</value>
-				                </parameter>
-				                <parameter>
-				                  <name>sf.net</name>
-				                  <value>${sf.net}</value>				                
-				                </parameter>
-			              	</parameters>							
+								<parameter>
+									<name>version</name>
+									<value>${revision}</value>
+								</parameter>
+								<parameter>
+									<name>sf.net</name>
+									<value>${sf.net}</value>								
+								</parameter>
+							</parameters>							
 						</transformationSet>
 					</transformationSets>
 				</configuration>
@@ -139,50 +139,50 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-			    <groupId>com.ruleoftech</groupId>
-			    <artifactId>markdown-page-generator-plugin</artifactId>
-			    <version>${maven-markdown-page-generator-plugin.version}</version>
-			    <executions>
-			        <execution>
-			     	<id>convert-to-html</id>
-			            <phase>prepare-package</phase>
-			            <goals>
-			                <goal>generate</goal>
-			            </goals>
-					    <configuration>
-					        <inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
-					        <outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
-					        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
-					        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
-					        <inputEncoding>UTF-8</inputEncoding>
-					        <outputEncoding>UTF-8</outputEncoding>
-					        <recursiveInput>true</recursiveInput>
-					        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
-					        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
-					  	</configuration>
-			        </execution>
-			        <execution>
-			     	<id>convert-root-to-html</id>
-			            <phase>prepare-package</phase>
-			            <goals>
-			                <goal>generate</goal>
-			            </goals>
-					    <configuration>
-					        <inputDirectory>..</inputDirectory>
-					        <outputDirectory>${project.build.directory}/docs</outputDirectory>
-					        <headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
-					        <footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
-					        <inputEncoding>UTF-8</inputEncoding>
-					        <outputEncoding>UTF-8</outputEncoding>
-					        <recursiveInput>false</recursiveInput>
-					        <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
-					        <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
-					  	</configuration>
-			        </execution>
-			    </executions>
+				<groupId>com.ruleoftech</groupId>
+				<artifactId>markdown-page-generator-plugin</artifactId>
+				<version>${maven-markdown-page-generator-plugin.version}</version>
+				<executions>
+					<execution>
+				 	<id>convert-to-html</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
+							<outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
+							<headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
+							<footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
+							<inputEncoding>UTF-8</inputEncoding>
+							<outputEncoding>UTF-8</outputEncoding>
+							<recursiveInput>true</recursiveInput>
+							<transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+							<pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
+						</configuration>
+					</execution>
+					<execution>
+				 	<id>convert-root-to-html</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputDirectory>..</inputDirectory>
+							<outputDirectory>${project.build.directory}/docs</outputDirectory>
+							<headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
+							<footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
+							<inputEncoding>UTF-8</inputEncoding>
+							<outputEncoding>UTF-8</outputEncoding>
+							<recursiveInput>false</recursiveInput>
+							<transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+							<pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS</pegdownExtensions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
-			  	<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
 				<version>${maven-replacer-plugin.version}</version>
 				<executions>
@@ -318,7 +318,7 @@
 								<argument>package</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>		   
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -329,7 +329,7 @@
 								<argument>package</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>		   
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -340,7 +340,7 @@
 								<argument>package</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>		   
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -351,7 +351,7 @@
 								<argument>compile</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}/../</workingDirectory>		   
+							<workingDirectory>${project.basedir}/../</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -364,7 +364,7 @@
 								<argument>-Denforcer.skip</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>		   
+							<workingDirectory>${project.basedir}/../demo/samples/functions</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -378,7 +378,7 @@
 								<argument>-Denforcer.skip</argument>
 								<argument>-Dmaven.buildNumber.doCheck=false</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>		   
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -398,7 +398,7 @@
 								<argument>xml:transform</argument>
 								<argument>resources:copy-resources@copy-resources</argument>
 							</arguments>
-							<workingDirectory>${project.basedir}</workingDirectory>		   
+							<workingDirectory>${project.basedir}</workingDirectory>
 						</configuration>
 					</execution>
 				</executions>
