@@ -448,7 +448,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			{
 				ObjectNode objNode = mapper.createObjectNode();
 				objNode.put("id", htmlFontFamily.getId());
-				objNode.put("path", fontHandler.getResourcePath(htmlFontFamily.getId()));
+				String cssResourceName = HtmlFontUtil.getFontCSSResourceName(htmlFontFamily);
+				objNode.put("path", fontHandler.getResourcePath(cssResourceName));
 				webFonts.add(objNode);
 			}
 			

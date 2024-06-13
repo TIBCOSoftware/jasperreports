@@ -433,7 +433,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					// the fontHandler is used only here, to point to the URL that generates the dynamic CSS for static HTML export in server environments;
 					// in non server environments, the static HTML saved to file system uses the static resource handler to point to the font CSS file, 
 					// which was also saved using a static resource handler
-					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(fontHandler.getResourcePath(htmlFontFamily.getId())) + "\">\n");
+					String cssResourceName = HtmlFontUtil.getFontCSSResourceName(htmlFontFamily);
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(fontHandler.getResourcePath(cssResourceName)) + "\">\n");
 				}
 				
 				// generate script tag on static export only
