@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.interactivity.headertoolbar.actions;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRTextField;
@@ -37,8 +38,6 @@ public class ConditionalFormattingCommand implements Command
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting"; //FIXME7 deprecate
 	
 	private JasperReportsContext jasperReportsContext;
 	protected ConditionalFormattingData conditionalFormattingData;
@@ -61,8 +60,8 @@ public class ConditionalFormattingCommand implements Command
 			// get existing condition data as JSON string
 			String serializedConditionData = null;
 			JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
-			if (propertiesMap.containsProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY)) {
-				serializedConditionData = propertiesMap.getProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
+			if (propertiesMap.containsProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY)) {
+				serializedConditionData = propertiesMap.getProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
 			}
 			
 			oldSerializedConditionsData = serializedConditionData;
@@ -77,7 +76,7 @@ public class ConditionalFormattingCommand implements Command
 //			
 //			newSerializedConditionsData = jacksonUtil.getJsonString(existingConditionData);
 			newSerializedConditionsData = jacksonUtil.getJsonString(conditionalFormattingData);
-			propertiesMap.setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
+			propertiesMap.setProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
 		}
 	}
 	
@@ -86,7 +85,7 @@ public class ConditionalFormattingCommand implements Command
 	{
 		if (textElement != null) 
 		{
-			textElement.getPropertiesMap().setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, oldSerializedConditionsData);
+			textElement.getPropertiesMap().setProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY, oldSerializedConditionsData);
 		}
 	}
 
@@ -95,7 +94,7 @@ public class ConditionalFormattingCommand implements Command
 	{
 		if (textElement != null) 
 		{
-			textElement.getPropertiesMap().setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
+			textElement.getPropertiesMap().setProperty(HeaderToolbarElement.COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
 		}			
 	}
 }

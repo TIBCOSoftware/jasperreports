@@ -255,8 +255,8 @@ public class JRXmlWriter
 				return;
 			}
 		}
-		//FIXME7 legacyxml
-		throw new JRRuntimeException("Unable to write report");
+		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlWriter.PROPERTY_REPORT_VERSION);
+		throw new JRRuntimeException("No report writer found for version " + version + ".");
 	}
 	
 	

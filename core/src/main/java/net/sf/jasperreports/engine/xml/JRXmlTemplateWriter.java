@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -277,8 +278,8 @@ public class JRXmlTemplateWriter
 				return;
 			}
 		}
-		//FIXME7 legacyxml
-		throw new JRRuntimeException("Unable to write template");
+		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlWriter.PROPERTY_REPORT_VERSION);
+		throw new JRRuntimeException("No template writer found for version " + version + ".");
 	}
 	
 	private JRXmlTemplateWriter()
