@@ -71,6 +71,7 @@
 		<module>stretch</module>
 		<module>styledtext</module>
 		<module>subreport</module>
+		<module>subreport/pom-javaflow.xml</module>
 		<module>table</module>
 		<module>tableofcontents</module>
 		<module>tabular</module>
