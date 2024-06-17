@@ -342,5 +342,6 @@
  * @see net.sf.jasperreports.export.ExporterOutput
  * @see net.sf.jasperreports.export.ReportExportConfiguration
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export;
 

@@ -26,5 +26,6 @@
  * ODT and ODS. Classes in this package are based on the OASIS Open Document Format for Office Applications 
  * (<a href="https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office">https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office</a>).
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.oasis;
 

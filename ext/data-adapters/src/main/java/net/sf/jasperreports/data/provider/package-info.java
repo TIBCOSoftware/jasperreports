@@ -24,4 +24,5 @@
 /**
  * Contains classes for data adapters for data source providers.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.provider;

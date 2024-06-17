@@ -259,4 +259,5 @@
  * @see net.sf.jasperreports.engine.util.JRLoader
  * @see net.sf.jasperreports.engine.util.JRSwapFile
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.fill;

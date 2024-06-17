@@ -24,4 +24,5 @@
 /**
  * Contains classes for custom data source data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.ds;

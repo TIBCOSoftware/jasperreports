@@ -24,4 +24,5 @@
 /**
  * Contains classes for Mondrian data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.mondrian;

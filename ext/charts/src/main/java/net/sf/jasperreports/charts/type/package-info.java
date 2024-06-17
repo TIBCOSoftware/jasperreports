@@ -24,4 +24,5 @@
 /**
  * Contains <code>enum</code> types used by the built-in chart component.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.charts.type;

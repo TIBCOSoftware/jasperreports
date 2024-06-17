@@ -24,4 +24,5 @@
 /**
  * Contains base classes for the Crosstab report element.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.crosstabs.base;
