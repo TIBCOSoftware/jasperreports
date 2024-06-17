@@ -211,25 +211,25 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				}
 			}
 
-			/*   */
+			/*	 */
 			Collections.sort(sortedElemsList, new JRYComparator());
 			ySortedElements = new JRFillElement[elements.length];
 			sortedElemsList.toArray(ySortedElements);
 
-			/*   */
+			/*	 */
 			stretchElements = new JRFillElement[stretchElemsList.size()];
 			stretchElemsList.toArray(stretchElements);
 
-			/*   */
+			/*	 */
 			bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
 			bandBottomElemsList.toArray(bandBottomElements);
 
-			/*   */
+			/*	 */
 			removableElements = new JRFillElement[removableElemsList.size()];
 			removableElemsList.toArray(removableElements);
 		}
 		
-		/*   */
+		/*	 */
 		setDependentElements();
 	}
 
@@ -251,7 +251,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			
 			JRYComparator yComparator = new JRYComparator();
 
-			/*   */
+			/*	 */
 			ySortedElements = Arrays.copyOf(elements, elements.length);
 			Arrays.sort(ySortedElements, yComparator);
 
@@ -301,60 +301,52 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				}
 			}
 
-			/*   */
+			/*	 */
 			stretchElements = new JRFillElement[stretchElemsList.size()];
 			stretchElemsList.toArray(stretchElements);
 
-			/*   */
+			/*	 */
 			bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
 			bandBottomElemsList.toArray(bandBottomElements);
 
-			/*   */
+			/*	 */
 			removableElements = new JRFillElement[removableElemsList.size()];
 			removableElemsList.toArray(removableElements);
 		}
 		
-		/*   */
+		/*	 */
 		setDependentElements();
 	}
 
 	/**
 	 *
 	 */
-	private void setDependentElements()
-	{
-		if (ySortedElements != null && ySortedElements.length > 0)
-		{
-			for(int i = 0; i < ySortedElements.length - 1; i++)
-			{
+	private void setDependentElements() {
+		if (ySortedElements != null && ySortedElements.length > 0) {
+			outerLoop:
+			for (int i = 0; i < ySortedElements.length - 1; i++) {
 				JRFillElement iElem = ySortedElements[i];
 				boolean isBreakElem = iElem instanceof JRFillBreak;
-
-				for(int j = i + 1; j < ySortedElements.length; j++)
-				{
+				int iElemX = iElem.getX();
+				int iElemWidth = iElem.getWidth();
+				int iElemRight = iElemX + iElemWidth;
+				int iElemBottom = iElem.getY() + iElem.getHeight();
+				for (int j = i + 1; j < ySortedElements.length; j++) {
 					JRFillElement jElem = ySortedElements[j];
-					
-					int left = Math.min(iElem.getX(), jElem.getX());
-					int right = Math.max(iElem.getX() + iElem.getWidth(), jElem.getX() + jElem.getWidth());
-					
-					if (
-						((isBreakElem && jElem.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_TOP) || jElem.getPositionTypeValue() == PositionTypeEnum.FLOAT) &&
-						iElem.getY() + iElem.getHeight() <= jElem.getY() &&
-						iElem.getWidth() + jElem.getWidth() > right - left // FIXME band bottom elements should not have dependent elements
-						)
-					{
+					int jElemX = jElem.getX();
+					int jElemWidth = jElem.getWidth();
+					int jElemRight = jElemX + jElemWidth;
+					PositionTypeEnum positionType = jElem.getPositionTypeValue();
+					if (((isBreakElem && positionType == PositionTypeEnum.FIX_RELATIVE_TO_TOP)
+									|| positionType == PositionTypeEnum.FLOAT)
+							&& iElemBottom <= jElem.getY()
+							&& iElemWidth + jElemWidth > Math.max(iElemRight, jElemRight) - Math.min(iElemX, jElemX)) {
 						iElem.addDependantElement(jElem);
+						if (jElemX <= iElemX && jElemRight >= iElemRight) {
+							continue outerLoop;
+						}
 					}
 				}
-
-				/*
-				if (iElem.getParent().getElementGroup() != null) //parent might be null
-				{
-					iElem.setGroupElements(
-						iElem.getParent().getElementGroup().getElements()
-						);
-				}
-				*/
 			}
 		}
 	}
@@ -538,6 +530,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		{
 			for (JRFillElement element : ySortedElements)
 			{
+				if (currentOverflowWithElements && isOverflowAllowed && element.getY() > firstY + availableHeight) {
+					break;
+				}
 				currentOverflowWithElements = 
 					element.prepare(
 						availableHeight + getElementFirstY(element),
