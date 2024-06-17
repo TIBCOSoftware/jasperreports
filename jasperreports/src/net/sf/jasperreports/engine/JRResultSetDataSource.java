@@ -518,11 +518,11 @@ public class JRResultSetDataSource implements JRDataSource
 		{
 			try
 			{
-				columnIndex = searchColumnByName(field);
+				columnIndex = searchColumnByLabel(field);
 				
 				if (columnIndex == null)
 				{
-					columnIndex = searchColumnByLabel(field);
+					columnIndex = searchColumnByName(field);
 				}
 				
 				if (columnIndex == null)
@@ -532,12 +532,12 @@ public class JRResultSetDataSource implements JRDataSource
 				
 				if (columnIndex == null)
 				{
-					columnIndex = searchColumnByName(fieldName);
+					columnIndex = searchColumnByLabel(fieldName);
 				}
 				
 				if (columnIndex == null)
 				{
-					columnIndex = searchColumnByLabel(fieldName);
+					columnIndex = searchColumnByName(fieldName);
 				}
 				
 				if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
