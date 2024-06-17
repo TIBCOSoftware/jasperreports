@@ -1,8 +1,8 @@
 > [!IMPORTANT]
-> _**JasperReports Library 7 coming soon!**_
+> _**JasperReports Library 7 released!**_
 > 
-> Work is in progress on a separate branch ([release-7.0.0](https://github.com/TIBCOSoftware/jasperreports/tree/release-7.0.0)) that will introduce
-> major refactoring of the library, which is needed for the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee).
+> The version 7 of the JasperReports Library introduces
+> major refactoring of the project, which is needed for the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee).
 > The changes help improving the dependency management by splitting the library into multiple optional artifacts (`*.jar` files) depending on
 > the functionality they provide. Deprecated code has been removed and the backward compatibility of serialized/compiled `*.jasper` report template
 > files has been deliberately broken.
@@ -17,6 +17,7 @@ deprecated serialization code removal/cleanup mentioned above (source `*.jrxml` 
 - breaking backward compatibility of source `*.jrxml` report template files and `*.jrtx` style template files by replacing the [Apache Commons Digester](https://commons.apache.org/proper/commons-digester/) based parsers with [Jackson XML](https://github.com/FasterXML/jackson-dataformat-xml) object serialization. `*.jrxml` and `*.jrtx` files created with version 6 or older can no longer be loaded with version 7 or newer of the library alone. The conversion from the old file formats to the new file formats and back can be made using [Jaspersoft Studio 7](https://www.jaspersoft.com/products/jaspersoft-community) and later versions of it;
 - extracting various optional extension JAR artifacts from the the core library JAR artifact to allow the [Jakarta Migration](https://blogs.oracle.com/javamagazine/post/transition-from-java-ee-to-jakarta-ee) of certain of these optional features while also
 introducing better third party Maven dependency management of these artifacts;
+- some Java package names have changed as a consequence of separating functionality into optional JAR artifacts;
 - upgraded [JFreeChart](https://jfree.org/jfreechart/) to version 1.5.4 which no longer has support for 3D charts. Reports having Pie 3D, Bar 3D and Stacked Bar 3D charts would continue to work, but will be rendered as 2D, all their 3D effects being ignored; 
 
 # JasperReports® - Free Java Reporting Library
