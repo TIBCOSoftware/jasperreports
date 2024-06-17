@@ -17,9 +17,6 @@
 		<tag>${revision}</tag>
 		<url>${scmUrl}</url>
 	</scm>
-	<properties>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>net.tascalate.javaflow</groupId>
