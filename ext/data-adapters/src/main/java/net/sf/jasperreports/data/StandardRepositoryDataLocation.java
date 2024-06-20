@@ -21,48 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.dataadapters.http;
+package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JRCloneable;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import net.sf.jasperreports.dataadapters.RepositoryDataLocation;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class HttpLocationParameter implements JRCloneable
+@JsonTypeName("repositoryDataLocation")
+public class StandardRepositoryDataLocation implements RepositoryDataLocation
 {
-
-	private String name;
-	private String value;
 	
-	public HttpLocationParameter()
+	private String location;
+
+	public StandardRepositoryDataLocation()
 	{
 	}
 
-	public HttpLocationParameter(String name, String value)
+	public StandardRepositoryDataLocation(String location)
 	{
-		this.name = name;
-		this.value = value;
+		this.location = location;
+	}
+	
+	@Override
+	public String getLocation()
+	{
+		return location;
 	}
 
-	public String getName()
+	public void setLocation(String location)
 	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	public String getValue()
-	{
-		return value;
-	}
-
-	public void setValue(String value)
-	{
-		this.value = value;
+		this.location = location;
 	}
 
 	@Override

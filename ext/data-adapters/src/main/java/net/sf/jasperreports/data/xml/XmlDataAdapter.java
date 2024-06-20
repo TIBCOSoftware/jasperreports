@@ -29,8 +29,8 @@ import java.util.TimeZone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 import net.sf.jasperreports.dataadapters.FileDataAdapter;
-import net.sf.jasperreports.dataadapters.StandardRepositoryDataLocation;
 
 
 /**

@@ -30,10 +30,10 @@ import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 import net.sf.jasperreports.dataadapters.AbstractDataAdapter;
-import net.sf.jasperreports.dataadapters.DataFile;
 import net.sf.jasperreports.dataadapters.RepositoryDataLocation;
-import net.sf.jasperreports.dataadapters.StandardRepositoryDataLocation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -67,7 +67,7 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	}
 
 	/**
-	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.dataadapters.DataFile)} and {@link StandardRepositoryDataLocation}
+	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
 	@Override
 	@Deprecated

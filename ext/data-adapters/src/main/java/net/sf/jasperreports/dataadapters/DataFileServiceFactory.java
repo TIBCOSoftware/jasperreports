@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.dataadapters;
 
+import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 

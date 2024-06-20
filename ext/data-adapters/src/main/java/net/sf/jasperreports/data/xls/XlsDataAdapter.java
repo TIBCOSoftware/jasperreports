@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
+import net.sf.jasperreports.data.StandardRepositoryDataLocation;
 import net.sf.jasperreports.dataadapters.FileDataAdapter;
-import net.sf.jasperreports.dataadapters.StandardRepositoryDataLocation;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

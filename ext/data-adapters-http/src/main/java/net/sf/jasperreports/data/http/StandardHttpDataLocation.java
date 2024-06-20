@@ -21,12 +21,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.dataadapters.http;
+package net.sf.jasperreports.data.http;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import net.sf.jasperreports.dataadapters.http.HttpDataLocation;
+import net.sf.jasperreports.dataadapters.http.RequestMethod;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 

@@ -28,7 +28,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
-import net.sf.jasperreports.dataadapters.DataFile;
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.http.HttpLocationParameter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.dataadapters;
 
+import net.sf.jasperreports.data.DataFile;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */

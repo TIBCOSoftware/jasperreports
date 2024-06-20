@@ -21,21 +21,62 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.dataadapters;
-
-import com.fasterxml.jackson.annotation.JsonSubTypes;
+package net.sf.jasperreports.data.http;
 
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@JsonSubTypes({
-	@JsonSubTypes.Type(value = StandardRepositoryDataLocation.class)
-	//StandardHttpDataLocation subtype is added in the data-adapters-http extension using Jackson mapping extension
-})
-// we do not need a @JsonTypeInfo annotation here because one is used in the DataFile getter of the FileDataAdapter
-public interface DataFile extends JRCloneable
+public class HttpLocationParameter implements JRCloneable
 {
+
+	private String name;
+	private String value;
+	
+	public HttpLocationParameter()
+	{
+	}
+
+	public HttpLocationParameter(String name, String value)
+	{
+		this.name = name;
+		this.value = value;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			return super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// should not happen
+			throw new JRRuntimeException(e);
+		}
+	}
 
 }

@@ -56,6 +56,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.data.http.HttpLocationParameter;
 import net.sf.jasperreports.dataadapters.AbstractDataAdapterService;
 import net.sf.jasperreports.dataadapters.DataFileConnection;
 import net.sf.jasperreports.dataadapters.DataFileService;

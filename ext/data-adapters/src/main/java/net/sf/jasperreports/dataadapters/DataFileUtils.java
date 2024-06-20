@@ -25,6 +25,7 @@ package net.sf.jasperreports.dataadapters;
 
 import java.util.Map;
 
+import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 

@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+import net.sf.jasperreports.data.DataFile;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */

@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.dataadapters.http;
 
-import net.sf.jasperreports.dataadapters.DataFile;
+import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.dataadapters.DataFileService;
 import net.sf.jasperreports.dataadapters.DataFileServiceFactory;
 import net.sf.jasperreports.engine.ParameterContributorContext;
