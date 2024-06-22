@@ -326,7 +326,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		writer.write("\"id\": \"reportConfig\",");
 		writer.write("\"type\": \"reportConfig\",");
 
-		List<JRPropertiesUtil.PropertySuffix> viewerProps = JRPropertiesUtil.getProperties(
+		List<JRPropertiesUtil.PropertySuffix> viewerProps = propertiesUtil.getAllProperties(
 				jasperPrint,
 				JRPropertiesUtil.PROPERTY_PREFIX + "htmlviewer.");
 
