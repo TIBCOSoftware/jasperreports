@@ -35,44 +35,52 @@ import net.sf.jasperreports.engine.JRConstants;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class LuceneSpansInfo implements SpansInfo, Serializable {
-	
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map<String, List<HitTermInfo>> hitTermsInfo;
-	private Map<String, Integer> hitTermsPerPage;
+	private Map<String, List<HitSpanInfo>> hitSpanInfoMap;
+	private Map<String, Integer> hitSpansPerPage;
 	private int termsPerQuery;
+	private List<String> queryTerms;
 
-	public LuceneSpansInfo(int termsPerQuery) {
+	public LuceneSpansInfo(int termsPerQuery, List<String> queryTerms) {
 		this.termsPerQuery = termsPerQuery;
-		this.hitTermsInfo = new LinkedHashMap<>();
-		this.hitTermsPerPage = new LinkedHashMap<>();
+		this.queryTerms = queryTerms;
+		this.hitSpanInfoMap = new LinkedHashMap<>();
+		this.hitSpansPerPage = new LinkedHashMap<>();
 	}
 
-	public void addTermInfo(String key, HitTermInfo hitTermInfo) {
-		if (!hitTermsInfo.containsKey(key)) {
-			hitTermsInfo.put(key, new ArrayList<>());
+	@Override
+	public List<String> getQueryTerms() {
+		return queryTerms;
+	}
+
+	@Override
+	public void addSpanInfo(String key, HitSpanInfo hitSpanInfo) {
+		if (!hitSpanInfoMap.containsKey(key)) {
+			hitSpanInfoMap.put(key, new ArrayList<>());
 		}
 
-		if (!hitTermsPerPage.containsKey(hitTermInfo.getPageNo())) {
-			hitTermsPerPage.put(hitTermInfo.getPageNo(), 0);
+		if (!hitSpansPerPage.containsKey(hitSpanInfo.getPageNo())) {
+			hitSpansPerPage.put(hitSpanInfo.getPageNo(), 0);
 		}
-		hitTermsInfo.get(key).add(hitTermInfo);
-		hitTermsPerPage.put(hitTermInfo.getPageNo(), hitTermsPerPage.get(hitTermInfo.getPageNo()) + 1);
+		hitSpanInfoMap.get(key).add(hitSpanInfo);
+		hitSpansPerPage.put(hitSpanInfo.getPageNo(), hitSpansPerPage.get(hitSpanInfo.getPageNo()) + 1);
 	}
 
 	@Override
-	public boolean hasHitTermsInfo(String key) {
-		return hitTermsInfo.containsKey(key);
+	public boolean hasHitSpanInfo(String key) {
+		return hitSpanInfoMap.containsKey(key);
 	}
 
 	@Override
-	public List<HitTermInfo> getHitTermsInfo(String key) {
-		return hitTermsInfo.get(key);
+	public List<HitSpanInfo> getHitSpanInfo(String key) {
+		return hitSpanInfoMap.get(key);
 	}
 
 	@Override
-	public Map<String, Integer> getHitTermsPerPage() {
-		return hitTermsPerPage;
+	public Map<String, Integer> getHitSpansPerPage() {
+		return hitSpansPerPage;
 	}
 
 	@Override

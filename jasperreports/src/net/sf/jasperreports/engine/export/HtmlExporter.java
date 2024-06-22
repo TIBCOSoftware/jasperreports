@@ -134,6 +134,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.renderers.util.SvgDataSniffer;
 import net.sf.jasperreports.renderers.util.SvgFontProcessor;
+import net.sf.jasperreports.search.HitSpanInfo;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 import net.sf.jasperreports.util.Base64Util;
@@ -2809,27 +2810,38 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			SpansInfo spansInfo = (SpansInfo) reportContext.getParameterValue("net.sf.jasperreports.search.term.highlighter");
 			PrintElementId pei = PrintElementId.forElement(textElement);
 
-			if (spansInfo != null && spansInfo.hasHitTermsInfo(pei.toString())) {
-				List<HitTermInfo> hitTermInfos = JRCloneUtils.cloneList(spansInfo.getHitTermsInfo(pei.toString()));
+			if (spansInfo != null && spansInfo.hasHitSpanInfo(pei.toString())) {
+				List<HitSpanInfo> hitSpanInfos = JRCloneUtils.cloneList(spansInfo.getHitSpanInfo(pei.toString()));
 
 				short[] lineBreakOffsets = textElement.getLineBreakOffsets();
 				if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
 					int sz = lineBreakOffsets.length;
-					for (HitTermInfo ti: hitTermInfos) {
-						for (int i = 0; i < sz; i++) {
-							if (lineBreakOffsets[i] <= ti.getStart()) {
-								ti.setStart(ti.getStart() + 1);
-								ti.setEnd(ti.getEnd() + 1);
-							} else {
-								break;
+					for (HitSpanInfo si: hitSpanInfos) {
+						for (HitTermInfo ti : si.getHitTermInfoList()) {
+							for (int i = 0; i < sz; i++) {
+								if (lineBreakOffsets[i] <= ti.getStart()) {
+									ti.setStart(ti.getStart() + 1);
+									ti.setEnd(ti.getEnd() + 1);
+								} else {
+									break;
+								}
 							}
 						}
 					}
 				}
 
 				AttributedString attributedString = styledText.getAttributedString();
-				for (int i = 0, ln = hitTermInfos.size(); i < ln; i = i + spansInfo.getTermsPerQuery()) {
-					attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, Color.yellow, hitTermInfos.get(i).getStart(), hitTermInfos.get(i + spansInfo.getTermsPerQuery() - 1).getEnd());
+				for (HitSpanInfo hsi: hitSpanInfos) {
+					List<HitTermInfo> htiList = hsi.getHitTermInfoList();
+					for (int i = 0, sz = htiList.size(); i < sz ; i++) {
+						String searchResultClasses;
+						if (i == 0 && spansInfo.getTermsPerQuery() > 1) {
+							searchResultClasses = "jr_search_result jr_search_result_start";
+						} else {
+							searchResultClasses = "jr_search_result";
+						}
+						attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, searchResultClasses, htiList.get(i).getStart(), htiList.get(i).getEnd());
+					}
 				}
 			}
 		} else {
@@ -3024,11 +3036,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			first = false;
 
 			Map<Attribute,Object> attributes = paragraph.getAttributes();
-			Color highlightColor = (Color) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
-			if (highlightColor != null && !highlightStarted) {
+			String searchResultClasses = (String) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
+			if (searchResultClasses != null && !highlightStarted) {
 				highlightStarted = true;
-				writer.write("<span class=\"jr_search_result\">");
-			} else if (highlightColor == null && highlightStarted) {
+				writer.write("<span class=\"" + searchResultClasses + "\">");
+			} else if (searchResultClasses == null && highlightStarted) {
 				highlightStarted = false;
 				writer.write("</span>");
 			}

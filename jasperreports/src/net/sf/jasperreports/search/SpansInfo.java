@@ -31,11 +31,15 @@ import java.util.Map;
  */
 public interface SpansInfo {
 
-	boolean hasHitTermsInfo(String key);
+	List<String> getQueryTerms();
 
-	List<HitTermInfo> getHitTermsInfo(String key);
+	void addSpanInfo(String key, HitSpanInfo hitSpanInfo);
 
-	Map<String, Integer> getHitTermsPerPage();
+	boolean hasHitSpanInfo(String key);
+
+	List<HitSpanInfo> getHitSpanInfo(String key);
+
+	Map<String, Integer> getHitSpansPerPage();
 
 	int getTermsPerQuery();
 

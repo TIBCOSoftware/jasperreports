@@ -26,11 +26,12 @@ package net.sf.jasperreports.search;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,19 +50,15 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermStates;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MultiTermQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.ScoreMode;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
@@ -69,8 +66,6 @@ import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanOrQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
-import org.apache.lucene.search.spans.SpanWeight;
-import org.apache.lucene.search.spans.Spans;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -137,6 +132,7 @@ public class LuceneUtil {
 		IndexReader reader = DirectoryReader.open(dir);
 		IndexSearcher searcher = new IndexSearcher(reader);
 		List<String> queryTerms = getQueryTerms(queryString);
+		int queryTermsSize = queryTerms.size();
 		SpanQuery query = buildQuery(queryTerms);
 
 		if (log.isDebugEnabled()) {
@@ -146,69 +142,55 @@ public class LuceneUtil {
 		TopDocs results = searcher.search(query, Integer.MAX_VALUE);
 		ScoreDoc[] hits = results.scoreDocs;
 
-		Map<Integer, List<Term>> hitTermsMap = new LinkedHashMap<>();
-
-		for (int i = 0; i < hits.length; i++) {
-			getHitTerms(query, searcher, hits[i].doc, hitTermsMap);
+		if (log.isDebugEnabled()) {
+			log.debug("The query produced hits in two documents");
 		}
 
-		Map<Term,TermStates> termStates = new HashMap<>();
+		Map<Integer, Set<Term>> hitTermsMap = new LinkedHashMap<>();
+		for (ScoreDoc hit: hits) {
+			Set<Term> hitTerms = new TreeSet<>();
+			getHitTerms(query, searcher, hit.doc, hitTerms);
+			hitTermsMap.put(hit.doc, hitTerms);
+		}
+
+		SpansInfo spansInfo = new LuceneSpansInfo(queryTerms.size(), queryTerms);
 
 		// get the info for each matched term from the document's termVector
-		Map<Integer, List<HitTermInfo>> hitTermsInfoMap = new HashMap<>();
-		for (Entry<Integer, List<Term>> entry: hitTermsMap.entrySet()) {
-			List<Term> terms = entry.getValue();
-			Terms termVector = reader.getTermVector(entry.getKey(), CONTENT_FIELD);
-			PostingsEnum docsAndPositions;
+		for (Map.Entry<Integer, Set<Term>> entry: hitTermsMap.entrySet()) {
+			int docId = entry.getKey();
+			Terms termVector = reader.getTermVector(docId, CONTENT_FIELD);
+			Document doc = searcher.doc(docId);
+			String uid = doc.get("uid");
+			String pageNo = doc.get("pageNo");
 
+			// construct the hit terms info list
+			List<HitTermInfo> hitTermInfoList = new ArrayList<>();
+			Set<Term> terms = entry.getValue();
 			for (Term term: terms) {
-				termStates.put(term, TermStates.build(reader.getContext(), term, false));
 				TermsEnum iterator = termVector.iterator();
-
 				BytesRef termBytesRef = new BytesRef(term.text());
 
 				if (iterator.seekExact(termBytesRef)) {
-					docsAndPositions = iterator.postings(null, PostingsEnum.ALL);
+					PostingsEnum docsAndPositions = iterator.postings(null, PostingsEnum.ALL);
 					docsAndPositions.nextDoc();
 
 					for (int i = 0, freq = docsAndPositions.freq(); i < freq; ++i) {
-						if (hitTermsInfoMap.get(entry.getKey()) == null) {
-							hitTermsInfoMap.put(entry.getKey(), new ArrayList<>());
+						HitTermInfo termInfo = new HitTermInfo(docsAndPositions.nextPosition(), docsAndPositions.startOffset(), docsAndPositions.endOffset(), term.text());
+						hitTermInfoList.add(termInfo);
+
+						// when the query contains only one term, construct the spansInfo directly
+						if (queryTermsSize == 1) {
+							HitSpanInfo tsi = new HitSpanInfo(termInfo);
+							tsi.setPageNo(pageNo);
+							spansInfo.addSpanInfo(uid, tsi);
 						}
-						hitTermsInfoMap.get(entry.getKey()).add(new HitTermInfo(docsAndPositions.nextPosition(), docsAndPositions.startOffset(), docsAndPositions.endOffset(), termBytesRef.utf8ToString()));
 					}
 				}
 			}
-		}
 
-		// get the spans for the matched terms
-		SpanQuery rewrittenQuery = (SpanQuery)query.rewrite(reader);
-		LuceneSpansInfo spansInfo = new LuceneSpansInfo(queryTerms.size());
-		for (LeafReaderContext context : reader.leaves())
-		{
-			SpanWeight spanWeight = rewrittenQuery.createWeight(searcher, ScoreMode.COMPLETE_NO_SCORES, 1);
-			Spans spans = spanWeight.getSpans(context, SpanWeight.Postings.POSITIONS);
-
-			if (spans != null) {
-				int nextDoc;
-				while ((nextDoc = spans.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS) {
-					int docIndex = nextDoc + context.docBase;
-					Document doc = searcher.doc(docIndex);
-					String uid = doc.get("uid");
-					List<HitTermInfo> hitTermsInfo = hitTermsInfoMap.get(docIndex);
-
-					for (int i = spans.nextStartPosition(); i < spans.endPosition(); i++) {
-						for (HitTermInfo ti : hitTermsInfo) {
-							if (ti.getPosition() == i) {
-								if (log.isDebugEnabled()) {
-									log.debug(String.format("term: %s@%d [%d, %d] - uid: %s, pageNo: %s", ti.getValue(), ti.getPosition(), ti.getStart(), ti.getEnd(), uid, doc.get("pageNo")));
-								}
-								ti.setPageNo(doc.get("pageNo"));
-								spansInfo.addTermInfo(uid, ti);
-							}
-						}
-					}
-				}
+			// when the query has more than one term, manually check which hit terms actually validate the query
+			if (queryTermsSize > 1) {
+				validateHitTerms(hitTermInfoList, queryTerms, uid, pageNo, spansInfo);
 			}
 		}
 
@@ -218,6 +200,66 @@ public class LuceneUtil {
 		}
 
 		return spansInfo;
+	}
+
+	protected void validateHitTerms(List<HitTermInfo> hitTermInfoList, List<String> queryTerms, String uid,
+							String pageNo, SpansInfo spansInfo) {
+		// sort hit terms info by position
+		Collections.sort(hitTermInfoList);
+
+		int queryTermsSize = queryTerms.size();
+
+		if (log.isDebugEnabled()) {
+			log.debug("Validating hitTermInfoList: " + hitTermInfoList + " against: " + queryTerms);
+		}
+
+		for (int i = 0, sz = hitTermInfoList.size(); i < (sz - queryTermsSize + 1); i++) {
+			boolean isValidSpan = true;
+			List<HitTermInfo> validSpan = new ArrayList<>();
+			for (int j = 0; j < queryTermsSize; j++) {
+				HitTermInfo htiIJ = hitTermInfoList.get(i + j);
+				String queryTermJ = queryTerms.get(j);
+				if (log.isDebugEnabled()) {
+					log.debug("Comparing: " + htiIJ + " with " + queryTermJ);
+				}
+				if (j == 0) {
+					if (!htiIJ.getValue().endsWith(queryTermJ)) {
+						if (log.isDebugEnabled()) {
+							log.debug(htiIJ + " does not end with " + queryTermJ);
+						}
+						isValidSpan = false;
+						break;
+					}
+				} else if (j < queryTermsSize - 1) {
+					if (!htiIJ.getValue().equals(queryTermJ)) {
+						if (log.isDebugEnabled()) {
+							log.debug(htiIJ + " does not equal " + queryTermJ);
+						}
+						isValidSpan = false;
+						break;
+					}
+				} else {
+					if (!htiIJ.getValue().startsWith(queryTermJ)) {
+						if (log.isDebugEnabled()) {
+							log.debug(htiIJ + " does not start with " + queryTermJ);
+						}
+						isValidSpan = false;
+						break;
+					}
+				}
+				validSpan.add(htiIJ);
+			}
+
+			if (isValidSpan) {
+				if (log.isDebugEnabled()) {
+					log.debug("Found valid span: " + validSpan);
+				}
+
+				HitSpanInfo tsi = new HitSpanInfo(validSpan);
+				tsi.setPageNo(pageNo);
+				spansInfo.addSpanInfo(uid, tsi);
+			}
+		}
 	}
 
 
@@ -382,13 +424,10 @@ public class LuceneUtil {
 	
 
 	@SuppressWarnings("rawtypes")
-	protected void getHitTerms(Query query, IndexSearcher searcher, int docId, Map<Integer, List<Term>> hitTerms) throws IOException {
+	protected void getHitTerms(Query query, IndexSearcher searcher, int docId, Set<Term> hitTerms) throws IOException {
 		if (query instanceof SpanTermQuery) {
 			if (searcher.explain(query, docId).isMatch() == true) {
-				if (!hitTerms.containsKey(docId)) {
-					hitTerms.put(docId, new ArrayList<>());
-				}
-				hitTerms.get(docId).add(((SpanTermQuery) query).getTerm());
+				hitTerms.add(((SpanTermQuery) query).getTerm());
 			}
 			return; 
 		}
@@ -418,7 +457,6 @@ public class LuceneUtil {
 		if (query instanceof SpanMultiTermQueryWrapper) {
 			((SpanMultiTermQueryWrapper) query).setRewriteMethod(SpanMultiTermQueryWrapper.SCORING_SPAN_QUERY_REWRITE);
 			getHitTerms(query.rewrite(searcher.getIndexReader()), searcher, docId, hitTerms);
-			return;
 		}
 	}
 	
