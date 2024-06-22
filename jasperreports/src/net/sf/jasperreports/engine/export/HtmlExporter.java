@@ -2838,7 +2838,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						} else {
 							searchResultClasses = "jr_search_result";
 						}
-						attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, searchResultClasses, htiList.get(i).getStart(), htiList.get(i).getEnd());
+						attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, searchResultClasses,
+								htiList.get(i).getStart(), htiList.get(i).getEnd());
+
+						// if there are more terms in the current span, mark the space between the current term and the
+						// next one as whitespace to make it highlightable
+						if (i + 1 < sz) {
+							attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT_WHITESPACE,
+								"jr_search_result", htiList.get(i).getEnd(), htiList.get(i+1).getStart());
+						}
 					}
 				}
 			}
@@ -3017,8 +3025,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean first = true;
 		boolean startedSpan = false;
 
-		boolean highlightStarted = false;
-
 		while (runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
@@ -3034,13 +3040,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			first = false;
 
 			Map<Attribute,Object> attributes = paragraph.getAttributes();
+			boolean highlightWhitespaceStarted = false;
+			boolean highlightStarted = false;
+
+			String searchResultWhitespaceClasses = (String) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT_WHITESPACE);
+			if (searchResultWhitespaceClasses != null)
+			{
+				highlightWhitespaceStarted = true;
+				writer.write("<span class=\"" + searchResultWhitespaceClasses + "\">");
+			}
+
 			String searchResultClasses = (String) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
-			if (searchResultClasses != null && !highlightStarted) {
+			if (searchResultClasses != null)
+			{
 				highlightStarted = true;
 				writer.write("<span class=\"" + searchResultClasses + "\">");
-			} else if (searchResultClasses == null && highlightStarted) {
-				highlightStarted = false;
-				writer.write("</span>");
 			}
 
 			String textRunStyle = 
@@ -3073,6 +3087,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				hyperlinkStarted
 			);
 
+			if (highlightWhitespaceStarted)
+			{
+				writer.write("</span>");
+			}
+
+			if (highlightStarted)
+			{
+				writer.write("</span>");
+			}
+
 			paragraph.setIndex(runLimit);
 		}
 
@@ -3080,10 +3104,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		context.writeLists(new HtmlStyledTextListWriter(null));
 
-		if (highlightStarted) {
-			writer.write("</span>");
-		}
-		
 		if (startedSpan)
 		{
 			writer.write("</span>");
