@@ -35,16 +35,7 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -2816,15 +2807,22 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				short[] lineBreakOffsets = textElement.getLineBreakOffsets();
 				if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
 					int sz = lineBreakOffsets.length;
+					Set<HitTermInfo> processedHitTerms = new HashSet<>();
 					for (HitSpanInfo si: hitSpanInfos) {
 						for (HitTermInfo ti : si.getHitTermInfoList()) {
-							for (int i = 0; i < sz; i++) {
-								if (lineBreakOffsets[i] <= ti.getStart()) {
-									ti.setStart(ti.getStart() + 1);
-									ti.setEnd(ti.getEnd() + 1);
-								} else {
-									break;
+							// prevent overlapping terms to have the offset applied multiple times
+							if (!processedHitTerms.contains(ti)) {
+								int totalOffset = 0;
+								for (int i = 0; i < sz; i++) {
+									totalOffset += lineBreakOffsets[i];
+									if (totalOffset <= ti.getStart()) {
+										ti.setStart(ti.getStart() + 1);
+										ti.setEnd(ti.getEnd() + 1);
+									} else {
+										break;
+									}
 								}
+								processedHitTerms.add(ti);
 							}
 						}
 					}
