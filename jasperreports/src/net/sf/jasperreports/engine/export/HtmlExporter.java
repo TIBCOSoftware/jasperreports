@@ -2818,6 +2818,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									if (totalOffset <= ti.getStart()) {
 										ti.setStart(ti.getStart() + 1);
 										ti.setEnd(ti.getEnd() + 1);
+									}
+									// take into account the word break
+									else if (totalOffset > ti.getStart() && totalOffset < ti.getEnd()) {
+										ti.setEnd(ti.getEnd() + 1);
 									} else {
 										break;
 									}
