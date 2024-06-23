@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import net.sf.jasperreports.engine.design.DesignExpressionReturnValue;
 
 /**
  * A value copied from an expression into a variable of the parent report.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
+@JsonDeserialize(as = DesignExpressionReturnValue.class)
 public interface ExpressionReturnValue extends CommonReturnValue
 {
 
