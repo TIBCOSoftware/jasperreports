@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>./pom-parent.xml</relativePath>
+	</parent>
+	<artifactId>jasperreports-project</artifactId>
+	<packaging>pom</packaging>
+	<name>JasperReports Library Artifacts</name>
+	<description>Free Java Reporting Library</description>
+	<url>http://jasperreports.sourceforge.net</url>
+	<modules>
+		<module>tools/metadata</module>
+		<module>tools/annotation-processors</module>
+		<module>ext/fonts</module>
+		<module>core/pom.xml</module>
+		<module>core/pom-javaflow.xml</module>
+		<module>ext/ant</module>
+		<module>ext/barbecue</module>
+		<module>ext/barcode4j</module>
+		<module>ext/castor</module>
+		<module>ext/charts</module>
+		<module>ext/chart-customizers</module>
+		<module>ext/chart-themes</module>
+		<module>ext/chrome</module>
+		<module>ext/data-adapters</module>
+		<module>ext/data-adapters-http</module>
+		<module>ext/ejbql</module>
+		<module>ext/ejbql-j2ee</module>
+		<module>ext/excel-poi</module>
+		<module>ext/fastexcel</module>
+		<module>ext/functions</module>
+		<module>ext/google-maps</module>
+		<module>ext/groovy</module>
+		<module>ext/hibernate</module>
+		<module>ext/hibernate-j2ee</module>
+		<module>ext/interactivity</module>
+		<module>ext/javascript</module>
+		<module>ext/jaxen</module>
+		<module>ext/jdt</module>
+		<module>ext/json</module>
+		<module>ext/olap</module>
+		<module>ext/pdf</module>
+		<module>ext/servlets</module>
+		<module>ext/servlets-j2ee</module>
+		<module>ext/sort</module>
+		<module>ext/spring</module>
+		<module>ext/velocity</module>
+		<module>ext/xalan</module>
+	</modules>
+</project>

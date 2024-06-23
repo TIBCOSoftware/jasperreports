@@ -1,0 +1,29 @@
+<jasperReport name="BreaksReport.38" language="java" columnCount="3" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="170" columnSpacing="1" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.100.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<group name="dummy" reprintHeaderOnEachPage="true">
+		<groupHeader>
+			<band height="25">
+				<element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="0" y="0" width="170" height="25">
+					<expression><![CDATA["Group Header"]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="25">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} != 85]]></printWhenExpression>
+			<element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="0" y="0" width="170" height="25">
+				<expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
+			</element>
+		</band>
+		<band height="45">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 85]]></printWhenExpression>
+			<element kind="break" uuid="9dbae581-b65f-4bcf-a68b-a331d59d5e1e" x="0" y="10" width="100" height="1"/>
+			<element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="0" y="20" width="170" height="25">
+				<expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,21 @@
+<jasperReport name="LandscapeReport" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0049a95f-7a7d-4af2-bc2d-1a338bd3ba2d">
+	<title height="595">
+		<element kind="staticText" uuid="91025f3a-509c-469e-a140-4950cd4ade51" mode="Opaque" x="0" y="0" width="50" height="50" backcolor="#333333">
+			<text><![CDATA[.]]></text>
+		</element>
+		<element kind="staticText" uuid="d1b53e6b-a011-4a19-89d7-e03503be6315" mode="Opaque" x="0" y="545" width="50" height="50" backcolor="#333333">
+			<text><![CDATA[.]]></text>
+		</element>
+		<element kind="staticText" uuid="6456cd93-9b07-45c3-b45b-a556f4095ec6" mode="Opaque" x="792" y="0" width="50" height="50" backcolor="#333333">
+			<text><![CDATA[.]]></text>
+		</element>
+		<element kind="staticText" uuid="089a133b-280e-4598-8878-9c8d4f524959" mode="Opaque" x="792" y="545" width="50" height="50" backcolor="#333333">
+			<text><![CDATA[.]]></text>
+		</element>
+		<element kind="rectangle" uuid="c9ff87cd-2ced-40fa-b9fd-aa401431dd2e" x="100" y="0" width="200" height="595"/>
+		<element kind="rectangle" uuid="fa3ab53e-0567-4466-8627-39cb2baca150" mode="Transparent" x="0" y="100" width="842" height="200"/>
+		<element kind="staticText" uuid="ebf78abf-4f29-4c37-940d-bd9bf3b637d7" x="100" y="100" width="150" height="30" fontSize="22.0">
+			<text><![CDATA[LANDSCAPE]]></text>
+		</element>
+	</title>
+</jasperReport>

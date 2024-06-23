@@ -1,0 +1,27 @@
+<jasperReport name="SplitTypePreventReport.46" language="java" pageWidth="595" pageHeight="160" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1d1d4b5d-e211-4b7d-80ac-73e229b5e9fb">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<dataset name="ListData" uuid="5ed45609-588e-443d-8e47-8aad0fb8d213">
+		<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+		<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	</dataset>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<summary height="100">
+		<element kind="component" uuid="d3ebffbc-badc-4c5c-b704-369fbeae5a21" x="0" y="80" width="555" height="20">
+			<component kind="list" printOrder="Vertical">
+				<datasetRun uuid="ef00c42c-8d00-44cc-8bb0-6896605f92a0" subDataset="ListData">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<parameter name="TEST">
+						<expression><![CDATA[$P{TEST}]]></expression>
+					</parameter>
+				</datasetRun>
+				<contents height="20">
+					<element kind="subreport" uuid="b27ca6cb-bfae-4455-8fee-52ad902b1490" x="0" y="0" width="555" height="20">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+						<expression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.46.subreport.1.jrxml")]]></expression>
+					</element>
+				</contents>
+			</component>
+			<property name="net.sf.jasperreports.components.table.name" value="table"/>
+		</element>
+	</summary>
+</jasperReport>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:data.source">
+    <name>Data Source / Query Executer</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.olap.field.mapping -->
+  
+  <configProperty name="net.sf.jasperreports.olap.field.mapping">
+    <description>
+Property specifying the mapping for the dataset field in case an OLAP data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+  </configProperty>
+  
+  
+</configReference>

@@ -1,0 +1,42 @@
+<jasperReport name="XYChart" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a672a9d1-025f-43e7-8b43-800176de42bf">
+	<style name="chartStyle" backcolor="#FFFFFF"/>
+	<dataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
+		<parameter name="xyDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="x" class="java.lang.Integer"/>
+		<field name="y" class="java.lang.Integer"/>
+		<field name="color" class="java.lang.String"/>
+	</dataset>
+	<parameter name="xyDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
+	<summary height="400">
+		<element kind="line" uuid="431b57f6-48bd-4a3e-94de-5eda4917f3ec" width="545" height="1"/>
+		<element kind="line" uuid="0297663c-f551-4848-8637-48c33f997f57" y="3" width="545" height="1"/>
+		<element kind="staticText" uuid="c2ab84e8-bb44-48b9-9909-07c5bf9beb07" y="10" width="545" height="30" hTextAlign="Center" vTextAlign="Middle" fontSize="22.0">
+			<text><![CDATA[XChart - Sample XY Area Chart Component Report]]></text>
+		</element>
+		<element kind="textField" uuid="d375553d-0e4d-4ee4-8a3c-67a865327f4f" y="40" width="545" height="20" hTextAlign="Center" vTextAlign="Middle" linkType="Reference">
+			<expression><![CDATA["http://knowm.org/open-source/xchart"]]></expression>
+			<hyperlinkReferenceExpression><![CDATA["http://knowm.org/open-source/xchart"]]></hyperlinkReferenceExpression>
+		</element>
+		<element kind="line" uuid="5a7d83fc-aa72-4375-956b-ad12197927ac" y="60" width="545" height="1"/>
+		<element kind="line" uuid="f3881688-6985-482b-9794-43755ff935e9" y="63" width="545" height="1"/>
+		<element kind="component" uuid="d60723de-a9ab-4d33-84a8-8ac759234088" y="80" width="545" height="320" style="chartStyle">
+			<component kind="XYChart" evaluationTime="Now">
+				<chartTitleExpression><![CDATA["XY Area Chart"]]></chartTitleExpression>
+				<dataset>
+					<datasetRun uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714" subDataset="xyDataset">
+						<dataSourceExpression><![CDATA[$P{xyDatasource}]]></dataSourceExpression>
+					</datasetRun>
+					<series>
+						<seriesExpression><![CDATA[$F{name}]]></seriesExpression>
+						<colorExpression><![CDATA[$F{color}]]></colorExpression>
+						<xvalueExpression><![CDATA[$F{x}]]></xvalueExpression>
+						<yvalueExpression><![CDATA[$F{y}]]></yvalueExpression>
+					</series>
+				</dataset>
+				<xaxisTitleExpression><![CDATA["Probability"]]></xaxisTitleExpression>
+				<yaxisTitleExpression><![CDATA["Amount"]]></yaxisTitleExpression>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

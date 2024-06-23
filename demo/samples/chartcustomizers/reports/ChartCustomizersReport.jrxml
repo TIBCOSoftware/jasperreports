@@ -1,0 +1,97 @@
+<jasperReport name="ChartCustomizersReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bce0058f-ad1c-4b93-9d6b-6289cc922a3c">
+	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
+	<import>net.sf.jasperreports.engine.data.JRCsvDataSource</import>
+	<dataset name="categoryDataset" uuid="f674686b-b3b5-451d-a81b-3617caa71a9f">
+		<property name="net.sf.jasperreports.data.adapter" value="data/CategoryCsvDataAdapter.jrdax"/>
+		<field name="full_name" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
+		<variable name="personAmount" resetType="Group" calculation="Sum" resetGroup="salesState" class="java.lang.Integer">
+			<expression><![CDATA[$F{amount}]]></expression>
+		</variable>
+		<group name="person">
+			<expression><![CDATA[$F{full_name}]]></expression>
+		</group>
+		<group name="salesState">
+			<expression><![CDATA[$F{sales_state}]]></expression>
+		</group>
+	</dataset>
+	<dataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
+		<property name="net.sf.jasperreports.data.adapter" value="data/XYCsvDataAdapter.jrdax"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="probability" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
+		<group name="salesState">
+			<expression><![CDATA[$F{sales_state}]]></expression>
+		</group>
+		<group name="probability">
+			<expression><![CDATA[$F{probability}]]></expression>
+		</group>
+		<group name="amount">
+			<expression><![CDATA[$F{amount}]]></expression>
+		</group>
+	</dataset>
+	<group name="Charts">
+		<groupHeader>
+			<band height="400">
+				<element kind="chart" chartType="bar" uuid="a962938e-0a96-45ca-a4dc-0d0f381d6dd8" x="0" y="0" width="555" height="300" evaluationTime="Report">
+					<titleExpression><![CDATA["Bar Chart"]]></titleExpression>
+					<subtitleExpression><![CDATA["Chart Displaying Bars"]]></subtitleExpression>
+					<hyperlinkTooltipExpression><![CDATA["Bar Chart"]]></hyperlinkTooltipExpression>
+					<dataset kind="category" incrementType="Group" incrementGroup="salesState">
+						<datasetRun uuid="86fd8270-c311-4ebd-beaa-37a7fda52cd0" subDataset="categoryDataset"/>
+						<series>
+							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{full_name}]]></categoryExpression>
+							<valueExpression><![CDATA[$V{personAmount}]]></valueExpression>
+						</series>
+					</dataset>
+					<plot>
+						<categoryAxisLabelExpression><![CDATA["Name"]]></categoryAxisLabelExpression>
+						<valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
+						<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					</plot>
+					<property name="net.sf.jasperreports.customizer.class.legendShape" value="net.sf.jasperreports.customizers.shape.LegendShapeCustomizer"/>
+					<property name="net.sf.jasperreports.customizer.legendShape.shapeType" value="polygon"/>
+					<property name="net.sf.jasperreports.customizer.legendShape.allItems" value="true"/>
+					<property name="net.sf.jasperreports.customizer.categoryMarker.color" value="orange"/>
+					<property name="net.sf.jasperreports.customizer.categoryMarker.alpha" value="0.15"/>
+					<property name="net.sf.jasperreports.customizer.class.categoryMarker" value="net.sf.jasperreports.customizers.marker.CategoryMarkerCustomizer"/>
+					<property name="net.sf.jasperreports.customizer.categoryMarker.category" value="sally"/>
+					<property name="net.sf.jasperreports.customizer.categoryMarker.label" value="Mark this!"/>
+					<property name="net.sf.jasperreports.customizer.categoryMarker.labelAnchor" value="top"/>
+					<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapeWidth"><![CDATA["10"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapeHeight"><![CDATA["10"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapePoints"><![CDATA[StarShapePoints.INSTANCE.encode()]]></propertyExpression>
+				</element>
+			</band>
+			<band height="400">
+				<element kind="chart" chartType="xyLine" uuid="82e1a762-637c-4508-ab62-167cb116792b" x="0" y="0" width="555" height="300" evaluationTime="Report">
+					<titleExpression><![CDATA["XY Line Chart"]]></titleExpression>
+					<subtitleExpression><![CDATA["Chart Displaying Lines"]]></subtitleExpression>
+					<hyperlinkTooltipExpression><![CDATA["XY Line Chart"]]></hyperlinkTooltipExpression>
+					<dataset kind="xy" incrementType="Group" incrementGroup="probability">
+						<datasetRun uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714" subDataset="xyDataset"/>
+						<series>
+							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
+							<xvalueExpression><![CDATA[$F{probability}]]></xvalueExpression>
+							<yvalueExpression><![CDATA[$F{amount} + $F{amount} * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></yvalueExpression>
+						</series>
+					</dataset>
+					<plot showShapes="false">
+						<categoryAxisLabelExpression><![CDATA["Probability"]]></categoryAxisLabelExpression>
+						<valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
+					</plot>
+					<property name="net.sf.jasperreports.customizer.class.step" value="net.sf.jasperreports.customizers.StepCustomizer"/>
+					<property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
+					<property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>
+					<property name="net.sf.jasperreports.customizer.domainAxis.maxValue" value="90"/>
+					<property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
+					<property name="net.sf.jasperreports.customizer.class.rangeAxis" value="net.sf.jasperreports.customizers.axis.RangeAxisCustomizer"/>
+					<property name="net.sf.jasperreports.customizer.rangeAxis.minValue" value="0"/>
+					<property name="net.sf.jasperreports.customizer.rangeAxis.maxValue" value="300000"/>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

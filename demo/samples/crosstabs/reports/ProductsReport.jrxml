@@ -1,0 +1,129 @@
+<jasperReport name="ProductsReport" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="d8258224-60b6-4c49-b0e9-a411ee2fbd39">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="Customer_Quantity" uuid="d7fa233d-253a-4620-93b5-d8c430099436">
+		<parameter name="CityParam" class="java.lang.String"/>
+		<query language="sql"><![CDATA[SELECT product.name, positions.quantity,
+						 address.firstname, address.lastname
+				FROM product, positions, address, document
+				WHERE product.id = positions.productid AND
+						address.id = document.addressid AND
+						document.id = positions.documentid AND
+						address.city=$P{CityParam}]]></query>
+		<field name="Name" class="java.lang.String"/>
+		<field name="Quantity" class="java.lang.Integer"/>
+		<field name="FirstName" class="java.lang.String"/>
+		<field name="LastName" class="java.lang.String"/>
+	</dataset>
+	<query language="sql"><![CDATA[SELECT city FROM address GROUP BY city ORDER BY city]]></query>
+	<field name="City" class="java.lang.String"/>
+	<detail>
+		<band height="90">
+			<element kind="textField" uuid="4c01f17b-aa51-4d55-bf80-97b845f29667" x="0" y="0" width="500" height="15" fontSize="10.0" style="Sans_Bold">
+				<expression><![CDATA["Number of orders by product and customer in " + $F{City}]]></expression>
+			</element>
+			<element kind="crosstab" uuid="d3aca7c7-1165-4cb5-a7ca-e67b01a5b15d" x="0" y="20" width="782" height="70" columnBreakOffset="10" repeatColumnHeaders="false">
+				<dataset>
+					<datasetRun uuid="69151f6b-5c48-4d23-b978-e8fdfbf7b631" subDataset="Customer_Quantity">
+						<parameter name="CityParam">
+							<expression><![CDATA[$F{City}]]></expression>
+						</parameter>
+					</datasetRun>
+				</dataset>
+				<whenNoDataCell>
+					<element kind="staticText" uuid="61451112-f95c-4f0b-b3ff-c4ab16ece21a" x="0" y="0" width="250" height="25">
+						<text><![CDATA[No data]]></text>
+					</element>
+				</whenNoDataCell>
+				<rowGroup name="NameGroup" totalPosition="End" width="80">
+					<bucket class="java.lang.String">
+						<expression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></expression>
+					</bucket>
+					<header>
+						<element kind="textField" uuid="7f161b84-95ad-4ce4-b619-dfdabb44899e" x="5" y="0" width="75" height="10" style="Sans_Bold">
+							<expression><![CDATA[$V{NameGroup}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</header>
+					<totalHeader mode="Opaque" backcolor="#E0FFFF">
+						<element kind="staticText" uuid="1b7969ef-07d2-4909-9945-db020433cd78" x="5" y="0" width="75" height="10" style="Sans_Bold">
+							<text><![CDATA[TOTAL]]></text>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</totalHeader>
+				</rowGroup>
+				<columnGroup name="ProductGroup" totalPosition="End" height="50" position="Stretch">
+					<bucket class="java.lang.String">
+						<expression><![CDATA[$F{Name}]]></expression>
+					</bucket>
+					<header>
+						<element kind="textField" uuid="2af151be-c117-41c0-864d-279ef72186ec" x="0" y="0" width="20" height="50" rotation="Left" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+							<expression><![CDATA[$V{ProductGroup}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</header>
+					<totalHeader mode="Opaque" backcolor="#FFFF60">
+						<element kind="staticText" uuid="036e9415-01db-4725-8eeb-467f4ae992ab" x="0" y="0" width="30" height="50" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+							<text><![CDATA[TOTAL]]></text>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</totalHeader>
+				</columnGroup>
+				<measure name="QuantityMesure" calculation="Sum" class="java.lang.Integer">
+					<expression><![CDATA[$F{Quantity}]]></expression>
+				</measure>
+				<cell width="20" height="10">
+					<contents mode="Opaque" backcolor="#FFFFFF">
+						<element kind="textField" uuid="ee3abbdf-bec7-4b0f-9d5a-7ed46e897fd0" x="0" y="0" width="20" height="10" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$V{QuantityMesure}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</contents>
+				</cell>
+				<cell width="30" height="10" columnTotalGroup="ProductGroup">
+					<contents mode="Opaque" backcolor="#FFFF60">
+						<element kind="textField" uuid="6747a993-1322-4432-ad74-dbbec94ee758" x="0" y="0" width="30" height="10" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$V{QuantityMesure}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</contents>
+				</cell>
+				<cell width="20" height="10" rowTotalGroup="NameGroup">
+					<contents mode="Opaque" backcolor="#E0FFFF">
+						<element kind="textField" uuid="23e79112-ab0c-490d-b98a-e586db84f308" x="0" y="0" width="20" height="10" hTextAlign="Center" vTextAlign="Middle">
+							<expression><![CDATA[$V{QuantityMesure}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</contents>
+				</cell>
+				<cell width="30" height="10" rowTotalGroup="NameGroup" columnTotalGroup="ProductGroup">
+					<contents mode="Opaque" backcolor="#C0C0C0">
+						<element kind="textField" uuid="ce326d36-2f01-4325-ab47-b2e1c80ce334" x="0" y="0" width="30" height="10" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+							<expression><![CDATA[$V{QuantityMesure}]]></expression>
+						</element>
+						<box>
+							<pen lineWidth="0.5"/>
+						</box>
+					</contents>
+				</cell>
+				<parameter name="CityParam" class="java.lang.String">
+					<expression><![CDATA[$F{City}]]></expression>
+				</parameter>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,261 @@
+
+# JasperReports - Hyperlink Sample <img src="../../resources/jasperreports.svg" alt="JasperReports logo" align="right"/>
+
+Shows how hyperlinks and anchors could be used in report templates.
+
+Main Features in This Sample
+
+[Hyperlinks](#hyperlinks)\
+[Generating the JRXML Source File for an In-Memory Report Template Object](#xmlwriter)\
+[Creating Watermarks and Page Backgrounds](#watermark)
+
+## <a name='hyperlinks'>Hyperlinks</a>
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+
+**Description / Goal**\
+How to use hyperlinks and anchors for text elements and image elements.
+
+**Since:** 0.3.2
+
+### Hyperlinks, Anchors and Bookmarks
+
+JasperReports allows you to create drill-down reports, which introduce tables of contents in your documents or redirect viewers to external documents using special report elements called hyperlinks.
+
+When the user clicks a hyperlink, he or she is redirected to a local destination within the current document or to an external resource. Hyperlinks are not the only actors in this viewer-redirecting scenario. You also need a way to specify the possible hyperlink destinations in a document. These local destinations are called anchors.
+
+There are no special report elements that introduce hyperlinks or anchors in a report template, but rather special settings that make a usual report element a hyperlink and/or an anchor.
+In JasperReports, only text field, image, and chart elements can be hyperlinks or anchors. This is because all these types of elements offer special settings that allow you to specify the hyperlink reference to which the hyperlink will point to or the name of the local anchor. Note that a particular text field or image can be both anchor and hyperlink at the same time.
+
+There are five standard types of hyperlinks supported by JasperReports by default. These are described in the following subsections.
+
+### Hyperlink Type
+
+The type of the hyperlink is stored in an attribute named `hyperlinkType`. This attribute can hold any text value, but by default, the engine recognizes the following standard hyperlink types:
+- `None` - the text field or the image does not represent a hyperlink. This is considered the default behavior.
+- `Reference` - the current hyperlink points to an external resource.
+- `LocalAnchor` - the current hyperlink points to a local anchor.
+- `LocalPage` - the current hyperlink points to a one-based page index within the current document.
+- `RemoteAnchor` - the current hyperlink points to an anchor within an external document.
+- `RemotePage` - the current hyperlink points to a one-based page index within an external document.
+
+### Hyperlink Expressions
+
+Depending on the standard hyperlink type specified, one or two of the following expressions are evaluated and used to build the reference to which the hyperlink element will point:
+
+```
+<hyperlinkReferenceExpression>
+<hyperlinkAnchorExpression>
+<hyperlinkPageExpression>
+```
+
+Note that the first two should always return `java.lang.String` and the third should return `java.lang.Integer` values. A remote anchor requires both `<hyperlinkReferenceExpression>` and `<hyperlinkAnchorExpression>` to be present. A remote page requires both `<hyperlinkReferenceExpression>` and `<hyperlinkPageExpression>` to be present.
+
+### Hyperlink Target
+
+All hyperlink elements, like text fields, images, and charts, also expose an attribute called `hyperlinkTarget`. Its purpose is to help customize the behavior of the specified link when it is clicked in the viewer.
+
+Currently, there are only four possible values for this attribute:
+
+- `Self` - the document to which the hyperlink points will be opened in the current viewer window. This is the default behavior.
+- `Blank` - the document to which the hyperlink points will be opened in a new viewer window.
+- `Parent` - the document to which the hyperlink points will be opened in the parent frame.
+- `Top` - the document to which the hyperlink points will be opened in the top frame.
+- Custom target/Parameter name/Frame name: When the target value is not one of the above-mentioned standard predefined target values, the target is either a custom target that has to be processed by a registered target producer, or it is the name of a hyperlink parameter that gives the actual target value, or, if neither of the above apply, it is the name of the frame in which the document will be opened (`hyperlinkTarget="<custom_target>"`).
+
+### Custom Hyperlink Target
+
+Sometimes, the hyperlink target is not known at report design time and has to be specified dynamically at runtime, depending on the environment where the report runs. In such cases, the value of the hyperlink target must be calculated based on some runtime parameters or values. Targets defined at runtime are called custom hyperlink targets, as opposed to the standard hyperlink targets.
+
+Custom hyperlink targets are generated by hyperlink target producers, which are classes that implement the [JRHyperlinkTargetProducer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHyperlinkTargetProducer.html) interface. Hyperlink target producers can be added to the JasperReports engine in a transparent way, by registering instances of the [JRHyperlinkTargetProducerFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHyperlinkTargetProducerFactory.html) class as extensions.
+
+When the JasperReports engine encounters a custom target value specified in the target attribute of a hyperlink, it first interrogates all registered hyperlink target producer factories to obtain a target producer for this custom hyperlink. If no target producer is found, the engine looks for any hyperlink parameter having the same name as the specified custom target. If one is found, the engine takes its value as the true target to use. If no parameter is found, the custom target value is considered a frame name into which the hyperlink document must be opened.
+
+### Hyperlink ToolTips
+
+The hyperlink element can have a ToolTip, which is controlled by the `<hyperlinkTooltipExpression>` tag. The type of the expression should be `java.lang.String`. The ToolTip expression will be evaluated along with the hyperlink and the result will be saved in the generated document.
+
+The built-in JasperReports viewer and the HTML exporter will honor the hyperlink ToolTip and display it while the user views the report.
+
+### Custom Hyperlinks
+
+In addition to the standard hyperlink types, users can define hyperlinks having custom types. A custom-typed hyperlink can have arbitrary parameters and is meant to be processed by a hyperlink handler registered while exporting the report.
+
+When a hyperlink is declared as having a type other than the built-in types, the hyperlink is considered of custom type and the user is expected to provide handlers to process the hyperlink when the report is exported.
+
+Arbitrary hyperlink parameters can be added to a custom hyperlink using the `<hyperlinkParameter> `tag. These parameters are made available to the custom hyperlink handler so that it can generate a final hyperlink depending on the parameter values.\
+Hyperlink parameter expressions are evaluated along with the hyperlink, and the results are kept in the generated hyperlink object as parameter values.
+
+When exporting the report to other formats such as HTML or PDF, the user can obtain a factory of hyperlink handlers using the `getHyperlinkProducerFactory()` exporter setting. A factory is an implementation of [JRHyperlinkProducerFactory](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHyperlinkProducerFactory.html), which is responsible for creating a hyperlink handler for a custom hyperlink type. This hyperlink handler created by the factory is a [JRHyperlinkProducer](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRHyperlinkProducer.html) instance, and it is used for generating a hyperlink reference in the export document by assembling hyperlink parameters and other information supplied at export time.
+
+To handle custom hyperlinks in the built-in Swing viewer, you need to register a hyperlink listener by calling `addHyperlinkListener(listener)` on the `net.sf.jasperreports.swing.JRViewer` component. The listener is an implementation of the [JRHyperlinkListener](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/view/JRHyperlinkListener.html) interface. When a report hyperlink gets clicked, the listener queries the hyperlink type and performs the desired actions.
+
+### Anchors
+
+If present in a text field or image element declaration, the `<anchorNameExpression>` tag transforms that particular text field or image into a local anchor of the resulting document, to which hyperlinks can point. The anchor will bear the name returned after evaluation of the anchor name expression, which should always return `java.lang.String` values.
+
+### Bookmarks
+
+Some of the document formats, such as PDF, have built-in support for tables of contents and bookmarks. To allow you to make use of this, JasperReports lets you transform anchors into document bookmarks. To be used as bookmarks, anchors should have an indentation level set. To do this, set a positive integer value for the `bookmarkLevel` attribute available for all hyperlink elements in JasperReports. In case you need to set the bookmark level dynamically, you could use the element's `<bookmarkLevelExpression/>` instead. It will override the `bookmarkLevel` attribute.
+
+**Creating a Local Anchor Example**
+
+```
+<element kind="textField" x="5" y="5" width="450" height="20" bold="true" fontSize="14.0">
+  <expression><![CDATA["This is the TITLE section"]] ></expression>
+  <anchorNameExpression><![CDATA["title"]] ></anchorNameExpression>
+</element>
+```
+
+The `<anchorNameExpression>` tag was used here in order to associate a local anchor, named title, with this text field.
+
+**Creating a Local Anchor Hyperlink Example**
+
+```
+<element kind="textField" x="5" y="35" width="300" height="15" forecolor="#FF0000" linkType="LocalAnchor">
+  <expression><![CDATA["  >> Click here to go to the title section."]] ></expression>
+  <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
+</element>
+```
+
+The hyperlink created using the `<hyperlinkAnchorExpression>` tag points to the local anchor created above.
+
+**Creating a Local Page Hyperlink Example**
+
+```
+<element kind="textField" x="5" y="65" width="300" height="15" forecolor="#008000" linkType="LocalPage">
+  <expression><![CDATA["  >> Click here to go to the second page."]] ></expression>
+  <hyperlinkPageExpression><![CDATA[2]] ></hyperlinkPageExpression>
+  ...
+</element>
+```
+
+The hyperlink created using the `<hyperlinkPageExpression>` tag points to the second page of the current document.
+
+**Creating a Reference Hyperlink Example**
+
+```
+<element kind="textField" x="5" y="95" width="300" height="15" linkType="Reference" linkTarget="Blank">
+  <expression><![CDATA["  >> Click here to go to www.google.com"]] ></expression>
+  <hyperlinkReferenceExpression><![CDATA["http://www.google.com"]] ></hyperlinkReferenceExpression>
+</element>
+```
+
+The hyperlink created using the `<hyperlinkReferenceExpression>` tag points to the www.google.com site.
+
+**Creating a Remote Anchor Hyperlink Example**
+
+```
+<element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
+  <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
+  <hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]] ></hyperlinkReferenceExpression>
+  <hyperlinkAnchorExpression><![CDATA["title"]] ></hyperlinkAnchorExpression>
+</element>
+```
+
+The hyperlink created using the `<hyperlinkReferenceExpression>` and `<hyperlinkAnchorExpression>` tags points to an anchor named title found in the `HyperlinkReport.pdf` document, saved in the current directory.
+
+**Creating a Remote Page Hyperlink Example**
+
+```
+<element kind="textField" x="5" y="125" width="400" height="15" linkType="RemoteAnchor">
+  <expression><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]] ></expression>
+  <hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]] ></hyperlinkReferenceExpression>
+  <hyperlinkPageExpression>2</hyperlinkPageExpression>
+</element>
+```
+
+The hyperlink created using the `<hyperlinkReferenceExpression>` and `<hyperlinkPageExpression>` tags points to the second page of the `HyperlinkReport.pdf` document, saved in the current directory.
+
+### Running the Sample
+
+Running the sample requires the Apache Maven library. Make sure that maven is already installed on your system (version 3.6 or later).
+In a command prompt/terminal window set the current folder to `demo/samples/hyperlink` within the JasperReports source project and run the following command:
+
+```
+> mvn clean compile exec:exec@all
+```
+
+It will generate all supported document types containing the sample report in the `demo/samples/hyperlink/target/reports` directory.
+
+<div align="right"><a href='#top'>top</a></div>
+
+---
+
+## <a name='xmlwriter'>Generating</a> the JRXML Source File for an In-Memory Report Template Object
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+
+**Description / Goal**\
+How to generate the JRXML representation of an in-memory report template object.
+
+**Since:** 0.3.2
+
+**Other Samples**\
+[/demo/samples/noxmldesign](../noxmldesign/README.md)\
+[/demo/samples/antcompile](../antcompile/README.md)
+
+A JRXML representation can be extracted from the following in-memory report template objects (both instances of [`JRReport`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRReport.html) type):
+
+- [`JasperDesign`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/design/JasperDesign.html) editable objects, representing in-memory report design templates
+- [`JasperReport`](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperReport.html) read-only objects, representing in-memory compiled report templates
+
+In-memory template objects can be created either from direct usage of the JasperReports APIs, or by loading such objects from their serialized form, based on the built-in [JRLoader](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRLoader.html) and [JRXmlLoader](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlLoader.html) utility classes (and using one of the public `load(...)` methods in these classes).
+
+Once obtained such an in-memory object, its structure can be read and transformed into a JRXML representation with the help of [JasperCompileManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperCompileManager.html) facade class, which comes with different public static methods for both compiling report templates and extracting the JRXML representation from in-memory report template objects. Extracting and writing the JRXML content is done when one of the multiple `writeReportToXmlFile(...)`, `writeReportToXmlStream(...)` or `writeReportToXml(...)` methods in the facade is called.
+
+In this sample a new JRXML file is generated from an in-memory compiled report template by running the command
+
+```
+>mvn clean compile exec:java -Dexec.args="compile writeXml"
+```
+
+from command line.
+
+The Ant compile task associated with the compile argument will create an in-memory compiled report template from the existing `reports/HyperlinkReport.jrxml` sample file. The compiled report template will be saved on disk as `HyperlinkReport.jasper` file (in the `target/reports` folder of this sample).
+
+The subsequent `writeXml` call will load the `HyperlinkReport.jasper` file into memory, then will extract the JRXML representation from this object and will save the representation on disk as `HyperlinkReport.jasper.jrxml` file (also in `target/reports` folder). The `writeXml` target is executing the `writeXml()` method in `HyperlinkApp` class (see `src/HyperlinkApp.java` file):
+
+```
+public void writeXml() throws JRException
+{
+  long start = System.currentTimeMillis();
+  JasperCompileManager.writeReportToXmlFile("build/reports/HyperlinkReport.jasper");
+  System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
+}
+```
+
+Here is shown how a static `writeReportToXmlFile(String)` method of JasperCompileManager is requested. Going further, any of the writeReportToXml...(...) methods in [JasperCompileManager](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperCompileManager.html) will call a related `write(...)` method of [JRXmlWriter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlWriter.html) utility class. Public `write(...)` and `writeReport(...)` methods in this utility class perform all the JRXML extraction work, in accordance with their parameters.
+
+The generated JRXML representation depends on both the in-memory object and [JRXmlWriter](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/xml/JRXmlWriter.html) versions. If these versions are the same, the JRXML representation should look also the same as the original JRXML file, otherwise the JRXML representation might look slightly different (some older JRXML features are deprecated or replaced in newer versions).
+
+Another case where the JRXML representation differs from the original JRXML file occurs when `net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}` properties are set on the report context. The value of such a report context property should be a regular expression that matches property names in the in-memory [JRReport](https://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JRReport.html) object. Properties with matching names will be excluded from the extracted JRXML representation.
+
+---
+
+## <a name='watermark'>Creating</a> Watermarks and Page Backgrounds
+<div align="right">Documented by <a href='mailto:shertage@users.sourceforge.net'>Sanda Zaharia</a></div>
+
+**Description / Goal**\
+How to generate a watermark image in a document.
+
+**Since:** 0.4.6
+
+### The Background Section
+
+Digital watermarking is a very useful feature having a wide range of applications related to copyright protection, source tracking, etc. It consists in embedding a specific information into a digital signal, so that it's quite difficult to be removed. The signal may be any kind of document, picture, audio, pictures or video, for example. When the signal gets copied, this additional information is copied too.
+
+A simple way to add watermark info to a given document is to embed an image into document's pages' background. If elements present on the page are set with a certain transparency percent, then the background image becomes visible under page elements, and it's difficult to be removed when the document gets copied.
+
+In order to handle page backgrounds, there is a special section in JasperReports that is rendered on all pages and its content cannot overflow to the next page. This is the `<background/>` section. Normal report sections are rendered one after the other, but the `<background/>` section does not interfere with the other report sections and can be used to achieve watermark effects or to create the same background for all pages. Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements.
+
+**Using the Background Section Example**
+
+Below is an example of how to embed an image into document's page background. The image is loaded from the `jr.watermark.gif` file placed in the current directory.
+
+```
+<background height="742">
+  <element kind="image" width="150" height="742" scaleImage="Clip" vImageAlign="Bottom" onErrorType="Error">
+    <expression><![CDATA["jr.watermark.gif"]] ></expression>
+  </element>
+</background>
+```
+

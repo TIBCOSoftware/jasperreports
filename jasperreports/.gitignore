@@ -1,5 +1,0 @@
-/build
-/dist
-/target
-**/.flattened-pom.xml
-**/*.iml

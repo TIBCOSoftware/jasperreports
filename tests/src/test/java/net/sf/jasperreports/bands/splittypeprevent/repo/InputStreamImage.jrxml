@@ -1,0 +1,15 @@
+<jasperReport name="InputStreamImage" language="java" pageWidth="500" pageHeight="150" whenNoDataType="AllSectionsNoDetail" columnWidth="100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a7b6791c-02bb-4a13-a253-1573b66205da">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<field name="image" class="java.io.InputStream"/>
+	<detail>
+		<band height="55" splitType="Prevent">
+			<element kind="textField" uuid="0a5199ef-428c-4a3f-9862-c8632622f67a" x="0" y="0" width="160" height="25" textAdjust="StretchHeight">
+				<expression><![CDATA["record " + $V{REPORT_COUNT} + " on page " + $V{PAGE_NUMBER}
+					+ " aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd"]]></expression>
+			</element>
+			<element kind="image" uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82" positionType="Float" x="0" y="30" width="60" height="25">
+				<expression><![CDATA[$F{image}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

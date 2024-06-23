@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-samples-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom-parent.xml</relativePath>
+	</parent>
+	<artifactId>jasperreports-samples-xchart</artifactId>
+	<packaging>jar</packaging>
+	<properties>
+		<sample.base.name>XChart</sample.base.name>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.knowm.xchart</groupId>
+			<artifactId>xchart</artifactId>
+			<version>${xchart.version}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>de.erichseifert.vectorgraphics2d</groupId>
+					<artifactId>VectorGraphics2D</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+</project>

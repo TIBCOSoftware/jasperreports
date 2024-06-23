@@ -1,0 +1,55 @@
+<jasperReport name="ParagraphsReport.1" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
+	<style name="myDefault" default="true" fontName="DejaVu Sans" fontSize="12.0"/>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["The 1st quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog."]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<p>The 1st quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.</p>"]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["<br/>The 2nd quick brown fox jumps over the lazy dog.<br/>And in HTML, the last BR tag is ignored."]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<br>The 2nd quick brown fox jumps over the lazy dog.<br>And in HTML, the last BR tag is ignored.<br>"]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["The 3rd quick brown fox jumps over the lazy dog.<br/>The quick brown fox jumps over the lazy dog.<br/> something <br/>The quick brown fox jumps over the lazy dog."]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<p>The 3rd quick brown fox jumps over the lazy dog.</p><p>The quick brown fox jumps over the lazy dog.</p> something <p>The quick brown fox jumps over the lazy dog.</p>"]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["<br/>The 4th quick brown fox jumps over the lazy dog.<br/><br/>The quick brown fox jumps over the lazy dog.<br/><br/> something <br/>The quick brown fox jumps over the lazy dog.<br/>"]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<br><p>The 4th quick brown fox jumps over the lazy dog.</p><br><p>The quick brown fox jumps over the lazy dog.</p><br> something <p>The quick brown fox jumps over the lazy dog.</p><br>"]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["<br/>The 5th quick brown fox jumps over the lazy dog.<br/><br/>The quick brown fox jumps over the lazy dog.<br/><br/> something <br/>And in HTML, the last BR tag in paragraph is ignored.<br/>"]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<p><br>The 5th quick brown fox jumps over the lazy dog.<br></p><p><br>The quick brown fox jumps over the lazy dog.<br></p> something <p><br>And in HTML, the last BR tag in paragraph is ignored.<br></p>"]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="0" y="0" width="270" height="10" backcolor="#CCFFCC" markup="styled" textAdjust="StretchHeight">
+					<expression><![CDATA["<br/><br/>The 6th quick brown fox jumps over the lazy dog.<br/><br/><br/>The quick brown fox jumps over the lazy dog.<br/> something <br/><br/>The quick brown fox jumps over the lazy dog.<br/>"]]></expression>
+				</element>
+				<element kind="textField" uuid="0af66f36-af68-42bf-a68b-3e173de493a8" mode="Opaque" x="275" y="0" width="270" height="10" backcolor="#CCFFCC" markup="html" textAdjust="StretchHeight">
+					<expression><![CDATA["<br><p><br>The 6th quick brown fox jumps over the lazy dog.<br></p><br><p><br>The quick brown fox jumps over the lazy dog.<br></p> something <br><p><br>The quick brown fox jumps over the lazy dog.<br></p><br>"]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

@@ -1,0 +1,40 @@
+<jasperReport name="JRMDbVariaSubreport" language="java" pageWidth="245" pageHeight="842" columnWidth="175" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ed53bb3e-bed8-456f-9dc6-fba549b525c6">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<parameter name="MovieId" class="java.lang.Integer"/>
+	<query language="ejbql"><![CDATA[SELECT   v.type, v.description
+			FROM     Varia v
+			WHERE    v.movie.id = $P{MovieId}
+			ORDER BY v.importance]]></query>
+	<field name="type" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_1"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_2"/>
+	</field>
+	<title height="14">
+		<element kind="staticText" uuid="eb271100-cfb0-45f7-8f6c-27a1709d7bd1" x="0" y="2" width="240" height="10" style="Sans_Italic">
+			<text><![CDATA[Varia]]></text>
+		</element>
+	</title>
+	<columnHeader height="14">
+		<element kind="rectangle" uuid="cc056fcd-b9d2-4e3a-9cec-fbdfcd92ff05" x="0" y="2" width="240" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF"/>
+		<element kind="staticText" uuid="5e4dde06-3e08-4e56-865e-c04675a676c8" mode="Opaque" x="0" y="2" width="70" height="10" backcolor="#CCFFFF" style="Sans_Bold">
+			<text><![CDATA[Type]]></text>
+		</element>
+		<element kind="staticText" uuid="69ddbaec-b2e3-4d83-8176-53f423bdebbb" mode="Opaque" x="75" y="2" width="170" height="10" backcolor="#CCFFFF" style="Sans_Bold">
+			<text><![CDATA[Description]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<element kind="textField" uuid="4f71d00b-b602-45f3-a611-b536ff1fb200" positionType="Float" x="0" y="2" width="70" height="10" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{type}]]></expression>
+			</element>
+			<element kind="textField" uuid="0c3eb459-b24c-4a36-8519-83c770097bd6" positionType="Float" x="75" y="2" width="170" height="10" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{description}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

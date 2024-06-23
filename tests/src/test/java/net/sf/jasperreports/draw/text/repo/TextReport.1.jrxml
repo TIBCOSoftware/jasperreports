@@ -1,0 +1,139 @@
+<jasperReport name="TextReport.1" language="java" pageWidth="842" pageHeight="595" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="8c1609b4-a52a-445f-acc9-69218b035b22">
+	<parameter name="MyText" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<style backcolor=\"cyan\">There     are     five     blank     characters     between     each     word     in     this     paragraph     to     show     how     they     impact     text     alignment.</style>"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MyTextNewLine" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<style backcolor=\"cyan\">There     are     five     blank     characters     between     each     word     in     this.\nParagraph     to     show     how     they     impact     text     alignment.</style>"]]></defaultValueExpression>
+	</parameter>
+	<group name="DummyGroup">
+		<groupHeader>
+			<band height="40">
+				<element kind="textField" uuid="eda0c1d8-c80f-4b92-b49f-24135dd8819a" mode="Opaque" x="5" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Left">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+				<element kind="textField" uuid="bff4764c-a4b5-485f-bf9b-eb5b884f6bc9" mode="Opaque" x="125" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Right">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+				<element kind="textField" uuid="1f30fea9-3fe9-4b66-8901-90cf28e014fd" mode="Opaque" x="245" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+				<element kind="textField" uuid="f1333208-fbc6-4387-b7a5-a975d07e3404" mode="Opaque" x="365" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+				<element kind="textField" uuid="a1333208-fbc6-4387-b7a5-a975d07e3404" mode="Opaque" x="485" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+				<element kind="textField" uuid="b1333208-fbc6-4387-b7a5-a975d07e3404" mode="Opaque" x="615" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyTextNewLine}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box topPadding="10"/>
+				</element>
+			</band>
+			<band height="310">
+				<element kind="textField" uuid="932b53c2-1c76-4fe6-ada0-e7062b64618e" mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Left">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="09a26a79-25d2-4654-94f4-4423067698b8" mode="Opaque" x="120" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Right">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="daee4b3d-f44b-4cb6-952f-dc2b24dac601" mode="Opaque" x="240" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="9479f13c-9634-44cd-b9da-a7d042f5fb5c" mode="Opaque" x="360" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="a479f13c-9634-44cd-b9da-a7d042f5fb5c" mode="Opaque" x="480" y="0" width="120" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="b479f13c-9634-44cd-b9da-a7d042f5fb5c" mode="Opaque" x="610" y="0" width="120" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyTextNewLine}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="d479f13c-9634-44cd-b9da-a7d042f5fb5c" positionType="Float" mode="Opaque" x="480" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="c479f13c-9634-44cd-b9da-a7d042f5fb5c" positionType="Float" mode="Opaque" x="610" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyTextNewLine}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="staticText" uuid="d479f13c-9634-44cd-b9da-a7d042f5fb5c" positionType="Float" mode="Opaque" x="480" y="90" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<text><![CDATA[<style backcolor="cyan">There     are     five     blank     characters     between     each     word     in     this     paragraph     to     show     how     they     impact     text     alignment.</style>]]></text>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="staticText" uuid="c479f13c-9634-44cd-b9da-a7d042f5fb5c" positionType="Float" mode="Opaque" x="610" y="90" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<text><![CDATA[<style backcolor="cyan">There     are     five     blank     characters     between     each     word     in     this.
+Paragraph     to     show     how     they     impact     text     alignment.</style>]]></text>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+			</band>
+			<band height="40">
+				<element kind="textField" uuid="7aaae350-fbe8-4dcc-bf9e-276344b8c630" mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Left">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="57463a9c-3a05-42bc-8a98-202f4d931a63" mode="Opaque" x="120" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Right">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="18788a85-d94d-41ef-a5ba-b34dbb758083" mode="Opaque" x="240" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="e5807bc7-e82c-452e-b8f5-4990a0e3062e" mode="Opaque" x="360" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="a5807bc7-e82c-452e-b8f5-4990a0e3062e" mode="Opaque" x="480" y="0" width="120" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyText}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+				<element kind="textField" uuid="b5807bc7-e82c-452e-b8f5-4990a0e3062e" mode="Opaque" x="610" y="0" width="120" height="30" forecolor="#FF0000" backcolor="#FFFF00" markup="styled" fontName="DejaVu Sans" textAdjust="StretchHeight" hTextAlign="Justified">
+					<paragraph firstLineIndent="10"/>
+					<expression><![CDATA[$P{MyTextNewLine}]]></expression>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<box leftPadding="5" rightPadding="5"/>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

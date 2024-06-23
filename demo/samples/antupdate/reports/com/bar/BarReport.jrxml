@@ -1,0 +1,12 @@
+<jasperReport name="BarReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="2618ac8e-3c02-44ec-992d-867ede3dca36">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<title height="782" splitType="Stretch">
+		<printWhenExpression><![CDATA[com.bar.SomeBarClass.isToPrint()]]></printWhenExpression>
+		<element kind="staticText" uuid="fe1c5ace-03fb-4fb5-b81d-5f8d704d9b16" mode="Opaque" x="0" y="0" width="555" height="90" backcolor="#DDDDDD" hTextAlign="Center" vTextAlign="Middle" style="Sans_Normal">
+			<text><![CDATA[Bar Report]]></text>
+			<box style="Sans_Normal">
+				<pen lineWidth="0.5" lineStyle="Solid"/>
+			</box>
+		</element>
+	</title>
+</jasperReport>

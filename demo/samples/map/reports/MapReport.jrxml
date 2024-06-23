@@ -1,0 +1,54 @@
+<jasperReport name="MapReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="20" bottomMargin="5" uuid="9f53d23c-701d-4697-8b70-3dead793fa70">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<parameter name="reqLatitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqLongitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="latitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? 44.435f : $P{reqLatitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="longitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? 26.096f : $P{reqLongitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<title height="80">
+		<element kind="line" uuid="df85de9c-a7db-421b-b7ac-386d8c0a9b2d" x="0" y="0" width="515" height="1"/>
+		<element kind="textField" uuid="377a52ec-89b5-40c4-abaf-aaa3a67fe97c" x="0" y="10" width="515" height="30" fontSize="22.0" bookmarkLevel="1" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<expression><![CDATA["Map Report"]]></expression>
+			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+		</element>
+		<element kind="textField" uuid="b9be91e5-7c65-4b6e-980b-f7fea0c87505" x="0" y="40" width="515" height="20" fontSize="14.0" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<expression><![CDATA["Google Maps"]]></expression>
+		</element>
+	</title>
+	<detail>
+		<band height="692">
+			<element kind="subreport" uuid="eb957572-2df1-437c-93db-12952a1de26a" x="0" y="0" width="515" height="692" runToBottom="true">
+				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[new JREmptyDataSource()]]></dataSourceExpression>
+				<expression><![CDATA["MapReport"+$V{REPORT_COUNT}+".jasper"]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="45">
+		<element kind="textField" uuid="4605ce09-ec19-4a4e-844b-e6babf2a8516" x="0" y="0" width="515" height="15" markup="html" fontSize="8.0" textAdjust="StretchHeight">
+			<expression><![CDATA["Portions of this page are modifications based on work created and <span style='text-decoration:underline;color:blue'><a href='https://developers.google.com/readme/policies'>shared by Google</a></span> and used according to terms described in the <span style='text-decoration:underline;color:blue'><a href='http://creativecommons.org/licenses/by/3.0'>Creative Commons 3.0 Attribution License</a></span>."]]></expression>
+		</element>
+		<element kind="line" uuid="8051168a-21e2-45e7-a105-777eebf0effc" positionType="Float" x="0" y="20" width="515" height="1"/>
+		<element kind="textField" uuid="dec0f8ff-2a19-426f-8681-98d7245ac977" positionType="Float" x="200" y="25" width="80" height="15" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="a60c893d-9fe2-4aa6-b149-b7fc2c388d98" positionType="Float" x="280" y="25" width="75" height="15" evaluationTime="Report">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

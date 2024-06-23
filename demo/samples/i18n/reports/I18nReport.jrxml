@@ -1,0 +1,34 @@
+<jasperReport name="I18nReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" resourceBundle="i18n" uuid="280f7abe-5b19-4e15-8223-612e25a5f66a">
+	<parameter name="number" class="java.lang.Double"/>
+	<title height="552">
+		<element kind="textField" uuid="9e47d16e-496c-46ee-8e1f-7ad49e928d48" positionType="Float" x="20" y="0" width="530" height="20" fontSize="14.0" pattern="EEEE, MMMM dd, yyyy" hTextAlign="Right">
+			<expression><![CDATA[new Date()]]></expression>
+			<property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+		</element>
+		<element kind="image" uuid="46e07ab6-7965-4fbe-a6f5-c9c2db5dda0f" positionType="Float" x="20" y="30" width="100" height="50" scaleImage="Clip">
+			<expression><![CDATA[$R{image.flag}]]></expression>
+		</element>
+		<element kind="textField" uuid="b776962f-11f2-417a-915d-477540da81bd" positionType="Float" x="150" y="30" width="400" height="50" fontSize="24.0">
+			<expression><![CDATA[$P{REPORT_LOCALE}.getDisplayName($P{REPORT_LOCALE})]]></expression>
+		</element>
+		<element kind="textField" uuid="b335f49d-4592-49d1-b24b-045de94e7ae3" positionType="Float" x="20" y="100" width="530" height="20" fontSize="14.0" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Justified">
+			<expression><![CDATA[$R{text.paragraph1}]]></expression>
+		</element>
+		<element kind="textField" uuid="96820d9b-4eec-439f-b4b6-aad1b4f6a2c3" positionType="Float" x="20" y="125" width="530" height="20" fontSize="14.0" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Justified">
+			<expression><![CDATA[$R{text.paragraph2}]]></expression>
+		</element>
+		<element kind="textField" uuid="92ed017e-89bd-4306-a531-eabca1d57f83" positionType="Float" x="20" y="150" width="530" height="20" fontSize="14.0" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Justified">
+			<expression><![CDATA[$R{text.paragraph3}]]></expression>
+		</element>
+		<element kind="textField" uuid="5d80dc10-e9b0-49ee-b760-19527151067b" positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000" fontSize="14.0" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA[msg($R{text.message}, $P{number})]]></expression>
+		</element>
+		<element kind="textField" uuid="0659a5e0-e391-400f-ac5c-5534289781ce" positionType="Float" x="20" y="175" width="530" height="28" forecolor="#0000FF" fontSize="18.0" pdfFontName="Helvetica-Oblique" textAdjust="StretchHeight" pattern="full,short" blankWhenNull="true" italic="true">
+			<expression><![CDATA[new Date()]]></expression>
+			<property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+		</element>
+		<element kind="textField" uuid="4e74aed5-73d8-46b8-ad28-40b52b0b09a8" positionType="Float" x="20" y="235" width="530" height="15" fontSize="10.0" pdfFontName="Helvetica-Oblique" textAdjust="StretchHeight" blankWhenNull="true" italic="true" hTextAlign="Right">
+			<expression><![CDATA[$R{text.contributors}]]></expression>
+		</element>
+	</title>
+</jasperReport>

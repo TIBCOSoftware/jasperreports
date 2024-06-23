@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:data.source">
+    <name>Data Source / Query Executer</name>
+  </category>
+
+
+  <!-- net.sf.jasperreports.xls.format -->
+  
+  <configProperty name="net.sf.jasperreports.xls.format">
+    <description>
+Built-in parameter/property holding the value of the Excel format to be used when parsing the Excel data source.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xlsx.data.source.factory -->
+  
+  <configProperty name="net.sf.jasperreports.xlsx.data.source.factory">
+    <description>
+Property that specifies the name of class implementing the <api href="net/sf/jasperreports/engine/data/XlsxDataSourceFactory.html">XlsxDataSourceFactory</api> interface, which would be used to instantiate
+data source objects for reading Excel files of the XLSX format.
+    </description>
+  </configProperty>
+  
+  
+</configReference>

@@ -1,0 +1,29 @@
+<jasperReport name="PdfA2Report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="2d9e0f21-d6dc-4ed3-bf60-109cb8dd4613">
+	<title height="520">
+		<element kind="staticText" uuid="739f6943-af78-4e02-b23d-ef8516028089" positionType="Float" x="0" y="0" width="555" height="40" fontName="LiberationSans" fontSize="14.0" hTextAlign="Center">
+			<text><![CDATA[The generated PDF document is a valid PDF/A-2]]></text>
+		</element>
+		<element kind="staticText" uuid="e249eb20-56d2-4504-bfd0-43b67096e274" positionType="Float" x="0" y="60" width="555" height="40" markup="styled" fontName="LiberationSans" fontSize="14.0" hTextAlign="Center">
+			<text><![CDATA[The font used is an <font color="#990000">embedded TTF</font> (<b>LiberationSans</b>) provided to JasperReports in form of a <i>font extension</i>.]]></text>
+		</element>
+		<element kind="image" uuid="5f1c96b1-1c14-4832-b78a-8236076c85fd" x="240" y="120" width="80" height="20" hImageAlign="Center" vImageAlign="Middle">
+			<expression><![CDATA["jasperreports.png"]]></expression>
+			<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
+		</element>
+		<element kind="rectangle" uuid="6168dfc1-c58d-4981-be19-871972f97214" x="210" y="210" width="100" height="50"/>
+		<element kind="ellipse" uuid="539a99bd-9c3c-47fa-a368-937f8ec671ef" x="260" y="227" width="70" height="70" backcolor="#990000"/>
+		<element kind="image" uuid="36925676-fe93-4bd5-8daa-7d8256cd3884" x="280" y="250" width="80" height="20" hImageAlign="Center" vImageAlign="Middle">
+			<expression><![CDATA["jasperreports.png"]]></expression>
+			<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
+		</element>
+	</title>
+	<pageFooter height="50">
+		<element kind="textField" uuid="5920db4d-68ca-4062-95f5-ebff9bc2d330" x="180" y="10" width="100" height="30" hTextAlign="Right">
+			<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="aded7850-0519-440d-9750-73b851ffaac2" x="280" y="10" width="100" height="30" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" of " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="line" uuid="162c4bb6-8bd3-4834-85b7-94ade350c93d" x="0" y="5" width="555" height="1"/>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,49 @@
+<jasperReport name="MapReport3" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="214b97f6-774e-4306-9b75-17aa13c9da20">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="MarkersDataset" uuid="5e673a55-11e8-4dfd-b416-ddeb7960fb37">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="address" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="iconurl" class="java.lang.String"/>
+		<field name="iconwidth" class="java.lang.Integer"/>
+		<field name="iconheight" class="java.lang.Integer"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="99ffce33-ba26-477f-a7bb-dead427aac0d" x="0" y="0" width="515" height="50" fontSize="14.0" bookmarkLevel="1" blankWhenNull="true" style="Sans_Bold">
+			<expression><![CDATA["San Francisco - Terrain Map with Custom Marker Icons"]]></expression>
+		</element>
+		<element kind="textField" uuid="33c8fdd6-a31b-45b1-bbb3-fc3f31819821" x="0" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA["A terrain map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled."]]></expression>
+		</element>
+		<element kind="component" uuid="25c7dffb-88e1-4ce0-a12f-708a922a5063" positionType="Float" x="0" y="150" width="515" height="326">
+			<component kind="googlemap" mapType="terrain" imageType="jpg" onErrorType="Icon">
+				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
+				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
+				<markerData>
+					<dataset>
+						<datasetRun uuid="9fad80a1-f61f-4a49-943b-bf790886a931" subDataset="MarkersDataset"/>
+					</dataset>
+					<item>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="icon.url"><![CDATA[$F{iconurl}]]></property>
+						<property name="icon.width"><![CDATA[$F{iconwidth}]]></property>
+						<property name="icon.height"><![CDATA[$F{iconheight}]]></property>
+					</item>
+				</markerData>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

@@ -1,0 +1,107 @@
+<jasperReport name="MondrianFoodMartSalesOlap4jReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="025fc52c-bafe-4c4f-88f3-f8f1e99ece10">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<query language="olap4j"><![CDATA[select NON EMPTY {[Measures].[Unit Sales], [Measures].[Customer Count]} ON COLUMNS,
+	NON EMPTY Crossjoin({[Store].[All Stores], [Store].[All Stores].[USA].[CA], [Store].[All Stores].[USA].[OR], [Store].[All Stores].[USA].[WA]},
+					Crossjoin({[Time].[2018], [Time].[2018].[Q1], [Time].[2018].[Q2], [Time].[2018].[Q3], [Time].[2018].[Q4]},
+					{[Customers].[All Customers], [Customers].[All Customers].[USA].[CA], [Customers].[All Customers].[USA].[OR], [Customers].[All Customers].[USA].[WA]})) ON ROWS
+from [Sales]]]></query>
+	<field name="StoreState" class="java.lang.String">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Store][Store State]"/>
+	</field>
+	<field name="Quarter" class="java.lang.String">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Time][Quarter]"/>
+	</field>
+	<field name="CustomerState" class="java.lang.String">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Customers][State Province]"/>
+	</field>
+	<field name="UnitSales" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(0,?)"/>
+	</field>
+	<field name="CustomerCount" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(1,?)"/>
+	</field>
+	<field name="StoreStateUnitSales" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(0,?)"/>
+	</field>
+	<field name="StoreStateCustCount" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(1,?)"/>
+	</field>
+	<field name="TotalStoreStateUnitSales" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(0,?)"/>
+	</field>
+	<field name="TotalStoreStateCustCount" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(1,?)"/>
+	</field>
+	<group name="StoreState">
+		<expression><![CDATA[$F{StoreState}]]></expression>
+		<groupHeader>
+			<band height="16">
+				<element kind="textField" uuid="48a8dbb4-b117-4529-ac83-47cb49ea71b2" x="10" y="0" width="150" height="15" evaluationTime="Group" evaluationGroup="StoreState" style="Sans_Bold">
+					<expression><![CDATA["Store " + $F{StoreState}]]></expression>
+				</element>
+				<element kind="textField" uuid="07f48ff1-3682-4a1a-a4f9-c20fcb6036f7" x="180" y="0" width="100" height="15" evaluationTime="Group" pattern="$#,##0.00" evaluationGroup="StoreState" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$F{StoreStateUnitSales}]]></expression>
+				</element>
+				<element kind="textField" uuid="4b85a8a7-73e8-40e9-a1ae-b8d5359ba881" x="300" y="0" width="100" height="15" evaluationTime="Group" pattern="#,###" evaluationGroup="StoreState" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$F{StoreStateCustCount}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Time">
+		<expression><![CDATA[$F{Quarter}]]></expression>
+		<groupHeader>
+			<band height="16">
+				<element kind="textField" uuid="d1d20411-96a4-432b-ba2e-43a75b30cb96" x="10" y="0" width="150" height="15" evaluationTime="Group" evaluationGroup="Time" style="Sans_Bold">
+					<expression><![CDATA[$F{Quarter}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader height="16">
+		<element kind="frame" uuid="d9889dcc-f5d3-4be9-894d-cc1dc4ff25a5" mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0">
+			<element kind="staticText" uuid="be79e693-3003-4fd5-b5e2-1a1d05f5a1b3" x="20" y="0" width="150" height="15" vTextAlign="Middle">
+				<text><![CDATA[Store State]]></text>
+			</element>
+			<element kind="staticText" uuid="5a522291-106e-4f9d-861e-ef16d295c8ea" x="180" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+				<text><![CDATA[Unit Sales ($)]]></text>
+			</element>
+			<element kind="staticText" uuid="885a3e4e-e65c-465e-9b73-b2504630964e" x="300" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+				<text><![CDATA[# Customers]]></text>
+			</element>
+			<box>
+				<pen lineWidth="0.5"/>
+			</box>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="16">
+			<element kind="textField" uuid="ed3b7330-7d98-4497-8025-adbdd2d8e497" x="20" y="0" width="150" height="15">
+				<expression><![CDATA["Customers from " + $F{CustomerState}]]></expression>
+			</element>
+			<element kind="textField" uuid="29753a3c-06f2-4080-9338-715268c78c21" x="180" y="0" width="100" height="15" pattern="$#,##0.00" hTextAlign="Right">
+				<expression><![CDATA[$F{UnitSales}]]></expression>
+			</element>
+			<element kind="textField" uuid="b5498cea-a856-4833-b0f0-f5c2d1529def" x="300" y="0" width="100" height="15" pattern="#,###" hTextAlign="Right">
+				<expression><![CDATA[$F{CustomerCount}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="16">
+		<element kind="frame" uuid="20cc4d11-82e3-4fb7-a689-64d598e9d626" mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0">
+			<element kind="textField" uuid="b3f91ad9-cf80-4d48-ae7c-c147186664ba" x="10" y="0" width="150" height="15" vTextAlign="Middle" style="Sans_Bold">
+				<expression><![CDATA["Totals"]]></expression>
+			</element>
+			<element kind="textField" uuid="f9978335-3f48-4ce0-9971-ac2ce0c41bb6" x="180" y="0" width="100" height="15" pattern="$#,##0.00" hTextAlign="Right" vTextAlign="Middle" style="Sans_Bold">
+				<expression><![CDATA[$F{TotalStoreStateUnitSales}]]></expression>
+			</element>
+			<element kind="textField" uuid="9163e7d0-f4a2-4e3d-afcf-eae06afe4ae6" x="300" y="0" width="100" height="15" pattern="#,###" hTextAlign="Right" vTextAlign="Middle" style="Sans_Bold">
+				<expression><![CDATA[$F{TotalStoreStateCustCount}]]></expression>
+			</element>
+			<box>
+				<pen lineWidth="0.5"/>
+			</box>
+		</element>
+	</summary>
+</jasperReport>

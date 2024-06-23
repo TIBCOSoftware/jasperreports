@@ -1,0 +1,27 @@
+<jasperReport name="GroupKeepTogether" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b5bf102-916b-4454-9864-2ee39f799344">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/virtualization/repo/empty300.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0"/>
+	<variable name="groupVar" class="java.lang.Integer">
+		<expression><![CDATA[($V{REPORT_COUNT} - 1) / 10]]></expression>
+	</variable>
+	<group name="group" keepTogether="true">
+		<expression><![CDATA[$V{groupVar}]]></expression>
+		<groupHeader>
+			<band height="25">
+				<element kind="textField" uuid="53146e09-fb4d-465e-b27e-1a4f1a6fa260" x="0" y="0" width="200" height="25" evaluationTime="Group" evaluationGroup="group">
+					<expression><![CDATA["group header " + $V{groupVar}]]></expression>
+				</element>
+				<element kind="textField" uuid="9e0275f6-2f06-4a7e-b8c1-466e84479a1b" x="200" y="0" width="200" height="25" evaluationTime="Report">
+					<expression><![CDATA["total records " + $V{REPORT_COUNT}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<element kind="textField" uuid="c9f73fa4-33bd-45ee-a50e-f08ced428ed9" x="0" y="0" width="300" height="25">
+				<expression><![CDATA["record " + $V{REPORT_COUNT}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

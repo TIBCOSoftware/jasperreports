@@ -1,0 +1,158 @@
+<jasperReport name="ParagraphsReport.1" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1c6f84ba-6471-4479-9bf0-1b285fc79c97">
+	<style name="myDefault" default="true" fontName="DejaVu Sans"/>
+	<style name="rulerStyle" style="myDefault" mode="Opaque" hTextAlign="Left" fontSize="4.0"/>
+	<style name="indentStyle" style="myDefault" mode="Transparent" backcolor="#FFFFFF">
+		<box style="myDefault">
+			<pen lineWidth="1.0"/>
+		</box>
+		<paragraph firstLineIndent="20" leftIndent="35" rightIndent="20"/>
+	</style>
+	<group name="MyGroup">
+		<groupHeader>
+			<band height="50">
+				<element kind="staticText" uuid="4156b2ba-599a-40e1-b7f0-e2efd9cabcb8" x="0" y="0" width="35" height="5" backcolor="#FFAAAA" hTextAlign="Center" style="rulerStyle">
+					<text><![CDATA[35]]></text>
+				</element>
+				<element kind="staticText" uuid="14ae8c62-6ee6-41c8-b21b-03a31315431d" x="35" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[0]]></text>
+				</element>
+				<element kind="staticText" uuid="9591cbb9-4d5a-49d4-a87f-4447a65e6db7" x="75" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="staticText" uuid="50818bc0-788d-4f14-b8d3-84a0112ee08b" x="115" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[80]]></text>
+				</element>
+				<element kind="staticText" uuid="b0dc8b9d-baca-43e5-b816-543e5a15070d" x="155" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[120]]></text>
+				</element>
+				<element kind="staticText" uuid="a00ca26b-93fb-4071-8fe9-999baea48c1e" x="195" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[160]]></text>
+				</element>
+				<element kind="textField" uuid="fb563d1a-92c8-4617-b1f7-c73147ffa468" x="0" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+				<element kind="staticText" uuid="37327c25-fbf5-47e0-a6be-9a6ed178964b" x="300" y="0" width="255" height="5" backcolor="#FFFF00" style="rulerStyle">
+					<text><![CDATA[Segments seem misaligned because they are first aligned to tab stops and then the overall line aligned to the right.]]></text>
+				</element>
+				<element kind="textField" uuid="636a8e23-8bb2-47b0-b45f-2369b6a0bd91" mode="Opaque" x="300" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Right" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is right:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+			</band>
+			<band height="50">
+				<element kind="staticText" uuid="4156b2ba-599a-40e1-b7f0-e2efd9cabcb8" x="0" y="0" width="35" height="5" backcolor="#FFAAAA" hTextAlign="Center" style="rulerStyle">
+					<text><![CDATA[35]]></text>
+				</element>
+				<element kind="staticText" uuid="14ae8c62-6ee6-41c8-b21b-03a31315431d" x="35" y="0" width="33" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[0]]></text>
+				</element>
+				<element kind="staticText" uuid="9591cbb9-4d5a-49d4-a87f-4447a65e6db7" x="68" y="0" width="7" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[33]]></text>
+				</element>
+				<element kind="staticText" uuid="50818bc0-788d-4f14-b8d3-84a0112ee08b" x="75" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="staticText" uuid="b0dc8b9d-baca-43e5-b816-543e5a15070d" x="115" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[80]]></text>
+				</element>
+				<element kind="staticText" uuid="a00ca26b-93fb-4071-8fe9-999baea48c1e" x="155" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[120]]></text>
+				</element>
+				<element kind="staticText" uuid="a00ca26b-93fb-4071-8fe9-999baea48c1e" x="195" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[160]]></text>
+				</element>
+				<element kind="textField" uuid="c45cef47-f45e-4dc5-8fbf-ffd2a529728f" x="0" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Left" style="indentStyle">
+					<paragraph lineSpacing="Proportional" lineSpacingSize="2.0">
+						<tabStop position="33" alignment="Center"/>
+					</paragraph>
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using a custom tab stop centered at position 33. The rest of the names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+				<element kind="staticText" uuid="37327c25-fbf5-47e0-a6be-9a6ed178964b" positionType="Float" x="0" y="45" width="255" height="5" backcolor="#FFFF00" style="rulerStyle">
+					<text><![CDATA[Apparent misalignment on first tab stop due to first line indent.]]></text>
+				</element>
+				<element kind="textField" uuid="c3eee17b-f653-41e3-94cb-e4bedeb5e6ec" x="300" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Right" style="indentStyle">
+					<paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
+						<tabStop position="33" alignment="Center"/>
+					</paragraph>
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using a custom tab stop centered at position 33. The rest of the names are tab stop aligned to the left, while the overall text alignment is right:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+			</band>
+			<band height="50">
+				<element kind="staticText" uuid="4156b2ba-599a-40e1-b7f0-e2efd9cabcb8" x="0" y="0" width="35" height="5" backcolor="#FFAAAA" hTextAlign="Center" style="rulerStyle">
+					<text><![CDATA[35]]></text>
+				</element>
+				<element kind="staticText" uuid="14ae8c62-6ee6-41c8-b21b-03a31315431d" x="35" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[0]]></text>
+				</element>
+				<element kind="staticText" uuid="9591cbb9-4d5a-49d4-a87f-4447a65e6db7" x="75" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="staticText" uuid="50818bc0-788d-4f14-b8d3-84a0112ee08b" x="115" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[80]]></text>
+				</element>
+				<element kind="staticText" uuid="b0dc8b9d-baca-43e5-b816-543e5a15070d" x="155" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[120]]></text>
+				</element>
+				<element kind="staticText" uuid="a00ca26b-93fb-4071-8fe9-999baea48c1e" x="195" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[160]]></text>
+				</element>
+				<element kind="textField" uuid="0158c9b8-7f86-4a5b-a5c1-a6d271356fd7" x="0" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" style="indentStyle">
+					<paragraph>
+						<tabStop position="40" alignment="Right"/>
+						<tabStop position="80" alignment="Right"/>
+						<tabStop position="120" alignment="Right"/>
+						<tabStop position="160" alignment="Right"/>
+						<tabStop position="200" alignment="Right"/>
+					</paragraph>
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using custom tab stops right aligned and 40 pixels apart. The overall text alignment is left:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+				<element kind="staticText" uuid="37327c25-fbf5-47e0-a6be-9a6ed178964b" positionType="Float" x="0" y="45" width="255" height="5" backcolor="#FFFF00" style="rulerStyle">
+					<text><![CDATA[Apparent misalignment on first tab stop due to first line indent.]]></text>
+				</element>
+				<element kind="textField" uuid="c0262207-39f6-431c-b75b-da9cd52f2235" x="300" y="5" width="255" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Right" style="indentStyle">
+					<paragraph>
+						<tabStop position="40" alignment="Right"/>
+						<tabStop position="80" alignment="Right"/>
+						<tabStop position="120" alignment="Right"/>
+						<tabStop position="160" alignment="Right"/>
+						<tabStop position="200" alignment="Right"/>
+					</paragraph>
+					<expression><![CDATA["<style backcolor=\"cyan\">Text field element using custom tab stops right aligned and 40 pixels apart. The overall text alignment is also right:\n\tpig          \tchicken   \tsheep   \thorse   \tgoat   \n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo</style>"]]></expression>
+				</element>
+			</band>
+			<band height="50">
+				<element kind="staticText" uuid="4156b2ba-599a-40e1-b7f0-e2efd9cabcb8" x="0" y="0" width="35" height="5" backcolor="#FFAAAA" style="rulerStyle">
+					<text><![CDATA[35]]></text>
+				</element>
+				<element kind="staticText" uuid="14ae8c62-6ee6-41c8-b21b-03a31315431d" x="35" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="staticText" uuid="9591cbb9-4d5a-49d4-a87f-4447a65e6db7" x="75" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="textField" uuid="4fb99ad9-8068-4413-bf69-def69f62d831" x="0" y="5" width="150" height="40" markup="styled" textAdjust="StretchHeight" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3</style>"]]></expression>
+				</element>
+				<element kind="textField" uuid="c5d8d6cb-cfbe-419e-8660-628e2c24241b" x="405" y="5" width="150" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Right" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3</style>"]]></expression>
+				</element>
+			</band>
+			<band height="50">
+				<element kind="staticText" uuid="4156b2ba-599a-40e1-b7f0-e2efd9cabcb8" x="0" y="0" width="35" height="5" backcolor="#FFAAAA" style="rulerStyle">
+					<text><![CDATA[35]]></text>
+				</element>
+				<element kind="staticText" uuid="14ae8c62-6ee6-41c8-b21b-03a31315431d" x="35" y="0" width="40" height="5" backcolor="#AAAAFF" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="staticText" uuid="9591cbb9-4d5a-49d4-a87f-4447a65e6db7" x="75" y="0" width="40" height="5" backcolor="#AAFFAA" style="rulerStyle">
+					<text><![CDATA[40]]></text>
+				</element>
+				<element kind="textField" uuid="67a8b72e-1578-4b1f-9729-2da88e5174fc" x="0" y="5" width="150" height="40" markup="styled" textAdjust="StretchHeight" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3</style>"]]></expression>
+				</element>
+				<element kind="textField" uuid="c6ff3b05-c388-4083-9cf4-e1e3a5b798a4" x="405" y="5" width="150" height="40" markup="styled" textAdjust="StretchHeight" hTextAlign="Right" style="indentStyle">
+					<expression><![CDATA["<style backcolor=\"cyan\">A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3</style>"]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

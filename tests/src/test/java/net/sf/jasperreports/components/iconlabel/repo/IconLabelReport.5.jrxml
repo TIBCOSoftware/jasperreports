@@ -1,0 +1,46 @@
+<jasperReport name="IconLabelReport.5" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="4f4cbf5b-ee86-41d0-804f-5b17e8c13e40">
+	<style name="Main" default="true" mode="Opaque" fontName="DejaVu Sans" fontSize="12.0">
+		<box>
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Component" style="Main" forecolor="#000000" backcolor="#FFFF00">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Label" style="Main" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="JasperReports Icons">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<group name="Dummy">
+		<groupHeader>
+			<band height="15">
+				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" x="0" y="0" width="200" height="15" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" hAlign="Right" vAlign="Bottom" style="Component">
+						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" printWhenDetailOverflows="true" vTextAlign="Bottom" style="Label">
+							<expression><![CDATA["Text."]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<title height="640">
+		<element kind="textField" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22" stretchType="ContainerHeight" x="0" y="0" width="515" height="640" textAdjust="StretchHeight" style="Main">
+			<expression><![CDATA["TITLE"]]></expression>
+		</element>
+	</title>
+</jasperReport>

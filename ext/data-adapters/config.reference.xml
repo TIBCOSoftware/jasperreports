@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:data.source">
+    <name>Data Source / Query Executer</name>
+  </category>
+  
+
+  <!-- net.sf.jasperreports.data.adapter -->
+  
+  <configProperty name="net.sf.jasperreports.data.adapter">
+    <description>
+Property that provides the location of a data adapter resource to be used for the dataset.    
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.jdbc.data.adapter.auto.commit -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.data.adapter.auto.commit">
+    <description>
+Flag that sets a default value for the <code>autoCommit</code> attribute of JDBC data adapters.
+<br/>
+By default no value is set, which means that <code>setAutoCommit</code> is not called on JDBC connections created by data adapter.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.jdbc.data.adapter.read.only -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.data.adapter.read.only">
+    <description>
+Flag that sets a default value for the <code>readOnly</code> attribute of JDBC data adapters.
+<br/>
+By default no value is set, which means that <code>setReadOnly</code> is not called on JDBC connections created by data adapter.
+    </description>
+  </configProperty>
+  
+  
+  <!-- 	net.sf.jasperreports.jdbc.data.adapter.transaction.isolation -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.data.adapter.transaction.isolation">
+    <description>
+Property that sets a default value for the <code>transactionIsolation</code> attribute of JDBC data adapters.
+<br/>
+By default no value is set, which means that <code>setTransactionIsolation</code> is not called on JDBC connections created by data adapter.
+Possible values are:
+<ul>
+  <li><code>NONE</code></li>
+  <li><code>READ_UNCOMMITTED</code></li>
+  <li><code>READ_COMMITTED</code></li>
+  <li><code>REPEATABLE_READ</code></li>
+  <li><code>SERIALIZABLE</code></li>
+</ul>
+See the documentation of <code>java.sql.Connection</code> for details on the transaction isolation types.
+    </description>
+  </configProperty>
+  
+  
+</configReference>

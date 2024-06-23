@@ -1,0 +1,50 @@
+<jasperReport name="AdventureWorks-Olap4JXMLAReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="47d3390f-dabb-4d78-af02-868ad77fd245">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<query language="olap4j"><![CDATA[SELECT
+		{ [Measures].[Sales Amount],
+				[Measures].[Tax Amount] } ON COLUMNS,
+	 NON EMPTY {
+		[Date].[Calendar].[Calendar Year].Members
+	} ON ROWS
+FROM [Adventure Works]
+WHERE ( [Sales Territory].[Southwest] )]]></query>
+	<field name="Year" class="java.lang.String">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Calendar][Calendar Year]"/>
+	</field>
+	<field name="SalesAmount" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Sales Amount],?)"/>
+	</field>
+	<field name="TaxAmount" class="java.lang.Number">
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Tax Amount],?)"/>
+	</field>
+	<pageHeader height="16">
+		<element kind="frame" uuid="ea4936be-6f19-4129-a7d8-707da758b3a6" mode="Opaque" x="0" y="0" width="515" height="15" backcolor="#E0E0E0">
+			<element kind="staticText" uuid="3b7b590b-1a55-4dd1-a7ec-36773c8b08ed" x="20" y="0" width="150" height="15" vTextAlign="Middle">
+				<text><![CDATA[Year]]></text>
+			</element>
+			<element kind="staticText" uuid="b300dbcb-70fe-40c2-a154-e34919d4f5e0" x="180" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+				<text><![CDATA[Sales Amount]]></text>
+			</element>
+			<element kind="staticText" uuid="f998fc2d-b5fa-467e-906d-ef4d0c43cca6" x="300" y="0" width="100" height="15" hTextAlign="Right" vTextAlign="Middle">
+				<text><![CDATA[Tax Amount]]></text>
+			</element>
+			<box>
+				<pen lineWidth="0.5"/>
+			</box>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="32">
+			<element kind="textField" uuid="5d6ce6aa-aa45-4cbd-9740-38501788cd5f" x="20" y="0" width="150" height="15">
+				<expression><![CDATA[$F{Year}]]></expression>
+			</element>
+			<element kind="textField" uuid="85fd517b-08d3-44cb-a886-49a64304d81b" x="180" y="0" width="100" height="15" pattern="#,###" hTextAlign="Right">
+				<expression><![CDATA[$F{SalesAmount}]]></expression>
+			</element>
+			<element kind="textField" uuid="c4ba08dc-551e-4b3b-9604-cf63fa5a54a5" x="300" y="0" width="100" height="15" pattern="$#,##0.00" hTextAlign="Right">
+				<expression><![CDATA[$F{TaxAmount}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,50 @@
+<jasperReport name="MapReport5" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bfa4e46f-62eb-4975-b769-7cbd93a83bb8">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="MarkersDataset" uuid="cde31723-d878-4086-868a-a9d4dd791113">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="address" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="iconurl" class="java.lang.String"/>
+		<field name="iconwidth" class="java.lang.Integer"/>
+		<field name="iconheight" class="java.lang.Integer"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="741c3e7b-5e7c-42d3-a7e9-f09339ffa198" x="0" y="0" width="515" height="50" fontSize="14.0" bookmarkLevel="1" blankWhenNull="true" style="Sans_Bold">
+			<expression><![CDATA["San Francisco - Hybrid Map with Custom Icons and Info Windows"]]></expression>
+		</element>
+		<element kind="textField" uuid="6b0f535d-2879-404c-8b74-1cefc3610115" x="0" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA["A road map sample. Five markers with custom icons are placed on the map. Marker tooltips are enabled. Clicking on a marker icon will open an info window with related information.\nIf present, the info window takes precedence over the marker hyperlink."]]></expression>
+		</element>
+		<element kind="component" uuid="787c3880-17ed-44af-8068-e3f120e66bad" positionType="Float" x="0" y="150" width="515" height="326">
+			<component kind="googlemap" mapType="hybrid" imageType="jpg" onErrorType="Icon">
+				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
+				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
+				<markerData>
+					<dataset>
+						<datasetRun uuid="920098e7-7bf2-4628-959c-8f799589469a" subDataset="MarkersDataset"/>
+					</dataset>
+					<item>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="icon.url"><![CDATA[$F{iconurl}]]></property>
+						<property name="icon.width"><![CDATA[$F{iconwidth}]]></property>
+						<property name="icon.height"><![CDATA[$F{iconheight}]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
+					</item>
+				</markerData>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

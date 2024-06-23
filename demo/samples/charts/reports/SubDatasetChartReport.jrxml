@@ -1,0 +1,78 @@
+<jasperReport name="SubDatasetChartReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="c83ff4c3-c99d-4fbb-b1a9-54dda8194309">
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="Country_Orders" uuid="d89be355-eac7-43cd-971d-21b8bf0bb71e">
+		<parameter name="Country" class="java.lang.String"/>
+		<query language="sql"><![CDATA[SELECT OrderDate, Freight
+			FROM Orders
+			WHERE
+				ShipCountry = $P{Country} AND
+				OrderDate IS NOT NULL
+			ORDER BY OrderDate]]></query>
+		<field name="OrderDate" class="java.sql.Timestamp"/>
+		<field name="Freight" class="java.lang.Double"/>
+		<variable name="OrderMonth" class="java.util.Date">
+			<expression><![CDATA[ChartsApp.truncateToMonth($F{OrderDate})]]></expression>
+		</variable>
+		<variable name="FreightSum" resetType="Group" calculation="Sum" resetGroup="MonthGroup" class="java.lang.Double">
+			<expression><![CDATA[$F{Freight}]]></expression>
+		</variable>
+		<group name="MonthGroup">
+			<expression><![CDATA[$V{OrderMonth}]]></expression>
+		</group>
+	</dataset>
+	<query language="sql"><![CDATA[SELECT DISTINCT ShipCountry
+		FROM Orders
+		ORDER BY ShipCountry]]></query>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<title height="50">
+		<element kind="staticText" uuid="2ef572a2-c639-4d80-96f9-869448710d1c" x="0" y="0" width="555" height="35" fontSize="22.0" hTextAlign="Center" style="Serif_Bold">
+			<text><![CDATA[Sub Dataset Chart Report]]></text>
+			<box style="Serif_Bold">
+				<topPen lineWidth="0.5"/>
+			</box>
+		</element>
+	</title>
+	<detail>
+		<band height="230">
+			<element kind="line" uuid="5eeb2941-484c-4094-9173-bc977ac66b96" x="0" y="19" width="550" height="1"/>
+			<element kind="textField" uuid="09e10730-c506-4504-a1ec-cbdbd9204181" x="10" y="2" width="150" height="16" fontSize="12.0" style="Sans_Bold">
+				<expression><![CDATA[$F{ShipCountry}]]></expression>
+			</element>
+			<element kind="chart" chartType="timeSeries" uuid="9a1592b0-dd52-406f-bb98-497f4e57d094" positionType="Float" x="0" y="25" width="550" height="190">
+				<dataset kind="timeSeries" incrementType="Group" incrementGroup="MonthGroup" timePeriod="Month">
+					<datasetRun uuid="c8f3b123-7be5-4ea0-9002-5fc495821df5" subDataset="Country_Orders">
+						<parameter name="Country">
+							<expression><![CDATA[$F{ShipCountry}]]></expression>
+						</parameter>
+					</datasetRun>
+					<series>
+						<seriesExpression><![CDATA["Freight"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$V{OrderMonth}]]></timePeriodExpression>
+						<valueExpression><![CDATA[$V{FreightSum}]]></valueExpression>
+						<labelExpression><![CDATA[]]></labelExpression>
+					</series>
+					<series>
+						<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
+						<timePeriodExpression><![CDATA[$V{OrderMonth}]]></timePeriodExpression>
+						<valueExpression><![CDATA[$V{FreightSum} / 2d]]></valueExpression>
+						<labelExpression><![CDATA[]]></labelExpression>
+					</series>
+				</dataset>
+				<plot showShapes="true" showLines="true"/>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="30">
+		<element kind="rectangle" uuid="ad8db66d-ee25-4884-a2f1-f215fc298d4c" mode="Transparent" x="0" y="5" width="555" height="25"/>
+		<element kind="textField" uuid="e55b478e-b140-443e-b25d-4a8407242c38" x="200" y="10" width="75" height="20" fontSize="14.0" hTextAlign="Right">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="868e1029-fed8-4b03-b2cd-37d77891b8b3" x="275" y="10" width="5" height="20" fontSize="14.0" hTextAlign="Center">
+			<text><![CDATA[/]]></text>
+		</element>
+		<element kind="textField" uuid="7e5b4f35-7cfb-474e-a2e9-823af9d0dbb6" x="280" y="10" width="75" height="20" fontSize="14.0" evaluationTime="Report">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

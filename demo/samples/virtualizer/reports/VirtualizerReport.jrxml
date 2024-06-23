@@ -1,0 +1,25 @@
+<jasperReport name="VirtualizerReport" language="java" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="62072fa9-c37f-416e-8ffc-9ace4ab66ee0">
+	<variable name="Value" class="java.lang.Double">
+		<expression><![CDATA[500 + 500 * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></expression>
+	</variable>
+	<title height="30">
+		<element kind="staticText" uuid="e012cc7f-4238-4765-8946-ea34e920a6cc" key="staticText-1" mode="Opaque" x="0" y="0" width="555" height="30" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" strikeThrough="false" underline="false" hTextAlign="Center">
+			<text><![CDATA[This report displays a very long list of pseudorandom numbers to show that JasperReports can handle very large documents using the so-called virtualizer.]]></text>
+		</element>
+	</title>
+	<detail>
+		<band height="20">
+			<element kind="textField" uuid="a78c9047-385d-4616-8bb6-f4ec73edfa1a" key="textField-1" mode="Opaque" x="0" y="0" width="100" height="20" fontName="DejaVu Sans" fontSize="12.0" pattern="#0.0000" bold="false" italic="false" strikeThrough="false" underline="false" hTextAlign="Right">
+				<expression><![CDATA[$V{Value}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="20">
+		<element kind="textField" uuid="8183edab-a417-463a-a15e-b0cdf0c07704" key="textField-1" mode="Opaque" x="170" y="0" width="100" height="20" fontName="DejaVu Sans" fontSize="12.0" pattern="" bold="false" italic="false" strikeThrough="false" underline="false" hTextAlign="Right">
+			<expression><![CDATA["page " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="59f18818-7130-4290-b74c-c778f02241a3" key="textField-1" mode="Opaque" x="270" y="0" width="100" height="20" fontName="DejaVu Sans" fontSize="12.0" evaluationTime="Report" pattern="" bold="false" italic="false" strikeThrough="false" underline="false">
+			<expression><![CDATA[" of " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

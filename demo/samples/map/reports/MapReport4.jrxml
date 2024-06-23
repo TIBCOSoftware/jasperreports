@@ -1,0 +1,97 @@
+<jasperReport name="MapReport4" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e2942308-8a13-4147-be01-38c5b6adde78">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="MarkersDataset" uuid="2960515c-455f-4a48-9b5b-d216608cbc1e">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="size" class="java.lang.String"/>
+		<field name="color" class="java.lang.String"/>
+		<field name="url" class="java.lang.String"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<dataset name="PathStyleDataset" uuid="0a614373-2dd9-48f3-b6da-8073f61b3fc3">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="name" class="java.lang.String"/>
+		<field name="strokecolor" class="java.lang.String"/>
+		<field name="strokeopacity" class="java.lang.Double"/>
+		<field name="strokeweight" class="java.lang.Integer"/>
+		<field name="fillcolor" class="java.lang.String"/>
+		<field name="fillopacity" class="java.lang.Double"/>
+		<field name="draggable" class="java.lang.Boolean"/>
+		<filterExpression><![CDATA[$F{name}!=null && $F{name}.length() != 0]]></filterExpression>
+	</dataset>
+	<dataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="name" class="java.lang.String"/>
+		<field name="style" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="ispolygon" class="java.lang.String"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="167e5ec0-82a9-424e-bbdf-ea30398c199d" x="0" y="0" width="515" height="50" fontSize="14.0" bookmarkLevel="1" blankWhenNull="true" style="Sans_Bold">
+			<expression><![CDATA["San Francisco - Satellite Map with Marker Hyperlinks and Paths"]]></expression>
+		</element>
+		<element kind="textField" uuid="43281568-dbae-4e43-a5b2-80f1116e425e" x="0" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA["A satellite map sample. Five markers with default icons and custom size/color are placed on the map. Marker tooltips are disabled. Clicking on a marker icon will open a new browser window/tab with related information.\nA green polygon path and a blue line are also represented on the map."]]></expression>
+		</element>
+		<element kind="component" uuid="9f74e287-34ad-45ab-ac56-24b8da1661b4" positionType="Float" x="0" y="150" width="515" height="326">
+			<component kind="googlemap" mapType="satellite" imageType="jpg" onErrorType="Icon">
+				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
+				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
+				<markerData>
+					<dataset>
+						<datasetRun uuid="798ff528-a17c-48c6-82b5-7f044ad619c8" subDataset="MarkersDataset"/>
+					</dataset>
+					<item>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="color"><![CDATA[$F{color}]]></property>
+						<property name="size"><![CDATA[$F{size}]]></property>
+						<property name="url"><![CDATA[$F{url}]]></property>
+						<property name="target"><![CDATA["_blank"]]></property>
+					</item>
+				</markerData>
+				<pathStyle>
+					<dataset>
+						<datasetRun uuid="2f83580b-a7e7-496e-8eca-d2993a5f1120" subDataset="PathStyleDataset"/>
+					</dataset>
+					<item>
+						<property name="name"><![CDATA[$F{name}]]></property>
+						<property name="strokeColor"><![CDATA[$F{strokecolor}]]></property>
+						<property name="strokeOpacity"><![CDATA[$F{strokeopacity}]]></property>
+						<property name="strokeWeight"><![CDATA[$F{strokeweight}]]></property>
+						<property name="fillColor"><![CDATA[$F{fillcolor}]]></property>
+						<property name="fillOpacity"><![CDATA[$F{fillopacity}]]></property>
+						<property name="draggable"><![CDATA[$F{draggable}]]></property>
+					</item>
+				</pathStyle>
+				<pathData>
+					<dataset>
+						<datasetRun uuid="b9d465b5-397d-4c65-8814-e85e757c97d0" subDataset="PathLocationDataset"/>
+					</dataset>
+					<item>
+						<property name="name"><![CDATA[$F{name}]]></property>
+						<property name="style"><![CDATA[$F{style}]]></property>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="isPolygon"><![CDATA[$F{ispolygon}]]></property>
+						<property name="path.hyperlink"><![CDATA["http://www.google.com"]]></property>
+					</item>
+				</pathData>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

@@ -1,0 +1,96 @@
+<jasperReport name="XmlHttpDataAdapterReport" language="java" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="171" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="b85a2cf8-dd0c-4a31-804c-e7b217f9b42b">
+	<property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.jrdax"/>
+	<dataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06"/>
+	<dataset name="MoviesDataset" uuid="bb6eeca6-9992-4268-8570-db12d8d5c79d">
+		<property name="net.sf.jasperreports.data.adapter" value="data/XmlHttpDataAdapter.jrdax"/>
+		<parameter name="page" class="java.lang.Integer">
+			<property name="net.sf.jasperreports.http.data.url.parameter"/>
+		</parameter>
+		<query language="xPath"><![CDATA[/root/animal]]></query>
+		<field name="name" class="java.lang.String">
+			<property name="net.sf.jasperreports.xpath.field.expression" value="@name"/>
+		</field>
+		<field name="size" class="java.lang.Integer">
+			<property name="net.sf.jasperreports.xpath.field.expression" value="@size"/>
+		</field>
+		<field name="type" class="java.lang.String">
+			<property name="net.sf.jasperreports.xpath.field.expression" value="@type"/>
+		</field>
+		<field name="image" class="java.lang.String">
+			<property name="net.sf.jasperreports.xpath.field.expression" value="@image"/>
+		</field>
+	</dataset>
+	<query language="xPath"><![CDATA[/root]]></query>
+	<field name="totalResults" class="java.lang.Integer">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="@totalResults"/>
+	</field>
+	<title height="79" splitType="Stretch">
+		<element kind="line" uuid="d50b9e25-6694-498a-974d-18a5b81b9ac2" x="0" y="0" width="515" height="1"/>
+		<element kind="textField" uuid="5894de4f-25db-48b0-965f-d30db16abf34" x="0" y="10" width="515" height="30" fontSize="22.0" bookmarkLevel="1" blankWhenNull="true" hTextAlign="Center">
+			<expression><![CDATA["HTTP Data Adapter Report"]]></expression>
+		</element>
+		<element kind="textField" uuid="823dfcca-53db-4d93-9de4-f11b18188e95" x="0" y="40" width="515" height="20" fontSize="14.0" blankWhenNull="true" hTextAlign="Center">
+			<expression><![CDATA["List of Animals"]]></expression>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch">
+		<element kind="textField" uuid="3d060769-58a9-49df-bfd3-9ba8c027b0e7" mode="Opaque" x="0" y="10" width="515" height="15" backcolor="#E6E6E6" hTextAlign="Left">
+			<expression><![CDATA["Current HTTP request for XML data returned " + $F{totalResults} + " results."]]></expression>
+			<box>
+				<bottomPen lineWidth="1.0"/>
+			</box>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="65" splitType="Stretch">
+			<element kind="component" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d" x="0" y="0" width="170" height="65">
+				<component kind="list" printOrder="Vertical">
+					<datasetRun uuid="61c31d0f-e3b3-46c6-a11a-8c5d8b7016cf" subDataset="FetchDataset">
+						<dataSourceExpression><![CDATA[new JREmptyDataSource((int)(Math.ceil($F{totalResults} / 10d)))]]></dataSourceExpression>
+					</datasetRun>
+					<contents height="65" width="170">
+						<element kind="component" uuid="ef2ce737-0796-45e1-b7cb-7d595e8f6c7e" x="0" y="0" width="170" height="65">
+							<component kind="list" printOrder="Vertical">
+								<datasetRun uuid="134b029e-9e8b-401f-9bd1-2a6087ea1242" subDataset="MoviesDataset">
+									<parameter name="page">
+										<expression><![CDATA[$V{REPORT_COUNT}]]></expression>
+									</parameter>
+								</datasetRun>
+								<contents height="65" width="170">
+									<element kind="textField" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b81" x="0" y="0" width="50" height="60" blankWhenNull="true">
+										<printWhenExpression><![CDATA[$F{image} == null]]></printWhenExpression>
+										<box>
+											<pen lineWidth="0.1"/>
+										</box>
+									</element>
+									<element kind="image" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b80" x="0" y="0" width="50" height="60">
+										<printWhenExpression><![CDATA[$F{image} != null]]></printWhenExpression>
+										<expression><![CDATA["http://localhost:8080/image.jsp?name=" + $F{image}]]></expression>
+									</element>
+									<element kind="textField" uuid="01569877-14f7-446d-b7bc-822f76698abe" x="55" y="0" width="114" height="12" textAdjust="StretchHeight" bold="true">
+										<expression><![CDATA[$F{name}]]></expression>
+									</element>
+									<element kind="textField" uuid="eeea0d4c-cb97-4fd3-91cf-b72b3dde0107" positionType="Float" x="55" y="14" width="114" height="12">
+										<expression><![CDATA[$F{size} + "kb"]]></expression>
+									</element>
+									<element kind="textField" uuid="a531e713-3704-4712-bf86-28420338e08c" positionType="Float" x="55" y="26" width="114" height="12">
+										<expression><![CDATA[$F{type}]]></expression>
+									</element>
+								</contents>
+							</component>
+						</element>
+					</contents>
+				</component>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="54" splitType="Stretch">
+		<element kind="line" uuid="af562ddd-d9cd-460a-b30a-5e2497bc8617" x="0" y="10" width="515" height="1"/>
+		<element kind="textField" uuid="d34ea5a3-d3ad-43e6-b661-1436d5764114" x="200" y="20" width="80" height="15" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="a67f1a25-9a92-499f-abc3-6f939da5fa60" x="280" y="20" width="75" height="15" evaluationTime="Report">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

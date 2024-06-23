@@ -1,0 +1,67 @@
+<jasperReport name="CustomersReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="6386a198-a31e-4f65-936d-2bc9fe5ac907">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<query language="xPath"><![CDATA[/Northwind/Customers]]></query>
+	<field name="CustomerID" class="java.lang.String">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="CustomerID"/>
+	</field>
+	<field name="CompanyName" class="java.lang.String">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="CompanyName"/>
+	</field>
+	<title height="50">
+		<element kind="line" uuid="9c2633d9-9bfe-433b-8f5f-533a8280c386" x="0" y="0" width="515" height="1"/>
+		<element kind="staticText" uuid="69cf7a16-df9e-4a92-8dee-005fa6f01193" x="0" y="10" width="515" height="30" fontSize="22.0" hTextAlign="Center" style="Sans_Normal">
+			<text><![CDATA[Customer Orders Report]]></text>
+		</element>
+	</title>
+	<pageHeader height="21">
+		<element kind="staticText" uuid="ee9cbaa3-142e-42ab-af98-2873869ded2d" mode="Opaque" x="0" y="5" width="515" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+			<text><![CDATA[Customer Order List]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="50">
+			<element kind="textField" uuid="880e92c9-d6cc-4ad4-bc60-7e45887b9fe1" x="5" y="5" width="100" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
+				<expression><![CDATA[$F{CustomerID}]]></expression>
+			</element>
+			<element kind="staticText" uuid="e40dae0e-0859-4881-bbe2-290bfa88d7d7" x="404" y="5" width="100" height="15" printWhenDetailOverflows="true" printRepeatedValues="false" style="Sans_Bold">
+				<text><![CDATA[(continued)]]></text>
+			</element>
+			<element kind="line" uuid="2d5a60ee-3d8d-4f50-ba2a-72f82e76e38e" x="0" y="20" width="515" height="1" printWhenDetailOverflows="true"/>
+			<element kind="subreport" uuid="e7de82f1-2e1c-4459-bef3-307e57903e0b" x="5" y="25" width="507" height="20" backcolor="#FFCC99" printRepeatedValues="false" removeLineWhenBlank="true">
+				<expression><![CDATA["OrdersReport.jasper"]]></expression>
+				<parameter name="XML_DATA_DOCUMENT">
+					<expression><![CDATA[$P{XML_DATA_DOCUMENT}]]></expression>
+				</parameter>
+				<parameter name="XML_DATE_PATTERN">
+					<expression><![CDATA[$P{XML_DATE_PATTERN}]]></expression>
+				</parameter>
+				<parameter name="XML_NUMBER_PATTERN">
+					<expression><![CDATA[$P{XML_NUMBER_PATTERN}]]></expression>
+				</parameter>
+				<parameter name="XML_LOCALE">
+					<expression><![CDATA[$P{XML_LOCALE}]]></expression>
+				</parameter>
+				<parameter name="XML_TIME_ZONE">
+					<expression><![CDATA[$P{XML_TIME_ZONE}]]></expression>
+				</parameter>
+				<parameter name="CustomerID">
+					<expression><![CDATA[$F{CustomerID}]]></expression>
+				</parameter>
+			</element>
+			<element kind="textField" uuid="ded07e37-4c41-4617-9f13-8a819cc1e745" x="109" y="5" width="291" height="15" printWhenDetailOverflows="true" style="Sans_Bold">
+				<expression><![CDATA[$F{CompanyName}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="40">
+		<element kind="line" uuid="33a41154-ab20-4fbc-8f20-b47eb00b7c12" x="0" y="10" width="515" height="1"/>
+		<element kind="textField" uuid="e6339776-ad98-448c-9ede-58a76a109cc0" x="200" y="20" width="80" height="15" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="36404df1-6aa0-467f-915b-9b0166073249" x="280" y="20" width="75" height="15" evaluationTime="Report">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

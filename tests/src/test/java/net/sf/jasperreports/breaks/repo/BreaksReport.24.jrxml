@@ -1,0 +1,31 @@
+<jasperReport name="BreaksReport.24" language="java" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<title height="500">
+		<element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="0" y="0" width="515" height="500" textAdjust="StretchHeight">
+			<expression><![CDATA["Title"]]></expression>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+		</element>
+	</title>
+	<detail>
+		<band height="30">
+			<element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="0" y="0" width="515" height="30" textAdjust="StretchHeight">
+				<expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<summary height="500">
+		<element kind="break" uuid="9dbae581-b65f-4bcf-a68b-a331d59d5e1e" x="0" y="10" width="100" height="1"/>
+		<element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="0" y="20" width="515" height="480" textAdjust="StretchHeight">
+			<expression><![CDATA["Summary"]]></expression>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+		</element>
+	</summary>
+</jasperReport>

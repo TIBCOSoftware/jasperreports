@@ -1,0 +1,34 @@
+<jasperReport name="SubreportColumnsReport.3.subreport.1" language="java" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="80" columnSpacing="5" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.101.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<sortField name="REPORT_COUNT" type="Variable"/>
+	<variable name="TotalRecords" class="java.lang.Integer">
+		<expression><![CDATA[$P{REPORT_DATA_SOURCE} instanceof net.sf.jasperreports.engine.fill.SortedDataSource
+? ((net.sf.jasperreports.engine.fill.SortedDataSource)$P{REPORT_DATA_SOURCE}).getRecords().size()
+: 0]]></expression>
+	</variable>
+	<variable name="TopPageRecord" resetType="Page" calculation="First" class="java.lang.Integer">
+		<expression><![CDATA[$V{REPORT_COUNT} - 1]]></expression>
+	</variable>
+	<group name="dummy" startNewColumn="true">
+		<expression><![CDATA[($V{COLUMN_COUNT} > (($V{TotalRecords} - $V{TopPageRecord}) / 3 + (($V{COLUMN_NUMBER} <= ($V{TotalRecords} - $V{TopPageRecord}) % 3) ? 1 : 0)))]]></expression>
+	</group>
+	<detail>
+		<band height="30" splitType="Prevent">
+			<element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="0" y="0" width="80" height="30" textAdjust="StretchHeight">
+				<expression><![CDATA["Detail " + $V{REPORT_COUNT}]]></expression>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="30" splitType="Prevent">
+		<element kind="textField" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#5BB5F5" textAdjust="StretchHeight">
+			<expression><![CDATA["Column Footer"]]></expression>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+		</element>
+	</columnFooter>
+</jasperReport>

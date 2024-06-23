@@ -1,0 +1,16 @@
+<ivysettings>
+	<settings defaultResolver="maven"/>
+	<resolvers>
+		<chain name="maven">
+			<ibiblio name="local-maven2" m2compatible="true" usepoms="true"
+				root="file://${user.home}/.m2/repository/"/>
+			<ibiblio name="ibiblio" m2compatible="true" usepoms="true"/>
+			<ibiblio name="jaspersoft" m2compatible="true" usepoms="true"
+				root="https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"/>
+			<ibiblio name="jr-releases" m2compatible="true" usepoms="true"
+				root="https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases/"/>
+			<ibiblio name="jr-snapshots" m2compatible="true" usepoms="true"
+				root="https://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/"/>
+		</chain>
+	</resolvers>
+</ivysettings>

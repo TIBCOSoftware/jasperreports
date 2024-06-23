@@ -1,0 +1,44 @@
+<jasperReport name="StylesReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="53f914b8-f951-4433-971d-6b1819430c56">
+	<template><![CDATA["styles.jrtx"]]></template>
+	<style name="Right Aligned" style="Regular" hTextAlign="Right" hImageAlign="Right"/>
+	<style name="More Emphasis" style="Emphasis" mode="Opaque" backcolor="#FFC800" fontSize="14.0"/>
+	<style name="Serif Note" style="Serif" mode="Opaque" forecolor="#FFC800" backcolor="#404040" fontSize="10.0"/>
+	<title height="782">
+		<element kind="textField" uuid="75dc6b08-96e0-45b9-a771-9e884cc4aafb" x="0" y="0" width="555" height="25" textAdjust="StretchHeight">
+			<expression><![CDATA["Regular (default): font size = 12, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="d74f4c94-b8ae-4627-a7fc-6651b2eaecdf" x="0" y="30" width="555" height="25" textAdjust="StretchHeight" underline="true">
+			<expression><![CDATA["Regular (modified): font size = 12, underlined, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="e35e4360-5387-4e05-a931-097091258215" positionType="Float" x="0" y="60" width="555" height="25" textAdjust="StretchHeight" style="Right Aligned">
+			<expression><![CDATA["Right Aligned: font size = 12, right aligned, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="ba12716b-8e1e-4379-8ec1-a3ff34d99e20" positionType="Float" x="0" y="90" width="555" height="25" textAdjust="StretchHeight" style="Emphasis">
+			<expression><![CDATA["Emphasis: font size = 10, italic, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="f370465b-2cfd-41c5-b48a-e4c3b0afe86f" positionType="Float" x="0" y="120" width="555" height="25" textAdjust="StretchHeight" style="Special Emphasis">
+			<expression><![CDATA["Special Emphasis: font size = 12, red, italic, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="c864bf3d-2357-46c1-a22d-611159c6be51" positionType="Float" x="0" y="150" width="555" height="25" textAdjust="StretchHeight" style="More Emphasis">
+			<expression><![CDATA["More Emphasis: font size = 14, black on orange, italic, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="34e8a2ef-6903-425d-809e-1d395fc9b683" positionType="Float" x="0" y="180" width="555" height="25" textAdjust="StretchHeight" style="Strong">
+			<expression><![CDATA["Strong: font size = 14, underlined, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="3f80426c-2b53-49c4-9556-c2ae6cd8d564" positionType="Float" x="0" y="210" width="555" height="25" textAdjust="StretchHeight" style="Very Strong">
+			<expression><![CDATA["Very Strong: font size = 12, black on light gray, bold, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="7cbc0ad3-1d9c-4f0e-a4c7-2e1055be690a" positionType="Float" x="0" y="240" width="555" height="25" backcolor="#FFC800" textAdjust="StretchHeight" style="Very Strong">
+			<expression><![CDATA["Very Strong (modified): font size = 12, black on orange, bold, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="af97e5bb-2d6a-4fae-bc17-bad21101a3a1" positionType="Float" x="0" y="270" width="555" height="25" textAdjust="StretchHeight" style="Serif">
+			<expression><![CDATA["Serif: font face = DejaVu Serif, font size = 12, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="ed44229f-c431-447c-8f46-0113ecc9affa" positionType="Float" x="0" y="300" width="555" height="25" markup="styled" textAdjust="StretchHeight" style="Serif">
+			<expression><![CDATA["Serif (styled): font face = DejaVu Serif, font size = 12, <style forecolor=\"red\">partially red</style>, centered, border"]]></expression>
+		</element>
+		<element kind="textField" uuid="6dc9246d-95be-4d9c-abb8-9dbdcc6dcea8" positionType="Float" x="0" y="330" width="555" height="25" textAdjust="StretchHeight" style="Serif Note">
+			<expression><![CDATA["Serif Note: font face = DejaVu Serif, font size = 10, orange on dark gray, centered, border"]]></expression>
+		</element>
+	</title>
+</jasperReport>

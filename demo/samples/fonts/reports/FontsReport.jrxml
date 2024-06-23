@@ -1,0 +1,78 @@
+<jasperReport name="FontsReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="8c1609b4-a52a-445f-acc9-69218b035b22">
+	<property name="net.sf.jasperreports.export.docx.embed.fonts" value="true"/>
+	<property name="net.sf.jasperreports.export.pptx.embed.fonts" value="true"/>
+	<title height="782">
+		<element kind="staticText" uuid="67cc85d2-1691-441c-8ed6-b65c59f98fbc" x="0" y="50" width="150" height="40">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="e0d254ad-1e47-4792-b380-f7afc5e4faa5" x="160" y="50" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="50" width="150" height="40"><text>The quick brown fox jumps over the lazy dog.</text></element></staticText>]]></text>
+		</element>
+		<element kind="staticText" uuid="3c5505db-55e9-4aca-ad3a-ae92898ba1bb" x="0" y="100" width="150" height="40" fontSize="12.0">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="7d953de8-7629-4138-a296-dfe463cba691" x="160" y="100" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="100" width="150" height="40" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="2a2117f5-ea77-409f-a44c-9fd0551f8862" x="0" y="150" width="150" height="40" fontName="Lobster Two" fontSize="12.0">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="39ce42dd-d5fa-43dd-a0de-de90b9e4b977" x="160" y="150" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="150" width="150" height="40" fontName="Lobster Two" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="3828a320-c835-4eed-98d2-e6cb0324817b" x="0" y="200" width="150" height="40" fontName="Lobster Two" fontSize="12.0" bold="true" italic="true">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="441f2d58-78bf-413b-bc9b-dd7d1713c1a6" x="160" y="200" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="200" width="150" height="40" fontName="Lobster Two" bold="true" italic="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="f96f1263-2d31-4eef-951e-2e39ada33878" x="0" y="250" width="150" height="40" fontName="DejaVu Serif" fontSize="12.0" bold="false">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="08fb0715-b6ff-4ea3-ab20-0d4db2be8d77" x="160" y="250" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="250" width="150" height="40" fontName="DejaVu Serif" bold="false" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="2fda67e5-3953-44a0-9f88-f0d3dc6d8910" x="0" y="300" width="150" height="40" fontName="DejaVu Serif" fontSize="12.0" bold="true">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="69138007-8118-4689-831a-840627dcd7b6" x="160" y="300" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="300" width="150" height="40" fontName="DejaVu Serif" bold="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="447870d2-5f05-4764-ad5e-4d3cdf11084b" x="0" y="350" width="150" height="40" fontName="Monospaced" fontSize="12.0" pdfFontName="Courier-Oblique" italic="true" underline="true">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="38702e0b-0a84-4a47-896f-361c02ea944e" x="160" y="350" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="350" width="150" height="40" fontName="Monospaced" pdfFontName="Courier-Oblique" italic="true" underline="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="9fcbe261-51f6-43b1-8752-11ffc10cc328" x="0" y="400" width="150" height="40" fontName="Monospaced" fontSize="12.0" pdfFontName="Courier-Bold" bold="true" strikeThrough="true">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="dbdf1aa0-5a2e-4c19-a84c-cce0438e7896" x="160" y="400" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="400" width="150" height="40" fontName="Monospaced" pdfFontName="Courier-Bold" bold="true" strikeThrough="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="348534b1-c588-4b7a-83b0-957a5332a13a" x="0" y="450" width="150" height="40" forecolor="#FF0000" fontSize="14.0">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="b9386ce9-aa44-4594-8559-3dcbb279a5f3" x="160" y="450" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" y="450" width="150" height="40" forecolor="#FF0000" fontSize="14.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="ba8b385e-a4e5-4059-9555-d416774e87c4" mode="Opaque" x="0" y="500" width="150" height="40" forecolor="#00FF00" backcolor="#FFFF00" fontName="Serif" fontSize="12.0" pdfFontName="Times-Bold" bold="true">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="72ad7c1c-35c8-40ec-b1b8-78527db92baa" x="160" y="500" width="390" height="40">
+			<text><![CDATA[<element kind="staticText" mode="Opaque" y="500" width="150" height="40" forecolor="#00FF00" backcolor="#FFFF00" fontName="Serif" pdfFontName="Times-Bold" bold="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="dbce8c34-546e-4351-893a-c1905e5a068e" mode="Opaque" x="0" y="550" width="150" height="90" forecolor="#0000FF" backcolor="#FFDD99" fontName="SansSerif" fontSize="12.0" pdfFontName="Sans.Slanted" bold="false" italic="true" pdfEmbedded="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="44f1dc5e-d435-4475-8274-48eb7bc9fead" x="160" y="550" width="390" height="90">
+			<text><![CDATA[<element kind="staticText" mode="Opaque" y="550" width="150" height="90" forecolor="#0000FF" backcolor="#FFDD99" hTextAlign="Center" vTextAlign="Middle" fontName="SansSerif" pdfFontName="Sans.Slanted" bold="false" italic="true" pdfEmbedded="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+		<element kind="staticText" uuid="e5c5b52a-7beb-4381-bd5b-83d8bc848ba3" mode="Opaque" x="0" y="650" width="150" height="90" forecolor="#FF0000" backcolor="#99DDFF" fontName="SansSerif" fontSize="12.0" pdfFontName="DejaVu Sans Bold" bold="true" pdfEmbedded="true" hTextAlign="Right" vTextAlign="Bottom">
+			<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
+		</element>
+		<element kind="staticText" uuid="31894e18-5a34-4419-a66c-c0148dd8bc60" x="160" y="650" width="390" height="90">
+			<text><![CDATA[<element kind="staticText" mode="Opaque" y="650" width="150" height="90" forecolor="#FF0000" backcolor="#99DDFF" hTextAlign="Right" vTextAlign="Bottom" fontName="SansSerif" pdfFontName="DejaVu Sans Bold" bold="true" pdfEmbedded="true" fontSize="12.0"><text>The quick brown fox jumps over the lazy dog.</text></element>]]></text>
+		</element>
+	</title>
+</jasperReport>

@@ -1,0 +1,81 @@
+<jasperReport name="TocReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="6e74177b-d551-4a75-ae51-6cdde3f284ce">
+	<style name="Default" fontName="DejaVu Sans"/>
+	<style name="Title" style="Default" hTextAlign="Right" fontSize="32.0">
+		<box style="Default">
+			<topPen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Heading1" style="Default" fontSize="16.0" bold="true">
+		<box style="Default">
+			<bottomPen lineWidth="0.5" lineStyle="Dashed"/>
+		</box>
+	</style>
+	<style name="HeadingLabel1" style="Heading1"/>
+	<style name="HeadingIndex1" style="Heading1"/>
+	<style name="Heading2" style="Default" fontSize="16.0">
+		<box style="Default">
+			<bottomPen lineWidth="0.5" lineStyle="Dashed"/>
+		</box>
+	</style>
+	<style name="HeadingLabel2" style="Heading2"/>
+	<style name="HeadingIndex2" style="Heading2"/>
+	<style name="Heading3" style="Default" fontSize="12.0">
+		<box style="Default">
+			<bottomPen lineWidth="0.0" lineStyle="Dashed"/>
+		</box>
+	</style>
+	<style name="HeadingLabel3" style="Heading3"/>
+	<style name="HeadingIndex3" style="Heading3"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="level" class="java.lang.Integer"/>
+	<field name="label" class="java.lang.String"/>
+	<field name="pageIndex" class="java.lang.Integer"/>
+	<variable name="level2Index" class="java.lang.Integer">
+		<expression><![CDATA[$F{level} == 1 ? 0 : ($F{level} == 2 ? ($V{level2Index} + 1) : $V{level2Index})]]></expression>
+	</variable>
+	<background splitType="Stretch"/>
+	<title height="60" splitType="Stretch">
+		<element kind="textField" uuid="24731f07-d115-4be4-a22c-aa9a4c3fc786" x="0" y="0" width="515" height="40" style="Title">
+			<expression><![CDATA["Table of Contents"]]></expression>
+		</element>
+	</title>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
+			<element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="0" y="5" width="470" height="20" linkType="LocalAnchor" style="HeadingLabel1">
+				<expression><![CDATA[$F{label}]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" evaluationTime="Auto" linkType="LocalAnchor" hTextAlign="Right" vTextAlign="Bottom" style="HeadingIndex1">
+				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+		</band>
+		<band height="25" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
+			<element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="60" y="5" width="410" height="20" linkType="LocalAnchor" style="HeadingLabel2">
+				<expression><![CDATA[$F{label}]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="5" width="45" height="20" evaluationTime="Auto" linkType="LocalAnchor" hTextAlign="Right" vTextAlign="Bottom" style="HeadingIndex2">
+				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+			<element kind="textField" uuid="ae12cafd-22e8-45ae-a1a7-8e00a8208cf0" x="20" y="5" width="40" height="20" linkType="LocalAnchor" style="HeadingLabel2">
+				<expression><![CDATA[$V{level2Index} + "."]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+		</band>
+		<band height="15" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{level} == 3]]></printWhenExpression>
+			<element kind="textField" uuid="379fcff2-021d-4761-a89a-eeb772723b1b" x="40" y="0" width="430" height="15" linkType="LocalAnchor" style="HeadingLabel3">
+				<expression><![CDATA[$F{label}]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+			<element kind="textField" uuid="a31e80f3-f1fa-4643-adbe-77a61c7b9051" x="470" y="0" width="45" height="15" evaluationTime="Auto" linkType="LocalAnchor" hTextAlign="Right" vTextAlign="Bottom" style="HeadingIndex3">
+				<expression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></expression>
+				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

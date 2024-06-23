@@ -1,0 +1,206 @@
+<jasperReport name="FormsReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="5c5dcd20-3a6f-4238-9fdf-573befc20291">
+	<group name="Dummy">
+		<groupHeader>
+			<band height="50">
+				<element kind="textField" uuid="e7f769c2-9ed0-45e8-9b1c-99d62a719a63" mode="Opaque" x="0" y="0" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" fontName="DejaVu Sans Mono" fontSize="24.0" hTextAlign="Center">
+					<expression><![CDATA["This text value is replaced in PDF by the field value property."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					<propertyExpression name="net.sf.jasperreports.export.pdf.field.value"><![CDATA["This\nis a multi\nline text inside a single line text field."]]></propertyExpression>
+				</element>
+				<element kind="textField" uuid="af005021-8b3d-4b5e-9fa7-d8dcef9936f6" positionType="Float" mode="Opaque" x="250" y="0" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF" fontName="DejaVu Serif" fontSize="24.0" hTextAlign="Right">
+					<expression><![CDATA["This\nis a multi\nline text inside a multi line text field."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
+					<property name="net.sf.jasperreports.export.pdf.field.text.multiline" value="true"/>
+					<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="textField" uuid="d1afb9bb-a72b-4e29-a626-14561f3ff489" positionType="Float" mode="Opaque" x="0" y="0" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" fontName="DejaVu Serif" fontSize="24.0" bold="true" hTextAlign="Center">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
+					<property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
+					<property name="net.sf.jasperreports.export.pdf.field.value" value="Four"/>
+				</element>
+				<element kind="textField" uuid="43373481-0474-48fa-af1d-416edd07a77a" positionType="Float" mode="Opaque" x="250" y="0" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00" fontName="DejaVu Serif" fontSize="24.0" bold="true" hTextAlign="Center">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
+					<property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
+					<property name="net.sf.jasperreports.export.pdf.field.combo.edit" value="true"/>
+				</element>
+			</band>
+			<band height="100">
+				<element kind="textField" uuid="940c11f0-df1c-41f7-b0f9-42e2c3069242" positionType="Float" mode="Opaque" x="0" y="0" width="200" height="95" forecolor="#00FFFF" backcolor="#00FF00" fontName="DejaVu Serif" fontSize="24.0" bold="true" hTextAlign="Center">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
+					<property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
+					<property name="net.sf.jasperreports.export.pdf.field.choices" value="Un,Deux,Trois,Quatre,Cinq"/>
+					<property name="net.sf.jasperreports.export.pdf.field.value" value="Quatre"/>
+					<box>
+						<pen lineWidth="2.0" lineStyle="Dashed" lineColor="#FF0000"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="bfab3e2d-1312-4d59-bd00-2cb151c80c7d" positionType="Float" mode="Transparent" x="250" y="0" width="200" height="95" backcolor="#00FF00" fontName="DejaVu Serif" fontSize="12.0" bold="true" hTextAlign="Right">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
+					<property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
+					<property name="net.sf.jasperreports.export.pdf.field.choices" value="Un,Deux,Trois,Quatre,Cinq"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="textField" uuid="bed9ebe2-92a7-48e0-b3e0-42e3bc7ce4e0" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Check"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="44121e7b-6a73-4d09-8297-7bbb00590a4a" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a check type of checkbox input field."]]></expression>
+				</element>
+				<element kind="textField" uuid="71c2b530-ad0d-47f0-a8e8-e9ae79eb732c" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Check"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="5ef7abf6-5e57-4307-888d-4647795d8c68" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a check type of radio group button."]]></expression>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="textField" uuid="b1067686-b971-4d7e-8d64-3f7c1798106f" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25" forecolor="#FF0000">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Circle"/>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="b30491bf-1fda-48a9-a00b-24638f230430" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a circle type of checkbox input field."]]></expression>
+				</element>
+				<element kind="textField" uuid="87147be3-eb7b-474c-be9b-82205e0b949b" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Circle"/>
+					<property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="27450164-ad80-4dac-b949-b2772fe1cb4b" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a circle type of radio group button."]]></expression>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="textField" uuid="50f8bbdd-ca0b-4d8f-ac91-ca4c4f3f51a1" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25" forecolor="#0000FF" backcolor="#CCCCCC">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Cross"/>
+					<box>
+						<pen lineWidth="2.0" lineColor="#FFFF00"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="8ec156f2-bf39-4370-b39c-7ab17d0f8ede" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a cross type of checkbox input field."]]></expression>
+				</element>
+				<element kind="textField" uuid="d356af95-2a39-412b-9f6e-6843bf4a01d6" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Cross"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="14a452b9-c80b-45bb-9026-1cc84373425b" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a cross type of radio group button."]]></expression>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="image" uuid="04bcb710-474e-42bd-bbc5-952cc09f06b7" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Diamond"/>
+					<property name="net.sf.jasperreports.export.pdf.field.border.style" value="Inset"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="ec23822c-3080-47ab-acf6-fa1a8363d4ac" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a diamond type of checkbox input field."]]></expression>
+				</element>
+				<element kind="textField" uuid="46d97137-6dfd-4c92-817c-d707a5ee8972" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Diamond"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="eabf7cb4-3477-498d-ae2c-1a8644a6cd08" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a diamond type of radio group button."]]></expression>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="ellipse" uuid="6944986a-3d18-43bf-826c-03026ed4e70a" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
+					<property name="net.sf.jasperreports.export.pdf.field.border.style" value="Beveled"/>
+					<property name="net.sf.jasperreports.export.pdf.field.read.only" value="true"/>
+					<property name="net.sf.jasperreports.export.pdf.field.checked" value="true"/>
+					<pen lineWidth="1.0"/>
+				</element>
+				<element kind="textField" uuid="affe99bd-2d67-4eb3-af0c-f0d8220ddf53" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a square type of checkbox field, pre-checked and read-only."]]></expression>
+				</element>
+				<element kind="textField" uuid="4586e1c5-f30c-4911-9ee7-7e6a14b4a1fb" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Square"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="15b6c97f-3f21-49fa-ab20-60bc695043dd" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a square type of radio group button."]]></expression>
+				</element>
+			</band>
+			<band height="30">
+				<element kind="frame" uuid="031a5c0a-f91d-4a47-b275-43e6eaa47a84" positionType="Float" mode="Opaque" x="0" y="0" width="25" height="25">
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Check"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Star"/>
+					<property name="net.sf.jasperreports.export.pdf.field.border.style" value="Underline"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="69c1e4ab-b452-48d5-8924-bddd7763a6bd" positionType="Float" mode="Opaque" x="30" y="0" width="170" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a star type of checkbox input field."]]></expression>
+				</element>
+				<element kind="textField" uuid="6da8a5d1-2146-4c4d-b0a4-b3017ccdc045" positionType="Float" mode="Opaque" x="250" y="0" width="25" height="25">
+					<expression><![CDATA["This text does not matter in PDF export."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.field.name" value="MyRadioGroup"/>
+					<property name="net.sf.jasperreports.export.pdf.field.type" value="Radio"/>
+					<property name="net.sf.jasperreports.export.pdf.field.check.type" value="Star"/>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</element>
+				<element kind="textField" uuid="df06efee-c1b1-4049-9a7e-b1a6998c6e02" positionType="Float" mode="Opaque" x="275" y="0" width="175" height="25" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+					<expression><![CDATA["This is a star type of radio group button."]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

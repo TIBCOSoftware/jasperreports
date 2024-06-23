@@ -1,0 +1,18 @@
+<jasperReport name="AlterDesignReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="bfcdbee3-9db9-4688-bc22-273a1901e119">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<title height="782">
+		<element kind="staticText" uuid="7e8a0a22-e6be-454f-b8ef-c3cd4e6490eb" mode="Opaque" x="0" y="0" width="555" height="90" backcolor="#DDDDDD" hTextAlign="Center" vTextAlign="Middle" style="Sans_Normal">
+			<text><![CDATA[The rectangles below have random fore and back colors and even this text element has runtime supplied font settings.
+Changing element colors or other settings do not require report design recompilation.]]></text>
+		</element>
+		<element kind="rectangle" uuid="78672687-b9a9-4c6a-9d63-39d6325ac535" key="first.rectangle" x="0" y="100" width="555" height="90">
+			<pen lineWidth="4.0"/>
+		</element>
+		<element kind="rectangle" uuid="e43916e7-f5a2-49e3-ac43-469458943653" key="second.rectangle" x="0" y="200" width="555" height="90">
+			<pen lineWidth="4.0"/>
+		</element>
+		<element kind="rectangle" uuid="633026b6-ca4f-4895-baf0-e70c5f169168" key="third.rectangle" x="0" y="300" width="555" height="90">
+			<pen lineWidth="4.0"/>
+		</element>
+	</title>
+</jasperReport>

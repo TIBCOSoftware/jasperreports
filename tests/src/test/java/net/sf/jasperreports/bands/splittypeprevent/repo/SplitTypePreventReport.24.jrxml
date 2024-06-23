@@ -1,0 +1,19 @@
+<jasperReport name="SplitTypePreventReport.24" language="java" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="170" columnSpacing="1" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.3.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<detail>
+		<band height="25">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} != 1]]></printWhenExpression>
+			<element kind="textField" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="0" y="0" width="170" height="25">
+				<expression><![CDATA["Master Detail " + $V{REPORT_COUNT}]]></expression>
+			</element>
+		</band>
+		<band height="25">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<element kind="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" x="0" y="0" width="170" height="25" backcolor="#C8DBFA">
+				<expression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.24.subreport.1.jrxml")]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

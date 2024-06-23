@@ -1,0 +1,224 @@
+<jasperReport name="IconLabelReport.1" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="4f4cbf5b-ee86-41d0-804f-5b17e8c13e40">
+	<style name="Main" default="true" mode="Opaque" fontName="DejaVu Sans" fontSize="12.0">
+		<box>
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Component" style="Main" forecolor="#000000" backcolor="#FFFF00">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Label" style="Main" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="JasperReports Icons">
+		<box padding="10" style="Main">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<group name="Dummy">
+		<groupHeader>
+			<band height="15">
+				<element kind="component" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Vertical" hAlign="Right" vAlign="Bottom" style="Component">
+						<labelTextField uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" vTextAlign="Bottom" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Vertical\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Bottom\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="3dd69925-afe1-44ef-a001-344eb40bb337" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Both" hAlign="Center" vAlign="Top" style="Component">
+						<labelTextField uuid="22bb56ea-4fc2-4f23-bc08-01f085973404" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" vTextAlign="Bottom" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="ea3013f7-faab-4e42-b052-664bd94b4182" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="bbcee49e-8cd8-4a6a-9e20-1f687300410d" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="25b63cfa-5624-46f2-8161-b093deea55bd" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="Start" labelFill="Both" hAlign="Center" vAlign="Middle" style="Component">
+						<labelTextField uuid="9288daa2-c43f-4528-820b-be546a77f340" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" vTextAlign="Bottom" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="5f17782f-231a-421b-8f5f-04935ea286a4" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="04ee6b68-25a1-4f44-881d-b8268ec04380" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"Start\"\nlabelFill=\"Both\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Middle\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="c1da4208-2b90-4a91-84ee-5764a8f91f76" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Middle" style="Component">
+						<labelTextField uuid="2561296b-c9b2-4324-9159-9517cc9fe6b0" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="05654e83-382c-4ff8-9eb8-ac4b417cb387" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="2f5fc455-fddb-432b-a813-4a1d37d22830" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Middle\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="458119e1-f837-409b-91ae-f626a0ca99c8" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Bottom" style="Component">
+						<labelTextField uuid="e77bca92-182f-4be3-95dc-f97d91ee1fcb" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="8330f813-5318-4769-acb8-8fb714f490e0" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="15fac62e-aa2d-43e2-a434-2cb80878aff8" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Bottom\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="e7b057a2-7b6d-4b70-b093-ebeb0fb60d08" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Top" style="Component">
+						<labelTextField uuid="fa7dfdf5-80e6-465d-b4a9-4e747f4f74c8" x="0" y="0" width="1" height="1" fontSize="8.0" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is it!"]]></expression>
+							<box padding="5" style="Label">
+								<pen lineWidth="1.0"/>
+							</box>
+						</labelTextField>
+						<iconTextField uuid="2581e7ff-6c71-44b1-9650-84feeaed5e5c" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="a979b093-ac92-45da-adac-8a861ea268cb" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA[".\n.\n.\n.\n.\niconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="1170ce2e-ad4e-47ab-9e27-5948486ce366" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Center" vAlign="Top" style="Component">
+						<labelTextField uuid="6d30a538-46c2-49c1-a927-0ddb33aa178a" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="eef5959b-1908-440c-9b32-19870cfeaa2b" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="4cdc200a-6c51-4462-b785-6205d4a32af9" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="47c546c5-70e5-4e9a-b81f-fe140a06759d" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Center" vAlign="Top" style="Component">
+						<labelTextField uuid="1da65b0c-59f2-4c60-922b-dd9885c3232d" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="47ea3816-a308-47c0-b89c-12bd55173b02" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="c753c82a-d811-46c9-aad6-f32be7edf623" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Center\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="070c9803-1ada-424a-9dec-71ec5a31431f" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Right" vAlign="Top" style="Component">
+						<labelTextField uuid="285161b3-bcd4-4fd1-b3fd-c9a0717a7460" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="a57a5917-40a0-4ef6-abc0-c5729597c901" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="b73501fc-8fe2-4619-9935-e19b9fe78167" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="b3e39060-5a38-4387-afda-07105b944699" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Right" vAlign="Top" style="Component">
+						<labelTextField uuid="cced8cf7-6507-4b5c-abf7-5c063c02e9c3" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="33346b61-2d25-4ee5-9245-e4d77eab14b3" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="ae3d5537-f8fd-4790-b08f-54835914547c" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Right\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="d44d322e-af6c-4fd1-86c6-462049506d75" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="Horizontal" hAlign="Left" vAlign="Top" style="Component">
+						<labelTextField uuid="06f34e01-5924-4f20-a258-f15342694893" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="3bb8e763-e6d5-4155-b2dd-b757bb9db619" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="87a0fbcb-1d13-46ee-991f-eae68144e34f" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"Horizontal\"\nhorizontalAlignment=\"Left\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+			<band height="15">
+				<element kind="component" uuid="1611c88c-ff25-4206-b36d-5dc194397b54" stretchType="ContainerHeight" x="0" y="0" width="200" height="10" style="Component">
+					<component kind="iconLabel" iconPosition="End" labelFill="None" hAlign="Left" vAlign="Top" style="Component">
+						<labelTextField uuid="2e71178f-5bce-4d30-b517-2ce651a07866" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Label">
+							<expression><![CDATA["This is the shipping address."]]></expression>
+						</labelTextField>
+						<iconTextField uuid="971bb487-b8df-46ce-a6d4-036bd50bf77e" x="0" y="0" width="1" height="1" textAdjust="StretchHeight" style="Icon">
+							<expression><![CDATA["\uE001\uE002\uE004"]]></expression>
+						</iconTextField>
+					</component>
+				</element>
+				<element kind="textField" uuid="62b6fb20-22e9-4477-bb0d-806d12877916" stretchType="ContainerHeight" x="250" y="0" width="250" height="10" textAdjust="StretchHeight" style="Main">
+					<expression><![CDATA["iconPosition=\"End\"\nlabelFill=\"None\"\nhorizontalAlignment=\"Left\"\nverticalAlignment=\"Top\""]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

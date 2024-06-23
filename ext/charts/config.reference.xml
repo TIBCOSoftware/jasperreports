@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configReference>
+
+  <category key="net.sf.jasperreports.metadata.property.category:fill">
+    <name>Report Filling</name>
+  </category>
+  
+  <category key="net.sf.jasperreports.metadata.property.category:chart.theme">
+    <name>Chart Themes</name>
+  </category>
+
+  
+  <!-- net.sf.jasperreports.chart.pie.ignore.duplicated.key -->
+  
+  <configProperty name="net.sf.jasperreports.chart.pie.ignore.duplicated.key">
+    <description>
+Specifies whether duplicated key entries in pie dataset should be ignored and only the last value be considered, or whether an exception should be raised instead.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.render.type -->
+  
+  <configProperty name="net.sf.jasperreports.chart.render.type">
+    <description>
+Specifies the default render type for charts. See the <code>renderType</code> attribute of the chart elements.
+<br/>
+Possible values are:
+<ul>
+<li><code>draw</code></li>
+<li><code>image</code></li>
+<li><code>svg</code></li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.renderer.factory.{render_type} -->
+  
+  <configProperty name="net.sf.jasperreports.chart.renderer.factory.{render_type}">
+    <description>
+Prefix for properties that map chart renderers.
+<br/>
+Properties having this prefix indicate the JRRenderable implementation to be used when rendering
+a chart element having a rendering type specified in the property suffix.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.theme -->
+  
+  <configProperty name="net.sf.jasperreports.chart.theme">
+    <description>
+Property used to specify the chart theme name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.customizer.class.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.customizer.class.{arbitrary_name}">
+    <description>
+Properties having this prefix specify the name of a class that implements the <api href="net/sf/jasperreports/engine/JRChartCustomizer.html">JRChartCustomizer</api> 
+interface and has an empty constructor.
+This class will be used to instantiate a chart customizer object that will be then called to customize the chart produced by the element.
+The {arbitrary_name} suffix of the property is considered to be the name of the chart customizer instance and in case the chart customizer class
+implements the <api href="net/sf/jasperreports/charts/NamedChartCustomizer.html">NamedChartCustomizer</api> interface, this name is passed to it after instantiation 
+using the setName(String) method.
+Named customizer implementations such as the ones extending the <api href="net/sf/jasperreports/engine/JRAbstractChartCustomizer.html">JRAbstractChartCustomizer</api> could 
+use this name to read custom chart element properties that are supposed to be their own, because they have this name as part of the full custom property name in the form of 
+net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.customizer.{arbitrary_name}.{property_name} -->
+  
+  <configProperty name="net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}">
+    <description>
+Properties having this form are usually supposed to be read by <api href="net/sf/jasperreports/charts/NamedChartCustomizer.html">NamedChartCustomizer</api> 
+instances assigned to a chart element using a custom property in the form of 
+<a href="#net.sf.jasperreports.customizer.class.{arbitrary_name}" target="_blank">net.sf.jasperreports.customizer.class.{arbitrary_name}</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.dial.label -->
+  
+  <configProperty name="net.sf.jasperreports.chart.dial.label">
+    <description>
+Property containing the label text attached to the measured value in a meter or thermometer chart.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.dial.value.display.visible -->  
+  
+  <configProperty name="net.sf.jasperreports.chart.dial.value.display.visible">
+    <description>
+Property specifying whether the measured value should be rendered visible on a meter or thermometer chart's display zone.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.domain.axis.integer.unit -->
+  
+  <configProperty name="net.sf.jasperreports.chart.domain.axis.integer.unit">
+    <description>
+Flag property enabling the JFreeCharts engine to use integer tick units on a domain value axis. If set to true, it will take precedence over the 
+<code>net.sf.jasperreports.chart.domain.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.domain.axis.tick.count</code> properties.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.domain.axis.tick.count -->
+  
+  <configProperty name="net.sf.jasperreports.chart.domain.axis.tick.count">
+    <description>
+Property specifying the number of ticks on a domain value axis. If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.domain.axis.tick.interval -->
+  
+  <configProperty name="net.sf.jasperreports.chart.domain.axis.tick.interval">
+    <description>
+Property specifying the interval between 2 consecutive ticks on a domain value axis. If the <code>net.sf.jasperreports.chart.domain.axis.tick.count</code> property 
+is set, this interval will be neglected.
+<br/>
+If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
+<br/>
+By default it is not set.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.range.axis.integer.unit -->
+  
+  <configProperty name="net.sf.jasperreports.chart.range.axis.integer.unit">
+    <description>
+Flag property enabling the JFreeCharts engine to use integer tick units on a range value axis. If set to true, it will take precedence over the 
+<code>net.sf.jasperreports.chart.range.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.range.axis.tick.count</code> properties.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.range.axis.tick.count -->
+  
+  <configProperty name="net.sf.jasperreports.chart.range.axis.tick.count">
+    <description>
+Property specifying the number of ticks on a range value axis. If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
+<br/>
+By default it is not set.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.range.axis.tick.interval -->
+  
+  <configProperty name="net.sf.jasperreports.chart.range.axis.tick.interval">
+    <description>
+Property specifying the interval between 2 consecutive ticks on a range value axis. If the <code>net.sf.jasperreports.chart.range.axis.tick.count</code> property 
+is set, this interval will be neglected.
+<br/>
+If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
+<br/>
+By default it is not set.
+    </description>
+  </configProperty>
+  
+  
+</configReference>

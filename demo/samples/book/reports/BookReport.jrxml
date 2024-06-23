@@ -1,0 +1,40 @@
+<jasperReport name="BookReport" language="java" pageWidth="595" pageHeight="842" sectionType="Part" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="e52780b9-8f01-4b16-86fe-712163e5aadc">
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<query language="sql"><![CDATA[SELECT ShipCountry FROM Orders GROUP BY ShipCountry HAVING count(DISTINCT ShipCity) > 2 ORDER BY ShipCountry]]></query>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<group name="dummy">
+		<expression><![CDATA[1]]></expression>
+		<groupHeader>
+			<part uuid="1fadcc2f-31c1-49be-bd52-f8b69e38cd83" evaluationTime="Report">
+				<property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
+				<partNameExpression><![CDATA["Table of Contents"]]></partNameExpression>
+				<component kind="subreportPart" usingCache="true">
+					<expression><![CDATA["TocReport.jasper"]]></expression>
+				</component>
+			</part>
+			<part uuid="3f63c482-39b2-43f1-a623-15fb046605a5">
+				<partNameExpression><![CDATA["Overview"]]></partNameExpression>
+				<component kind="subreportPart" usingCache="true">
+					<expression><![CDATA["OrdersReport.jasper"]]></expression>
+					<parameter name="REPORT_CONNECTION">
+						<expression><![CDATA[$P{REPORT_CONNECTION}]]></expression>
+					</parameter>
+				</component>
+			</part>
+		</groupHeader>
+	</group>
+	<detail>
+		<part uuid="0fbfe9f4-c566-43e7-b47f-613def9c459c">
+			<partNameExpression><![CDATA[$F{ShipCountry} + " shipments"]]></partNameExpression>
+			<component kind="subreportPart" usingCache="true">
+				<expression><![CDATA["PieChartReport.jasper"]]></expression>
+				<parameter name="Country">
+					<expression><![CDATA[$F{ShipCountry}]]></expression>
+				</parameter>
+				<parameter name="REPORT_CONNECTION">
+					<expression><![CDATA[$P{REPORT_CONNECTION}]]></expression>
+				</parameter>
+			</component>
+		</part>
+	</detail>
+</jasperReport>

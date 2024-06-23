@@ -1,0 +1,2903 @@
+
+JasperReports Library Change Log
+=============================================
+
+JasperReports 7.0.0 (2024-06-17)
+---------------------------------------------
+
+- removal of the Ant build system and replacing it with a Maven build system;
+
+- deprecated code removed;
+
+- breaking backward compatibility of serialized/compiled *.jasper report template files, 
+mostly because of historical deprecated serialization code removal/cleanup mentioned above 
+(source *.jrxml report templates need to be recompiled to *.jasper using the new version of 
+the library);
+
+- breaking backward compatibility of source *.jrxml report template files and *.jrtx style 
+template files by replacing the Apache Commons Digester based parsers with Jackson XML object 
+serialization. *.jrxml and *.jrtx files created with version 6 or older can no longer be loaded 
+with version 7 or newer of the library alone. The conversion from the old file formats to the new 
+file formats and back can be made using Jaspersoft Studio 7 and later versions of it;
+
+- extracting various optional extension JAR artifacts from the the core library JAR artifact 
+to allow the Jakarta Migration of certain of these optional features while also introducing 
+better third party Maven dependency management of these artifacts;
+
+- some Java package names have changed as a consequence of separating functionality into optional JAR artifacts;
+
+- upgraded JFreeChart to version 1.5.4 which no longer has support for 3D charts. Reports having 
+Pie 3D, Bar 3D and Stacked Bar 3D charts would continue to work, but will be rendered as 2D, 
+all their 3D effects being ignored; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.21.3 (2024-04-18)
+---------------------------------------------
+
+- allow background section elements to be exported as page header content in the DOCX exporter
+so that watermark type effects could be achieved;  
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.21.2 (2024-02-12)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.21.0 (2023-12-01)
+---------------------------------------------
+
+- added support for PDF/A-2a, PDF/A-2b, PDF/A-2u, PDF/A-3a, PDF/A-3b, PDF/A-3u;
+
+- added support for WEBP images;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.6 (2023-09-12)
+---------------------------------------------
+
+- optional style expression added to report elements in addition to their existing static style 
+reference property to allow for more flexible and dynamic styling scenarios;
+
+- new IS_EVEN_ROW and IS_EVEN_COLUMN boolean built-in variables available in crosstabs to help 
+with alternate row/column styling of crosstab cells;
+
+- new custom configuration property net.sf.jasperreports.export.pptx.frame.as.table added to 
+control the rendering of table components as true PowerPoint table structures in PPTX exports;
+
+- added new data source implementation based on the Fastexcel Reader library to allow loading of 
+larger XLSX files without using too much heap memory (compared to existing POI-based implementation);
+
+- new custom property net.sf.jasperreports.cut.text.max.height available for text field elements 
+to limit the maximum height to which they can stretch to accommodate their larger text content 
+when textAdjust attribute is set to CutText value;
+
+- improved caching for clipped images and SVG drawings in the PDF exporter to help create smaller 
+size PDF files;
+
+- new number rounding functions available in report expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.5 (2023-05-10)
+---------------------------------------------
+
+- fix historical text measuring truncation by rounding up the AWT measured text height to the upper 
+integer value instead of truncating it to the lower integer value and thus causing the text elements 
+having dynamic height to be 1 pixel taller to avoid text being cut in PDF exports; 
+for minimum disruption in upgrades, the former text measuring behavior is still available through the 
+net.sf.jasperreports.legacy.text.measuring boolean configuration property that would need to be set to true;
+
+- performance improvements for the HTML and RTF text markup processors by replacing the JEditorPane based 
+implementations with faster EditorKit implementations and fixing some multi-threading issues;
+
+- support for CMYK color conversion for text and shapes in PDF export using ICC profiles 
+(excluding image color conversion);
+
+- support for unpatched versions of the OpenPDF library although this is not recommended for as long as 
+the following OpenPDF bug remains open: https://github.com/LibrePDF/OpenPDF/issues/676
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.4 (2023-05-01)
+---------------------------------------------
+
+- make the OpenPDF dependency mandatory again in the pom.xml;
+
+
+
+
+
+JasperReports 6.20.3 (2023-04-20)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.2 (2023-04-19)
+---------------------------------------------
+
+- added support for multiple marker series in the Google map component, with ability to show/hide 
+each series through an interactive legend and ability to bring the map to its initial visual state 
+using a custom reset button;
+
+- introducing expression backed custom properties at report part level to allow attaching metadata to 
+parts in multi-part documents, to be leveraged during report output post-processing by the parent application;
+
+- allowing the creation of multi-part documents from single part (section based) report templates 
+using a special custom property at report element level that triggers the creation of a separate part 
+for the current page when the property is met;
+
+- various dependencies upgrades including: Spring 5.3.26 and TestNG 7.7.0; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.1 (2023-03-14)
+---------------------------------------------
+
+- XLSX metadata exporter added to produce pure data output in the modern Excel file format 
+(similar to pre-existing XLS and CSV metadata exporters);
+
+- optimizations and improvements made in the XLSX exporter to allow skipping time consuming 
+text measuring routines during the report filling process and produce the output document 
+faster when the Excel format is the main (if not the only) export target;
+
+- support for file encryption in the XLS, XLSX, DOCX and PPTX exporters;
+
+- marker clustering and marker spidering features added to the Google Map component;
+
+- allow specifying the split type in table component rows;
+
+- replaced iText 2.1.7 with OpenPDF 1.3.30 for PDF export;
+
+- various dependencies upgrades including: Apache Lucene 8.11.2, Bouncy Castle 1.71, 
+Jaxen 1.2.0, Apache POI 5.2.2, Apache Batik 1.16, Jackson 2.14.1 and Groovy 4.0.8; 
+
+- the Apache Xalan dependency was taken out from the core library and moved into an optional 
+and deprecated extension module;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.20.0 (2022-07-14)
+---------------------------------------------
+
+- enhancing scriptlet configuration using scriptlet level expression based custom properties;
+
+- added support for conditional styles in external style template files (*.jrtx);
+
+- various dependencies upgrades including: Spring 5.3.20, Jackson 2.13.3, 
+Chrome DevTools Java Client 4.0.0 and Apache Commons Codec 1.15;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.19.1 (2022-03-29)
+---------------------------------------------
+
+- replaced Joda-Time with Java 8 Date/Time API in the functions extension;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.19.0 (2022-02-22)
+---------------------------------------------
+
+- improved bulleted and numbered list support in styled text and HTML markup text fields including
+better indentation and support for nested lists;
+
+- support for accessible HTML output using semantic tags for marking up headings (h1 to h6), 
+bulleted and numbered lists, alternate text for images and nested table tags for semantic tables;
+
+- support for Groovy closures in report expressions;
+
+- honour the EXIF orientation information found in photos taken with mobile digital cameras and
+thus match the way browsers make use of this information to auto-rotate photos in HTML;
+
+- deprecated Castor XML persistence layer used for data adapter files and XML chart theme files by moving
+it to a separate optional extension artifact (jasperreports-castor) while replacing it in the core library 
+with an equivalent and compatible Jackson XML persistence layer;
+
+- introduced the *.jrdax file extension convention for data adapter XML files;
+
+- various dependencies upgrades including: Apache POI 5.1.0, Jackson 2.13.1, Apache Log4J 2.17.1, 
+Mozilla Rhino 1.7.14, Spring 5.3.14, HyperSQL 2.6.1 and Jetty 9.4.44;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.18.1 (2021-10-29)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.18.0 (2021-10-25)
+---------------------------------------------
+
+- new CSV export configuration property available to allow to escaping formulas in CSV exports;
+
+- various dependencies upgrades including Apache Ant 1.10.11, Apache Commons Compress 1.21 
+and Bouncy Castle 1.68;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.17.0 (2021-05-11)
+---------------------------------------------
+
+- refactored PDF exporter to extract the iText code from it and leave only common functionality that allows 
+switching between the default iText 2 based exporter implementation and the pluggable iText 7 exporter implementation, 
+which is available as separate open source project at: https://github.com/Jaspersoft/jasperreports-pdf-lib7
+
+- various dependencies upgrades including Groovy 3.0.7, HttpClient 4.5.13, Hibernate 5.4.24.Final,
+Dom4j 2.1.3, Apache Log4j 2.14.0, Jackson 2.12.2, Velocity 2.3, Batik 1.14, XmlGraphics Commons 2.6,
+Apache Ant 1.10.9;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.16.0 (2020-11-06)
+---------------------------------------------
+
+- allow generic element HTML export handlers to export generic elements as images 
+or any other built-in element type;
+
+- new custom property to control the HTML exporting of custom visualization components as images;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.15.0 (2020-10-06)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.14.0 (2020-07-31)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.13.0 (2020-06-22)
+---------------------------------------------
+
+- introducing a secure report execution infrastructure which allows filtering of classes used in 
+expressions based on a configurable whitelist of allowed classes;
+
+- improvements in expression bytecode generation and expression evaluation based on direct evaluation 
+of simple expressions containing only parameter, field or variable references;
+
+- built-in function ORIGINAL_DATA_SOURCE added to access the original data source when the data 
+is sorted using sort field declarations in the dataset;
+
+- built-in function SUB_DATA_SOURCE added to create a JSON or XML sub data source when the data 
+is sorted using sort field declarations in the dataset;
+
+- automatically increase frame element width if its content stretches and grows horizontally;
+
+- support for dynamic bookmark levels based on expressions;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.12.2 (2020-03-11)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.12.1 (2020-03-05)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.12.0 (2020-03-04)
+---------------------------------------------
+
+- added support for PDF forms into the core library using custom properties at report element level
+to convert the report elements into editable text fields, lists, check boxes or radio groups when
+the report is exported to PDF format;
+
+- the JasperReports Web Framework providing the embeddable report viewer APIs has been removed from
+the JasperReports Library as it is now available as part of other products such as JasperReports Server,
+Jaspersoft Studio and JasperReports IO; all Javascript, CSS, HTML templates, images files and servlets
+making up this framework have been removed from the core library JAR and the related /demo/samples/webapp-repo
+sample has been removed from the project distribution; the former /demo/samples/webapp sample continues
+to provide an example for using the JasperReports Library in Java web applications, but for delivering 
+static/non-interactive reports in all supported export formats;
+
+- solved problem with the virtualization of large unpaginated reports containing large frame elements;
+
+- improved justified alignment for paragraphs that are cut through by page/column breaks;
+
+- allow use of Java Generics in the class attribute of parameters, fields and variables;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.11.0 (2019-11-26)
+---------------------------------------------
+
+- support for noData cell added in the table component to allow displaying custom content when 
+there are no detail rows in the table data source;
+
+- support for printWhenExpression added to table component sections to allow suppressing entire 
+rows in the table and not only individual cells;
+
+- isStretchWithOverflow boolean property of text fields has been deprecated and replaced by the 
+new textAdjust property which adds a third option to scale down the font size in order for the 
+text content to fit the design size of the text field element;
+
+- implemented server side rendering of Javascript visualizations using the headless Google Chrome 
+browser, to replace the now deprecated PhantomJS and SlimerJS based feature;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.10.0 (2019-09-26)
+---------------------------------------------
+
+- support for image rotation;
+
+- various dependencies upgrades including Apache Ant 1.10.6, Jackson 2.9.9, 
+Bouncy Castle 1.62 and jQuery 3.4.1;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.9.0 (2019-06-24)
+---------------------------------------------
+
+- upgrade to Hibernate 5.4.1.Final;
+
+- new export configurations added for embedding fonts in DOCX and PPTX exports;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.1 (2019-05-10)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.0 (2019-03-25)
+---------------------------------------------
+
+- support for Java 9 up to Java 11;
+
+- build number added to the manifest file inside the main library JAR and the other optional JAR files;
+
+- various dependencies upgrades including Apache Commons Collections 4.2, Castor 1.4.1, POI 4.0.1, 
+Spring 5.1.4, jQuery 3.3.1 and RequireJS 2.3.6;
+
+- new random value data adapter and data source for easy report testing;
+
+- description property added to dataset variables;
+
+- added support for generating a slide master in the PPTX documents with the possibility to include 
+PPTX built-in fields for current slide number and current date/time;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.7.1 (2019-03-06)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.7.0 (2018-08-08)
+---------------------------------------------
+
+- repository context concept added to the repository access API in order to support use 
+of relative paths within the repository to reference reporting resources such as subreports, 
+images, style templates, resource bundles and other;
+
+- the optional artifacts such as the chart themes, chart customizers, functions and fonts, 
+which were previously built out of samples, have been moved to the new /ext folder inside the 
+project source tree;
+
+- the custom visualization component extension, which was previously available as a separate project, 
+has been added to the /ext folder as an optional artifact and can be tested using the sample 
+inside the /demo/samples/customvisualization folder;
+
+- deprecated BeanShell (BSH) report compiler has been removed from the library;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.6.0 (2018-05-29)
+---------------------------------------------
+
+- upgrade to Java 8; starting with this release, the binary distribution of the JR library
+is compiled for the Java 8 platform and is no longer guaranteed to be compatible with Java 7;
+
+- deprecated file resolver built-in parameters have been removed, while the FileResolver interface
+and its related APIs have been now deprecated themselves and prepared for future removal;
+
+- enhanced repository service API to support relative paths when referencing resources; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.5.1 (2018-01-09)
+---------------------------------------------
+
+- configuration property added to exclude UUIDs attributes from the JRXML report source format
+produced by the JRXmlWriter class.
+
+- added new group level attribute to control the reprinting of group headers on each column,
+in vertically filled multi-column reports. 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.5.0 (2017-12-14)
+---------------------------------------------
+
+- support for configuration properties with the net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}
+format to allow more flexible and reusable mapping between Java and Excel cell format patterns 
+for the XLS/XLSX exporters;
+
+- solved various band evaluation issues related to page/column level totals 
+displayed in page/column footers when page/column breaks are introduced by 
+stretching bands which are prevented from splitting;
+
+- inhibit the creation of new page/column when the current page/column is already 
+new and thus avoid creating empty pages/columns in various cases where features 
+for controlling page/column breaks were involved;
+
+- added more test reports to document the changes in the way band evaluation and 
+page/column breaks work;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.4.3 (2017-10-16)
+---------------------------------------------
+
+- removed JExcelApi dependency and the deprecated source code using it, 
+including exporters, data sources and query executers;
+
+- removed deprecated HTML and XHTML exporters;
+
+- support for simple text expressions to simplify writing expressions for custom properties, 
+which rely on direct parameter/field/variable reference in-place value expansion, 
+instead of the usual Java language string concatenation syntax;
+
+- introducing support for custom properties annotations for better documentation 
+of all available JasperReports configurations and for enhanced custom properties 
+helper tools in Jaspersoft Studio;
+
+- added new preventOrphanFooter flag in report and dataset group definitions, 
+to avoid rendering group footers without any accompanying record at the top of new pages;
+
+- added new minDetailsToStartFromTop attribute in report and dataset group definitions, 
+to avoid rendering group headers too low on the page, where not enough detail records can fit;
+
+- refactored some of the provided samples, including the Web application samples, 
+to make use of the Jetty engine and make it easier to test them locally;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.4.1 (2017-06-09)
+---------------------------------------------
+
+- dependencies upgrade;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.4.0 (2016-11-24)
+---------------------------------------------
+
+- support for rendering of Web-based visualization components to images or SVG, 
+inside the Java VM, using a pool of reusable PhantomJS external processes;
+
+- support for request body entity was added to HTTP data adapters;
+
+- allow specifying the value of a static custom property using the body content of the 
+<property> element, instead of the usual value attribute of the element;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.3.1 (2016-10-03)
+---------------------------------------------
+
+- new JSONQL query language with advanced syntax for queries and for field mapping 
+expressions to allow more complex field mapping scenarios including the ability to map 
+fields to the parent node values; this new query language and its respective query executer, 
+which offers XPath-like capabilities, deprecate the existing JSON query language and 
+the former query executer;
+
+- support for request headers was added to HTTP data adapters as well as improved 
+parameter mapping using custom parameter properties to markup dataset parameters which 
+contribute to the HTTP request; the new sample under /demo/samples/httpdataadapters shows 
+some of these improvements;
+
+- new evaluationTime attribute added to dataset parameter definition to control the exact 
+moment when the default value expression of the parameter is evaluated; the default evaluation 
+time for parameters which do not specify a value for the attribute is controlled using the
+net.sf.jasperreports.parameter.evaluation.time configuration property;
+
+- support for property expressions added for dataset fields to allow more flexibility in 
+data source and query executer field mapping;
+
+- the use of the fieldDescription attribute in data source and query executer field mapping 
+is now deprecated by the introduction of special field level custom properties for each type 
+of data source and query executer;
+
+- support for property expressions in dataset was added to allow more flexibility in dataset 
+and report configuration, including the ability to control export properties using report parameters; 
+the report and dataset property expressions can be evaluated at different moments and this is 
+controlled by the their evaluationTime attribute; when evaluationTime attribute is not specified 
+for a property expression, it defaults to the value specified by the 
+net.sf.jasperreports.property.evaluation.time configuration property;
+
+- multiple chart customizer objects can be registered per chart element using new configuration 
+properties having the net.sf.jasperreports.customizer.class.{arbitrary_name} format; 
+the new sample under /demo/samples/chartcustomizers introduces a set of pre-defined chart 
+customizers which are ready to use in reports;
+
+- the data adapter extension is now enabled by default in all JasperReports deployments;
+
+- the XLS, XLSX, DOCX and PPTX exporters were enhanced to support specifying metadata 
+information such as title, subject, author, keywords and creator application for the 
+generated documents using export configuration properties;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.3.0 (2016-06-20)
+---------------------------------------------
+
+- upgrade to Java 7; starting with this release, the binary distribution of the JR library
+is compiled for the Java 7 platform and is no longer guaranteed to be compatible with Java 6;
+
+- deprecation of DTD based validation for style template files (*.jrtx) and introduction of 
+XML schema based validation;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.2.2 (2016-05-06)
+---------------------------------------------
+
+- adding new types of element stretch and deprecating some of the existing ones, 
+to differentiate between element group stretch and container stretch and to 
+also account for the current vertical displacement of the element;
+
+- introducing new generic Renderable interface for image rendering while 
+deprecating the existing one and its implementations, to better differentiate 
+between static visualizations such as images, SVGs, and dynamically generated 
+drawings, each identified by separate specialized renderable interface, 
+with convenience implementation classes;
+
+- built-in support for SVG as image format, including support for embedding 
+SVG in HTML export;
+
+- making use of fonts from JR font extensions when rendering SVG with Apache Batik 
+as well as use of Web fonts in the SVG embedded into the HTML export;
+
+- enhanced support for internationalization, with the addition of font set definitions 
+in JR font extensions, to allow grouping font families in super-sets that can cover 
+several languages/scripts; when using a font set, the font family resolution occurs 
+during text processing and is performed on a per character basis, allowing mixing of words 
+in different languages/scripts in the same text element;
+
+- support for calling PL/SQL stored procedures (Oracle), which was available 
+as a separate query executer extension, is now part of the JR core library;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.2.1 (2016-03-22)
+---------------------------------------------
+
+- removed all JAR dependencies from project and introduced Apache Ivy dependency management
+for building the distribution files and running the samples;
+
+- support for embedding Base64 encoded images in HTML export using the new 
+"net.sf.jasperreports.export.html.embed.image" configuration property;
+
+- new CSV export configuration properties for controlling the field encoding character 
+(net.sf.jasperreports.export.csv.field.enclosure) and also for forcing field enclosure
+(net.sf.jasperreports.export.csv.force.field.enclosure);
+
+- rendering of ellipses and round corner rectangles using SVG in HTML export;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.2.0 (2015-11-11)
+---------------------------------------------
+
+- improved PDF export accessibility in compliance with Section 508 Amendment to 
+the Rehabilitation Act of 1973, by adding support for making headings up to level 6, 
+marking lists and automatic insertion of table markers for table component output;
+
+- support for complex scripts (such as Indic scripts) in PDF by means of AWT text layout;
+
+- added support for duration based filter and duration based conditional formatting of 
+numeric columns in table components; special format pattern [h]:mm:ss causes numeric values 
+to be treated as duration;
+
+- refactored map component items APIs for further reuse in other custom components;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.1.1 (2015-09-07)
+---------------------------------------------
+
+- added support for returning values from bands, which gives better control over 
+variable incrementation in cases where calculations are coupled with content rendering, 
+such as page totals;
+
+- allow frame elements to be placed beyond frame bottom edge; this would cause frames 
+to grow in height in order to display all their content and reduces the need for frames to
+shrink in case some of their content displays conditionally and space needs to be collapsed;
+
+- new configuration property "net.sf.jasperreports.evaluator.ignore.npe" added to control 
+the expressions evaluation with respect to raising NullPointerException;
+
+- added support for locale and timezone in CSV and XLS data adapters;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.1.0 (2015-05-25)
+---------------------------------------------
+- support for multiple JSON metadata export properties attached to same report element 
+to allow more flexibility in report data exports;
+
+- improvements in QRCode barcodes rendering;
+
+- configuration property added to control the addition of a BOM character at the beginning 
+of CSV export files;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.0.4 (2015-04-15)
+---------------------------------------------
+
+- support for pluggable data file locations in file-based data adapters, with default 
+implementations for remote HTTP data files;
+
+- new report data source implementation able to consume a list of JSON files provided as input;
+
+- internationalization of exceptions raised by the JasperReports Library with the introduction
+of exception error codes that serve as message keys in translation bundles;
+
+- downgrade to iText version 2.1.7 and distribution of this third party library under 
+the terms of the Mozilla Public License version 1.1;
+
+- support for gutter margins in PDF export with the introduction of export configuration 
+properties to allow setting different left and right margins for odd and even pages;
+
+- ability to ignore text formatting in all Excel exporters using newly added export 
+configuration property;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.0.3 (2015-02-06)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.0.2 (2015-02-04)
+---------------------------------------------
+
+- throw specific exception net.sf.jasperreports.export.ExportInterruptedException on all 
+report export interruption events;
+
+- differentiate between text align properties and image align properties by adding specific 
+properties and enumerations in object model and deprecating the existing ones;
+
+- support for QR Code barcodes in barcode4j component;
+
+- support for pluggable remote file provider in all file-based data adapters;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.0.0 (2014-11-25)
+---------------------------------------------
+
+- new type of report template called "report book" was added, in which sections are made 
+of parts instead of bands; parts are external report templates, similar to subreports, 
+and allow creation of documents with variable page size and/or orientation; parts can be 
+displayed on separate tabs by report viewers and simplify creation of "table of contents" 
+structures in which parts that appear early in the document are actually filled/rendered 
+later during the report filling process (see evaluationTime attribute of part);
+
+- new JSON metadata exporter added, similar to the XLS and CSV metadata exporters in which 
+the values that need to be exported have to be marked-up using configuration properties at 
+text element level;
+
+- upgrade to iText version 5.5.0 in the PDF exporter;
+
+- upgrade to POI version 3.10.1 in the XLS exporter and data source;
+ 
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.6.1 (2014-09-04)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.6.0 (2014-05-27)
+---------------------------------------------
+
+- new overflowType attribute available for subreport elements to control subreport runtime 
+stretch behavior;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.5.2 (2014-04-28)
+---------------------------------------------
+
+- new API for setting exporter's input, output and configuration, which replaces the now 
+deprecated parameter based exporter configuration; The JRExporterParameter class and its subclasses 
+are now deprecated and replaced by ExporterInput, ExporterOutput and ExporterConfiguration interfaces 
+and their subinterfaces and convenience implementations; 
+
+- new Apache POI based metadata XLS exporter (JRXlsMetadataExporter class), which replaces 
+the now deprecated JExcelApi based metadata exporter (JExcelApiExporter class);
+
+- all JExcelApi based XLS exporters (JExcelApiExporter and JExcelApiMetadataExporter) are 
+now deprecated and should no longer be used as they will no longer be maintained and will be 
+completely removed from the library sometime in the future; The JRXlsExporter, JRXlsMetadataExporter 
+(both Apache POI based) and JRXlsxExporter implementations should be used instead;
+
+- new Apache POI based XLS report data source (XlsDataSource class), which replaces the now 
+deprecated JExcelApi based data source (JRXlsDataSource class);
+
+- new Excel data adapter implementation, with ability to auto-detect Excel file format 
+(XLS 2003 or XLSX 2007); sample provided under the /demo/samples/exceldataadapter folder of 
+the project source distro;
+
+- the older HTML and XHTML exporters (JRHtmlExporter and JRXhtmlExporter) are now deprecated 
+and should no longer be used as they will no longer be maintained and will be completely removed 
+from the library sometime in the future; The newer HtmlExporter implementation should be used instead;
+
+- new title cell added to crosstab element structure, to allow align content with 
+dynamic width crosstabs;
+
+- added new PDF exporter configuration properties (net.sf.jasperreports.export.pdf.permissions.allowed 
+and net.sf.jasperreports.export.pdf.permissions.denied) to control PDF file permissions from 
+within the report template or globally, from JasperReports configuration context; 
+
+- support for table-of-contents metadata build-up during report filling process, to be leveraged 
+in document viewers that have the ability to display bookmark based table-of-contents that are not 
+part of the document content itself.
+
+- new XMLA query executer based on olap4j;
+
+- support for loading report resource bundles from repository;
+
+- support for decimal font size in report templates;
+
+- richer Javadoc API documentation throughout the entire library source code;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.5.1 (2014-02-07)
+---------------------------------------------
+
+- added built-in parameter JASPER_REPORTS_CONTEXT for access to current JasperReportsContext 
+configuration object during report filling;
+
+- allow specifying the encoding in CSV data adapter configuration;
+
+- enhanced built-in datetime and text processing report expression functions to leverage 
+the built-in report parameters for the locale and the timezone;
+
+- added new extension point for template-based RequireJS configurations;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.5.0 (2013-10-24)
+---------------------------------------------
+
+- improved JasperReports Web Framework containing embeddable report viewer APIs. 
+It introduces a separation between the report's HTML output and its interactivity-related 
+metadata (new JSON exporter) and support for dynamically loaded Javascript modules through RequireJS. 
+The new APIs simplify interactive report viewer adoption and its customization while giving 
+new opportunities for creation of interactive custom components;
+
+- interactive table component formatting capabilities extended to allow basic formatting and 
+conditional formatting of all table sections including group headers and footers;
+
+- interactive sorting introduced to the crosstab element, where crosstab data can be sorted interactively 
+by row group values and/or measure values, when report is viewed with an interactive report viewer;
+
+- support for Web fonts in the HTML exporter by enhancing JasperReports font extension configuration 
+to allow specifying font files in EOT, SVG and WOFF format. When specified, font files are delivered 
+to the browser by dynamically created CSS containing @font-face declarations;
+
+- enhanced Google Map component with support for marker properties and support for paths and polygons;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.2.0 (2013-06-29)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.1.2 (2013-06-07)
+---------------------------------------------
+
+- support for custom functions in report expressions; 
+this includes support for expression functions in the JDT, Groovy and Javascript 
+report compilers and excludes the JDK-based report compilers, for which static imports 
+would be needed in the report template;
+
+- custom serialization for virtualizers, to improve performance of large reports;
+
+- print text element optimizations to lower memory consumption and speed up processing;
+
+- refactored grid layout algorithms for grid-based exporters, to lower memory consumption;
+
+- caching of dynamic style properties and of transferable element level properties 
+for improved report filling performance;
+
+- secrets storage extension point added to allow pluging custom mechanisms for storing 
+passwords for data adapters and other secret information;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.1.0 (2013-04-29)
+---------------------------------------------
+
+- enhanced support for markers in Google map component, including hyperlinks and info window;
+
+- completing features in new layered HTML exporter;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.0.4 (2013-03-26)
+---------------------------------------------
+
+- new HTML exporter implementation added, which uses HTML tables to render the report content, 
+but still supports overlapping elements by arranging them in separate layers. 
+This new exporter implemented in the net.sf.jasperreports.engine.export.HtmlExporter class also 
+supports report interactivity and is now the preferred way to export to HTML, being used by 
+the JasperExportManager class and all other convenience and utility classes in the JasperReports 
+library and its provided samples;
+
+- the ODS exporter refactored so that it behaves more like the XLS exporters and thus supports 
+a significant number of XLS export configuration properties and parameters;
+
+- new <hyperlinkWhenExpression> introduced for hyperlink definitions, complemented with export time 
+configuration properties to control the appearance of hyperlinks depending on the export format;
+
+- new cells available in crosstab structure, to allow defining headers for column groups in 
+the top left corner of the crosstab, where the unstructured crosstab header cell is normally rendered;
+ these new cells overlap the former crosstab header cell, if present, but allow for their content 
+ to stretch in accordance with column group header cell stretching;
+
+- new shared virtualizer implementation added to allow the use of a separate swap file per report; 
+
+- added support for localization in the exceptions raised by the JasperReports library;
+
+- added configuration properties for controlling the interactive features of the table component 
+such as column sorting, filtering and formatting;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.0.1 (2013-01-03)
+---------------------------------------------
+
+- eliminate empty collapsed columns in XLS/XLSX exporters;
+
+- XLS/XLSX data adapter improvements;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 5.0.0 (2012-11-12, SVN 5807)
+---------------------------------------------
+
+- improved report filling performance by extending the use of the simplified text measurer 
+that was previously used only for single line text elements;
+
+- improved subreport filling performance by using a thread pooling mechanism;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.8.0 (2012-11-05, SVN 5784)
+---------------------------------------------
+
+- enhanced interactivity in the table component, with support for conditional formatting 
+of values in a column;
+
+- support for style providers as pluggable extensions, to control report element styling 
+depending on report data at runtime; a default style provider implementation is available, 
+allowing the use of expression based custom properties at report element level, to control 
+each style attribute, including backcolor, forecolor, font, borders style, etc;
+
+- added support for markers to the built-in map component, along with other new map level 
+settings such as type of map, image type and language (I18n support);
+
+- version support added to the JRXmlWriter utility class to allow generating source JRXML format 
+for older versions of the library, including support for versioning of custom components markup;
+
+- support for custom $X{} functions in queries, which can be plugged in as extensions;
+
+- added support for relative date ranges used as input parameters in parametrized queries;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.7.1 (2012-09-22, SVN 5678)
+---------------------------------------------
+
+- improved performance for the newly introduced Javascript report compiler;
+
+- configuration properties to control table component interactive features;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.7.0 (2012-07-02, SVN 5473)
+---------------------------------------------
+
+- improved rendering performance for the table component;
+
+- enhanced interactive report viewer APIs;
+
+- new "net.sf.jasperreports.export.pdf.size.page.to.content" export configuration property added
+to allow for variable page size in PDF documents, by adapting page size to page content size;
+
+- better control over memory footprint in large XLSX exports, by allowing the temporary files buffer size
+to be configured locally through report custom properties;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.6.0 (2012-05-21, SVN 5400)
+---------------------------------------------
+
+- improved JasperReports configuration infrastructure by the introduction of a JasperReportsContext, 
+an new interface from where JR configuration properties are read and JR extensions are loaded.
+This allows different configurations of the JR engine to exist simultaneously in the same JVM;
+
+- improved JasperReports Web Framework which now features a centralized controller to dispatch
+actions triggered by end user interactions in the report viewer. Actions are backed by atomized 
+commands that modify the report metadata on-the-fly, with support for undo/redo operations, 
+to reflect changes in the report output;
+
+- introduction of reusable Web report viewer APIs, featuring configurable report viewing servlets,
+and built-in Javascript modules that can be used to create custom interactive report viewers in Web
+applications embedding the JasperReports Library.
+This is demonstrated in the new /demo/samples/webapp-repo sample where two different looking versions
+of the same build-in JR interactive report viewer are used to displays interactive reports;
+
+- enhanced interactivity in the table component, with support for column formatting, hiding, resizing,
+moving, sorting and filtering, all leveraging the new action-based JR Web Framework controller and its 
+interactivity supporting report viewer Javascript APIs;
+
+- introduction of a data caching API that helps avoid re-querying the report's data source, 
+for performance reasons, while interactively viewing the report using an interactive report viewer
+created based on the new JR Web Framework;
+
+- added new page related events in the asynchronous report filler to support asynchronous page display
+in interactive report viewers;
+
+- added support for message providers that can be plugged into JR as extensions, to allow 
+internationalization of interactive custom components UIs;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.5.1 (2012-03-05, SVN 5027)
+---------------------------------------------
+
+- the JSON data source and the respective JSON query executer were moved 
+from the samples folder to the core library;
+
+- support for macros added in XLS and XSLX exporters;
+
+- the repository APIs were enhanced with support for pluggable persistence 
+services to load and store resources in the repository;
+
+- the "net.sf.jasperreports.export.pdf.force.linebreak.policy" configuration 
+property is un-deprecated, as a partial revert of the changes made in 4.1.1 with 
+regards to PDF text rendering; These changes were partially reverted as they affected 
+the performance of the PDF exporter when dealing with simple texts. The AWT-based text 
+rendering is now performed only on complex text fields that contain tab characters 
+for tab stop alignment or contain multiple paragraphs, with variable paragraph styling.
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.5.0 (2011-12-06, SVN 4839)
+---------------------------------------------
+
+- border and padding style properties added to crosstab elements;
+
+- optimized text measurement for short and simple texts, to speed up report filling process;
+
+- new "net.sf.jasperreports.export.xls.use.timezone" export configuration property added
+to force translation of date values during XLS export, to the timezone used to fill the report;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.1.3 (2011-10-28, SVN 4774)
+---------------------------------------------
+
+- new XLS/XLSX export configuration properties added for advanced features 
+including auto-filter, row outline collapse/expand grouping and custom column width; 
+
+- enhanced support for interactive sorting and filtering, with more filter criteria 
+available depending on column data type and possibility to sort and filter on multiple
+columns at the same time; 
+
+- improved virtualization by consolidating styling information for repeating subreports
+and by splitting large pages into smaller virtualized pieces for non-paginated reports;
+
+- the XML exporter was changed to use namespaces and thus allow pluggable generic element 
+parameter value handlers; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.1.2 (2011-09-12, SVN 4600)
+---------------------------------------------
+
+- support for PDF/A compliance added to the PDF exporter;
+
+- new sort/filter custom component added to allow non-table component reports to leverage 
+the interactive sorting and filtering feature when deployed inside the JR Web Framework; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.1.1 (2011-08-11, SVN 4550)
+---------------------------------------------
+
+- deprecated code for JRReportFont, JRBox, graphic element pen property
+and all deprecated byte-based properties were removed from the library's API;
+
+- the whole JR source code was overhauled to make use of Java5-style Generics;
+
+- value class property is now deprecated in expression objects; the type of
+expression no longer needs to be specified;
+
+- the library's API was extended with a new repository API, which is used now
+throughout the reporting engine to locate report resources such as images, fonts, 
+subreports, etc; 
+
+- new parameter contributor interface was added to the engine to allow parameter
+manipulation prior to query execution; parameter contributors can be plugged in as
+extensions;
+
+- new data adapter concept was added to the library's API to allow the reporting engine
+to connect to data directly, without the parent application providing the data the source 
+nor the query executer parameters, at report fill time;
+
+- new report executing servlet was added as part of a larger Web framework that
+is now available in the library's core API, to simplify deployment of JR inside
+Web applications and achieve higher degree of interactivity for reports;
+details about how this new Web framework can be used can be seen in the new
+/demo/samples/webapp-repo sample, which also makes use of the newly introduced
+repository API, to locate the report templates and their additional resources;
+
+- the table component was enhanced so that it is more interactive by default,
+when the reports are deployed in an application that makes use of the above mentioned
+Web framework; by default, table columns are sortable, while text columns are filterable
+using a simple "contains" filter criteria; this can be seen in the TableReport
+deployed in the /demo/samples/webapp-repo sample;
+
+- new map component added to the core library to simplify rendering of Google maps
+inside reports;
+
+- new XLS metadata exporter added, similar to the CSV metadata exporter in which
+columns that need to be exported have to be marked-up using configuration properties 
+at text element level;
+
+- new XLSX data source and query executer added; details about how it works 
+are found in the new /demo/samples/xlsxdatasource sample;
+
+- pattern expression added to text fields elements to allow for more flexible
+dates and numbers formatting;
+
+- custom property "net.sf.jasperreports.export.xls.pattern" is now available to control
+cell formatting patterns in XLS/XLSX exporters;
+
+- new custom properties are available in XLS/XLSX exporters to freeze panes;
+
+- new "net.sf.jasperreports.image.dpi" custom property added to allow specifying 
+the image resolution in dots-per-inch, for the images created by the engine when 
+rasterizing SVGs or when clipping other image renderers;
+
+- the "net.sf.jasperreports.export.pdf.force.linebreak.policy" configuration property
+is now deprecated as the PDF text rendering code was refactored so that text is rendered 
+exactly like in AWT;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.0.2 (2011-04-18, SVN 4298)
+---------------------------------------------
+
+- improved XHTML exporter to bring it at feature parity with the former HTML exporter;
+
+- initial support for paragraph styling including: indentation, spacing and tab stops;
+
+- new values available for line spacing type: AtLeast, Fixed and Proportional;
+
+- added support for tab characters inside text elements based on newly introduced tab stop concept;
+
+- new /demo/samples/paragraphs sample added to demonstrate paragraph styling features;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.0.1 (2011-02-28, SVN 4219)
+---------------------------------------------
+
+- new Xalan-based and Jaxen-based XPath query executer namespace aware 
+implementations added;
+
+- new functions EQUAL, NOTEQUAL, LESS, GREATER and BETWEEN are now available 
+for the $X{} syntax in dynamic SQL queries;
+
+- new XSL query executer implementation added;
+
+- support for multiple hyperlinks embedded into styled/markup text;
+
+- improved image quality in the XLS exporters;
+
+- experimental JSON data source and query executer added as separate sample 
+under /demo/samples/jsondatasource;
+
+- experimental HTML renderer component added as separate sample 
+under /demo/samples/htmlcomponent;
+
+- custom property "net.sf.jasperreports.export.html.class" added at element level to allow 
+specifying the CSS "class" attribute for elements when exported to HTML and XHTML/CSS format;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.0.0 (2010-12-31, SVN 4121)
+---------------------------------------------
+
+- new CSV query executer added to simplify to allow configuring CSV data sources from within report templates
+using built-in parameters and config properties;
+
+- new CSV metadata exporter added to better control the CSV export by marking columns in the report template
+using custom properties;
+
+- new chapters in the Sample Reference documentation have beed completed 
+(http://jasperreports.sf.net/sample.reference.html);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.6 (2010-10-27, SVN 4037)
+---------------------------------------------
+
+- enhancing the XLSX exporter so that it supports more exporter parameters 
+and configuration properties from the ones shared by all the XLS exporters;
+
+- various fixes in the XLS exporters;
+
+- added support for hidden text in the DOCX exporter;
+
+- new chapters added to the Sample Reference documentation;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.5 (2010-09-22, SVN 3978)
+---------------------------------------------
+
+- support for dynamic sorting which includes sorting on dataset variables 
+(in addition to data source fields) and build in SORT_FIELDS parameter 
+to control sorting criteria at runtime;
+
+- new „columnDirection” attribute at report level to allow filling 
+multi-column reports from right to left;
+
+- various XLS/XLSX export enhancements which include controlling the 
+sheet's direction (RTL), protecting its content, fitting its size for printing, 
+and setting other print related metadata;
+
+- upgrade to POI 3.6 and and JExcelApi 2.6.10;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.4 (2010-07-20, SVN 3911)
+---------------------------------------------
+
+- new spider/radar chart added as custom component;
+
+- the scope of the "frames as nested tables" configuration properties was extended 
+to frame element level;
+
+- new entries added to Sample Reference documentation; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.3 (2010-06-01, SVN 3846)
+---------------------------------------------
+
+- support for images and hyperlinks added to the XLSX exporter;
+
+- support for line spacing and hyperlinks added to the PPTX exporter;
+
+- support for hyperlinks and local anchors in the POI-based XLS exporter;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.2 (2010-04-12, SVN 3736)
+---------------------------------------------
+
+- new table component added to simplify designing tables with variable number of columns;
+
+- new PPTX exporter added to the core library to help creating PowerPoint 2007 documents 
+based on the Office Open XML format;
+
+- upgrade to Java 5.0; starting with this release, JasperReports is no longer compatible 
+with Java 1.4 and makes use of newer language features such as generics and typed enums;
+
+- simple XML-DOM-based font extension implementation added to eliminate the dependency on Spring 
+brought by the previous font extension default implementation;
+
+- code generating utility class added (JRApiWriter) to help users understand how to use 
+the JasperReports API and its report object model to create report templates at runtime (no JRXML);
+
+- the Flash viewer was added to the demo/samples/webapp sample;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.1 (2010-02-01, SVN 3367)
+---------------------------------------------
+
+- new JRHtmlExporterParameter.ZOOM_RATIO exporter added to allow scaling the content generated
+by the HTML and the XHTML/CSS exporters;
+
+- upgrade to POI 3.5 and iText 2.1.7;
+
+- the custom Ant task for batch updating report template files was moved from community project 
+to core library;
+
+- new custom Ant task for decompiling report templates; it allows regenerating the source JRXML 
+files from compiled report templates files.
+
+- added support for documenting the samples and automatically create the Sample Reference document,
+as part of the project build process;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.7.0 (2009-12-08, SVN 3227)
+---------------------------------------------
+
+- generic element export handler support was added to all built-in exporters;
+
+- fixes were made in the text exporter and new configuration properties were added
+to help configure the text exporter globally, or at report level;
+
+- custom property "net.sf.jasperreports.export.html.id" added at element level
+to allow specifying the ID attribute for elements when exported to HTML and XHTML/CSS format;
+
+- new export parameter and configuration property added to ignore cell background
+color in the XLS/XLSX exporters;  
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.6.2 (2009-11-23, SVN 3215)
+---------------------------------------------
+
+- new "footerPosition" attribute added to report groups to control the rendering
+position of the group footer sections;
+
+- new "keepTogether" boolean flag added to report groups to prevent groups from
+splitting across two pages or columns, but only on their first break attempt;
+
+- new <orderByExpression> tag added to crosstab group definitions to allow
+sorting the crosstab by measure totals;
+
+- axis tick labels in charts can now be rotated using the new "verticalTickLabels"
+flag (for numeric or datetime axis) or at an angle, using the new "labelRotation" 
+numeric attribute (for category axis);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.6.1 (2009-10-26, SVN 3170)
+---------------------------------------------
+
+- enhanced font extension support to allow mapping JVM available fonts
+with PDF built-in fonts;
+
+- exporter font mapping support added to font extensions, which deprecates
+the former FONT_MAP exporter parameter;
+
+- net.sf.jasperreports.awt.ignore.missing.font configuration property added
+to control font availability verifications during report filling and report
+AWT rendering;
+
+- new JAR containing default font extension was added to the JasperReports 
+project build process as well as the distribution files;
+
+- new XLS data source implementation added, to support filling reports
+using data coming from Excel 95, 97, 2000, XP, and 2003 workbooks;
+
+- new XLSX exporter added to the core library to help creating Excel 2007 
+documents based on the Office Open XML format;
+
+- new OpenDocument Spreadsheet exporter added (ODS);
+
+- new "isSummaryWithPageHeaderAndFooter" attribute added to the report template
+definition, to allow rendering the summary page together with the page footer 
+and page header bands;
+
+- new "printOrder" attribute added to list component, to support horizontal
+filling of lists, in addition to vertical filling;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.6.0 (2009-08-31, SVN 3038)
+---------------------------------------------
+
+- upgrading the JasperReports license to Version 3 of the
+GNU LESSER GENERAL PUBLIC LICENSE (http://www.gnu.org/licenses/lgpl.txt); 
+
+- fixed JRXlsExporter to avoid creating invalid XLS files for large reports
+(tracker #0004014);
+
+- fixed JRRtfExporter font table section (tracker #0004169);
+
+- fixed hyperlink encoding in JRDocxExporter (tracker #0004252);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.5.3 (2009-07-29, SVN 2990)
+---------------------------------------------
+
+- new DOCX exporter added to the core library to help creating Word 2007 documents 
+based on the Office Open XML format;
+
+- new XLSX exporter provided as a separate sample to those who want to make use of 
+the XLSX (Excel 2007) generating capabilities of POI 3.5 Beta;
+
+- new XHTML/CSS exporter added to core library to avoid the grid exporter limitations
+of the classic HTML exporter;
+
+- new JDBC-related configuration properties introduced to allow fine-tuning the SQL query execution;
+
+- <since> tag added to properties in the Config Reference documentation;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.5.2 (2009-06-03, SVN 2856)
+---------------------------------------------
+
+- the report detail, the group headers and the group footers are now 
+multi-band sections, meaning that their content can be distributed into 
+several bands, having similar rendering behavior;
+
+- new "splitType" attribute available at band level, to control the band 
+breaking policy; this new attribute deprecates the "isSplitAllowed" attribute;
+
+- two new production-ready barcode components that use the Barbecue library
+and the Barcode4J library, respectively;
+
+- all configuration properties are now fully documented in a source XML file that
+is used to produce a complete and up-to-date HTML configuration reference;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.5.1 (2009-05-05, SVN 2762)
+---------------------------------------------
+
+- list component added to simplify iteration through datasets 
+without using a subreport;
+
+- support for generic element PDF handlers to allow customizing 
+PDF output using generic elements;
+
+- the report template structure and syntax (JRXML) are now fully 
+documented using the comments from the source XSD file to produce 
+a complete and up-to-date HTML schema reference;
+
+- option to save line break positions at fill/measure time and 
+use them during HTML export in order to preserve word wrap;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.5.0 (2009-03-25, SVN 2712)
+---------------------------------------------
+
+- new min/max expressions available for controlling the displayed values 
+interval for both chart axis;
+
+- the pie dataset now supports multiple series; this is useful in cases where
+multiple categories are added to the pie dataset in one incrementation step;
+
+- new attributes and expressions where added to the pie dataset to allow limiting
+the number of slices displayed in the pie chart by grouping smaller slices under 
+a single generic slice called "Other";
+
+- new "runToBottom" attribute available for subreport elements to specify if 
+the subreport should consume all the available space on the current page;
+
+- the "net.sf.jasperreports.allow.element.overlap" property can be used globally, 
+at report or element level to specify whether element overlapping verifications 
+are performed at report compilation time; this is useful when designing reports 
+that are to be exported using grid exporters such as HTML and XLS, 
+where overlapping elements do not show up;
+
+- support for ordered lists added in the HTML markup text processor;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.1.4 (2009-02-10, SVN 2607)
+---------------------------------------------
+
+- allow any value as hyperlink target to support open hyperlinks 
+into named frames; 
+
+- custom hyperlink targets can be generated at runtime using 
+hyperlink target producers;
+
+- custom hyperlink producers and hyperlink target producers 
+can be deployed as extensions;
+
+- multiple scriptlet instances allowed per report execution;
+
+- support for report governors to prevent infinite loops caused by
+invalid report templates;
+
+- simple report governor implementations based on maximum 
+number of pages and timeout;
+
+- new JASPER_REPORT built-in parameter to give access to the report 
+template object in report expressions and scriptlets;
+
+- chart element live preview in design mode;
+
+- improved XML-based chart theme model to support the creation of
+a visual chart theme designer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.1.3 (2009-01-12, SVN 2526)
+---------------------------------------------
+
+- font extensions support to allow using TTF files without the need to install 
+them into the system; this also allows using different TTF files for the same
+logical font name, depending on the locale;
+
+- primitive type chart properties replaced with equivalent object type properties 
+to allow chart theme implementations to check if they were set or not;
+
+- XML based chart theme implementations provided with the charts sample;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.1.2 (2008-11-04, SVN 2458)
+---------------------------------------------
+
+- new report compiler based on the Rhino library to support JavaScript 
+as the report expression language;
+
+- simplified configuration for custom query executers, which can register 
+themselves to a JasperReports deployment using the library's extensions support;
+
+- new custom properties available at report level and element level, 
+to mark document structure and produce produce PDF output that is compliant 
+with Section 508 Amendment to the Rehabilitation Act of 1973, which governs 
+accessibility of software solutions for people with disabilities.
+
+- new TrueType font files (DejaVu fonts) are shipped with the sample reports;
+
+- new chart theme implementation (name eye.candy.sixties) shipped with 
+the charts samples, to show how chart themes can be used to change the overall 
+appearance of charts generated with the build-in chart element;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.1.0 (2008-09-17, SVN 2367)
+---------------------------------------------
+
+- chart themes support to allow changing the overall appearance 
+of charts generated with the build-in chart element;
+
+- deprecation of DTD based JRXML validation and introduction of 
+XML schema based JRXML validation;
+
+- generic component support to allow extending the functionality of the 
+JasperReports engine by plugging-in custom-made visual components that 
+would take data as input and produce content that is embedded into the 
+resulting documents;
+
+- support for generic print elements in generated documents to allow 
+introducing custom exporter content;
+
+- introducing generic report design elements to simplify creation of 
+custom exporter content, without implementing full-blown components;
+
+- extension support added in order to simplify configuring various 
+JasperReports extension points such as chart themes and generic components;
+
+- new "labelFormat" and "legendLabelFormat" properties available for pie 
+and pie 3D chart plots to allow controlling the labels for pie charts 
+without need for chart customizer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.0.1 (2008-08-07, SVN 2263)
+---------------------------------------------
+
+- new Gantt chart type added;
+
+- support for item hyperlinks in multi-axis charts;
+
+- new Swing report viewer component, with enhanced plugability 
+and reusability (the page viewer and its toolbar can be separated);
+
+- new possible values (RealHeight and RealSize) for the "scaleImage" 
+attribute of the image elements;
+
+- support for pluggable exporter filter factories in addition 
+to the existing FILTER exporter parameter;
+
+- new exporter filter implementation for filtering out content 
+based on the element's key property;
+
+- password protection for the XLS files generated with 
+the JExcelApi-based exporter;
+
+- the Javaflow-based distributed JAR has the JRContinuationSubreportRunnerFactory
+configured as the default subreport runner factory;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 3.0.0 (2008-05-19, SVN 2200)
+---------------------------------------------
+
+- support for custom properties at element level in generated documents, 
+to allow extending exporter functionality; 
+
+- custom element properties can have expressions as values (dynamic values);
+
+- support for XLS cell formula, using the "net.sf.jasperreports.export.xls.formula" 
+custom property at element level;
+
+- better control over sheet breaks in XLS exporters using the new custom element
+properties called "net.sf.jasperreports.export.xls.break.before.row" and
+"net.sf.jasperreports.export.xls.break.after.row";
+
+- new configuration property called "net.sf.jasperreports.export.legacy.border.offset"
+to allow rendering element borders in older reports using the legacy border offset 
+technique that was used in versions prior to the 2.0.3 release.  
+
+- support for "Parent" and "Top" as hyperlink targets;
+
+- enhanced XML exporter and new XML exporter servlet added to facilitate viewing
+reports using the JasperReports Flash Viewer component 
+(http://jasperforge.org/sf/projects/jasperreports-flash);
+
+- new experimental XMLSS exporter (XML Spreadsheet Format) that allows streaming
+content while generating the document and thus avoid memory problems with 
+very large reports; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+
+JasperReports 2.0.5 (2008-03-12, SVN 2137)
+---------------------------------------------
+
+- support for RTF and HTML snippets inside text elements using new "markup" attribute 
+that deprecates the former isStyledText attribute;
+
+- new "renderType" chart attribute and configuration property, to support rendering charts as images
+or as SVG, besides the direct drawing performed by the JFreeChart components;
+
+- new FileResolver interface and built-in parameter for better control over resource loading;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 2.0.4 (2008-01-11, SVN 2065)
+---------------------------------------------
+
+- support for Dotted and Double line style added;
+
+- warning messages added to signal the use of deprecated pen and box 
+attributes and tags in JRXML; all samples refactored;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 2.0.3 (2007-12-12)
+-----------------------------------
+
+- the default value of the deprecated JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE
+exporter parameter is now "false"; the newer IS_DETECT_CELL_TYPE exporter parameter
+should be used to control the cell types in the generated XLS documents;
+
+- exporter filter support added to all exporters, including support for 
+origin exporter filter hints;
+
+- refactored RTF exporter to remove limitations related to Unicode texts and RTL writing;
+
+- change events handling and clone support in the report template object model;
+
+- custom properties support for report templates elements;
+
+- support for pluggable text measurers, to allow simpler and faster implementations;
+
+- support for keeping the entire original text for text elements that do not
+stretch; the full text is used in data-oriented exporters such as XLS and CSV;
+
+- support for truncating texts at character (not word);
+
+- support for text truncation suffix (i.e. adding ellipses at the end);
+
+- new JRPen and JRLineBox interfaces added to support rendering of an unlimited 
+number of line width/style combinations;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 2.0.2 (2007-10-09)
+-----------------------------------
+
+- support for element origin information in generated documents;
+
+- support for exporter element filtering based on element origin;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 2.0.1 (2007-08-24)
+-----------------------------------
+
+- support for custom properties in generated documents (JasperPrint objects);
+
+- predefined JasperPrint custom properties used as exporter hints;
+
+- new configuration properties for setting exporter parameter default values;
+
+- new configuration properties for mapping report compilers to expression languages;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 2.0.0 (2007-08-14)
+-----------------------------------
+
+- support for reusable external report styles, through style templates;
+
+- new noData section introduced for better control over reports or subreports filled
+with empty data sources;
+
+- faster XML data source using Jaxen added;
+
+- current bean mapped to the report field called _THIS, in bean data sources;
+
+- new export parameters available for generating a more data-centric XLS documents;
+
+- custom color palette creation for JExcelApi exporter;
+
+- the BeanShell report compiler moved back to core library;
+
+- upgrade to Mondrian 2.3.2;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.3.4 (2007-06-11)
+-----------------------------------
+
+- new "runDirection" attribute available for crosstabs to enable right-to-left rendering policy;
+
+- support for large documents in the ODT exporter;
+
+- security checks enabled for custom code execution during report generation;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.3.3 (2007-04-30)
+-----------------------------------
+
+- support for inner classes and arrays in report template types (parameters, fields, variables)
+and custom classes associated with the report template (scriptletClass, formatFactoryClass, etc);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.3.2 (2007-03-30)
+-----------------------------------
+
+- new Open Document Format exporter added (beta version);
+
+- enhanced RTF exporter;
+
+- improved error handling during report compilation to help detecting 
+the source of the problem;
+
+- support for custom name/value pair properties for report fields 
+and report parameters;
+
+- new $X{} syntax available and recursive expansion of $P!{} parameter 
+references in the <queryString> tag to help building dynamic queries;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.3.1 (2007-02-21)
+-----------------------------------
+
+- stacked area chart support added;
+
+- style properties inheritance for charts;
+
+- XMLA query executer mapped by default to the "mdx" and "MDX" query languages,
+just like the MDX query executer; the latter takes precedence;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.3.0 (2006-12-22)
+-----------------------------------
+
+- new XMLA data source implementation added to support reporting using OLAP engine
+through a Web Services interface;
+
+- new <break> element to better control page and column breaks in reports;
+
+- improved image loading and image encoding processes as well as full support 
+for transparent images;
+
+- enhanced support for localization in the XML and CSV data sources;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.8 (2006-11-14)
+-----------------------------------
+
+- support for sorting the data source using new <sortField> tags in JRXML;
+if such tags are present, an intermediate JRSortableDataSource will wrap 
+the initial report data source and perform in-memory sorting before the 
+records are fed into the report filling process;
+
+- upside down text rotation;
+
+- new report template property (formatFactoryClass) and built-in parameter 
+(REPORT_FORMAT_FACTORY) to allow the use of custom date and number formatters;
+
+- new exporter parameter (FORCE_SVG_SHAPES) and configuration property 
+(net.sf.jasperreports.export.pdf.force.svg.shapes) to disable the rendering
+of SVG images using shapes in PDF and reduce file size;
+
+- new exporter parameter (MINIMIZE_PRINTER_JOB_SIZE) and configuration property 
+(net.sf.jasperreports.export.graphics2d.min.job.size) to disable the printer job
+size optimization and allow full support for bidirectional writing;
+
+- new exporter parameter (FORMAT_PATTERNS_MAP) to allow translating the text field
+patterns to XLS exporter specific cell format patterns;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.7 (2006-09-21)
+-----------------------------------
+
+- extended support for charts including new chart types: 
+meter chart, thermometer chart and multi-axis charts;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.6 (2006-09-03)
+-----------------------------------
+
+- enhanced hyperlink support for text elements, images and charts;
+hyperlinks per chart items for enhanced drill-through support;
+
+- support for superscript and subscript in styled text;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.5 (2006-07-11)
+-----------------------------------
+
+- new filter expression added to filter out records in a data source;
+
+- "increment when" expression to filter out data in chart and crosstab datasets;
+
+- new IS_DETECT_CELL_TYPE exporter parameter available for the XLS exporters,
+to allow setting the correct cell data type in worksheets;
+the former IS_AUTO_DETECT_CELL_TYPE is now deprecated;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.4 (2006-06-23)
+-----------------------------------
+
+- new distinct count calculation supported;
+
+- new REPORT_TIME_ZONE built-in parameter added to fully control date formatting;
+
+- new FORCE_LINEBREAK_POLICY exporter parameter to force the PDF exporter to use
+the same line break policy as in AWT;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.3 (2006-05-30)
+-----------------------------------
+- support for OLAP and MDX queries using Mondrian-based 
+query executer and data source implementations;
+
+- support for EJBQL using JPA-based query executer implementation
+(contribution by Marcel Overdijk);
+
+- GZIP in-memory virtualizer 
+(contributed by John Bindel, Works Inc.);
+
+- new single/swap file virtualizer;
+
+- support for shared file virtualizer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.2 (2006-04-23)
+-----------------------------------
+- the use of threads is no longer mandatory for the subreport filling process after
+introducing a new subreport runner interface and an altenative default implementation
+that realies on Javaflow continuations (Jakarta Commons Javaflow library);
+
+- Groovy report compiler moved to core library;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.1 (2006-04-07)
+-----------------------------------
+- support for URL stream handlers to allow loading resources such as images, 
+fonts or subreports using customized URL protocols;
+
+- new isPdfSimulatedBold and isPdfSimulatedItalic attributes available 
+for the PDF exporter font mappings;
+
+- serialVersionUID frozen at 10200; this will no longer be incremented 
+with every new release;
+
+- JExcelApi exporter moved to core library;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.2.0 (2006-02-06)
+-----------------------------------
+- support for other query languages including HQL and XPath implementations;
+
+- new evaluation time "Auto" available for text fields enabling 
+new types of calculations such as percentage;
+
+- CSV datasource;
+
+- conditional styles;
+
+- crosstab total variables to allow combining data at different 
+aggregation levels (percentages, etc);
+
+- serialization of virtualized reports;
+
+- the built-in HTML exporter now produces XHTML-compatible output;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.1.1 (2005-11-28)
+-----------------------------------
+- support for crosstab cell vertical stretch;
+
+- access to report data from chart customizer implementations by
+extending new JRAbstractChartCustomizer class;
+
+- support for Java 1.5 in the JDT-based report compiler;
+
+- new "isIgnorePagination" attribute available at report template level;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.1.0 (2005-10-21)
+-----------------------------------
+- support for report styles that can be referenced by elements to inherit 
+visual properties such as font, color, border, etc; report fonts are now deprecated;
+
+- new frame element added to support grouping other report element together;
+
+- new dataset concept that comprises parameter, field, variable and group 
+declarations and represents a mixture between a data source and a subreport 
+to help iterating through data for chart and crosstab generation;
+
+- support for crosstabs added using a specialized component;
+
+- new XLS exporter implementation that uses the Java Excel Api open source library is
+available as a sample; contributed by Manuel Paul (Rat & Tat Beratungsgesellschaft mbH);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.0.3 (2005-10-10)
+-----------------------------------
+- new J2EE module added to the core library including servlets for image
+delivery in HTML format, PDF, XLS and RTF generation;
+
+- new REPORT_CLASS_LOADER built-in fill time parameter and new CLASS_LOADER export time 
+parameter to allow extending the way resources such as images, fonts and subreports 
+are located at runtime;
+
+- support for detecting the image type inside JRRenderable instances using an image type sniffer;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.0.2 (2005-09-07)
+-----------------------------------
+- fixes the bug introduced in the 1.0.1 version related to the subreports caching
+(see http://sourceforge.net/tracker/index.php?func=detail&aid=1277217&group_id=36382&atid=416703);
+
+- support for simple HTML tags like <b>, <u>, <i>, <font> and <li> inside styled texts;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.0.1 (2005-08-26)
+-----------------------------------
+- further chart element customization possible using a new JRChartCustomizer interface 
+and the "customizerClass" attribute available for charts;
+
+- new RTF and plain text exporters added;
+
+- new FONT_MAP exporter parameter introduced to allow export-time font mappings and 
+better control of font translation during document export;
+
+- support for generating PDF bookmarks from report anchors using a new "bookmarkLevel" 
+attribute available for hyperlink elements;
+
+- new IS_IGNORE_PAGINATION built-in parameter for disabling pagination and allow 
+creating flow-based documents instead of page-based documents;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 1.0.0 (2005-07-20)
+-----------------------------------
+- built-in support for charts added; a new chart component was added to simplify the
+rendering of the following types of charts: Pie, Pie 3D, Bar, Bar 3D, XY Bar, Stacked Bar, 
+Stacked Bar 3D, Line, XY Line, Area, XY Area, Scatter Plot, Bubble, Time series, 
+High Low Open Close, Candlestick;
+
+- support for generating very large reports using serialization on disk to minimize memory 
+consumption during the filling and exporting processes 
+(report virtualizer, contributed by John Bindel, Works Inc.);
+
+- report fields can be of any type, just like report parameters and report variables. 
+This simplifies working with JavaBean data sources where casting from java.lang.Object 
+to the actual report field class is no longer required in the expressions;
+
+- when using $P{REPORT_SCRIPTLET} in expressions, specific cast to the actual scriptlet
+class is no longer needed;
+
+- new attribute "whenResourceMissingType" for customizing the behavior of the engine 
+when it deals with missing resources in the associated resources bundle;
+
+- support for CLOB and BLOB report fields in JRResultSetDataSource;
+
+- support for PDF font registration using properties file;
+
+- simplified support for returning values from subreport;
+
+- new possible value (Band) for the "evaluationTime" property of text fields, images and charts 
+to allow postponing their expression evaluation until the end of the parent band rendering 
+in order to simplify the use of values returned from subreports;
+
+- support for canceling the report filling process, including the cancellation of the 
+report query execution through JDBC (see the AsynchronousFillHandle class);
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 0.6.8 (2005-05-31)
+-----------------------------------
+- fixes the bug introduced in the 0.6.7 version related to the way
+variables are incremented and group breaks estimated
+(see http://sourceforge.net/tracker/index.php?func=detail&aid=1207897&group_id=36382&atid=416703);
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.7 (2005-05-16)
+-----------------------------------
+- new REPORT_MAX_COUNT built-in parameter for limiting 
+the number of rows in the data source;
+
+- dots, spaces and other special characters allowed
+in parameter, field and variable names;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.6 (2005-04-06)
+-----------------------------------
+- new "incrementType" and "incrementGroup" attributes added to allow 
+incrementing variable values on page, column or group breaks and not
+with every detail row;
+
+- new "language" attribute added to allow writing report expressions 
+in other languages, provided that a report compiler that knows how to 
+interpret the specified language is used;
+
+- new Groovy report compiler added as a sample to allow using the
+Groovy language and its simplified syntax inside report expressions;
+
+- the JRBshCompiler has been removed from the core library and provided
+as a separate sample;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.5 (2005-02-27)
+-----------------------------------
+- JasperReports licensing model has been simplified and the library 
+will be shipped only under the "GNU Lesser Public License" (LGPL);
+
+- new "onErrorType" and "isLazy" attributes for image elements 
+to allow customizing the engine's behavior for loading and displaying images;
+
+- new sample showing how to use the JasperReports library inside a J2EE application
+running on the JBoss Application Server;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.4 (2005-01-16)
+-----------------------------------
+- new report compiler that uses the Eclipse JDT Java compiler for faster compilation 
+and simpler deployment;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.3 (2004-11-29)
+-----------------------------------
+- new <box> tag available for putting border around text and image elements
+with independent properties such as color, style and padding on all four sides;
+
+- new "isFloatColumnFooter" attribute to allow printing the column footer section
+right after the detail lines and not only at the bottom of the page;
+
+- new global OFFSET_X and OFFSET_Y exporter parameters that can be used to move 
+all the elements on a page when exporting the generated document;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.2 (2004-11-14)
+-----------------------------------
+- added support for import statements in order to eliminate 
+the need to use complete class names inside report expressions;
+
+- new "resourceBundle" attribute and new build-in REPORT_LOCALE and 
+REPORT_RESOURCE_BUNDLE report parameters, to allow associating 
+a ResourceBundle and a Locale with the report design when filling it with data;
+
+- new $R{...} syntax available inside report expressions to access the
+resource bundle information based on resource keys;
+
+- new built-in msg() and str() functions to allow formatting messages in
+different languages inside the report expressions;
+
+- support for right-to-left writing (like Arabic and Hebrew);
+
+- new "hyperlinkTarget" attribute available for hyperlink elements
+in order to allow opening documents in a new window;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.1 (2004-08-30)
+-----------------------------------
+- new "lastPageFooter" report section added to simplify the creation of some
+special report designs;
+
+- new sample "barbecue" added to show how to render barcodes using 
+the Barbecue open source library;
+
+- new "Go To Page" option available in the viewer's toolbar;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.6.0 (2004-07-24)
+-----------------------------------
+- the package name hierarchy has changed throughout the entire library.
+The now obsolete root package called "dori.jasper" was replaced by "net.sf.jasperreports"
+for standardization reasons;
+
+- new net.sf.jasperreports.engine.JRRenderable interface supported in the image expression
+to improve the quality of charts and other SVG images. The patch, initially proposed by
+Adrian Jackson, David Taylor and Lars Kristensen, was incorporated in the main version;
+
+- added support for batch export through the use of the new exporter parameter
+JRExporterParameter.JASPER_PRINT_LIST, which accepts a list containing JasperPrint objects 
+(contribution by Jason Essington);
+
+- new XPath based XML data source implementation provided. The "xmldatasource" sample shows 
+how the net.sf.jasperreports.engine.data.JRXmlDataSource can be used in combination 
+with subreports (contribution by Peter Severin);
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.5.3 (2004-05-18)
+-----------------------------------
+- new boolean "isStyledText" attribute available for text elements to allow 
+introducing style information inside the text content using XML syntax based on
+nested <style> tags;
+
+- new dori.jasper.engine.fill.JRIncrementer interface and refactoring of the 
+report variable calculation engine to correct problems and allow performing custom 
+calculations on custom type variables;
+
+- new file naming convention; the XML report design files now use the *.jrxml file
+extension instead of the former, more generic *.xml extension to allow better integration 
+with build tools and IDEs;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.5.2 (2004-02-23)
+-----------------------------------
+- new "rotation" attribute for text elements to allow vertically heading text;
+
+- "stretchType" attribute now available for all types of elements;
+
+- support for custom name/value pair properties inside the report design;
+
+- enhanced exporters (progress monitor, etc);
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.5.1 (2004-01-11)
+-----------------------------------
+- new data source implementations based on java.util.Map objects;
+
+- enhanced JasperViewer with customizable zoom ratio and "Save" button;
+
+- enhanced exporters (support for PDF encryption, page range exporting, etc);
+
+- improved query execution support;
+
+- improved font management;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.5.0 (2003-07-06)
+-----------------------------------
+- improved and customizable report compilation process;
+
+- support for report expression evaluation using BeanShell introduced
+(bytecode Java compilation is mandatory no more);
+
+- new "isSplitAllowed" flag introduced at band level to customize
+page break behavior;
+
+- new experimental horizontal report filler introduced;
+
+- enhanced HTML, XLS and CSV exporters;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.6 (2003-04-13)
+-----------------------------------
+- enhanced HTML and XLS exporters to include lines and rectangles
+and allow suppressing empty space between rows in order to obtain
+reports without page breaks (overlapped elements are still not displayed);
+
+- improved and customizable report compilation process;
+
+- 13 color names allowed in "forecolor" and "backcolor" attributes 
+of a report element (black, blue, cyan, darkGray, gray, green, lightGray, 
+magenta, orange, pink, red, yellow, white);
+
+- "hAlign" and "vAlign" attributes added to the <image> element 
+to allow image alignment when scaleImage="Clip";
+
+- new <background> report section introduced, to allow creating
+watermark and other similar effects;
+
+- Ant task for compiling XML report designs included. Special thanks 
+to Henri Chen and Kees Kuip who provided such Ant tasks as patches 
+on the project site;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.5 (2003-01-29)
+-----------------------------------
+- images in PDF directly from file and not from java.awt.Image;
+
+- support for round rectangles and ellipses added;
+
+- support for vertical alignment of text elements added;
+
+- interruptable fill, export and print processes;
+
+- system property added to customize the report compilation process and 
+avoid deletion of the report expression java source file for debug purposes;
+
+- enriched interfaces to allow runtime alterations of report element settings 
+without requiring report recompilation;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.4 (2002-12-02)
+-----------------------------------
+- support for java.sql.Time values added;
+
+- support for the Jikes Java compiler introduced;
+
+- enhanced HTML exporter to allow in-memory content storage
+(no need for files on disk), and other customizations;
+
+- enhanced "webapp" sample provided to make use of the HTML exporter
+new features;
+
+- support for XML entities in report designs added;
+
+- support for TTF files placed in classpath when exporting to PDF;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.3 (2002-10-30)
+-----------------------------------
+- The JasperReports Ultimate Guide was released 
+(http://jasperreports.sourceforge.net/more.docs.html);
+
+- enhanced JRHtmlExporter to support exporting documents page by page;
+
+- new XLS and CSV exporters provided;
+
+- new Graphics2D exporter and Java Print Service exporter provided;
+
+- possibility to turn off XML validation added;
+
+- minor bug fixes and improvements;
+
+
+
+
+JasperReports 0.4.2 (2002-10-14)
+-----------------------------------
+- calculation "Count" implemented for non numeric expressions;
+
+- enhanced JRVerifier and minimal JasperDesign objects;
+
+- new samples provided : "tableofcontents" and "noreport";
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.4.1 (2002-09-27)
+-----------------------------------
+- optional system properties introduced to customize the report compilation 
+(classpath and temporary working directory);
+
+- new HTML exporter implemented;
+
+- complete Web application sample provided, including applets for viewing 
+and printing the reports;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.4.0 (2002-09-04)
+-----------------------------------
+- new "Apache style" license published;
+
+- last remaining initial requirements implemented:
+"positionType", "stretchType", "isPrintRepeatedValues", "isRemoveLineWhenBlank", 
+"isPrintInFirstWholeBand", "isPrintWhenDetailOverflows" and "printWhenGroupChanges";
+
+- "printWhenExpression" available also at band level;
+
+- report field description added to support creating complex data source
+implementations;
+
+- new "whenNoDataType" attribute at report level to allow customizing the behavior 
+of the reporting engine when there are no rows in the data source;
+
+- new JRExporter interface added to simplify the introduction of new output formats;
+
+- new default "REPORT_SCRIPTLET" parameter added;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.3.3 (2002-07-20)
+-----------------------------------
+- new JRDataSource implementations for wrapping TableModel objects, 
+bean arrays and bean collections;
+
+- enhanced parameter declaration with description for prompting 
+and default value expression;
+
+- minor bug fixes and improvements;
+
+
+
+JasperReports 0.3.2 (2002-06-12)
+-----------------------------------
+- support for hyperlinks added;
+
+- XML report design generation implemented (JRXmlWriter);
+
+- serialVersionUID specified for all serializable classes;
+
+- support for precise calculations using BigDecimal;
+
+- "evaluationTime" attribute added for image elements;
+
+- minor bug fixes and improvements.
+
+
+
+JasperReports 0.3.1 (2002-05-21)
+-----------------------------------
+- support for XML output added;
+
+- improved architecture for creating documents on the fly (JasperPrint);
+
+- bug fixes;
+
+
+
+JasperReports 0.3.0 (2002-05-13)
+-----------------------------------
+- improved design and architecture of the library;
+
+- support for subreports added;
+
+- support for concurrency and reusability of report definition objects;
+
+- attribute "orientation" added to the "jasperReport" element to support 
+landscape document printing;
+
+- value "Thin" added to the attribute "pen" of the "graphicElement" element;
+
+- problem with the types of the PreparedStatement parameters 
+solved in JRQueryExecuter;
+
+- zoom problem in JDK1.4 solved.
+
+- more samples provided;
+
+- problem with the assignment of null values to variables 
+from scriptlets solved;
+
+- displaying column header and footer on single column reports;
+
+- problem with "average" variables solved in calculations;
+
+- <DOCTYPE> reference in XML files changed to 
+"http://www.jasperreports.com/dtds/jasperreport.dtd" or 
+"http://jasperreports.sourceforge.net/dtds/jasperreport.dtd" 
+(both are accepted);
+
+- problem with "new line" characters in text elements solved;
+
+- text elements background problem solved;
+
+
+
+JasperReports 0.2.5 (2002-02-24)
+-----------------------------------
+- license changed from GPL to LGPL;
+
+- support for scriptlets added;
+
+- new "scriptletClass" attribute added to the "jasperReport" element;
+
+- variables can hold any type of objects just like parameters do;
+
+- JRAbstractScriptlet and JRDefaultScriptlet classes added as base 
+for scriptlets functionality;
+
+- scriptlet sample provided;
+
+- minor bug fixes;
+
+
+
+JasperReports 0.2.4 (2002-02-11)
+-----------------------------------
+- "reportElement" attribute "mode" implemented (Transparent/Opaque);
+
+- "graphicElement" attribute pen="None" implemented;
+
+- "isPdfEmbeded" attribute in "reportFont" and "font" elements renamed to "isPdfEmbedded";
+
+- new "direction" attribute in "line" element;
+
+- attribute scaleImage="Clip" implemented in PDF format for the "image" element;
+
+- more report samples provided;
+
+- minor bug fixes;
+
+
+
+JasperReports 0.2.3 (2002-02-06)
+-----------------------------------
+- JasperReports project tree published. 
+With the use of ANT tool, the project can be quickly build 
+and samples can be tested on the spot;
+
+- sample application that uses a HypersonicSQL database;
+
+- sample Web application supplied;
+
+- empty text field bug fixed;
+
+- default font bug fixed;
+
+- Graphic and PdfContentByte problem fixed ("are you mixing two documents" problem);
+
+- support for java.sql.Timestamp in expressions and report query;
+
+- support for InputStream and OutputStream objects in JasperManager;
+
+- support for File, URL and CLASSPATH images;
+
+- JREmptyDataSource modified. 
+It simulates a data source with one record in which all fields are null;

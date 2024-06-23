@@ -1,0 +1,20 @@
+<jasperTemplate>
+  <style name="Sans_Normal" fontName="DejaVu Sans" fontSize="12.0" default="true"/>
+  <style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true"/>
+  <style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" italic="true"/>
+  <style name="RowStyle" style="Sans_Normal">
+    <conditionalStyle mode="Opaque" backcolor="rgba(238, 238, 238, 0.5)">
+      <conditionExpression><![CDATA[$V{ConditionalRow}]]></conditionExpression>
+    </conditionalStyle>
+  </style>
+  <style name="FieldStyle" style="RowStyle">
+    <conditionalStyle forecolor="#0000FF">
+      <conditionExpression><![CDATA[$F{ConditionalField}]]></conditionExpression>
+    </conditionalStyle>
+  </style>
+  <style name="TitleStyle" fontSize="22.0" style="Sans_Normal">
+    <conditionalStyle fontSize="26.0" bold="true">
+      <conditionExpression><![CDATA[$P{ConditionalParam}]]></conditionExpression>
+    </conditionalStyle>
+  </style>
+</jasperTemplate>

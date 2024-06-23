@@ -1,0 +1,35 @@
+<jasperReport name="TableWithSubreportReturn" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="d44cffa9-8bf3-4aa2-bb0c-ef6c730b5d13">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<dataset name="TableData" uuid="54c46638-5311-4adf-8cdd-1c655aaaa240">
+		<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport"/>
+		<variable name="ReturnedVariable" class="java.lang.String"/>
+	</dataset>
+	<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<title height="100">
+		<element kind="component" uuid="2e92f08c-6be7-47ab-97b6-7720c3210923" x="0" y="0" width="555" height="100">
+			<component kind="table">
+				<datasetRun uuid="c3ead365-5241-40cd-90a1-03785eb97ac6" subDataset="TableData">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<parameter name="subreport">
+						<expression><![CDATA[$P{subreport}]]></expression>
+					</parameter>
+				</datasetRun>
+				<column kind="single" uuid="671adacb-6ed8-4bff-968b-6a52062de8e9" width="555">
+					<columnFooter height="30">
+						<element kind="textField" uuid="ee8cb92f-02f1-48cd-a561-38b0a93980e3" x="0" y="0" width="555" height="30">
+							<expression><![CDATA["table " + $V{ReturnedVariable}]]></expression>
+						</element>
+					</columnFooter>
+					<detailCell height="30">
+						<element kind="subreport" uuid="22f7aa1c-0d02-4f10-a496-0ad022dc8535" x="0" y="0" width="555" height="30">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+							<expression><![CDATA[$P{subreport}]]></expression>
+							<returnValue toVariable="ReturnedVariable" subreportVariable="VariableForReturn"/>
+						</element>
+					</detailCell>
+				</column>
+			</component>
+			<property name="net.sf.jasperreports.components.table.name" value="table"/>
+		</element>
+	</title>
+</jasperReport>

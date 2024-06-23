@@ -1,0 +1,97 @@
+<jasperReport name="TablePart" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="5c559f3e-b23b-4cd4-a579-7ed7c0d2b615" summaryNewPage="true">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<query language="sql"><![CDATA[SELECT * FROM Orders WHERE OrderID < 12000 ORDER BY ShipCountry]]></query>
+	<field name="OrderID" class="java.lang.Integer"/>
+	<field name="ShipName" class="java.lang.String"/>
+	<field name="ShipCity" class="java.lang.String"/>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<variable name="FirstLetter" resetType="None" class="java.lang.String">
+		<expression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></expression>
+	</variable>
+	<variable name="ShipCountryNumber" resetType="Group" calculation="System" resetGroup="ShipCountryGroup" class="java.lang.Integer">
+		<initialValueExpression><![CDATA[$V{ShipCountryNumber} == null ? 1 : ($V{ShipCountryNumber} + 1)]]></initialValueExpression>
+	</variable>
+	<group name="SummaryDummyGroup">
+		<groupFooter>
+			<band height="60">
+				<element kind="textField" uuid="7490a565-68a0-4e68-a404-ba1ff86995f0" x="175" y="20" width="165" height="15" textAdjust="StretchHeight" hTextAlign="Center" style="Sans_Italic">
+					<expression><![CDATA["There were " + 
+					String.valueOf($V{REPORT_COUNT}) + 
+					" orders on this report."]]></expression>
+				</element>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="FirstLetterGroup" minHeightToStartNewPage="60">
+		<expression><![CDATA[$V{FirstLetter}]]></expression>
+		<groupHeader>
+			<band height="25">
+				<element kind="line" uuid="6270ab6d-e94e-4c83-957e-dfeffd590984" x="0" y="0" width="1" height="1"/>
+				<element kind="staticText" uuid="10db0c86-d839-40a0-a455-242b68f0375b" mode="Opaque" x="0" y="10" width="190" height="15" backcolor="#C0C0C0" style="Sans_Italic">
+					<text><![CDATA[Countries Starting With Letter :]]></text>
+				</element>
+				<element kind="textField" uuid="f4a94c0c-fd87-4fa8-a56c-68f8f0345a65" mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#C0C0C0" bookmarkLevel="1" style="Sans_Bold">
+					<expression><![CDATA[$V{FirstLetter}]]></expression>
+					<anchorNameExpression><![CDATA["Letter " + $V{FirstLetter}]]></anchorNameExpression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="ShipCountryGroup" minHeightToStartNewPage="60">
+		<expression><![CDATA[$F{ShipCountry}]]></expression>
+		<groupHeader>
+			<band height="20">
+				<element kind="line" uuid="203a5b7f-231e-4c5a-8238-c51a28af6fb8" x="0" y="0" width="1" height="1"/>
+				<element kind="line" uuid="f3ef0214-0c28-49bf-a3b3-1ecaa1243b23" x="0" y="19" width="515" height="1"/>
+				<element kind="textField" uuid="30ec046e-3560-4e5b-b03c-4f7b4c5851a5" x="0" y="4" width="515" height="15" bookmarkLevel="2" style="Sans_Bold">
+					<expression><![CDATA["  " + String.valueOf($V{ShipCountryNumber}) + ". " + String.valueOf($F{ShipCountry})]]></expression>
+					<anchorNameExpression><![CDATA[$F{ShipCountry}]]></anchorNameExpression>
+				</element>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<element kind="line" uuid="a93f9d5f-53e0-455c-9110-547712e07115" x="0" y="0" width="515" height="1"/>
+				<element kind="staticText" uuid="4c7aa2b1-64a8-4832-8828-45e6b2f5be2b" x="400" y="1" width="60" height="15" hTextAlign="Right" style="Sans_Bold">
+					<text><![CDATA[Count :]]></text>
+				</element>
+				<element kind="textField" uuid="b4455e34-9295-44d2-9fca-84515d02f576" x="460" y="1" width="30" height="15" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$V{ShipCountryGroup_COUNT}]]></expression>
+				</element>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader height="20">
+		<element kind="staticText" uuid="9d34d6bd-148a-4b62-a8d7-af8a1cbce14e" mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
+			<text><![CDATA[ID]]></text>
+		</element>
+		<element kind="staticText" uuid="f0aae3e2-5322-46f8-8c53-53fee797aff5" mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+			<text><![CDATA[Name]]></text>
+		</element>
+		<element kind="staticText" uuid="2572e98c-ab85-4e18-a7c8-1b3428bad005" mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+			<text><![CDATA[City]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<element kind="textField" uuid="1bd03294-c637-4f0f-befd-e3db9ad81078" x="0" y="5" width="50" height="15" hTextAlign="Right">
+				<expression><![CDATA[$F{OrderID}]]></expression>
+			</element>
+			<element kind="textField" uuid="ebe211dc-902e-4f32-a3f8-2a3611bc9940" positionType="Float" x="55" y="5" width="200" height="15" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{ShipName}]]></expression>
+			</element>
+			<element kind="textField" uuid="adf42c82-cc91-4e66-a1a1-db62a0161bd6" positionType="Float" x="260" y="5" width="255" height="15" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{ShipCity}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="40">
+		<element kind="line" uuid="f3769a72-329a-4c05-bb0e-93a430fe1c99" x="0" y="10" width="515" height="1"/>
+		<element kind="textField" uuid="c768ea70-8165-4afd-b13d-df34d5456803" x="0" y="20" width="515" height="15" evaluationTime="Master" hTextAlign="Center">
+			<expression><![CDATA["Page " + $V{MASTER_CURRENT_PAGE} + " of " + $V{MASTER_TOTAL_PAGES}]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

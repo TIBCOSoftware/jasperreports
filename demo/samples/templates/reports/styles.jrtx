@@ -1,0 +1,8 @@
+<jasperTemplate>
+  <template>base_styles.jrtx</template>
+  <style name="Regular" fontSize="12.0" default="true" style="Base"/>
+  <style name="Special Emphasis" forecolor="#FF0000" fontSize="12.0" style="Emphasis"/>
+  <style name="Strong" fontSize="14.0" underline="true" style="Base"/>
+  <style name="Serif" fontName="DejaVu Serif" fontSize="12.0" style="Base"/>
+  <style name="Serif Note" underline="true" style="Serif"/>
+</jasperTemplate>

@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-samples-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom-parent.xml</relativePath>
+	</parent>
+	<artifactId>jasperreports-samples-hibernate-j2ee</artifactId>
+	<packaging>jar</packaging>
+	<properties>
+		<sample.base.name>Hibernate</sample.base.name>
+		<sample.report.name>AddressesReport</sample.report.name>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-hibernate-j2ee</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsqldb.version}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,37 @@
+<jasperReport name="TableOfContentsReport" language="java" pageWidth="595" pageHeight="842" sectionType="Part" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="e52780b9-8f01-4b16-86fe-712163e5aadc">
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.report.1" value="*"/>
+	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.report.1" value="*"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<query language="sql"><![CDATA[SELECT count(*) AS total FROM Orders]]></query>
+	<field name="total" class="java.lang.Integer"/>
+	<group name="dummy">
+		<expression><![CDATA[1]]></expression>
+		<groupHeader>
+			<part uuid="1fadcc2f-31c1-49be-bd52-f8b69e38cd83" evaluationTime="Report">
+				<property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
+				<partNameExpression><![CDATA["Table of Contents"]]></partNameExpression>
+				<component kind="subreportPart" usingCache="true">
+					<expression><![CDATA["TocPart.jasper"]]></expression>
+					<parameter name="ReportTitle">
+						<expression><![CDATA[$P{ReportTitle}]]></expression>
+					</parameter>
+				</component>
+			</part>
+			<part uuid="3f63c482-39b2-43f1-a623-15fb046605a5">
+				<partNameExpression><![CDATA["Countries"]]></partNameExpression>
+				<component kind="subreportPart" usingCache="true">
+					<expression><![CDATA["TablePart.jasper"]]></expression>
+					<parameter name="REPORT_CONNECTION">
+						<expression><![CDATA[$P{REPORT_CONNECTION}]]></expression>
+					</parameter>
+					<parameter name="ReportTitle">
+						<expression><![CDATA[$P{ReportTitle}]]></expression>
+					</parameter>
+				</component>
+			</part>
+		</groupHeader>
+	</group>
+</jasperReport>

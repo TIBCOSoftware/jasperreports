@@ -1,0 +1,45 @@
+<jasperReport name="MapReport6" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ecfc2685-ba0e-435d-99a1-d9b7df6c8bd8">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<dataset name="MarkersDataset" uuid="8a8227b3-f480-48f1-b65a-e4e691c0d620">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapterCluster.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="address" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
+	</dataset>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="566c33aa-ae97-4616-b78f-6cc3d45aeff2" x="0" y="0" width="515" height="50" fontSize="14.0" bookmarkLevel="1" blankWhenNull="true" style="Sans_Bold">
+			<expression><![CDATA["San Francisco - Satellite Map with Default Marker Icons"]]></expression>
+		</element>
+		<element kind="textField" uuid="0823119a-3904-4438-93be-ad33282c05cf" x="0" y="50" width="515" height="100" textAdjust="StretchHeight" blankWhenNull="true">
+			<expression><![CDATA["A satellite map sample. Multiple markers with default icons are placed on the map. Marker tooltips are enabled. Marker clustering and marker spidering are also enabled."]]></expression>
+		</element>
+		<element kind="component" uuid="2af840e6-b295-4b18-9002-3c34f3cc3276" positionType="Float" x="0" y="150" width="515" height="326">
+			<component kind="googlemap" imageType="jpg" onErrorType="Icon" markerClustering="true" markerSpidering="true">
+				<latitudeExpression><![CDATA[37.800056f]]></latitudeExpression>
+				<longitudeExpression><![CDATA[-122.4075f]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom} + 1]]></zoomExpression>
+				<markerData>
+					<dataset>
+						<datasetRun uuid="99d4db58-7384-46bc-9668-ac16f7843e6d" subDataset="MarkersDataset"/>
+					</dataset>
+					<item>
+						<property name="latitude"><![CDATA[$F{latitude}]]></property>
+						<property name="longitude"><![CDATA[$F{longitude}]]></property>
+						<property name="title"><![CDATA[$F{address}]]></property>
+						<property name="label"><![CDATA[$V{REPORT_COUNT} % 5 < 2 ? ""+$V{REPORT_COUNT}*$V{REPORT_COUNT} :($V{REPORT_COUNT} == 2 ? "abc" : "M")]]></property>
+						<property name="infowindow.content"><![CDATA["<p style='text-align:right;'><img src='https://jasperreports.sourceforge.net/jasperreports.png'/></p><p style='text-align:left;'><b>"+$F{address}+"</b></p>"]]></property>
+					</item>
+				</markerData>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

@@ -1,0 +1,24 @@
+<jasperReport name="GroupKeepTogether" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b5bf102-916b-4454-9864-2ee39f799344">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.30.jrdax"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0"/>
+	<variable name="groupVar" class="java.lang.Integer">
+		<expression><![CDATA[($V{REPORT_COUNT} - 1) / 10]]></expression>
+	</variable>
+	<group name="group" keepTogether="true">
+		<expression><![CDATA[$V{groupVar}]]></expression>
+		<groupHeader>
+			<band height="25">
+				<element kind="textField" uuid="0d8e587f-e376-4d31-864b-5f3acc4f745e" x="0" y="0" width="300" height="25" evaluationTime="Group" evaluationGroup="group">
+					<expression><![CDATA["group header " + $V{groupVar}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<element kind="textField" uuid="f5fb616b-bb5b-4da7-8c1b-f9421a407b22" x="0" y="0" width="300" height="25">
+				<expression><![CDATA["record " + $V{REPORT_COUNT}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

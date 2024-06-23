@@ -1,0 +1,254 @@
+<jasperReport name="FunctionsReport" language="java" pageWidth="1600" pageHeight="595" orientation="Landscape" columnWidth="1590" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="15" uuid="eae24cf2-cede-49ad-a3bf-a10ccd914c7d" ignorePagination="true">
+	<property name="net.sf.jasperreports.components.table.interactive" value="false"/>
+	<property name="net.sf.jasperreports.export.html.header" value=""/>
+	<property name="net.sf.jasperreports.export.html.footer" value=""/>
+	<import>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</import>
+	<style name="BaseStyle" default="true" vTextAlign="Middle" fontSize="14.0"/>
+	<style name="Title" style="BaseStyle" fontSize="18.0" bold="true"/>
+	<style name="Transparent" style="BaseStyle" mode="Transparent"/>
+	<style name="TableHeader" style="BaseStyle" mode="Opaque" forecolor="#000000" backcolor="#BFBFBF" vImageAlign="Middle" bold="true"/>
+	<style name="TableDetail" style="BaseStyle">
+		<conditionalStyle mode="Opaque" backcolor="#DFDFDF">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<style name="CategoryHeader" style="BaseStyle" mode="Opaque" forecolor="#FFFFFF" backcolor="#4D4D4D" bold="true"/>
+	<dataset name="FunctionsDataset" uuid="a70c1c3f-7098-4b5c-976b-3d2576085fb9">
+		<query language="sql"><![CDATA[]]></query>
+		<field name="returnType" class="java.lang.Class"/>
+		<field name="parameters" class="java.util.Collection"/>
+		<field name="description" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<sortField name="name"/>
+	</dataset>
+	<dataset name="ParametersDataset" uuid="8eb8c0e1-00a2-43f4-b349-cad63af66148">
+		<query language="sql"><![CDATA[]]></query>
+		<field name="required" class="java.lang.Boolean"/>
+		<field name="description" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="type" class="java.lang.Class"/>
+	</dataset>
+	<dataset name="ExamplesDataset" uuid="6d5f7f8f-16c0-4c94-8230-37142e8f4a6d">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/functions.jrdax"/>
+		<query language="csv"><![CDATA[]]></query>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Description" class="java.lang.String"/>
+		<field name="Expression" class="java.lang.String"/>
+		<field name="Result" class="java.lang.String"/>
+		<group name="Category">
+			<expression><![CDATA[$F{Category}]]></expression>
+		</group>
+		<group name="ColumnHeaders">
+			<expression><![CDATA[$F{Category}]]></expression>
+		</group>
+	</dataset>
+	<field name="name" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="functions" class="java.util.Collection"/>
+	<sortField name="name"/>
+	<group name="Group1"/>
+	<group name="categoryGroup" startNewPage="true" reprintHeaderOnEachPage="true">
+		<expression><![CDATA[$F{name}]]></expression>
+		<groupHeader>
+			<band height="50">
+				<element kind="textField" uuid="130f4ba4-83fe-4731-87dc-6a77f582638a" mode="Opaque" x="0" y="20" width="1581" height="30" evaluationTime="Group" evaluationGroup="categoryGroup" style="CategoryHeader">
+					<expression><![CDATA[$F{name} + " - " + $F{description}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<title height="40">
+		<element kind="staticText" uuid="0baa5bef-ec42-46d4-818e-5395372bf50a" x="0" y="0" width="1581" height="30" style="Title">
+			<text><![CDATA[Built-in Functions in JasperReports Library]]></text>
+		</element>
+	</title>
+	<detail>
+		<band height="50">
+			<element kind="component" uuid="87f34396-4604-4cc9-808f-4f9bb9a990f3" x="0" y="0" width="1580" height="50">
+				<component kind="table" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun uuid="7bc7efe3-fef9-4200-a2cb-ad98783eeeaa" subDataset="FunctionsDataset">
+						<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{functions})]]></dataSourceExpression>
+					</datasetRun>
+					<column kind="single" uuid="53074a98-2c72-4c69-a8f6-622fc577220d" width="160">
+						<columnHeader height="40">
+							<element kind="staticText" uuid="a52858e0-e047-4551-8573-bffbac634fba" x="0" y="0" width="160" height="40" style="TableHeader">
+								<text><![CDATA[Name]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="20">
+							<element kind="textField" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10" stretchType="ContainerHeight" x="0" y="0" width="160" height="20" textAdjust="StretchHeight" style="TableDetail">
+								<expression><![CDATA[$F{name}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="bedece81-a4e8-49fb-a09a-590e9bb1737c" width="440">
+						<columnHeader height="40">
+							<element kind="staticText" uuid="7f0dd818-cd40-4c84-8fe6-e3d969e596ee" x="0" y="0" width="440" height="40" style="TableHeader">
+								<text><![CDATA[Description]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="20">
+							<element kind="textField" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027" stretchType="ContainerHeight" x="0" y="0" width="440" height="20" textAdjust="StretchHeight" style="TableDetail">
+								<expression><![CDATA[$F{description}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="d191a807-22ce-4db1-85c4-91336756181b" width="220">
+						<columnHeader height="40">
+							<element kind="staticText" uuid="30e56046-598b-4a36-bd05-29ddd39cdb37" x="0" y="0" width="220" height="40" style="TableHeader">
+								<text><![CDATA[Return Type]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="20">
+							<element kind="textField" uuid="04851384-ca8b-489b-9002-015308574f3b" stretchType="ContainerHeight" x="0" y="0" width="220" height="20" textAdjust="StretchHeight" style="TableDetail">
+								<expression><![CDATA[$F{returnType}.getCanonicalName()]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="a525b006-84dd-44c0-a6f1-d4a7f956709a" width="760">
+						<columnHeader height="40">
+							<element kind="staticText" uuid="79a08f00-9b22-4bf6-ae13-1fac6daa0627" x="0" y="0" width="760" height="20" hTextAlign="Center" style="TableHeader">
+								<text><![CDATA[Parameters]]></text>
+								<box style="TableHeader">
+									<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
+									<bottomPen lineWidth="0.5" lineColor="#E0E0E0"/>
+								</box>
+							</element>
+							<element kind="staticText" uuid="f1d8fbed-1623-420b-8e67-445e66871e49" x="0" y="20" width="170" height="20" style="TableHeader">
+								<text><![CDATA[Name]]></text>
+								<box style="TableHeader">
+									<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
+								</box>
+							</element>
+							<element kind="staticText" uuid="f1d8fbed-1623-420b-8e67-445e66871e49" x="170" y="20" width="380" height="20" style="TableHeader">
+								<text><![CDATA[Description]]></text>
+							</element>
+							<element kind="staticText" uuid="69448285-192e-42ad-9655-6d5c18567dca" positionType="FixRelativeToBottom" x="550" y="20" width="140" height="20" style="TableHeader">
+								<text><![CDATA[Type]]></text>
+							</element>
+							<element kind="staticText" uuid="5be7cdf3-1691-4698-9ab5-1f7278a6f43e" x="690" y="20" width="70" height="20" style="TableHeader">
+								<text><![CDATA[Required]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="20" style="TableDetail">
+							<element kind="component" uuid="a0a3ea02-3100-400e-abdd-66126f5dba33" x="0" y="0" width="760" height="20" style="TableDetail">
+								<component kind="table" whenNoDataType="AllSectionsNoDetail">
+									<datasetRun uuid="41ee18de-2daa-44c0-a977-33fc4107c919" subDataset="ParametersDataset">
+										<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{parameters})]]></dataSourceExpression>
+									</datasetRun>
+									<column kind="single" uuid="8ab5b1bb-7101-45c8-b81b-29111ddf25ab" width="170">
+										<detailCell height="20">
+											<element kind="textField" uuid="0de3f34f-364c-4119-b40e-e99c340024a2" stretchType="ContainerHeight" x="0" y="0" width="170" height="20" textAdjust="StretchHeight">
+												<expression><![CDATA[$F{name}]]></expression>
+												<box>
+													<leftPen lineWidth="0.5" lineColor="#E0E0E0"/>
+												</box>
+											</element>
+										</detailCell>
+									</column>
+									<column kind="single" uuid="9ea1ab31-d4e3-45ea-bf8a-db8aadea8a00" width="380">
+										<detailCell height="20">
+											<element kind="textField" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d" x="0" y="0" width="380" height="20" textAdjust="StretchHeight">
+												<expression><![CDATA[$F{description}]]></expression>
+											</element>
+										</detailCell>
+									</column>
+									<column kind="single" uuid="d8bb3e16-e8d1-4b6d-b0c1-6158e99e9959" width="140">
+										<detailCell height="20">
+											<element kind="textField" uuid="02159a17-4380-483d-a7ad-317e13bf5b98" stretchType="ContainerHeight" x="0" y="0" width="140" height="20" textAdjust="StretchHeight">
+												<expression><![CDATA[$F{type}.getCanonicalName()]]></expression>
+											</element>
+										</detailCell>
+									</column>
+									<column kind="single" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955" width="70">
+										<detailCell height="20">
+											<element kind="textField" uuid="40690340-8dac-4372-885f-08649c29a803" stretchType="ContainerHeight" x="0" y="0" width="70" height="20" textAdjust="StretchHeight" hTextAlign="Center">
+												<expression><![CDATA[$F{required} ? "Yes" : "No"]]></expression>
+											</element>
+										</detailCell>
+									</column>
+								</component>
+							</element>
+						</detailCell>
+					</column>
+				</component>
+			</element>
+		</band>
+	</detail>
+	<summary height="230">
+		<element kind="staticText" uuid="187edeb9-64e6-4486-b6d6-28766502a70d" x="0" y="50" width="1590" height="30" style="Title">
+			<text><![CDATA[Built-in Functions Examples]]></text>
+		</element>
+		<element kind="component" uuid="3ad94e98-4b50-419c-a44a-c5fbb899bda1" x="0" y="110" width="1580" height="120">
+			<component kind="table">
+				<datasetRun uuid="52038b17-ebf7-441a-8b98-ce7afb228db8" subDataset="ExamplesDataset">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				</datasetRun>
+				<column kind="single" uuid="10dd6316-cc10-4b70-9760-f1e03eab844f" width="530">
+					<detailCell height="30" style="TableDetail">
+						<element kind="textField" uuid="ecc2516d-6131-46ad-8f81-154f6c54890a" x="0" y="0" width="530" height="30" style="TableDetail">
+							<expression><![CDATA[$F{Description}]]></expression>
+						</element>
+					</detailCell>
+					<groupHeader groupName="Category">
+						<cell height="30" style="CategoryHeader">
+							<element kind="textField" uuid="9775d879-d11c-4f5b-b9d3-dfdf9777e063" x="0" y="0" width="530" height="30" style="CategoryHeader">
+								<expression><![CDATA[$F{Category}]]></expression>
+							</element>
+						</cell>
+					</groupHeader>
+					<groupHeader groupName="ColumnHeaders">
+						<cell height="40" style="TableHeader">
+							<element kind="staticText" uuid="0559f9a3-cba3-438a-a08a-05c71b9584c8" x="0" y="0" width="530" height="40" style="TableHeader">
+								<text><![CDATA[Description]]></text>
+							</element>
+						</cell>
+					</groupHeader>
+					<groupFooter groupName="Category">
+						<cell height="30" style="Transparent"/>
+					</groupFooter>
+				</column>
+				<column kind="single" uuid="7b9f3e99-48fb-40a0-b12c-f4013f171943" width="530">
+					<detailCell height="30" style="TableDetail">
+						<element kind="textField" uuid="fe59e04e-372e-4a12-8dd2-4c34ab995246" x="0" y="0" width="530" height="30" style="TableDetail">
+							<expression><![CDATA[$F{Expression}]]></expression>
+						</element>
+					</detailCell>
+					<groupHeader groupName="Category">
+						<cell height="30" style="CategoryHeader"/>
+					</groupHeader>
+					<groupHeader groupName="ColumnHeaders">
+						<cell height="40" style="TableHeader">
+							<element kind="staticText" uuid="df7c3fdf-7b5b-4f57-b69b-17edf6db45a7" x="0" y="0" width="530" height="40" style="TableHeader">
+								<text><![CDATA[Expression]]></text>
+							</element>
+						</cell>
+					</groupHeader>
+					<groupFooter groupName="Category">
+						<cell height="30" style="Transparent"/>
+					</groupFooter>
+				</column>
+				<column kind="single" uuid="b185159b-ac3d-4ec9-bae1-a8ab33659ca4" width="520">
+					<detailCell height="30" style="TableDetail">
+						<element kind="textField" uuid="8c534c20-2a97-47fb-a187-5976e3c553c9" x="0" y="0" width="520" height="30" style="TableDetail">
+							<expression><![CDATA[$F{Result}]]></expression>
+						</element>
+					</detailCell>
+					<groupHeader groupName="Category">
+						<cell height="30" style="CategoryHeader"/>
+					</groupHeader>
+					<groupHeader groupName="ColumnHeaders">
+						<cell height="40" style="TableHeader">
+							<element kind="staticText" uuid="421af7f9-7980-4a57-851e-a7b3ccf64410" x="0" y="0" width="520" height="40" style="TableHeader">
+								<text><![CDATA[Result]]></text>
+							</element>
+						</cell>
+					</groupHeader>
+					<groupFooter groupName="Category">
+						<cell height="30" style="Transparent"/>
+					</groupFooter>
+				</column>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

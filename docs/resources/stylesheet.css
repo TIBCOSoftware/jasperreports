@@ -1,0 +1,186 @@
+.title {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 24pt;
+	font-weight: normal;
+}
+
+.toc {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.name {
+	font-family: Courier New, Courier, serif;
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.category {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 14pt;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.label {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+	font-style: italic;
+	padding-right:8px;
+}
+
+.description {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.value {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.element {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.attribute {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: bold;
+	text-decoration: none;
+	color: #000000;
+}
+
+.complete {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.incomplete {
+	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+	font-weight: normal;
+	color: #999999;
+}
+
+.copy {
+	font-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-style: normal;
+	color: #000000;
+}
+
+.note {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: italic;
+	color: #990000;
+}
+
+.text {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
+}
+
+.indent {
+    margin-left: 20px;
+} 
+
+.bold {
+	font-weight: bold;
+}
+
+.code {
+  	font-family: Courier New, Courier, serif;
+	font-size: 12pt;
+}
+
+.subtitle {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: bold;
+	text-decoration: none;
+	color: inherit;
+}
+
+table.doctable {
+    border-collapse: collapse;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-weight: normal;
+    margin: 10px 0;
+    text-align: left;
+}
+
+table.doctable th, table.doctable td {
+    border-bottom: 1px solid gray;
+    padding: 5px 10px;
+}
+
+table.doctable tr.full_border th, table.doctable tr.full_border td {
+    border: 1px solid gray;
+}
+
+table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
+    background-color: #f2f2f2;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.maxWidth170 {
+    max-width: 170px;
+}
+
+.minWidth300 {
+    min-width: 300px;
+}
+
+.top1 {
+	font-family: Courier New, Courier, serif;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.version {
+	font-family: Courier New, Courier, serif;
+	font-size: 14pt;
+	font-weight: bold;
+	color: #000000;
+}
+
+table.top0 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 100%;
+	border-spacing: 0px;
+	border-style: none;
+}
+
+article.body {
+	box-sizing: border-box;
+	min-width: 200px;
+	margin: 0 auto;
+	padding-top: 0px;
+	padding-left: 45px;
+	padding-right: 45px;
+}
+
+a {
+	color: #0969da;
+}
+

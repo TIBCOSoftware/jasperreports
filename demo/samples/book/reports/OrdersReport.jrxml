@@ -1,0 +1,132 @@
+<jasperReport name="OrdersReport" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" uuid="58b0013c-1812-4619-b65d-51adcecc34fb">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="OrderCountStyle" style="Sans_Normal">
+		<conditionalStyle forecolor="#FF0000" bold="true">
+			<conditionExpression><![CDATA[$V{OrderCount} > 0 && $V{OrderCount} % 10 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<style name="CellStyle" mode="Opaque">
+		<conditionalStyle backcolor="#E0E0E0">
+			<conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<query language="sql"><![CDATA[SELECT ShipCountry, Freight, OrderDate FROM Orders]]></query>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<field name="Freight" class="java.lang.Float"/>
+	<field name="OrderDate" class="java.sql.Timestamp"/>
+	<title height="35">
+		<element kind="textField" uuid="0ff7d2dc-699e-403a-844d-b36186325f6c" x="0" y="0" width="782" height="35" fontSize="12.0" bookmarkLevel="1" vTextAlign="Middle" style="Sans_Bold">
+			<expression><![CDATA["Number of orders and latest order date by country and freight range"]]></expression>
+			<anchorNameExpression><![CDATA["Orders crosstab"]]></anchorNameExpression>
+		</element>
+	</title>
+	<summary height="60">
+		<element kind="crosstab" uuid="48397e05-ca8f-48bb-89a3-7b43b9fdbb07" x="0" y="0" width="782" height="60" columnBreakOffset="10" repeatColumnHeaders="false">
+			<dataset/>
+			<rowGroup name="CountryRow" totalPosition="End" width="80">
+				<bucket order="Descending" class="java.lang.String">
+					<expression><![CDATA[$F{ShipCountry}]]></expression>
+					<orderByExpression><![CDATA[$V{OrderCount}]]></orderByExpression>
+				</bucket>
+				<header style="CellStyle">
+					<element kind="textField" uuid="1584c0b1-72d2-443d-b9f9-9d4cf4dbecee" x="5" y="0" width="75" height="20" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{CountryRow}]]></expression>
+					</element>
+					<box style="CellStyle">
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</header>
+				<totalHeader>
+					<element kind="staticText" uuid="985d476c-2329-4501-92f4-3c5017ef4478" x="5" y="0" width="75" height="20" fontSize="12.0" vTextAlign="Middle" style="Sans_Bold">
+						<text><![CDATA[TOTAL]]></text>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</totalHeader>
+			</rowGroup>
+			<columnGroup name="FreightColumn" totalPosition="End" height="20">
+				<bucket class="java.lang.Integer">
+					<expression><![CDATA[$F{Freight}.intValue()/100]]></expression>
+				</bucket>
+				<header>
+					<element kind="textField" uuid="33e348e9-2122-4f75-9435-dd43bc46c2c4" x="0" y="0" width="60" height="20" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[($V{FreightColumn} * 100) + "-" + (($V{FreightColumn} + 1) * 100)]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</header>
+				<totalHeader>
+					<element kind="staticText" uuid="1b3d2f3f-40c6-4b56-8e8d-b162ed55da7c" x="0" y="0" width="60" height="20" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<text><![CDATA[TOTAL]]></text>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</totalHeader>
+			</columnGroup>
+			<measure name="OrderCount" calculation="Count" class="java.lang.Integer">
+				<expression><![CDATA[$F{Freight}]]></expression>
+			</measure>
+			<measure name="MaxDate" calculation="Highest" class="java.sql.Timestamp">
+				<expression><![CDATA[$F{OrderDate}]]></expression>
+			</measure>
+			<cell width="60" height="20">
+				<contents mode="Transparent" style="CellStyle">
+					<element kind="textField" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5" x="0" y="0" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="OrderCountStyle">
+						<expression><![CDATA[$V{OrderCount}]]></expression>
+					</element>
+					<element kind="textField" uuid="5c6400d4-9886-497e-a6f6-218267ba8720" x="0" y="10" width="60" height="10" pattern="MM/dd/yyyy" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle">
+						<expression><![CDATA[$V{MaxDate}]]></expression>
+					</element>
+					<box style="CellStyle">
+						<pen lineColor="#000000"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</contents>
+			</cell>
+			<cell width="60" height="20" columnTotalGroup="FreightColumn">
+				<contents mode="Opaque" backcolor="#00FF00">
+					<element kind="textField" uuid="3c8e6f22-106e-4d25-9dbc-1aa6bb7940be" x="0" y="0" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{OrderCount}]]></expression>
+					</element>
+					<element kind="textField" uuid="0f0d3290-3e83-43df-9047-1db9ce01747a" x="0" y="10" width="60" height="10" pattern="MM/dd/yyyy" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{MaxDate}]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</contents>
+			</cell>
+			<cell width="60" height="20" rowTotalGroup="CountryRow">
+				<contents mode="Opaque" backcolor="#FFFF00">
+					<element kind="textField" uuid="b067e4ca-73c0-4173-b352-660085f53e09" x="0" y="0" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{OrderCount}]]></expression>
+					</element>
+					<element kind="textField" uuid="09086562-b5f5-4b25-a45b-49fc8fb8a6bb" x="0" y="10" width="60" height="10" pattern="MM/dd/yyyy" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{MaxDate}]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</contents>
+			</cell>
+			<cell width="60" height="20" rowTotalGroup="CountryRow" columnTotalGroup="FreightColumn">
+				<contents mode="Opaque" backcolor="#808080">
+					<element kind="textField" uuid="7b44536a-3eec-4a1a-8cd4-b417f7a97274" x="0" y="0" width="60" height="10" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{OrderCount}]]></expression>
+					</element>
+					<element kind="textField" uuid="61bddb69-bab7-406c-81e5-c1b4b42130dd" x="0" y="10" width="60" height="10" pattern="MM/dd/yyyy" blankWhenNull="true" hTextAlign="Center" vTextAlign="Middle" style="Sans_Bold">
+						<expression><![CDATA[$V{MaxDate}]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+				</contents>
+			</cell>
+		</element>
+	</summary>
+</jasperReport>

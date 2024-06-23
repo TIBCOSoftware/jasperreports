@@ -1,0 +1,20 @@
+<jasperReport name="Report3" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="e52780b9-8f01-4b16-86fe-712163e5aadc">
+	<pageHeader height="40">
+		<element kind="textField" uuid="ac7c7d7a-115c-4a81-859c-9920a8a53d7c" positionType="Float" mode="Opaque" x="5" y="5" width="545" height="30" forecolor="#008000" backcolor="#CCFFCC" fontSize="22.0" pdfFontName="Helvetica-Bold" bold="true" hTextAlign="Center">
+			<expression><![CDATA["Report Three (page " + $V{PAGE_NUMBER} + ")"]]></expression>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="702">
+			<element kind="rectangle" uuid="348d426b-a014-4895-921c-7db018f3bb7b" positionType="Float" x="5" y="5" width="545" height="690"/>
+		</band>
+	</detail>
+	<pageFooter height="40">
+		<element kind="textField" uuid="5a5f7582-ba7d-4a13-b84d-18246e6a2c2f" positionType="Float" mode="Opaque" x="5" y="5" width="270" height="30" forecolor="#008080" fontSize="22.0" pdfFontName="Helvetica-Bold" bold="true" hTextAlign="Right">
+			<expression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></expression>
+		</element>
+		<element kind="textField" uuid="d6ef4dd0-0f20-415c-8f37-af49aeb9bfac" positionType="Float" mode="Opaque" x="280" y="5" width="272" height="30" forecolor="#008080" fontSize="22.0" pdfFontName="Helvetica-Bold" evaluationTime="Report" bold="true">
+			<expression><![CDATA[$V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+</jasperReport>

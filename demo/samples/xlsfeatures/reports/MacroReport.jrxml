@@ -1,0 +1,153 @@
+<jasperReport name="MacroReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="5" uuid="cde631ab-364a-4f1a-956a-636d167e36ee">
+	<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
+	<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
+	<property name="net.sf.jasperreports.export.xls.workbook.template.keep.sheets" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.workbook.template" value="data/macro.xlt"/>
+	<property name="net.sf.jasperreports.export.xlsx.macro.template" value="data/macro.xltm"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false"/>
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<parameter name="ReportDate" class="java.util.Date"/>
+	<parameter name="DataFile" class="java.lang.String"/>
+	<parameter name="Customers" class="java.lang.String"/>
+	<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
+		<defaultValueExpression><![CDATA["\r\n"]]></defaultValueExpression>
+	</parameter>
+	<query language="csv"><![CDATA[]]></query>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="city" class="java.lang.String"/>
+	<field name="state" class="java.lang.String"/>
+	<sortField name="city"/>
+	<sortField name="name"/>
+	<group name="cityGroup">
+		<expression><![CDATA[$F{city}]]></expression>
+		<groupHeader>
+			<band height="15">
+				<element kind="textField" uuid="b5377ad0-fed3-4d39-adb4-2528df947a1b" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#C0C0C0" fontSize="10.0" style="Sans_Bold">
+					<expression><![CDATA[$F{city}]]></expression>
+					<box style="Sans_Bold">
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+				</element>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<element kind="textField" uuid="5b8fe4ff-7026-476b-a484-156d6f929c60" mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#E0E0E0" fontSize="10.0" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$F{city} + " ID count: " + $V{cityGroup_COUNT}]]></expression>
+					<box style="Sans_Bold">
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+				</element>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="initialNameGroup">
+		<expression><![CDATA[$F{name}.substring(0,1)]]></expression>
+		<groupHeader>
+			<band height="10">
+				<element kind="textField" uuid="70d022a7-d42b-4b7d-83f2-cb6a4e138d36" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#A0A0A0" fontSize="8.0" style="Sans_Bold">
+					<expression><![CDATA["Names starting with letter " + $F{name}.substring(0,1)+":"]]></expression>
+					<box style="Sans_Bold">
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+				</element>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="10">
+				<element kind="textField" uuid="212b1f8d-e74c-48fc-911c-c6fb170e82b2" mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#B0B0B0" fontSize="8.0" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$F{name}.substring(0,1)+ "-names ID count: " + $V{initialNameGroup_COUNT}]]></expression>
+					<box style="Sans_Bold">
+						<pen lineWidth="0.5" lineColor="#000000"/>
+					</box>
+				</element>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader height="80">
+		<element kind="textField" uuid="f840f354-fd60-45e7-a6ef-6009d1885094" mode="Opaque" x="0" y="0" width="515" height="30" forecolor="#000000" fontSize="16.0" hTextAlign="Center" vTextAlign="Bottom" style="Sans_Bold">
+			<expression><![CDATA[$P{ReportTitle}]]></expression>
+			<box style="Sans_Bold">
+				<topPen lineWidth="0.5" lineColor="#000000"/>
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<rightPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="fa8c6eb9-dfb3-4c81-b627-3fce99fb0a1f" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000" fontSize="12.0" pattern="EEE, MMM d, yyyy" hTextAlign="Center" vTextAlign="Top" style="Sans_Bold">
+			<expression><![CDATA[$P{ReportDate}]]></expression>
+			<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
+			<box style="Sans_Bold">
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<bottomPen lineWidth="0.5" lineColor="#000000"/>
+				<rightPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="4b93dff8-f02e-402a-b39d-834d1248e9d8" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#656565" vTextAlign="Middle" style="Sans_Bold">
+			<text><![CDATA[State]]></text>
+			<box style="Sans_Bold">
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="66cb26cc-e62f-4380-953e-9e67837fc636" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#656565" vTextAlign="Middle" style="Sans_Bold">
+			<text><![CDATA[ID]]></text>
+			<box style="Sans_Bold">
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="c993f358-13db-4471-8d35-e102d4f4947c" mode="Opaque" x="159" y="60" width="157" height="20" forecolor="#FFFFFF" backcolor="#656565" vTextAlign="Middle" style="Sans_Bold">
+			<text><![CDATA[Name]]></text>
+			<box style="Sans_Bold">
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="f7953de8-852d-4ed7-a73d-b8e85b762e27" mode="Opaque" x="316" y="60" width="199" height="20" forecolor="#FFFFFF" backcolor="#656565" vTextAlign="Middle" style="Sans_Bold">
+			<text><![CDATA[Street]]></text>
+			<box style="Sans_Bold">
+				<leftPen lineWidth="0.5" lineColor="#000000"/>
+				<bottomPen lineWidth="0.5" lineColor="#000000"/>
+				<rightPen lineWidth="0.5" lineColor="#000000"/>
+			</box>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="15">
+			<element kind="textField" uuid="99c8dbd8-424f-42f8-8eb0-625106eee9d4" x="0" y="0" width="104" height="15">
+				<expression><![CDATA[$F{state}]]></expression>
+				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="baeea137-f214-4e0f-b4db-08870ec0a580" x="104" y="0" width="55" height="15" hTextAlign="Right">
+				<expression><![CDATA[$F{id}]]></expression>
+				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="d469e1f8-8b8a-4b90-9aaa-9fb678d10f05" positionType="Float" x="159" y="0" width="157" height="15" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{name}]]></expression>
+				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="3109233a-45dd-46e8-9010-d72ad4c6fc44" positionType="Float" x="316" y="0" width="199" height="15" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{address}]]></expression>
+				<box leftPadding="10" rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

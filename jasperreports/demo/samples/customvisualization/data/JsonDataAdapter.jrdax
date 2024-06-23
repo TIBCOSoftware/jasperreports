@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
-	<name>Stores DA</name>
-	<fileName>/data/stores.json</fileName>
-	<useConnection>false</useConnection>
-	<language>jsonql</language>
-	<datePattern>yyyy-MM-dd</datePattern>
-	<numberPattern>#,##0.##</numberPattern>
-</jsonDataAdapter>

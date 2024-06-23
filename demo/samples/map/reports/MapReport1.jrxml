@@ -1,0 +1,44 @@
+<jasperReport name="MapReport1" language="java" pageWidth="515" pageHeight="692" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="283e72fb-9eda-4a83-908e-73ff611932b4">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false"/>
+	<parameter name="reqLatitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqLongitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="latitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? 44.435f : $P{reqLatitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="longitude" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? 26.096f : $P{reqLongitude}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
+	</parameter>
+	<summary height="692">
+		<element kind="textField" uuid="19a7440f-898f-44bd-bdcf-4a10ead526b1" x="0" y="0" width="515" height="120" markup="html" fontSize="10.0" blankWhenNull="true" vTextAlign="Middle" style="Sans_Normal">
+			<expression><![CDATA["<b>Note: </b>in order to get accurate results with Google maps, you need to set the <br/><b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property with an appropriate Google API key value. <p/><p/>The Google API key must be enabled for Google Javascript API, Google Maps Static API and Google Geocoding API. More information about API keys can be found at <a href='https://developers.google.com/maps/gmp-get-started'>https://developers.google.com/maps/gmp-get-started</a>.<p/><p/>The <b><span style='font-family:DejaVu Sans Mono'>net.sf.jasperreports.components.map.key</span></b> property can be set either in the report itself or in a <b><span style='font-family:DejaVu Sans Mono'>jasperreports.properties</span></b> file."]]></expression>
+			<box padding="5" style="Sans_Normal">
+				<pen lineWidth="1.0" lineStyle="Dashed" lineColor="#BEBEBE"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="e21201eb-8650-47b4-8d57-724711bffee9" positionType="Float" x="0" y="120" width="515" height="50" fontSize="14.0" bookmarkLevel="1" blankWhenNull="true" vTextAlign="Bottom" style="Sans_Bold">
+			<expression><![CDATA["Bucharest - Road Map"]]></expression>
+		</element>
+		<element kind="textField" uuid="822360d4-e5af-4105-ad1f-3112ae9f4aee" positionType="Float" x="0" y="170" width="515" height="50" textAdjust="StretchHeight" blankWhenNull="true" vTextAlign="Bottom">
+			<expression><![CDATA["A road map sample that contains only basic information. There are no available tooltips, markers and info windows."]]></expression>
+		</element>
+		<element kind="component" uuid="7aab9b20-071d-47c0-93df-705cada95c60" positionType="Float" x="0" y="255" width="515" height="326">
+			<component kind="googlemap" evaluationTime="Report" onErrorType="Icon">
+				<latitudeExpression><![CDATA[$P{latitude}]]></latitudeExpression>
+				<longitudeExpression><![CDATA[$P{longitude}]]></longitudeExpression>
+				<zoomExpression><![CDATA[$P{zoom}]]></zoomExpression>
+				<languageExpression><![CDATA[new java.util.Locale("ro").getLanguage()]]></languageExpression>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

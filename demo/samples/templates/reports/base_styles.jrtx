@@ -1,0 +1,10 @@
+<jasperTemplate>
+  <style name="Base" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle" fontSize="10.0" pdfFontName="Helvetica" pdfEncoding="Cp1252" default="true" pdfEmbedded="false">
+    <box padding="4">
+      <pen lineWidth="0.5"/>
+    </box>
+  </style>
+  <style name="Emphasis" pdfFontName="Helvetica-Oblique" italic="true" style="Base"/>
+  <style name="Strong" fontSize="12.0" pdfFontName="Helvetica-Bold" bold="true" style="Base"/>
+  <style name="Very Strong" mode="Opaque" backcolor="#C0C0C0" style="Strong"/>
+</jasperTemplate>

@@ -1,0 +1,32 @@
+<jasperReport name="SplitTypePreventReport.45" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2cfe8dc0-5f37-4121-8302-8a8f0f5875ff">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<dataset name="Empty Dataset1" uuid="3fc367ec-010a-4de2-b51c-c71e2664817b">
+		<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.jrdax"/>
+		<field name="description" class="java.lang.String"/>
+	</dataset>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="description" class="java.lang.String"/>
+	<title height="700" splitType="Stretch">
+		<element kind="textField" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab" stretchType="ElementGroupHeight" x="0" y="0" width="555" height="700" textAdjust="StretchHeight">
+			<expression><![CDATA["Title"]]></expression>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+		</element>
+	</title>
+	<summary height="30" splitType="Stretch">
+		<element kind="component" uuid="925687dc-60db-4517-938e-81db7f2a95b1" x="0" y="0" width="80" height="30">
+			<component kind="table" whenNoDataType="AllSectionsNoDetail">
+				<datasetRun uuid="2a498229-6a44-4a2d-919f-180bd7aed50b" subDataset="Empty Dataset1"/>
+				<column kind="single" uuid="18a87b02-f4d5-4dd4-a113-927b3573337a" width="80">
+					<detailCell height="30">
+						<element kind="textField" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab" stretchType="ElementGroupHeight" x="0" y="0" width="80" height="30" textAdjust="StretchHeight">
+							<expression><![CDATA["Multi line text in table detail cell\nmore\nmore\nmore\nmore\nmore\nmore\nmore\nmore."]]></expression>
+						</element>
+					</detailCell>
+				</column>
+			</component>
+			<property name="net.sf.jasperreports.components.table.name" value="table"/>
+		</element>
+	</summary>
+</jasperReport>

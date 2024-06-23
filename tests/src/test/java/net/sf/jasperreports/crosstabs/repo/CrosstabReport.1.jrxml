@@ -1,0 +1,41 @@
+<jasperReport name="CrosstabReport.1" language="java" pageWidth="1600" pageHeight="1400" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1130" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="885d79b2-35fe-4141-b51c-e2445e098e6d">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.jrdax"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<summary height="50" splitType="Stretch">
+		<element kind="crosstab" uuid="261e4a5e-10ff-4206-be94-2147125a3514" mode="Opaque" x="0" y="0" width="1560" height="10" backcolor="#FEFFFF" columnBreakOffset="40">
+			<dataset/>
+			<rowGroup name="pYear" width="1">
+				<bucket class="java.lang.String">
+					<expression><![CDATA["2017"]]></expression>
+				</bucket>
+				<header mode="Opaque" backcolor="#FF3300"/>
+				<totalHeader/>
+			</rowGroup>
+			<columnGroup name="metric_month" height="0">
+				<bucket class="java.lang.String">
+					<expression><![CDATA["x"]]></expression>
+				</bucket>
+				<header/>
+				<totalHeader/>
+			</columnGroup>
+			<measure name="CommissionEarnedMeasure" calculation="Sum" class="java.lang.Integer">
+				<expression><![CDATA[1]]></expression>
+			</measure>
+			<cell width="90" height="25">
+				<contents mode="Opaque" backcolor="#FFFF00">
+					<element kind="textField" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8" mode="Transparent" x="0" y="0" width="90" height="25" removeLineWhenBlank="true">
+						<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+						<expression><![CDATA["blah"]]></expression>
+					</element>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+						<pen lineWidth="1.0" lineColor="#00FF00"/>
+					</box>
+				</contents>
+			</cell>
+		</element>
+		<element kind="staticText" uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" positionType="Float" mode="Opaque" x="0" y="10" width="90" height="30" backcolor="#00FFFF">
+			<text><![CDATA[END]]></text>
+		</element>
+	</summary>
+</jasperReport>

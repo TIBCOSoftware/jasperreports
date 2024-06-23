@@ -1,0 +1,33 @@
+<jasperReport name="FormatPatternsMap" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55220e4e-fb21-4bc4-af90-07100d06b8f1">
+	<style name="defaultStyle" default="true" fontName="DejaVu Sans" fontSize="12.0"/>
+	<title height="400" splitType="Stretch">
+		<element kind="staticText" uuid="3a6a4a8d-92ca-46cc-b7a2-63901be56936" x="0" y="135" width="180" height="30">
+			<text><![CDATA[Current date:]]></text>
+		</element>
+		<element kind="textField" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e" x="180" y="135" width="300" height="30" pattern="EEE, MMM d, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="0c56070d-b9f0-4534-aa95-664dd0e7135d" x="0" y="165" width="180" height="30">
+			<text><![CDATA[Current time:]]></text>
+		</element>
+		<element kind="textField" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e" x="180" y="165" width="300" height="30" pattern="hh:mm a">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+			<property name="net.sf.jasperreports.export.xls.pattern" value="hh:mm AM/PM"/>
+		</element>
+		<element kind="staticText" uuid="e402f88c-cb26-403b-8e19-49325fa180ec" x="0" y="195" width="180" height="30">
+			<text><![CDATA[Currency value:]]></text>
+		</element>
+		<element kind="textField" uuid="e6f74411-edd0-4e48-b277-1cda87817fd0" x="180" y="195" width="300" height="30" pattern="#,##0.00¤">
+			<expression><![CDATA[1234.567]]></expression>
+		</element>
+		<element kind="staticText" uuid="cce5267b-91af-4c52-827a-9f76a209cd06" x="0" y="225" width="180" height="30">
+			<text><![CDATA[Percent value:]]></text>
+		</element>
+		<element kind="textField" uuid="8ad57dcc-9a06-4c26-bfcb-444a96149105" x="180" y="225" width="300" height="30" pattern="#,##0.00">
+			<expression><![CDATA[0.25]]></expression>
+		</element>
+		<element kind="staticText" uuid="48cd740f-a064-4ea7-bd33-db0a89e55f92" x="0" y="50" width="480" height="50" fontSize="20.0" bold="true">
+			<text><![CDATA[Excel Format Patterns Map Sample]]></text>
+		</element>
+	</title>
+</jasperReport>

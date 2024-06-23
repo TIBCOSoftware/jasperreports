@@ -1,0 +1,48 @@
+<jasperReport name="SpiderChart" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="6d765a2d-1e53-4d51-a872-7c03a5ce3886">
+	<import>net.sf.jasperreports.engine.data.JRCsvDataSource</import>
+	<field name="value" class="java.lang.Double"/>
+	<field name="series" class="java.lang.String"/>
+	<field name="category" class="java.lang.String"/>
+	<group name="category">
+		<expression><![CDATA[$F{category}]]></expression>
+	</group>
+	<summary height="550">
+		<element kind="line" uuid="6e43c068-e4ca-48cc-b9da-27ddcd4f6cda" x="0" y="0" width="515" height="1"/>
+		<element kind="line" uuid="b8002d21-9ff3-49fa-8cd2-358b05314f5a" x="0" y="3" width="515" height="1"/>
+		<element kind="staticText" uuid="136d680f-956e-4c45-a45b-ec73bbb4515f" x="0" y="10" width="515" height="30" fontSize="16.0" hTextAlign="Center">
+			<text><![CDATA[Spider Chart Component Report]]></text>
+		</element>
+		<element kind="textField" uuid="e9c755c0-1949-4b26-8457-dddbec803499" x="0" y="40" width="515" height="20" linkType="Reference" hTextAlign="Center">
+			<expression><![CDATA["http://www.jfree.org/jfreechart"]]></expression>
+			<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]]></hyperlinkReferenceExpression>
+		</element>
+		<element kind="line" uuid="d1bc1a7e-f51c-414a-86d6-69fe99cdd117" x="0" y="60" width="515" height="1"/>
+		<element kind="line" uuid="e1084916-e8bc-40e3-a14d-2d69238f1e1d" x="0" y="63" width="515" height="1"/>
+		<element kind="component" uuid="38296859-009f-4f19-bdbe-55df1d9b26d8" mode="Opaque" x="50" y="90" width="400" height="400">
+			<component kind="spiderChart">
+				<chartSettings showLegend="true" backcolor="#00FF00" subtitleColor="#0000FF" legendBackgroundColor="#EEFFEE" titlePosition="Top" customizerClass="SpiderChartCustomizer">
+					<titleFont fontSize="12.0" italic="true"/>
+					<subtitleFont fontSize="6.0" bold="true"/>
+					<legendFont fontSize="6.0"/>
+					<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
+					<subtitleExpression><![CDATA["Chart Displaying Spider Web Contours"]]></subtitleExpression>
+					<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
+				</chartSettings>
+				<dataset incrementType="Group" incrementGroup="category">
+					<series>
+						<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						<itemHyperlink linkType="Reference" linkTarget="Blank">
+							<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]]></hyperlinkReferenceExpression>
+						</itemHyperlink>
+					</series>
+				</dataset>
+				<plot rotation="Anticlockwise" tableOrder="Row" startAngle="39.0" headPercent="0.01" interiorGap="0.2" axisLineColor="#FF0000" axisLineWidth="2.0" labelGap="0.05" backcolor="#FFFF00">
+					<labelFont fontSize="6.0" bold="true" italic="true"/>
+					<maxValueExpression><![CDATA[10d]]></maxValueExpression>
+				</plot>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

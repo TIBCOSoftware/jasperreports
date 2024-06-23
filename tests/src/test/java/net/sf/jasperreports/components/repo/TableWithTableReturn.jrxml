@@ -1,0 +1,46 @@
+<jasperReport name="TableWithTableReturn" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="d2522400-ed60-44bb-bb8e-977fb458a04d">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<dataset name="TableData" uuid="c7af5c6c-b65a-49a5-bec9-6c5a9d963561">
+		<variable name="ReturnedVariable" class="java.lang.String"/>
+	</dataset>
+	<dataset name="InnerTableData" uuid="556d94c6-4c3a-4f6e-8097-e6f0a827a1a3">
+		<variable name="InnerVariable" class="java.lang.String">
+			<expression><![CDATA["foo"]]></expression>
+		</variable>
+	</dataset>
+	<title height="100">
+		<element kind="component" uuid="805d18f7-660a-44e7-b7d8-73301a684b8e" x="0" y="0" width="555" height="100">
+			<component kind="table">
+				<datasetRun uuid="5ba672b9-499d-419e-bd0c-40342e56ecf4" subDataset="TableData">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				</datasetRun>
+				<column kind="single" uuid="f2a56f9b-3afb-4eff-8f28-3ac1636085a9" width="555">
+					<columnFooter height="30">
+						<element kind="textField" uuid="59e4dd4b-7313-43c5-adb5-e1e582426d38" x="0" y="0" width="555" height="30">
+							<expression><![CDATA["outer table " + $V{ReturnedVariable}]]></expression>
+						</element>
+					</columnFooter>
+					<detailCell height="30">
+						<element kind="component" uuid="de2e2f9f-8a1e-4f4d-b53c-cf8d6f8ce3ee" x="0" y="0" width="555" height="30">
+							<component kind="table">
+								<datasetRun uuid="4f096e32-845b-40b3-8f41-244e7fbb95cb" subDataset="InnerTableData">
+									<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+									<returnValue toVariable="ReturnedVariable" fromVariable="InnerVariable"/>
+								</datasetRun>
+								<column kind="single" uuid="4db002f6-fe4b-4d79-82d3-02e5118515e0" width="555">
+									<detailCell height="30">
+										<element kind="textField" uuid="be3e0d12-33e9-4936-956f-f53f68c3e1ba" x="0" y="0" width="555" height="30">
+											<expression><![CDATA["inner table " + $V{InnerVariable}]]></expression>
+										</element>
+									</detailCell>
+								</column>
+							</component>
+							<property name="net.sf.jasperreports.components.table.name" value="innerTable"/>
+						</element>
+					</detailCell>
+				</column>
+			</component>
+			<property name="net.sf.jasperreports.components.table.name" value="table"/>
+		</element>
+	</title>
+</jasperReport>

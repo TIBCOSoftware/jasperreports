@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.jasperreports</groupId>
+		<artifactId>jasperreports-common</artifactId>
+		<version>${revision}</version>
+		<relativePath>./pom-common.xml</relativePath>
+	</parent>
+	<artifactId>jasperreports</artifactId>
+	<packaging>jar</packaging>
+	<name>JasperReports Library</name>
+	<description>Free Java Reporting Library</description>
+	<url>http://jasperreports.sourceforge.net</url>
+	<scm>
+		<connection>${scmConnection}</connection>
+		<tag>${revision}</tag>
+		<url>${scmUrl}</url>
+	</scm>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<systemPropertyVariables>
+						<xmlOutputDir>${project.build.directory}/surefire</xmlOutputDir>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>clirr-maven-plugin</artifactId>
+				<version>${clirr-maven-plugin.version}</version>
+				<configuration>
+					<comparisonVersion>6.21.2</comparisonVersion>
+					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

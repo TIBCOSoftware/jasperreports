@@ -1,0 +1,39 @@
+<jasperReport name="DocumentsReport" language="java" pageWidth="500" pageHeight="842" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="68cf12a7-46cc-4853-8a87-47af86af0d76">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="10.0"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="10.0" bold="true"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="10.0" italic="true"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="total" class="java.lang.Double"/>
+	<sortField name="id"/>
+	<title height="1">
+		<element kind="line" uuid="88470eb6-88b0-44ed-b36c-7c07b5f56d20" x="0" y="0" width="195" height="1" forecolor="#808080">
+			<pen lineWidth="0.5"/>
+		</element>
+	</title>
+	<pageHeader height="15">
+		<element kind="staticText" uuid="ce203b34-c00c-41e3-b0c6-96683ae2f1ee" x="10" y="1" width="55" height="13" style="Sans_Bold">
+			<text><![CDATA[Documents]]></text>
+		</element>
+		<element kind="staticText" uuid="241da0cd-93eb-475e-8686-f88d83e39bed" x="65" y="1" width="15" height="13" hTextAlign="Right" style="Sans_Bold">
+			<text><![CDATA[ID]]></text>
+		</element>
+		<element kind="staticText" uuid="11b92cee-fe37-4efa-a43f-c8bdbdee5f1f" x="85" y="1" width="100" height="13" hTextAlign="Right" style="Sans_Bold">
+			<text><![CDATA[Total]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="14">
+			<element kind="textField" uuid="792cdf3f-ee77-4c8f-9cd0-e564be275f7f" x="10" y="0" width="70" height="13" hTextAlign="Right">
+				<expression><![CDATA[$F{id}]]></expression>
+			</element>
+			<element kind="textField" uuid="20947926-3f89-4cb4-890a-09e53495ceb9" positionType="Float" x="85" y="0" width="100" height="13" textAdjust="StretchHeight" pattern="#.00" hTextAlign="Right">
+				<expression><![CDATA[$F{total}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="1">
+		<element kind="line" uuid="aff4f30b-5e50-4d20-bddc-6b92b9c504cb" x="0" y="0" width="195" height="1" forecolor="#808080">
+			<pen lineWidth="0.5"/>
+		</element>
+	</summary>
+</jasperReport>

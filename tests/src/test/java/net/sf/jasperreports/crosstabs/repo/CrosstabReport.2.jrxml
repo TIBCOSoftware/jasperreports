@@ -1,0 +1,75 @@
+<jasperReport name="CrosstabReport.2" language="java" pageWidth="595" pageHeight="81" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10" uuid="488fc4c0-8d4e-4bd3-8f28-3497b7349729">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.5.jrdax"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="8.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<summary height="30">
+		<element kind="crosstab" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24" x="0" y="10" width="555" height="20" columnBreakOffset="10" repeatColumnHeaders="false">
+			<dataset/>
+			<rowGroup name="Outer" width="50" position="Stretch">
+				<bucket class="java.lang.String">
+					<expression><![CDATA["R"]]></expression>
+				</bucket>
+				<header>
+					<element kind="textField" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" y="0" width="40" height="37">
+						<expression><![CDATA["Outer"]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</header>
+				<totalHeader/>
+			</rowGroup>
+			<rowGroup name="Inner" totalPosition="End" width="70">
+				<bucket class="java.lang.Integer">
+					<expression><![CDATA[$V{REPORT_COUNT}]]></expression>
+				</bucket>
+				<header>
+					<element kind="textField" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" vTextAlign="Middle">
+						<expression><![CDATA[$V{Inner}]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</header>
+				<totalHeader mode="Opaque" backcolor="#E0FFFF">
+					<element kind="staticText" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" y="0" width="60" height="21" vTextAlign="Middle">
+						<text><![CDATA[Total]]></text>
+					</element>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</totalHeader>
+			</rowGroup>
+			<columnGroup name="Single" height="0">
+				<bucket class="java.lang.String">
+					<expression><![CDATA["C"]]></expression>
+				</bucket>
+				<header/>
+				<totalHeader/>
+			</columnGroup>
+			<measure name="SomeCount" calculation="Count" class="java.lang.Integer">
+				<expression><![CDATA["something"]]></expression>
+			</measure>
+			<cell width="45" height="16">
+				<contents mode="Opaque" backcolor="#FFFFFF">
+					<element kind="textField" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="16" fontSize="15.0" textAdjust="StretchHeight" pattern="#0" hTextAlign="Right" vTextAlign="Middle">
+						<expression><![CDATA["V"]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</contents>
+			</cell>
+			<cell height="21" rowTotalGroup="Inner">
+				<contents mode="Opaque" backcolor="#E0FFFF">
+					<element kind="textField" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" x="0" y="0" width="40" height="21" pattern="#0.0" hTextAlign="Right" vTextAlign="Middle">
+						<expression><![CDATA["T"]]></expression>
+					</element>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+				</contents>
+			</cell>
+		</element>
+	</summary>
+</jasperReport>

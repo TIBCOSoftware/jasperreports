@@ -1,0 +1,9 @@
+<jasperReport name="SplitTypePreventReport.31" language="java" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false"/>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<noData height="25">
+		<element kind="subreport" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" x="0" y="0" width="515" height="25">
+			<expression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.31.subreport.1.jrxml")]]></expression>
+		</element>
+	</noData>
+</jasperReport>
