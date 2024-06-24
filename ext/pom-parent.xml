@@ -92,6 +92,11 @@
 					<doclint>none</doclint>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven-project-info-reports-plugin.version}</version>
+			</plugin>
 		</plugins>
 	</build>
 </project>
