@@ -2,8 +2,11 @@
 	<settings defaultResolver="maven"/>
 	<resolvers>
 		<chain name="maven">
+			<!-- should only be used for local testing -->
+			<!--
 			<ibiblio name="local-maven2" m2compatible="true" usepoms="true"
 				root="file://${user.home}/.m2/repository/"/>
+			-->
 			<ibiblio name="ibiblio" m2compatible="true" usepoms="true"/>
 			<ibiblio name="jaspersoft" m2compatible="true" usepoms="true"
 				root="https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"/>
