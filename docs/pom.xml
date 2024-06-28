@@ -20,7 +20,7 @@
 	<properties>
 		<maven.install.skip>false</maven.install.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
-		<!-- set this property to true to enable online statistics -->
+		<!-- set this property right here to true to enable online statistics -->
 		<sf.net>false</sf.net>
 	</properties>
 	<build>
