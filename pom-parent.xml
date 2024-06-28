@@ -110,7 +110,7 @@
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
 		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
-		<net.tascalate.javaflow.tools.maven.version>2.7.5</net.tascalate.javaflow.tools.maven.version>
+		<net.tascalate.javaflow.tools.maven.version>2.7.6</net.tascalate.javaflow.tools.maven.version>
 		<xml-maven-plugin.version>1.1.0</xml-maven-plugin.version>
 		<!-- dependency version properties -->
 		<ant.version>1.10.14</ant.version>
