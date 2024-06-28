@@ -81,56 +81,59 @@
 		<scmConnection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</scmConnection>
 		<scmUrl>https://github.com/TIBCOSoftware/jasperreports</scmUrl>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.install.skip>true</maven.install.skip>
-		<maven.source.skip>true</maven.source.skip>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
-		<maven.deploy.skip>true</maven.deploy.skip>
-		<maven.test.skip>true</maven.test.skip>
+		<!-- config properties -->
 		<enforcer.skip>true</enforcer.skip>
 		<maven.buildNumber.phase>validate</maven.buildNumber.phase>
 		<maven.buildNumber.doCheck>true</maven.buildNumber.doCheck>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		<maven.install.skip>true</maven.install.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.source.skip>true</maven.source.skip>
+		<maven.test.skip>true</maven.test.skip>
 		<owasp.suppression.file>${basedir}/owasp-suppressions.xml</owasp.suppression.file>
-		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+		<!-- plugin version properties -->
 		<buildnumber-maven-plugin.version>3.2.0</buildnumber-maven-plugin.version>
-		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
-		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
-		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
-		<maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+		<clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
 		<dependency-check-maven.version>9.1.0</dependency-check-maven.version>
 		<exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
-		<maven-compiler-plugin.version>3.12.0</maven-compiler-plugin.version>
-		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
 		<jetty-maven-plugin.version>11.0.19</jetty-maven-plugin.version>
+		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.12.0</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+		<maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
-		<maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
-		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
-		<clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<net.tascalate.javaflow.tools.maven.version>2.7.5</net.tascalate.javaflow.tools.maven.version>
-		<maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
-		<xml-maven-plugin.version>1.1.0</xml-maven-plugin.version>
 		<maven-markdown-page-generator-plugin.version>2.4.0</maven-markdown-page-generator-plugin.version>
-		<jackson.version>2.17.1</jackson.version>
-		<commons-logging.version>1.3.0</commons-logging.version>
-		<commons-collections4.version>4.4</commons-collections4.version>
-		<hsqldb.version>2.7.2</hsqldb.version>
-		<batik.version>1.17</batik.version>
-		<xml-apis-ext.version>1.3.04</xml-apis-ext.version>
-		<commons-beanutils.version>1.9.4</commons-beanutils.version>
-		<jfreechart.version>1.5.4</jfreechart.version>
-		<castor.version>1.4.1</castor.version>
-		<jaxen.version>2.0.0</jaxen.version>
-		<velocity.version>2.3</velocity.version>
-		<javax.persistence-api.version>2.2</javax.persistence-api.version>
-		<lucene.version>8.11.2</lucene.version>
+		<maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
+		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
+		<net.tascalate.javaflow.tools.maven.version>2.7.5</net.tascalate.javaflow.tools.maven.version>
+		<xml-maven-plugin.version>1.1.0</xml-maven-plugin.version>
+		<!-- dependency version properties -->
+		<ant.version>1.10.14</ant.version>
 		<antlr.version>2.7.7</antlr.version>
-		<spring.version>5.3.27</spring.version>
+		<batik.version>1.17</batik.version>
+		<castor.version>1.4.1</castor.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
+		<commons-collections4.version>4.4</commons-collections4.version>
+		<commons-logging.version>1.3.0</commons-logging.version>
+		<hsqldb.version>2.7.2</hsqldb.version>
+		<jackson.version>2.17.1</jackson.version>
+		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+		<javax.persistence-api.version>2.2</javax.persistence-api.version>
+		<jaxen.version>2.0.0</jaxen.version>
+		<jfreechart.version>1.5.4</jfreechart.version>
+		<lucene.version>8.11.2</lucene.version>
+		<openpdf.version>1.3.32</openpdf.version>
 		<poi.version>5.2.2</poi.version>
 		<rhino.version>1.7.14</rhino.version>
-		<ant.version>1.10.14</ant.version>
-		<openpdf.version>1.3.32</openpdf.version>
+		<spring.version>5.3.27</spring.version>
+		<velocity.version>2.3</velocity.version>
 		<xchart.version>3.2.2</xchart.version>
-		<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+		<xml-apis-ext.version>1.3.04</xml-apis-ext.version>
 	</properties>
 	<repositories>
 		<repository>
