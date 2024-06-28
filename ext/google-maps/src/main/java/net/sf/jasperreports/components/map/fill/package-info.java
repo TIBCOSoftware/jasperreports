@@ -24,4 +24,5 @@
 /**
  * Contains fill time implementations for Google Map component related interfaces.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.map.fill;

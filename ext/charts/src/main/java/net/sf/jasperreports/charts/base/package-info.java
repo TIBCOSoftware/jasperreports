@@ -24,4 +24,5 @@
 /**
  * Contains base implementations for chart related interfaces.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.charts.base;

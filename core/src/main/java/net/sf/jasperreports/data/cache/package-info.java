@@ -24,4 +24,5 @@
 /**
  * Contains classes for data caching.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.cache;

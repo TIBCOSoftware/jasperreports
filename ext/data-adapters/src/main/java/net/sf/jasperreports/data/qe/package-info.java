@@ -24,4 +24,5 @@
 /**
  * Contains classes for query executer data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.qe;

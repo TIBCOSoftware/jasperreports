@@ -114,4 +114,5 @@
  * @see net.sf.jasperreports.engine.JasperPrint
  * @see net.sf.jasperreports.engine.JRAbstractExporter
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.export;

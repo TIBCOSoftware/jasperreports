@@ -118,4 +118,5 @@
  * 
  * @see net.sf.jasperreports.view.JRHyperlinkListener
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.view;

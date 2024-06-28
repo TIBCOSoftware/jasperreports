@@ -24,4 +24,5 @@
 /**
  * Contains classes for Spring Hibernate data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.hibernate.spring;

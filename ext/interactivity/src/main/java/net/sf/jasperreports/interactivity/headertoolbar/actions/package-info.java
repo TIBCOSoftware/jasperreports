@@ -25,4 +25,5 @@
 /**
 * Contains Action classes for the built-in Header Toolbar component.
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.interactivity.headertoolbar.actions;

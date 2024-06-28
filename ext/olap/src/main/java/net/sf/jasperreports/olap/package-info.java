@@ -24,4 +24,5 @@
 /**
  * Provides support for OLAP data sources and query executers.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.olap;

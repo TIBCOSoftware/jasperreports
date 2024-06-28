@@ -61,4 +61,5 @@
 * not start rendering unless the space remaining on the page is at least the height of the 
 * element. 
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.list;

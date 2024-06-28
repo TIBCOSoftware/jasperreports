@@ -24,5 +24,6 @@
 /**
  * Provides utility classes used when exporting reports to compressed output formats such as DOCX, XLSX, PPTX.  
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.zip;
 

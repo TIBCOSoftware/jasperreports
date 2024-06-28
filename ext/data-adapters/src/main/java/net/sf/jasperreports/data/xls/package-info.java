@@ -24,4 +24,5 @@
 /**
  * Contains classes for Excel 2003 data adapters.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.data.xls;

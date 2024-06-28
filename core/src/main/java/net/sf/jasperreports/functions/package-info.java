@@ -24,4 +24,5 @@
 /**
  * Provides support for built-in JasperReports functions.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.functions;

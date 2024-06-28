@@ -25,4 +25,5 @@
 /**
 * Contains classes for the built-in Spider Chart component.
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.spiderchart;

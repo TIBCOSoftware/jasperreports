@@ -134,4 +134,5 @@
 * levels as the image producer property, to allow the customization of the generated image. 
 * </p>
 */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.barcode4j;

@@ -24,4 +24,5 @@
 /**
  * Contains utility classes for working with image renderers.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.renderers.util;
