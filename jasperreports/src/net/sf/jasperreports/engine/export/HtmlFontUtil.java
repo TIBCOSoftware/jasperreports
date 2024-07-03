@@ -38,6 +38,8 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class HtmlFontUtil
 {
 
+	public static final String CSS_RESOURCE_EXTENSION = ".css";
+	
 	private final RepositoryUtil repositoryUtil;
 
 
@@ -201,7 +203,8 @@ public class HtmlFontUtil
 
 			try
 			{
-				cssResourceSaver.handleResource(htmlFontFamily.getId(), fontCss.getBytes("UTF-8"));
+				String cssResourceName = HtmlFontUtil.getFontCSSResourceName(htmlFontFamily);
+				cssResourceSaver.handleResource(cssResourceName, fontCss.getBytes("UTF-8"));
 			}
 			catch (UnsupportedEncodingException e)
 			{
@@ -261,5 +264,25 @@ public class HtmlFontUtil
 		}
 		
 		return sb.toString();
+	}
+	
+	public static String getFontCSSResourceName(HtmlFontFamily fontFamily)
+	{
+		return fontFamily.getId() + CSS_RESOURCE_EXTENSION;
+	}
+	
+	public static String getFontIdFromCSSResource(String cssResource)
+	{
+		if (cssResource == null)
+		{
+			return null;
+		}
+		
+		if (cssResource.endsWith(CSS_RESOURCE_EXTENSION))
+		{
+			return cssResource.substring(0, cssResource.length() - CSS_RESOURCE_EXTENSION.length());
+		}
+		
+		return cssResource;
 	}
 }
