@@ -84,7 +84,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 			hints.put(EncodeHintType.CHARACTER_SET, encoding);
 		}
 		
-		ErrorCorrectionLevel errorCorrectionLevel = qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel();
+		ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevelEnum.getValueOrDefault(qrCodeBean.getErrorCorrectionLevel()).getErrorCorrectionLevel();
 		hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel);
 
 		Integer qrVersion = qrCodeBean.getQrVersion();

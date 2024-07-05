@@ -114,6 +114,14 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 		return EnumUtil.getEnumByName(values(), name);
 	}
 	
+	/**
+	 *
+	 */
+	public static ErrorCorrectionLevelEnum getValueOrDefault(ErrorCorrectionLevelEnum value)
+	{
+		return value == null ? L : value;
+	}
+	
 	@Override
 	public ErrorCorrectionLevelEnum getDefault()
 	{

@@ -72,7 +72,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 			hints.put(EncodeHintType.CHARACTER_SET, encoding);
 		}
 		
-		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevelEnum.getValueOrDefault(qrCodeBean.getErrorCorrectionLevel()).getErrorCorrectionLevel());
 		
 		int margin = qrCodeBean.getMargin() == null ? QRCodeSVGImageProducer.DEFAULT_MARGIN : qrCodeBean.getMargin();
 		hints.put(EncodeHintType.MARGIN, margin);
