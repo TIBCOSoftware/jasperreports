@@ -34,7 +34,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.pdf.type.PdfFieldCheckTypeEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 
