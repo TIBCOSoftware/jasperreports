@@ -5899,4 +5899,13 @@ It only applies to text elements with numeric values.
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.svg.allow.external.resources -->
+
+  <configProperty name="net.sf.jasperreports.svg.allow.external.resources">
+    <description>
+Property that determines whether external resources in SVG images are allowed and loaded.
+    </description>
+  </configProperty>
+
+
 </configReference>
