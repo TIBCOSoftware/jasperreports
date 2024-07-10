@@ -35,16 +35,7 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -134,6 +125,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.renderers.util.SvgDataSniffer;
 import net.sf.jasperreports.renderers.util.SvgFontProcessor;
+import net.sf.jasperreports.search.HitSpanInfo;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 import net.sf.jasperreports.util.Base64Util;
@@ -411,7 +403,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					// the fontHandler is used only here, to point to the URL that generates the dynamic CSS for static HTML export in server environments;
 					// in non server environments, the static HTML saved to file system uses the static resource handler to point to the font CSS file, 
 					// which was also saved using a static resource handler
-					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(fontHandler.getResourcePath(htmlFontFamily.getId())) + "\">\n");
+					String cssResourceName = HtmlFontUtil.getFontCSSResourceName(htmlFontFamily);
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + JRStringUtil.encodeXmlAttribute(fontHandler.getResourcePath(cssResourceName)) + "\">\n");
 				}
 				
 				// generate script tag on static export only
@@ -2783,27 +2776,57 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			SpansInfo spansInfo = (SpansInfo) reportContext.getParameterValue("net.sf.jasperreports.search.term.highlighter");
 			PrintElementId pei = PrintElementId.forElement(textElement);
 
-			if (spansInfo != null && spansInfo.hasHitTermsInfo(pei.toString())) {
-				List<HitTermInfo> hitTermInfos = JRCloneUtils.cloneList(spansInfo.getHitTermsInfo(pei.toString()));
+			if (spansInfo != null && spansInfo.hasHitSpanInfo(pei.toString())) {
+				List<HitSpanInfo> hitSpanInfos = JRCloneUtils.cloneList(spansInfo.getHitSpanInfo(pei.toString()));
 
 				short[] lineBreakOffsets = textElement.getLineBreakOffsets();
 				if (lineBreakOffsets != null && lineBreakOffsets.length > 0) {
 					int sz = lineBreakOffsets.length;
-					for (HitTermInfo ti: hitTermInfos) {
-						for (int i = 0; i < sz; i++) {
-							if (lineBreakOffsets[i] <= ti.getStart()) {
-								ti.setStart(ti.getStart() + 1);
-								ti.setEnd(ti.getEnd() + 1);
-							} else {
-								break;
+					Set<HitTermInfo> processedHitTerms = new HashSet<>();
+					for (HitSpanInfo si: hitSpanInfos) {
+						for (HitTermInfo ti : si.getHitTermInfoList()) {
+							// prevent overlapping terms to have the offset applied multiple times
+							if (!processedHitTerms.contains(ti)) {
+								int totalOffset = 0;
+								for (int i = 0; i < sz; i++) {
+									totalOffset += lineBreakOffsets[i];
+									if (totalOffset <= ti.getStart()) {
+										ti.setStart(ti.getStart() + 1);
+										ti.setEnd(ti.getEnd() + 1);
+									}
+									// take into account the word break
+									else if (totalOffset > ti.getStart() && totalOffset < ti.getEnd()) {
+										ti.setEnd(ti.getEnd() + 1);
+									} else {
+										break;
+									}
+								}
+								processedHitTerms.add(ti);
 							}
 						}
 					}
 				}
 
 				AttributedString attributedString = styledText.getAttributedString();
-				for (int i = 0, ln = hitTermInfos.size(); i < ln; i = i + spansInfo.getTermsPerQuery()) {
-					attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, Color.yellow, hitTermInfos.get(i).getStart(), hitTermInfos.get(i + spansInfo.getTermsPerQuery() - 1).getEnd());
+				for (HitSpanInfo hsi: hitSpanInfos) {
+					List<HitTermInfo> htiList = hsi.getHitTermInfoList();
+					for (int i = 0, sz = htiList.size(); i < sz ; i++) {
+						String searchResultClasses;
+						if (i == 0 && spansInfo.getTermsPerQuery() > 1) {
+							searchResultClasses = "jr_search_result jr_search_result_start";
+						} else {
+							searchResultClasses = "jr_search_result";
+						}
+						attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT, searchResultClasses,
+								htiList.get(i).getStart(), htiList.get(i).getEnd());
+
+						// if there are more terms in the current span, mark the space between the current term and the
+						// next one as whitespace to make it highlightable
+						if (i + 1 < sz) {
+							attributedString.addAttribute(JRTextAttribute.SEARCH_HIGHLIGHT_WHITESPACE,
+								"jr_search_result", htiList.get(i).getEnd(), htiList.get(i+1).getStart());
+						}
+					}
 				}
 			}
 		} else {
@@ -2981,8 +3004,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean first = true;
 		boolean startedSpan = false;
 
-		boolean highlightStarted = false;
-
 		while (runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
@@ -2998,13 +3019,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			first = false;
 
 			Map<Attribute,Object> attributes = paragraph.getAttributes();
-			Color highlightColor = (Color) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
-			if (highlightColor != null && !highlightStarted) {
+			boolean highlightWhitespaceStarted = false;
+			boolean highlightStarted = false;
+
+			String searchResultWhitespaceClasses = (String) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT_WHITESPACE);
+			if (searchResultWhitespaceClasses != null)
+			{
+				highlightWhitespaceStarted = true;
+				writer.write("<span class=\"" + searchResultWhitespaceClasses + "\">");
+			}
+
+			String searchResultClasses = (String) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
+			if (searchResultClasses != null)
+			{
 				highlightStarted = true;
-				writer.write("<span class=\"jr_search_result\">");
-			} else if (highlightColor == null && highlightStarted) {
-				highlightStarted = false;
-				writer.write("</span>");
+				writer.write("<span class=\"" + searchResultClasses + "\">");
 			}
 
 			String textRunStyle = 
@@ -3037,6 +3066,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				hyperlinkStarted
 			);
 
+			if (highlightWhitespaceStarted)
+			{
+				writer.write("</span>");
+			}
+
+			if (highlightStarted)
+			{
+				writer.write("</span>");
+			}
+
 			paragraph.setIndex(runLimit);
 		}
 
@@ -3044,10 +3083,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		context.writeLists(new HtmlStyledTextListWriter(null));
 
-		if (highlightStarted) {
-			writer.write("</span>");
-		}
-		
 		if (startedSpan)
 		{
 			writer.write("</span>");

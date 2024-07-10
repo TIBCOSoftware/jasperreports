@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.HtmlFontFamily;
+import net.sf.jasperreports.engine.export.HtmlFontUtil;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
@@ -434,7 +435,8 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			{
 				ObjectNode objNode = mapper.createObjectNode();
 				objNode.put("id", htmlFontFamily.getId());
-				objNode.put("path", fontHandler.getResourcePath(htmlFontFamily.getId()));
+				String cssResourceName = HtmlFontUtil.getFontCSSResourceName(htmlFontFamily);
+				objNode.put("path", fontHandler.getResourcePath(cssResourceName));
 				webFonts.add(objNode);
 			}
 			

@@ -23,53 +23,42 @@
  */
 package net.sf.jasperreports.search;
 
-import java.io.Serializable;
-
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class HitTermInfo implements JRCloneable, Serializable, Comparable<HitTermInfo> {
-	
+public class HitSpanInfo implements JRCloneable, Serializable {
+
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private int position;
-	private int start;
-	private int end;
-	private String value;
+	private String pageNo;
+	private List<HitTermInfo> hitTermInfoList = new ArrayList<>();
 
-	public HitTermInfo(int position, int start, int end, String value) {
-		this.position = position;
-		this.start = start;
-		this.end = end;
-		this.value = value;
+	public HitSpanInfo(HitTermInfo hitTermInfo) {
+		this.hitTermInfoList.add(hitTermInfo);
 	}
 
-	public int getPosition() {
-		return position;
+	public HitSpanInfo(List<HitTermInfo> hitTermInfoList) {
+		this.hitTermInfoList.addAll(hitTermInfoList);
 	}
 
-	public void setStart(int start) {
-		this.start = start;
+	public void setPageNo(String pageNo) {
+		this.pageNo = pageNo;
 	}
 
-	public int getStart() {
-		return start;
+	public String getPageNo() {
+		return pageNo;
 	}
 
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public String getValue() {
-		return value;
+	public List<HitTermInfo> getHitTermInfoList() {
+		return hitTermInfoList;
 	}
 
 	@Override
@@ -82,38 +71,4 @@ public class HitTermInfo implements JRCloneable, Serializable, Comparable<HitTer
 		}
 	}
 
-	@Override
-	public int compareTo(HitTermInfo o) {
-		return this.position - o.position;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		HitTermInfo o = (HitTermInfo) obj;
-		if (value == null ) {
-			if (o.value != null) {
-				return false;
-			}
-		} else if (!value.equals(o.value)) {
-			return false;
-		}
-		if (position != o.position || start != o.start || end != o.end) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return this.value;
-	}
 }

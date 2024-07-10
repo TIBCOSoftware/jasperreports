@@ -56,9 +56,10 @@ public class FontWebResourceHandler implements WebResourceHandler
 	@Override
 	public boolean handleResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, HttpServletResponse response) 
 	{
-		String fontName = request.getParameter(REQUEST_PARAMETER_FONT_NAME);
-		if (fontName != null) 
+		String resourceName = request.getParameter(REQUEST_PARAMETER_FONT_NAME);
+		if (resourceName != null) 
 		{
+			String fontName = HtmlFontUtil.getFontIdFromCSSResource(resourceName);
 			HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(jasperReportsContext, fontName);
 			
 			if (htmlFontFamily != null)
