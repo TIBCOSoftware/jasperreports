@@ -64,11 +64,11 @@ public class TableDesignConverter implements ComponentDesignConverter
 				reportConverter.getReport()
 				);
 		
-		Map<Cell, Rectangle> cellBounds = tableManager.getCellBounds();
+		Map<BaseCell, Rectangle> cellBounds = tableManager.getCellBounds();
 		
-		for (Map.Entry<Cell, Rectangle> pair : cellBounds.entrySet()) 
+		for (Map.Entry<BaseCell, Rectangle> pair : cellBounds.entrySet()) 
 		{
-			Cell cell = pair.getKey();
+			BaseCell cell = pair.getKey();
 			Rectangle rectangle = pair.getValue(); 
 			
 			JRBasePrintFrame cellFrame = 

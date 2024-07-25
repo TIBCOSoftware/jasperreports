@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -62,7 +63,7 @@ public class TableUtil
 	public static final int COLUMN_GROUP_FOOTER = 6;
 	
 	private TableComponent table;
-	private Map<Cell, Rectangle> boundsMap = new HashMap<>();
+	private Map<BaseCell, Rectangle> boundsMap = new HashMap<>();
 	private JRReport report;
 
 	public TableUtil(TableComponent table, JRReport report) {
@@ -71,7 +72,7 @@ public class TableUtil
 		init(table);
 	}
 
-	public Map<Cell, Rectangle> getCellBounds() {
+	public Map<BaseCell, Rectangle> getCellBounds() {
 		return boundsMap;
 	}
 
@@ -152,10 +153,28 @@ public class TableUtil
 		}
 		y += h;
 		r = new Rectangle(0, y, 0, 0);
+		h = 0;
 		for (BaseColumn bc : table.getColumns()) {
 			r = initFooter(r, bc, TABLE_FOOTER, null);
 			r.setLocation(r.x, y);
+			if (h < r.height)
+				h = r.height;
 		}
+		y += h;
+		r = new Rectangle(0, y, r.width, 0);
+		h = 0;
+		BaseCell noDataCell = table.getNoData(); 
+		if (noDataCell != null)
+		{
+			int w = 0;
+			for (BaseColumn bc : table.getColumns()) {
+				w += bc.getWidth();
+			}
+			h = noDataCell.getHeight();
+			boundsMap.put(noDataCell, new Rectangle(r.x, r.y, w, h));
+			r.setLocation(r.x, y);
+		}
+		y += h;
 	}
 
 	public static List<BaseColumn> getAllColumns(TableComponent table) {
