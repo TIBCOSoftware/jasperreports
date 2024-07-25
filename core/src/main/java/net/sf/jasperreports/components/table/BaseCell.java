@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.table;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -35,6 +37,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
+@JsonTypeInfo(use = Id.NONE) // this is needed because JRElementGroup has its own type info
 @JsonDeserialize(as = DesignBaseCell.class)
 public interface BaseCell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {

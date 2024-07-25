@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.table;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -33,7 +31,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@JsonTypeInfo(use = Id.NONE) // this is needed because JRBand extends JRChild, which has subtypes annotations
 @JsonDeserialize(as = DesignCell.class)
 public interface Cell extends BaseCell
 {
