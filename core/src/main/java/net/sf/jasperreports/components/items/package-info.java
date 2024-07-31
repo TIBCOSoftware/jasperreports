@@ -25,4 +25,5 @@
 /**
  * Contains classes and interfaces for the item based components.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.items;

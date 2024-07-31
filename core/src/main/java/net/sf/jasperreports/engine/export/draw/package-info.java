@@ -24,4 +24,5 @@
 /**
  * Contains classes for drawing elements at export time. 
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.engine.export.draw;

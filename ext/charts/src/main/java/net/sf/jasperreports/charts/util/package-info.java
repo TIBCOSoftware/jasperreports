@@ -24,4 +24,5 @@
 /**
  * Contains utility classes for complex chart customization.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.charts.util;

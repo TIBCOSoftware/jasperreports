@@ -24,4 +24,5 @@
 /**
  * Contains fill time implementations for Table component related interfaces.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.table.fill;

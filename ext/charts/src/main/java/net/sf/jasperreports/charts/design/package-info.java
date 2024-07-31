@@ -24,4 +24,5 @@
 /**
  * Contains design time implementations for chart related interfaces.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.charts.design;

@@ -24,4 +24,5 @@
 /**
  * Contains utility classes for the built-in Table component.
  */
+@org.osgi.annotation.bundle.Export
 package net.sf.jasperreports.components.table.util;
