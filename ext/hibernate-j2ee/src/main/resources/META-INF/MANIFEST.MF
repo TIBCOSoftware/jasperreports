@@ -6,6 +6,7 @@ Specification-Vendor: ${project.organization.name}
 Implementation-Title: net.sf.jasperreports.j2ee.hibernate
 Implementation-Version: ${project.version}-${buildNumber}
 Implementation-Vendor: ${project.organization.name}
+Automatic-Module-Name: net.sf.jasperreports.j2ee.hibernate
 Bundle-ManifestVersion: 2
 Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}

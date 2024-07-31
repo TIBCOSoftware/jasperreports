@@ -6,11 +6,13 @@ Specification-Vendor: ${project.organization.name}
 Implementation-Title: net.sf.jasperreports.dataadapters.http
 Implementation-Version: ${project.version}-${buildNumber}
 Implementation-Vendor: ${project.organization.name}
+Automatic-Module-Name: net.sf.jasperreports.dataadapters.http
 Bundle-ManifestVersion: 2
 Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.dataadapters.http
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.dataadapters.http
+Export-Package: net.sf.jasperreports.data.http,
+ net.sf.jasperreports.dataadapters.http
 DynamicImport-Package: *

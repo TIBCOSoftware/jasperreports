@@ -3,14 +3,15 @@ Built-By: ${project.organization.name}
 Specification-Title: ${project.name}
 Specification-Version: ${project.version}
 Specification-Vendor: ${project.organization.name}
-Implementation-Title: net.sf.jasperreports.engine
+Implementation-Title: net.sf.jasperreports.core
 Implementation-Version: ${project.version}-${buildNumber}
 Implementation-Vendor: ${project.organization.name}
+Automatic-Module-Name: net.sf.jasperreports.core
 Bundle-ManifestVersion: 2
 Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
-Bundle-SymbolicName: net.sf.jasperreports.engine
+Bundle-SymbolicName: net.sf.jasperreports.core
 Bundle-ClassPath: .
 Export-Package: net.sf.jasperreports.compilers,
  net.sf.jasperreports.components,
@@ -32,7 +33,6 @@ Export-Package: net.sf.jasperreports.compilers,
  net.sf.jasperreports.crosstabs.fill.calculation,
  net.sf.jasperreports.crosstabs.interactive,
  net.sf.jasperreports.crosstabs.type,
- net.sf.jasperreports.crosstabs.xml,
  net.sf.jasperreports.data,
  net.sf.jasperreports.data.cache,
  net.sf.jasperreports.engine,
@@ -67,6 +67,7 @@ Export-Package: net.sf.jasperreports.compilers,
  net.sf.jasperreports.engine.util.xml,
  net.sf.jasperreports.engine.virtualization,
  net.sf.jasperreports.engine.xml,
+ net.sf.jasperreports.engine.xml.print,
  net.sf.jasperreports.export,
  net.sf.jasperreports.export.annotations,
  net.sf.jasperreports.export.type,
@@ -74,6 +75,9 @@ Export-Package: net.sf.jasperreports.compilers,
  net.sf.jasperreports.functions,
  net.sf.jasperreports.functions.annotations,
  net.sf.jasperreports.governors,
+ net.sf.jasperreports.jackson.repo,
+ net.sf.jasperreports.jackson.type,
+ net.sf.jasperreports.jackson.util,
  net.sf.jasperreports.parts,
  net.sf.jasperreports.parts.subreport,
  net.sf.jasperreports.properties,
