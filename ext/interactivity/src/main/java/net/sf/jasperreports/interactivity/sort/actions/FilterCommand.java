@@ -25,7 +25,7 @@ package net.sf.jasperreports.interactivity.sort.actions;
 
 import java.util.List;
 
-import net.sf.jasperreports.components.sort.FieldFilter;
+import net.sf.jasperreports.components.util.FieldFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;

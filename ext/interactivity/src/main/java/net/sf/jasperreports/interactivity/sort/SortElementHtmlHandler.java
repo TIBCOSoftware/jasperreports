@@ -32,8 +32,8 @@ import org.apache.velocity.VelocityContext;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.sort.FieldFilter;
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.util.FieldFilter;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;

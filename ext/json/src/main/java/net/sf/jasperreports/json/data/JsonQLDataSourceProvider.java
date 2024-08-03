@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.json.data;
 
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
 
 /**

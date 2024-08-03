@@ -32,8 +32,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;

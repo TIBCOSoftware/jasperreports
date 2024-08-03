@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.sort.FieldFilter;
+import net.sf.jasperreports.components.util.FieldFilter;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;

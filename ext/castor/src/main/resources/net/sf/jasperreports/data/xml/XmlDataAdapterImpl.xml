@@ -4,13 +4,13 @@
 <mapping>
 	<class name="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
 		<map-to xml="xmlDataAdapter"/>
-		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.castor.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
 		<field name="name" type="string">
 			<bind-xml name="name" node="element"/>
 		</field>
-		<field name="fileName" type="string" handler="net.sf.jasperreports.util.NoWriteFieldHandler">
+		<field name="fileName" type="string" handler="net.sf.jasperreports.castor.util.NoWriteFieldHandler">
 			<bind-xml name="fileName" node="element"/>
 		</field>
 		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
@@ -31,10 +31,10 @@
 		<field name="selectExpression" type="string">
 			<bind-xml name="selectExpression" node="element"/>
 		</field>
-		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
+		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.castor.data.LocaleFieldHandler">
 			<bind-xml name="locale" node="element"/>
 		</field>
-		<field name="timeZone" type="java.util.TimeZone" handler="net.sf.jasperreports.data.TimeZoneFieldHandler">
+		<field name="timeZone" type="java.util.TimeZone" handler="net.sf.jasperreports.castor.data.TimeZoneFieldHandler">
 			<bind-xml name="timeZone" node="element"/>
 		</field>
 	</class>

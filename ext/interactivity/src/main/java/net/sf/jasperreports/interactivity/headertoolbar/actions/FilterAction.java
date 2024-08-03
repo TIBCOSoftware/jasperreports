@@ -28,9 +28,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.util.FilterTypeDateOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypeNumericOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;

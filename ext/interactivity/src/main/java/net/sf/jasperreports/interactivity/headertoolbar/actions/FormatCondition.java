@@ -27,9 +27,9 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.components.sort.AbstractFieldComparator;
-import net.sf.jasperreports.components.sort.FieldComparatorFactory;
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.util.AbstractFieldComparator;
+import net.sf.jasperreports.components.util.FieldComparatorFactory;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.JRConstants;
 
 

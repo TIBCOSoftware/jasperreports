@@ -28,10 +28,10 @@ import java.text.ParsePosition;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;

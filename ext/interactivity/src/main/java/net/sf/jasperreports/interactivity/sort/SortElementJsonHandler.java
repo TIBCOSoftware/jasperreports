@@ -34,12 +34,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
-import net.sf.jasperreports.components.sort.FieldFilter;
-import net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum;
-import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.util.FieldFilter;
+import net.sf.jasperreports.components.util.FilterTypeBooleanOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypeDateOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypeNumericOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypeTextOperatorsEnum;
+import net.sf.jasperreports.components.util.FilterTypesEnum;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;

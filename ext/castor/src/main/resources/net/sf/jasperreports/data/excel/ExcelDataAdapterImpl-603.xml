@@ -4,7 +4,7 @@
 <mapping>
 	<class name="net.sf.jasperreports.data.excel.ExcelDataAdapterImpl">
 		<map-to xml="excelDataAdapter"/>
-		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.castor.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
 		<field name="name" type="string">
@@ -34,7 +34,7 @@
 		<field name="sheetSelection" type="string">
 			<bind-xml name="sheetSelection" node="element"/>
 		</field>
-		<field name="format" type="string" handler="net.sf.jasperreports.data.excel.ExcelFormatFieldHandler">
+		<field name="format" type="string" handler="net.sf.jasperreports.castor.data.excel.ExcelFormatFieldHandler">
 			<bind-xml name="format" node="element"/>
 		</field>
 	</class>

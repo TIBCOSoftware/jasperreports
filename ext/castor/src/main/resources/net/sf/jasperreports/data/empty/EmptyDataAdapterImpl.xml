@@ -4,7 +4,7 @@
 <mapping>
 	<class name="net.sf.jasperreports.data.empty.EmptyDataAdapterImpl">
 		<map-to xml="emptyDataAdapter"/>
-		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.castor.data.ClassNameFieldHandler">
 			<bind-xml name="class" node="attribute"/>
 		</field>
 		<field name="name" type="string">

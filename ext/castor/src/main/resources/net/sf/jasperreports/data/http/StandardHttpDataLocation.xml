@@ -4,7 +4,7 @@
 <mapping>
 	<class name="net.sf.jasperreports.data.http.StandardHttpDataLocation">
 		<map-to xml="httpDataLocation"/>
-		<field name="method" type="string" handler="net.sf.jasperreports.data.http.RequestMethodFieldHandler">
+		<field name="method" type="string" handler="net.sf.jasperreports.castor.data.http.RequestMethodFieldHandler">
 			<bind-xml name="method" node="element"/>
 		</field>
 		<field name="url" type="string">

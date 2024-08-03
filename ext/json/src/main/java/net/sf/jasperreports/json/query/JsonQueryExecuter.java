@@ -26,11 +26,11 @@ package net.sf.jasperreports.json.query;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
 import net.sf.jasperreports.engine.query.QueryExecutionContext;
 import net.sf.jasperreports.engine.query.SimpleQueryExecutionContext;

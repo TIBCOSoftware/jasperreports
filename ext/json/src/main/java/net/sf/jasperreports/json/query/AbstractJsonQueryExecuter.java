@@ -30,7 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -39,6 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRAbstractTextDataSource;
 import net.sf.jasperreports.engine.data.JsonData;
 import net.sf.jasperreports.engine.data.JsonDataCollection;
+import net.sf.jasperreports.engine.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 import net.sf.jasperreports.engine.query.QueryExecutionContext;

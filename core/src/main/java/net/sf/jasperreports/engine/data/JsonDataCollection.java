@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.data;
 
 import java.util.List;
 
-import net.sf.jasperreports.data.RewindableDataSourceCollection;
-import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 
 /**
