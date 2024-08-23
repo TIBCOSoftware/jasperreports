@@ -80,7 +80,8 @@ public class XlsxStyleInfo
 	{
 		this.formatIndex = formatIndex;
 		this.fontIndex = isIgnoreTextFormatting ? -1 : fontIndex;
-		this.borderIndex = isIgnoreTextFormatting ? -1 : borderIndex;
+		this.borderIndex = (sheetInfo != null && sheetInfo.ignoreCellBorder != null 
+				&& sheetInfo.ignoreCellBorder) ? -1 : borderIndex;
 		this.isWrapText = isShrinkToFit ? false : isWrapText;
 		this.isHidden = isHidden;
 		this.isLocked = isLocked;
