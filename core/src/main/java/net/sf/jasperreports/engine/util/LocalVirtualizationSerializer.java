@@ -27,10 +27,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
@@ -62,11 +61,13 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 		return false;
 	}
 
-	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<>();
-	protected final List<ClassLoader> classLoadersList = new ArrayList<>();
+	protected final AtomicInteger classLoaderIndex = new AtomicInteger();
+	protected final ConcurrentMap<ClassLoader,Integer> classLoadersIndexes = new ConcurrentHashMap<>();
+	protected final ConcurrentMap<Integer, ClassLoader> classLoaders = new ConcurrentHashMap<>();
 	
-	protected final Map<Class<?>, Integer> classIndexes = new HashMap<>();
-	protected final List<Class<?>> classes = new ArrayList<>();
+	protected final AtomicInteger classIndex = new AtomicInteger();
+	protected final ConcurrentMap<Class<?>, Integer> classIndexes = new ConcurrentHashMap<>();
+	protected final ConcurrentMap<Integer, Class<?>> classes = new ConcurrentHashMap<>();
 
 	public LocalVirtualizationSerializer()
 	{
@@ -87,9 +88,16 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 			Integer idx = classLoadersIndexes.get(classLoader);
 			if (idx == null)
 			{
-				idx = classLoadersList.size();
-				classLoadersIndexes.put(classLoader, idx);
-				classLoadersList.add(classLoader);
+				idx = classLoaderIndex.getAndIncrement();
+				Integer previousIndex = classLoadersIndexes.putIfAbsent(classLoader, idx);
+				if (previousIndex == null)
+				{
+					classLoaders.put(idx, classLoader);
+				}
+				else
+				{
+					idx = previousIndex;
+				}
 			}
 			loaderIdx = idx;
 		}
@@ -103,7 +111,7 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 			return null;
 		}
 
-		ClassLoader loader = classLoadersList.get(loaderIdx);
+		ClassLoader loader = classLoaders.get(loaderIdx);
 		Class<?> clazz = Class.forName(desc.getName(), false, loader);
 		return clazz;
 	}
@@ -113,9 +121,16 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 		Integer classIdx = classIndexes.get(clazz);
 		if (classIdx == null)
 		{
-			classIdx = classIndexes.size();
-			classIndexes.put(clazz, classIdx);
-			classes.add(clazz);
+			classIdx = classIndex.getAndIncrement();
+			Integer previousIndex = classIndexes.putIfAbsent(clazz, classIdx);
+			if (previousIndex == null)
+			{
+				classes.put(classIdx, clazz);
+			}
+			else
+			{
+				classIdx = previousIndex;
+			}
 		}
 		return classIdx;
 	}
