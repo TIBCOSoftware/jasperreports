@@ -12,7 +12,7 @@
 		<dependency org="net.bytebuddy" name="byte-buddy" rev="1.10.17" conf="test->*"/>
 		<dependency org="org.jboss.logging" name="jboss-logging" rev="3.4.1.Final" conf="test->*"/>
 		<!-- JAXB API got removed from Java 11 -->
-		<dependency org="jakarta.xml.bind" name="jakarta.xml.bind-api" rev="2.3.3" conf="test->*"/>
+		<dependency org="javax.xml.bind" name="jaxb-api" rev="2.3.1" conf="test->*"/>
 		<dependency org="org.glassfish.jaxb" name="jaxb-runtime" rev="2.3.2" conf="test->*"/>
 		<dependency org="com.sun.istack" name="istack-commons-runtime" rev="3.0.8" conf="test->*"/>
 		<dependency org="jakarta.activation" name="jakarta.activation-api" rev="1.2.2" conf="test->*"/>
