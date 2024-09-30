@@ -58,9 +58,7 @@
 				<version>${xml-maven-plugin.version}</version>
 				<executions>
 					<execution>
-						<goals>
-							<goal>transform</goal>
-						</goals>
+						<phase>NO_PHASE</phase><!-- inhibit plugin with phase that does not exist-->
 					</execution>
 				</executions>
 				<configuration>

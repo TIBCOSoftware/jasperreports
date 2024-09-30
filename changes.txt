@@ -2,6 +2,18 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 7.0.1 (2024-09-30)
+---------------------------------------------
+
+- added automatic module names to manifest files and fixed split packages issues in preparation for 
+Java 9 modules compliance; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 7.0.0 (2024-06-17)
 ---------------------------------------------
 

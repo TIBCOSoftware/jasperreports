@@ -34,7 +34,7 @@ _**Documentation:**_
 - [Functions Reference](https://jasperreports.sourceforge.net/function.reference.html)
 - [FAQ](http://community.jaspersoft.com/wiki/jasperreports-library-faqs)
 - [API (Javadoc)](https://jasperreports.sourceforge.net/api/index.html)
-- [Discussion Forums](https://community.jaspersoft.com/project/jasperreports-library/answers)
+- [Discussion Forums](https://community.jaspersoft.com/forums/)
 
 _**Older resources:**_
 
@@ -99,7 +99,7 @@ Building the core and extensions JAR artifacts having local non-committed Git mo
 From time to time, verifying that the core and extensions artifacts are still compatible with JDK version 1.8 is needed and this is done by turning on the enforcer plugin
 while building these artifacts:
 
-    mvn clean install -Denforcer.skip
+    mvn clean install -Denforcer.skip=false -pl '!ext/ejbql, !ext/hibernate, !ext/servlets'
 
 The project has a separate artifact for tests under the `/tests`, which can be run using the following command:
 
