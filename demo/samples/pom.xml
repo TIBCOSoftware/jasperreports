@@ -87,6 +87,7 @@
 		<module>xmldatasource</module>
 	</modules>
 	<properties>
+		<jasperreports.root.dir>${basedir}/../../</jasperreports.root.dir>
 		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
 	</properties>
 	<build>

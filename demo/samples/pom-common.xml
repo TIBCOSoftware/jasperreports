@@ -10,6 +10,7 @@
 	<artifactId>jasperreports-samples-common</artifactId>
 	<packaging>pom</packaging>
 	<properties>
+		<jasperreports.root.dir>${basedir}/../../../</jasperreports.root.dir>
 		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
 		<sample.app.name>${sample.base.name}App</sample.app.name>
 		<sample.report.name>${sample.base.name}Report</sample.report.name>
