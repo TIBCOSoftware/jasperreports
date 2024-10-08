@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.dhatim</groupId>
 			<artifactId>fastexcel-reader</artifactId>
-			<version>0.15.6</version>
+			<version>0.18.4</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
