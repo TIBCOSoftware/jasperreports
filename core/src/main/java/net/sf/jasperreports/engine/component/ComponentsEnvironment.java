@@ -172,4 +172,12 @@ public final class ComponentsEnvironment
 		
 		throw new JRRuntimeException("Cannot detect name of component of type " + componentType.getName());
 	}
+
+	public List<String> getComponentNames()
+	{
+		return getCachedBundles().stream()
+			.flatMap(bundle -> bundle.getComponentTypes().stream())
+			.map(this::getComponentName)
+			.collect(Collectors.toList());
+	}
 }
