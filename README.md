@@ -108,7 +108,7 @@ The project has a separate artifact for tests under the `/tests`, which can be r
 The project documentation consists of general overview, configuration reference, samples reference, functions reference and the aggregated Javadoc.
 It can be all generated using the following command in the `/docs` folder of the project:
 
-    mvn clean exec:exec@docs
+    mvn clean compile
 
 The generated documentation is to be found under the `/docs/target/docs` folder of the project.
 
