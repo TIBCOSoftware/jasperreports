@@ -783,7 +783,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		orderByColumnInfo = JsonLoader.getInstance(filler.getJasperReportsContext()).loadObject(
-				orderByProperty, "net.sf.jasperreports.crosstabs.interactive.OrderByColumnInfoImpl");
+				orderByProperty, "net.sf.jasperreports.interactivity.crosstabs.OrderByColumnInfoImpl");
 	}
 	
 	protected void setOrderByColumnBucketValues()
