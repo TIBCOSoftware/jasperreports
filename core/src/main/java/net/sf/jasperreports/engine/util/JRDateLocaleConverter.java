@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
+import org.apache.commons.beanutils2.locale.converters.DateLocaleConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
