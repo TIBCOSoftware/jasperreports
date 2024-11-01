@@ -85,8 +85,8 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.PageMargin;
 import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellReference;
 
@@ -344,10 +344,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.protectSheet(password);
 		}
 		
-		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inch(configuration.getPrintPageLeftMargin()));
-		sheet.setMargin(Sheet.RightMargin, LengthUtil.inch(configuration.getPrintPageRightMargin()));
-		sheet.setMargin(Sheet.TopMargin, LengthUtil.inch(configuration.getPrintPageTopMargin()));
-		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inch(configuration.getPrintPageBottomMargin()));
+		sheet.setMargin(PageMargin.LEFT, LengthUtil.inch(configuration.getPrintPageLeftMargin()));
+		sheet.setMargin(PageMargin.RIGHT, LengthUtil.inch(configuration.getPrintPageRightMargin()));
+		sheet.setMargin(PageMargin.TOP, LengthUtil.inch(configuration.getPrintPageTopMargin()));
+		sheet.setMargin(PageMargin.BOTTOM, LengthUtil.inch(configuration.getPrintPageBottomMargin()));
 
 		if(configuration.getSheetHeaderLeft() != null)
 		{
@@ -2203,10 +2203,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	{
 		JRXlsMetadataExporterNature xlsNature = (JRXlsMetadataExporterNature)nature;
 		configureDefinedNames(xlsNature, element);
-		updatePageMargin(xlsNature.getPrintPageTopMargin(element), Sheet.TopMargin);
-		updatePageMargin(xlsNature.getPrintPageLeftMargin(element), Sheet.LeftMargin);
-		updatePageMargin(xlsNature.getPrintPageBottomMargin(element), Sheet.BottomMargin);
-		updatePageMargin(xlsNature.getPrintPageRightMargin(element), Sheet.RightMargin);
+		updatePageMargin(xlsNature.getPrintPageTopMargin(element), PageMargin.TOP);
+		updatePageMargin(xlsNature.getPrintPageLeftMargin(element), PageMargin.LEFT);
+		updatePageMargin(xlsNature.getPrintPageBottomMargin(element), PageMargin.BOTTOM);
+		updatePageMargin(xlsNature.getPrintPageRightMargin(element), PageMargin.RIGHT);
 		updateHeaderFooterMargin(xlsNature.getPrintHeaderMargin(element), true);
 		updateHeaderFooterMargin(xlsNature.getPrintFooterMargin(element), false);
 
@@ -2249,7 +2249,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 
-	private void updatePageMargin(Integer marginValue, short marginType)
+	private void updatePageMargin(Integer marginValue, PageMargin marginType)
 	{
 		if(marginValue != null)
 		{

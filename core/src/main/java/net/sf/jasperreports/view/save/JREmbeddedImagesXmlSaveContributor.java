@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.SaveContributorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -52,6 +53,7 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 
 	/**
 	 * @see #JREmbeddedImagesXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JREmbeddedImagesXmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
@@ -121,4 +123,16 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 		}
 	}
 
+
+	public static class Factory implements SaveContributorFactory
+	{
+		@Override
+		public JRSaveContributor create(
+			JasperReportsContext jasperReportsContext, 
+			Locale locale,
+			ResourceBundle resBundle) 
+		{
+			return new JREmbeddedImagesXmlSaveContributor(jasperReportsContext, locale, resBundle);
+		}
+	}
 }

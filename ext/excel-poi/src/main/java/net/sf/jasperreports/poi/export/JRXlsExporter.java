@@ -79,7 +79,7 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.PageMargin;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
@@ -418,10 +418,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		
 		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings = sheetInfo.printSettings;
-		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inch(printSettings.getLeftMargin()));
-		sheet.setMargin(Sheet.RightMargin, LengthUtil.inch(printSettings.getRightMargin()));
-		sheet.setMargin(Sheet.TopMargin, LengthUtil.inch(printSettings.getTopMargin()));
-		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inch(printSettings.getBottomMargin()));
+		sheet.setMargin(PageMargin.LEFT, LengthUtil.inch(printSettings.getLeftMargin()));
+		sheet.setMargin(PageMargin.RIGHT, LengthUtil.inch(printSettings.getRightMargin()));
+		sheet.setMargin(PageMargin.TOP, LengthUtil.inch(printSettings.getTopMargin()));
+		sheet.setMargin(PageMargin.BOTTOM, LengthUtil.inch(printSettings.getBottomMargin()));
 
 		String sheetHeaderLeft = printSettings.getHeaderLeft();
 		if(sheetHeaderLeft != null)

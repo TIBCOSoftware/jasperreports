@@ -45,6 +45,7 @@ public abstract class JRSaveContributor extends FileFilter
 	
 	/**
 	 * @see #JRSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JRSaveContributor()
 	{
@@ -53,6 +54,7 @@ public abstract class JRSaveContributor extends FileFilter
 	
 	/**
 	 * @see #JRSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JRSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

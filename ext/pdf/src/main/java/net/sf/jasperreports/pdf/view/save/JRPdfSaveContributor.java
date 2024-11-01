@@ -37,6 +37,7 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.pdf.JRPdfExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.SaveContributorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,6 +52,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 
 	/**
 	 * @see #JRPdfSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JRPdfSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
@@ -114,4 +116,16 @@ public class JRPdfSaveContributor extends JRSaveContributor
 		}
 	}
 
+
+	public static class Factory implements SaveContributorFactory
+	{
+		@Override
+		public JRSaveContributor create(
+			JasperReportsContext jasperReportsContext, 
+			Locale locale,
+			ResourceBundle resBundle) 
+		{
+			return new JRPdfSaveContributor(jasperReportsContext, locale, resBundle);
+		}
+	}
 }

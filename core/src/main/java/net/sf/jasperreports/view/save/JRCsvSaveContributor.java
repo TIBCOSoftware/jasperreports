@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.SaveContributorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,6 +52,7 @@ public class JRCsvSaveContributor extends JRSaveContributor
 
 	/**
 	 * @see #JRCsvSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JRCsvSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
@@ -114,4 +116,17 @@ public class JRCsvSaveContributor extends JRSaveContributor
 		}
 	}
 
+
+	public static class Factory implements SaveContributorFactory
+	{
+		@Override
+		public JRSaveContributor create(
+			JasperReportsContext jasperReportsContext, 
+			Locale locale,
+			ResourceBundle resBundle) 
+		{
+			return new JRCsvSaveContributor(jasperReportsContext, locale, resBundle);
+		}
+	}
 }
+

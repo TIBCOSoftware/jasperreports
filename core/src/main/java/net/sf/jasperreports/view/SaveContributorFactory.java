@@ -23,34 +23,22 @@
  */
 package net.sf.jasperreports.view;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ServiceLoader;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class SaveContributorUtils
+public interface SaveContributorFactory
 {
-
-	public static List<JRSaveContributor> createBuiltinContributors(JasperReportsContext context,
-			Locale locale, ResourceBundle resourceBundle)
-	{
-		ServiceLoader<SaveContributorFactory> loader = ServiceLoader.load(SaveContributorFactory.class);
-		
-		ArrayList<JRSaveContributor> contributors = new ArrayList<>();
-		for (Iterator<SaveContributorFactory> it = loader.iterator(); it.hasNext();)
-		{
-			SaveContributorFactory factory = it.next();
-			JRSaveContributor saveContrib = (JRSaveContributor) factory.create(context, locale, resourceBundle);
-			contributors.add(saveContrib);
-		}
-		return contributors;
-	}
-	
+	/**
+	 * 
+	 */
+	public JRSaveContributor create(
+		JasperReportsContext jasperReportsContext,
+		Locale locale, 
+		ResourceBundle resBundle
+		);
 }

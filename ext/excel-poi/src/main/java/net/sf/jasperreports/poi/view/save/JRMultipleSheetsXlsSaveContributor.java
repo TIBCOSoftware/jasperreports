@@ -38,6 +38,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.poi.export.JRXlsExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.SaveContributorFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -52,6 +53,7 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 
 	/**
 	 * @see #JRMultipleSheetsXlsSaveContributor(JasperReportsContext, Locale, ResourceBundle)
+	 * @deprecated To be removed.
 	 */
 	public JRMultipleSheetsXlsSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
@@ -118,4 +120,16 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 		}
 	}
 
+
+	public static class Factory implements SaveContributorFactory
+	{
+		@Override
+		public JRSaveContributor create(
+			JasperReportsContext jasperReportsContext, 
+			Locale locale,
+			ResourceBundle resBundle) 
+		{
+			return new JRMultipleSheetsXlsSaveContributor(jasperReportsContext, locale, resBundle);
+		}
+	}
 }
