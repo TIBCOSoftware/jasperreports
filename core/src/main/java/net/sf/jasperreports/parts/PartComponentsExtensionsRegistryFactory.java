@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 import net.sf.jasperreports.parts.subreport.FillSubreportPartFactory;
 import net.sf.jasperreports.parts.subreport.SubreportPartComponent;
 import net.sf.jasperreports.parts.subreport.SubreportPartComponentCompiler;
@@ -69,10 +69,7 @@ public class PartComponentsExtensionsRegistryFactory implements
 		
 		bundle.setComponentManagers(componentManagers);
 		
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(PartComponentsBundle.class, bundle);
-		
-		REGISTRY = registry;
+		REGISTRY = new SingletonExtensionRegistry<>(PartComponentsBundle.class, bundle);
 	}
 	
 	@Override

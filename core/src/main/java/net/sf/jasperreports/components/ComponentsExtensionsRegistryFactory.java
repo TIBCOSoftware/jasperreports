@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.ListExtensionsRegistry;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * Extension registry factory that includes built-in component element
@@ -93,10 +93,7 @@ public class ComponentsExtensionsRegistryFactory implements
 
 		bundle.setComponentManagers(componentManagers);
 		
-		ListExtensionsRegistry registry = new ListExtensionsRegistry();
-		registry.add(ComponentsBundle.class, bundle);
-		
-		REGISTRY = registry;
+		REGISTRY = new SingletonExtensionRegistry<>(ComponentsBundle.class, bundle);
 	}
 	
 	@Override

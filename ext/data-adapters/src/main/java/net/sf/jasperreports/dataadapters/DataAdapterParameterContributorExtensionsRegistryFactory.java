@@ -35,19 +35,20 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
  */
 public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry;
+	private static final ExtensionsRegistry REGISTRY;
 	
 	static
 	{
 		ListExtensionsRegistry registry = new ListExtensionsRegistry();
 		registry.add(ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
 		registry.add(DataFileServiceFactory.class, BuiltinDataFileServiceFactory.instance());
-		extensionsRegistry = registry;
+		
+		REGISTRY = registry;
 	}
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return extensionsRegistry;
+		return REGISTRY;
 	}
 }

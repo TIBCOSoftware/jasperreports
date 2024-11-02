@@ -36,7 +36,7 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFactory
 {
 
-	private static ListExtensionsRegistry registry;
+	private static final ListExtensionsRegistry REGISTRY;
 
 	static
 	{
@@ -92,16 +92,18 @@ public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFact
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, 
 				new StandardParameterTypesClauseFunction(JRSqlBetweenClause.instance(), Object.class));
 		
-		registry = new ListExtensionsRegistry();
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
 		registry.add(QueryClauseFunctionBundle.class, functions);
 		registry.add(ParameterTypesClauseFunctionBundle.class, typesFunctions);
+		
+		REGISTRY = registry;
 	}
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{
-		return registry;
+		return REGISTRY;
 	}
 
 }
