@@ -20,6 +20,8 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-jdt</artifactId>
 			<version>${revision}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>net.sf.jasperreports</groupId>
@@ -31,11 +33,15 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
 			<version>${revision}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-pdf</artifactId>
 			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>net.sf.jasperreports</groupId>
@@ -43,14 +49,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- 
-		JasperReports POI dependency is needed by the Swing viewers 
-		even if the sample does not actually export to XLS 
-		-->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-excel-poi</artifactId>
 			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>net.sf.jasperreports</groupId>
@@ -62,11 +66,15 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jcl</artifactId>
 			<version>${log4j.version}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 	<build>

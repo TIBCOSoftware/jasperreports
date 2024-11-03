@@ -18,14 +18,14 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-data-adapters-http</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-jaxen</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

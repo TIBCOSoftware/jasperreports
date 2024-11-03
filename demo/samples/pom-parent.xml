@@ -14,6 +14,8 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 </project>

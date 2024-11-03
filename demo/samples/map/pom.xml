@@ -17,14 +17,14 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-google-maps</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-chrome</artifactId>
 			<version>${revision}</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

@@ -18,6 +18,13 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-ejbql-j2ee</artifactId>
 			<version>${revision}</version>
+			<scope>runtime</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>${javax.persistence-api.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

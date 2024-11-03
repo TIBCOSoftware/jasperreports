@@ -18,6 +18,8 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-javaflow</artifactId>
 			<version>${revision}</version>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
