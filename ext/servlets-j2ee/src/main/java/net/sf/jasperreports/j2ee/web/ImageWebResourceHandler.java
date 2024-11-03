@@ -64,6 +64,17 @@ public class ImageWebResourceHandler implements WebResourceHandler
 	 *
 	 */
 	public static final String REQUEST_PARAMETER_IMAGE_NAME = "image";
+	
+	private static final ImageWebResourceHandler INSTANCE = new ImageWebResourceHandler();
+	
+	public static ImageWebResourceHandler getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	private ImageWebResourceHandler()
+	{
+	}
 
 			
 	@Override

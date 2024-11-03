@@ -47,6 +47,9 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 		return INSTANCE;
 	}
 	
+	private IconLabelElementGraphics2DHandler()
+	{
+	}
 
 	@Override
 	public void exportElement(

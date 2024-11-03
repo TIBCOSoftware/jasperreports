@@ -38,6 +38,17 @@ import net.sf.jasperreports.pdf.JRPdfExporterContext;
  */
 public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 {
+	private static final IconLabelElementPdfHandler INSTANCE = new IconLabelElementPdfHandler();
+	
+	public static IconLabelElementPdfHandler getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	private IconLabelElementPdfHandler()
+	{
+	}
+	
 	@Override
 	public void exportElement(JRPdfExporterContext exporterContext, JRGenericPrintElement element)
 	{

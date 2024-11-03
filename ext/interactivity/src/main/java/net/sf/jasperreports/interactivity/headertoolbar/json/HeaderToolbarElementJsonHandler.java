@@ -158,6 +158,17 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	}
 	
 	private static final String TABLE_UUID = "exporter_first_attempt";
+	
+	private static final HeaderToolbarElementJsonHandler INSTANCE = new HeaderToolbarElementJsonHandler();
+	
+	public static HeaderToolbarElementJsonHandler getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	private HeaderToolbarElementJsonHandler()
+	{
+	}
 
 	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
@@ -984,12 +995,12 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					switch (expressionChunk.getType()) {
 						case JRExpressionChunk.TYPE_FIELD:
 							JRField field = HeaderToolbarElementUtils.getField(fieldOrVariableName, dataset);
-							conditionType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+							conditionType = FilterTypesEnum.getFilterType(field.getValueClass());
 							break;
 
 						case JRExpressionChunk.TYPE_VARIABLE:
 							JRVariable variable = HeaderToolbarElementUtils.getVariable(fieldOrVariableName, dataset);
-							conditionType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+							conditionType = FilterTypesEnum.getFilterType(variable.getValueClass());
 							break;
 
 						case JRExpressionChunk.TYPE_TEXT:

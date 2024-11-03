@@ -75,6 +75,17 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 
 	protected static final String FILTER_SYMBOL_ACTIVE = "Active";
 	protected static final String FILTER_SYMBOL_INACTIVE = "Inactive";
+	
+	public static final SortElementHtmlHandler INSTANCE = new SortElementHtmlHandler();
+	
+	public static SortElementHtmlHandler getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	private SortElementHtmlHandler()
+	{
+	}
 
 	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)

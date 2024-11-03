@@ -28,7 +28,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
@@ -37,10 +36,17 @@ public class ResourceBundleMessageProviderFactory implements MessageProviderFact
 
 	private final ClassLoader classLoader;
 
+	private static final ResourceBundleMessageProviderFactory INSTANCE = new ResourceBundleMessageProviderFactory();
+	
+	public static ResourceBundleMessageProviderFactory getInstance()
+	{
+		return INSTANCE;
+	}
+	
 	/**
 	 *
 	 */
-	public ResourceBundleMessageProviderFactory()
+	private ResourceBundleMessageProviderFactory()
 	{
 		this(null);
 	}

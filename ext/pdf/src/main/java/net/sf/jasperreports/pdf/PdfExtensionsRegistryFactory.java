@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.pdf;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
@@ -33,6 +30,7 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 import net.sf.jasperreports.pdf.components.iconlabel.IconLabelElementPdfHandler;
 
 
@@ -58,7 +56,7 @@ public class PdfExtensionsRegistryFactory implements ExtensionsRegistryFactory
 				{
 					if (JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
 					{
-						return new IconLabelElementPdfHandler();
+						return IconLabelElementPdfHandler.getInstance();
 					}
 				}
 				
@@ -66,23 +64,11 @@ public class PdfExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			}
 		};
 
-	private static final ExtensionsRegistry defaultExtensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			@Override
-			public <T> List<T> getExtensions(Class<T> extensionType) 
-			{
-				if (GenericElementHandlerBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
-				}
-				return null;
-			}
-		};
+	private static final ExtensionsRegistry REGISTRY = new SingletonExtensionRegistry<>(GenericElementHandlerBundle.class, HANDLER_BUNDLE);
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return defaultExtensionsRegistry;
+		return REGISTRY;
 	}
 }

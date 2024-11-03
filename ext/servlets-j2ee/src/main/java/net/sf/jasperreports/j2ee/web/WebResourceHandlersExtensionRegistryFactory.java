@@ -39,14 +39,9 @@ public class WebResourceHandlersExtensionRegistryFactory implements ExtensionsRe
 	protected static List<?> getResourceHandlers() {
 		List<WebResourceHandler> extensions = new ArrayList<>();
 
-		ImageWebResourceHandler imageHandler = new ImageWebResourceHandler();
-		extensions.add(imageHandler);
-		
-		FontWebResourceHandler fontHandler = new FontWebResourceHandler();
-		extensions.add(fontHandler);
-		
-		DefaultWebResourceHandler defaultHandler =  DefaultWebResourceHandler.getInstance();
-		extensions.add(defaultHandler);
+		extensions.add(ImageWebResourceHandler.getInstance());
+		extensions.add(FontWebResourceHandler.getInstance());
+		extensions.add( DefaultWebResourceHandler.getInstance());
 		
 		return extensions;
 	}

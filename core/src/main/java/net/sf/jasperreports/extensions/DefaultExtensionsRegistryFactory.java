@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.extensions;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementCsvHandler;
 import net.sf.jasperreports.components.iconlabel.IconLabelElementDocxHandler;
@@ -81,89 +78,73 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			{
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
-					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+					switch (exporterKey)
 					{
-						return new IconLabelElementGraphics2DHandler();
-					}		
-					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementHtmlHandler.getInstance();
-					}		
-					else if (JRCsvExporter.CSV_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementCsvHandler.getInstance();
-					}		
-					else if (JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementXlsxHandler.getInstance();
-					}		
-					else if (JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementDocxHandler.getInstance();
-					}		
-					else if (JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementPptxHandler.getInstance();
-					}		
-					else if (JROdsExporter.ODS_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementOdsHandler.getInstance();
-					}		
-					else if (JROdtExporter.ODT_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementOdtHandler.getInstance();
-					}		
-					else if (JRRtfExporter.RTF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return IconLabelElementRtfHandler.getInstance();
-					}		
-//					else if (JRXmlExporter.XML_EXPORTER_KEY.equals(exporterKey))
-//					{
-//						return IconLabelElementXmlHandler.getInstance();
-//					}		
+						case JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY :
+						{
+							return IconLabelElementGraphics2DHandler.getInstance();
+						}
+						case HtmlExporter.HTML_EXPORTER_KEY:
+						{
+							return IconLabelElementHtmlHandler.getInstance();
+						}		
+						case JRCsvExporter.CSV_EXPORTER_KEY:
+						{
+							return IconLabelElementCsvHandler.getInstance();
+						}		
+						case JRXlsxExporter.XLSX_EXPORTER_KEY:
+						{
+							return IconLabelElementXlsxHandler.getInstance();
+						}		
+						case JRDocxExporter.DOCX_EXPORTER_KEY:
+						{
+							return IconLabelElementDocxHandler.getInstance();
+						}		
+						case JRPptxExporter.PPTX_EXPORTER_KEY:
+						{
+							return IconLabelElementPptxHandler.getInstance();
+						}		
+						case JROdsExporter.ODS_EXPORTER_KEY:
+						{
+							return IconLabelElementOdsHandler.getInstance();
+						}		
+						case JROdtExporter.ODT_EXPORTER_KEY:
+						{
+							return IconLabelElementOdtHandler.getInstance();
+						}		
+						case JRRtfExporter.RTF_EXPORTER_KEY:
+						{
+							return IconLabelElementRtfHandler.getInstance();
+						}		
+	//					else if (JRXmlExporter.XML_EXPORTER_KEY.equals(exporterKey))
+	//					{
+	//						return IconLabelElementXmlHandler.getInstance();
+	//					}
+					}
 				}
 				
 				return null;
 			}
 		};
 
-	private static final ExtensionsRegistry defaultExtensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			@Override
-			public <T> List<T> getExtensions(Class<T> extensionType) 
-			{
-				if (JRQueryExecuterFactoryBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)DefaultQueryExecuterFactoryBundle.getInstance());
-				}
-				else if (ScriptletFactory.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)DefaultScriptletFactory.getInstance());
-				}
-				else if (GenericElementHandlerBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
-				}
-				else if (MessageProviderFactory.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object) new ResourceBundleMessageProviderFactory());
-				}
-				else if (ReportLoader.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList(JacksonReportLoader.instance());
-				}
-				else if (ReportWriterFactory.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList(JacksonReportWriterFactory.instance());
-				}
-				return null;
-			}
-		};
+	private static final ExtensionsRegistry REGISTRY; 
+
+	static
+	{
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
+		registry.add(JRQueryExecuterFactoryBundle.class, DefaultQueryExecuterFactoryBundle.getInstance());
+		registry.add(ScriptletFactory.class, DefaultScriptletFactory.getInstance());
+		registry.add(GenericElementHandlerBundle.class, HANDLER_BUNDLE);
+		registry.add(MessageProviderFactory.class, ResourceBundleMessageProviderFactory.getInstance());
+		registry.add(ReportLoader.class, JacksonReportLoader.instance());
+		registry.add(ReportWriterFactory.class, JacksonReportWriterFactory.instance());
 	
+		REGISTRY = registry;
+	}
+
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return defaultExtensionsRegistry;
+		return REGISTRY;
 	}
 }

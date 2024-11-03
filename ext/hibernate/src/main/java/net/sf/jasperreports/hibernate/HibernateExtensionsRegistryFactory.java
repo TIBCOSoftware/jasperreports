@@ -23,14 +23,12 @@
  */
 package net.sf.jasperreports.hibernate;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 
 /**
@@ -38,28 +36,20 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
  */
 public class HibernateExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry extensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> List<T> getExtensions(Class<T> extensionType) 
-			{
-				if (JRQueryExecuterFactoryBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList(HibernateQueryExecuterFactoryBundle.getInstance());
-				}
-				else if (DataAdapterContributorFactory.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList(HibernateDataAdapterServiceFactory.getInstance());
-				}
-				return null;
-			}
-		};
+	private static final ExtensionsRegistry REGISTRY; 
+
+	static
+	{
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
+		registry.add(JRQueryExecuterFactoryBundle.class, HibernateQueryExecuterFactoryBundle.getInstance());
+		registry.add(DataAdapterContributorFactory.class, HibernateDataAdapterServiceFactory.getInstance());
+		
+		REGISTRY = registry;
+	}
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return extensionsRegistry;
+		return REGISTRY;
 	}
 }

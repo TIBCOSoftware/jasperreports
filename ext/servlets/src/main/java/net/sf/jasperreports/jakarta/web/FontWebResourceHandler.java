@@ -30,7 +30,6 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.HtmlFont;
@@ -51,6 +50,17 @@ public class FontWebResourceHandler implements WebResourceHandler
 	 *
 	 */
 	public static final String REQUEST_PARAMETER_FONT_NAME = "font";
+	
+	private static final FontWebResourceHandler INSTANCE = new FontWebResourceHandler();
+	
+	public static FontWebResourceHandler getInstance()
+	{
+		return INSTANCE;
+	}
+
+	private FontWebResourceHandler()
+	{
+	}
 
 			
 	@Override

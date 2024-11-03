@@ -40,6 +40,16 @@ import net.sf.jasperreports.json.export.JsonExporterContext;
  */
 public class CrosstabInteractiveJsonHandler implements GenericElementJsonHandler
 {
+	private static final CrosstabInteractiveJsonHandler INSTANCE = new CrosstabInteractiveJsonHandler();
+	
+	public static CrosstabInteractiveJsonHandler getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	private CrosstabInteractiveJsonHandler()
+	{
+	}
 
 	@Override
 	public boolean toExport(JRGenericPrintElement element)

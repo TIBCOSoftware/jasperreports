@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.poi;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.components.iconlabel.IconLabelElement;
 import net.sf.jasperreports.dataadapters.DataAdapterContributorFactory;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -35,6 +32,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 import net.sf.jasperreports.poi.components.iconlabel.IconLabelElementXlsHandler;
 import net.sf.jasperreports.poi.data.PoiDataAdapterServiceFactory;
 import net.sf.jasperreports.poi.export.JRXlsExporter;
@@ -56,8 +54,7 @@ public class PoiExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			}
 			
 			@Override
-			public GenericElementHandler getHandler(String elementName,
-					String exporterKey)
+			public GenericElementHandler getHandler(String elementName, String exporterKey)
 			{
 				if (IconLabelElement.ELEMENT_NAME.equals(elementName))
 				{
@@ -71,31 +68,21 @@ public class PoiExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			}
 		};
 
-	private static final ExtensionsRegistry extensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			@Override
-			public <T> List<T> getExtensions(Class<T> extensionType) 
-			{
-				if (JRQueryExecuterFactoryBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)PoiQueryExecuterFactoryBundle.getInstance());
-				}
-				if (DataAdapterContributorFactory.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)PoiDataAdapterServiceFactory.getInstance());
-				}
-				if (GenericElementHandlerBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
-				}
-				return null;
-			}
-		};
+	private static final ExtensionsRegistry REGISTRY; 
+
+	static
+	{
+		ListExtensionsRegistry registry = new ListExtensionsRegistry();
+		registry.add(JRQueryExecuterFactoryBundle.class, PoiQueryExecuterFactoryBundle.getInstance());
+		registry.add(DataAdapterContributorFactory.class, PoiDataAdapterServiceFactory.getInstance());
+		registry.add(GenericElementHandlerBundle.class, HANDLER_BUNDLE);
+		
+		REGISTRY = registry;
+	}
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return extensionsRegistry;
+		return REGISTRY;
 	}
 }

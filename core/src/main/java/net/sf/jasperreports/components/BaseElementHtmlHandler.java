@@ -28,6 +28,6 @@ import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public abstract class BaseElementHtmlHandler implements GenericElementHtmlHandler {
-
+public abstract class BaseElementHtmlHandler implements GenericElementHtmlHandler 
+{
 }

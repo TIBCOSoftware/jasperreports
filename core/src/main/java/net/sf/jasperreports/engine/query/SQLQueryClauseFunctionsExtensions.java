@@ -36,7 +36,7 @@ import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFactory
 {
 
-	private static final ListExtensionsRegistry REGISTRY;
+	private static final ExtensionsRegistry REGISTRY;
 
 	static
 	{

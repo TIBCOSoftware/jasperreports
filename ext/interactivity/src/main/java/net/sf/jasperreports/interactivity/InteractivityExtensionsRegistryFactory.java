@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.interactivity;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
@@ -35,6 +32,7 @@ import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 import net.sf.jasperreports.interactivity.crosstabs.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.interactivity.headertoolbar.json.HeaderToolbarElementJsonHandler;
 import net.sf.jasperreports.interactivity.sort.SortElement;
@@ -61,26 +59,32 @@ public class InteractivityExtensionsRegistryFactory implements ExtensionsRegistr
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				if (SortElement.SORT_ELEMENT_NAME.equals(elementName))
+				switch (elementName)
 				{
-					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+					case SortElement.SORT_ELEMENT_NAME:
 					{
-						return new SortElementHtmlHandler();
-					} else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-					{
-						return new SortElementJsonHandler();
+						if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+						{
+							return SortElementHtmlHandler.getInstance();
+						}
+						else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+						{
+							return new SortElementJsonHandler();
+						}
 					}
-				}
-				if (HeaderToolbarElement.ELEMENT_NAME.equals(elementName) && JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-				{
-					return new HeaderToolbarElementJsonHandler();
-				}
-				
-				if (JRFillCrosstab.CROSSTAB_INTERACTIVE_ELEMENT_NAME.equals(elementName))
-				{
-					if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+					case HeaderToolbarElement.ELEMENT_NAME:
 					{
-						return new CrosstabInteractiveJsonHandler();
+						if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+						{
+							return HeaderToolbarElementJsonHandler.getInstance();
+						}
+					}
+					case JRFillCrosstab.CROSSTAB_INTERACTIVE_ELEMENT_NAME:
+					{
+						if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
+						{
+							return CrosstabInteractiveJsonHandler.getInstance();
+						}
 					}
 				}
 				
@@ -88,23 +92,11 @@ public class InteractivityExtensionsRegistryFactory implements ExtensionsRegistr
 			}
 		};
 
-	private static final ExtensionsRegistry defaultExtensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			@Override
-			public <T> List<T> getExtensions(Class<T> extensionType) 
-			{
-				if (GenericElementHandlerBundle.class.equals(extensionType))
-				{
-					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
-				}
-				return null;
-			}
-		};
-	
+	private static final ExtensionsRegistry REGISTRY = new SingletonExtensionRegistry<>(GenericElementHandlerBundle.class, HANDLER_BUNDLE);
+
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return defaultExtensionsRegistry;
+		return REGISTRY;
 	}
 }
