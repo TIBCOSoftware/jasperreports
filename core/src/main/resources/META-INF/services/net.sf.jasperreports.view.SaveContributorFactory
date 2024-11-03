@@ -1,7 +1,11 @@
 net.sf.jasperreports.view.save.JRPrintSaveContributor$Factory
 net.sf.jasperreports.view.save.JRRtfSaveContributor$Factory
 net.sf.jasperreports.view.save.JROdtSaveContributor$Factory
+net.sf.jasperreports.view.save.JROdsSaveContributor$Factory
 net.sf.jasperreports.view.save.JRDocxSaveContributor$Factory
+net.sf.jasperreports.view.save.JRPptxSaveContributor$Factory
+net.sf.jasperreports.view.save.JRSingleSheetXlsxSaveContributor$Factory
+net.sf.jasperreports.view.save.JRMultipleSheetsXlsxSaveContributor$Factory
 net.sf.jasperreports.view.save.JRHtmlSaveContributor$Factory
 net.sf.jasperreports.view.save.JRCsvSaveContributor$Factory
 net.sf.jasperreports.view.save.JRXmlSaveContributor$Factory
