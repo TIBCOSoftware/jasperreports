@@ -83,49 +83,52 @@ public class MapExtensionsRegistryFactory implements ExtensionsRegistryFactory
 			{
 				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
 				{
-					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+					switch (exporterKey)
 					{
-						return MapElementGraphics2DHandler.getInstance();
-					}
-					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementHtmlHandler.getInstance();
-					}
-					else if (JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementPdfHandler.getInstance();
-					}
-					else if (JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementXlsHandler.getInstance();
-					}
-					else if (JsonExporter.JSON_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementJsonHandler.getInstance();
-					}
-					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementXlsxHandler.getInstance();
-					}
-					else if(JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementDocxHandler.getInstance();
-					}
-					else if(JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementPptxHandler.getInstance();
-					}
-					else if(JRRtfExporter.RTF_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementRtfHandler.getInstance();
-					}
-					else if(JROdtExporter.ODT_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementOdtHandler.getInstance();
-					}
-					else if(JROdsExporter.ODS_EXPORTER_KEY.equals(exporterKey))
-					{
-						return MapElementOdsHandler.getInstance();
+						case JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY:
+						{
+							return MapElementGraphics2DHandler.getInstance();
+						}
+						case HtmlExporter.HTML_EXPORTER_KEY:
+						{
+							return MapElementHtmlHandler.getInstance();
+						}
+						case JRPdfExporter.PDF_EXPORTER_KEY:
+						{
+							return MapElementPdfHandler.getInstance();
+						}
+						case JRXlsExporter.XLS_EXPORTER_KEY:
+						{
+							return MapElementXlsHandler.getInstance();
+						}
+						case JsonExporter.JSON_EXPORTER_KEY:
+						{
+							return MapElementJsonHandler.getInstance();
+						}
+						case JRXlsxExporter.XLSX_EXPORTER_KEY:
+						{
+							return MapElementXlsxHandler.getInstance();
+						}
+						case JRDocxExporter.DOCX_EXPORTER_KEY:
+						{
+							return MapElementDocxHandler.getInstance();
+						}
+						case JRPptxExporter.PPTX_EXPORTER_KEY:
+						{
+							return MapElementPptxHandler.getInstance();
+						}
+						case JRRtfExporter.RTF_EXPORTER_KEY:
+						{
+							return MapElementRtfHandler.getInstance();
+						}
+						case JROdtExporter.ODT_EXPORTER_KEY:
+						{
+							return MapElementOdtHandler.getInstance();
+						}
+						case JROdsExporter.ODS_EXPORTER_KEY:
+						{
+							return MapElementOdsHandler.getInstance();
+						}
 					}
 				}
 				
