@@ -177,8 +177,6 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			//which prevents rootNodeRef from being cleared by the garbage collector
 			Dimension2D svgSize = ctx.getDocumentSize();
 			documentSize = new SimpleDimension2D(svgSize.getWidth(), svgSize.getHeight());
-			Rectangle2D bounds = rootNode.getBounds();
-			documentSize = new SimpleDimension2D(bounds.getWidth()*100, bounds.getHeight()*100);
 		}
 		
 		return rootNodeRef.get();
