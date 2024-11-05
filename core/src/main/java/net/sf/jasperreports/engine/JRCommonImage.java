@@ -158,12 +158,15 @@ public interface JRCommonImage extends JRImageAlignment, JRCommonGraphicElement,
 	 * Gets the image own rotation.
 	 * @return a value representing one of the image rotation constants in {@link RotationEnum}
 	 */
+	@JsonGetter(JRXmlConstants.ATTRIBUTE_rotation)
+	@JacksonXmlProperty(localName = JRXmlConstants.ATTRIBUTE_rotation, isAttribute = true)
 	public RotationEnum getOwnRotation();
 	
 	/**
 	 * Sets the image rotation.
 	 * @param rotationEnum a value representing one of the image rotation constants in {@link RotationEnum}
 	 */
+	@JsonSetter
 	public void setRotation(RotationEnum rotationEnum);
 	
 
