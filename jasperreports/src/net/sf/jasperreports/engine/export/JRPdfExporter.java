@@ -108,6 +108,8 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.ExifOrientationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -589,6 +591,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	protected RenderersCache renderersCache;
 	protected Map<String,Pair<PdfImage, ExifOrientationEnum>> loadedImagesMap;
+	protected PdfImage pxImage;
 
 	private BookmarkStack bookmarkStack;
 
@@ -659,6 +662,27 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 	}
 	
+
+	/**
+	 *
+	 */
+	protected PdfImage getPxImage()
+	{
+		if (pxImage == null)
+		{
+			try
+			{
+				pxImage = pdfProducer.createImage(JRLoader.loadBytesFromResource(JRImageLoader.PIXEL_IMAGE_RESOURCE), false);
+			}
+			catch(Exception e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+
+		return pxImage;
+	}
+
 
 	@Override
 	public void exportReport() throws JRException
@@ -1620,8 +1644,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (imageProcessorResult != null)
 			{
-				setAnchor(imageProcessorResult.chunk, printImage, printImage);
-				setHyperlinkInfo(imageProcessorResult.chunk, printImage);
+				PdfImage pxImage = getPxImage();
+				pxImage.scaleAbsolute(printImage.getWidth(), printImage.getHeight());
+				PdfChunk pxChunk = pdfProducer.createChunk(pxImage);
+
+				setAnchor(pxChunk, printImage, printImage);
+				setHyperlinkInfo(pxChunk, printImage);
 
 				tagHelper.startImage(printImage);
 				
@@ -1640,6 +1668,18 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					TextDirection.DEFAULT
 					);
 
+				PdfPhrase pxPhrase = pdfProducer.createPhrase(pxChunk);
+				pxPhrase.go(
+					printImage.getX() + getOffsetX(),
+					pageFormat.getPageHeight() - printImage.getY() - getOffsetY(),
+					printImage.getX() + getOffsetX() + printImage.getWidth(),
+					pageFormat.getPageHeight() - printImage.getY() - getOffsetY() - printImage.getHeight(),
+					0,
+					0,
+					PdfTextAlignment.LEFT,
+					TextDirection.DEFAULT
+					);
+	
 				tagHelper.endImage();
 			}
 		}
