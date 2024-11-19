@@ -1644,12 +1644,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (imageProcessorResult != null)
 			{
+				setAnchor(imageProcessorResult.chunk, printImage, printImage);
+
 				PdfImage pxImage = getPxImage();
 				pxImage.scaleAbsolute(printImage.getWidth(), printImage.getHeight());
 				PdfChunk pxChunk = pdfProducer.createChunk(pxImage);
 
-				boolean wasHyperlinkSet = setAnchor(pxChunk, printImage, printImage);
-				wasHyperlinkSet = setHyperlinkInfo(pxChunk, printImage) || wasHyperlinkSet;
+				boolean wasHyperlinkSet = setHyperlinkInfo(pxChunk, printImage);
+				boolean usePxImage = (tagHelper.isTagged && printImage.getHyperlinkTooltip() != null) || wasHyperlinkSet;
 
 				tagHelper.startImage(printImage);
 				
@@ -1668,7 +1670,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					TextDirection.DEFAULT
 					);
 
-				if (wasHyperlinkSet)
+				if (usePxImage)
 				{
 					PdfPhrase pxPhrase = pdfProducer.createPhrase(pxChunk);
 					pxPhrase.go(
@@ -3398,17 +3400,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 
-	protected boolean setAnchor(PdfChunk chunk, JRPrintAnchor anchor, JRPrintElement element)
+	protected void setAnchor(PdfChunk chunk, JRPrintAnchor anchor, JRPrintElement element)
 	{
-		boolean anchorSet = false;
-
 		String anchorName = anchor.getAnchorName();
 		
 		if (anchorName != null)
 		{
 			chunk.setLocalDestination(anchorName);
-
-			anchorSet = true;
 		}
 		
 		
@@ -3427,8 +3425,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					: getOffsetX() + element.getX();
 			addBookmark(anchor.getBookmarkLevel(), anchorName, x, y);
 		}
-
-		return anchorSet;
 	}
 
 
