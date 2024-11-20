@@ -65,7 +65,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * {@link ExtensionsRegistryFactory} implementation.  The registry factory class is
  * instantiated, and
  * {@link ExtensionsRegistryFactory#createRegistry(String, JRPropertiesMap)}
- * is called on it, using the propery suffix as registry ID and passing the
+ * is called on it, using the property suffix as registry ID and passing the
  * properties map.  The registry factory can collect properties that apply to the
  * specific registry by using a property prefix obtain by appending the registry ID
  * to "{@link #PROPERTY_REGISTRY_PREFIX net.sf.jasperreports.extension.}".
