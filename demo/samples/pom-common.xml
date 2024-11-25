@@ -151,6 +151,12 @@
 					<arguments>
 						<argument>test</argument>
 					</arguments>
+					<systemProperties>
+						<systemProperty>
+							<key>hsqldb.server.port</key>
+							<value>59001</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 				<executions>
 					<!-- 
@@ -163,21 +169,9 @@
 						<configuration>
 							<executable>mvn</executable>
 							<arguments>
-								<argument>exec:java@test</argument>
+								<argument>exec:java</argument>
 							</arguments>
 							<workingDirectory>${project.basedir}</workingDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>test</id>
-						<configuration>
-							<mainClass>${sample.app.name}</mainClass>
-							<additionalClasspathElements>
-								<additionalClasspathElement>../../common-samples/classes</additionalClasspathElement>
-							</additionalClasspathElements>
-							<arguments>
-								<argument>test</argument>
-							</arguments>
 						</configuration>
 					</execution>
 					<execution>
