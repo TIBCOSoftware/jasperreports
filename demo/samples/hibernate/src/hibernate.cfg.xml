@@ -8,7 +8,7 @@
     <session-factory>
 
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:hsql://localhost</property>
+        <property name="connection.url">jdbc:hsqldb:hsql://localhost:59001</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
 

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
@@ -76,6 +77,8 @@ public class DocxCellHelper extends BaseHelper
 		write("    <w:tc>\n");
 		
 		exportPropsHeader();
+
+		write("      <w:tcW w:w=\"" + LengthUtil.twip(gridCell.getWidth()) +"\" w:type=\"dxa\"/>\n");
 
 		if (gridCell.getColSpan() > 1)
 		{
