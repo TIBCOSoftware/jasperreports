@@ -155,7 +155,8 @@ public class DocxTableHelper extends BaseHelper
 	{
 		write("    <w:tc>\n");
 		write("     <w:tcPr>\n");
-		if (emptyCellColSpan > 1)
+		write("      <w:tcW w:w=\"" + LengthUtil.twip(gridCell.getWidth()) +"\" w:type=\"dxa\"/>\n");
+ 		if (emptyCellColSpan > 1)
 		{
 			write("      <w:gridSpan w:val=\"" + emptyCellColSpan +"\" />\n");
 		}
@@ -181,7 +182,8 @@ public class DocxTableHelper extends BaseHelper
 	{
 		write("    <w:tc>\n");
 		write("     <w:tcPr>\n");
-		if (gridCell.getColSpan() > 1)
+		write("      <w:tcW w:w=\"" + LengthUtil.twip(gridCell.getWidth()) +"\" w:type=\"dxa\"/>\n");
+ 		if (gridCell.getColSpan() > 1)
 		{
 			write("      <w:gridSpan w:val=\"" + gridCell.getColSpan() +"\" />\n");
 		}
