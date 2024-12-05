@@ -124,7 +124,7 @@
 		-->
 		<ant.version>1.10.14</ant.version>
 		<antlr.version>2.7.7</antlr.version>
-		<batik.version>1.17</batik.version>
+		<batik.version>1.18</batik.version>
 		<castor.version>1.4.1</castor.version>
 		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 		<commons-collections4.version>4.4</commons-collections4.version>
