@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVisitable;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -72,6 +73,15 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	@JacksonXmlProperty(isAttribute = true)
 	WhenNoDataTypeTableEnum getWhenNoDataType();
 	
+	/**
+	 * Returns the position of the crosstab within its element box.
+	 * 
+	 * @return the position of the crosstab within its element box, 
+	 * <code>null</code> if no position is specified
+	 */
+	@JacksonXmlProperty(isAttribute = true)
+	HorizontalPosition getHorizontalPosition();
+
 	Row getTableHeader();
 	
 	Row getTableFooter();

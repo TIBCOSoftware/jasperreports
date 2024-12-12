@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -52,6 +53,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	public static final String PROPERTY_DATASET_RUN = "datasetRun";
 	public static final String PROPERTY_COLUMNS = "columns";
 	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
+	public static final String PROPERTY_HORIZONTAL_POSITION = "horizontalPosition";
 
 	public static final String PROPERTY_TABLE_HEADER = "tableHeader";
 	public static final String PROPERTY_TABLE_FOOTER = "tableFooter";
@@ -66,6 +68,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	private List<BaseColumn> columns;
 	
 	private WhenNoDataTypeTableEnum whenNoDataType;
+	private HorizontalPosition horizontalPosition;
 
 	private Row tableHeader;
 	private Row tableFooter;
@@ -89,6 +92,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	public StandardTable(TableComponent table, JRBaseObjectFactory factory)
 	{
 		whenNoDataType = table.getWhenNoDataType();
+		horizontalPosition = table.getHorizontalPosition();
 
 		datasetRun = factory.getDatasetRun(table.getDatasetRun());
 		
@@ -174,6 +178,25 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, this.whenNoDataType);
 	}
 	
+	@Override
+	public HorizontalPosition getHorizontalPosition()
+	{
+		return horizontalPosition;
+	}
+	
+	/**
+	 * Sets the position of the table within its element box.
+	 * 
+	 * @param horizontalPosition the table position, 
+	 * if <code>null</code> the default position is applied
+	 */
+	public void setHorizontalPosition(HorizontalPosition horizontalPosition)
+	{
+		Object old = this.horizontalPosition;
+		this.horizontalPosition = horizontalPosition;
+		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_POSITION, old, this.horizontalPosition);
+	}
+
 	@Override
 	public Row getTableHeader()
 	{

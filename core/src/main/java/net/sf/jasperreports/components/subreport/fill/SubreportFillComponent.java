@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.VirtualizableFrame;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -200,7 +201,6 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		JRLineBox lineBox = printFrame.getLineBox();
 		
 		printFrame.setUUID(fillContext.getComponentElement().getUUID());
-		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
 		
@@ -229,27 +229,60 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		Collection<JRPrintElement> elements = fillSubreport.getPrintElements();
 		if (elements != null)
 		{
-			VirtualizableFrame virtualizableFrame = new VirtualizableFrame(printFrame, 
-					fillContext.getFiller().getVirtualizationContext(), 
-					fillContext.getFiller().getCurrentPage());
-			
-			virtualizableFrame.addOffsetElements(elements, 0, 0);
-			virtualizableFrame.fill();
-			
-			if (fillSubreport.getPrintContentsWidth() > contentsWidth)
+			if (contentsWidth < fillSubreport.getPrintContentsWidth())
 			{
 				contentsWidth = fillSubreport.getPrintContentsWidth();
 			}
 		}
 		contentsWidth += lineBox.getLeftPadding() + lineBox.getRightPadding();
-		
+
 		int elementWidth = fillContext.getComponentElement().getWidth();
-		if (contentsWidth < elementWidth)
+		
+		int xElementsOffset = 0;
+		HorizontalPosition horizontalPosition = getHorizontalPosition() == null ? HorizontalPosition.LEFT : getHorizontalPosition();
+		switch (horizontalPosition)
 		{
-			contentsWidth = elementWidth; 
+			case RIGHT:
+			{
+				xElementsOffset = elementWidth - contentsWidth;
+				break;
+			}
+			case CENTER:
+			{
+				xElementsOffset = (elementWidth - contentsWidth) / 2;
+				break;
+			}
+			case LEFT:
+			default:
+			{
+				break;
+			}
 		}
 		
+		int xFrameOffset = 0;
+
+		if (contentsWidth < elementWidth)
+		{
+			contentsWidth = elementWidth;
+		}
+		else
+		{
+			xFrameOffset = xElementsOffset;
+			xElementsOffset = 0;
+		}
+		
+		printFrame.setX(fillContext.getComponentElement().getX() + xFrameOffset);
 		printFrame.setWidth(contentsWidth);
+
+		if (elements != null)
+		{
+			VirtualizableFrame virtualizableFrame = new VirtualizableFrame(printFrame, 
+					fillContext.getFiller().getVirtualizationContext(), 
+					fillContext.getFiller().getCurrentPage());
+			
+			virtualizableFrame.addOffsetElements(elements, xElementsOffset, 0);
+			virtualizableFrame.fill();
+		}
 		
 		fillSubreport.subreportPageFilled();
 		
@@ -297,6 +330,8 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		}
 	}
 
+	protected abstract HorizontalPosition getHorizontalPosition();
+	
 	public class ComponentFillSubreportFactory
 	{
 		private final JRSubreport subreport;

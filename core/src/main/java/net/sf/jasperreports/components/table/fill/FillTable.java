@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.fill.BuiltinExpressionEvaluatorFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillContext;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.export.AccessibilityUtil;
@@ -100,6 +101,12 @@ public class FillTable extends SubreportFillComponent
 	private TableReport getBaseReport()
 	{
 		return ((TableJasperReport)fillSubreport.getJasperReport()).getBaseReport();
+	}
+	
+	@Override
+	protected HorizontalPosition getHorizontalPosition()
+	{
+		return table.getHorizontalPosition();
 	}
 
 	@Override
