@@ -330,7 +330,10 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 		}
 	}
 
-	protected abstract HorizontalPosition getHorizontalPosition();
+	protected HorizontalPosition getHorizontalPosition()
+	{
+		return null;
+	}
 	
 	public class ComponentFillSubreportFactory
 	{
