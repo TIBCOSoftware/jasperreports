@@ -66,21 +66,17 @@ public class ResizeColumnCommand implements Command
 	@Override
 	public void execute() throws CommandException 
 	{
-		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
+		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
 		
 		int modIndex = resizeColumnData.getColumnIndex();
 		
-		StandardColumn modColumn = (StandardColumn) tableColumns.get(modIndex);
+		StandardColumn modColumn = (StandardColumn) allColumns.get(modIndex);
 		
 		int deltaWidth = resizeColumnData.getWidth() - modColumn.getWidth();
 		int startX = 0;
-		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
-		if (allColumns != null)
+		for (int i = 0; i <= modIndex; i++)
 		{
-			for (int i = 0; i <= modIndex; i++)
-			{
-				startX += allColumns.get(i).getWidth();
-			}
+			startX += allColumns.get(i).getWidth();
 		}
 		
 		List<ColumnGroupInfo> parentColumnGroups = new ColumnUtil(resizeColumnData.getColumnIndex()).getParentColumnGroups(table.getColumns());
