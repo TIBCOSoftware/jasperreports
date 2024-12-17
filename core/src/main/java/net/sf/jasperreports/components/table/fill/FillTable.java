@@ -123,6 +123,7 @@ public class FillTable extends SubreportFillComponent
 		evaluateColumns(evaluation);
 		if (!fillColumns.isEmpty())
 		{
+			resizeWeightedColumns(fillColumns, fillContext.getComponentElement().getWidth() - fillWidth, fillWeight);
 			createFillSubreport();
 			setTableInstanceCounter();
 			fillSubreport.evaluateSubreport(evaluation);
@@ -244,12 +245,14 @@ public class FillTable extends SubreportFillComponent
 					List<BaseColumn> columns = columnGroup.getColumns();
 					List<FillColumn> subColumns = new ArrayList<>(columns.size());
 					int printWidth = 0;
+					int printWeight = 0;
 					for (BaseColumn column : columns)
 					{
 						FillColumn fillSubColumn = column.visitColumn(this);
 						if (fillSubColumn != null)
 						{
 							printWidth += fillSubColumn.getWidth();
+							printWeight += fillSubColumn.getWeight();
 							subColumns.add(fillSubColumn);
 						}
 					}
@@ -263,7 +266,7 @@ public class FillTable extends SubreportFillComponent
 					else
 					{
 						JRPropertiesMap properties = evaluateProperties(columnGroup, evaluation);
-						fillColumn = new FillColumn(columnGroup, printWidth, subColumns, properties);
+						fillColumn = new FillColumn(columnGroup, printWidth, subColumns, printWeight, properties);
 					}
 				}
 				else
@@ -285,6 +288,7 @@ public class FillTable extends SubreportFillComponent
 		List<BaseColumn> columns = table.getColumns();
 		fillColumns = new ArrayList<>(columns.size());
 		fillWidth = 0;
+		fillWeight = 0;
 		for (BaseColumn column : columns)
 		{
 			FillColumn fillColumn = column.visitColumn(columnEvaluator);
@@ -292,7 +296,39 @@ public class FillTable extends SubreportFillComponent
 			{
 				fillColumns.add(fillColumn);
 				fillWidth += fillColumn.getWidth();
+				fillWeight += fillColumn.getWeight();
 			}
+		}
+	}
+	
+	private static void resizeWeightedColumns(List<FillColumn> fillColumns, int deltaWidth, int totalWeight)
+	{
+		if (
+			fillColumns != null 
+			&& !fillColumns.isEmpty()
+			&& totalWeight > 0
+			&& deltaWidth > 0
+			)
+		{
+			for (FillColumn fillColumn : fillColumns)
+			{
+				int colWidthBeforeWeigthResize = fillColumn.getWidth();
+				
+				resizeWeightedColumn(fillColumn, deltaWidth, totalWeight);
+
+				resizeWeightedColumns(fillColumn.getSubcolumns(), fillColumn.getWidth() - colWidthBeforeWeigthResize, fillColumn.getSubColsTotalWeight());
+			}
+		}
+	}
+
+	private static void resizeWeightedColumn(FillColumn fillColumn, int deltaWidth, int totalWeight)
+	{
+		if (fillColumn.getWeight() > 0)
+		{
+			fillColumn.setWidth(
+				fillColumn.getWidth()
+				+ (int)((float)deltaWidth * fillColumn.getWeight() / totalWeight)
+				);
 		}
 	}
 	

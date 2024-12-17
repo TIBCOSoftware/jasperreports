@@ -28,7 +28,6 @@
 			<expression><![CDATA["12345"]]></expression>
 		</variable>
 	</dataset>
-	<parameter name="TableDataSource" class="net.sf.jasperreports.engine.JRDataSource"/>
 	<title height="150">
 		<element kind="image" uuid="19c3447c-3185-4fdc-b4b5-1d406d0edfac" x="0" y="5" width="165" height="40" scaleImage="Clip">
 			<expression><![CDATA["jasperreports.png"]]></expression>
@@ -41,7 +40,7 @@
 		<element kind="component" uuid="c475c968-5a05-4331-8147-5fc24a48070b" x="0" y="50" width="555" height="100" style="Table">
 			<component kind="table">
 				<datasetRun uuid="6770b532-f93b-49b2-a105-2ae35d01ec87" subDataset="TableData">
-					<dataSourceExpression><![CDATA[$P{TableDataSource}]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[new JREmptyDataSource(50)]]></dataSourceExpression>
 				</datasetRun>
 				<column kind="single" uuid="ceaf6eb4-f1e9-4aa8-aca6-3e53b67c1615" width="100">
 					<columnHeader height="30" rowSpan="2" style="TableHeader">

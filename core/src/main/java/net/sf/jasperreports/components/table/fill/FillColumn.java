@@ -26,6 +26,8 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.List;
 
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Column;
+import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 
@@ -40,25 +42,53 @@ public class FillColumn implements JRPropertiesHolder
 	private BaseColumn tableColumn;
 	private int width;
 	private List<FillColumn> subcolumns;
+	private int subColsTotalWeight; 
 	private Integer colSpan;
 
 	private JRPropertiesMap properties;
 	
-	public FillColumn(BaseColumn tableColumn, JRPropertiesMap properties)
+	public FillColumn(Column column, JRPropertiesMap properties)
 	{
-		this(tableColumn,  
-				tableColumn.getWidth(), 
-				null, properties);
+		this(
+			column,  
+			column.getWidth(),
+			null, 
+			0,
+			properties
+			);
 	}
 	
-	public FillColumn(BaseColumn tableColumn, int width,
-			List<FillColumn> subcolumns, JRPropertiesMap properties)
+	public FillColumn(
+		ColumnGroup columnGroup, 
+		int width,
+		List<FillColumn> subcolumns, 
+		int subColsTotalWeight,
+		JRPropertiesMap properties
+		)
+	{
+		this(
+			(BaseColumn)columnGroup,  
+			width,
+			subcolumns, 
+			subColsTotalWeight,
+			properties
+			);
+	}
+	
+	private FillColumn(
+		BaseColumn tableColumn, 
+		int width,
+		List<FillColumn> subcolumns, 
+		int subColsTotalWeight,
+		JRPropertiesMap properties
+		)
 	{
 		super();
 		
 		this.tableColumn = tableColumn;
 		this.width = width;
 		this.subcolumns = subcolumns;
+		this.subColsTotalWeight = subColsTotalWeight;
 		this.properties = properties;
 	}
 
@@ -70,6 +100,21 @@ public class FillColumn implements JRPropertiesHolder
 	public int getWidth()
 	{
 		return width;
+	}
+
+	public void setWidth(int width)
+	{
+		this.width = width;
+	}
+
+	public int getWeight()
+	{
+		return tableColumn.getWeight() == null ? subColsTotalWeight : tableColumn.getWeight();
+	}
+
+	public int getSubColsTotalWeight()
+	{
+		return subColsTotalWeight;
 	}
 
 	public int getColSpan()

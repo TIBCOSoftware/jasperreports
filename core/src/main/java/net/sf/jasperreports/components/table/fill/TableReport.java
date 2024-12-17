@@ -634,7 +634,7 @@ public class TableReport implements JRReport
 				yOffset += cell.getHeight();
 			}
 			
-			xOffset += column.getWidth();
+			xOffset += fillColumn.getWidth();
 			
 			return null;
 		}

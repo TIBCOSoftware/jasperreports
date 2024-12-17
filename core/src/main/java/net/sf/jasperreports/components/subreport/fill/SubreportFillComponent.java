@@ -70,6 +70,7 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 	private boolean filling;
 
 	protected int fillWidth;
+	protected int fillWeight;
 	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<>();
 
 	public SubreportFillComponent(Component subreportComponent, JRFillObjectFactory factory)
