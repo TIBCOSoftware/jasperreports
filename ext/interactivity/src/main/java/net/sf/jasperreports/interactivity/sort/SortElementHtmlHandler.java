@@ -68,7 +68,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String CSS_SORT_DEFAULT_ASC = 		"sortAscBtnDefault";
 	private static final String CSS_SORT_DEFAULT_DESC = 	"sortDescBtnDefault";
 
-	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
+	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/interactivity/sort/resources/SortElementHtmlTemplate.vm";
 	
 	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
 	protected static final String CSS_TEXT_ALIGN_LEFT = "left";
