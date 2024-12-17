@@ -1643,31 +1643,34 @@ public class TableReport implements JRReport
 		for (BandRowInfo row : rows)
 		{
 			List<CellInfo> cells = row.getCells();
-			CellInfo firstCell = cells.get(0);
-			firstCell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_TR, PdfConstants.TAG_START);
-			
-			for (CellInfo cell : cells)
+			if (!cells.isEmpty())
 			{
-				cell.getElement().getPropertiesMap().setProperty(cellTagProp, PdfConstants.TAG_FULL);
-				if (isHeader)
+				CellInfo firstCell = cells.get(0);
+				firstCell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_TR, PdfConstants.TAG_START);
+				
+				for (CellInfo cell : cells)
 				{
-					cell.getElement().getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.COLUMN_HEADER.getName());
+					cell.getElement().getPropertiesMap().setProperty(cellTagProp, PdfConstants.TAG_FULL);
+					if (isHeader)
+					{
+						cell.getElement().getPropertiesMap().setProperty(AccessibilityUtil.PROPERTY_ACCESSIBILITY_TAG, AccessibilityTagEnum.COLUMN_HEADER.getName());
+					}
+					if (cell.getRowSpan() > 1)
+					{
+						cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
+					}
+					if (cell.getColSpan() > 1)
+					{
+						cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_COLSPAN, String.valueOf(cell.getColSpan()));
+					}
 				}
-				if (cell.getRowSpan() > 1)
-				{
-					cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_ROWSPAN, String.valueOf(cell.getRowSpan()));
-				}
-				if (cell.getColSpan() > 1)
-				{
-					cell.getElement().getPropertiesMap().setProperty(PdfConstants.PROPERTY_TAG_COLSPAN, String.valueOf(cell.getColSpan()));
-				}
+				
+				CellInfo lastCell = cells.get(cells.size() - 1);
+				lastCell.getElement().getPropertiesMap().setProperty(
+					PdfConstants.PROPERTY_TAG_TR, 
+					cells.size() == 1 ? PdfConstants.TAG_FULL : PdfConstants.TAG_END
+					);
 			}
-			
-			CellInfo lastCell = cells.get(cells.size() - 1);
-			lastCell.getElement().getPropertiesMap().setProperty(
-				PdfConstants.PROPERTY_TAG_TR, 
-				cells.size() == 1 ? PdfConstants.TAG_FULL : PdfConstants.TAG_END
-				);
 		}		
 	}
 
