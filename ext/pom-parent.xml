@@ -58,7 +58,7 @@
 					<showWarnings>true</showWarnings>
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
-						<arg>-AmetadataMessagesName=metadata_messages</arg>
+						<arg>-AmetadataMessagesName=metadata_messages-${project.artifactId}</arg>
 						<arg>-ApropertiesDoc=${project.basedir}/config.reference.xml</arg>
 						<arg>-Xlint:deprecation,-unchecked,-options</arg>
 						<arg>-AconfigReferenceOut=${project.build.directory}/config.reference.xml</arg>
