@@ -79,6 +79,8 @@ public class FillTable extends SubreportFillComponent
 	
 	private boolean filling;
 	private List<FillColumn> fillColumns;
+	
+	private HorizontalPosition horizontalPosition;
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
 	{
@@ -106,7 +108,7 @@ public class FillTable extends SubreportFillComponent
 	@Override
 	protected HorizontalPosition getHorizontalPosition()
 	{
-		return table.getHorizontalPosition();
+		return horizontalPosition;
 	}
 
 	@Override
@@ -119,6 +121,21 @@ public class FillTable extends SubreportFillComponent
 		}
 		
 		filling = false;
+		
+		horizontalPosition = table.getHorizontalPosition();
+		if (horizontalPosition == null)
+		{
+			String strHorizontalPosition = 
+				fillContext.getFiller().getPropertiesUtil().getProperty(
+					TableComponent.CONFIG_PROPERTY_HORIZONTAL_POSITION,
+					fillContext.getComponentElement(),
+					fillContext.getFiller().getMasterFiller().getJasperReport()
+					);
+			if (strHorizontalPosition != null)
+			{
+				horizontalPosition = HorizontalPosition.getByName(strHorizontalPosition);
+			}
+		}
 		
 		evaluateColumns(evaluation);
 		if (!fillColumns.isEmpty())

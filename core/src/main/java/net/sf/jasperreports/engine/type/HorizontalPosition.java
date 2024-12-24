@@ -45,4 +45,12 @@ public enum HorizontalPosition implements NamedEnum
 	{
 		return name;
 	}
+	
+	/**
+	 *
+	 */
+	public static HorizontalPosition getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
+	}
 }

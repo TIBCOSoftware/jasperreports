@@ -2324,6 +2324,15 @@ that would in turn trigger the creation of special document accessibility tags d
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.components.table.horizontal.position -->
+
+  <configProperty name="net.sf.jasperreports.components.table.horizontal.position">
+    <description>
+Property that provides the default value for the horizontal position of the table columns with the table element box.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.components.table.accessible -->
 
   <configProperty name="net.sf.jasperreports.components.table.accessible">

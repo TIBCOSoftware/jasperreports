@@ -63,6 +63,18 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
 
+	/**
+	 * Property that specifies a default value for the <code>horizontalPosition</code> attribute of table components.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "Left",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_7_0_2,
+			valueType = HorizontalPosition.class
+			)
+	public static final String CONFIG_PROPERTY_HORIZONTAL_POSITION = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.horizontal.position";
+
 	@Override
 	JRDatasetRun getDatasetRun();
 
@@ -74,9 +86,9 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	WhenNoDataTypeTableEnum getWhenNoDataType();
 	
 	/**
-	 * Returns the position of the crosstab within its element box.
+	 * Returns the position of the table columns within the table element box.
 	 * 
-	 * @return the position of the crosstab within its element box, 
+	 * @return the position of the table columns within the table element box, 
 	 * <code>null</code> if no position is specified
 	 */
 	@JacksonXmlProperty(isAttribute = true)
