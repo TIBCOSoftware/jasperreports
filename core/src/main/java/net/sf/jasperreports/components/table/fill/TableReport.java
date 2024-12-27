@@ -147,7 +147,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "\\u25B2",
+			defaultValue = "\\uE001",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
@@ -158,7 +158,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "\\u25BC",
+			defaultValue = "\\uE002",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
@@ -169,7 +169,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "\\2606",
+			defaultValue = "\\uE004",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
