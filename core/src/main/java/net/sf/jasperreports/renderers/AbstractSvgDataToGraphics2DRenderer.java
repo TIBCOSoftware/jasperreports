@@ -40,9 +40,15 @@ import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.gvt.GraphicsNode;
+import org.apache.batik.parser.DefaultLengthHandler;
+import org.apache.batik.parser.LengthHandler;
+import org.apache.batik.parser.LengthParser;
+import org.apache.batik.parser.ParseException;
+import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
+import org.w3c.dom.svg.SVGSVGElement;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -88,7 +94,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 	{
 		GraphicsNode rootNode = getRootNode(jasperReportsContext);
 
-		AffineTransform transform = 
+		AffineTransform transform =
 			ViewBox.getPreserveAspectRatioTransform(
 				new float[]{0, 0, (float) documentSize.getWidth(), (float) documentSize.getHeight()},
 				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, 
@@ -136,8 +142,10 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			
 			UserAgent userAgentForDoc = 
 				new BatikUserAgent(
+					jasperReportsContext,
 					fontFamilyResolver,
-					BatikUserAgent.PIXEL_TO_MM_72_DPI
+					BatikUserAgent.PIXEL_TO_MM_72_DPI,
+					null
 					);
 			
 			SVGDocumentFactory documentFactory =
@@ -145,7 +153,68 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			documentFactory.setValidating(userAgentForDoc.isXMLParserValidating());
 
 			SVGDocument document = getSvgDocument(jasperReportsContext, documentFactory);
+			
+			Float width = null;
+			Float height = null;
 
+			SVGSVGElement rootElement = document.getRootElement();
+			if (rootElement != null) //very unlikely for rootElement to be null; but even so, the dimension will be calculated like before
+			{
+				Rectangle2D viewBox = null;
+				
+				String viewBoxStr = rootElement.getAttributeNS(null, SVGConstants.SVG_VIEW_BOX_ATTRIBUTE);
+				if (viewBoxStr != null && !viewBoxStr.isEmpty()) 
+				{
+					float[] rect = ViewBox.parseViewBoxAttribute(rootElement, viewBoxStr, null);
+					viewBox = new Rectangle2D.Float(rect[0], rect[1], rect[2], rect[3]);
+				}
+
+				width = parseLength(rootElement, SVGConstants.SVG_WIDTH_ATTRIBUTE);
+				height = parseLength(rootElement, SVGConstants.SVG_HEIGHT_ATTRIBUTE);
+				
+				if (width == null)
+				{
+					if (height == null)
+					{
+						if (viewBox == null)
+						{
+							width = 300f;
+							height = 150f;
+						}
+						else
+						{
+							width = (float)viewBox.getWidth();
+							height = (float)viewBox.getHeight();
+						}
+					}
+					else
+					{
+						if (viewBox == null)
+						{
+							width = 300f;
+						}
+						else
+						{
+							width = (float)(height * viewBox.getWidth() / viewBox.getHeight());
+						}
+					}
+				}
+				else
+				{
+					if (height == null)
+					{
+						if (viewBox == null)
+						{
+							height = 150f;
+						}
+						else
+						{
+							height = (float)(width * viewBox.getHeight() / viewBox.getWidth());
+						}
+					}
+				}
+			}
+			
 			Node svgNode = document.getElementsByTagName("svg").item(0);
 			Node svgWidthNode = svgNode.getAttributes().getNamedItem("width");
 			Node svgHeightNode = svgNode.getAttributes().getNamedItem("height");
@@ -163,8 +232,10 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			
 			UserAgent userAgentForCtx = 
 				new BatikUserAgent(
+					jasperReportsContext,
 					fontFamilyResolver,
-					pixel2mm
+					pixel2mm,
+					width == null ? null : new SimpleDimension2D(width, height)
 					);
 				
 			BridgeContext ctx = new BridgeContext(userAgentForCtx);
@@ -172,7 +243,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode rootNode = builder.build(ctx, document);
 			rootNodeRef = new SoftReference<>(rootNode);
-			
+
 			//copying the document size object because it has a reference to SVGSVGElementBridge,
 			//which prevents rootNodeRef from being cleared by the garbage collector
 			Dimension2D svgSize = ctx.getDocumentSize();
@@ -181,7 +252,28 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 		
 		return rootNodeRef.get();
 	}
-	
+
+	private static Float parseLength(SVGSVGElement el, String attrName) 
+	{
+		String attrValue = el.getAttributeNS(null, attrName);
+		if (attrValue == null || attrValue.isEmpty()) 
+		{
+			return null;
+		}
+		float value[] = {0};
+		LengthParser lp = new LengthParser();
+		LengthHandler lh = new DefaultLengthHandler()
+		{
+			@Override
+			public void lengthValue(float v) throws ParseException
+			{
+				value[0] = v;
+			}
+		};
+		lp.setLengthHandler(lh);
+		lp.parse(attrValue);
+		return value[0];
+    }
 
 	/**
 	 * 

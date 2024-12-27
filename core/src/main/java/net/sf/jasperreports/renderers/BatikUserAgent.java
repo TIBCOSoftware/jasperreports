@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.awt.geom.Dimension2D;
+
 import org.apache.batik.bridge.ExternalResourceSecurity;
 import org.apache.batik.bridge.FontFamilyResolver;
 import org.apache.batik.bridge.RelaxedExternalResourceSecurity;
@@ -57,26 +59,62 @@ public class BatikUserAgent extends UserAgentAdapter
 
 	private final FontFamilyResolver fontFamilyResolver;
 	private final float pixel2mm;
+	private final Dimension2D viewportSize;
 	private final boolean allowExternalResources;
 	
 	public BatikUserAgent(
 		JasperReportsContext jasperReportsContext
 		) 
 	{
-		this.fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
-		this.pixel2mm = PIXEL_TO_MM_72_DPI;
-		this.allowExternalResources = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
-				PROPERTY_ALLOW_EXTERNAL_RESOURCES, false);
+		this(
+			jasperReportsContext,
+			BatikFontFamilyResolver.getInstance(jasperReportsContext),
+			PIXEL_TO_MM_72_DPI,
+			null
+			);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #BatikUserAgent(JasperReportsContext, FontFamilyResolver, float)}.
+	 */
 	public BatikUserAgent(
 		FontFamilyResolver fontFamilyResolver,
 		float pixel2mm
 		) 
 	{
+		this(
+			DefaultJasperReportsContext.getInstance(),
+			fontFamilyResolver,
+			pixel2mm,
+			null
+			);
+	}
+	
+	public BatikUserAgent(
+		JasperReportsContext jasperReportsContext,
+		FontFamilyResolver fontFamilyResolver,
+		float pixel2mm
+		) 
+	{
+		this(
+			jasperReportsContext,
+			fontFamilyResolver,
+			pixel2mm,
+			null
+			);
+	}
+	
+	public BatikUserAgent(
+		JasperReportsContext jasperReportsContext,
+		FontFamilyResolver fontFamilyResolver,
+		float pixel2mm,
+		Dimension2D viewportSize
+		) 
+	{
 		this.fontFamilyResolver = fontFamilyResolver;
 		this.pixel2mm = pixel2mm;
-		this.allowExternalResources = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(
+		this.viewportSize = viewportSize;
+		this.allowExternalResources = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 				PROPERTY_ALLOW_EXTERNAL_RESOURCES, false);
 	}
 	
@@ -84,6 +122,12 @@ public class BatikUserAgent extends UserAgentAdapter
 	public float getPixelUnitToMillimeter()
 	{
 		return pixel2mm;
+	}
+	
+	@Override
+	public Dimension2D getViewportSize() 
+	{
+		return viewportSize == null ? super.getViewportSize() : viewportSize;
 	}
 
 	@Override
