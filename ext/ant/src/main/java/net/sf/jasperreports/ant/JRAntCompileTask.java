@@ -141,8 +141,8 @@ public class JRAntCompileTask extends JRBaseAntTask
 	 * Java bytecode report compilers that need to have the Java source files stored 
 	 * on disk in order to compile them.
 	 * <p>
-	 * If not set, the temporary working directory will be the current working directory,
-	 * as specified by the <code>user.dir</code> system property.
+	 * If not set, the temporary working directory will be the temporary working directory,
+	 * as specified by the <code>java.io.tmpdir</code> system property.
 	 * 
 	 * @param tempdir temporary working directory
 	 */

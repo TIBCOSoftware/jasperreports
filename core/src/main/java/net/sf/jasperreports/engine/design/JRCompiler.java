@@ -147,11 +147,11 @@ public interface JRCompiler
 	/**
 	 * The temporary directory used by the report compiler. 
 	 * <p>
-	 * Defaults to <code>System.getProperty("user.dir")</code>.
+	 * Defaults to <code>System.getProperty("java.io.tmpdir")</code>.
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_COMPILE,
-			defaultValue = "System.getProperty(\"user.dir\")",
+			defaultValue = "System.getProperty(\"java.io.tmpdir\")",
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)

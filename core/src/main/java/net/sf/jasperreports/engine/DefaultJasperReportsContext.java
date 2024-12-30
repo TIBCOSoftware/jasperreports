@@ -196,10 +196,10 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 			}
 		}
 		
-		String userDir = getSystemProperty("user.dir");
-		if (userDir != null)
+		String tempDir = getSystemProperty("java.io.tmpdir");
+		if (tempDir != null)
 		{
-			defaults.setProperty(JRCompiler.COMPILER_TEMP_DIR, userDir);
+			defaults.setProperty(JRCompiler.COMPILER_TEMP_DIR, tempDir);
 		}
 		
 		String classPath = getSystemProperty("java.class.path");
