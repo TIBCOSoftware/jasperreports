@@ -34,6 +34,12 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-jdt</artifactId>
+			<version>${revision}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-barbecue</artifactId>
 			<version>${revision}</version>
 			<scope>test</scope>
