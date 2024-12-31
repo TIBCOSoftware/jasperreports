@@ -23,32 +23,15 @@
  */
 package net.sf.jasperreports.crosstabs;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import net.sf.jasperreports.AbstractXmlTest;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class CrosstabStretchTest extends AbstractXmlTest
 {
-	@Override
-	@Test(dataProvider = "testArgs")
-	public void testReport(String folderName, String jrxmlFileNamePrefix, String referenceFileNamePrefix) 
-			throws JRException, NoSuchAlgorithmException, IOException
-	{
-		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-		setJasperReportsContext(jasperReportsContext);
-		
-		runReport(folderName, jrxmlFileNamePrefix, referenceFileNamePrefix);
-	}
-	
 	@DataProvider
 	public Object[][] testArgs()
 	{
