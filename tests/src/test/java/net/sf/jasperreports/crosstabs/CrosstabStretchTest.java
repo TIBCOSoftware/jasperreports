@@ -35,6 +35,6 @@ public class CrosstabStretchTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", 7);
+		return runReportArgs("net/sf/jasperreports/crosstabs", "CrosstabStretchReport", 7);
 	}
 }

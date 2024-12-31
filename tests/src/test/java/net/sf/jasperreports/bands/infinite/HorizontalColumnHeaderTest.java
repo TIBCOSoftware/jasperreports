@@ -40,7 +40,7 @@ public class HorizontalColumnHeaderTest
 	@Test
 	public void test()
 	{
-		Report report = new Report("net/sf/jasperreports/bands/infinite/repo/ColumnOverflowTest");
+		Report report = new Report("net/sf/jasperreports/bands/infinite/ColumnOverflowTest");
 		report.init();
 		
 		HashMap<String, Object> params = new HashMap<>();

@@ -35,6 +35,6 @@ public class TextTest extends AbstractSvgTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/draw/text/repo", "TextReport", 1);
+		return runReportArgs("net/sf/jasperreports/draw/text", "TextReport", 1);
 	}
 }

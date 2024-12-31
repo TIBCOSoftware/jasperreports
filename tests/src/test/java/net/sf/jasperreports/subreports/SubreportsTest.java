@@ -35,6 +35,6 @@ public class SubreportsTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/subreports/columns/repo", "SubreportColumnsReport", 3);
+		return runReportArgs("net/sf/jasperreports/subreports/columns", "SubreportColumnsReport", 3);
 	}
 }

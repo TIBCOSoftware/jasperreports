@@ -35,6 +35,6 @@ public class MinHeightTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/minheight/repo", "MinHeightReport", 2);
+		return runReportArgs("net/sf/jasperreports/groups/minheight", "MinHeightReport", 2);
 	}
 }

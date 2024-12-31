@@ -35,6 +35,6 @@ public class KeepTogetherTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/keeptogether/repo", "KeepTogetherReport", 38);
+		return runReportArgs("net/sf/jasperreports/groups/keeptogether", "KeepTogetherReport", 38);
 	}
 }

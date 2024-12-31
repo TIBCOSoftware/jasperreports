@@ -35,6 +35,6 @@ public class FramesTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/frames/repo", "FramesReport", 6);
+		return runReportArgs("net/sf/jasperreports/frames", "FramesReport", 6);
 	}
 }

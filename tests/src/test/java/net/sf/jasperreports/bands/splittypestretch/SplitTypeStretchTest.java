@@ -35,6 +35,6 @@ public class SplitTypeStretchTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/bands/splittypestretch/repo", "SplitTypeStretchReport", 1);
+		return runReportArgs("net/sf/jasperreports/bands/splittypestretch", "SplitTypeStretchReport", 1);
 	}
 }

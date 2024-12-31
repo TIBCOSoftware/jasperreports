@@ -44,8 +44,8 @@ public class InputStreamImageTest
 	@Test
 	public void test()
 	{
-		Report report = new Report("net/sf/jasperreports/bands/splittypeprevent/repo/InputStreamImage.jrxml", 
-				"net/sf/jasperreports/bands/splittypeprevent/repo/InputStreamImage.reference.jrpxml");
+		Report report = new Report("net/sf/jasperreports/bands/splittypeprevent/InputStreamImage.jrxml", 
+				"net/sf/jasperreports/bands/splittypeprevent/InputStreamImage.reference.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -56,7 +56,7 @@ public class InputStreamImageTest
 		records.add(Collections.singletonMap("image", 
 				InputStreamImageTest.class.getResourceAsStream("/net/sf/jasperreports/images/jasperreports.png")));
 		records.add(Collections.singletonMap("image", 
-				InputStreamImageTest.class.getResourceAsStream("/net/sf/jasperreports/virtualization/repo/dukesign.jpg")));
+				InputStreamImageTest.class.getResourceAsStream("/net/sf/jasperreports/virtualization/dukesign.jpg")));
 		params.put(JRParameter.REPORT_DATA_SOURCE, new JRMapCollectionDataSource(records));
 		
 		report.runReport(params);

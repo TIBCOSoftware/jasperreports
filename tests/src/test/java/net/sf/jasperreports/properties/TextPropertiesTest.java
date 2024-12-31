@@ -38,7 +38,7 @@ public class TextPropertiesTest
 	@Test
 	public void keepFullText()
 	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextProperty");
+		Report report = new Report("net/sf/jasperreports/properties/KeepFullTextProperty");
 		report.init();
 		
 		report.runReport(new HashMap<>());
@@ -47,7 +47,7 @@ public class TextPropertiesTest
 	@Test
 	public void keepFullTextExpression()
 	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyExpression");
+		Report report = new Report("net/sf/jasperreports/properties/KeepFullTextPropertyExpression");
 		report.init();
 		
 		report.runReport(new HashMap<>());
@@ -56,7 +56,7 @@ public class TextPropertiesTest
 	@Test
 	public void keepFullTextGroup()
 	{
-		Report report = new Report("net/sf/jasperreports/properties/repo/KeepFullTextPropertyGroup");
+		Report report = new Report("net/sf/jasperreports/properties/KeepFullTextPropertyGroup");
 		report.init();
 		
 		report.runReport(new HashMap<>());

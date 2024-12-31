@@ -46,7 +46,7 @@ public class GroupKeepTogetherTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/GroupKeepTogether.jrxml", 
+		report = new Report("net/sf/jasperreports/virtualization/GroupKeepTogether.jrxml", 
 				"net/sf/jasperreports/virtualization/GroupKeepTogether.reference.jrpxml");
 		report.init();
 	}

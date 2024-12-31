@@ -35,6 +35,6 @@ public class TextFieldsTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/textfields/repo", "TextFieldsReport", 4);
+		return runReportArgs("net/sf/jasperreports/textfields", "TextFieldsReport", 4);
 	}
 }

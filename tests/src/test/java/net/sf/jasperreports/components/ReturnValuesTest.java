@@ -39,8 +39,8 @@ public class ReturnValuesTest
 	@Test
 	public void tableReturn() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/TableReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/TableReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/TableReturn.jrxml", 
+				"net/sf/jasperreports/components/TableReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -50,11 +50,11 @@ public class ReturnValuesTest
 	@Test
 	public void tableWithSubreportReturn() throws JRException, IOException
 	{
-		Report subreport = new Report("net/sf/jasperreports/components/repo/SubreportForReturn.jrxml", null);
+		Report subreport = new Report("net/sf/jasperreports/components/SubreportForReturn.jrxml", null);
 		JasperReport compiledSubreport = subreport.compileReport();
 		
-		Report report = new Report("net/sf/jasperreports/components/repo/TableWithSubreportReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/TableWithSubreportReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/TableWithSubreportReturn.jrxml", 
+				"net/sf/jasperreports/components/TableWithSubreportReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -65,8 +65,8 @@ public class ReturnValuesTest
 	@Test
 	public void tableWithListReturn() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/TableWithListReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/TableWithListReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/TableWithListReturn.jrxml", 
+				"net/sf/jasperreports/components/TableWithListReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -76,8 +76,8 @@ public class ReturnValuesTest
 	@Test
 	public void tableWithTableReturn() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/TableWithTableReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/TableWithTableReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/TableWithTableReturn.jrxml", 
+				"net/sf/jasperreports/components/TableWithTableReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -87,11 +87,11 @@ public class ReturnValuesTest
 	@Test
 	public void listWithSubreportReturn() throws JRException, IOException
 	{
-		Report subreport = new Report("net/sf/jasperreports/components/repo/SubreportForReturn.jrxml", null);
+		Report subreport = new Report("net/sf/jasperreports/components/SubreportForReturn.jrxml", null);
 		JasperReport compiledSubreport = subreport.compileReport();
 		
-		Report report = new Report("net/sf/jasperreports/components/repo/ListWithSubreportReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/ListWithSubreportReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/ListWithSubreportReturn.jrxml", 
+				"net/sf/jasperreports/components/ListWithSubreportReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -102,8 +102,8 @@ public class ReturnValuesTest
 	@Test
 	public void listWithListReturn() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/ListWithListReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/ListWithListReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/ListWithListReturn.jrxml", 
+				"net/sf/jasperreports/components/ListWithListReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -113,8 +113,8 @@ public class ReturnValuesTest
 	@Test
 	public void listWithTableReturn() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/ListWithTableReturn.jrxml", 
-				"net/sf/jasperreports/components/repo/ListWithTableReturn.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/ListWithTableReturn.jrxml", 
+				"net/sf/jasperreports/components/ListWithTableReturn.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();

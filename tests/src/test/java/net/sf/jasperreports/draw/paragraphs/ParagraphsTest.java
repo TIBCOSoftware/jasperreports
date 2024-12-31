@@ -35,6 +35,6 @@ public class ParagraphsTest extends AbstractSvgTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/draw/paragraphs/repo", "ParagraphsReport", 1);
+		return runReportArgs("net/sf/jasperreports/draw/paragraphs", "ParagraphsReport", 1);
 	}
 }

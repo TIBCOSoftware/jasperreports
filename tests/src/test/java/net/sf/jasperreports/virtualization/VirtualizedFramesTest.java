@@ -48,7 +48,7 @@ public class VirtualizedFramesTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/VirtualizedFrames.jrxml", 
+		report = new Report("net/sf/jasperreports/virtualization/VirtualizedFrames.jrxml", 
 				"net/sf/jasperreports/virtualization/VirtualizedFrames.reference.jrpxml");
 		report.addPrintConsumer(PrintSerializer.instance());
 		report.addPrintConsumer(new PrintSerializer(new OwnVirtualizerContainer(new JRGzipVirtualizer(5))));

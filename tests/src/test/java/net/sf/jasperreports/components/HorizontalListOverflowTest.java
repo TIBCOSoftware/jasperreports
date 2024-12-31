@@ -38,8 +38,8 @@ public class HorizontalListOverflowTest
 	@Test
 	public void noOverflow() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/HorizontalListOverflow.jrxml", 
-				"net/sf/jasperreports/components/repo/HorizontalListOverflow-6.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/HorizontalListOverflow.jrxml", 
+				"net/sf/jasperreports/components/HorizontalListOverflow-6.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -50,8 +50,8 @@ public class HorizontalListOverflowTest
 	@Test
 	public void oneRecordOverflow() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/HorizontalListOverflow.jrxml", 
-				"net/sf/jasperreports/components/repo/HorizontalListOverflow-7.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/HorizontalListOverflow.jrxml", 
+				"net/sf/jasperreports/components/HorizontalListOverflow-7.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -62,8 +62,8 @@ public class HorizontalListOverflowTest
 	@Test
 	public void twoRecordsOverflow() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/repo/HorizontalListOverflow.jrxml", 
-				"net/sf/jasperreports/components/repo/HorizontalListOverflow-8.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/HorizontalListOverflow.jrxml", 
+				"net/sf/jasperreports/components/HorizontalListOverflow-8.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();

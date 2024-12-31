@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+	<name>csv</name>
+	<fileName>net/sf/jasperreports/virtualization/orders.csv</fileName>
+	<useFirstRowAsHeader>true</useFirstRowAsHeader>
+	<queryExecuterMode>true</queryExecuterMode>
+	<recordDelimiter>&#10;</recordDelimiter>
+	<fieldDelimiter>,</fieldDelimiter>
+</csvDataAdapter>

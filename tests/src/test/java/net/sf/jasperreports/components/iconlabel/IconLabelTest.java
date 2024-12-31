@@ -35,6 +35,6 @@ public class IconLabelTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/components/iconlabel/repo", "IconLabelReport", 5);
+		return runReportArgs("net/sf/jasperreports/components/iconlabel", "IconLabelReport", 5);
 	}
 }

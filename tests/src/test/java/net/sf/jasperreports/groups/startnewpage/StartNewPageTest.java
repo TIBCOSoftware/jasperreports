@@ -35,6 +35,6 @@ public class StartNewPageTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/startnewpage/repo", "StartNewPageReport", 50);
+		return runReportArgs("net/sf/jasperreports/groups/startnewpage", "StartNewPageReport", 50);
 	}
 }

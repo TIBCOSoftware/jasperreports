@@ -38,8 +38,8 @@ public class Barcode4JTest
 	@Test
 	public void nullBarcode() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/barcode4j/repo/Barcode4JNull.jrxml", 
-				"net/sf/jasperreports/components/barcode4j/repo/Barcode4JNull.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/barcode4j/Barcode4JNull.jrxml", 
+				"net/sf/jasperreports/components/barcode4j/Barcode4JNull.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -49,8 +49,8 @@ public class Barcode4JTest
 	@Test
 	public void nullQRCode() throws JRException, IOException
 	{
-		Report report = new Report("net/sf/jasperreports/components/barcode4j/repo/QRCodeNull.jrxml", 
-				"net/sf/jasperreports/components/barcode4j/repo/QRCodeNull.jrpxml");
+		Report report = new Report("net/sf/jasperreports/components/barcode4j/QRCodeNull.jrxml", 
+				"net/sf/jasperreports/components/barcode4j/QRCodeNull.jrpxml");
 		report.init();
 		
 		Map<String, Object> params = new HashMap<>();

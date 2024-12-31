@@ -35,6 +35,6 @@ public class RotationTest extends AbstractSvgTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/draw/rotation/repo", "RotationReport", 1);
+		return runReportArgs("net/sf/jasperreports/draw/rotation", "RotationReport", 1);
 	}
 }

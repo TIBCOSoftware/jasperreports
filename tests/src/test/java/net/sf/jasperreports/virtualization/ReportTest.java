@@ -48,7 +48,7 @@ public class ReportTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/FirstJasper.jrxml", 
+		report = new Report("net/sf/jasperreports/virtualization/FirstJasper.jrxml", 
 				"net/sf/jasperreports/virtualization/FirstJasper.reference.jrpxml");
 		report.addPrintConsumer(PrintSerializer.instance());
 		report.addPrintConsumer(new PrintSerializer(new OwnVirtualizerContainer(new JRGzipVirtualizer(5))));

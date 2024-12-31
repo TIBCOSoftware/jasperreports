@@ -35,6 +35,6 @@ public class BreaksTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/breaks/repo", "BreaksReport", 44);
+		return runReportArgs("net/sf/jasperreports/breaks", "BreaksReport", 44);
 	}
 }

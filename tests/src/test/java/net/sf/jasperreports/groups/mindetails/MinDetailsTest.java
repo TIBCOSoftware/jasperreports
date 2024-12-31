@@ -35,6 +35,6 @@ public class MinDetailsTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/mindetails/repo", "MinDetailsReport", 38);
+		return runReportArgs("net/sf/jasperreports/groups/mindetails", "MinDetailsReport", 38);
 	}
 }

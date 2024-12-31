@@ -35,6 +35,6 @@ public class FooterPositionTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/footerposition/repo", "FooterPositionReport", 46);
+		return runReportArgs("net/sf/jasperreports/groups/footerposition", "FooterPositionReport", 46);
 	}
 }

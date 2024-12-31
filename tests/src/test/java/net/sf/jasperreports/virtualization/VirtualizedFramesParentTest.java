@@ -48,7 +48,7 @@ public class VirtualizedFramesParentTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/VirtualizedFramesParent.jrxml", 
+		report = new Report("net/sf/jasperreports/virtualization/VirtualizedFramesParent.jrxml", 
 				"net/sf/jasperreports/virtualization/VirtualizedFramesParent.reference.jrpxml");
 		report.addPrintConsumer(PrintSerializer.instance());
 		report.addPrintConsumer(new PrintSerializer(new OwnVirtualizerContainer(new JRGzipVirtualizer(5))));
@@ -62,7 +62,7 @@ public class VirtualizedFramesParentTest
 		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(5);
 		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 		params.put("VirtualizedFramesSubreport", 
-				new Report("net/sf/jasperreports/virtualization/repo/VirtualizedFrames").compileReport());
+				new Report("net/sf/jasperreports/virtualization/VirtualizedFrames").compileReport());
 		
 		report.runReport(params);
 	}

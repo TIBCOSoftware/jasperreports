@@ -35,6 +35,6 @@ public class BulletedListHtmlTest extends AbstractHtmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/markup/bulletedlist/repo", "BulletedListReport", 19);
+		return runReportArgs("net/sf/jasperreports/markup/bulletedlist", "BulletedListReport", 19);
 	}
 }
