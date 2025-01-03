@@ -296,7 +296,10 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 			{
 				for (int j = cells[i].length - 1; j >= 0 ; --j)
 				{
-					cellsList.add(cells[i][j]);
+					if (cells[i][j] != null)
+					{
+						cellsList.add(cells[i][j]);
+					}
 				}
 			}
 			
