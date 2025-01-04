@@ -207,7 +207,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 						log.trace("unpaginated report, column break not triggered");
 					}
 				}
-				else if (!filler.isFirstColumnBand || band.atLeastOneElementIsToPrint)
+				else if (!filler.isFirstColumnBand || filler.atLeastOneElementIsToPrint)
 				{
 					setPrepareHeight(availableHeight - getRelativeY());
 				}
@@ -215,7 +215,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 			else
 			{
 				//page break
-				if (!band.isPageBreakInhibited())
+				if (!filler.isPageBreakInhibited())
 				{
 					boolean apply = true;
 					if (paginationIgnored)

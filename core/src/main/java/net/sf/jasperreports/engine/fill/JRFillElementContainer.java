@@ -72,7 +72,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	
 	private int stretchHeight;
 	private int firstY;
-	protected boolean atLeastOneElementIsToPrint;
 	
 	protected final JRFillExpressionEvaluator expressionEvaluator;
 	
@@ -324,7 +323,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	{
 		isOverflow = willOverflow();
 		firstY = 0;
-		atLeastOneElementIsToPrint = false;
 	}
 
 	
@@ -341,7 +339,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		currentOverflowAllowed = isOverflowAllowed;
 
 		firstY = isOverflow ? getActualContainerHeight() : 0;
-		atLeastOneElementIsToPrint = false;
 		boolean isFirstYFound = false;
 
 		if (ySortedElements != null && ySortedElements.length > 0)
@@ -376,7 +373,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 						isFirstYFound = true;
 					}
 
-					atLeastOneElementIsToPrint = true;
+					filler.atLeastOneElementIsToPrint = true;
 				}
 			}
 		}
@@ -493,7 +490,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	{
 		return currentOverflowAllowed;
 	}
-	
+
 	private int getElementFirstY(JRFillElement element)
 	{
 		int elemFirstY;

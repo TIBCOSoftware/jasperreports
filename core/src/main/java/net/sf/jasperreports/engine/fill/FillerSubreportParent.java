@@ -112,12 +112,6 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
-	public boolean isPageBreakInhibited()
-	{
-		return parentElement.getBand().isPageBreakInhibited();
-	}
-
-	@Override
 	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
 	{
 		return parentElement.isSplitTypePreventInhibited(isTopLevelCall);

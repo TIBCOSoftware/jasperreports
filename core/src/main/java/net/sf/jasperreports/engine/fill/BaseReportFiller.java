@@ -579,6 +579,8 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 	}
 
+	public abstract boolean isPageBreakInhibited();
+
 	@Override
 	public JRFillContext getFillContext()
 	{

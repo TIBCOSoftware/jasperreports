@@ -240,6 +240,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected boolean isNewColumn;
 	protected boolean isFirstPageBand;
 	protected boolean isFirstColumnBand;
+	protected boolean atLeastOneElementIsToPrint;
 	// indicates if values from current record have already appeared on current page through a band being evaluated with JRExpression.EVALUATION_DEFAULT
 	protected boolean isCrtRecordOnPage;
 	protected boolean isCrtRecordOnColumn;
@@ -1494,6 +1495,20 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		return isLegacyTextMeasuring;
 	}
 
+
+	@Override
+	public boolean isPageBreakInhibited()
+	{
+		boolean isPageBreakInhibited = isFirstPageBand && !atLeastOneElementIsToPrint;
+		
+		if (isPageBreakInhibited && isSubreport())
+		{
+			isPageBreakInhibited = parent.getFiller().isPageBreakInhibited();
+		}
+		
+		return isPageBreakInhibited;
+	}
+	
 
 	protected int getMasterColumnCount()
 	{

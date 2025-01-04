@@ -152,6 +152,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					offsetY = topMargin;
 					isFirstPageBand = true;
 					isFirstColumnBand = true;
+					atLeastOneElementIsToPrint = false;
 					isCrtRecordOnPage = false;
 					isCrtRecordOnColumn = false;
 
@@ -199,6 +200,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					offsetY = topMargin;
 					isFirstPageBand = true;
 					isFirstColumnBand = true;
+					atLeastOneElementIsToPrint = false;
 					isCrtRecordOnPage = false;
 					isCrtRecordOnColumn = false;
 
@@ -260,6 +262,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		offsetY = topMargin;
 		isFirstPageBand = true;
 		isFirstColumnBand = true;
+		atLeastOneElementIsToPrint = false;
 		isCrtRecordOnPage = false;
 		isCrtRecordOnColumn = false;
 
@@ -494,6 +497,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		setNewPageColumnInBands();
 		isFirstColumnBand = true;
+		atLeastOneElementIsToPrint = false;
 
 		columnHeader.evaluatePrintWhenExpression(evaluation);
 
@@ -755,6 +759,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				{
 					isFirstColumnBand = false;
 				}
+				atLeastOneElementIsToPrint = false;
 			}
 		}
 	}
@@ -2239,6 +2244,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		offsetY = topMargin;
 		isFirstPageBand = true;
 		isFirstColumnBand = true;
+		atLeastOneElementIsToPrint = false;
 		isCrtRecordOnPage = false;
 		isCrtRecordOnColumn = false;
 

@@ -577,18 +577,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 			|| bandType == BandTypeEnum.DETAIL;
 	}
 
-	protected boolean isPageBreakInhibited()
-	{
-		boolean isPageBreakInhibited = filler.isFirstPageBand && !atLeastOneElementIsToPrint;
-		
-		if (isPageBreakInhibited && filler.isSubreport())
-		{
-			isPageBreakInhibited = filler.getBandReportParent().isPageBreakInhibited();
-		}
-		
-		return isPageBreakInhibited;
-	}
-	
 	protected boolean isSplitTypePreventInhibited()
 	{
 		return isSplitTypePreventInhibited(true);
@@ -602,7 +590,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		if (
 			((filler.printOrder == PrintOrderEnum.VERTICAL && filler.isFirstColumnBand)
 			|| (filler.printOrder == PrintOrderEnum.HORIZONTAL && filler.isFirstPageBand))
-			&& (isTopLevelCall || !atLeastOneElementIsToPrint)
+			&& (isTopLevelCall || !filler.atLeastOneElementIsToPrint)
 			)
 		{
 			if (isColumnBand() && filler.columnIndex < filler.columnCount - 1)

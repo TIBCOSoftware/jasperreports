@@ -281,6 +281,13 @@ public class PartReportFiller extends BaseReportFiller
 		//NOP
 	}
 	
+	@Override
+	public boolean isPageBreakInhibited()
+	{
+		//returning true to honor the part level flag
+		return true;
+	}
+
 	protected void fillReport() throws JRException
 	{
 		if (mainDataset.next())

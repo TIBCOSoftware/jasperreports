@@ -46,8 +46,6 @@ public interface BandReportFillerParent extends FillerParent
 	
 	boolean isRunToBottom();
 
-	boolean isPageBreakInhibited();
-
 	boolean isSplitTypePreventInhibited(boolean isTolLevelCall);
 
 	@continuable

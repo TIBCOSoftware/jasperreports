@@ -350,13 +350,6 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
-		public boolean isPageBreakInhibited()
-		{
-			//returning true to honor the part level flag
-			return true;
-		}
-
-		@Override
 		public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
 		{
 			return true;
