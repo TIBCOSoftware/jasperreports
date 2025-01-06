@@ -1548,12 +1548,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			EvaluationTimeEnum evaluationType, String groupName, JRFillBand band)
 	{
 		JRFillGroup group = groupName == null ? null : getGroup(groupName);
-		addBoundElement(element, printElement, evaluationType, group, band);
-	}
-
-	public void addBoundElement(JRFillElement element, JRPrintElement printElement, EvaluationTimeEnum evaluationType, JRGroup group, JRFillBand band)
-	{
 		JREvaluationTime evaluationTime = JREvaluationTime.getEvaluationTime(evaluationType, group, band);
+		
 		addBoundElement(element, printElement, evaluationTime);
 	}
 

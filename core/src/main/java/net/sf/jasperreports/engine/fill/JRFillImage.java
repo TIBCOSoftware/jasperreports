@@ -955,7 +955,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	@Override
 	protected JRPrintElement fill() throws JRException
 	{
-		EvaluationTimeEnum evaluationTime = this.getEvaluationTime();
+		EvaluationTimeEnum evaluationTime = getEvaluationTime();
 		JRTemplatePrintImage printImage;
 		JRRecordedValuesPrintImage recordedValuesImage;
 		if (isEvaluateAuto())

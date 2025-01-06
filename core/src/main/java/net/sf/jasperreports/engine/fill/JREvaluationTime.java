@@ -108,31 +108,34 @@ public final class JREvaluationTime implements Serializable
 	 */
 	public static JREvaluationTime getEvaluationTime(EvaluationTimeEnum type, JRGroup group, JRFillBand band)
 	{
-		JREvaluationTime evaluationTime;
+		JREvaluationTime evaluationTime = null;
 		
-		switch (type)
+		if (type != null)
 		{
-			case REPORT:
-				evaluationTime = EVALUATION_TIME_REPORT;
-				break;
-			case MASTER:
-				evaluationTime = EVALUATION_TIME_MASTER;
-				break;
-			case PAGE:
-				evaluationTime = EVALUATION_TIME_PAGE;
-				break;
-			case COLUMN:
-				evaluationTime = EVALUATION_TIME_COLUMN;
-				break;
-			case GROUP:
-				evaluationTime = getGroupEvaluationTime(group.getName());
-				break;
-			case BAND:
-				evaluationTime = getBandEvaluationTime(band);
-				break;
-			default:
-				evaluationTime = null;
-				break;
+			switch (type)
+			{
+				case REPORT:
+					evaluationTime = EVALUATION_TIME_REPORT;
+					break;
+				case MASTER:
+					evaluationTime = EVALUATION_TIME_MASTER;
+					break;
+				case PAGE:
+					evaluationTime = EVALUATION_TIME_PAGE;
+					break;
+				case COLUMN:
+					evaluationTime = EVALUATION_TIME_COLUMN;
+					break;
+				case GROUP:
+					evaluationTime = getGroupEvaluationTime(group.getName());
+					break;
+				case BAND:
+					evaluationTime = getBandEvaluationTime(band);
+					break;
+				case NOW:
+				default:
+					break;
+			}
 		}
 		
 		return evaluationTime;

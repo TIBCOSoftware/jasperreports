@@ -68,7 +68,7 @@ public class SortComponentFill extends BaseFillComponent {
 	
 	protected boolean isEvaluateNow()
 	{
-		return sortComponent.getEvaluationTime() == EvaluationTimeEnum.NOW;
+		return EvaluationTimeEnum.getValueOrDefault(sortComponent.getEvaluationTime()) == EvaluationTimeEnum.NOW;
 	}
 	
 	@Override
