@@ -42,18 +42,24 @@ public class FillColumn implements JRPropertiesHolder
 	private BaseColumn tableColumn;
 	private int width;
 	private List<FillColumn> subcolumns;
+	private final Integer defaultWeight;
 	private int subColsTotalWeight; 
 	private Integer colSpan;
 
 	private JRPropertiesMap properties;
 	
-	public FillColumn(Column column, JRPropertiesMap properties)
+	public FillColumn(
+		Column column, 
+		Integer defaultWeight,
+		JRPropertiesMap properties
+		)
 	{
 		this(
 			column,  
 			column.getWidth(),
 			null, 
 			0,
+			defaultWeight,
 			properties
 			);
 	}
@@ -67,10 +73,11 @@ public class FillColumn implements JRPropertiesHolder
 		)
 	{
 		this(
-			(BaseColumn)columnGroup,  
+			columnGroup,  
 			width,
 			subcolumns, 
 			subColsTotalWeight,
+			null,
 			properties
 			);
 	}
@@ -80,6 +87,7 @@ public class FillColumn implements JRPropertiesHolder
 		int width,
 		List<FillColumn> subcolumns, 
 		int subColsTotalWeight,
+		Integer defaultWeight,
 		JRPropertiesMap properties
 		)
 	{
@@ -89,6 +97,7 @@ public class FillColumn implements JRPropertiesHolder
 		this.width = width;
 		this.subcolumns = subcolumns;
 		this.subColsTotalWeight = subColsTotalWeight;
+		this.defaultWeight = defaultWeight;
 		this.properties = properties;
 	}
 
@@ -109,7 +118,7 @@ public class FillColumn implements JRPropertiesHolder
 
 	public int getWeight()
 	{
-		return tableColumn.getWeight() == null ? subColsTotalWeight : tableColumn.getWeight();
+		return tableColumn.getWeight() == null ? (defaultWeight == null ? subColsTotalWeight : defaultWeight) : tableColumn.getWeight();
 	}
 
 	public int getSubColsTotalWeight()

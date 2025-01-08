@@ -75,6 +75,17 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 			)
 	public static final String CONFIG_PROPERTY_HORIZONTAL_POSITION = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.horizontal.position";
 
+	/**
+	 * Property that specifies a default value for the <code>horizontalPosition</code> attribute of table components.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TABLE},
+			sinceVersion = PropertyConstants.VERSION_7_0_2,
+			valueType = Integer.class
+			)
+	public static final String CONFIG_PROPERTY_COLUMN_WEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.weight";
+
 	@Override
 	JRDatasetRun getDatasetRun();
 

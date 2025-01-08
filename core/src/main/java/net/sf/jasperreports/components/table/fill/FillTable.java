@@ -81,6 +81,7 @@ public class FillTable extends SubreportFillComponent
 	private List<FillColumn> fillColumns;
 	
 	private HorizontalPosition horizontalPosition;
+	private Integer columnWeight;
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
 	{
@@ -131,10 +132,17 @@ public class FillTable extends SubreportFillComponent
 					fillContext.getComponentElement(),
 					fillContext.getFiller().getMasterFiller().getJasperReport()
 					);
-			if (strHorizontalPosition != null)
-			{
-				horizontalPosition = HorizontalPosition.getByName(strHorizontalPosition);
-			}
+			horizontalPosition = HorizontalPosition.getByName(strHorizontalPosition);
+		}
+
+		String strColumnWeight = fillContext.getFiller().getPropertiesUtil().getProperty(
+			TableComponent.CONFIG_PROPERTY_COLUMN_WEIGHT,
+			fillContext.getComponentElement(),
+			fillContext.getFiller().getMasterFiller().getJasperReport()
+			);
+		if (strColumnWeight != null && strColumnWeight.trim().length() > 0)
+		{
+			columnWeight = Integer.parseInt(strColumnWeight);
 		}
 		
 		evaluateColumns(evaluation);
@@ -240,7 +248,7 @@ public class FillTable extends SubreportFillComponent
 				if (toPrint)
 				{
 					JRPropertiesMap properties = evaluateProperties(column, evaluation);
-					return new FillColumn(column, properties); 
+					return new FillColumn(column, columnWeight, properties); 
 				}
 				return null;
 			}
