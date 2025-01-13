@@ -29,7 +29,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReport;
 
 
 /**
@@ -54,8 +57,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	
 	protected static final int POSITION_DB_COLUMN = 1;
 	protected static final int POSITION_PARAMETER = 2;
-
-	protected static final String CLAUSE_TRUISM = "0 = 0";
+	protected static final int POSITION_NO_VALUES_RESULT = 3;
 	
 	protected JRSqlAbstractInClause()
 	{
@@ -65,7 +67,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * Creates a (NOT) IN SQL clause.
 	 * 
 	 * <p>
-	 * The function expects two clause tokens (after the ID token):
+	 * The function expects two clause tokens (after the ID token), the third one being optional:
 	 * <ul>
 	 * 	<li>The first token is the SQL column to be used in the clause.</li>
 	 * 	<li>The second token is the name of the report parameter that contains the value list.
@@ -73,6 +75,8 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * 		The value of this parameter has to be an array, a <code>java.util.Collection</code>
 	 * 		or <code>null</code>.
 	 * 	</li>
+	 * 	<li>The third token is an optional boolean representing the logical value (true/false) 
+	 * that the clause should return in case the list of values is null or empty.</li>
 	 * </ul>
 	 * </p>
 	 * 
@@ -100,7 +104,10 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * </ul>
 	 * </li>
 	 * <li>If the values list is null or empty, both IN and NOTIN functions generate a SQL clause that
-	 * will always evaluate to true (e.g. <code>0 = 0</code>).</li>
+	 * will evaluate to true (e.g. <code>0 = 0</code>) or false (e.g. <code>1 = 0</code>) according to the value
+	 * of the optional third parameter of the clause. This third optional parameter has itself a default value
+	 * that is controlled by the net.sf.jasperreports.sql.clause.in.novalues.result and the net.sf.jasperreports.sql.clause.notin.novalues.result
+	 * configuration properties, respectively.</li>
 	 * </ol>
 	 * </p>
 	 * 
@@ -112,7 +119,6 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
 		String col = clauseTokens.getToken(POSITION_DB_COLUMN);
-		String param = clauseTokens.getToken(POSITION_PARAMETER);
 		if (col == null)
 		{
 			throw 
@@ -121,6 +127,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 					(Object[])null);
 		}
 		
+		String param = clauseTokens.getToken(POSITION_PARAMETER);
 		if (param == null)
 		{
 			throw 
@@ -134,7 +141,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		Object paramValue = queryContext.getValueParameter(param).getValue();
 		if (paramValue == null)
 		{
-			handleNoValues(queryContext);
+			handleNoValues(clauseTokens, queryContext);
 		}
 		else
 		{
@@ -144,7 +151,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 
 			if (count == 0)
 			{
-				handleNoValues(queryContext);
+				handleNoValues(clauseTokens, queryContext);
 			}
 			else
 			{
@@ -223,10 +230,30 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * 
 	 * @param queryContext the query context
 	 */
-	protected void handleNoValues(JRQueryClauseContext queryContext)
+	protected void handleNoValues(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
-		queryContext.queryBuffer().append(CLAUSE_TRUISM);
+		String noValuesResult = clauseTokens.getToken(POSITION_NO_VALUES_RESULT);
+		
+		if (noValuesResult == null)
+		{
+			noValuesResult = 
+				JRPropertiesUtil.getInstance(queryContext.getJasperReportsContext()).getProperty(
+					getNoValuesResultProperty(), 
+					(JasperReport)queryContext.getValueParameter(JRParameter.JASPER_REPORT).getValue()
+					);
+		}
+		
+		if (noValuesResult == null || Boolean.valueOf(noValuesResult))
+		{
+			queryContext.queryBuffer().append(CLAUSE_TRUISM);
+		}
+		else
+		{
+			queryContext.queryBuffer().append(CLAUSE_FALSISM);
+		}
 	}
+
+	protected abstract String getNoValuesResultProperty();
 
 	/**
 	 * 

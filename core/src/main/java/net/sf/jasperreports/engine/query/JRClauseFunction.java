@@ -39,6 +39,9 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 public interface JRClauseFunction
 {
 
+	public static final String CLAUSE_TRUISM = "0 = 0";
+	public static final String CLAUSE_FALSISM = "1 = 0";
+
 	/**
 	 * Handles a query clause chunk.
 	 * 

@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * SQL "IN" clause function.
@@ -32,6 +36,19 @@ package net.sf.jasperreports.engine.query;
  */
 public class JRSqlInClause extends JRSqlAbstractInClause
 {
+	/**
+	 * Property that specifies the boolean result of the IN clause of an SQL query when the list of values is null or empty 
+	 * and the optional third parameter of the clause is not provided.
+	 */
+	@Property(
+			name = "net.sf.jasperreports.sql.clause.in.novalues.result",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_7_0_2,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_NO_VALUES_RESULT = JRPropertiesUtil.PROPERTY_PREFIX + "sql.clause.in.novalues.result";
 
 	protected static final String OPERATOR_IN = "IN";
 	protected static final String OPERATOR_NULL = "IS NULL";
@@ -65,5 +82,11 @@ public class JRSqlInClause extends JRSqlAbstractInClause
 	protected void appendAndOrOperator(StringBuffer sBuffer)
 	{
 		sBuffer.append(OPERATOR_AND_OR);
+	}
+	
+	@Override
+	protected String getNoValuesResultProperty() 
+	{
+		return PROPERTY_NO_VALUES_RESULT;
 	}
 }

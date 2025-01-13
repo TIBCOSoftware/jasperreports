@@ -57,8 +57,6 @@ public abstract class SQLBetweenBaseClause implements JRClauseFunction
 	protected static final int POSITION_LEFT_PARAMETER = 2;
 	protected static final int POSITION_RIGHT_PARAMETER = 3;
 
-	protected static final String CLAUSE_TRUISM = "0 = 0";
-
 
 	/**
 	 * Creates a BETWEEN-like SQL clause, depending on the clause ID.

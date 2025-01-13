@@ -43,8 +43,6 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 	protected static final String OPERATOR_LESS_OR_EQUAL = "<=";
 	protected static final String OPERATOR_GREATER = ">";
 	protected static final String OPERATOR_GREATER_OR_EQUAL = ">=";
-	
-	protected static final String CLAUSE_TRUISM = "0 = 0";
 
 	protected SQLLessOrGreaterBaseClause()
 	{

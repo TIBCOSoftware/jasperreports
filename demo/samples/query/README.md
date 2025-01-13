@@ -118,31 +118,33 @@ Similar to the `$P{}` explanation above, `$X{}` results in ? being added to the 
 
 As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for several SQL clause functions which require some additional processing:
 
-**The `$X{IN, <column_name>, <parameter_name>}` clause function**
+**The `$X{IN, <column_name>, <parameter_name>, [no_values_result]}` clause function**
 
-The function expects three mandatory clause tokens:
+The function expects three mandatory clause tokens and a fourth optional clause token:
 
 - The first token represents the function ID and always takes the fixed value `IN`.
 - The second token is the SQL column (or column combination) to be used in the clause.
 - The third token is the name of the report parameter that contains the value list. The value of this parameter has to be an `array`, a `java.util.Collection` or null.
+- The fourth token is optional and represents the boolean value result of the clause when the list of values is null or empty.
 
 If the parameter's value is a collection of not null values, the function constructs a `<column_name> IN (?, ?, .., ?)` clause\
 If the parameter's value is a collection containing both null and not null values, the function constructs a `(<column_name> IS NULL OR <column_name> IN (?, ?, .., ?))` clause\
 If the parameter's value is a collection containing only null values, the function constructs a `<column_name> IS NULL` clause\
-If the parameter's value is null, the function generates a SQL clause that will always evaluate to `true` (e.g. `0 = 0`).
+If the parameter's value is null or empty, the function generates a SQL clause that will evaluate to `true` (e.g. `0 = 0`) or to `false` (e.g. `1 = 0`) according to the result value specified by the fourth clause token. The default value of a missing fourth clause token is specified by the `net.sf.jasperreports.sql.clause.in.novalues.result` configuration property. 
 
-**The `$X{NOTIN, <column_name>, <parameter_name>}` clause function**
+**The `$X{NOTIN, <column_name>, <parameter_name>, [no_values_result]}` clause function**
 
-The function expects three mandatory clause tokens:
+The function expects three mandatory clause tokens and a fourth optional clause token:
 
 - The first token represents the function ID and always takes the fixed value `NOTIN`.
 - The second token is the SQL column (or column combination) to be used in the clause.
 - The third token is the name of the report parameter that contains the value list. The value of this parameter has to be an array, a `java.util.Collection` or null.
+- The fourth token is optional and represents the boolean value result of the clause when the list of values is null or empty.
 
 If the parameter's value is a collection of not null values, the function constructs a `<column_name> NOT IN (?, ?, .., ?)` clause\
 If the parameter's value is a collection containing both null and not null values, the function constructs a `(<column_name> IS NOT NULL AND <column_name> NOT IN (?, ?, .., ?))` clause\
 If the parameter's value is a collection containing only null values, the function constructs a `<column_name> IS NOT NULL` clause\
-If the parameter's value is null, the function generates a SQL clause that will always evaluate to `true` (e.g. `0 = 0`).
+If the parameter's value is null or empty, the function generates a SQL clause that will evaluate to `true` (e.g. `0 = 0`) or to `false` (e.g. `1 = 0`) according to the result value specified by the fourth clause token. The default value of a missing fourth clause token is specified by the `net.sf.jasperreports.sql.clause.notin.novalues.result` configuration property.
 
 Since JasperReports v4.0.1, the following built-in clause functions are also available:
 
