@@ -53,7 +53,6 @@ This document lists all the major features of the JasperReports library, as show
 - [Rendering Images Using Third Party APIs (JFreeChart Library)](./jfreechart/README.md#jfreechart)
 - [Using the Built-in List Component](./list/README.md#list)
 - [Using the Built-in Table Component](./table/README.md#table)
-- [Using the Built-in Map Component](./map/README.md#map)
 - [Using the Built-in Spider Chart Component](./spiderchartcomponent/README.md#spiderchartcomponent)
 - [Rendering Images Using Third Party APIs (XChart Library)](./xchart/README.md#xchart)
 - [Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)](./xchartcomponent/README.md#xchartcomponent)

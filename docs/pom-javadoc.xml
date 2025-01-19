@@ -45,7 +45,6 @@
 		<module>../ext/excel-poi</module>
 		<module>../ext/fastexcel</module>
 		<module>../ext/functions</module>
-		<module>../ext/google-maps</module>
 		<module>../ext/groovy</module>
 		<module>../ext/hibernate</module>
 		<module>../ext/hibernate-j2ee</module>
