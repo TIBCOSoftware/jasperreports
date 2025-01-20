@@ -1,7 +1,0 @@
-<div class='sortlink' data-uuid="${uuid}" style="cursor: pointer; display: table; position: absolute;
-    #if(${elementX})left: ${elementX}; top: ${elementY};#end width: ${elementWidth}px; height: ${elementHeight}px; text-decoration: none;">
-	<div style='display: table-cell; vertical-align: ${sortHandlerVAlign}; text-align: ${sortHandlerHAlign};'>
-    #if (${isSorted})<input type='button' class='sortSymbolImage ${sortSymbolResource}' />#end
-    #if (${isFiltered})<input type='button' class='filterSymbolImage filterSymbol_${filterActiveInactive} ${filterSymbolImageResource}' /> #end
-	</div>
-</div>

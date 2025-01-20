@@ -36,7 +36,6 @@
 		<module>ext/groovy</module>
 		<module>ext/hibernate</module>
 		<module>ext/hibernate-j2ee</module>
-		<module>ext/interactivity</module>
 		<module>ext/javascript</module>
 		<module>ext/jaxen</module>
 		<module>ext/jdt</module>
@@ -45,7 +44,6 @@
 		<module>ext/pdf</module>
 		<module>ext/servlets</module>
 		<module>ext/servlets-j2ee</module>
-		<module>ext/sort</module>
 		<module>ext/spring</module>
 		<module>ext/velocity</module>
 		<module>ext/xalan</module>
