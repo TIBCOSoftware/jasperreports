@@ -13,6 +13,5 @@ Bundle-Version: ${project.version}
 Bundle-Vendor: ${project.organization.name}
 Bundle-SymbolicName: net.sf.jasperreports.jakarta.servlets
 Bundle-ClassPath: .
-Export-Package: net.sf.jasperreports.jakarta.servlets,
- net.sf.jasperreports.jakarta.web
+Export-Package: net.sf.jasperreports.jakarta.servlets
 DynamicImport-Package: *

@@ -45,7 +45,6 @@
 		<module>ext/servlets</module>
 		<module>ext/servlets-j2ee</module>
 		<module>ext/spring</module>
-		<module>ext/velocity</module>
 		<module>ext/xalan</module>
 	</modules>
 </project>
