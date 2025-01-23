@@ -25,7 +25,6 @@
 		<module>ext/charts</module>
 		<module>ext/chart-customizers</module>
 		<module>ext/chart-themes</module>
-		<module>ext/chrome</module>
 		<module>ext/data-adapters</module>
 		<module>ext/data-adapters-http</module>
 		<module>ext/ejbql</module>
