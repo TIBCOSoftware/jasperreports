@@ -259,10 +259,10 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 				break;
 			}
 		}
-		
-		int xFrameOffset = 0;
 
-		if (contentsWidth < elementWidth)
+		int xFrameOffset = 0;
+		Boolean shrinkWidth = shrinkWidth() == null ? Boolean.FALSE : shrinkWidth();
+		if (contentsWidth < elementWidth && !shrinkWidth)
 		{
 			contentsWidth = elementWidth;
 		}
@@ -332,6 +332,11 @@ public abstract class SubreportFillComponent extends BaseFillComponent
 	}
 
 	protected HorizontalPosition getHorizontalPosition()
+	{
+		return null;
+	}
+	
+	protected Boolean shrinkWidth()
 	{
 		return null;
 	}

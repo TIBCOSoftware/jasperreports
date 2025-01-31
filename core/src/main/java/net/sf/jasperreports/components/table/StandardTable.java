@@ -54,6 +54,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	public static final String PROPERTY_COLUMNS = "columns";
 	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
 	public static final String PROPERTY_HORIZONTAL_POSITION = "horizontalPosition";
+	public static final String PROPERTY_SHRINK_WIDTH = "shrinkWidth";
 
 	public static final String PROPERTY_TABLE_HEADER = "tableHeader";
 	public static final String PROPERTY_TABLE_FOOTER = "tableFooter";
@@ -69,6 +70,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	
 	private WhenNoDataTypeTableEnum whenNoDataType;
 	private HorizontalPosition horizontalPosition;
+	private Boolean shrinkWidth;
 
 	private Row tableHeader;
 	private Row tableFooter;
@@ -93,6 +95,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	{
 		whenNoDataType = table.getWhenNoDataType();
 		horizontalPosition = table.getHorizontalPosition();
+		shrinkWidth = table.shrinkWidth();
 
 		datasetRun = factory.getDatasetRun(table.getDatasetRun());
 		
@@ -195,6 +198,22 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		Object old = this.horizontalPosition;
 		this.horizontalPosition = horizontalPosition;
 		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_POSITION, old, this.horizontalPosition);
+	}
+	
+	@Override
+	public Boolean shrinkWidth()
+	{
+		return shrinkWidth;
+	}
+	
+	/**
+	 *
+	 */
+	public void setShrinkToFit(Boolean shrinkWidth)
+	{
+		Object old = this.shrinkWidth;
+		this.shrinkWidth = shrinkWidth;
+		getEventSupport().firePropertyChange(PROPERTY_SHRINK_WIDTH, old, this.shrinkWidth);
 	}
 
 	@Override

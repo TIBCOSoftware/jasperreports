@@ -2333,6 +2333,15 @@ Property that provides the default value for the horizontal position of the tabl
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.components.table.shrink.width -->
+
+  <configProperty name="net.sf.jasperreports.components.table.shrink.width">
+    <description>
+Property that provides the default value for the shrinkWidth setting of the table component.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.components.table.column.weight -->
 
   <configProperty name="net.sf.jasperreports.components.table.column.weight">

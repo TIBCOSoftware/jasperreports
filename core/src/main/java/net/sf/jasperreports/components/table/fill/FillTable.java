@@ -81,6 +81,7 @@ public class FillTable extends SubreportFillComponent
 	private List<FillColumn> fillColumns;
 	
 	private HorizontalPosition horizontalPosition;
+	private Boolean shrinkWidth;
 	private Integer columnWeight;
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
@@ -111,6 +112,12 @@ public class FillTable extends SubreportFillComponent
 	{
 		return horizontalPosition;
 	}
+	
+	@Override
+	protected Boolean shrinkWidth()
+	{
+		return shrinkWidth;
+	}
 
 	@Override
 	public void evaluate(byte evaluation) throws JRException
@@ -133,6 +140,18 @@ public class FillTable extends SubreportFillComponent
 					fillContext.getFiller().getMasterFiller().getJasperReport()
 					);
 			horizontalPosition = HorizontalPosition.getByName(strHorizontalPosition);
+		}
+
+		shrinkWidth = table.shrinkWidth();
+		if (shrinkWidth == null)
+		{
+			String strShrinkToFit = 
+				fillContext.getFiller().getPropertiesUtil().getProperty(
+					TableComponent.CONFIG_PROPERTY_SHRINK_WIDTH,
+					fillContext.getComponentElement(),
+					fillContext.getFiller().getMasterFiller().getJasperReport()
+					);
+			shrinkWidth = Boolean.valueOf(strShrinkToFit);
 		}
 
 		String strColumnWeight = fillContext.getFiller().getPropertiesUtil().getProperty(

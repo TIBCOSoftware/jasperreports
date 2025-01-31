@@ -76,6 +76,18 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	public static final String CONFIG_PROPERTY_HORIZONTAL_POSITION = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.horizontal.position";
 
 	/**
+	 * Property that specifies a default value for the <code>shrinkWidth</code> attribute of table components.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_7_0_2,
+			valueType = Boolean.class
+			)
+	public static final String CONFIG_PROPERTY_SHRINK_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.shrink.width";
+
+	/**
 	 * Property that specifies a default value for the <code>weight</code> attribute of a table component column.
 	 */
 	@Property(
@@ -104,6 +116,12 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	 */
 	@JacksonXmlProperty(isAttribute = true)
 	HorizontalPosition getHorizontalPosition();
+
+	/**
+	 * Specifies if the table box should shrink to accommodate the smaller total width of visible columns.
+	 */
+	@JacksonXmlProperty(isAttribute = true)
+	Boolean shrinkWidth();
 
 	Row getTableHeader();
 	
