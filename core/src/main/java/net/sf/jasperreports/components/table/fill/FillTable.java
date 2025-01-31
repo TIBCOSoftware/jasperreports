@@ -145,13 +145,13 @@ public class FillTable extends SubreportFillComponent
 		shrinkWidth = table.shrinkWidth();
 		if (shrinkWidth == null)
 		{
-			String strShrinkToFit = 
+			String strShrinkWidth = 
 				fillContext.getFiller().getPropertiesUtil().getProperty(
 					TableComponent.CONFIG_PROPERTY_SHRINK_WIDTH,
 					fillContext.getComponentElement(),
 					fillContext.getFiller().getMasterFiller().getJasperReport()
 					);
-			shrinkWidth = Boolean.valueOf(strShrinkToFit);
+			shrinkWidth = Boolean.valueOf(strShrinkWidth);
 		}
 
 		String strColumnWeight = fillContext.getFiller().getPropertiesUtil().getProperty(

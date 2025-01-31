@@ -209,7 +209,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	/**
 	 *
 	 */
-	public void setShrinkToFit(Boolean shrinkWidth)
+	public void setShrinkWidth(Boolean shrinkWidth)
 	{
 		Object old = this.shrinkWidth;
 		this.shrinkWidth = shrinkWidth;
