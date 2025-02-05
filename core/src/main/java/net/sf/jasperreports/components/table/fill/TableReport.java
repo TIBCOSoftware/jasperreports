@@ -1960,11 +1960,6 @@ public class TableReport implements JRReport
 			propertiesMap.setBaseProperties(headerHtmlBaseProperties.get(columnHashCode));
 		}
 		
-		if (width != originalWidth)
-		{
-			scaleCellElement(element, originalWidth, width);
-		}
-		
 		return cellElement;
 	}
 
