@@ -355,7 +355,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	protected Font loadFont(Map<Attribute, Object> textAttributes)
 	{
 		// check bundled fonts
-		FontUtil fontUtil = FontUtil.getInstance(context.getJasperReportsContext());
+		FontUtil fontUtil = context.getFontUtil();
 		Font font = fontUtil.getAwtFontFromBundles(fontKey.fontAttribute, fontKey.style, fontKey.size, fontKey.locale, false);
 		if (font == null)
 		{

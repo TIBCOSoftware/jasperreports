@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -202,6 +203,7 @@ public class TextMeasurer implements JRTextMeasurer
 			)
 	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text";
 
+	private FontUtil fontUtil;
 	protected JasperReportsContext jasperReportsContext;
 	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
@@ -418,7 +420,16 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	public TextMeasurer(JasperReportsContext jasperReportsContext, JRCommonText textElement)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this(FontUtil.getInstance(jasperReportsContext), textElement);
+	}
+	
+	/**
+	 * 
+	 */
+	public TextMeasurer(FontUtil fontUtil, JRCommonText textElement)
+	{
+		this.fontUtil = fontUtil;
+		this.jasperReportsContext = fontUtil.getJasperReportsContext();
 		this.textElement = textElement;
 		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;//FIXMENOW all elements are now properties holders, so interfaces might be rearranged
 		if (textElement.getDefaultStyleProvider() instanceof JRPropertiesHolder)
@@ -579,7 +590,7 @@ public class TextMeasurer implements JRTextMeasurer
 		// decide if a bullet should be rendered
 		StyledTextWriteContext context = new StyledTextWriteContext(true);
 
-		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator(); 
+		AttributedCharacterIterator allParagraphs = styledText.getAwtAttributedString(fontUtil, ignoreMissingFont).getIterator(); 
 
 		isFirstParagraph = true;
 
@@ -1122,6 +1133,12 @@ public class TextMeasurer implements JRTextMeasurer
 		public JasperReportsContext getJasperReportsContext()
 		{
 			return jasperReportsContext;
+		}
+		
+		@Override
+		public FontUtil getFontUtil()
+		{
+			return fontUtil;
 		}
 
 		@Override

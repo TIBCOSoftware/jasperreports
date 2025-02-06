@@ -143,6 +143,11 @@ public class JRFillContext
 		return styledTextUtil;
 	}
 
+	protected FontUtil getFontUtil()
+	{
+		return styledTextUtil.getFontUtil();
+	}
+	
 	public void init()
 	{
 		fillEvents = new FillEvents(this);

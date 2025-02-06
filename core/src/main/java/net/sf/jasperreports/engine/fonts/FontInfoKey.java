@@ -21,39 +21,53 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.fonts;
 
-import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.fill.JRTextMeasurer;
-import net.sf.jasperreports.engine.fonts.FontUtil;
+import java.util.Locale;
+import java.util.Objects;
+
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
- * Text measurer factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see JRTextMeasurer
  */
-public interface JRTextMeasurerFactory
+public class FontInfoKey
 {
 
-	/**
-	 * Creates a text measurer for a text object.
-	 * 
-	 * @param text the text object
-	 * @return a text measurer
-	 */
-	JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text);
-
-	/**
-	 * Creates a text measurer for a text object.
-	 * 
-	 * @param text the text object
-	 * @return a text measurer
-	 */
-	default JRTextMeasurer createMeasurer(FontUtil fontUtil, JRCommonText text)
+	private final String fontName;
+	private final boolean ignoreCase;
+	private final Locale locale;
+	
+	public FontInfoKey(String fontName, boolean ignoreCase, Locale locale)
 	{
-		return createMeasurer(fontUtil.getJasperReportsContext(), text);
+		this.fontName = fontName;
+		this.ignoreCase = ignoreCase;
+		this.locale = locale;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 47;
+		hash = 29 * hash + ObjectUtils.hashCode(fontName);
+		hash = 29 * hash + Boolean.hashCode(ignoreCase);
+		hash = 29 * hash + ObjectUtils.hashCode(locale);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FontInfoKey other = (FontInfoKey) obj;
+		return Objects.equals(fontName, other.fontName) && ignoreCase == other.ignoreCase
+				&& Objects.equals(locale, other.locale);
 	}
 	
 }
