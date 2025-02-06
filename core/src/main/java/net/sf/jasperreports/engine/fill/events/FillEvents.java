@@ -44,7 +44,7 @@ public class FillEvents
 	public FillEvents(JRFillContext fillContext)
 	{
 		List<RegisteredListener<ReportFillEvent>> fillListeners = collectFillListeners(fillContext);
-		this.listeners = new ListenerRegistry<>(fillListeners);
+		this.listeners = fillListeners.isEmpty() ? null : new ListenerRegistry<>(fillListeners);
 	}
 
 	private List<RegisteredListener<ReportFillEvent>> collectFillListeners(JRFillContext fillContext)
@@ -70,6 +70,9 @@ public class FillEvents
 
 	public <T extends ReportFillEvent> void triggerEvent(Class<T> eventType, Supplier<T> eventSupplier)
 	{
-		listeners.triggerEvent(eventType, eventSupplier);
+		if (listeners != null)
+		{
+			listeners.triggerEvent(eventType, eventSupplier);
+		}
 	}
 }
