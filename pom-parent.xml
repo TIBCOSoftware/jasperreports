@@ -78,8 +78,8 @@
 	</scm>
 	<properties>
 		<revision>master-SNAPSHOT</revision>
-		<scmConnection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</scmConnection>
-		<scmUrl>https://github.com/TIBCOSoftware/jasperreports</scmUrl>
+		<scmConnection>scm:git:https://github.com/Jaspersoft/jasperreports.git</scmConnection>
+		<scmUrl>https://github.com/Jaspersoft/jasperreports</scmUrl>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--
 			config properties
