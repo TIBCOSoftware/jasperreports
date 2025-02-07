@@ -101,4 +101,12 @@ public class FontInfo
 	{
 		this.style = style;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "family " + (family == null ? null : family.getName())
+				+ ", face " + (face == null ? null : face.getName())
+				+ ", style " + style;
+	}
 }
