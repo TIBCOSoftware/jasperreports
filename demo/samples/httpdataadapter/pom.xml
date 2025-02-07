@@ -32,9 +32,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty-maven-plugin.version}</version>
+				<groupId>org.eclipse.jetty.ee10</groupId>
+				<artifactId>jetty-ee10-maven-plugin</artifactId>
+				<version>${jetty-ee10-maven-plugin.version}</version>
 				<configuration>
 					<webAppSourceDirectory>web</webAppSourceDirectory>
 					<stopPort>9966</stopPort>
