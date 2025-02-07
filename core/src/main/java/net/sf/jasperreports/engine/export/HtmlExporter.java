@@ -198,6 +198,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
 
+	private float currentZoomRatio;
+	private String currentSizeUnit;
+
 	public HtmlExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
@@ -301,6 +304,26 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
+		
+		currentSizeUnit = configuration.getSizeUnit().getName();
+		
+		Float zoomRatio = configuration.getZoomRatio();
+		if (zoomRatio != null)
+		{
+			if (zoomRatio <= 0)
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
+						new Object[]{currentZoomRatio} 
+						);
+			}
+			currentZoomRatio = zoomRatio;
+		}
+		else
+		{
+			currentZoomRatio = DEFAULT_ZOOM;
+		}
 	}
 	
 
@@ -2746,28 +2769,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			number = number.intValue();
 		}
 
-		return String.valueOf(number) + getCurrentItemConfiguration().getSizeUnit().getName();
+		return String.valueOf(number) + currentSizeUnit;
 	}
 
 	protected float toZoom(float size)//FIXMEEXPORT cache this
 	{
-		float zoom = DEFAULT_ZOOM;
-		
-		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
-		if (zoomRatio != null)
-		{
-			zoom = zoomRatio;
-			if (zoom <= 0)
-			{
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_INVALID_ZOOM_RATIO,  
-						new Object[]{zoom} 
-						);
-			}
-		}
-
-		return (zoom * size);
+		return (currentZoomRatio * size);
 	}
 
 	private void addSearchAttributes(JRStyledText styledText, JRPrintText textElement) {

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
@@ -48,6 +49,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  */
 public final class JRTextMeasurerUtil
 {
+	private final FontUtil fontUtil;
 	private final JasperReportsContext jasperReportsContext;
 	private final JRStyledTextAttributeSelector noBackcolorSelector;//FIXMECONTEXT make this a context object everywhere and retrieve using a constant key
 	private final JRStyledTextUtil styledTextUtil;
@@ -56,9 +58,10 @@ public final class JRTextMeasurerUtil
 	/**
 	 *
 	 */
-	private JRTextMeasurerUtil(JasperReportsContext jasperReportsContext)
+	private JRTextMeasurerUtil(FontUtil fontUtil)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.fontUtil = fontUtil;
+		this.jasperReportsContext = fontUtil.getJasperReportsContext();
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 	}
@@ -69,7 +72,16 @@ public final class JRTextMeasurerUtil
 	 */
 	public static JRTextMeasurerUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new JRTextMeasurerUtil(jasperReportsContext);
+		return getInstance(FontUtil.getInstance(jasperReportsContext));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JRTextMeasurerUtil getInstance(FontUtil fontUtil)
+	{
+		return new JRTextMeasurerUtil(fontUtil);
 	}
 	
 	
@@ -136,7 +148,7 @@ public final class JRTextMeasurerUtil
 	public JRTextMeasurer createTextMeasurer(JRCommonText text, JRPropertiesHolder propertiesHolder)
 	{
 		JRTextMeasurerFactory factory = getFactory(propertiesHolder);
-		return factory.createMeasurer(jasperReportsContext, text);
+		return factory.createMeasurer(fontUtil, text);
 	}
 	
 	/**

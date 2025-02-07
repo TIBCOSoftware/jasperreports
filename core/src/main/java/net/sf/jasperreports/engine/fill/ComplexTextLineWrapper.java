@@ -78,7 +78,7 @@ public class ComplexTextLineWrapper implements TextLineWrapper
 	public boolean start(JRStyledText styledText)
 	{
 		globalAttributes = styledText.getGlobalAttributes();
-		allParagraphs = styledText.getAwtAttributedString(context.getJasperReportsContext(),
+		allParagraphs = styledText.getAwtAttributedString(context.getFontUtil(),
 				context.isIgnoreMissingFont()).getIterator();
 		return true;
 	}

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRTextMeasurerFactory;
 
 /**
@@ -36,6 +37,12 @@ public class NaiveTextMeasurerFactory implements JRTextMeasurerFactory
 
 	@Override
 	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
+	{
+		return new NaiveTextMeasurer(text);
+	}
+
+	@Override
+	public JRTextMeasurer createMeasurer(FontUtil fontUtil, JRCommonText text)
 	{
 		return new NaiveTextMeasurer(text);
 	}

@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -58,6 +59,7 @@ public abstract class AbstractTextRenderer
 
 	protected final JasperReportsContext jasperReportsContext;
 	protected final JRPropertiesUtil propUtil;
+	protected final FontUtil fontUtil;
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -114,6 +116,7 @@ public abstract class AbstractTextRenderer
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.fontUtil = FontUtil.getInstance(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
 		this.defaultIndentFirstLine = defaultIndentFirstLine;
@@ -765,7 +768,7 @@ public abstract class AbstractTextRenderer
 	 */
 	protected AttributedString getAttributedString()
 	{
-		return styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont);
+		return styledText.getAwtAttributedString(fontUtil, ignoreMissingFont);
 	}
 
 	/**

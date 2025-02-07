@@ -23,43 +23,52 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FontSetInfo
+public class FontSetInfoKey
 {
 
-	private FontSet fontSet;
-	private FontSetFamilyInfo primaryFamily;
-	private List<FontSetFamilyInfo> families;
+	private final String name;
+	private final Locale locale;
+	private final boolean ignoreMissingFonts;
 	
-	public FontSetInfo(FontSet fontSet, FontSetFamilyInfo primaryFamily, List<FontSetFamilyInfo> families)
+	public FontSetInfoKey(String name, Locale locale, boolean ignoreMissingFonts)
 	{
-		this.fontSet = fontSet;
-		this.primaryFamily = primaryFamily;
-		this.families = families;
+		this.name = name;
+		this.locale = locale;
+		this.ignoreMissingFonts = ignoreMissingFonts;
 	}
 
-	public FontSet getFontSet()
-	{
-		return fontSet;
-	}
-
-	public FontSetFamilyInfo getPrimaryFamily()
-	{
-		return primaryFamily;
-	}
-	
-	public List<FontSetFamilyInfo> getFamilies()
-	{
-		return families;
-	}
-	
 	@Override
-	public String toString()
+	public int hashCode()
 	{
-		return "font set " + (fontSet == null ? null : fontSet.getName());
+		int hash = 47;
+		hash = 29 * hash + ObjectUtils.hashCode(name);
+		hash = 29 * hash + ObjectUtils.hashCode(locale);
+		hash = 29 * hash + Boolean.hashCode(ignoreMissingFonts);
+		return hash;
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FontSetInfoKey other = (FontSetInfoKey) obj;
+		return Objects.equals(name, other.name) 
+				&& Objects.equals(locale, other.locale)
+				&& ignoreMissingFonts == other.ignoreMissingFonts;
+	}
+
 }

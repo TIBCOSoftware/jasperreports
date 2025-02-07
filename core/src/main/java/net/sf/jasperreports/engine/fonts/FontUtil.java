@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,7 +59,11 @@ public final class FontUtil
 	public static final String EXCEPTION_MESSAGE_KEY_NULL_FONT = "engine.fonts.null.font";
 	public static final String EXCEPTION_MESSAGE_KEY_FONT_SET_FAMILY_NOT_FOUND = "util.font.set.family.not.found";
 
+	private static final Object CACHE_NULL_VALUE = new Object();
+	
 	private JasperReportsContext jasperReportsContext;
+	private ConcurrentHashMap<FontInfoKey, Object> fontInfoCache;
+	private ConcurrentHashMap<FontSetInfoKey, Object> fontSetInfoCache;
 
 
 	/**
@@ -67,8 +72,14 @@ public final class FontUtil
 	private FontUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.fontInfoCache = new ConcurrentHashMap<>();
+		this.fontSetInfoCache = new ConcurrentHashMap<>();
 	}
 	
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
 	
 	/**
 	 *
@@ -185,9 +196,28 @@ public final class FontUtil
 	 */
 	public FontInfo getFontInfo(String name, boolean ignoreCase, Locale locale)
 	{
+		FontInfoKey key = new FontInfoKey(name, ignoreCase, locale);
+		Object cachedFontInfo = fontInfoCache.get(key);
+		if (cachedFontInfo == null)
+		{
+			FontInfo fontInfo = searchFontInfo(name, ignoreCase, locale);
+			if (log.isDebugEnabled())
+			{
+				log.debug("looking for font " + name + ", ignore case " + ignoreCase
+						+ ", locale " + locale
+						+ " found " + fontInfo);
+			}
+			
+			cachedFontInfo = fontInfo == null ? CACHE_NULL_VALUE : fontInfo;
+			fontInfoCache.put(key, cachedFontInfo);
+		}
+		return cachedFontInfo == CACHE_NULL_VALUE ? null : (FontInfo) cachedFontInfo;
+	}
+	
+	protected FontInfo searchFontInfo(String name, boolean ignoreCase, Locale locale)
+	{
 		FontInfo awtFamilyMatchFontInfo = null;
 
-		//FIXMEFONT do some cache
 		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
@@ -294,7 +324,26 @@ public final class FontUtil
 
 	public FontSetInfo getFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
 	{
-		//FIXMEFONT do some cache
+		FontSetInfoKey key = new FontSetInfoKey(name, locale, ignoreMissingFonts);
+		Object cachedFontSetInfo = fontSetInfoCache.get(key);
+		if (cachedFontSetInfo == null)
+		{
+			FontSetInfo fontSetInfo = searchFontSetInfo(name, locale, ignoreMissingFonts);
+			if (log.isDebugEnabled())
+			{
+				log.debug("looking for font set " + name + ", ignore missing " + ignoreMissingFonts
+						+ ", locale " + locale
+						+ " found " + fontSetInfo);
+			}
+			
+			cachedFontSetInfo = fontSetInfo == null ? CACHE_NULL_VALUE : fontSetInfo;
+			fontSetInfoCache.put(key, cachedFontSetInfo);
+		}
+		return cachedFontSetInfo == CACHE_NULL_VALUE ? null : (FontSetInfo) cachedFontSetInfo;		
+	}
+
+	protected FontSetInfo searchFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
+	{
 		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
 		HashMap<String, FontFamily> fontFamilies = new HashMap<>(allFontFamilies.size() * 4 / 3, .75f);
 		for (FontFamily family : allFontFamilies)
@@ -366,7 +415,6 @@ public final class FontUtil
 	
 	public String getExportFontFamily(String name, Locale locale, String exporterKey)
 	{
-		//FIXMEFONT do some cache
 		FontInfo fontInfo = getFontInfo(name, locale);
 		if (fontInfo != null)
 		{

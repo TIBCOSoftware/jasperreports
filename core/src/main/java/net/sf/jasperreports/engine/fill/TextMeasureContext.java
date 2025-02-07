@@ -28,6 +28,7 @@ import java.awt.font.FontRenderContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -36,6 +37,8 @@ public interface TextMeasureContext
 {
 
 	JasperReportsContext getJasperReportsContext();
+	
+	FontUtil getFontUtil();
 	
 	JRCommonText getElement();
 	

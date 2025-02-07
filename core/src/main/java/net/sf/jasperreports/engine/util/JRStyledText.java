@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -285,7 +286,20 @@ public class JRStyledText implements Cloneable
 	/**
 	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
 	 */
+	public AttributedString getAwtAttributedString(FontUtil fontUtil, boolean ignoreMissingFont)
+	{
+		return getAwtAttributedString(() -> fontUtil, ignoreMissingFont);
+	}
+
+	/**
+	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
+	 */
 	public AttributedString getAwtAttributedString(JasperReportsContext jasperReportsContext, boolean ignoreMissingFont)
+	{
+		return getAwtAttributedString(() -> FontUtil.getInstance(jasperReportsContext), ignoreMissingFont);
+	}
+
+	protected AttributedString getAwtAttributedString(Supplier<FontUtil> fontUtilSupplier, boolean ignoreMissingFont)
 	{
 		if (awtAttributedString == null)
 		{
@@ -330,7 +344,7 @@ public class JRStyledText implements Cloneable
 					
 				AwtFontAttribute fontAttribute = AwtFontAttribute.fromAttributes(attrs);
 				
-				FontUtil fontUtil = FontUtil.getInstance(jasperReportsContext);
+				FontUtil fontUtil = fontUtilSupplier.get();
 				Font awtFont = fontUtil.getAwtFontFromBundles(
 						fontAttribute, 
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)

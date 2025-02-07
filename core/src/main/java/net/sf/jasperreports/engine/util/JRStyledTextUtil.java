@@ -87,6 +87,11 @@ public class JRStyledTextUtil
 		return new JRStyledTextUtil(jasperReportsContext);
 	}
 	
+	public FontUtil getFontUtil()
+	{
+		return fontUtil;
+	}
+	
 	/**
 	 *
 	 */
