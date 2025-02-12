@@ -26,6 +26,7 @@ package net.sf.jasperreports.extensions;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -33,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -112,6 +114,29 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			)
 	public static final String PROPERTY_REGISTRY_PREFIX = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "extension.";
+	
+	/**
+	 * A numerical weight to use for extensions created by a registry.
+	 * 
+	 * Extensions with bigger weights take precedence.
+	 */
+	@Property(
+			name = "net.sf.jasperreports.extension.registry.weight.{registry_id}",
+			category = PropertyConstants.CATEGORY_EXTENSIONS,
+			scopes = {PropertyScope.EXTENSION},
+			sinceVersion = PropertyConstants.VERSION_7_0_2,
+			valueType = Integer.class,
+			defaultValue = "1000"
+			)
+	public static final String PROPERTY_REGISTRY_WEIGHT_PREFIX = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "extension.registry.weight.";
+	
+	/**
+	 * Default extension weight.
+	 * 
+	 * @see DefaultExtensionsRegistry#PROPERTY_REGISTRY_WEIGHT_PREFIX
+	 */
+	public static final int DEFAULT_EXTENSION_WEIGHT = 1000;
 
 	private final ReferenceMap<Object, List<ExtensionsRegistry>> registrySetCache = 
 		new ReferenceMap<>(
@@ -165,7 +190,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	{
 		//there is no identity linked hash map/set, using separate map and list
 		IdentityHashMap<ExtensionsRegistry, Object> registrySet = new IdentityHashMap<>();
-		List<ExtensionsRegistry> allRegistries = new ArrayList<>();
+		List<LoadedRegistry> allRegistries = new ArrayList<>();
 		
 		List<ClassLoaderResource> extensionResources = loadExtensionPropertyResources();
 		for (ClassLoaderResource extensionResource : extensionResources)
@@ -174,7 +199,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			Map<URL, URLRegistries> classLoaderRegistries = getClassLoaderRegistries(classLoader);
 			
 			URL url = extensionResource.getUrl();
-			List<ExtensionsRegistry> registries;
+			List<LoadedRegistry> registries;
 			Map<String, Exception> registryExceptions = new LinkedHashMap<>();
 			synchronized (classLoaderRegistries)
 			{
@@ -214,13 +239,14 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 						+ entry.getKey() + " from " + url, entry.getValue());
 			}
 			
-			for (ExtensionsRegistry extensionsRegistry : registries)
+			for (LoadedRegistry loadedRegistry : registries)
 			{
 				//detecting identity duplicates
+				ExtensionsRegistry extensionsRegistry = loadedRegistry.getRegistry();
 				boolean added = registrySet.put(extensionsRegistry, Boolean.FALSE) == null;
 				if (added)
 				{
-					allRegistries.add(extensionsRegistry);
+					allRegistries.add(loadedRegistry);
 				}
 				else if (log.isDebugEnabled())
 				{
@@ -228,7 +254,11 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 				}
 			}
 		}
-		return allRegistries;
+		
+		List<ExtensionsRegistry> registries = allRegistries.stream().sorted(
+				Comparator.comparing(LoadedRegistry::getWeight).reversed()).map(
+						LoadedRegistry::getRegistry).collect(Collectors.toList());
+		return registries;
 	}
 
 	protected List<ClassLoaderResource> loadExtensionPropertyResources()
@@ -251,10 +281,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		}
 	}
 	
-	protected List<ExtensionsRegistry> loadRegistries(JRPropertiesMap properties, 
+	protected List<LoadedRegistry> loadRegistries(JRPropertiesMap properties, 
 			Map<String, Exception> registryExceptions)
 	{
-		List<ExtensionsRegistry> registries = new ArrayList<>();
+		List<LoadedRegistry> registries = new ArrayList<>();
 		List<PropertySuffix> factoryProps = JRPropertiesUtil.getProperties(properties, 
 				PROPERTY_REGISTRY_FACTORY_PREFIX);
 		for (Iterator<PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
@@ -263,17 +293,23 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			String registryId = factoryProp.getSuffix();
 			String factoryClass = factoryProp.getValue();
 			
+			String weightProp = properties.getProperty(PROPERTY_REGISTRY_WEIGHT_PREFIX + registryId);
+			int weight = weightProp == null || weightProp.isEmpty() ? DEFAULT_EXTENSION_WEIGHT
+					: JRPropertiesUtil.asInteger(weightProp);
+			
 			if (log.isDebugEnabled())
 			{
 				log.debug("Instantiating registry of type " + factoryClass 
-						+ " for property " + factoryProp.getKey());
+						+ " for property " + factoryProp.getKey()
+						+ " with weight " + weight);
 			}
 			
 			try
 			{
 				ExtensionsRegistry registry = instantiateRegistry(
 						properties, registryId, factoryClass);
-				registries.add(registry);
+				LoadedRegistry loadedRegistry = new LoadedRegistry(registry, weight);
+				registries.add(loadedRegistry);
 			}
 			catch (Exception e)
 			{
@@ -317,9 +353,9 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	protected static class URLRegistries
 	{
 		JRPropertiesMap properties;
-		List<ExtensionsRegistry> registries;
+		List<LoadedRegistry> registries;
 		
-		public URLRegistries(JRPropertiesMap properties, List<ExtensionsRegistry> registries)
+		public URLRegistries(JRPropertiesMap properties, List<LoadedRegistry> registries)
 		{
 			this.properties = properties;
 			this.registries = registries;

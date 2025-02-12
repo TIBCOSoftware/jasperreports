@@ -2449,6 +2449,16 @@ which is used as registry ID when instantiating. The property should have as val
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.extension.registry.weight.{registry_id} -->
+
+  <configProperty name="net.sf.jasperreports.extension.registry.weight.{registry_id}">
+    <description>
+A numerical weight to use for extensions created by a registry.
+Extensions with bigger weights take precedence.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.extension.{registry_id}.{property_suffix} -->
 
   <configProperty name="net.sf.jasperreports.extension.{registry_id}.{property_suffix}">

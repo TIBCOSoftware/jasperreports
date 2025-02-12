@@ -349,7 +349,8 @@ public final class FontUtil
 		for (FontFamily family : allFontFamilies)
 		{
 			if (family.getName() != null
-					&& (locale == null || family.supportsLocale(locale)))
+					&& (locale == null || family.supportsLocale(locale))
+					&& !fontFamilies.containsKey(family.getName()))
 			{
 				fontFamilies.put(family.getName(), family);
 			}
