@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -41,6 +42,11 @@ public interface JRQueryClauseContext
 	 * @return the query text buffer
 	 */
 	StringBuffer queryBuffer();
+	
+	/**
+	 * 
+	 */
+	JRDataset getDataset();
 	
 	/**
 	 * Return a value parameter from the report parameters map.

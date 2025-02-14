@@ -587,6 +587,12 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			}
 
 			@Override
+			public JRDataset getDataset()
+			{
+				return JRAbstractQueryExecuter.this.dataset;
+			}
+
+			@Override
 			public JRValueParameter getValueParameter(String parameterName)
 			{
 				return JRAbstractQueryExecuter.this.getValueParameter(parameterName);

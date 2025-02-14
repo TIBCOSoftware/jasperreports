@@ -44,7 +44,7 @@ public class JRSqlInClause extends JRSqlAbstractInClause
 			name = "net.sf.jasperreports.sql.clause.in.novalues.result",
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.DATASET},
 			sinceVersion = PropertyConstants.VERSION_7_0_2,
 			valueType = Boolean.class
 			)

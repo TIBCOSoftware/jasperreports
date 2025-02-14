@@ -29,10 +29,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReport;
 
 
 /**
@@ -239,7 +237,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 			noValuesResult = 
 				JRPropertiesUtil.getInstance(queryContext.getJasperReportsContext()).getProperty(
 					getNoValuesResultProperty(), 
-					(JasperReport)queryContext.getValueParameter(JRParameter.JASPER_REPORT).getValue()
+					queryContext.getDataset()
 					);
 		}
 		
