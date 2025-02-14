@@ -42,6 +42,7 @@ public class SimpleJsonExporterOutput extends SimpleWriterExporterOutput impleme
 	 */
 	private HtmlResourceHandler fontHandler;
 	private HtmlResourceHandler resourceHandler;
+	private HtmlResourceHandler internalResourceHandler;
 
 	
 	/**
@@ -158,6 +159,20 @@ public class SimpleJsonExporterOutput extends SimpleWriterExporterOutput impleme
 	public void setResourceHandler(HtmlResourceHandler resourceHandler)
 	{
 		this.resourceHandler = resourceHandler;
+	}
+
+	@Override
+	public HtmlResourceHandler getInternalResourceHandler()
+	{
+		return internalResourceHandler;
+	}
+
+	/**
+	 *
+	 */
+	public void setInternalResourceHandler(HtmlResourceHandler internalResourceHandler)
+	{
+		this.internalResourceHandler = internalResourceHandler;
 	}
 	
 	/**
