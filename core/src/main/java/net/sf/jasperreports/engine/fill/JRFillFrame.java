@@ -234,12 +234,6 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		int topPadding = getLineBox().getTopPadding();
 		int bottomPadding = getLineBox().getBottomPadding();		
 		
-		if (availableHeight < getRelativeY() + getHeight() - topPadding - bottomPadding)
-		{
-			setToPrint(false);
-			return true;
-		}
-		
 		if (!filling && !isPrintRepeatedValues() && isValueRepeating() &&
 				(!isPrintInFirstWholeBand() || !getBand().isFirstWholeOnPageColumn()) &&
 				(getPrintWhenGroupChanges() == null || !getBand().isNewGroup(getPrintWhenGroupChanges())) &&
@@ -251,18 +245,23 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		}
 
 		// FIXME reprinted when isAlreadyPrinted() || !isPrintRepeatedValues()?
-		if (!filling && isOverflow && isAlreadyPrinted())
+		boolean printed = !filling && isOverflow && isAlreadyPrinted();
+		if (printed && !isPrintWhenDetailOverflows())
 		{
-			if (isPrintWhenDetailOverflows())
-			{
-				rewind();
-				setReprinted(true);
-			}
-			else
-			{
-				setToPrint(false);
-				return false;
-			}
+			setToPrint(false);
+			return false;
+		}
+		
+		if (availableHeight < getRelativeY() + getHeight() - topPadding - bottomPadding)
+		{
+			setToPrint(false);
+			return true;
+		}
+		
+		if (printed)
+		{
+			rewind();
+			setReprinted(true);
 		}
 		
 		frameContainer.initFill();

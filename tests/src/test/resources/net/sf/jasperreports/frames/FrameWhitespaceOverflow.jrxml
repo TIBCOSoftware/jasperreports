@@ -1,0 +1,11 @@
+<jasperReport name="FrameWhitespaceOverflow" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a117a72e-6aa3-430b-b76a-247dcd418767">
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0"/>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<element kind="frame" uuid="e8d0b5d1-7425-4bfa-a33b-58be5ee74eb8" x="179" y="10" width="200" height="20"/>
+			<element kind="textField" uuid="d2bc6e89-8593-44e9-af8b-355c5286e8bb" x="0" y="220" width="555" height="60" textAdjust="StretchHeight">
+				<expression><![CDATA["Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field Text Field"]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>
