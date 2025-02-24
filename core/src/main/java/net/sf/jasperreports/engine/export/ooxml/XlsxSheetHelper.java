@@ -368,11 +368,7 @@ public class XlsxSheetHelper extends BaseHelper
 	{
 		try
 		{
-			//colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : (" width=\"" + (3f * colWidth / 18f) + "\"")) + "/>\n");
-			//the col autofit does not work even if you comment out this line and use the above one; but you can try again
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\"" + " customWidth=\"1\"" + " width=\"" + (3f * colWidth / 18f) + "\"/>\n");
-			//colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\"" + (autoFit ? " customWidth=\"0\" bestFit=\"1\"" : " customWidth=\"1\"") + " width=\"" + (3f * colWidth / 18f) + "\"/>\n");
-//			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : " width=\"" + (3f * colWidth / 18f) + "\"")+"/>\n");
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * colWidth / 18f) + "\"/>\n");
 		}
 		catch (IOException e)
 		{

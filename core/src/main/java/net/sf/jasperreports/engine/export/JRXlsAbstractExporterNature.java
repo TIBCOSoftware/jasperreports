@@ -278,8 +278,8 @@ public abstract class JRXlsAbstractExporterNature extends AbstractExporterNature
 			if (element instanceof JRPrintText)
 			{
 				JRPrintText textElement = (JRPrintText)element;
-				Integer truncateIndex = textElement.getTextTruncateIndex();
-				if (truncateIndex != null)
+				//Integer truncateIndex = textElement.getTextTruncateIndex();
+				//if (truncateIndex != null) // commented this out this test because the old POI exporter was performing autofit for all cases anyway;
 				{
 					Float averageCharWidth = textElement.getAverageCharWidth();
 					if (averageCharWidth != null && averageCharWidth > 0)
