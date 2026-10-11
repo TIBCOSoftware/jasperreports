@@ -2,11 +2,20 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 7.1.0 (2026-1x-xx)
+JasperReports 7.1.0 (2026-10-12)
 ---------------------------------------------
 
-- minor bug fixes and improvements;
+- introducing new DPI resolution setting in report templates to enhance report design accuracy;
 
+- new XML metadata exporter to produce pure data files based on report content marker properties,
+similar to how the existing JSON metadata exporters works;
+
+- new jasperreports-openpdf extension added to support PDF export using OpenPDF version 3+, 
+while the existing jasperreports-pdf extension continues to rely on OpenPDF 1+ version;
+
+- various dependencies upgrades including: Apache Ant 1.10.18, Jackson 2.22.3 and Apache Log4j 2.26.1;
+
+- minor bug fixes and improvements;
 
 
 

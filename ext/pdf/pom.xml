@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>com.adobe.xmp</groupId>
 			<artifactId>xmpcore</artifactId>
-			<version>6.1.11</version>
+			<version>${xmpcore.version}</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
