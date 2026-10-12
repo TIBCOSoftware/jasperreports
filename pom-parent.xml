@@ -146,7 +146,7 @@
 		<xchart.version>3.2.2</xchart.version>
 		<xml-apis.version>1.4.01</xml-apis.version>
 		<xml-apis-ext.version>1.3.04</xml-apis-ext.version>
-		<xmpcore>6.1.11</xmpcore>
+		<xmpcore.version>6.1.11</xmpcore.version>
 	</properties>
 	<repositories>
 		<repository>
