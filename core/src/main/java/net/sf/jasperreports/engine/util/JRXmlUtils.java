@@ -28,9 +28,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -284,8 +287,56 @@ public final class JRXmlUtils
 		
 		return doc;
 	}
-	
-	
+
+
+	/**
+	 * Creates a transformer factory with secure processing enabled and
+	 * access to external DTDs and stylesheets disabled.
+	 *
+	 * <p>
+	 * Settings not supported by the transformer implementation are skipped
+	 * (with a log message), as the factory is still usable for serializing
+	 * in-memory DOM trees.
+	 * </p>
+	 *
+	 * @return a transformer factory
+	 */
+	public static TransformerFactory createTransformerFactory()
+	{
+		TransformerFactory factory = TransformerFactory.newInstance();
+		try
+		{
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		}
+		catch (TransformerConfigurationException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Secure processing not supported by transformer factory " + factory.getClass().getName(), e);
+			}
+		}
+		setTransformerFactoryAttribute(factory, XMLConstants.ACCESS_EXTERNAL_DTD, "");
+		setTransformerFactoryAttribute(factory, XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+		return factory;
+	}
+
+	private static void setTransformerFactoryAttribute(TransformerFactory factory, String name, Object value)
+	{
+		try
+		{
+			factory.setAttribute(name, value);
+		}
+		catch (IllegalArgumentException e)
+		{
+			// JAXP 1.5 attributes are not recognized by some implementations (e.g. older Xalan)
+			if (log.isDebugEnabled())
+			{
+				log.debug("Attribute " + name + " not supported by transformer factory " + factory.getClass().getName(), e);
+			}
+		}
+	}
+
+
 	private JRXmlUtils()
 	{
 	}

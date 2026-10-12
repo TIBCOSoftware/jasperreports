@@ -41,6 +41,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -107,7 +108,10 @@ public class PropertiesDocReader
 		
 		try
 		{
-			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			documentBuilderFactory.setXIncludeAware(false);
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -426,7 +430,11 @@ public class PropertiesDocReader
 	{
 		try
 		{
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+			transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+			Transformer transformer = transformerFactory.newTransformer();
 			transformer.transform(new DOMSource(refDoc), new StreamResult(new File(refFile)));
 		}
 		catch (TransformerFactoryConfigurationError | TransformerException e)
