@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontSetInfo;
@@ -189,18 +190,23 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 
 		//by default the font family is used
 		String fontFamily = defaultFontFamily;
-		if (exportFont != null)
+		String handlerFamily = null;
+		if (fontInfo != null && (exportFont == null || useWebFontWithFontMapping(fontInfo.getFontFamily())))
+		{
+			handlerFamily = handleFont(fontInfo, locale);
+		}
+
+		if (handlerFamily != null)
+		{
+			fontFamily = handlerFamily + ", "
+				+ (exportFont == null
+					? "'" + fontFamily + "'" // fallback to font family just in case it already exists in the system
+					: exportFont); // fallback to the font mapping
+		}
+		else if (exportFont != null)
 		{
 			//we have a font mapping
 			fontFamily = exportFont;
-		}
-		else if (fontInfo != null)
-		{
-			String handlerFamily = handleFont(fontInfo, locale);
-			if (handlerFamily != null)
-			{
-				fontFamily = handlerFamily + ", '" + fontFamily + "'"; // fallback to font family just in case it already exists in the system
-			}
 		}
 		return fontFamily;
 	}
@@ -223,21 +229,57 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			//fontName found in font extensions
 			FontFamily family = fontInfo.getFontFamily();
 			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont == null)
+			String handlerFamily = null;
+			if (exportFont == null || useWebFontWithFontMapping(family))
 			{
-				String handlerFamily = handleFont(fontInfo, locale);
-				if (handlerFamily != null)
-				{
-					htmlFamily = handlerFamily;
-				}
+				handlerFamily = handleFont(fontInfo, locale);
 			}
-			else
+
+			if (handlerFamily != null)
+			{
+				htmlFamily = exportFont == null ? handlerFamily
+						: handlerFamily + ", " + exportFont; // fallback to the font mapping
+			}
+			else if (exportFont != null)
 			{
 				htmlFamily = exportFont;
 			}
 		}
 
 		return htmlFamily;
+	}
+
+	/**
+	 * Determines whether the web font of a font family that has an export font mapping is to be used,
+	 * in addition to the font mapping.
+	 * 
+	 * @see HtmlReportConfiguration#isUseWebFontsWithFontMappings()
+	 */
+	protected boolean useWebFontWithFontMapping(FontFamily family)
+	{
+		Boolean useWebFonts = getCurrentItemConfiguration().isUseWebFontsWithFontMappings();
+		return (useWebFonts == null || useWebFonts) && hasWebFont(family);
+	}
+
+	/**
+	 * Determines whether a font family has any font file that can be used as web font.
+	 * Families that only define export font mappings do not have web fonts.
+	 */
+	protected boolean hasWebFont(FontFamily family)
+	{
+		return isWebFont(family.getNormalFace())
+				|| isWebFont(family.getBoldFace())
+				|| isWebFont(family.getItalicFace())
+				|| isWebFont(family.getBoldItalicFace());
+	}
+
+	private static boolean isWebFont(FontFace fontFace)
+	{
+		return fontFace != null
+				&& (fontFace.getTtf() != null
+				|| fontFace.getEot() != null
+				|| fontFace.getSvg() != null
+				|| fontFace.getWoff() != null);
 	}
 
 	protected String handleFont(FontInfo fontInfo, Locale locale)

@@ -3369,6 +3369,23 @@ This property specifies whether the HTML embedded SVG should have the font famil
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.export.html.use.web.fonts.with.font.mappings -->
+
+  <configProperty name="net.sf.jasperreports.export.html.use.web.fonts.with.font.mappings">
+    <description>
+Flag property that determines whether font families from font extensions that specify an HTML export font mapping
+(through the <code>net.sf.jasperreports.html</code> export key) also use their font files as web fonts in the HTML export.
+<br/>
+When set to <code>true</code> (the default), the font family in the generated CSS lists the web font first,
+followed by the font mapping as fallback.
+When set to <code>false</code>, only the font mapping is used, which was the behavior prior to version 7.0.9.
+<br/>
+Its value is used as default for the
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isUseWebFontsWithFontMappings()">HtmlReportConfiguration.isUseWebFontsWithFontMappings()</api> HTML export configuration setting.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.export.html.href.filter.enabled -->
 
   <configProperty name="net.sf.jasperreports.export.html.href.filter.enabled">
