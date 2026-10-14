@@ -348,7 +348,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	{
 		// check bundled fonts
 		FontUtil fontUtil = context.getFontUtil();
-		Font font = fontUtil.getAwtFontFromBundles(fontKey.fontAttribute, fontKey.style, fontKey.size, fontKey.locale, false);
+		Font font = fontUtil.getAwtFontFromBundles(fontKey.fontAttribute, fontKey.style, fontKey.size, fontKey.locale, context.isIgnoreMissingFont());
 		if (font == null)
 		{
 			// checking AWT font
