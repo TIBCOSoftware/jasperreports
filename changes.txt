@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 7.1.0 (2026-10-12)
+JasperReports 7.1.0 (2026-10-14)
 ---------------------------------------------
 
 - introducing new DPI resolution setting in report templates to enhance report design accuracy;

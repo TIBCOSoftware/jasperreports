@@ -3378,7 +3378,7 @@ Flag property that determines whether font families from font extensions that sp
 <br/>
 When set to <code>true</code> (the default), the font family in the generated CSS lists the web font first,
 followed by the font mapping as fallback.
-When set to <code>false</code>, only the font mapping is used, which was the behavior prior to version 7.0.9.
+When set to <code>false</code>, only the font mapping is used, which was the behavior prior to version 7.1.0.
 <br/>
 Its value is used as default for the
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isUseWebFontsWithFontMappings()">HtmlReportConfiguration.isUseWebFontsWithFontMappings()</api> HTML export configuration setting.

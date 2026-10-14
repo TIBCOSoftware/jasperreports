@@ -47,6 +47,42 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>copy-samples-markdown</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/markdown/samples</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.parent.basedir}/demo/samples</directory>
+									<includes>
+										<include>**/README.md</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-root-markdown</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/markdown/root</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.parent.basedir}/.</directory>
+									<includes>
+										<include>README.md</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>copy-javadoc</id>
 						<phase>process-resources</phase>
 						<goals>
@@ -76,7 +112,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputDirectory>${project.parent.basedir}/demo/samples</inputDirectory>
+							<inputDirectory>${project.build.directory}/markdown/samples</inputDirectory>
 							<outputDirectory>${project.build.directory}/docs/sample.reference</outputDirectory>
 							<headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
 							<footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>
@@ -94,7 +130,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputDirectory>${project.parent.basedir}/.</inputDirectory>
+							<inputDirectory>${project.build.directory}/markdown/root</inputDirectory>
 							<outputDirectory>${project.build.directory}/docs</outputDirectory>
 							<headerHtmlFile>${project.build.directory}/docs/resources/sf-net-${sf.net}.html</headerHtmlFile>
 							<footerHtmlFile>${project.build.directory}/docs/resources/footer.html</footerHtmlFile>

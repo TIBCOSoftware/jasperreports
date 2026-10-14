@@ -184,7 +184,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_7_0_9,
+			sinceVersion = PropertyConstants.VERSION_7_1_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_USE_WEB_FONTS_WITH_FONT_MAPPINGS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "use.web.fonts.with.font.mappings";
@@ -366,7 +366,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Determines whether font families that have an HTML export font mapping also use their font files as web fonts.
 	 * When set, the generated CSS font family lists the web font first, followed by the font mapping as fallback.
-	 * When not set, only the font mapping is used, which was the behavior prior to version 7.0.9.
+	 * When not set, only the font mapping is used, which was the behavior prior to version 7.1.0.
 	 * 
 	 * @see #PROPERTY_USE_WEB_FONTS_WITH_FONT_MAPPINGS
 	 */
