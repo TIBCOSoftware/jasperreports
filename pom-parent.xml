@@ -85,6 +85,7 @@
 			config properties
 		-->
 		<enforcer.max.jdk.version>1.8</enforcer.max.jdk.version>
+		<gpg.skip>true</gpg.skip>
 		<jasperreports.root.dir>${basedir}</jasperreports.root.dir>
 		<maven.compiler.release>8</maven.compiler.release>
 		<owasp.ossindex.enabled>true</owasp.ossindex.enabled>
@@ -103,6 +104,7 @@
 		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
 		<maven-dependency-plugin.version>3.9.0</maven-dependency-plugin.version>
 		<maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
@@ -139,7 +141,7 @@
 		<log4j.version>2.26.1</log4j.version>
 		<jfreechart.version>1.5.6</jfreechart.version>
 		<openpdf.classic.version>1.3.43.jaspersoft.2</openpdf.classic.version>
-		<openpdf.version>3.0.5.jaspersoft.1-SNAPSHOT</openpdf.version>
+		<openpdf.version>3.0.5.jaspersoft.1</openpdf.version>
 		<poi.version>5.4.1</poi.version>
 		<rhino.version>1.8.1</rhino.version>
 		<spring.version>6.2.19</spring.version>
@@ -296,6 +298,25 @@
 						<phase>deploy</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--
+				declared after maven-source-plugin and before maven-deploy-plugin, so that within the deploy phase
+				it signs the sources jar attached above and runs before the artifacts are uploaded;
+				skipped unless -Dgpg.skip=false is passed
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>${maven-gpg-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>sign-before-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
